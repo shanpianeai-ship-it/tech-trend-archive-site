@@ -1,6 +1,17 @@
 [
   {
     "file": "[入力元伏せ]",
+    "slug": "2026-06-07-AI・エージェント-CodexのChatGPT統合とワークスペースエージェントで「事務処理エージェント」-56a7b87ea2",
+    "title": "CodexのChatGPT統合とワークスペースエージェントで「事務処理エージェント」は何が変わるか",
+    "category": "AI・エージェント",
+    "created": "2026-06-07",
+    "status": "",
+    "type": "interest_report",
+    "excerpt": "2026年6月時点の大きな変化は、Codexが「開発者がコードを書くための道具」から、レポート、調査、表計算、軽量ツール、社内ワークフローを扱う知識労働向けエージェント基盤へ広がっている点にある。 OpenAIは2026年4月に ChatGPT の Workspace Agents を発表し、チームが共有できる長時間実行型エージェント、Slack連携、承認つ...",
+    "url": "interests/articles/2026-06-07-AI・エージェント-CodexのChatGPT統合とワークスペースエージェントで「事務処理エージェント」-56a7b87ea2.html"
+  },
+  {
+    "file": "[入力元伏せ]",
     "slug": "2026-04-29-OpenClaw・Obsidian運用-Obsidianレポート管理-実装計画-773829e504",
     "title": "Obsidianレポート管理 実装計画",
     "category": "OpenClaw・Obsidian運用",

@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CodexのChatGPT統合とワークスペースエージェントで「事務処理エージェント」は何が変わるか | 興味レポート</title>
+  <meta name="description" content="2026年6月時点の大きな変化は、Codexが「開発者がコードを書くための道具」から、レポート、調査、表計算、軽量ツール、社内ワークフローを扱う知識労働向けエージェント基盤へ広がっている点にある。 OpenAIは2026年4月に ChatGPT の Workspace Agents を発表し、チームが共有できる長時間実行型エージェント、Slack連携、承認つ...">
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../../interests/index.html">興味レポート</a>
+    <span class="site-subtitle">Public redacted interest reports</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 興味レポート一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-07</span>
+        <span>AI・エージェント</span>
+        <span>interest_report</span>
+      </div>
+      <h1>CodexのChatGPT統合とワークスペースエージェントで「事務処理エージェント」は何が変わるか</h1>
+<h2>要約</h2>
+<p>2026年6月時点の大きな変化は、Codexが「開発者がコードを書くための道具」から、レポート、調査、表計算、軽量ツール、社内ワークフローを扱う知識労働向けエージェント基盤へ広がっている点にある。</p>
+<p>OpenAIは2026年4月に ChatGPT の Workspace Agents を発表し、チームが共有できる長時間実行型エージェント、Slack連携、承認つきワークフロー、スケジュール実行を前面に出した。さらに2026年6月には Codex 向けのロール別プラグイン、Sites preview、アノテーションを発表し、分析、営業、投資、デザイン、制作などの業務成果物へ対象を広げている。</p>
+<p>個人の事務処理エージェントとして見るなら、重要なのは「1回のチャットで答える」ことより、候補作成、投票、調査、Markdown保存、静的サイト反映、Discord報告のような手順を、ファイル、外部ツール、ログ、承認をまたいで安定して回せるかである。OpenClawやObsidian運用に近い発想が、一般向けの製品方向にも寄ってきている。</p>
+<h2>なぜ今見る価値があるか</h2>
+<p>今見る価値は3つある。</p>
+<p>1つ目は、Codexの利用者層が開発者以外へ拡大していること。OpenAIは、Codexの週次利用者が500万人超となり、知識労働者が利用者の約20%を占めると説明している。用途もコードだけではなく、レポート、スプレッドシート、プレゼン、契約書、調査、データ分析、ワークフロー自動化へ広がっている。</p>
+<p>2つ目は、Workspace Agents が「共有・継続・承認」を明示していること。従来のGPTsが個人の会話補助に近かったのに対し、Workspace Agents は組織の権限管理の中で、複数ツールから文脈を集め、必要に応じて承認を求め、SlackやChatGPT上で使い回せるエージェントとして設計されている。</p>
+<p>3つ目は、セキュリティと運用管理が同時に重要になっていること。ChatGPT release notes では、2026年6月に Lockdown Mode が全ログインユーザーへ広がり、外部サービスやWebアクセスを制限してプロンプトインジェクションやデータ持ち出しリスクを下げる方向が示された。エージェントが便利になるほど、どこまで外へ接続してよいか、どの操作に承認を挟むかが実務上の主戦場になる。</p>
+<h2>調査メモ</h2>
+<p>Workspace Agents は、ChatGPT Business、Enterprise、Edu、Teachers向けの research preview として説明されている。特徴は、チームで共有できること、Codexを基盤にクラウドで動くこと、ファイル・コード・ツール・メモリを持つワークスペースを使うこと、ChatGPTやSlackから呼び出せることにある。</p>
+<p>OpenAIが例示している用途は、ソフトウェア申請レビュー、プロダクトフィードバックの振り分け、週次メトリクスレポート、リード調査とフォローアップ、第三者リスク調査、月次決算補助など。どれも単発の回答ではなく、入力収集、判断、成果物作成、チケット作成、レビューという複数ステップを含む。</p>
+<p>2026年6月発表の Codex plugins では、データ分析、クリエイティブ制作、営業、プロダクトデザイン、株式投資、投資銀行業務のロール別プラグインが示された。ここでのポイントは、エージェント本体の賢さだけでなく、アプリ接続、スキル、指示、ワークフローを束ねた「業務別の型」を配る方向へ進んでいること。</p>
+<p>個人運用へ置き換えると、次のような構成が見えてくる。</p>
+<ul>
+<li>Obsidian vault: 長期記憶、調査ノート、候補一覧、実行ログ</li>
+<li>Discord: 人間の承認、投票、結果通知</li>
+<li>GitHub Pages: 公開用の成果物</li>
+<li>Cron: 時刻ベースの起動</li>
+<li>ローカルファイル: 入力ファイル、画像、CSV、台帳</li>
+<li>エージェント: 候補生成、調査、整形、ビルド、公開確認</li>
+</ul>
+<p>これはまさに「事務処理エージェント」の形であり、Workspace Agentsの方向性とかなり近い。ただし、個人環境では企業向けの権限管理や監査ログがそのまま使えるとは限らないため、ローカル側で実行記録、失敗報告、再実行条件を丁寧に残す必要がある。</p>
+<h2>個人向けの読みどころ</h2>
+<p>個人の運用に引き寄せるなら、最初に見るべきは「何をエージェント化するか」ではなく、「どこで人間の判断を残すか」だと思う。</p>
+<p>今回の興味レポート自動化は良い例で、候補を10件出すところは自動化できるが、何を読みたいかはDiscordポールで人間が選べる。票がなければエージェントが選ぶが、その理由は候補一覧と記事に残る。記事作成後はGitHub Pagesへ反映し、公開URLとコミットハッシュをDiscordへ返す。この流れは、Workspace Agentsが言う承認・共有・継続ワークフローに近い。</p>
+<p>次に改善するなら、次の3点が実用的。</p>
+<ul>
+<li>候補一覧frontmatterに <code>poll_message_id</code>、<code>selected_answer</code>、<code>selected_note</code>、<code>commit_hash</code>、<code>public_url</code> を標準項目として持たせる</li>
+<li>Obsidian Basesで候補、選定、記事化、公開、失敗理由を一覧化する</li>
+<li>外部送信や公開前の操作だけは、Discord承認または明示的なルールで止められるようにする</li>
+</ul>
+<p>Codex/Workspace Agentsの発表は、個人秘書型エージェントが「会話がうまい」段階から「毎日動く業務単位を持つ」段階へ移っているサインとして読むとよい。</p>
+<h2>注意点</h2>
+<p>エージェントが複数ツールへ接続するほど、プロンプトインジェクション、誤送信、意図しない公開、古い記憶に基づく判断のリスクが増える。特にメール、Slack、Discord、GitHub、ファイルシステム、ブラウザを横断するワークフローでは、入力として読んだ外部ページやメッセージを「命令」として扱わない設計が必要になる。</p>
+<p>また、OpenAI公式情報は企業・チーム向け機能を中心に説明しているため、個人のローカル運用へそのまま移せるとは限らない。OpenClawのような個人環境では、権限管理、ログ、バックアップ、公開前チェック、失敗時の停止条件を自分で設計する必要がある。</p>
+<p>現時点では、事務処理エージェントは「完全自律」よりも「候補を作る、調べる、整える、公開準備する、最後に報告する」くらいの粒度が扱いやすい。人間の判断が必要な箇所を減らしすぎると、便利さより事故率が上がる。</p>
+<h2>参考リンク</h2>
+<ul>
+<li>OpenAI: Codex for every role, tool, and workflow</li>
+</ul>
+<p><a href="https://openai.com/index/codex-for-every-role-tool-workflow/">openai.com - index / codex-for-every-role-tool-workflow</a></p>
+<ul>
+<li>OpenAI: Introducing workspace agents in ChatGPT</li>
+</ul>
+<p><a href="https://openai.com/index/introducing-workspace-agents-in-chatgpt/">openai.com - index / introducing-workspace-agents-in-chatgpt</a></p>
+<ul>
+<li>OpenAI: Codex is becoming a productivity tool for everyone</li>
+</ul>
+<p><a href="https://openai.com/index/codex-for-knowledge-work/">openai.com - index / codex-for-knowledge-work</a></p>
+<ul>
+<li>OpenAI Help Center: ChatGPT release notes</li>
+</ul>
+<p><a href="https://help.openai.com/en/articles/6825453-chatgpt-release-notes">help.openai.com - en / articles</a></p>
+<ul>
+<li>Axios: Exclusive: Office workers drive OpenAI's Codex growth</li>
+</ul>
+<p><a href="https://www.axios.com/2026/06/02/openai-codex-knowledge-workers">axios.com - 2026 / 06</a></p>
+    </article>
+  </main>
+</body>
+</html>
