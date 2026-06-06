@@ -88,6 +88,17 @@ function escapeHtml(value) {
     .replaceAll('"', "&quot;");
 }
 
+function linkLabelFromUrl(url) {
+  try {
+    const parsed = new URL(url);
+    const host = parsed.hostname.replace(/^www\./, "");
+    const pathLabel = parsed.pathname === "/" ? "" : parsed.pathname.split("/").filter(Boolean).slice(0, 2).join(" / ");
+    return pathLabel ? `${host} - ${pathLabel}` : host;
+  } catch {
+    return url;
+  }
+}
+
 function inlineMarkdown(value) {
   const escaped = escapeHtml(value);
   const links = [];
@@ -98,14 +109,19 @@ function inlineMarkdown(value) {
   });
 
   return withMarkdownLinks
+    .replace(/(^|[\s(（])([^:：。.!?<>]{2,64})[:：]\s+(https?:\/\/[^\s<)]+[^\s<).,!?;:])/g, (_, prefix, label, url) => {
+      const token = `@@LINK_${links.length}@@`;
+      links.push(`<a href="${url}">${label.trim()}</a>`);
+      return `${prefix}${token}`;
+    })
     .replace(/&lt;(https?:\/\/[^&<\s]+)&gt;/g, (_, url) => {
       const token = `@@LINK_${links.length}@@`;
-      links.push(`<a href="${url}">${url}</a>`);
+      links.push(`<a href="${url}">${linkLabelFromUrl(url)}</a>`);
       return token;
     })
     .replace(/(^|[\s(])((?:https?:\/\/)[^\s<)]+[^\s<).,!?;:])/g, (_, prefix, url) => {
       const token = `@@LINK_${links.length}@@`;
-      links.push(`<a href="${url}">${url}</a>`);
+      links.push(`<a href="${url}">${linkLabelFromUrl(url)}</a>`);
       return `${prefix}${token}`;
     })
     .replace(/`([^`]+)`/g, "<code>$1</code>")
@@ -369,7 +385,7 @@ for (const note of notes) {
       ${note.html}
       ${
         note.source
-          ? `<section class="source-box"><h2>Source</h2><p><a href="${escapeHtml(note.source)}">${escapeHtml(note.source)}</a></p></section>`
+          ? `<section class="source-box"><h2>Source</h2><p><a href="${escapeHtml(note.source)}">${escapeHtml(linkLabelFromUrl(note.source))}</a></p></section>`
           : ""
       }
     </article>`;
@@ -887,6 +903,14 @@ main {
   font-variant-numeric: tabular-nums;
 }
 
+.article a[href^="http"] {
+  font-weight: 650;
+}
+
+.article li a[href^="http"] {
+  word-break: break-word;
+}
+
 .back {
   margin-bottom: 14px;
 }
@@ -894,10 +918,26 @@ main {
 .source-box {
   margin-top: 36px;
   padding: 16px;
-  border: 1px solid var(--line);
+  border: 1px solid #99f6e4;
   border-radius: 8px;
-  background: #f8fafc;
+  background: #f0fdfa;
   word-break: break-word;
+}
+
+.source-box h2 {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.source-box a {
+  display: inline-flex;
+  max-width: 100%;
+  padding: 6px 10px;
+  border: 1px solid #5eead4;
+  border-radius: 6px;
+  background: #ffffff;
+  text-decoration: none;
 }
 
 @media (max-width: 640px) {
