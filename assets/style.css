@@ -19,7 +19,14 @@ body {
   line-height: 1.75;
 }
 
-a { color: var(--accent-dark); }
+a {
+  color: var(--accent-dark);
+  text-underline-offset: 3px;
+}
+
+a:hover {
+  color: var(--accent);
+}
 
 .site-header {
   display: flex;
@@ -148,7 +155,7 @@ main {
 }
 
 .article {
-  max-width: 820px;
+  max-width: 960px;
   margin: 0 auto;
   padding: 26px;
   border: 1px solid var(--line);
@@ -174,10 +181,78 @@ main {
   font-size: 20px;
 }
 
+.article h4 {
+  margin: 22px 0 8px;
+  font-size: 17px;
+}
+
+.article p,
+.article li {
+  color: #334155;
+}
+
+.article ul,
+.article ol {
+  padding-left: 1.35rem;
+}
+
+.article li + li {
+  margin-top: 4px;
+}
+
 .article code {
   padding: 2px 5px;
   border-radius: 4px;
   background: #eef2f7;
+}
+
+.table-wrap {
+  width: 100%;
+  margin: 18px 0 24px;
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.article table {
+  width: 100%;
+  min-width: 720px;
+  border-collapse: collapse;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.article th,
+.article td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--line);
+  border-right: 1px solid var(--line);
+  vertical-align: top;
+}
+
+.article th:last-child,
+.article td:last-child {
+  border-right: 0;
+}
+
+.article tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.article th {
+  background: #f1f5f9;
+  color: #0f172a;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.article tbody tr:nth-child(even) {
+  background: #f8fafc;
+}
+
+.article td a {
+  word-break: break-word;
 }
 
 .back {

@@ -50,7 +50,18 @@
 <li>macOS Darwin 25.4.0</li>
 </ul>
 <h2>候補比較</h2>
-<p>| ツール | 状態 | ローカル動作 | Mac適性 | 品質 | 導入難度 | コメント | |---|---|---:|---:|---:|---:|---| | FaceFusion | 現役 | ◎ | ○ | ○〜◎ | 中 | 最有力。公式docsあり。GUI/CLI/バッチ処理対応。 | | Deep-Live-Cam | 現役系 | ◎ | ○ | △〜○ | 中 | リアルタイム・1枚画像で試す用途向け。 | | Roop | 公式停止 | ○ | △ | △〜○ | 中 | 公式が永久停止。新規採用しない方がよい。 | | Rope / Rope Pearl | フォーク系 | ◎ | △ | ○ | 中〜高 | GUI重視Roop派生。主にNVIDIA GPU環境の情報が多い。 | | DeepFaceLab | アーカイブ済 | ◎ | ×〜△ | ◎ | 高 | 学習型で高品質。ただしMac mini単体には重い。 | | DeepFaceLive | アーカイブ済 | ◎ | × | ○ | 中〜高 | Windows/DirectX12寄り。Macでは非推奨。 | | FaceSwap | 現役/古典系 | ◎ | △ | ○〜◎ | 高 | 学習型。研究・学習には良いが手軽さではFaceFusionに劣る。 |</p>
+<div class="table-wrap"><table>
+<thead><tr><th>ツール</th><th>状態</th><th style="text-align:right">ローカル動作</th><th style="text-align:right">Mac適性</th><th style="text-align:right">品質</th><th style="text-align:right">導入難度</th><th>コメント</th></tr></thead>
+<tbody>
+<tr><td>FaceFusion</td><td>現役</td><td style="text-align:right">◎</td><td style="text-align:right">○</td><td style="text-align:right">○〜◎</td><td style="text-align:right">中</td><td>最有力。公式docsあり。GUI/CLI/バッチ処理対応。</td></tr>
+<tr><td>Deep-Live-Cam</td><td>現役系</td><td style="text-align:right">◎</td><td style="text-align:right">○</td><td style="text-align:right">△〜○</td><td style="text-align:right">中</td><td>リアルタイム・1枚画像で試す用途向け。</td></tr>
+<tr><td>Roop</td><td>公式停止</td><td style="text-align:right">○</td><td style="text-align:right">△</td><td style="text-align:right">△〜○</td><td style="text-align:right">中</td><td>公式が永久停止。新規採用しない方がよい。</td></tr>
+<tr><td>Rope / Rope Pearl</td><td>フォーク系</td><td style="text-align:right">◎</td><td style="text-align:right">△</td><td style="text-align:right">○</td><td style="text-align:right">中〜高</td><td>GUI重視Roop派生。主にNVIDIA GPU環境の情報が多い。</td></tr>
+<tr><td>DeepFaceLab</td><td>アーカイブ済</td><td style="text-align:right">◎</td><td style="text-align:right">×〜△</td><td style="text-align:right">◎</td><td style="text-align:right">高</td><td>学習型で高品質。ただしMac mini単体には重い。</td></tr>
+<tr><td>DeepFaceLive</td><td>アーカイブ済</td><td style="text-align:right">◎</td><td style="text-align:right">×</td><td style="text-align:right">○</td><td style="text-align:right">中〜高</td><td>Windows/DirectX12寄り。Macでは非推奨。</td></tr>
+<tr><td>FaceSwap</td><td>現役/古典系</td><td style="text-align:right">◎</td><td style="text-align:right">△</td><td style="text-align:right">○〜◎</td><td style="text-align:right">高</td><td>学習型。研究・学習には良いが手軽さではFaceFusionに劣る。</td></tr>
+</tbody>
+</table></div>
 <h2>各ツール詳細</h2>
 <h3>FaceFusion</h3>
 <p>公式GitHubは「Industry leading face manipulation platform」と説明。公式インストール手順では Linux / macOS / Windows を対象にし、conda環境、Python 3.12、FFmpeg、ONNXRuntimeを使う。macOSページでは <code>brew install git</code>、<code>brew install miniconda</code>、<code>brew install ffmpeg@7.0.2</code> が案内されている。</p>
@@ -92,7 +103,11 @@
 <h3>FaceSwap</h3>
 <p>古典的な学習型FaceSwap。GUIもあり、学習・研究目的では有用。ただし手軽なコスプレ/顔入れ替え用途ならFaceFusionの方が始めやすい。</p>
 <h2>推奨導入順</h2>
-<p>1. <strong>FaceFusionをMac miniに入れて、静止画→短い動画で検証</strong> 2. リアルタイム用途が必要なら <strong>Deep-Live-Cam</strong> を別環境で検証 3. 画質に不満が出て、NVIDIA GPU付きWindows/Linux機を用意できるなら <strong>DeepFaceLab/FaceSwap</strong> を検討</p>
+<ol>
+<li><strong>FaceFusionをMac miniに入れて、静止画→短い動画で検証</strong></li>
+<li>リアルタイム用途が必要なら <strong>Deep-Live-Cam</strong> を別環境で検証</li>
+<li>画質に不満が出て、NVIDIA GPU付きWindows/Linux機を用意できるなら <strong>DeepFaceLab/FaceSwap</strong> を検討</li>
+</ol>
 <h2>安全・権利面の前提</h2>
 <ul>
 <li>実在人物の顔を使う場合は本人の同意が必要。</li>
@@ -102,18 +117,22 @@
 </ul>
 <h2>Sources</h2>
 <ul>
-<li>FaceFusion GitHub: https://github.com/facefusion/facefusion</li>
-<li>FaceFusion Installation: https://docs.facefusion.io/installation</li>
-<li>FaceFusion macOS: https://docs.facefusion.io/installation/platform/macos</li>
-<li>Roop GitHub: https://github.com/s0md3v/roop</li>
-<li>DeepFaceLab GitHub: https://github.com/iperov/DeepFaceLab</li>
-<li>DeepFaceLive GitHub: https://github.com/iperov/DeepFaceLive</li>
-<li>Deep-Live-Cam GitHub: https://github.com/gazebo848/Deep-Live-Cam</li>
-<li>FaceSwap GitHub: https://github.com/deepfakes/faceswap</li>
-<li>Rope GitHub: https://github.com/Hillobar/Rope</li>
+<li>FaceFusion GitHub: <a href="https://github.com/facefusion/facefusion">https://github.com/facefusion/facefusion</a></li>
+<li>FaceFusion Installation: <a href="https://docs.facefusion.io/installation">https://docs.facefusion.io/installation</a></li>
+<li>FaceFusion macOS: <a href="https://docs.facefusion.io/installation/platform/macos">https://docs.facefusion.io/installation/platform/macos</a></li>
+<li>Roop GitHub: <a href="https://github.com/s0md3v/roop">https://github.com/s0md3v/roop</a></li>
+<li>DeepFaceLab GitHub: <a href="https://github.com/iperov/DeepFaceLab">https://github.com/iperov/DeepFaceLab</a></li>
+<li>DeepFaceLive GitHub: <a href="https://github.com/iperov/DeepFaceLive">https://github.com/iperov/DeepFaceLive</a></li>
+<li>Deep-Live-Cam GitHub: <a href="https://github.com/gazebo848/Deep-Live-Cam">https://github.com/gazebo848/Deep-Live-Cam</a></li>
+<li>FaceSwap GitHub: <a href="https://github.com/deepfakes/faceswap">https://github.com/deepfakes/faceswap</a></li>
+<li>Rope GitHub: <a href="https://github.com/Hillobar/Rope">https://github.com/Hillobar/Rope</a></li>
 </ul>
 <h2>次アクション候補</h2>
-<p>1. FaceFusionをMac mini M4にインストールして動作確認。 2. 30秒程度の短い動画と同意済み/本人素材で、処理速度・品質・破綻箇所を確認。 3. 品質が足りなければ、FaceFusion設定調整またはWindows/NVIDIA機の検討。</p>
+<ol>
+<li>FaceFusionをMac mini M4にインストールして動作確認。</li>
+<li>30秒程度の短い動画と同意済み/本人素材で、処理速度・品質・破綻箇所を確認。</li>
+<li>品質が足りなければ、FaceFusion設定調整またはWindows/NVIDIA機の検討。</li>
+</ol>
 <h2>メモリ保存候補</h2>
 <ul>
 <li>個人のローカル顔入れ替え用途では、Mac mini M4環境の第一候補はFaceFusion。Roopは公式停止済みのため新規採用非推奨。</li>

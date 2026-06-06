@@ -35,7 +35,11 @@
 <h2>実装方針</h2>
 <h3>Phase 0: 事前決定</h3>
 <p>個人さんに確認する意思決定:</p>
-<p>1. 短期運用として <code>[内部パス]</code> をObsidian Vaultにしてよいか。 2. 中長期で専用Vaultへ移行するタイミングをいつにするか。 3. バックアップ方式をどれにするか。</p>
+<ol>
+<li>短期運用として <code>[内部パス]</code> をObsidian Vaultにしてよいか。</li>
+<li>中長期で専用Vaultへ移行するタイミングをいつにするか。</li>
+<li>バックアップ方式をどれにするか。</li>
+</ol>
 <ul>
 <li>Time Machine</li>
 <li>Git</li>
@@ -45,7 +49,12 @@
 <p>推奨: まず[内部パス]</p>
 <h3>Phase 1: Obsidian本体インストールとVault作成</h3>
 <p>作業:</p>
-<p>1. Obsidian本体をMac miniへインストール。 2. Obsidianで <code>[内部パス]</code> をVaultとして開く。 3. <code>.obsidian/</code> が作成されることを確認。 4. Obsidian上で既存レポートが表示・検索できることを確認。</p>
+<ol>
+<li>Obsidian本体をMac miniへインストール。</li>
+<li>Obsidianで <code>[内部パス]</code> をVaultとして開く。</li>
+<li><code>.obsidian/</code> が作成されることを確認。</li>
+<li>Obsidian上で既存レポートが表示・検索できることを確認。</li>
+</ol>
 <p>完了条件:</p>
 <ul>
 <li><code>/Applications/Obsidian.app</code> が存在する、またはObsidian本体のインストール先が確認できる。</li>
@@ -103,7 +112,11 @@
 <li>必要なら新規 <code>report-index-update</code> skill</li>
 </ul>
 <p>作業:</p>
-<p>1. すべてのスクリプトが <code>[内部パス]</code> を参照しているか確認。 2. <code>Indexes/Reports Index.md</code> を更新する補助スクリプトを作る。 3. レポート完了後に索引更新できる導線を追加。</p>
+<ol>
+<li>すべてのスクリプトが <code>[内部パス]</code> を参照しているか確認。</li>
+<li><code>Indexes/Reports Index.md</code> を更新する補助スクリプトを作る。</li>
+<li>レポート完了後に索引更新できる導線を追加。</li>
+</ol>
 <p>完了条件:</p>
 <ul>
 <li>「レポート一覧」「001を送って」「キーワードで見せて」が[内部パス]</li>
@@ -111,7 +124,12 @@
 </ul>
 <h3>Phase 5: obsidian-cli設定</h3>
 <p>作業:</p>
-<p>1. Obsidian本体インストール後にVault登録状況を確認。 2. <code>obsidian-cli set-default &quot;report&quot;</code> またはVault名に応じた設定を実行。 3. <code>obsidian-cli print-default --path-only</code> で確認。 4. <code>obsidian-cli search-content &quot;不動産投資&quot;</code> が動くか確認。</p>
+<ol>
+<li>Obsidian本体インストール後にVault登録状況を確認。</li>
+<li><code>obsidian-cli set-default &quot;report&quot;</code> またはVault名に応じた設定を実行。</li>
+<li><code>obsidian-cli print-default --path-only</code> で確認。</li>
+<li><code>obsidian-cli search-content &quot;不動産投資&quot;</code> が動くか確認。</li>
+</ol>
 <p>完了条件:</p>
 <ul>
 <li>CLIからデフォルトVaultを参照できる。</li>
@@ -139,7 +157,14 @@
 <p>移行先案:</p>
 <p>``<code>text [内部パス] ├── Reports/ ├── Topics/ ├── Indexes/ ├── Templates/ └── Attachments/ </code>``</p>
 <p>移行作業:</p>
-<p>1. <code>MandayVault</code> を作成。 2. 既存レポートを <code>Reports/</code> へ移動。 3. <code>queue_task.py</code> の <code>REPORTS_DIR</code> を更新。 4. report系スキルの参照先を更新。 5. Obsidian default vaultを更新。 6. リンク・索引を再生成。</p>
+<ol>
+<li><code>MandayVault</code> を作成。</li>
+<li>既存レポートを <code>Reports/</code> へ移動。</li>
+<li><code>queue_task.py</code> の <code>REPORTS_DIR</code> を更新。</li>
+<li>report系スキルの参照先を更新。</li>
+<li>Obsidian default vaultを更新。</li>
+<li>リンク・索引を再生成。</li>
+</ol>
 <p>移行判断基準:</p>
 <ul>
 <li>レポート以外のノートが増える。</li>
@@ -148,7 +173,18 @@
 <li>Git/バックアップをVault単位で管理したくなる。</li>
 </ul>
 <h2>推奨実行順</h2>
-<p>1. 個人さん確認: [内部パス] 2. Obsidian本体インストール。 3. [内部パス] 4. Indexes/Topics/Templates/Attachmentsを作成。 5. <code>Reports Index.md</code> を作成。 6. Mandayレポートテンプレートを標準化。 7. report系スキルを再検証。 8. obsidian-cli default vaultを設定。 9. バックアップ方式を決めて設定。 10. しばらく運用してから専用Vault移行を判断。</p>
+<ol>
+<li>個人さん確認: [内部パス]</li>
+<li>Obsidian本体インストール。</li>
+<li>[内部パス]</li>
+<li>Indexes/Topics/Templates/Attachmentsを作成。</li>
+<li><code>Reports Index.md</code> を作成。</li>
+<li>Mandayレポートテンプレートを標準化。</li>
+<li>report系スキルを再検証。</li>
+<li>obsidian-cli default vaultを設定。</li>
+<li>バックアップ方式を決めて設定。</li>
+<li>しばらく運用してから専用Vault移行を判断。</li>
+</ol>
 <h2>リスクと対策</h2>
 <ul>
 <li>[内部パス]</li>
@@ -164,7 +200,13 @@
 </ul>
 <h2>Manday側で次に実装できること</h2>
 <p>個人さんの許可があれば、次の順番で実装可能。</p>
-<p>1. <code>[内部パス]</code>, <code>Topics</code>, <code>Templates</code>, <code>Attachments</code> を作成。 2. <code>Reports Index.md</code> を既存レポートから生成。 3. <code>task-queue/PROCESSING.md</code> のテンプレートを拡張。 4. report系スキルのスクリプト参照先を点検・修正。 5. Obsidian本体インストール後にCLI default vaultを設定。</p>
+<ol>
+<li><code>[内部パス]</code>, <code>Topics</code>, <code>Templates</code>, <code>Attachments</code> を作成。</li>
+<li><code>Reports Index.md</code> を既存レポートから生成。</li>
+<li><code>task-queue/PROCESSING.md</code> のテンプレートを拡張。</li>
+<li>report系スキルのスクリプト参照先を点検・修正。</li>
+<li>Obsidian本体インストール後にCLI default vaultを設定。</li>
+</ol>
 <h2>保留事項</h2>
 <ul>
 <li>Obsidian本体インストールは外部アプリ導入なので、個人さんの明示許可後に実行する。</li>

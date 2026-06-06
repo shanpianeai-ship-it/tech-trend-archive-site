@@ -91,16 +91,77 @@ function escapeHtml(value) {
 function inlineMarkdown(value) {
   const escaped = escapeHtml(value);
   const links = [];
-  const withMarkdownLinks = escaped.replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g, (_, label, url) => {
+  const withMarkdownLinks = escaped.replace(/\[((?:[^\[\]]|\[[^\]]*\])*)\]\((https?:\/\/[^)]+)\)/g, (_, label, url) => {
     const token = `@@LINK_${links.length}@@`;
     links.push(`<a href="${url}">${label}</a>`);
     return token;
   });
 
   return withMarkdownLinks
+    .replace(/&lt;(https?:\/\/[^&<\s]+)&gt;/g, (_, url) => {
+      const token = `@@LINK_${links.length}@@`;
+      links.push(`<a href="${url}">${url}</a>`);
+      return token;
+    })
+    .replace(/(^|[\s(])((?:https?:\/\/)[^\s<)]+[^\s<).,!?;:])/g, (_, prefix, url) => {
+      const token = `@@LINK_${links.length}@@`;
+      links.push(`<a href="${url}">${url}</a>`);
+      return `${prefix}${token}`;
+    })
     .replace(/`([^`]+)`/g, "<code>$1</code>")
     .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
     .replace(/@@LINK_(\d+)@@/g, (_, index) => links[Number(index)] || "");
+}
+
+function splitTableRow(line) {
+  return line
+    .trim()
+    .replace(/^\|/, "")
+    .replace(/\|$/, "")
+    .split("|")
+    .map((cell) => cell.trim());
+}
+
+function isTableSeparator(line) {
+  const cells = splitTableRow(line);
+  return cells.length > 1 && cells.every((cell) => /^:?-{3,}:?$/.test(cell));
+}
+
+function tableAlignments(separatorLine) {
+  return splitTableRow(separatorLine).map((cell) => {
+    if (cell.startsWith(":") && cell.endsWith(":")) return "center";
+    if (cell.endsWith(":")) return "right";
+    return "";
+  });
+}
+
+function renderTable(lines) {
+  const [headerLine, separatorLine, ...bodyLines] = lines;
+  const headers = splitTableRow(headerLine);
+  const alignments = tableAlignments(separatorLine);
+  const colCount = headers.length;
+  const alignAttr = (index) => (alignments[index] ? ` style="text-align:${alignments[index]}"` : "");
+
+  const headerHtml = headers
+    .map((cell, index) => `<th${alignAttr(index)}>${inlineMarkdown(cell)}</th>`)
+    .join("");
+  const bodyHtml = bodyLines
+    .map((line) => {
+      const cells = splitTableRow(line);
+      while (cells.length < colCount) cells.push("");
+      return `<tr>${cells
+        .slice(0, colCount)
+        .map((cell, index) => `<td${alignAttr(index)}>${inlineMarkdown(cell)}</td>`)
+        .join("")}</tr>`;
+    })
+    .join("\n");
+
+  return `<div class="table-wrap"><table>
+<thead><tr>${headerHtml}</tr></thead>
+<tbody>
+${bodyHtml}
+</tbody>
+</table></div>`;
 }
 
 function markdownToHtml(body) {
@@ -108,6 +169,7 @@ function markdownToHtml(body) {
   const html = [];
   let paragraph = [];
   let list = [];
+  let listType = "ul";
 
   const flushParagraph = () => {
     if (!paragraph.length) return;
@@ -117,13 +179,15 @@ function markdownToHtml(body) {
 
   const flushList = () => {
     if (!list.length) return;
-    html.push("<ul>");
+    html.push(`<${listType}>`);
     for (const item of list) html.push(`<li>${inlineMarkdown(item)}</li>`);
-    html.push("</ul>");
+    html.push(`</${listType}>`);
     list = [];
+    listType = "ul";
   };
 
-  for (const line of lines) {
+  for (let index = 0; index < lines.length; index += 1) {
+    const line = lines[index];
     const trimmed = line.trim();
     if (!trimmed) {
       flushParagraph();
@@ -143,7 +207,32 @@ function markdownToHtml(body) {
     const bullet = trimmed.match(/^[-*]\s+(.+)$/);
     if (bullet) {
       flushParagraph();
+      if (list.length && listType !== "ul") flushList();
+      listType = "ul";
       list.push(bullet[1]);
+      continue;
+    }
+
+    const ordered = trimmed.match(/^\d+\.\s+(.+)$/);
+    if (ordered) {
+      flushParagraph();
+      if (list.length && listType !== "ol") flushList();
+      listType = "ol";
+      list.push(ordered[1]);
+      continue;
+    }
+
+    if (trimmed.includes("|") && lines[index + 1] && isTableSeparator(lines[index + 1])) {
+      flushParagraph();
+      flushList();
+      const tableLines = [trimmed, lines[index + 1].trim()];
+      index += 2;
+      while (index < lines.length && lines[index].trim().includes("|")) {
+        tableLines.push(lines[index].trim());
+        index += 1;
+      }
+      index -= 1;
+      html.push(renderTable(tableLines));
       continue;
     }
 
@@ -235,6 +324,15 @@ function stableSlug(file, title, category) {
 
 function categoryFromInterestFile(file) {
   return path.relative(interestsRoot, path.dirname(file)).split(path.sep)[0] || "未分類";
+}
+
+function isPublishableInterestFile(file, meta) {
+  const relative = path.relative(interestsRoot, file);
+  const firstDir = relative.split(path.sep)[0];
+  if (firstDir === "候補一覧") return false;
+  if (meta.type === "operation_rule" || meta.type === "interest_candidates") return false;
+  if (String(meta.publish || "").toLowerCase() === "false") return false;
+  return true;
 }
 
 const notes = walkMarkdown(notesRoot).map((file) => {
@@ -337,15 +435,16 @@ fs.writeFileSync(
   ),
 );
 
-const interestNotes = walkMarkdown(interestsRoot).map((file) => {
+const interestNotes = walkMarkdown(interestsRoot).flatMap((file) => {
   const raw = redactSensitive(fs.readFileSync(file, "utf8"));
   const [meta, body] = parseFrontMatter(raw);
+  if (!isPublishableInterestFile(file, meta)) return [];
   const category = redactSensitive(categoryFromInterestFile(file));
   const title = redactSensitive(titleFromMarkdown(body, path.basename(file, ".md")));
   const slug = stableSlug(file, title, category);
   const created = meta.created || path.basename(file).match(/\d{4}-\d{2}-\d{2}/)?.[0] || "";
 
-  return {
+  return [{
     file,
     slug,
     title,
@@ -355,7 +454,7 @@ const interestNotes = walkMarkdown(interestsRoot).map((file) => {
     type: meta.type || "",
     excerpt: redactSensitive(excerptFrom(body)),
     html: markdownToHtml(body),
-  };
+  }];
 });
 
 interestNotes.sort(
@@ -518,7 +617,14 @@ body {
   line-height: 1.75;
 }
 
-a { color: var(--accent-dark); }
+a {
+  color: var(--accent-dark);
+  text-underline-offset: 3px;
+}
+
+a:hover {
+  color: var(--accent);
+}
 
 .site-header {
   display: flex;
@@ -647,7 +753,7 @@ main {
 }
 
 .article {
-  max-width: 820px;
+  max-width: 960px;
   margin: 0 auto;
   padding: 26px;
   border: 1px solid var(--line);
@@ -673,10 +779,78 @@ main {
   font-size: 20px;
 }
 
+.article h4 {
+  margin: 22px 0 8px;
+  font-size: 17px;
+}
+
+.article p,
+.article li {
+  color: #334155;
+}
+
+.article ul,
+.article ol {
+  padding-left: 1.35rem;
+}
+
+.article li + li {
+  margin-top: 4px;
+}
+
 .article code {
   padding: 2px 5px;
   border-radius: 4px;
   background: #eef2f7;
+}
+
+.table-wrap {
+  width: 100%;
+  margin: 18px 0 24px;
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.article table {
+  width: 100%;
+  min-width: 720px;
+  border-collapse: collapse;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.article th,
+.article td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--line);
+  border-right: 1px solid var(--line);
+  vertical-align: top;
+}
+
+.article th:last-child,
+.article td:last-child {
+  border-right: 0;
+}
+
+.article tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.article th {
+  background: #f1f5f9;
+  color: #0f172a;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.article tbody tr:nth-child(even) {
+  background: #f8fafc;
+}
+
+.article td a {
+  word-break: break-word;
 }
 
 .back {

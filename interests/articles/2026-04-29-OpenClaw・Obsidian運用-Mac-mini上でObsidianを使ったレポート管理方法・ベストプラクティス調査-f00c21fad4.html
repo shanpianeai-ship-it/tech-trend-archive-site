@@ -225,7 +225,13 @@
 <p>ただし現時点では default vault が未設定です。</p>
 <p>``<code>text Cannot find vault config, please use set-default command to set default vault or use --vault flag </code>``</p>
 <p>実装方針:</p>
-<p>1. Obsidian本体をMac miniにインストールする。 2. Vaultを作る。 3. <code>obsidian-cli set-default &quot;&lt;vault-folder-name&gt;&quot;</code> でデフォルトVaultを設定する。 4. Mandayのレポート作成後、必要に応じて <code>obsidian-cli search-content</code> や <code>frontmatter</code> を使う。 5. ファイル移動・リネームは可能なら <code>obsidian-cli move</code> を使う。</p>
+<ol>
+<li>Obsidian本体をMac miniにインストールする。</li>
+<li>Vaultを作る。</li>
+<li><code>obsidian-cli set-default &quot;&lt;vault-folder-name&gt;&quot;</code> でデフォルトVaultを設定する。</li>
+<li>Mandayのレポート作成後、必要に応じて <code>obsidian-cli search-content</code> や <code>frontmatter</code> を使う。</li>
+<li>ファイル移動・リネームは可能なら <code>obsidian-cli move</code> を使う。</li>
+</ol>
 <p>補足:</p>
 <ul>
 <li>Obsidian公式にもCLI機能がありますが、利用にはObsidian本体側でCLIを有効化する必要があります。</li>
@@ -300,7 +306,14 @@
 <li>Syncサービスはバックアップではないため、別途バックアップ設計が必要です。</li>
 </ul>
 <h2>次アクション候補</h2>
-<p>1. Obsidian本体をMac miniにインストールする。 2. <code>[内部パス]</code> をVaultとして開く。 3. <code>Reports Index.md</code> を作成し、既存4件+本レポートをリンクする。 4. レポートfrontmatterテンプレートに <code>category</code>, <code>related</code>, <code>area</code> などを追加する。 5. バックアップ方針を決める: Time Machine / Git / Local Backup plugin のいずれか。 6. 本格運用前に、専用Vaultへ移行するか[内部パス] Vaultで継続するか決める。</p>
+<ol>
+<li>Obsidian本体をMac miniにインストールする。</li>
+<li><code>[内部パス]</code> をVaultとして開く。</li>
+<li><code>Reports Index.md</code> を作成し、既存4件+本レポートをリンクする。</li>
+<li>レポートfrontmatterテンプレートに <code>category</code>, <code>related</code>, <code>area</code> などを追加する。</li>
+<li>バックアップ方針を決める: Time Machine / Git / Local Backup plugin のいずれか。</li>
+<li>本格運用前に、専用Vaultへ移行するか[内部パス] Vaultで継続するか決める。</li>
+</ol>
 <h2>メモリ保存候補</h2>
 <ul>
 <li>個人さんはManday生成レポートをObsidianで管理したい。短期は <code>[内部パス]</code> をVault化、中長期は専用Vault <code>~/Documents/MandayVault/Reports/</code> が推奨。</li>

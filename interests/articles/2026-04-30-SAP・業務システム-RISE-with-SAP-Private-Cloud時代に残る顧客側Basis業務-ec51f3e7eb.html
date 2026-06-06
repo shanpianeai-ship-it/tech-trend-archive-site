@@ -41,7 +41,16 @@
 <h3>1. RISE Private Cloudの本質: 「Basis不要」ではなく「責任分界が変わる」</h3>
 <p>SAPのCloud ERP Private説明では、SAP Cloud ERP Privateは専用・single-tenant環境で、RISE with SAPがソフトウェア、インフラ、managed servicesを束ね、顧客のクラウド移行を支援するものと説明されている。SAPはshared management modelを掲げ、SAP-managed / customer-managed / jointly managedの3層で責任を分ける。</p>
 <p>実務上の読み替えは以下。</p>
-<p>| 領域 | RISE前オンプレBasis | RISE PCE後の顧客側価値 | |---|---|---| | インフラ/OS/DB基盤 | 顧客または運用委託が直接運用 | SAP/ECS側が多く担う。顧客側はSLA・変更影響・証拠確認・要求管理へ移る | | アプリBasis | トランスポート、ユーザー、接続、ジョブ、性能、証明書 | 依然残る。むしろSAP側権限がない分、切り分け力と依頼精度が重要 | | 監視 | CCMS/SolMan/個別監視中心 | Cloud ALMを中心に業務・統合・ユーザー体感・技術ヘルスを再設計 | | 障害対応 | 自社でログ取得・再起動・パッチ | 顧客側は業務影響、再現条件、時系列、技術証拠を整理しSAPへエスカレーション | | 変更管理 | 自社裁量が大きい | SAP実行・顧客タイミング決定・共同調整が増える |</p>
+<div class="table-wrap"><table>
+<thead><tr><th>領域</th><th>RISE前オンプレBasis</th><th>RISE PCE後の顧客側価値</th></tr></thead>
+<tbody>
+<tr><td>インフラ/OS/DB基盤</td><td>顧客または運用委託が直接運用</td><td>SAP/ECS側が多く担う。顧客側はSLA・変更影響・証拠確認・要求管理へ移る</td></tr>
+<tr><td>アプリBasis</td><td>トランスポート、ユーザー、接続、ジョブ、性能、証明書</td><td>依然残る。むしろSAP側権限がない分、切り分け力と依頼精度が重要</td></tr>
+<tr><td>監視</td><td>CCMS/SolMan/個別監視中心</td><td>Cloud ALMを中心に業務・統合・ユーザー体感・技術ヘルスを再設計</td></tr>
+<tr><td>障害対応</td><td>自社でログ取得・再起動・パッチ</td><td>顧客側は業務影響、再現条件、時系列、技術証拠を整理しSAPへエスカレーション</td></tr>
+<tr><td>変更管理</td><td>自社裁量が大きい</td><td>SAP実行・顧客タイミング決定・共同調整が増える</td></tr>
+</tbody>
+</table></div>
 <p>SAPはSAP-managed responsibilitiesとしてインフラ管理、システム監視、セキュリティ更新を挙げる一方、customer-managed responsibilitiesとしてbusiness process customizationsやbusiness user authorizationsを顧客側に残すと説明している。またmajor initiatives such as ERP upgradesは顧客が業務都合でタイミングを決め、SAPが技術実行する共同管理とされる。</p>
 <h3>2. 顧客側に残るBasis業務一覧</h3>
 <h4>A. 責任分界・契約・運用要求管理</h4>
@@ -133,36 +142,67 @@
 <li>Post Incident Reviewで再発防止をCloud ALM監視・証明書期限管理・変更管理へ落とす。</li>
 </ul>
 <h3>3. 高付加価値コンサル領域</h3>
-<p>1. <strong>RISE責任分界/RACI診断</strong> 契約・R&amp;R・SDG・現行運用を突き合わせ、顧客側に残る作業、SAP依頼作業、共同作業を可視化する。</p>
-<p>2. <strong>Cloud ALM運用設計</strong> Business Process / Integration / Real User / Health / Job / Synthetic monitoringを、業務SLAとSAP case証拠に直結させる。</p>
-<p>3. <strong>HANA/ABAP性能アドバイザリー</strong> RISE環境で取得可能なデータを前提に、Cloud ALM→ST03/STAD→SQL workload→PlanViz/Thread Samplingへつなぐ分析パターンを標準化する。</p>
-<p>4. <strong>証明書・接続信頼性アセスメント</strong> STRUST/PSE/Cloud Connector/IdP/BTP destination/API証明書の期限・所有者・更新手順・障害時対応を棚卸しする。</p>
-<p>5. <strong>BTP連携アーキテクチャレビュー</strong> ERP Private Cloud、BTP、Integration Suite、外部SaaS、顧客ネットワークをまたぐ名前解決、認証、監視、障害切り分けを設計する。</p>
-<p>6. <strong>エスカレーション成熟度診断</strong> SAP caseの起票品質、Very High相当時の判断、CIC/サポート連絡、業務影響記述、添付証跡テンプレートを整備する。</p>
-<p>7. <strong>経営層向けRISE運用リスク説明</strong> 「クラウド化で何が楽になり、何が残り、何を投資すべきか」をTCO・リスク・SLA・人材価値で説明する。</p>
+<ol>
+<li><strong>RISE責任分界/RACI診断</strong></li>
+</ol>
+<p>契約・R&amp;R・SDG・現行運用を突き合わせ、顧客側に残る作業、SAP依頼作業、共同作業を可視化する。</p>
+<ol>
+<li><strong>Cloud ALM運用設計</strong></li>
+</ol>
+<p>Business Process / Integration / Real User / Health / Job / Synthetic monitoringを、業務SLAとSAP case証拠に直結させる。</p>
+<ol>
+<li><strong>HANA/ABAP性能アドバイザリー</strong></li>
+</ol>
+<p>RISE環境で取得可能なデータを前提に、Cloud ALM→ST03/STAD→SQL workload→PlanViz/Thread Samplingへつなぐ分析パターンを標準化する。</p>
+<ol>
+<li><strong>証明書・接続信頼性アセスメント</strong></li>
+</ol>
+<p>STRUST/PSE/Cloud Connector/IdP/BTP destination/API証明書の期限・所有者・更新手順・障害時対応を棚卸しする。</p>
+<ol>
+<li><strong>BTP連携アーキテクチャレビュー</strong></li>
+</ol>
+<p>ERP Private Cloud、BTP、Integration Suite、外部SaaS、顧客ネットワークをまたぐ名前解決、認証、監視、障害切り分けを設計する。</p>
+<ol>
+<li><strong>エスカレーション成熟度診断</strong></li>
+</ol>
+<p>SAP caseの起票品質、Very High相当時の判断、CIC/サポート連絡、業務影響記述、添付証跡テンプレートを整備する。</p>
+<ol>
+<li><strong>経営層向けRISE運用リスク説明</strong></li>
+</ol>
+<p>「クラウド化で何が楽になり、何が残り、何を投資すべきか」をTCO・リスク・SLA・人材価値で説明する。</p>
 <h3>4. 個人さんへの推奨成長領域</h3>
 <p>優先度順。</p>
-<p>1. <strong>Cloud ALM for Operations 実装・設計力</strong></p>
+<ol>
+<li><strong>Cloud ALM for Operations 実装・設計力</strong></li>
+</ol>
 <ul>
 <li>まずBusiness Process Monitoring、Integration &amp; Exception Monitoring、Real User Monitoring、Health Monitoringを一通り触れる。</li>
 <li>既存のHANA/ABAP性能分析とつなげ、「Cloud ALMで検知→SAP標準ツールで深掘り→SAP caseへ証拠化」の型を作る。</li>
 </ul>
-<p>2. <strong>RISE R&amp;R / SDG読解とRACIテンプレート化</strong></p>
+<ol>
+<li><strong>RISE R&amp;R / SDG読解とRACIテンプレート化</strong></li>
+</ol>
 <ul>
 <li>SAP公式R&amp;R、Service Description Guide、Trust/Security資料を読み、作業別RACI表を作る。</li>
 <li>顧客説明用に「SAPがやること / 顧客がやること / 共同でやること / 誤解しやすいこと」を日本語で整理。</li>
 </ul>
-<p>3. <strong>証明書・BTP Connectivity専門性</strong></p>
+<ol>
+<li><strong>証明書・BTP Connectivity専門性</strong></li>
+</ol>
 <ul>
 <li>STRUST/PSEの既存知識をCloud Connector、Principal Propagation、BTP destination、IdP、SAML/OIDC、API証明書へ拡張。</li>
 <li>期限管理・更新手順・障害切り分けのチェックリスト化が実務価値大。</li>
 </ul>
-<p>4. <strong>性能分析の「経営翻訳」</strong></p>
+<ol>
+<li><strong>性能分析の「経営翻訳」</strong></li>
+</ol>
 <ul>
 <li>SQL hashやThread Samplingの分析結果を、業務損失、処理遅延、SLA、顧客影響、改善投資判断へ翻訳する練習。</li>
 <li>経営向け1枚資料: 現象、影響、原因仮説、対策、SAP依頼事項、顧客判断事項。</li>
 </ul>
-<p>5. <strong>SAPサポート/エスカレーション設計</strong></p>
+<ol>
+<li><strong>SAPサポート/エスカレーション設計</strong></li>
+</ol>
 <ul>
 <li>Very High相当の基準、業務影響の書き方、SAP For Me case品質、添付すべきCloud ALM/ST03/HANA証跡をテンプレ化。</li>
 </ul>
@@ -187,21 +227,21 @@
 </ul>
 <h2>Sources</h2>
 <ul>
-<li>SAP, <strong>Moving to the SAP ERP cloud with AI-enabled operations and support</strong> — shared management model、SAP-managed/customer-managed/jointly managed responsibilities、Cloud ALM included at no additional costとの説明。&lt;https://www.sap.com/products/erp/s4hana-private-edition/what-is-sap-erp-private-operations-and-support.html&gt;</li>
-<li>SAP, <strong>RISE with SAP S/4HANA Cloud, private edition and SAP ERP, tailored option Roles and Responsibilities v.3-2025</strong> — RISE PCEの公式R&amp;R文書。&lt;https://assets.cdn.sap.com/agreements/product-policy/hec/roles-responsibilities/rise-with-sap-s4hana-cloud-private-edition-and-sap-erp-tailored-option-roles-and-responsibilities-english-v3-2025.pdf&gt;</li>
-<li>SAP, <strong>RISE with SAP S/4HANA Cloud, private edition Service Description Guide v.3-2025</strong> — サービス定義・運用範囲の公式文書。&lt;https://assets.cdn.sap.com/agreements/product-use-and-support-terms/service-description-guides/rise-with-sap-s4hana-cloud-private-edition-service-description-guide-english-v3-2025.pdf&gt;</li>
-<li>SAP Support, <strong>SAP Cloud ALM</strong> — Cloud ALMの概要、central entry point、cloud subscription/Enterprise Supportでの利用権。&lt;https://support.sap.com/en/alm/sap-cloud-alm.html&gt;</li>
-<li>SAP Support, <strong>SAP Cloud ALM for Operations</strong> — hybrid/SAP-centric landscapeの中央運用入口、monitoring/alerting、E2E visibility、Business Process/Integration/Real User等の機能。&lt;https://support.sap.com/en/alm/sap-cloud-alm/operations.html?anchorId=section&gt;</li>
-<li>SAP Support, <strong>Business Process Monitoring</strong> — predefined KPIs、業務プロセス健全性、業務/ITによる異常検知、Alert Inbox等。&lt;https://support.sap.com/en/alm/sap-cloud-alm/operations/expert-portal/business-process-monitoring.html&gt;</li>
-<li>SAP Support, <strong>Integration &amp; Exception Monitoring</strong> — interface calls/message flowsのE2E可視化、Message Monitoring/Search、failed messages/exceptionsのalerting。&lt;https://support.sap.com/en/alm/sap-cloud-alm/operations/expert-portal/integration-monitoring.html&gt;</li>
-<li>SAP Support, <strong>Real User Monitoring</strong> — user interactionのusage/executionsとresponse times、front-end/back-end measurements、E2E/Backend/Network time等。&lt;https://support.sap.com/en/alm/sap-cloud-alm/operations/expert-portal/real-user-monitoring.html&gt;</li>
-<li>SAP Support, <strong>Health Monitoring</strong> — technical metrics、overall health、warning/critical、historical trend analysis。&lt;https://support.sap.com/en/alm/sap-cloud-alm/operations/expert-portal/health-monitoring.html&gt;</li>
-<li>SAP Help, <strong>Configure Your On-Premise Systems to Use the Cloud Connector</strong> — Cloud Connector、virtual/internal host mapping、Principal Propagation、system certificate定期更新。&lt;https://help.sap.com/doc/00f68c2e08b941f081002fd3691d86a7/2023.20/en-US/3bdb65253c8046b2b8234c554072569f.html&gt;</li>
-<li>SAP Help, <strong>Set Up Trust Between the Cloud Connector and Your On-Premise ABAP Systems</strong> — STRUST、SSL server Standard、ICM、rule-based certificate mapping等。&lt;https://help.sap.com/doc/00f68c2e08b941f081002fd3691d86a7/2023.20/en-US/80140fff3260494fb8eb45ca4c2d744a.html&gt;</li>
-<li>SAP Help, <strong>SAP S/4HANA Cloud Private Edition Feature Scope Description</strong> — Private Editionの機能範囲参照。&lt;https://help.sap.com/doc/9f8b1e91e4a442499364d2b49c8d4bdb/latest/en-US&gt;</li>
-<li>SAP Community, <strong>RISE with SAP S/4HANA Cloud Private Edition: Understanding Roles and Responsibilities</strong> — R&amp;Rの読み解き補助。&lt;https://community.sap.com/t5/enterprise-architecture-blog-posts/rise-with-sap-s-4hana-cloud-private-edition-understanding-roles-and/ba-p/13798158&gt;</li>
-<li>SAP Learning, <strong>Analyzing executions with the SQL Analyzer</strong> — SQL Analyzerによる実行分析の学習参照。&lt;https://learning.sap.com/learning-journeys/develop-data-models-with-sap-hana-cloud/analyzing-executions-with-the-sql-analyzer_e112a5ae-429d-4be6-bf56-6556d13e849f&gt;</li>
-<li>SAP Help, <strong>SAP HANA Troubleshooting and Performance Analysis Guide</strong> — HANA性能分析の公式ガイド。&lt;https://help.sap.com/doc/e344ef1295b6433e88fe084c0768e1cd/2.0.05/en-US/SAP_HANA_Troubleshooting_and_Performance_Analysis_Guide_en.pdf&gt;</li>
+<li>SAP, <strong>Moving to the SAP ERP cloud with AI-enabled operations and support</strong> — shared management model、SAP-managed/customer-managed/jointly managed responsibilities、Cloud ALM included at no additional costとの説明。<a href="https://www.sap.com/products/erp/s4hana-private-edition/what-is-sap-erp-private-operations-and-support.html">https://www.sap.com/products/erp/s4hana-private-edition/what-is-sap-erp-private-operations-and-support.html</a></li>
+<li>SAP, <strong>RISE with SAP S/4HANA Cloud, private edition and SAP ERP, tailored option Roles and Responsibilities v.3-2025</strong> — RISE PCEの公式R&amp;R文書。<a href="https://assets.cdn.sap.com/agreements/product-policy/hec/roles-responsibilities/rise-with-sap-s4hana-cloud-private-edition-and-sap-erp-tailored-option-roles-and-responsibilities-english-v3-2025.pdf">https://assets.cdn.sap.com/agreements/product-policy/hec/roles-responsibilities/rise-with-sap-s4hana-cloud-private-edition-and-sap-erp-tailored-option-roles-and-responsibilities-english-v3-2025.pdf</a></li>
+<li>SAP, <strong>RISE with SAP S/4HANA Cloud, private edition Service Description Guide v.3-2025</strong> — サービス定義・運用範囲の公式文書。<a href="https://assets.cdn.sap.com/agreements/product-use-and-support-terms/service-description-guides/rise-with-sap-s4hana-cloud-private-edition-service-description-guide-english-v3-2025.pdf">https://assets.cdn.sap.com/agreements/product-use-and-support-terms/service-description-guides/rise-with-sap-s4hana-cloud-private-edition-service-description-guide-english-v3-2025.pdf</a></li>
+<li>SAP Support, <strong>SAP Cloud ALM</strong> — Cloud ALMの概要、central entry point、cloud subscription/Enterprise Supportでの利用権。<a href="https://support.sap.com/en/alm/sap-cloud-alm.html">https://support.sap.com/en/alm/sap-cloud-alm.html</a></li>
+<li>SAP Support, <strong>SAP Cloud ALM for Operations</strong> — hybrid/SAP-centric landscapeの中央運用入口、monitoring/alerting、E2E visibility、Business Process/Integration/Real User等の機能。<a href="https://support.sap.com/en/alm/sap-cloud-alm/operations.html?anchorId=section">https://support.sap.com/en/alm/sap-cloud-alm/operations.html?anchorId=section</a></li>
+<li>SAP Support, <strong>Business Process Monitoring</strong> — predefined KPIs、業務プロセス健全性、業務/ITによる異常検知、Alert Inbox等。<a href="https://support.sap.com/en/alm/sap-cloud-alm/operations/expert-portal/business-process-monitoring.html">https://support.sap.com/en/alm/sap-cloud-alm/operations/expert-portal/business-process-monitoring.html</a></li>
+<li>SAP Support, <strong>Integration &amp; Exception Monitoring</strong> — interface calls/message flowsのE2E可視化、Message Monitoring/Search、failed messages/exceptionsのalerting。<a href="https://support.sap.com/en/alm/sap-cloud-alm/operations/expert-portal/integration-monitoring.html">https://support.sap.com/en/alm/sap-cloud-alm/operations/expert-portal/integration-monitoring.html</a></li>
+<li>SAP Support, <strong>Real User Monitoring</strong> — user interactionのusage/executionsとresponse times、front-end/back-end measurements、E2E/Backend/Network time等。<a href="https://support.sap.com/en/alm/sap-cloud-alm/operations/expert-portal/real-user-monitoring.html">https://support.sap.com/en/alm/sap-cloud-alm/operations/expert-portal/real-user-monitoring.html</a></li>
+<li>SAP Support, <strong>Health Monitoring</strong> — technical metrics、overall health、warning/critical、historical trend analysis。<a href="https://support.sap.com/en/alm/sap-cloud-alm/operations/expert-portal/health-monitoring.html">https://support.sap.com/en/alm/sap-cloud-alm/operations/expert-portal/health-monitoring.html</a></li>
+<li>SAP Help, <strong>Configure Your On-Premise Systems to Use the Cloud Connector</strong> — Cloud Connector、virtual/internal host mapping、Principal Propagation、system certificate定期更新。<a href="https://help.sap.com/doc/00f68c2e08b941f081002fd3691d86a7/2023.20/en-US/3bdb65253c8046b2b8234c554072569f.html">https://help.sap.com/doc/00f68c2e08b941f081002fd3691d86a7/2023.20/en-US/3bdb65253c8046b2b8234c554072569f.html</a></li>
+<li>SAP Help, <strong>Set Up Trust Between the Cloud Connector and Your On-Premise ABAP Systems</strong> — STRUST、SSL server Standard、ICM、rule-based certificate mapping等。<a href="https://help.sap.com/doc/00f68c2e08b941f081002fd3691d86a7/2023.20/en-US/80140fff3260494fb8eb45ca4c2d744a.html">https://help.sap.com/doc/00f68c2e08b941f081002fd3691d86a7/2023.20/en-US/80140fff3260494fb8eb45ca4c2d744a.html</a></li>
+<li>SAP Help, <strong>SAP S/4HANA Cloud Private Edition Feature Scope Description</strong> — Private Editionの機能範囲参照。<a href="https://help.sap.com/doc/9f8b1e91e4a442499364d2b49c8d4bdb/latest/en-US">https://help.sap.com/doc/9f8b1e91e4a442499364d2b49c8d4bdb/latest/en-US</a></li>
+<li>SAP Community, <strong>RISE with SAP S/4HANA Cloud Private Edition: Understanding Roles and Responsibilities</strong> — R&amp;Rの読み解き補助。<a href="https://community.sap.com/t5/enterprise-architecture-blog-posts/rise-with-sap-s-4hana-cloud-private-edition-understanding-roles-and/ba-p/13798158">https://community.sap.com/t5/enterprise-architecture-blog-posts/rise-with-sap-s-4hana-cloud-private-edition-understanding-roles-and/ba-p/13798158</a></li>
+<li>SAP Learning, <strong>Analyzing executions with the SQL Analyzer</strong> — SQL Analyzerによる実行分析の学習参照。<a href="https://learning.sap.com/learning-journeys/develop-data-models-with-sap-hana-cloud/analyzing-executions-with-the-sql-analyzer_e112a5ae-429d-4be6-bf56-6556d13e849f">https://learning.sap.com/learning-journeys/develop-data-models-with-sap-hana-cloud/analyzing-executions-with-the-sql-analyzer_e112a5ae-429d-4be6-bf56-6556d13e849f</a></li>
+<li>SAP Help, <strong>SAP HANA Troubleshooting and Performance Analysis Guide</strong> — HANA性能分析の公式ガイド。<a href="https://help.sap.com/doc/e344ef1295b6433e88fe084c0768e1cd/2.0.05/en-US/SAP_HANA_Troubleshooting_and_Performance_Analysis_Guide_en.pdf">https://help.sap.com/doc/e344ef1295b6433e88fe084c0768e1cd/2.0.05/en-US/SAP_HANA_Troubleshooting_and_Performance_Analysis_Guide_en.pdf</a></li>
 </ul>
 <h2>不確実性・注意点</h2>
 <ul>
@@ -212,7 +252,13 @@
 <li>「顧客側Basisに残る業務」は会社の内製/外注方針、SIer/AMS体制、グローバル運用モデルによって大きく変わる。</li>
 </ul>
 <h2>次アクション候補</h2>
-<p>1. 個人さん向けに「RISE顧客側Basis業務RACIテンプレート」を別レポート/Excel風Markdownで作る。 2. Cloud ALM監視メニュー別に、検知項目・担当・初動・SAP case添付証跡を整理する。 3. 「Fiori遅延」「IDoc失敗」「証明書期限切れ」「HANA高CPU」の4つのケースで、実務エスカレーションテンプレートを作る。 4. STRUST/PSE/BTP/Cloud Connector証明書棚卸しチェックリストを作成する。 5. 経営層向け1枚資料「RISE後も顧客側に残る運用責任と投資すべき人材」を作る。</p>
+<ol>
+<li>個人さん向けに「RISE顧客側Basis業務RACIテンプレート」を別レポート/Excel風Markdownで作る。</li>
+<li>Cloud ALM監視メニュー別に、検知項目・担当・初動・SAP case添付証跡を整理する。</li>
+<li>「Fiori遅延」「IDoc失敗」「証明書期限切れ」「HANA高CPU」の4つのケースで、実務エスカレーションテンプレートを作る。</li>
+<li>STRUST/PSE/BTP/Cloud Connector証明書棚卸しチェックリストを作成する。</li>
+<li>経営層向け1枚資料「RISE後も顧客側に残る運用責任と投資すべき人材」を作る。</li>
+</ol>
 <h2>メモリ保存候補</h2>
 <ul>
 <li>個人さんのキャリア成長方針として、SAP Basis/HANA性能分析を軸に、RISE責任分界、Cloud ALM運用設計、BTP connectivity、証明書/STRUST/PSE、SAPエスカレーション、経営層説明へ広げる方向が有望。</li>
