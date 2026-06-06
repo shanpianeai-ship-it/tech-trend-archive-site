@@ -1,5 +1,18 @@
 [
   {
+    "file": "SAP_ERP/2026-06-06_AM_SAPとAnthropic連携_ClaudeがJouleエージェントへ.md",
+    "slug": "2026-06-06_AM_SAPとAnthropic連携_ClaudeがJouleエージェントへ",
+    "title": "SAPとAnthropic連携: ClaudeがJouleエージェントへ",
+    "genre": "SAP_ERP",
+    "genreLabel": "SAP / ERP",
+    "created": "2026-06-06",
+    "source": "https://news.sap.com/2026/05/sap-anthropic-to-bring-claude-sap-business-ai-platform/",
+    "importance": "high",
+    "confidence": "high",
+    "excerpt": "SAPとAnthropicは、ClaudeをSAP Business AI Platform上の主要な推論・エージェント能力として組み込み、JouleとJoule agentsを強化する計画を発表した。 これは「SAPがClaudeを使えるようにした」というだけの話ではない。SAPの業務データ、プロセス、承認、統制の中で、Claudeの推論能力をJouleエ...",
+    "url": "articles/2026-06-06_AM_SAPとAnthropic連携_ClaudeがJouleエージェントへ.html"
+  },
+  {
     "file": "SAP_ERP/2026-06-06_SAP_Business_AI_PlatformとAutonomous_Enterprise.md",
     "slug": "2026-06-06_SAP_Business_AI_PlatformとAutonomous_Enterprise",
     "title": "SAP Business AI PlatformとAutonomous Enterprise構想",

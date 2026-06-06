@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SAPとAnthropic連携: ClaudeがJouleエージェントへ | 海外技術情報アーカイブ</title>
+  <meta name="description" content="SAPとAnthropicは、ClaudeをSAP Business AI Platform上の主要な推論・エージェント能力として組み込み、JouleとJoule agentsを強化する計画を発表した。 これは「SAPがClaudeを使えるようにした」というだけの話ではない。SAPの業務データ、プロセス、承認、統制の中で、Claudeの推論能力をJouleエ...">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-06</span>
+        <span>SAP / ERP</span>
+        <span>importance: high</span>
+      </div>
+      <h1>SAPとAnthropic連携: ClaudeがJouleエージェントへ</h1>
+<h2>要約</h2>
+<p>SAPとAnthropicは、ClaudeをSAP Business AI Platform上の主要な推論・エージェント能力として組み込み、JouleとJoule agentsを強化する計画を発表した。</p>
+<p>これは「SAPがClaudeを使えるようにした」というだけの話ではない。SAPの業務データ、プロセス、承認、統制の中で、Claudeの推論能力をJouleエージェントに接続し、財務、人事、調達、サプライチェーンなどの業務タスクを動かす方向を示している。</p>
+<h2>背景</h2>
+<p>SAP Sapphire 2026では、SAP Business AI PlatformとAutonomous Enterpriseが大きな柱として示された。SAP Business AI Platformは、SAP BTP、SAP Business Data Cloud、SAP Business AIを統合し、業務文脈に根ざしたAIエージェントを構築・実行・統制する基盤として位置づけられている。</p>
+<p>その中でAnthropicとの連携は、SAPが基盤モデルそのものを単独で囲い込むのではなく、外部の強い推論モデルをSAPの業務文脈と統制レイヤーに接続する戦略として見える。</p>
+<p>SAP公式発表では、ClaudeはSAP Business AI Platformに接続し、Joule agentsが以下のようなタスクを扱えるようにする例が挙げられている。</p>
+<ul>
+<li>四半期末の決算・締め処理を支援する</li>
+<li>複雑な従業員休暇の質問に答える</li>
+<li>出荷中のサプライヤー注文を迂回・再調整する</li>
+<li>SAP S/4HANA、SAP SuccessFactors、SAP Aribaなどをまたいで業務を進める</li>
+<li>MCP経由でSAP外のシステムとも接続する</li>
+</ul>
+<h2>何が重要か</h2>
+<h3>Claudeは「チャット相手」ではなく業務エージェントの推論エンジンになる</h3>
+<p>今回の文脈で重要なのは、Claudeが単なる一般チャットAIとしてSAP画面に置かれるわけではない点。</p>
+<p>SAPはClaudeを、JouleとJoule agentsの中で、業務文脈を理解しながら段階的にタスクを進める推論能力として扱おうとしている。SAP公式発表でも、ClaudeはSAPデータに基づいて文脈を理解し、より正確な判断を行い、定義済みプロセスの中で安全に動作することが強調されている。</p>
+<p>つまり競争軸は「どのLLMが賢いか」だけではなくなる。</p>
+<ul>
+<li>業務データにどう接続するか</li>
+<li>どのプロセス内で動くか</li>
+<li>どの権限で実行するか</li>
+<li>承認や監査ログをどう残すか</li>
+<li>外部ツールや非SAPシステムとどう接続するか</li>
+</ul>
+<p>このあたりが実案件での論点になる。</p>
+<h3>SAPはモデル競争より、業務文脈と統制を握りに行っている</h3>
+<p>SAPはAnthropic以外にも、Microsoft、Google Cloud、AWS、NVIDIA、Mistral、Cohere、Palantirなどとの連携を並べている。これは、SAPが特定モデルだけに賭けるというより、業務データ、業務プロセス、AIエージェントの実行・統制面を握るプラットフォーム戦略に寄せていると見てよい。</p>
+<p>ERPはもともと企業の基幹データと業務統制を持っている。AIエージェント時代には、その資産が「モデルに渡す文脈」と「モデルの行動を制御するルール」になる。</p>
+<p>この意味で、SAPとAnthropicの連携は、AIモデル企業とERP企業の役割分担を示す事例として重要。</p>
+<h3>Basis / ERP運用の仕事にも影響する</h3>
+<p>Joule agentsが業務を動かすようになると、BasisやERP運用は「AI機能を有効化するかどうか」だけでは済まなくなる。</p>
+<p>見るべき点はかなり運用寄りになる。</p>
+<ul>
+<li>Claude/Joule agentがどのユーザー・ロール・技術ユーザーで実行されるか</li>
+<li>S/4HANA、SuccessFactors、Aribaをまたぐ権限境界をどう設計するか</li>
+<li>エージェントが更新系処理を行う場合、承認ポイントをどこに置くか</li>
+<li>MCPなど外部接続の通信先、認証、ログ、障害時切り戻しをどう管理するか</li>
+<li>エージェント実行ログを監査証跡としてどこまで保存するか</li>
+<li>誤処理時の責任分界を、業務部門・IT部門・ベンダー間でどう切るか</li>
+</ul>
+<p>これらはSAP AI導入案件で、後から必ず現実問題になるはず。</p>
+<h2>自分向けメモ</h2>
+<ul>
+<li>SAP AIのニュースは「Claude搭載」のようなモデル名だけで判断しない。どのSAP業務データ、どの業務プロセス、どの統制に接続されるかを見る。</li>
+<li>Joule Studio、SAP AI Agent Hub、SAP Knowledge Graph、MCP、A2Aあたりは今後セットで追う。</li>
+<li>SAP案件のAI化では、Basis側の価値が下がるというより、ID管理、権限、監査、ジョブ、連携、障害対応の重要度が上がる可能性が高い。</li>
+<li>Anthropic連携はSAP Business AI Platformの「モデル選択肢」の話であると同時に、SAPが業務AIの実行環境を握る宣言でもある。</li>
+<li>SAP小説/YouTube向けには「AIがERPを操作する時代、Basisは何を守るのか」というテーマに使える。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li>SAP News Center: https://news.sap.com/2026/05/sap-anthropic-to-bring-claude-sap-business-ai-platform/</li>
+<li>SAP Unveils the Autonomous Enterprise: https://news.sap.com/2026/05/sap-sapphire-sap-unveils-autonomous-enterprise/</li>
+<li>SAP Sapphire 2026 Innovation News Guide: https://www.sap.com/india/topics/events/sapphire/innovation-news-guide-2026</li>
+<li>既存ノート: [[2026-06-06_SAP_Business_AI_PlatformとAutonomous_Enterprise]]</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>SAP Business AI Platform</li>
+<li>Anthropic</li>
+<li>Claude</li>
+<li>Joule</li>
+<li>Joule agents</li>
+<li>SAP S/4HANA</li>
+<li>SAP SuccessFactors</li>
+<li>SAP Ariba</li>
+<li>MCP</li>
+<li>Autonomous Enterprise</li>
+<li>agentic ERP</li>
+<li>AI governance</li>
+<li>enterprise AI</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://news.sap.com/2026/05/sap-anthropic-to-bring-claude-sap-business-ai-platform/">https://news.sap.com/2026/05/sap-anthropic-to-bring-claude-sap-business-ai-platform/</a></p></section>
+    </article>
+  </main>
+</body>
+</html>
