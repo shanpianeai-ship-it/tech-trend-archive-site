@@ -1,5 +1,18 @@
 [
   {
+    "file": "SAP_ERP/2026-06-06_SAPとPalantirのAI支援データ移行.md",
+    "slug": "2026-06-06_SAPとPalantirのAI支援データ移行",
+    "title": "SAPとPalantirのAI支援データ移行",
+    "genre": "SAP_ERP",
+    "genreLabel": "SAP / ERP",
+    "created": "2026-06-06",
+    "source": "SAP News Center / Palantir",
+    "importance": "medium",
+    "confidence": "medium",
+    "excerpt": "SAPとPalantirは、SAP Cloud ERPへの移行で最も重い論点の一つであるデータ移行に、Palantir AIPを組み込む提携強化を発表した。SAP側の発表では、Palantir AIP for data migration scenariosをSAP Endorsed Appとして提供し、2026年第3四半期にはSAP Solution Ex...",
+    "url": "articles/2026-06-06_SAPとPalantirのAI支援データ移行.html"
+  },
+  {
     "file": "SAP_ERP/2026-06-06_AM_SAPとAnthropic連携_ClaudeがJouleエージェントへ.md",
     "slug": "2026-06-06_AM_SAPとAnthropic連携_ClaudeがJouleエージェントへ",
     "title": "SAPとAnthropic連携: ClaudeがJouleエージェントへ",

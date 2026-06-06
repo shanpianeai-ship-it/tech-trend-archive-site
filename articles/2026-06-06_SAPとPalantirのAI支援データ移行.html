@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SAPとPalantirのAI支援データ移行 | 海外技術情報アーカイブ</title>
+  <meta name="description" content="SAPとPalantirは、SAP Cloud ERPへの移行で最も重い論点の一つであるデータ移行に、Palantir AIPを組み込む提携強化を発表した。SAP側の発表では、Palantir AIP for data migration scenariosをSAP Endorsed Appとして提供し、2026年第3四半期にはSAP Solution Ex...">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-06</span>
+        <span>SAP / ERP</span>
+        <span>importance: medium</span>
+      </div>
+      <h1>SAPとPalantirのAI支援データ移行</h1>
+<h2>要約</h2>
+<p>SAPとPalantirは、SAP Cloud ERPへの移行で最も重い論点の一つであるデータ移行に、Palantir AIPを組み込む提携強化を発表した。SAP側の発表では、Palantir AIP for data migration scenariosをSAP Endorsed Appとして提供し、2026年第3四半期にはSAP Solution Extensionとして一般提供予定とされている。</p>
+<p>この話は「AIで移行が全部自動化される」というより、レガシーSAPデータの抽出、プロファイリング、マッピング、ハーモナイズ、検証、ロードといった移行工程を、AI支援とガードレール付きのデータエンジニアリング基盤で短縮する動きと見るのがよい。RISE with SAPやSAP Cloud ERP移行では、コード改修よりもマスタデータ、カスタム項目、移行対象範囲、検証責任の方が詰まりやすい。そこにPalantirが入る意味は大きい。</p>
+<h2>背景</h2>
+<p>SAPはSapphire 2026でAutonomous Enterprise構想を前面に出し、ERP移行についてもエージェント主導の変革ツールを押し出している。SAP News CenterのSapphire発表では、システム分析、コード修正、設定、テストを自動化し、ERP移行工数を35%以上削減し得るツール群に触れている。</p>
+<p>今回のPalantir連携は、その中でもデータ移行に寄せたものだ。SAPの発表では、SAPのBusiness AIや変革ツール群と、Palantir AIPのデータ移行シナリオを組み合わせる位置づけになっている。Accentureも共同顧客向けのco-innovation partnerとして名前が出ており、単なるプロダクト連携ではなく、大型移行案件の実装パートナー構造まで含む発表になっている。</p>
+<h2>何が重要か</h2>
+<h3>1. SAP移行のボトルネックは「移行先」より「移行できるデータ」になりやすい</h3>
+<p>ECCからS/4HANA、さらにSAP Cloud ERPへ移る時、論点はシステムを立てることだけではない。長年のカスタムテーブル、使われなくなったマスタ、重複データ、古い業務ルール、手作業補正、周辺システムとの整合性が残る。</p>
+<p>AI支援データ移行が効く可能性があるのは、次のような工程だ。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>工程</th><th>従来のつらさ</th><th>AI支援で期待されること</th></tr></thead>
+<tbody>
+<tr><td>データ棚卸し</td><td>対象テーブルや項目の把握に時間がかかる</td><td>使用実態、項目関係、候補マッピングの整理</td></tr>
+<tr><td>データ品質確認</td><td>欠損、重複、古い値の検出が手作業寄り</td><td>プロファイリングと異常候補の抽出</td></tr>
+<tr><td>マッピング</td><td>旧項目から新項目への対応が属人化する</td><td>ルール候補と変換パイプラインの作成支援</td></tr>
+<tr><td>検証</td><td>移行後の差異説明が重い</td><td>差異分析、根拠追跡、再実行管理</td></tr>
+<tr><td>ロード</td><td>ステージングや接続方式の調整が煩雑</td><td>コネクタ、書き戻し、ロード手順の標準化</td></tr>
+</tbody>
+</table></div>
+<p>Palantir側のERP Migration Suite資料では、Data Extraction、Data Profiling、Data Mapping、Data Harmonization、Data Validation、Data Loadingという流れが示されている。これはSAP移行の現場で見ても、かなり現実の作業単位に近い。</p>
+<h3>2. SAP Endorsed AppからSolution Extensionへ進む点が実務上のサイン</h3>
+<p>SAPの発表では、Palantir AIP for data migration scenariosはSAP Store上のSAP Endorsed Appとして利用可能で、2026年第3四半期にSAP Solution Extensionとして一般提供予定とされている。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>区分</th><th>読み方</th></tr></thead>
+<tbody>
+<tr><td>SAP Endorsed App</td><td>SAPが認定・推奨するパートナーアプリとして販売導線に乗る</td></tr>
+<tr><td>SAP Solution Extension</td><td>SAP販売・サポート体系により深く組み込まれる可能性が高い</td></tr>
+<tr><td>Q3 2026予定</td><td>まだ全社標準で無条件採用できる段階ではなく、導入時期と対象範囲の確認が必要</td></tr>
+</tbody>
+</table></div>
+<p>Basis/ERP運用目線では、ここはかなり大事だ。パートナー製ツールを入れる場合、技術的に動くかだけでなく、契約、保守、責任分界、監査、ライセンス影響が問題になる。Solution Extension化は、その辺りをSAPの公式導線に寄せるための動きと見られる。</p>
+<h3>3. PalantirはSAPデータ接続の現実面も押さえに来ている</h3>
+<p>PalantirのSAP連携ドキュメントでは、Foundry Connector 2.0 for SAP ApplicationsをSAP ERPやSAP BW側に入れ、ECCやS/4HANAからデータを読む構成が説明されている。FAQでは、SAPライセンスや契約上の影響は顧客側で評価する必要があるとも明記されている。</p>
+<p>これは派手なAI発表の裏で、実際にはABAPアプリケーションレイヤ、コネクタ、HTTPS、対象システム、データ抽出権限といった昔ながらのBasis論点が残るということだ。AI移行ツールを入れても、接続設計、権限、ネットワーク、監査ログ、データ持ち出し範囲、移行リハーサルは消えない。</p>
+<h2>自分向けメモ</h2>
+<p>SAP Basis小説や動画のネタとしては、「AIで移行が楽になります」と営業が言った後に、現場が最初に聞くべき質問集として使いやすい。</p>
+<p>確認すべき質問:</p>
+<ul>
+<li>どのシステムから、どのデータを、どの経路で抽出するのか。</li>
+<li>カスタムテーブル、Z項目、アドオン、古いマスタの扱いはどこまで対応するのか。</li>
+<li>AIが提案したマッピングルールの承認者は誰か。</li>
+<li>変換ルールの根拠、再実行履歴、監査証跡は残るのか。</li>
+<li>Palantir側に渡るデータ範囲と保持条件はどう定義するのか。</li>
+<li>SAPライセンス、接続方式、データ抽出の契約影響を誰が確認するのか。</li>
+<li>移行リハーサルの結果を本番移行計画へどう反映するのか。</li>
+</ul>
+<p>この発表の本質は、SAP Cloud ERP移行が単なるテクニカルアップグレードではなく、データ品質、業務設計、AI活用基盤をまとめて見直す案件になっていくことだと思う。Basis担当は「移行ツールが来たから楽になる」より、「移行ツールを正しく使うための前提整備が増える」と見ておいた方が現実的。</p>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://news.sap.com/2026/05/sap-palantir-enhance-partnership-ai-supported-data-migration-tooling/">SAP News Center: SAP and Palantir Enhance Partnership with AI-Supported Data Migration Tooling</a> - 提携強化、SAP Endorsed App、Q3 2026のSolution Extension予定。</li>
+<li><a href="https://news.sap.com/2026/05/sap-sapphire-sap-unveils-autonomous-enterprise/">SAP News Center: SAP Unveils the Autonomous Enterprise</a> - Sapphire 2026全体発表。ERP移行工数削減ツールやPalantir/Accenture連携に触れる。</li>
+<li><a href="https://www.palantir.com/migration/">Palantir: Accelerate Enterprise Data Migration With Palantir AIP</a> - Palantir側のデータ移行訴求とSAP移行文脈。</li>
+<li><a href="https://aip.palantir.com/workflow/6f64fe51-c97d-4a41-823b-47e979ab82de">Palantir AIP: ERP Migration Suite</a> - 抽出、プロファイリング、マッピング、ハーモナイズ、検証、ロードの流れ。</li>
+<li><a href="https://www.palantir.com/partnerships/sap/">Palantir: SAP partnership overview</a> - SAP Business Data Cloud、Ontology、AIPの組み合わせ。</li>
+<li><a href="https://www.palantir.com/docs/foundry/sap/sap-sync-setup/">Palantir Docs: SAP ERP connector setup</a> - SAP ERP connectorとFoundry Connector 2.0 for SAP Applications。</li>
+<li><a href="https://www.palantir.com/docs/foundry/sap/faq">Palantir Docs: SAP FAQ</a> - SAPシステム利用、抽出元、ライセンス評価責任に関する注意。</li>
+</ul>
+<h2>関連キーワード</h2>
+<p>SAP Cloud ERP, SAP S/4HANA, RISE with SAP, Palantir AIP, SAP data migration, ERP modernization, SAP Endorsed App, SAP Solution Extension, Autonomous Enterprise, Accenture</p>
+      <section class="source-box"><h2>Source</h2><p><a href="SAP News Center / Palantir">SAP News Center / Palantir</a></p></section>
+    </article>
+  </main>
+</body>
+</html>
