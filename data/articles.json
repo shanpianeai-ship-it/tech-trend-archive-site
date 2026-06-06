@@ -1,0 +1,28 @@
+[
+  {
+    "file": "SAP_ERP/2026-06-06_SAP_Business_AI_PlatformとAutonomous_Enterprise.md",
+    "slug": "2026-06-06_SAP_Business_AI_PlatformとAutonomous_Enterprise",
+    "title": "SAP Business AI PlatformとAutonomous Enterprise構想",
+    "genre": "SAP_ERP",
+    "genreLabel": "SAP / ERP",
+    "created": "2026-06-06",
+    "source": "https://news.sap.com/2026/05/sap-sapphire-keynote-business-ai-platform-power-autonomous-enterprise/",
+    "importance": "high",
+    "confidence": "high",
+    "excerpt": "SAP Sapphire 2026で、SAPは「SAP Business AI Platform」と「Autonomous Enterprise」構想を前面に出した。 ポイントは、ERPを単なる業務データの保管場所ではなく、AIエージェントが業務文脈を理解し、判断し、実行するための中核基盤として位置づけ直していること。SAP Business Technol...",
+    "url": "articles/2026-06-06_SAP_Business_AI_PlatformとAutonomous_Enterprise.html"
+  },
+  {
+    "file": "AI/2026-06-06_GitHub_Copilotのクラウド_ローカルサンドボックス.md",
+    "slug": "2026-06-06_GitHub_Copilotのクラウド_ローカルサンドボックス",
+    "title": "GitHub Copilotのクラウド/ローカルサンドボックス",
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "created": "2026-06-06",
+    "source": "https://github.blog/changelog/2026-06-02-cloud-and-local-sandboxes-for-github-copilot-now-in-public-preview/",
+    "importance": "high",
+    "confidence": "high",
+    "excerpt": "GitHub Copilotで、クラウドサンドボックスとローカルサンドボックスがPublic Previewになった。 これは、AIエージェントがコマンドを実行したり、ファイルを編集したり、開発環境に触れたりする時に、実行環境を隔離してリスクを抑えるための仕組み。エージェントが「提案するだけ」から「実行する」段階へ進むほど、この種のサンドボックスは基盤機能に...",
+    "url": "articles/2026-06-06_GitHub_Copilotのクラウド_ローカルサンドボックス.html"
+  }
+]

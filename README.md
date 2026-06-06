@@ -1,0 +1,42 @@
+# 海外技術情報アーカイブ Site
+
+Obsidian vault の解説ノートを、GitHub Pages で読める静的ブログに変換するためのローカルサイトです。
+
+## 入力元
+
+```text
+~/Desktop/Report/海外技術情報アーカイブ/解説ノート/
+```
+
+## 生成される主なファイル
+
+```text
+index.html
+articles/*.html
+data/articles.json
+assets/style.css
+```
+
+## ビルド
+
+```bash
+node scripts/build.mjs
+```
+
+## ローカル確認
+
+```bash
+python3 -m http.server 8080
+```
+
+ブラウザで `http://localhost:8080/` を開きます。
+
+## GitHub Pages 公開手順
+
+1. GitHubで空のリポジトリを作る。
+2. このフォルダをそのリポジトリへpushする。
+3. GitHubのRepository Settingsで Pages を有効化する。
+4. Source は `Deploy from a branch`、Branch は `main`、Folder は `/ (root)` を選ぶ。
+
+`gh` CLI が使える環境なら、後から自動pushまで組み込めます。
+

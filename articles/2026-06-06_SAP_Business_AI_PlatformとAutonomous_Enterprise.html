@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SAP Business AI PlatformとAutonomous Enterprise構想 | 海外技術情報アーカイブ</title>
+  <meta name="description" content="SAP Sapphire 2026で、SAPは「SAP Business AI Platform」と「Autonomous Enterprise」構想を前面に出した。 ポイントは、ERPを単なる業務データの保管場所ではなく、AIエージェントが業務文脈を理解し、判断し、実行するための中核基盤として位置づけ直していること。SAP Business Technol...">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-06</span>
+        <span>SAP / ERP</span>
+        <span>importance: high</span>
+      </div>
+      <h1>SAP Business AI PlatformとAutonomous Enterprise構想</h1>
+<h2>要約</h2>
+<p>SAP Sapphire 2026で、SAPは「SAP Business AI Platform」と「Autonomous Enterprise」構想を前面に出した。</p>
+<p>ポイントは、ERPを単なる業務データの保管場所ではなく、AIエージェントが業務文脈を理解し、判断し、実行するための中核基盤として位置づけ直していること。SAP Business Technology Platform、SAP Business Data Cloud、SAP Business AIを統合し、SAP Knowledge Graph、Joule Studio、SAP AI Agent Hubなどを通じて、業務エージェントの構築・実行・統制をまとめる方向が示された。</p>
+<h2>背景</h2>
+<p>生成AIは多くの企業で導入されているが、SAPの見立てでは、業務価値に結びつかない原因はモデル性能だけではない。企業で必要なのは、一般知識に強いAIではなく、会社ごとの業務データ、プロセス、権限、承認、コンプライアンスを理解したAIである。</p>
+<p>SAPはこの課題に対し、ERPを「企業の脳」として扱い、そこに蓄積された業務プロセス、データモデル、ガバナンスをAIエージェントに接続する構想を出している。</p>
+<p>この流れの中で、SAP Business AI Platformは以下のような役割を持つ。</p>
+<ul>
+<li>SAP BTP、Business Data Cloud、Business AIを統合する土台</li>
+<li>SAP Knowledge Graphで業務エンティティ、プロセス、関係性を構造化する</li>
+<li>Joule Studioで企業向けエージェント、アプリ、エージェント型ワークフローを作る</li>
+<li>SAP AI Agent HubでSAP内外のAIエージェントを発見、管理、統制する</li>
+<li>SAP Autonomous Suiteで会計、調達、サプライチェーン、人事、CXなどに業務別アシスタントを展開する</li>
+</ul>
+<h2>何が重要か</h2>
+<h3>ERPがAIエージェントの実行基盤に寄っている</h3>
+<p>これまでのERPは、業務処理の記録・統制・標準化の基盤だった。今回の構想では、それに加えて「AIが業務を実行するための文脈レイヤー」として扱われている。</p>
+<p>AIエージェントが業務判断をするには、単に自然言語で答えるだけでは足りない。どの会社コードか、どの購買組織か、どの承認者か、どの例外ルールがあるか、誰に権限があるかを理解しなければならない。SAPがKnowledge GraphやBusiness Data Cloudを強調しているのは、ここをAIに渡すためだと見てよい。</p>
+<h3>「業務AI」はチャットボットではなく運用設計の問題になる</h3>
+<p>SAPは、50以上のJoule Assistantsと200以上の専門エージェントを、会計・調達・SCM・HCM・CXなどに展開する方向を示している。たとえば財務締め処理を短縮するAutonomous Close Assistantのように、個別業務の成果に紐づくアシスタントが想定されている。</p>
+<p>これは、単に画面横にAIチャットを置く話ではない。業務プロセス、承認フロー、例外処理、監査証跡、責任分界を含めて、AIを業務運用に組み込む話になる。</p>
+<p>BasisやERP運用の目線では、今後見るべき論点は次のあたり。</p>
+<ul>
+<li>AIエージェントがどの権限でSAPデータにアクセスするか</li>
+<li>承認・職務分掌・監査ログをどう残すか</li>
+<li>エージェント実行結果を誰がレビューするか</li>
+<li>本番業務での自動実行と人間承認の境界をどこに置くか</li>
+<li>SAP外のAIエージェントや外部システムと接続する場合の責任分界</li>
+</ul>
+<h3>SAPは外部AIモデルと業務文脈の組み合わせを狙っている</h3>
+<p>関連発表では、AnthropicのClaudeをSAP Business AI Platformに組み込み、JouleやJoule agentsの推論・エージェント能力として使う計画も示されている。ClaudeはSAP S/4HANA、SuccessFactors、Aribaなどにまたがる業務タスクを、SAP側の統制の中で扱う想定になっている。</p>
+<p>つまりSAPは、自社だけで基盤モデル競争をするより、業務文脈、データ統合、プロセス統制、エージェント管理の側を握る戦略に見える。ERPベンダーとしては自然だが、AI時代の差別化軸としてかなり重要。</p>
+<h2>自分向けメモ</h2>
+<ul>
+<li>SAP AIを見る時は「どのモデルか」より「どの業務文脈・権限・承認に接続されるか」を見る。</li>
+<li>Joule Studio 2.0やAI Agent Hubは、今後のSAP案件でAIエージェント運用基盤として出てくる可能性がある。</li>
+<li>Basis/運用担当の関与ポイントは、AI導入そのものより、ID管理、権限、監査ログ、ジョブ/ワークフロー、障害時の戻し方になりそう。</li>
+<li>「Autonomous Enterprise」はかなり大きい言葉なので、実案件では完全自動化ではなく、まずは特定業務のアシスタント化・半自動化として見るのが現実的。</li>
+<li>SAP外のAIエージェントとの連携が進むほど、SAP権限設計と外部ツール実行境界の整理が重要になる。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li>SAP News Center: <a href="https://news.sap.com/2026/05/sap-sapphire-keynote-business-ai-platform-power-autonomous-enterprise/">https://news.sap.com/2026/05/sap-sapphire-keynote-business-ai-platform-power-autonomous-enterprise/</a></li>
+<li>SAP News Center 発表概要: <a href="https://news.sap.com/2026/05/sap-sapphire-sap-unveils-autonomous-enterprise/">https://news.sap.com/2026/05/sap-sapphire-sap-unveils-autonomous-enterprise/</a></li>
+<li>SAP and Anthropic: <a href="https://news.sap.com/2026/05/sap-anthropic-to-bring-claude-sap-business-ai-platform/">https://news.sap.com/2026/05/sap-anthropic-to-bring-claude-sap-business-ai-platform/</a></li>
+<li>SAP Sapphire 2026 Innovation News Guide: <a href="https://www.sap.com/topics/events/sapphire/innovation-news-guide-2026.html">https://www.sap.com/topics/events/sapphire/innovation-news-guide-2026.html</a></li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>SAP Business AI Platform</li>
+<li>Autonomous Enterprise</li>
+<li>SAP Business Data Cloud</li>
+<li>SAP Knowledge Graph</li>
+<li>Joule Studio</li>
+<li>Joule Assistants</li>
+<li>SAP AI Agent Hub</li>
+<li>SAP BTP</li>
+<li>agentic ERP</li>
+<li>enterprise AI governance</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://news.sap.com/2026/05/sap-sapphire-keynote-business-ai-platform-power-autonomous-enterprise/">https://news.sap.com/2026/05/sap-sapphire-keynote-business-ai-platform-power-autonomous-enterprise/</a></p></section>
+    </article>
+  </main>
+</body>
+</html>
