@@ -46,6 +46,29 @@ a { color: var(--accent-dark); }
   font-size: 14px;
 }
 
+.category-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 18px 0 4px;
+}
+
+.pill-link {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  padding: 6px 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--panel);
+  color: var(--text);
+  text-decoration: none;
+}
+
+.pill-link span {
+  color: var(--muted);
+}
+
 main {
   width: min(980px, calc(100% - 32px));
   margin: 0 auto;

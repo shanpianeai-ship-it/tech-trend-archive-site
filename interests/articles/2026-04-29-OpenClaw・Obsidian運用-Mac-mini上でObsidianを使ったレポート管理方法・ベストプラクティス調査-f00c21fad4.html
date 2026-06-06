@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mac mini上でObsidianを使ったレポート管理方法・ベストプラクティス調査 | 興味レポート</title>
+  <meta name="description" content="Mandayのレポート管理は、**`[内部パス]` をObsidian Vaultとして開く**か、将来的な拡張を考えて **`~/Documents/MandayVault/` のような専用Vaultを作り、その中に `Reports/` を置く**構成が現実的です。現時点では「隠しフォルダを避けて見つけやすくする」という要件が強いため、短期的にはDesk...">
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../../interests/index.html">興味レポート</a>
+    <span class="site-subtitle">Public redacted interest reports</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 興味レポート一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-04-29</span>
+        <span>OpenClaw・Obsidian運用</span>
+        <span>report</span>
+      </div>
+      <h1>Mac mini上でObsidianを使ったレポート管理方法・ベストプラクティス調査</h1>
+<h2>Summary</h2>
+<p>Mandayのレポート管理は、<strong><code>[内部パス]</code> をObsidian Vaultとして開く</strong>か、将来的な拡張を考えて <strong><code>~/Documents/MandayVault/</code> のような専用Vaultを作り、その中に <code>Reports/</code> を置く</strong>構成が現実的です。現時点では「隠しフォルダを避けて見つけやすくする」という要件が強いため、短期的にはDesktopの <code>report</code> フォルダをそのままVault化するのが最短です。</p>
+<p>ただし、長期運用では <strong>専用Vault + <code>Reports/</code> 配下にレポート格納 + YAML Properties + タグ + 内部リンク + 定期バックアップ</strong> がベストです。ObsidianはMarkdownファイルをローカルフォルダに保存するため、Mandayが生成するMarkdownレポートとの相性は非常に良いです。</p>
+<h2>結論</h2>
+<ul>
+<li><strong>短期推奨</strong>: <code>[内部パス]</code> をObsidianのVaultとして開き、既存レポートをそのまま管理する。</li>
+<li><strong>中長期推奨</strong>: <code>~/Documents/MandayVault/Reports/</code> へ移行し、<code>Reports/</code>, <code>Topics/</code>, <code>Templates/</code>, <code>Attachments/</code>, <code>Indexes/</code> で管理する。</li>
+<li>レポートは今後も <strong>YAML frontmatter / Properties付きMarkdown</strong> で出力する。</li>
+<li>タグは増やしすぎず、<code>research</code>, <code>report</code>, <code>real-estate</code>, <code>pokemon-card</code>, <code>ops</code>, <code>obsidian</code> など大分類を中心にする。</li>
+<li>詳細分析のインプット用途では、各レポートに <code>source_task</code>, <code>area</code>, <code>asset_type</code>, <code>status</code>, <code>created</code>, <code>updated</code>, <code>tags</code> を持たせると再利用しやすい。</li>
+<li>Syncはバックアップではない。Mac miniを主端末として、Time Machine/Git/ローカルバックアップのいずれかを別途用意するべき。</li>
+<li>現在のMac miniでは <code>obsidian-cli</code> は入っているが、Obsidian本体の設定ファイルは見つからず、<code>/Applications/Obsidian.app</code> も未検出。実装前にObsidian本体のインストール・Vault作成が必要。</li>
+</ul>
+<h2>調査条件</h2>
+<ul>
+<li>対象: Mac mini上でManday生成レポートをObsidian管理する方法</li>
+<li>目的: 後続実装方針のインプット作成</li>
+<li>調査日: 2026-04-29</li>
+<li>ローカル確認:</li>
+<li><code>obsidian-cli</code>: <code>/opt/homebrew/bin/obsidian-cli</code> に存在</li>
+<li><code>obsidian-cli print-default --path-only</code>: default vault未設定</li>
+<li><code>~/Library/Application Support/obsidian/obsidian.json</code>: 未検出</li>
+<li><code>/Applications/Obsidian.app</code>: 未検出</li>
+<li>現在のMandayレポート保存先: <code>[内部パス]</code></li>
+</ul>
+<h2>Findings</h2>
+<h3>1. Obsidianの基本仕様: Vaultは普通のフォルダ</h3>
+<p>ObsidianはノートをMarkdown形式のプレーンテキストとしてVault内に保存します。Vaultはローカルファイルシステム上の通常フォルダで、サブフォルダも含みます。外部エディタやスクリプトでMarkdownを編集しても、Obsidian側が変更を追従します。</p>
+<p>このため、Mandayのレポート出力先をVault内に置けば、特別なDB連携なしにObsidian管理へ移行できます。</p>
+<p>注意点:</p>
+<ul>
+<li>Vault内にさらにVaultを作るのは避ける。内部リンク更新が正しく動かない可能性がある。</li>
+<li>Vault直下に <code>.obsidian/</code> が作られ、テーマ・プラグイン・ワークスペースなどVault固有設定が入る。</li>
+<li><code>.obsidian/workspace.json</code> などは頻繁に更新されるため、Git管理する場合は除外候補。</li>
+</ul>
+<h3>2. 推奨Vault構成</h3>
+<h4>案A: 最短構成 — [内部パス]</h4>
+<p>``<code>text [内部パス] ├── 2026-04-28-research-....md ├── 2026-04-29-research-....md └── .obsidian/ </code>``</p>
+<p>メリット:</p>
+<ul>
+<li>今の保存先を変えずに済む。</li>
+<li>Finderから見つけやすい。</li>
+<li>Manday側の変更が少ない。</li>
+</ul>
+<p>デメリット:</p>
+<ul>
+<li>レポート以外のメモ、テンプレート、添付、索引が増えると散らかる。</li>
+<li>Desktop直下は誤操作や整理対象になりやすい。</li>
+<li>将来、レポート以外の知識管理もしたくなった時に狭い。</li>
+</ul>
+<p>向いているケース:</p>
+<ul>
+<li>まずObsidianでレポートを開いて検索・閲覧できればよい。</li>
+<li>実装を小さく始めたい。</li>
+</ul>
+<h4>案B: 推奨構成 — 専用Vaultを作る</h4>
+<p>``<code>text [内部パス] ├── Reports/ │   ├── RealEstate/ │   ├── PokemonCards/ │   ├── Ops/ │   └── Misc/ ├── Topics/ │   ├── 不動産投資.md │   ├── 台東区.md │   └── Obsidian運用.md ├── Indexes/ │   ├── Reports Index.md │   └── Research Queue Index.md ├── Templates/ │   └── Report Template.md ├── Attachments/ └── .obsidian/ </code>``</p>
+<p>メリット:</p>
+<ul>
+<li>レポート以外の知識ノート、索引、テンプレート、添付を自然に追加できる。</li>
+<li>長期運用・検索・バックアップ・Git管理がしやすい。</li>
+<li>ObsidianのGraph view、内部リンク、Propertiesを活かしやすい。</li>
+</ul>
+<p>デメリット:</p>
+<ul>
+<li>現在の <code>[内部パス]</code> から移行が必要。</li>
+<li>個人さんがFinderで探す場所が変わる。</li>
+</ul>
+<p>推奨判断:</p>
+<ul>
+<li><strong>今すぐ運用開始: 案A</strong></li>
+<li><strong>本格運用・自動化実装: 案B</strong></li>
+</ul>
+<h3>3. レポートMarkdownの標準フォーマット</h3>
+<p>Mandayのレポートは、今後もObsidian Propertiesとして読めるYAML frontmatterを先頭に置くべきです。</p>
+<p>推奨Properties:</p>
+<p>```yaml --- title: 東京都台東区入谷エリア不動産投資概況 created: 2026-04-29 updated: 2026-04-29 type: report status: done source_task: research-20260429-002 category: real-estate area: 東京都台東区入谷 asset_type:</p>
+<ul>
+<li>区分マンション</li>
+<li>一棟アパート</li>
+<li>戸建</li>
+</ul>
+<p>tags:</p>
+<ul>
+<li>research</li>
+<li>report</li>
+<li>real-estate</li>
+<li>taito</li>
+<li>iriya</li>
+</ul>
+<p>related:</p>
+<ul>
+<li>&quot;[[不動産投資]]&quot;</li>
+<li>&quot;[[台東区]]&quot;</li>
+</ul>
+<p>--- ```</p>
+<p>ポイント:</p>
+<ul>
+<li>Propertiesは小さく、機械可読な値に寄せる。</li>
+<li>Markdown本文の要約・結論・Findingsは本文に書く。</li>
+<li><code>tags</code> はObsidian標準のタグとして使う。</li>
+<li>内部リンクをPropertiesに入れる場合は <code>&quot;[[リンク名]]&quot;</code> のように引用符を付ける。</li>
+<li><code>source_task</code> はMandayのキューIDと接続するキーとして重要。</li>
+</ul>
+<h3>4. タグ設計</h3>
+<p>タグは増やしすぎると破綻するため、次の3層程度に抑えるのがよいです。</p>
+<h4>共通タグ</h4>
+<ul>
+<li><code>research</code></li>
+<li><code>report</code></li>
+<li><code>summary</code></li>
+<li><code>draft</code></li>
+<li><code>done</code></li>
+</ul>
+<h4>領域タグ</h4>
+<ul>
+<li><code>real-estate</code></li>
+<li><code>pokemon-card</code></li>
+<li><code>ops</code></li>
+<li><code>ai</code></li>
+<li><code>obsidian</code></li>
+</ul>
+<h4>補助タグ</h4>
+<ul>
+<li><code>tokyo</code></li>
+<li><code>taito</code></li>
+<li><code>arakawa</code></li>
+<li><code>investment</code></li>
+<li><code>market-research</code></li>
+</ul>
+<p>避けたいタグ:</p>
+<ul>
+<li>長すぎるタグ</li>
+<li>日本語・英語が混在して同じ意味のタグが乱立する状態</li>
+<li>物件名やカード名など粒度が細かすぎるタグ</li>
+</ul>
+<p>細かい対象名はタグではなくPropertiesまたは内部リンクに寄せるのがよいです。</p>
+<h3>5. 内部リンクと索引ノート</h3>
+<p>Obsidianの強みは内部リンクです。レポート本文末尾に <code>Related</code> セクションを置き、関連テーマへリンクします。</p>
+<p>例:</p>
+<p>```markdown</p>
+<h2>Related</h2>
+<ul>
+<li>[[不動産投資]]</li>
+<li>[[台東区]]</li>
+<li>[[入谷]]</li>
+<li>[[中古戸建投資]]</li>
+</ul>
+<p>```</p>
+<p>加えて、索引ノートを作ると後から見返しやすくなります。</p>
+<p>例: <code>Indexes/Reports Index.md</code></p>
+<p>```markdown</p>
+<h1>Reports Index</h1>
+<h2>不動産投資</h2>
+<ul>
+<li>[[2026-04-28-research-20260428-004-[具体地名伏せ]中古戸建不動産投資方針-物件-費用感調査]]</li>
+<li>[[2026-04-29-research-...-東京都台東区入谷...]]</li>
+</ul>
+<h2>運用</h2>
+<ul>
+<li>[[2026-04-29-research-20260429-001-Mac-mini上でObsidianを使ったレポート管理方法-ベストプラクティス調査]]</li>
+</ul>
+<p>```</p>
+<p>Obsidianはファイル名変更時に内部リンクを自動更新できます。スクリプトでファイル移動・リネームをする場合は、単純な <code>mv</code> よりObsidian CLIやObsidian内操作を使うとリンク保全の面で安全です。</p>
+<h3>6. 検索・絞り込み方針</h3>
+<p>実装上は、以下で探せるように設計するとよいです。</p>
+<ul>
+<li>ファイル名: <code>YYYY-MM-DD-task-id-title.md</code></li>
+<li>Properties:</li>
+<li><code>source_task</code></li>
+<li><code>type</code></li>
+<li><code>status</code></li>
+<li><code>category</code></li>
+<li><code>area</code></li>
+<li><code>asset_type</code></li>
+<li>タグ:</li>
+<li><code>#real-estate</code></li>
+<li><code>#pokemon-card</code></li>
+<li><code>#obsidian</code></li>
+<li>本文見出し:</li>
+<li><code>Summary</code></li>
+<li><code>結論</code></li>
+<li><code>Findings</code></li>
+<li><code>Sources</code></li>
+<li><code>次アクション候補</code></li>
+</ul>
+<p>ObsidianのPropertiesは検索にも使えるため、後で「不動産」「台東区」「done」「2026年4月作成」のような絞り込みがしやすくなります。</p>
+<h3>7. obsidian-cli / 自動化</h3>
+<p>現在Mac miniにはコミュニティ版の <code>obsidian-cli</code> が入っています。</p>
+<p>確認結果:</p>
+<p>``<code>text /opt/homebrew/bin/obsidian-cli </code>``</p>
+<p>主な機能:</p>
+<ul>
+<li><code>create</code>: ノート作成</li>
+<li><code>search</code>: ノート名検索</li>
+<li><code>search-content</code>: 本文検索</li>
+<li><code>move</code>: ノート移動・リネーム、リンク更新</li>
+<li><code>frontmatter</code>: frontmatter閲覧・変更</li>
+<li><code>print-default</code>: デフォルトVault確認</li>
+<li><code>set-default</code>: デフォルトVault設定</li>
+</ul>
+<p>ただし現時点では default vault が未設定です。</p>
+<p>``<code>text Cannot find vault config, please use set-default command to set default vault or use --vault flag </code>``</p>
+<p>実装方針:</p>
+<p>1. Obsidian本体をMac miniにインストールする。 2. Vaultを作る。 3. <code>obsidian-cli set-default &quot;&lt;vault-folder-name&gt;&quot;</code> でデフォルトVaultを設定する。 4. Mandayのレポート作成後、必要に応じて <code>obsidian-cli search-content</code> や <code>frontmatter</code> を使う。 5. ファイル移動・リネームは可能なら <code>obsidian-cli move</code> を使う。</p>
+<p>補足:</p>
+<ul>
+<li>Obsidian公式にもCLI機能がありますが、利用にはObsidian本体側でCLIを有効化する必要があります。</li>
+<li>現在入っている <code>obsidian-cli</code> はコミュニティ版で、OpenClawのobsidian skillもこのCLIを前提にしています。</li>
+<li>実装では「直接Markdownを書き込む」だけでも十分動きます。CLIは検索・移動・リンク更新の補助として使うのが安全です。</li>
+</ul>
+<h3>8. バックアップと同期</h3>
+<p>Obsidianの公式ドキュメントでは、SyncとBackupは別物とされています。Syncは複数端末間で最新状態を揃えるための仕組みで、データ消失や破損に備える専用バックアップではありません。</p>
+<p>推奨:</p>
+<ul>
+<li>Mac miniを「主バックアップ端末」と位置づける。</li>
+<li>最低限、Time Machineまたは別ディスクへの定期バックアップを設定する。</li>
+<li>可能ならGitでVaultをバージョン管理する。</li>
+<li>Git管理する場合、<code>.obsidian/workspace.json</code> と <code>.obsidian/workspaces.json</code> は変更頻度が高いため <code>.gitignore</code> 候補。</li>
+<li>Obsidian Sync/iCloud/Dropbox等を使う場合でも、別途一方向バックアップを持つ。</li>
+</ul>
+<h3>9. Manday実装への落とし込み</h3>
+<h4>Phase 1: 現行フォルダをVault化</h4>
+<ul>
+<li>Obsidianをインストール。</li>
+<li><code>[内部パス]</code> をVaultとして開く。</li>
+<li>Mandayの保存先は現状維持。</li>
+<li>既存レポートのYAML frontmatterを必要に応じて正規化。</li>
+<li><code>Reports Index.md</code> を作成する。</li>
+</ul>
+<h4>Phase 2: レポート出力ルールを標準化</h4>
+<ul>
+<li><code>task-queue/PROCESSING.md</code> のテンプレートに以下を追加:</li>
+<li><code>category</code></li>
+<li><code>source_task</code></li>
+<li><code>related</code></li>
+<li>任意で <code>area</code>, <code>asset_type</code>, <code>topic</code></li>
+<li>レポート末尾の <code>Related</code> を必須化。</li>
+<li>Sourcesを必ずMarkdownリンクで管理。</li>
+</ul>
+<h4>Phase 3: 専用Vaultへ移行</h4>
+<ul>
+<li><code>~/Documents/MandayVault/</code> を作成。</li>
+<li><code>Reports/</code>, <code>Topics/</code>, <code>Indexes/</code>, <code>Templates/</code>, <code>Attachments/</code> を作成。</li>
+<li>既存 <code>[内部パス]</code> を <code>Reports/</code> へ移動。</li>
+<li>queue_task.py の <code>REPORTS_DIR</code> を <code>~/Documents/MandayVault/Reports</code> へ変更。</li>
+<li>Obsidian CLI default vault を設定。</li>
+</ul>
+<h4>Phase 4: 自動索引・検索補助</h4>
+<ul>
+<li>レポート作成後に <code>Indexes/Reports Index.md</code> を自動更新。</li>
+<li><code>source_task</code> からキュー状態に戻れるようにする。</li>
+<li><code>category</code> ごとの索引を自動生成。</li>
+<li><code>obsidian-cli search-content</code> で過去レポートを検索し、類似調査の再利用を可能にする。</li>
+</ul>
+<h3>10. 推奨実装案</h3>
+<p>現時点での最適解は以下です。</p>
+<p>```text 短期: [内部パス] をObsidian Vault化</p>
+<p>中期: [内部パス] Index.md を追加 レポートfrontmatterを標準化</p>
+<p>長期: [内部パス] に移行 GitまたはTime Machineでバックアップ Obsidian CLIで検索・リンク保全・索引更新を自動化 ```</p>
+<p>この順番なら、個人さんが今すぐレポートをFinder/Obsidianで見られる利便性を保ちつつ、将来的な知識管理Vaultへ自然に移行できます。</p>
+<h2>Sources</h2>
+<ul>
+<li><a href="https://help.obsidian.md/Files+and+folders/How+Obsidian+stores+data">How Obsidian stores data - Obsidian Help</a></li>
+<li><a href="https://help.obsidian.md/Editing+and+formatting/Properties">Properties - Obsidian Help</a></li>
+<li><a href="https://help.obsidian.md/backup">Back up your Obsidian files - Obsidian Help</a></li>
+<li><a href="https://help.obsidian.md/Linking+notes+and+files/Internal+links">Internal links - Obsidian Help</a></li>
+<li><a href="https://help.obsidian.md/Extending+Obsidian/Obsidian+CLI">Obsidian CLI - Obsidian Help</a></li>
+<li><a href="https://github.com/Yakitrak/obsidian-cli">Yakitrak/obsidian-cli - GitHub</a></li>
+</ul>
+<h2>不確実性・注意点</h2>
+<ul>
+<li>Obsidian本体はMac miniの <code>/Applications/Obsidian.app</code> には見つかりませんでした。別パスにある可能性はあります。</li>
+<li>Obsidianのグローバル設定 <code>~/Library/Application Support/obsidian/obsidian.json</code> も未検出だったため、少なくとも通常の形ではVault登録済みではなさそうです。</li>
+<li>公式Obsidian CLIとコミュニティ版 <code>obsidian-cli</code> は別物です。OpenClawのobsidian skillはコミュニティ版 <code>obsidian-cli</code> を前提にしています。</li>
+<li>[内部パス] <code>.obsidian/</code> という隠しフォルダが[内部パス]</li>
+<li>Syncサービスはバックアップではないため、別途バックアップ設計が必要です。</li>
+</ul>
+<h2>次アクション候補</h2>
+<p>1. Obsidian本体をMac miniにインストールする。 2. <code>[内部パス]</code> をVaultとして開く。 3. <code>Reports Index.md</code> を作成し、既存4件+本レポートをリンクする。 4. レポートfrontmatterテンプレートに <code>category</code>, <code>related</code>, <code>area</code> などを追加する。 5. バックアップ方針を決める: Time Machine / Git / Local Backup plugin のいずれか。 6. 本格運用前に、専用Vaultへ移行するか[内部パス] Vaultで継続するか決める。</p>
+<h2>メモリ保存候補</h2>
+<ul>
+<li>個人さんはManday生成レポートをObsidianで管理したい。短期は <code>[内部パス]</code> をVault化、中長期は専用Vault <code>~/Documents/MandayVault/Reports/</code> が推奨。</li>
+<li>Mac miniには <code>obsidian-cli</code> は入っているが、2026-04-29時点ではObsidian本体・Vault設定は未検出。</li>
+</ul>
+<h2>Related</h2>
+<ul>
+<li>[[Obsidian運用]]</li>
+<li>[[レポート管理]]</li>
+<li>[[Manday運用]]</li>
+<li>[[ナレッジ管理]]</li>
+</ul>
+    </article>
+  </main>
+</body>
+</html>

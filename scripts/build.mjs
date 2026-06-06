@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import crypto from "node:crypto";
 
 const repoRoot = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
 const notesRoot = path.resolve(
@@ -10,6 +11,12 @@ const notesRoot = path.resolve(
 const outArticles = path.join(repoRoot, "articles");
 const outData = path.join(repoRoot, "data");
 const outAssets = path.join(repoRoot, "assets");
+const interestsRoot = path.resolve(
+  process.env.INTEREST_NOTES || path.join(process.env.HOME, "Desktop/Report/興味"),
+);
+const outInterests = path.join(repoRoot, "interests");
+const outInterestArticles = path.join(outInterests, "articles");
+const outInterestCategories = path.join(outInterests, "categories");
 
 fs.mkdirSync(outArticles, { recursive: true });
 fs.mkdirSync(outData, { recursive: true });
@@ -18,6 +25,9 @@ fs.mkdirSync(outAssets, { recursive: true });
 for (const file of fs.readdirSync(outArticles)) {
   if (file.endsWith(".html")) fs.unlinkSync(path.join(outArticles, file));
 }
+fs.rmSync(outInterests, { recursive: true, force: true });
+fs.mkdirSync(outInterestArticles, { recursive: true });
+fs.mkdirSync(outInterestCategories, { recursive: true });
 
 const genreLabels = {
   AI: "AI / LLM / Agent",
@@ -80,11 +90,17 @@ function escapeHtml(value) {
 
 function inlineMarkdown(value) {
   const escaped = escapeHtml(value);
-  return escaped
+  const links = [];
+  const withMarkdownLinks = escaped.replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g, (_, label, url) => {
+    const token = `@@LINK_${links.length}@@`;
+    links.push(`<a href="${url}">${label}</a>`);
+    return token;
+  });
+
+  return withMarkdownLinks
     .replace(/`([^`]+)`/g, "<code>$1</code>")
     .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
-    .replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g, '<a href="$2">$1</a>')
-    .replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1">$1</a>');
+    .replace(/@@LINK_(\d+)@@/g, (_, index) => links[Number(index)] || "");
 }
 
 function markdownToHtml(body) {
@@ -151,20 +167,28 @@ function excerptFrom(body) {
   return excerpt.length >= 180 ? `${excerpt}...` : excerpt;
 }
 
-function pageShell({ title, description, body, current = "" }) {
+function pageShell({
+  title,
+  description,
+  body,
+  current = "",
+  siteTitle = "海外技術情報アーカイブ",
+  siteSubtitle = "AI / SAP / Security trend notes",
+  homeHref = "index.html",
+}) {
   return `<!doctype html>
 <html lang="ja">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>${escapeHtml(title)} | 海外技術情報アーカイブ</title>
+  <title>${escapeHtml(title)} | ${escapeHtml(siteTitle)}</title>
   <meta name="description" content="${escapeHtml(description)}">
   <link rel="stylesheet" href="${current}assets/style.css">
 </head>
 <body>
   <header class="site-header">
-    <a class="site-title" href="${current}index.html">海外技術情報アーカイブ</a>
-    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+    <a class="site-title" href="${current}${homeHref}">${escapeHtml(siteTitle)}</a>
+    <span class="site-subtitle">${escapeHtml(siteSubtitle)}</span>
   </header>
   <main>
 ${body}
@@ -173,8 +197,48 @@ ${body}
 </html>`;
 }
 
+function redactSensitive(value) {
+  const moneyPattern = /[▲△-]?[\d,]+(?:\.\d+)?(?:万円|億円|万|億|円)(?:[〜～\-–][\d,]+(?:\.\d+)?(?:万円|億円|万|億|円))?(?:\/年|\/月|年|月|前後|程度|以上|以下|以内)?/g;
+  const sensitiveLinePattern =
+    /(年収|現在年収|手取り|年間支出|生活消費|生活費|DC|NISA|投資信託|株式|流動性投資|流動投資資産|流動資産|退職給付|住宅ローン|ローン残|現金余力|金融資産|総資産|資産額|自己資金|借入|年間手残り|不足生活費|現在ポートフォリオ|評価額|残高|掛金|退職金見込|追加投資力)/;
+
+  return String(value)
+    .split(/\r?\n/)
+    .map((line) => {
+      if (!sensitiveLinePattern.test(line)) return line;
+      return line.replace(moneyPattern, "[金額伏せ]").replace(/\b\d{1,2}歳\b/g, "[年齢伏せ]");
+    })
+    .join("\n")
+    .replace(/\/Users\/yamaai(?:\/[^\s`'"<>)]*)?/g, "[内部パス]")
+    .replace(/~\/Desktop(?:\/[^\s`'"<>)]*)?/g, "[内部パス]")
+    .replace(/\bDesktop\/(?:[^\s`'"<>)]*)?/g, "[内部パス]")
+    .replace(/\bRyoheiさん\b|\bRyohei\b/g, "個人")
+    .replace(/マスター/g, "個人")
+    .replace(/東京都荒川区周辺|東京都荒川区|荒川区周辺|荒川区|荒川\d+丁目|東尾久|熊野前|西日暮里|三河島|町屋|三ノ輪|西尾久/g, "[具体地名伏せ]")
+    .replace(/年齢\s*[:：]\s*\d{1,2}歳(?:（[^）]*）)?/g, "年齢: [年齢伏せ]")
+    .replace(/\d{1,2}歳（[^）]*(?:保存ペルソナ|ペルソナ)[^）]*）/g, "[年齢伏せ]")
+    .replace(/38歳/g, "[年齢伏せ]")
+    .replace(/年[\d,]+万円投資/g, "年[金額伏せ]投資")
+    .replace(/2026年時点で30代後半〜40歳前後/g, "[年齢帯伏せ]")
+    .replace(
+      /(年収|手取り収入|手取り|年間支出|生活消費|DC|NISA|旧つみたてNISA|新つみたてNISA|成長投資枠|流動性投資|退職給付|住宅ローン残|住宅ローン|ローン返済|現金余力|金融資産|総資産|資産額|自己資金|借入|年間手残り|不足生活費)([^。\n|]*?)(約?[▲△-]?[\d,]+(?:\.\d+)?(?:万|億)?円(?:[〜～\-–][\d,]+(?:\.\d+)?(?:万|億)?円)?(?:\/年|\/月|年|月|前後|程度|以上|以下|以内)?)/g,
+      "$1$2[金額伏せ]",
+    );
+}
+
+function stableSlug(file, title, category) {
+  const date = path.basename(file).match(/\d{4}-\d{2}-\d{2}/)?.[0] || "note";
+  const hash = crypto.createHash("sha1").update(file).digest("hex").slice(0, 10);
+  const titlePart = slugify({ title }.title).slice(0, 42) || "article";
+  return `${date}-${slugify(category)}-${titlePart}-${hash}`;
+}
+
+function categoryFromInterestFile(file) {
+  return path.relative(interestsRoot, path.dirname(file)).split(path.sep)[0] || "未分類";
+}
+
 const notes = walkMarkdown(notesRoot).map((file) => {
-  const raw = fs.readFileSync(file, "utf8");
+  const raw = redactSensitive(fs.readFileSync(file, "utf8"));
   const [meta, body] = parseFrontMatter(raw);
   const title = titleFromMarkdown(body, path.basename(file, ".md"));
   const slug = slugify(file);
@@ -240,6 +304,10 @@ const indexBody = `    <section class="hero">
       <p>海外のAI、SAP/ERP、セキュリティ動向を日本語で読み返すための個人用アーカイブ。</p>
     </section>
     <section class="toolbar">
+      <span><a href="interests/index.html">興味レポートも読む</a></span>
+      <span>Redacted public reports</span>
+    </section>
+    <section class="toolbar">
       <span>${notes.length} notes</span>
       <span>Updated ${new Date().toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" })}</span>
     </section>
@@ -263,6 +331,164 @@ fs.writeFileSync(
       ...note,
       file: path.relative(notesRoot, note.file),
       url: `articles/${note.slug}.html`,
+    })),
+    null,
+    2,
+  ),
+);
+
+const interestNotes = walkMarkdown(interestsRoot).map((file) => {
+  const raw = redactSensitive(fs.readFileSync(file, "utf8"));
+  const [meta, body] = parseFrontMatter(raw);
+  const category = redactSensitive(categoryFromInterestFile(file));
+  const title = redactSensitive(titleFromMarkdown(body, path.basename(file, ".md")));
+  const slug = stableSlug(file, title, category);
+  const created = meta.created || path.basename(file).match(/\d{4}-\d{2}-\d{2}/)?.[0] || "";
+
+  return {
+    file,
+    slug,
+    title,
+    category,
+    created,
+    status: meta.status || "",
+    type: meta.type || "",
+    excerpt: redactSensitive(excerptFrom(body)),
+    html: markdownToHtml(body),
+  };
+});
+
+interestNotes.sort(
+  (a, b) =>
+    a.category.localeCompare(b.category, "ja") ||
+    `${b.created}${b.title}`.localeCompare(`${a.created}${a.title}`, "ja"),
+);
+
+const categoryCounts = new Map();
+for (const note of interestNotes) {
+  categoryCounts.set(note.category, (categoryCounts.get(note.category) || 0) + 1);
+}
+
+function interestShell(options) {
+  return pageShell({
+    ...options,
+    current: options.current ?? "../",
+    siteTitle: "興味レポート",
+    siteSubtitle: "Public redacted interest reports",
+    homeHref: "interests/index.html",
+  });
+}
+
+for (const note of interestNotes) {
+  const body = `    <article class="article">
+      <nav class="back"><a href="../index.html">← 興味レポート一覧へ</a></nav>
+      <div class="meta-row">
+        ${note.created ? `<span>${escapeHtml(note.created)}</span>` : ""}
+        <span>${escapeHtml(note.category)}</span>
+        ${note.type ? `<span>${escapeHtml(note.type)}</span>` : ""}
+      </div>
+      ${note.html}
+    </article>`;
+
+  fs.writeFileSync(
+    path.join(outInterestArticles, `${note.slug}.html`),
+    interestShell({
+      title: note.title,
+      description: note.excerpt,
+      body,
+      current: "../../",
+    }),
+  );
+}
+
+for (const category of [...categoryCounts.keys()].sort((a, b) => a.localeCompare(b, "ja"))) {
+  const categorySlug = slugify(category);
+  const categoryCards = interestNotes
+    .filter((note) => note.category === category)
+    .map(
+      (note) => `      <article class="card">
+        <div class="meta-row">
+          ${note.created ? `<span>${escapeHtml(note.created)}</span>` : ""}
+          <span>${escapeHtml(note.category)}</span>
+        </div>
+        <h2><a href="../articles/${note.slug}.html">${escapeHtml(note.title)}</a></h2>
+        <p>${escapeHtml(note.excerpt)}</p>
+      </article>`,
+    )
+    .join("\n");
+
+  fs.writeFileSync(
+    path.join(outInterestCategories, `${categorySlug}.html`),
+    interestShell({
+      title: category,
+      description: `${category} の公開用レポート一覧`,
+      current: "../../",
+      body: `    <section class="hero">
+      <p class="back"><a href="../index.html">← 興味レポート一覧へ</a></p>
+      <h1>${escapeHtml(category)}</h1>
+      <p>${categoryCounts.get(category)}件の公開用レポート。</p>
+    </section>
+    <section class="cards">
+${categoryCards}
+    </section>`,
+    }),
+  );
+}
+
+const categoryLinks = [...categoryCounts.entries()]
+  .sort(([a], [b]) => a.localeCompare(b, "ja"))
+  .map(
+    ([category, count]) =>
+      `<a class="pill-link" href="categories/${slugify(category)}.html">${escapeHtml(category)} <span>${count}</span></a>`,
+  )
+  .join("\n        ");
+
+const interestCards = interestNotes
+  .map(
+    (note) => `      <article class="card">
+        <div class="meta-row">
+          ${note.created ? `<span>${escapeHtml(note.created)}</span>` : ""}
+          <span>${escapeHtml(note.category)}</span>
+        </div>
+        <h2><a href="articles/${note.slug}.html">${escapeHtml(note.title)}</a></h2>
+        <p>${escapeHtml(note.excerpt)}</p>
+      </article>`,
+  )
+  .join("\n");
+
+const interestIndexBody = `    <section class="hero">
+      <p class="back"><a href="../index.html">海外技術情報アーカイブへ</a></p>
+      <h1>興味レポート</h1>
+      <p>資産運用、ポケカ、不動産、SAP、画像処理、OpenClaw/Obsidian運用などの調査レポート。公開用に個人情報、資産額、年収、具体地名、内部パスを伏せています。</p>
+    </section>
+    <section class="toolbar">
+      <span>${interestNotes.length} reports</span>
+      <span>Updated ${new Date().toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" })}</span>
+    </section>
+    <section class="category-nav">
+        ${categoryLinks}
+    </section>
+    <section class="cards">
+${interestCards || "      <p>まだ記事がありません。</p>"}
+    </section>`;
+
+fs.writeFileSync(
+  path.join(outInterests, "index.html"),
+  interestShell({
+    title: "レポート一覧",
+    description: "公開用に伏せ字化した興味レポート一覧",
+    body: interestIndexBody,
+    current: "../",
+  }),
+);
+
+fs.writeFileSync(
+  path.join(outData, "interest-articles.json"),
+  JSON.stringify(
+    interestNotes.map(({ html, ...note }) => ({
+      ...note,
+      file: "[入力元伏せ]",
+      url: `interests/articles/${note.slug}.html`,
     })),
     null,
     2,
@@ -317,6 +543,29 @@ a { color: var(--accent-dark); }
 .toolbar {
   color: var(--muted);
   font-size: 14px;
+}
+
+.category-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 18px 0 4px;
+}
+
+.pill-link {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  padding: 6px 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--panel);
+  color: var(--text);
+  text-decoration: none;
+}
+
+.pill-link span {
+  color: var(--muted);
 }
 
 main {

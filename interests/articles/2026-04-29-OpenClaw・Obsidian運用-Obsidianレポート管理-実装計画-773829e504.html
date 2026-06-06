@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Obsidianレポート管理 実装計画 | 興味レポート</title>
+  <meta name="description" content="Mandayが生成するMarkdownレポートを、Mac mini上のObsidianで検索・閲覧・蓄積・再利用できるようにする。 現在のレポート保存先: `[内部パス]` 既存レポートはこのフォルダへ移動済み。 `obsidian-cli` は `/opt/homebrew/bin/obsidian-cli` に存在。 Obsidian本体とVault設定...">
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../../interests/index.html">興味レポート</a>
+    <span class="site-subtitle">Public redacted interest reports</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 興味レポート一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-04-29</span>
+        <span>OpenClaw・Obsidian運用</span>
+        <span>implementation-plan</span>
+      </div>
+      <h1>Obsidianレポート管理 実装計画</h1>
+<h2>目的</h2>
+<p>Mandayが生成するMarkdownレポートを、Mac mini上のObsidianで検索・閲覧・蓄積・再利用できるようにする。</p>
+<h2>前提</h2>
+<ul>
+<li>現在のレポート保存先: <code>[内部パス]</code></li>
+<li>既存レポートはこのフォルダへ移動済み。</li>
+<li><code>obsidian-cli</code> は <code>/opt/homebrew/bin/obsidian-cli</code> に存在。</li>
+<li>Obsidian本体とVault設定は未検出。</li>
+<li>短期方針: <code>[内部パス]</code> をそのままVault化。</li>
+<li>中長期方針: <code>[内部パス]</code> など専用Vaultへ移行。</li>
+</ul>
+<h2>実装方針</h2>
+<h3>Phase 0: 事前決定</h3>
+<p>個人さんに確認する意思決定:</p>
+<p>1. 短期運用として <code>[内部パス]</code> をObsidian Vaultにしてよいか。 2. 中長期で専用Vaultへ移行するタイミングをいつにするか。 3. バックアップ方式をどれにするか。</p>
+<ul>
+<li>Time Machine</li>
+<li>Git</li>
+<li>Obsidian Local Backup plugin</li>
+<li>上記の併用</li>
+</ul>
+<p>推奨: まず[内部パス]</p>
+<h3>Phase 1: Obsidian本体インストールとVault作成</h3>
+<p>作業:</p>
+<p>1. Obsidian本体をMac miniへインストール。 2. Obsidianで <code>[内部パス]</code> をVaultとして開く。 3. <code>.obsidian/</code> が作成されることを確認。 4. Obsidian上で既存レポートが表示・検索できることを確認。</p>
+<p>完了条件:</p>
+<ul>
+<li><code>/Applications/Obsidian.app</code> が存在する、またはObsidian本体のインストール先が確認できる。</li>
+<li><code>~/Library/Application Support/obsidian/obsidian.json</code> にVault情報が登録されている。</li>
+<li><code>[内部パス]</code> がVaultとして認識される。</li>
+</ul>
+<h3>Phase 2: Vault初期整備</h3>
+<p>[内部パス] Vault内に以下を作る。</p>
+<p>``<code>text [内部パス] ├── Indexes/ │   └── Reports Index.md ├── Topics/ │   ├── Obsidian運用.md │   ├── レポート管理.md │   └── 不動産投資.md ├── Templates/ │   └── Report Template.md └── Attachments/ </code>``</p>
+<p>初期索引に既存レポートをリンクする。</p>
+<p>完了条件:</p>
+<ul>
+<li><code>Indexes/Reports Index.md</code> から既存レポートへ辿れる。</li>
+<li><code>Topics/</code> に主要テーマノートがある。</li>
+<li>新規レポートのRelatedリンク先が存在する。</li>
+</ul>
+<h3>Phase 3: Mandayレポートテンプレート標準化</h3>
+<p><code>task-queue/PROCESSING.md</code> とキュー処理スキルのテンプレートを拡張する。</p>
+<p>標準frontmatter:</p>
+<p>```yaml --- title: レポートタイトル created: YYYY-MM-DD updated: YYYY-MM-DD type: report status: done source_task: TASK_ID category: general area: asset_type: tags:</p>
+<ul>
+<li>research</li>
+<li>report</li>
+</ul>
+<p>related:</p>
+<ul>
+<li>&quot;[[レポート管理]]&quot;</li>
+</ul>
+<p>--- ```</p>
+<p>標準本文構成:</p>
+<p>```markdown</p>
+<h1>タイトル</h1>
+<h2>Summary</h2>
+<h2>結論</h2>
+<h2>調査条件</h2>
+<h2>Findings</h2>
+<h2>Sources</h2>
+<h2>不確実性・注意点</h2>
+<h2>次アクション候補</h2>
+<h2>メモリ保存候補</h2>
+<h2>Related</h2>
+<p>```</p>
+<p>完了条件:</p>
+<ul>
+<li>新規レポートがObsidian Propertiesとして読みやすい。</li>
+<li><code>source_task</code> でキューIDと紐づく。</li>
+<li><code>Related</code> が必ずある。</li>
+</ul>
+<h3>Phase 4: report系スキルの整備</h3>
+<p>対象:</p>
+<ul>
+<li><code>skills/report-list/</code></li>
+<li><code>skills/report-show/</code></li>
+<li><code>skills/report-send-file/</code></li>
+<li>必要なら新規 <code>report-index-update</code> skill</li>
+</ul>
+<p>作業:</p>
+<p>1. すべてのスクリプトが <code>[内部パス]</code> を参照しているか確認。 2. <code>Indexes/Reports Index.md</code> を更新する補助スクリプトを作る。 3. レポート完了後に索引更新できる導線を追加。</p>
+<p>完了条件:</p>
+<ul>
+<li>「レポート一覧」「001を送って」「キーワードで見せて」が[内部パス]</li>
+<li>新規レポートが索引に追加される。</li>
+</ul>
+<h3>Phase 5: obsidian-cli設定</h3>
+<p>作業:</p>
+<p>1. Obsidian本体インストール後にVault登録状況を確認。 2. <code>obsidian-cli set-default &quot;report&quot;</code> またはVault名に応じた設定を実行。 3. <code>obsidian-cli print-default --path-only</code> で確認。 4. <code>obsidian-cli search-content &quot;不動産投資&quot;</code> が動くか確認。</p>
+<p>完了条件:</p>
+<ul>
+<li>CLIからデフォルトVaultを参照できる。</li>
+<li>CLI検索が使える。</li>
+<li>将来の移動・リネーム時に <code>obsidian-cli move</code> を使える。</li>
+</ul>
+<h3>Phase 6: バックアップ</h3>
+<p>短期推奨:</p>
+<ul>
+<li>Time MachineでMac mini全体をバックアップ。</li>
+</ul>
+<p>中期推奨:</p>
+<ul>
+<li>VaultをGit管理する。</li>
+<li><code>.gitignore</code> に以下を入れる。</li>
+</ul>
+<p>``<code>gitignore .obsidian/workspace.json .obsidian/workspaces.json .DS_Store </code>``</p>
+<p>完了条件:</p>
+<ul>
+<li>少なくとも1つの復旧手段がある。</li>
+<li>Syncだけに依存していない。</li>
+</ul>
+<h3>Phase 7: 専用Vault移行判断</h3>
+<p>[内部パス]</p>
+<p>移行先案:</p>
+<p>``<code>text [内部パス] ├── Reports/ ├── Topics/ ├── Indexes/ ├── Templates/ └── Attachments/ </code>``</p>
+<p>移行作業:</p>
+<p>1. <code>MandayVault</code> を作成。 2. 既存レポートを <code>Reports/</code> へ移動。 3. <code>queue_task.py</code> の <code>REPORTS_DIR</code> を更新。 4. report系スキルの参照先を更新。 5. Obsidian default vaultを更新。 6. リンク・索引を再生成。</p>
+<p>移行判断基準:</p>
+<ul>
+<li>レポート以外のノートが増える。</li>
+<li>添付ファイルやテンプレートが増える。</li>
+<li>分野別フォルダ管理が必要になる。</li>
+<li>Git/バックアップをVault単位で管理したくなる。</li>
+</ul>
+<h2>推奨実行順</h2>
+<p>1. 個人さん確認: [内部パス] 2. Obsidian本体インストール。 3. [内部パス] 4. Indexes/Topics/Templates/Attachmentsを作成。 5. <code>Reports Index.md</code> を作成。 6. Mandayレポートテンプレートを標準化。 7. report系スキルを再検証。 8. obsidian-cli default vaultを設定。 9. バックアップ方式を決めて設定。 10. しばらく運用してから専用Vault移行を判断。</p>
+<h2>リスクと対策</h2>
+<ul>
+<li>[内部パス]</li>
+<li>対策: <code>Indexes/</code>, <code>Topics/</code>, <code>Templates/</code>, <code>Attachments/</code> を作り、レポート本体は当面直下に置く。</li>
+<li>Obsidian本体が未インストール</li>
+<li>対策: Phase 1で先に解消。</li>
+<li>Syncをバックアップと誤認する</li>
+<li>対策: Time Machine/Git/Local Backupのいずれかを別途設定。</li>
+<li>タグが乱立する</li>
+<li>対策: 共通タグ・領域タグ・補助タグに制限する。</li>
+<li>スクリプトの参照先が旧パスに残る</li>
+<li>対策: <code>grep -R &quot;task-queue/reports\|[内部パス]&quot;</code> で実装後に確認。</li>
+</ul>
+<h2>Manday側で次に実装できること</h2>
+<p>個人さんの許可があれば、次の順番で実装可能。</p>
+<p>1. <code>[内部パス]</code>, <code>Topics</code>, <code>Templates</code>, <code>Attachments</code> を作成。 2. <code>Reports Index.md</code> を既存レポートから生成。 3. <code>task-queue/PROCESSING.md</code> のテンプレートを拡張。 4. report系スキルのスクリプト参照先を点検・修正。 5. Obsidian本体インストール後にCLI default vaultを設定。</p>
+<h2>保留事項</h2>
+<ul>
+<li>Obsidian本体インストールは外部アプリ導入なので、個人さんの明示許可後に実行する。</li>
+<li>専用Vaultへの移行は、現在のFinderアクセスしやすさとのトレードオフがあるため、即時実施せず運用後に判断する。</li>
+</ul>
+    </article>
+  </main>
+</body>
+</html>

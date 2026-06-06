@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ローカルマシンで使う顔入れ替え・ディープフェイク系ツール比較 | 興味レポート</title>
+  <meta name="description" content="個人の現行ローカル環境は Mac mini M4 / 24GB RAM / Apple Silicon GPU。ローカル顔入れ替え用途では、まず **FaceFusion** が最有力。次点でリアルタイム/簡易実験向けに **Deep-Live-Cam**。Roop は公式に永久停止/アーカイブ済みのため新規採用は非推奨。DeepFaceLab / Deep...">
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../../interests/index.html">興味レポート</a>
+    <span class="site-subtitle">Public redacted interest reports</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 興味レポート一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-05-06</span>
+        <span>画像処理・FaceSwap</span>
+        <span>report</span>
+      </div>
+      <h1>ローカルマシンで使う顔入れ替え・ディープフェイク系ツール比較</h1>
+<h2>Summary</h2>
+<p>個人の現行ローカル環境は Mac mini M4 / 24GB RAM / Apple Silicon GPU。ローカル顔入れ替え用途では、まず <strong>FaceFusion</strong> が最有力。次点でリアルタイム/簡易実験向けに <strong>Deep-Live-Cam</strong>。Roop は公式に永久停止/アーカイブ済みのため新規採用は非推奨。DeepFaceLab / DeepFaceLive は品質や学習型ワークフローでは強いが、公式リポジトリは2024年にアーカイブ済みで、Windows/NVIDIA寄りのためMac mini単体運用には向きにくい。</p>
+<h2>結論</h2>
+<ul>
+<li><strong>第一候補: FaceFusion</strong></li>
+<li>現役で更新され、macOS導入手順も公式にある。</li>
+<li>静止画/動画の顔入れ替え、顔補正、バッチ処理などをGUI/CLIで扱いやすい。</li>
+<li>Mac mini M4ではCPU/ONNXRuntime中心、またはCoreML系を試す形。NVIDIA CUDA機ほど高速ではないが、導入候補として最も堅い。</li>
+<li><strong>第二候補: Deep-Live-Cam</strong></li>
+<li>1枚画像からリアルタイム顔入れ替えや動画処理を行う系。</li>
+<li>macOS Apple Silicon向け手順がREADMEにある。</li>
+<li>簡単に試す用途にはよいが、品質・安定性・安全チェックの挙動は要検証。</li>
+<li><strong>新規採用非推奨: Roop</strong></li>
+<li>公式が「permanently discontinued」と明記し、リポジトリもアーカイブ済み。</li>
+<li>フォークは多数あるが、保守・安全性・依存関係の面でリスクが高い。</li>
+<li><strong>高品質だがMac向きではない: DeepFaceLab / DeepFaceLive</strong></li>
+<li>DeepFaceLabは学習型で高品質を狙えるが、手間とGPU要件が大きい。</li>
+<li>DeepFaceLiveはリアルタイム用途だがWindows/DirectX12前提が強い。</li>
+<li>どちらも公式リポジトリは2024-11-13にアーカイブ済み。</li>
+</ul>
+<h2>個人環境</h2>
+<ul>
+<li>Mac mini</li>
+<li>Apple M4</li>
+<li>10コアCPU / 10コアGPU</li>
+<li>RAM 24GB</li>
+<li>macOS Darwin 25.4.0</li>
+</ul>
+<h2>候補比較</h2>
+<p>| ツール | 状態 | ローカル動作 | Mac適性 | 品質 | 導入難度 | コメント | |---|---|---:|---:|---:|---:|---| | FaceFusion | 現役 | ◎ | ○ | ○〜◎ | 中 | 最有力。公式docsあり。GUI/CLI/バッチ処理対応。 | | Deep-Live-Cam | 現役系 | ◎ | ○ | △〜○ | 中 | リアルタイム・1枚画像で試す用途向け。 | | Roop | 公式停止 | ○ | △ | △〜○ | 中 | 公式が永久停止。新規採用しない方がよい。 | | Rope / Rope Pearl | フォーク系 | ◎ | △ | ○ | 中〜高 | GUI重視Roop派生。主にNVIDIA GPU環境の情報が多い。 | | DeepFaceLab | アーカイブ済 | ◎ | ×〜△ | ◎ | 高 | 学習型で高品質。ただしMac mini単体には重い。 | | DeepFaceLive | アーカイブ済 | ◎ | × | ○ | 中〜高 | Windows/DirectX12寄り。Macでは非推奨。 | | FaceSwap | 現役/古典系 | ◎ | △ | ○〜◎ | 高 | 学習型。研究・学習には良いが手軽さではFaceFusionに劣る。 |</p>
+<h2>各ツール詳細</h2>
+<h3>FaceFusion</h3>
+<p>公式GitHubは「Industry leading face manipulation platform」と説明。公式インストール手順では Linux / macOS / Windows を対象にし、conda環境、Python 3.12、FFmpeg、ONNXRuntimeを使う。macOSページでは <code>brew install git</code>、<code>brew install miniconda</code>、<code>brew install ffmpeg@7.0.2</code> が案内されている。</p>
+<p>良い点:</p>
+<ul>
+<li>現役で更新されている。</li>
+<li>GUI的に使えるWeb UIあり。</li>
+<li>動画・静止画・バッチ処理に向く。</li>
+<li>Mac公式手順がある。</li>
+<li>Roop系より保守性が良い。</li>
+</ul>
+<p>注意点:</p>
+<ul>
+<li>インストールはターミナル前提で初心者向けではないと公式も明記。</li>
+<li>Mac M4ではNVIDIA CUDA環境ほど速くない可能性が高い。</li>
+<li>高解像度では時間がかかる。</li>
+</ul>
+<h3>Deep-Live-Cam</h3>
+<p>GitHub READMEでは「Real-time face swap and video deepfake with a single click and only a single image」と説明。Apple Silicon向けには Python 3.10 と tkinter、venv を使う手順が記載されている。</p>
+<p>良い点:</p>
+<ul>
+<li>1枚画像から手早く試せる。</li>
+<li>リアルタイム用途に向く。</li>
+<li>macOS Apple Silicon手順がREADMEにある。</li>
+</ul>
+<p>注意点:</p>
+<ul>
+<li>FaceFusionほど総合加工ワークフローが整っているかは要検証。</li>
+<li>プリビルト版や派生サイトは安全性確認が必要。基本はGitHub公式/信頼できる配布元から取得する。</li>
+</ul>
+<h3>Roop</h3>
+<p>公式READMEに「permanently discontinued」と明記。アーカイブ済み。単純なワンクリック顔入れ替えの代表だったが、今から新規で使う理由は薄い。</p>
+<h3>Rope / Rope Pearl</h3>
+<p>Ropeは「GUI-focused roop」と説明され、InsightFace <code>inswapper_128</code> 系を使うGUI重視派生。ベンチマーク例はRTX 3090Ti環境で、Macでの安定運用情報はFaceFusionより薄い。</p>
+<h3>DeepFaceLab</h3>
+<p>公式リポジトリは2024-11-13にアーカイブ済み。学習型の本格派で、品質上限は高い。ただし、素材整理・顔抽出・学習・マージという工程が重く、NVIDIA GPU前提の情報が多い。Mac mini M4単体では実用性が落ちる。</p>
+<h3>DeepFaceLive</h3>
+<p>公式リポジトリは2024-11-13にアーカイブ済み。リアルタイム顔入れ替え/ビデオ通話向け。READMEのシステム要件はDirectX12対応GPU、Windows 10、推奨RTX 2070+ / Radeon RX 5700 XT+ とされ、Macには不向き。</p>
+<h3>FaceSwap</h3>
+<p>古典的な学習型FaceSwap。GUIもあり、学習・研究目的では有用。ただし手軽なコスプレ/顔入れ替え用途ならFaceFusionの方が始めやすい。</p>
+<h2>推奨導入順</h2>
+<p>1. <strong>FaceFusionをMac miniに入れて、静止画→短い動画で検証</strong> 2. リアルタイム用途が必要なら <strong>Deep-Live-Cam</strong> を別環境で検証 3. 画質に不満が出て、NVIDIA GPU付きWindows/Linux機を用意できるなら <strong>DeepFaceLab/FaceSwap</strong> を検討</p>
+<h2>安全・権利面の前提</h2>
+<ul>
+<li>実在人物の顔を使う場合は本人の同意が必要。</li>
+<li>公開・共有する場合はAI加工/顔入れ替えであることを明示する。</li>
+<li>非同意の性的・屈辱的・詐欺的・なりすまし用途には使わない。</li>
+<li>プリビルト版や非公式配布物はマルウェア混入リスクがあるため、公式GitHub/公式docs優先。</li>
+</ul>
+<h2>Sources</h2>
+<ul>
+<li>FaceFusion GitHub: https://github.com/facefusion/facefusion</li>
+<li>FaceFusion Installation: https://docs.facefusion.io/installation</li>
+<li>FaceFusion macOS: https://docs.facefusion.io/installation/platform/macos</li>
+<li>Roop GitHub: https://github.com/s0md3v/roop</li>
+<li>DeepFaceLab GitHub: https://github.com/iperov/DeepFaceLab</li>
+<li>DeepFaceLive GitHub: https://github.com/iperov/DeepFaceLive</li>
+<li>Deep-Live-Cam GitHub: https://github.com/gazebo848/Deep-Live-Cam</li>
+<li>FaceSwap GitHub: https://github.com/deepfakes/faceswap</li>
+<li>Rope GitHub: https://github.com/Hillobar/Rope</li>
+</ul>
+<h2>次アクション候補</h2>
+<p>1. FaceFusionをMac mini M4にインストールして動作確認。 2. 30秒程度の短い動画と同意済み/本人素材で、処理速度・品質・破綻箇所を確認。 3. 品質が足りなければ、FaceFusion設定調整またはWindows/NVIDIA機の検討。</p>
+<h2>メモリ保存候補</h2>
+<ul>
+<li>個人のローカル顔入れ替え用途では、Mac mini M4環境の第一候補はFaceFusion。Roopは公式停止済みのため新規採用非推奨。</li>
+</ul>
+<h2>Related</h2>
+<ul>
+<li>[[レポート管理]]</li>
+</ul>
+    </article>
+  </main>
+</body>
+</html>
