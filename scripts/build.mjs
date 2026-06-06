@@ -603,6 +603,14 @@ fs.writeFileSync(
   --text: #1f2937;
   --muted: #64748b;
   --line: #d9e1ea;
+  --table-line: #94a3b8;
+  --table-line-strong: #64748b;
+  --table-head: #0f766e;
+  --table-head-text: #ffffff;
+  --table-row: #ffffff;
+  --table-row-alt: #f1f5f9;
+  --table-row-hover: #e0f2fe;
+  --table-first-col: #f8fafc;
   --accent: #0f766e;
   --accent-dark: #115e59;
 }
@@ -753,7 +761,7 @@ main {
 }
 
 .article {
-  max-width: 960px;
+  max-width: 1120px;
   margin: 0 auto;
   padding: 26px;
   border: 1px solid var(--line);
@@ -806,26 +814,28 @@ main {
 
 .table-wrap {
   width: 100%;
-  margin: 18px 0 24px;
+  margin: 20px 0 28px;
   overflow-x: auto;
-  border: 1px solid var(--line);
+  border: 1px solid var(--table-line-strong);
   border-radius: 8px;
   background: #ffffff;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08);
 }
 
 .article table {
   width: 100%;
-  min-width: 720px;
-  border-collapse: collapse;
+  min-width: 860px;
+  border-collapse: separate;
+  border-spacing: 0;
   font-size: 14px;
-  line-height: 1.55;
+  line-height: 1.5;
 }
 
 .article th,
 .article td {
-  padding: 10px 12px;
-  border-bottom: 1px solid var(--line);
-  border-right: 1px solid var(--line);
+  padding: 11px 13px;
+  border-bottom: 1px solid var(--table-line);
+  border-right: 1px solid var(--table-line);
   vertical-align: top;
 }
 
@@ -839,18 +849,42 @@ main {
 }
 
 .article th {
-  background: #f1f5f9;
-  color: #0f172a;
+  background: var(--table-head);
+  color: var(--table-head-text);
   font-weight: 700;
   white-space: nowrap;
 }
 
+.article tbody tr {
+  background: var(--table-row);
+}
+
 .article tbody tr:nth-child(even) {
-  background: #f8fafc;
+  background: var(--table-row-alt);
+}
+
+.article tbody tr:hover {
+  background: var(--table-row-hover);
+}
+
+.article tbody td:first-child {
+  background: var(--table-first-col);
+  color: #0f172a;
+  font-weight: 650;
+  white-space: nowrap;
+}
+
+.article tbody tr:hover td:first-child {
+  background: #dbeafe;
 }
 
 .article td a {
   word-break: break-word;
+}
+
+.article th[style*="right"],
+.article td[style*="right"] {
+  font-variant-numeric: tabular-nums;
 }
 
 .back {
