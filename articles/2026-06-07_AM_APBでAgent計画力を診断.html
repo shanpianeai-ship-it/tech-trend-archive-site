@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>APBでAgent計画力を診断 | 海外技術情報アーカイブ</title>
+  <meta name="description" content="Agent Planning Benchmark（APB）は、LLMエージェントの「実行結果」ではなく、実行前の計画能力を切り出して診断するベンチマーク。 arXivに2026-06-03に投稿された論文では、4,209件のマルチモーダルケース、22ドメイン、5種類の評価設定で、長期計画、段階的な計画修正、余計なツールへの頑健性、壊れたツールへの対応、解けな...">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-07</span>
+        <span>AI / LLM / Agent</span>
+        <span>importance: high</span>
+      </div>
+      <h1>APBでAgent計画力を診断</h1>
+<h2>要約</h2>
+<p>Agent Planning Benchmark（APB）は、LLMエージェントの「実行結果」ではなく、実行前の計画能力を切り出して診断するベンチマーク。</p>
+<p>arXivに2026-06-03に投稿された論文では、4,209件のマルチモーダルケース、22ドメイン、5種類の評価設定で、長期計画、段階的な計画修正、余計なツールへの頑健性、壊れたツールへの対応、解けないタスクの拒否を評価している。</p>
+<p>ポイントは、エージェントが失敗した時に「モデルが推論できなかった」のか、「計画が悪かった」のか、「実行環境やツールで崩れた」のかを分けて見ようとしている点。自分用のエージェント運用でも、成功率だけでなく計画ログを別に評価する設計が必要になる。</p>
+<h2>背景</h2>
+<p>LLMエージェントは、ユーザーの依頼を受けて、目標を分解し、ツールを選び、制約を考え、必要なら実行を諦める。ところが多くの評価は、最終的にタスクが完了したかどうかを見がち。</p>
+<p>この評価方法だと、失敗の原因が分からない。</p>
+<ul>
+<li>最初の計画が間違っていたのか</li>
+<li>正しい計画だったがツール実行で失敗したのか</li>
+<li>余計なツールに釣られたのか</li>
+<li>壊れたツールを避けられなかったのか</li>
+<li>本来拒否すべきタスクを無理に進めたのか</li>
+</ul>
+<p>APBはこのうち、実行前または実行途中の計画品質を診断するためのベンチマークとして設計されている。論文では12種類のMLLMを評価し、長期計画、ツールノイズ耐性、適切な拒否、推論時の計画改善に弱点があると報告している。</p>
+<h2>何が重要か</h2>
+<h3>「成功率」だけではエージェント運用を改善しにくい</h3>
+<p>エージェント運用では、最終成功率だけを見ても改善点が曖昧になる。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>見る指標</th><th>分かること</th><th>足りないこと</th></tr></thead>
+<tbody>
+<tr><td>最終成功率</td><td>タスクが終わったか</td><td>失敗箇所が計画か実行か分からない</td></tr>
+<tr><td>ツール呼び出しログ</td><td>何を実行したか</td><td>なぜその順序を選んだか分かりにくい</td></tr>
+<tr><td>計画品質</td><td>分解、順序、依存関係、拒否判断</td><td>実際のUI/API実行能力までは測れない</td></tr>
+<tr><td>APB型診断</td><td>計画段階の弱点</td><td>実環境の全リスクを代替するものではない</td></tr>
+</tbody>
+</table></div>
+<p>自動化Cronやローカル秘書エージェントでも、失敗時に「ツールが使えない」だけで終わらせると再発する。計画、権限、実行、報告を分けて記録しないと、次の修正ポイントが見えない。</p>
+<h3>APBの評価設定は現場の失敗パターンに近い</h3>
+<p>APBが扱う5種類の設定は、実運用で起きる失敗にかなり近い。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>評価設定</th><th>何を見るか</th><th>実運用での例</th></tr></thead>
+<tbody>
+<tr><td>Holistic planning</td><td>最初から全体計画を作れるか</td><td>調査、保存、ビルド、通知を順序立てる</td></tr>
+<tr><td>Step-wise planning</td><td>フィードバックを受けて次の手を出せるか</td><td>コマンド失敗後に代替手順へ切り替える</td></tr>
+<tr><td>Extraneous tools</td><td>余計なツールに釣られないか</td><td>不要な外部操作や危険な権限を使わない</td></tr>
+<tr><td>Broken tools</td><td>壊れたツールを避けるか</td><td>Discordやgitが失敗した時に成功扱いしない</td></tr>
+<tr><td>Unsolvable tasks</td><td>解けないタスクを拒否できるか</td><td>必要な権限がない時に未完了として報告する</td></tr>
+</tbody>
+</table></div>
+<p>特に「壊れたツール」と「解けないタスク」の扱いは重要。エージェントは、タスクを最後まで進める圧力が強いほど、未完了を未完了として扱えなくなる。Cron運用ではここが事故につながる。</p>
+<h3>実行ベンチマークの前段として使える</h3>
+<p>APBはToolSandboxやtau2-benchのような実行系ベンチマークを置き換えるものではない。論文では、ToolSandbox 200タスク、tau2-bench 200タスクに対してAPBで計画を改善し、計画正確性、計画グレード、下流の実行指標が改善したと説明している。</p>
+<p>つまり位置づけは、実行ベンチマークの前段に置く診断レイヤー。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>レイヤー</th><th>目的</th><th>代表例</th></tr></thead>
+<tbody>
+<tr><td>計画診断</td><td>分解、順序、ツール選択、拒否判断を見る</td><td>APB</td></tr>
+<tr><td>ツール利用評価</td><td>APIや状態変化を含む実行能力を見る</td><td>ToolSandbox</td></tr>
+<tr><td>業務対話評価</td><td>ユーザー、ポリシー、共有状態を含む対話実行を見る</td><td>tau / tau2-bench</td></tr>
+<tr><td>自前運用ログ</td><td>実際のローカル権限、ファイル、通知、gitを検証する</td><td>OpenClaw Cronログ</td></tr>
+</tbody>
+</table></div>
+<p>自分の用途では、公開ベンチマークのスコアを追うより、APB的な観点を自前タスクのチェックリストに落とす方が実用的。</p>
+<h2>自分向けメモ</h2>
+<ul>
+<li>エージェント評価では「できた/できない」だけでなく、「計画が妥当だったか」を別ログに残す。</li>
+<li>Cronには、選定、調査、ノート作成、ビルド、git push、公開確認、Discord報告をチェック項目として持たせる。</li>
+<li>ツールが壊れている時に代替できるかより先に、未完了を成功扱いしないことをルール化する。</li>
+<li>余計なツールが見えている環境では、使うべきツールと使わないツールを明示した方がよい。</li>
+<li>自作エージェントの品質改善は、モデル変更よりも「計画ログ」「権限境界」「失敗時の終了条件」から手を付ける。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li>arXiv: <a href="https://arxiv.org/abs/2606.04874">Agent Planning Benchmark: A Diagnostic Framework for Planning Capabilities in LLM Agents</a></li>
+<li>arXiv: <a href="https://arxiv.org/abs/2408.04682">ToolSandbox: A Stateful, Conversational, Interactive Evaluation Benchmark for LLM Tool Use Capabilities</a></li>
+<li>tau-bench: <a href="https://taubench.com/">Benchmarking AI agents in collaborative real-world scenarios</a></li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>Agent Planning Benchmark</li>
+<li>LLM agents</li>
+<li>MLLM</li>
+<li>planning</li>
+<li>tool robustness</li>
+<li>calibrated refusal</li>
+<li>ToolSandbox</li>
+<li>tau2-bench</li>
+<li>agent evaluation</li>
+<li>OpenClaw Cron</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://arxiv.org/abs/2606.04874">arxiv.org - abs / 2606.04874</a></p></section>
+    </article>
+  </main>
+</body>
+</html>

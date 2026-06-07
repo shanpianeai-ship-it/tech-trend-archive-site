@@ -1,5 +1,18 @@
 [
   {
+    "file": "AI/2026-06-07_AM_APBでAgent計画力を診断.md",
+    "slug": "2026-06-07_AM_APBでAgent計画力を診断",
+    "title": "APBでAgent計画力を診断",
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "created": "2026-06-07",
+    "source": "https://arxiv.org/abs/2606.04874",
+    "importance": "high",
+    "confidence": "high",
+    "excerpt": "Agent Planning Benchmark（APB）は、LLMエージェントの「実行結果」ではなく、実行前の計画能力を切り出して診断するベンチマーク。 arXivに2026-06-03に投稿された論文では、4,209件のマルチモーダルケース、22ドメイン、5種類の評価設定で、長期計画、段階的な計画修正、余計なツールへの頑健性、壊れたツールへの対応、解けな...",
+    "url": "articles/2026-06-07_AM_APBでAgent計画力を診断.html"
+  },
+  {
     "file": "SAP_ERP/2026-06-06_SAPとPalantirのAI支援データ移行.md",
     "slug": "2026-06-06_SAPとPalantirのAI支援データ移行",
     "title": "SAPとPalantirのAI支援データ移行",
