@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MCPサーバーとnpm依存を「個人AIエージェント環境」の新しい攻撃面として棚卸しする | 興味レポート</title>
+  <meta name="description" content="OpenClaw、Codex、Claude Code、Cursor、WindsurfのようなAIエージェント環境では、従来の「アプリの依存ライブラリ」だけでなく、MCPサーバー、ローカル設定ファイル、シェル実行権限、GitHub/npm/クラウド資格情報、DiscordやObsidianなどの連携先がまとめて攻撃面になる。 2026年春から初夏にかけて、MC...">
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../../interests/index.html">興味レポート</a>
+    <span class="site-subtitle">Public redacted interest reports</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 興味レポート一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-07</span>
+        <span>セキュリティ</span>
+        <span>interest_report</span>
+      </div>
+      <h1>MCPサーバーとnpm依存を「個人AIエージェント環境」の新しい攻撃面として棚卸しする</h1>
+<h2>要約</h2>
+<p>OpenClaw、Codex、Claude Code、Cursor、WindsurfのようなAIエージェント環境では、従来の「アプリの依存ライブラリ」だけでなく、MCPサーバー、ローカル設定ファイル、シェル実行権限、GitHub/npm/クラウド資格情報、DiscordやObsidianなどの連携先がまとめて攻撃面になる。</p>
+<p>2026年春から初夏にかけて、MCPそのものの設計・実装リスクと、npm供給網攻撃がAIコーディングツールを狙う動きが重なって見えてきた。Microsoftは2026年6月2日、Red Hat系npmスコープの32パッケージ・90超バージョンが改ざんされ、preinstallフックから資格情報を盗むMiasmaキャンペーンを分析している。Endor Labsは2026年2月、typosquat npmパッケージがローカルに悪性MCPサーバーを登録し、AIコードアシスタント経由でSSHキーやAWS資格情報を読ませるSANDWORM_MODEを報告した。</p>
+<p>結論として、個人AIエージェント環境は「便利なローカル秘書」ではなく、「自分の開発機、Obsidian、GitHub、公開サイト、メッセージングを横断できる自動化基盤」として棚卸しすべきである。MCPサーバーは依存パッケージと同じく管理対象に入れ、インストール元、権限、設定ファイル、起動方法、通信先、秘密情報の置き場所を定期点検するのが現実的な防御ラインになる。</p>
+<h2>なぜ今見る価値があるか</h2>
+<p>今見る価値は、攻撃者が「AIエージェントの入り口」を実際に狙い始めている点にある。</p>
+<p>MicrosoftのMiasma分析では、改ざんされたnpmパッケージが正規のGitHub Actions OIDC公開フローを通って配布され、見かけ上は真正なprovenance署名を持っていた。インストール時にはnpmのpreinstallフックが自動実行され、GitHub、npm、AWS、Azure、GCP、Vault、Kubernetes、SSH、ブラウザ、ウォレットなどの資格情報を狙う。これは「怪しい野良スクリプトを実行したら危ない」ではなく、「正規に見える依存を更新しただけで開発機とCI/CDが危ない」という話である。</p>
+<p>Endor LabsのSANDWORM_MODE報告では、npmマルウェアがAIコードアシスタントのローカル設定へ悪性MCPサーバーを登録し、プロンプトインジェクションを使ってAI側に秘密情報を読ませる流れが示されている。つまり、攻撃者はnpm、MCP、AIアシスタント、ローカルファイルを1本の攻撃経路として扱っている。</p>
+<p>さらに公式MCPドキュメントも、Confused Deputy、Token Passthrough、SSRF、Session Hijacking、Local MCP Server Compromise、Scope Minimizationを主要なセキュリティ論点として挙げている。これはMCPが単なる便利プロトコルではなく、認可、セッション、外部API、ローカル実行をまたぐセキュリティ設計対象だということを意味する。</p>
+<h2>調査メモ</h2>
+<p>個人環境で最初に見るべき攻撃面は、大きく5つに分けられる。</p>
+<p>1つ目は、MCPサーバーのインストール元と起動方法。<code>npx</code>、<code>uvx</code>、ローカルclone、Docker、Homebrew、npm global installなど、どの経路で起動しているかを一覧化する。毎回ネットワークから最新コードを取る形は便利だが、供給網攻撃の影響を受けやすい。固定バージョン、lockfile、ローカルclone、Dockerイメージのdigest固定を使えるものは使う。</p>
+<p>2つ目は、MCP設定ファイル。Claude Desktop、Claude Code、Cursor、Windsurf、Continue、OpenClaw系の設定には、サーバー名、command、args、env、接続先URL、APIキーが集まる。ここに身に覚えのないサーバー、過剰なenv、<code>0.0.0.0</code>待受、広すぎるファイルアクセスがないかを見る。</p>
+<p>3つ目は、npm依存とスクリプト実行。Miasmaのようなpreinstallフック、SANDWORM_MODEのようなtyposquat、悪性MCP注入は、<code>npm install</code> や <code>npm update</code> のタイミングで入ってくる。特にAIツール、MCPサーバー、CLI補助ツール、テンプレート生成系は、開発機の資格情報に近い場所で動くため、通常のフロントエンド依存より警戒度を上げる。</p>
+<p>4つ目は、秘密情報の置き場所。MCP設定にAPIキーを直書きする、<code>.env</code>を広く読める場所に置く、GitHub tokenやnpm tokenを長寿命のまま常用する、クラウドCLIがログイン済みの状態でエージェントにシェルを渡す、という形は被害半径を広げる。OSキーチェーン、短命トークン、スコープ限定、プロジェクト別env、公開前のsecret scanningを組み合わせたい。</p>
+<p>5つ目は、ツール呼び出しログと停止手順。MCPサーバーやエージェントが何を読んだか、どのコマンドを実行したか、どこへ通信したかを最低限追える状態にしておく。違和感があったときに、MCP設定を外す、該当npmパッケージを削除する、トークンを失効する、GitHub/npm/クラウド側の監査ログを見る、という順番をあらかじめ決めておく。</p>
+<h2>個人向けの読みどころ</h2>
+<p>個人の環境に引き寄せるなら、OpenClawやCodexの強さは「ファイル、Discord、Obsidian、GitHub Pages、cron、ブラウザ、ローカルコマンドをまたげる」ことにある。一方で、攻撃面も同じ場所に生まれる。</p>
+<p>現実的な棚卸しは、次の粒度でよい。</p>
+<ul>
+<li>MCP/ツール連携台帳: サーバー名、用途、起動コマンド、インストール元、更新方法、読めるディレクトリ、使う資格情報</li>
+<li>npm/Node台帳: グローバルnpm、各プロジェクトのlockfile、preinstall/postinstallを持つ依存、最近追加したCLI</li>
+<li>資格情報台帳: GitHub、npm、OpenAI、Anthropic、Discord、クラウド、Obsidian関連で、どこに保存されているか</li>
+<li>公開系チェック: GitHub Pagesへ出るMarkdownに個人情報、内部パス、秘密情報が混ざらないか</li>
+<li>失効手順: 疑わしいときにまず切るトークン、見るログ、消す設定ファイル</li>
+</ul>
+<p>特にこの興味レポート自動化は、Discordポールを読み、Markdownを作り、サイトをビルドし、git pushし、公開URLを確認する。自動化としてはかなり強いので、成功ログだけでなく「どの入力を信頼したか」「どの外部情報を命令として扱わなかったか」「どのファイルを公開したか」を残す価値がある。</p>
+<p>当面の実務メモとしては、MCPサーバーを増やす前に1枚のObsidian台帳を作り、追加時に必ず「何を読めるか」「何を書けるか」「ネットワークへ出るか」「秘密情報を持つか」を書くのがよい。面倒でも、あとから思い出すより安い。</p>
+<h2>注意点</h2>
+<p>この記事は公開情報にもとづくセキュリティ運用メモであり、特定環境の侵害有無を断定するものではない。実際に不審な通信、見覚えのないMCP設定、予期しないnpmパッケージ、資格情報流出の疑いがある場合は、該当トークンの失効、ログ確認、端末隔離、専門家確認を優先する。</p>
+<p>MCP関連の脆弱性情報は更新が速い。ベンダーブログやセキュリティ企業の記事には未検証・誇張気味の表現が混ざることもあるため、実装判断では公式MCP仕様、プロジェクトのリリースノート、GitHub Advisory、CVE/NVD、ベンダー公式情報を合わせて確認する。</p>
+<p>また、MCPやAIエージェントを全面停止すれば安全になるわけではない。重要なのは、用途ごとに権限を絞り、信頼境界を分け、設定と依存を見える化すること。便利さを捨てるより、エージェントを「管理対象の自動化基盤」として扱うほうが続けやすい。</p>
+<h2>参考リンク</h2>
+<ul>
+<li>Model Context Protocol: Security Best Practices</li>
+</ul>
+<p><a href="https://modelcontextprotocol.io/docs/tutorials/security/security_best_practices">modelcontextprotocol.io - docs / tutorials</a></p>
+<ul>
+<li>Microsoft Security Blog: Preinstall to persistence: Inside the Red Hat npm Miasma credential-stealing campaign</li>
+</ul>
+<p><a href="https://www.microsoft.com/en-us/security/blog/2026/06/02/preinstall-persistence-inside-red-hat-npm-miasma-credential-stealing-campaign/">microsoft.com - en-us / security</a></p>
+<ul>
+<li>Endor Labs: SANDWORM_MODE: Dissecting a Multi-Stage npm Supply Chain Attack</li>
+</ul>
+<p><a href="https://www.endorlabs.com/learn/sandworm-mode-dissecting-a-multi-stage-npm-supply-chain-attack">endorlabs.com - learn / sandworm-mode-dissecting-a-multi-stage-npm-supply-chain-attack</a></p>
+<ul>
+<li>Lorikeet Security: MCP Is the New Supply Chain</li>
+</ul>
+<p><a href="https://lorikeetsecurity.com/blog/mcp-supply-chain-attacks-ai-agent-security">lorikeetsecurity.com - blog / mcp-supply-chain-attacks-ai-agent-security</a></p>
+<ul>
+<li>OWASP MCP Top 10</li>
+</ul>
+<p><a href="https://owasp.org/www-project-mcp-top-10/">owasp.org - www-project-mcp-top-10</a></p>
+    </article>
+  </main>
+</body>
+</html>
