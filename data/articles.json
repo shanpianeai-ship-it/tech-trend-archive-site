@@ -1,5 +1,18 @@
 [
   {
+    "file": "SAP_ERP/2026-06-07_Joule_Studioの統制アーキテクチャ.md",
+    "slug": "2026-06-07_Joule_Studioの統制アーキテクチャ",
+    "title": "Joule Studioの統制アーキテクチャ",
+    "genre": "SAP_ERP",
+    "genreLabel": "SAP / ERP",
+    "created": "2026-06-07",
+    "source": "https://architecture.learning.sap.com/docs/ref-arch/06ff6062dc/6",
+    "importance": "high",
+    "confidence": "high",
+    "excerpt": "SAP Architecture Centerは、Joule Studioを「企業向けの本番グレードなエージェント開発・実行基盤」として整理している。 重要なのは、Joule Studioが単なるAIチャット作成ツールではなく、Intent Based Development、Business Context、Trusted Governanceの3原則で、...",
+    "url": "articles/2026-06-07_Joule_Studioの統制アーキテクチャ.html"
+  },
+  {
     "file": "AI/2026-06-07_AM_APBでAgent計画力を診断.md",
     "slug": "2026-06-07_AM_APBでAgent計画力を診断",
     "title": "APBでAgent計画力を診断",

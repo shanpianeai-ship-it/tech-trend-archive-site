@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Joule Studioの統制アーキテクチャ | 海外技術情報アーカイブ</title>
+  <meta name="description" content="SAP Architecture Centerは、Joule Studioを「企業向けの本番グレードなエージェント開発・実行基盤」として整理している。 重要なのは、Joule Studioが単なるAIチャット作成ツールではなく、Intent Based Development、Business Context、Trusted Governanceの3原則で、...">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-07</span>
+        <span>SAP / ERP</span>
+        <span>importance: high</span>
+      </div>
+      <h1>Joule Studioの統制アーキテクチャ</h1>
+<h2>要約</h2>
+<p>SAP Architecture Centerは、Joule Studioを「企業向けの本番グレードなエージェント開発・実行基盤」として整理している。</p>
+<p>重要なのは、Joule Studioが単なるAIチャット作成ツールではなく、Intent Based Development、Business Context、Trusted Governanceの3原則で、エージェントの設計、業務文脈への接続、運用統制までを一体で扱おうとしている点。</p>
+<p>Basis/ERP運用目線では、Joule Studioは「AIエージェントを作るツール」よりも、「SAPデータ、業務プロセス、権限、監査、実行環境をどう束ねるか」を見る対象になる。</p>
+<h2>背景</h2>
+<p>SAPはSapphire 2026で、Business AI Platform、SAP Knowledge Graph、Joule Studio、SAP AI Agent Hub、Autonomous Suiteをまとめて打ち出した。狙いは、ERPに蓄積された業務データとプロセス文脈を、AIエージェントの実行基盤へ接続すること。</p>
+<p>Joule Studioはこの中で、企業が独自のJouleエージェント、スキル、アプリ、ワークフローを作る開発面を担う。SAP Buildの一部として位置づけられ、ローコードからプロコードまでを扱い、LangChain、Pydantic AI、LlamaIndex、n8nのような外部フレームワークやオーケストレーションも取り込む方向が示されている。</p>
+<p>一方で、SAP Help Portalでは、利用にはSAP Buildの適切なライセンスやbuild-default planへのサブスクライブ、Joule Admin Centerでの有効化、必要に応じた利用条件の受諾が必要と説明されている。つまり、現時点でも「誰でも即座に自由利用できる一般AIツール」ではなく、BTP/SAP Build/Jouleの管理面とセットで考える必要がある。</p>
+<h2>何が重要か</h2>
+<h3>3原則はエージェント運用の設計観点になる</h3>
+<div class="table-wrap"><table>
+<thead><tr><th>原則</th><th>SAPの狙い</th><th>運用で見る点</th></tr></thead>
+<tbody>
+<tr><td>Intent Based Development</td><td>望む業務成果を起点に、エージェント、アプリ、ワークフローを作る</td><td>要求、仕様、実装、テスト、承認をどこまで追跡できるか</td></tr>
+<tr><td>Business Context</td><td>SAP Knowledge Graph、ドメインモデル、SAPデータ/プロセスで回答と実行を根拠付ける</td><td>会社別ルール、権限、組織、承認、例外処理が反映されるか</td></tr>
+<tr><td>Trusted Governance</td><td>企業利用に必要な運用統制を内蔵する</td><td>監査ログ、Agent Hub、実行履歴、変更管理、責任分界を確認する</td></tr>
+</tbody>
+</table></div>
+<p>この3つは、エージェントを本番業務へ入れる時のチェックリストとして使える。</p>
+<p>単に「自然言語で作れる」だけでは足りない。意図から成果物へ変換された後、その成果物がどの業務文脈に接続され、どの権限で動き、誰が承認し、どこに実行証跡が残るかを見ないと、本番運用には乗せにくい。</p>
+<h3>Joule StudioはSAP Buildの上にある統合面になる</h3>
+<p>SAPの説明では、Joule StudioはSAP Buildの一部であり、SAP Build Apps、SAP Build Code、SAP Build Process Automation、SAP Build Work Zoneなどと接続する。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>領域</th><th>Joule Studioでの位置づけ</th><th>Basis/ERP目線の確認事項</th></tr></thead>
+<tbody>
+<tr><td>ローコード開発</td><td>自然言語やGUIでエージェント/スキルを作る</td><td>業務部門開発の変更管理、リリース管理</td></tr>
+<tr><td>プロコード開発</td><td>VS Codeや外部AIフレームワークを使う</td><td>ソース管理、CI/CD、セキュリティレビュー</td></tr>
+<tr><td>業務自動化</td><td>SAP Build Process Automationやワークフローと連携</td><td>実行ユーザー、承認、例外時の戻し方</td></tr>
+<tr><td>データ/文書接地</td><td>SAP Knowledge GraphやDocument Groundingを使う</td><td>データ分類、アクセス権、機密情報の露出</td></tr>
+<tr><td>外部連携</td><td>MCPサーバーや外部ツールを追加する</td><td>ネットワーク、宛先、認証情報、責任境界</td></tr>
+</tbody>
+</table></div>
+<p>ここで注意すべきなのは、エージェントがSAP内の情報だけで完結しない可能性が高いこと。外部MCP、OData、非SAPシステム、文書ストアを組み合わせるほど、BTP宛先、認証、権限、監査ログの設計が重要になる。</p>
+<h3>Agent HubとManaged Runtimeが運用側の焦点になる</h3>
+<p>Architecture Centerでは、Joule Studio RuntimeをSAP Business AI Platform上の完全管理された実行環境として説明している。また、エージェントを管理・発見・統制する文脈としてAgent Hubも挙げられている。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>機能/概念</th><th>期待される役割</th><th>リスク</th></tr></thead>
+<tbody>
+<tr><td>Joule Studio Runtime</td><td>エージェントの実行環境、状態、マルチステップ計画を扱う</td><td>実行失敗時の再試行、停止、補償処理が不明確だと危ない</td></tr>
+<tr><td>Agent Hub</td><td>エージェントの発見、管理、統制の入口</td><td>野良エージェント、重複、権限過多を防げるか</td></tr>
+<tr><td>Process Insights / Signavio連携</td><td>業務プロセス文脈と改善余地を与える</td><td>プロセス分析と実行自動化の責任分界が曖昧になりやすい</td></tr>
+<tr><td>Document Grounding</td><td>文書を根拠に回答精度を上げる</td><td>文書更新、古い手順書、機密文書アクセスに注意</td></tr>
+<tr><td>MCP/外部ツール</td><td>SAP外の機能をエージェントへ渡す</td><td>ツール権限、秘密情報、外部送信、監査範囲が広がる</td></tr>
+</tbody>
+</table></div>
+<p>本番で見るべき論点は、エージェントの賢さそのものより、エージェントの登録、公開、権限、実行ログ、停止、変更、棚卸しの運用設計になる。</p>
+<h2>採用判断</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>判断軸</th><th>評価</th><th>メモ</th></tr></thead>
+<tbody>
+<tr><td>すぐ導入すべきか</td><td>慎重</td><td>ライセンス、リージョン、利用条件、Joule Admin Center、SAP Build環境の確認が先</td></tr>
+<tr><td>PoC価値</td><td>高い</td><td>問い合わせ、購買照会、定型調査、文書検索などで効果を測りやすい</td></tr>
+<tr><td>本番適用</td><td>条件付き</td><td>承認、監査、権限、例外処理、人間レビューを先に設計する</td></tr>
+<tr><td>Basis関与</td><td>必須寄り</td><td>BTP、宛先、ID、権限、ログ、ネットワーク、運用監視が絡む</td></tr>
+<tr><td>追跡優先度</td><td>高</td><td>SAPがERPをエージェント基盤へ寄せる中核部品になる可能性がある</td></tr>
+</tbody>
+</table></div>
+<p>自分用には、Joule Studioを「SAP版のエージェント開発ツール」とだけ見ない方がよい。むしろ、SAPがAIエージェントをどこまで業務プロセスと統制に埋め込もうとしているかを見るための観測点として追う。</p>
+<h2>自分向けメモ</h2>
+<ul>
+<li>Joule Studioの価値は、自然言語開発よりもSAP業務文脈、SAP権限、SAP Build、BTP宛先、Agent Hubをまとめる点にある。</li>
+<li>SAP案件でAIエージェントが出てきたら、まず「誰の権限で動くか」「実行ログはどこか」「承認はどこか」「失敗時に戻せるか」を確認する。</li>
+<li>MCP連携は強力だが、SAP外のツールをSAP業務権限の近くに置くことになる。秘密情報、外部送信、監査範囲を必ず見る。</li>
+<li>業務部門がローコードでエージェントを作れるほど、Basis/運用側は棚卸し、命名、公開範囲、変更管理のルールを用意する必要がある。</li>
+<li>Joule Studioの実体はまだ更新が速い。公式Architecture Center、Help Portal、SAP Build/Joule Admin Centerのドキュメントを継続確認する。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li>SAP Architecture Center: <a href="https://architecture.learning.sap.com/docs/ref-arch/06ff6062dc/6">Joule Studio</a> - 3原則、Runtime、Agent Hubなどの設計整理。</li>
+<li>SAP News Center: <a href="https://news.sap.com/2026/05/new-joule-studio-enterprise-scale-agentic-development/">Announcing New Joule Studio for Enterprise Scale Agentic Development</a> - Sapphire 2026でのJoule Studio発表。</li>
+<li>SAP製品ページ: <a href="https://www.sap.com/products/artificial-intelligence/joule-studio.html">Joule Studio | AI Agent and Skill Builder</a> - 機能概要、agent runtime、document grounding、MCP連携。</li>
+<li>SAP Help Portal: <a href="https://help.sap.com/docs/Joule_Studio/45f9d2b8914b4f0ba731570ff9a85313/6b8f95b9bf8e404a8b590656fa2a3274.html?locale=en-US">Agent Integration</a> - content-based agentとcode-based agent、Joule Admin Centerでの有効化。</li>
+<li>SAP Help Portal: <a href="https://help.sap.com/docs/Joule_Studio/45f9d2b8914b4f0ba731570ff9a85313/04b323352fa645238211ce017f634d34.html">Set Up Joule Studio</a> - SAP Buildライセンス、build-default planなどの前提。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>Joule Studio</li>
+<li>SAP Build</li>
+<li>SAP Business AI Platform</li>
+<li>SAP Knowledge Graph</li>
+<li>SAP AI Agent Hub</li>
+<li>Joule Studio Runtime</li>
+<li>Intent Based Development</li>
+<li>Business Context</li>
+<li>Trusted Governance</li>
+<li>MCP</li>
+<li>Document Grounding</li>
+<li>SAP BTP</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://architecture.learning.sap.com/docs/ref-arch/06ff6062dc/6">architecture.learning.sap.com - docs / ref-arch</a></p></section>
+    </article>
+  </main>
+</body>
+</html>
