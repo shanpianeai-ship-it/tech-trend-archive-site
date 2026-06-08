@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SAP Cloud ERP横断セキュリティ設計 | 海外技術情報アーカイブ</title>
+  <meta name="description" content="SAP Communityの公式ブログは、現代のSAP Cloud ERPセキュリティを「S/4HANA Cloud Privateだけを守る話」ではなく、SAP BTP、SaaS、Integration Suite、AI、クラウド基盤まで含む多層ランドスケープの統制問題として整理している。 重要なのは、各サービスに個別のセキュリティモデル、管理方法、ID/...">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-08</span>
+        <span>SAP / ERP</span>
+        <span>importance: high</span>
+      </div>
+      <h1>SAP Cloud ERP横断セキュリティ設計</h1>
+<h2>要約</h2>
+<p>SAP Communityの公式ブログは、現代のSAP Cloud ERPセキュリティを「S/4HANA Cloud Privateだけを守る話」ではなく、SAP BTP、SaaS、Integration Suite、AI、クラウド基盤まで含む多層ランドスケープの統制問題として整理している。</p>
+<p>重要なのは、各サービスに個別のセキュリティモデル、管理方法、ID/権限、運用責任があるため、ひとつのレイヤーの統制が自動的に他レイヤーへ効くわけではない、という指摘。特にJouleやSAP Business AIのようなAI機能が入ると、プロンプト、検索文脈、モデル呼び出し、AI支援アクションが新しいデータフローになる。</p>
+<p>Basis/ERP運用目線では、これは「Cloud ERPはSAPが運用するから安全」という話ではない。認証、認可、ログ、データ分類、契約、監査証跡を、SAPアプリ横断でどう確認するかという実務設計の話になる。</p>
+<h2>背景</h2>
+<p>SAP Cloud ERP環境は、単一システムではなくなっている。典型的には、SAP Cloud ERP Private、SAP BTP、SuccessFactorsやAribaなどのSaaS、Integration Suite、SAP AI Foundation、Joule、生成AI Hub、外部ID基盤、非SAPシステムが組み合わさる。</p>
+<p>この構成では、縦方向の防御と横方向の統制を分けて考える必要がある。縦方向は、各レイヤーをアプリケーションからインフラまで守る見方。横方向は、ID、ログ、暗号化、プライバシー、監査、インシデント対応をサービス横断でそろえる見方。</p>
+<p>SAP Trust CenterのCloud ERPセキュリティページでも、ネットワーク、クラウドセキュリティ態勢管理、脅威・脆弱性管理、事業継続、データ保護、ログ監視、規制対応、インシデント対応、IAMがCloud ERPの主要セキュリティ領域として示されている。つまり、ERP移行後の運用論点はBasisだけで閉じず、クラウド運用、ID管理、契約・監査まで広がる。</p>
+<h2>何が重要か</h2>
+<h3>境界はシステム単位ではなく責任単位で見る</h3>
+<p>記事では、SAP Cloud ERPの典型的な構成を6つのレイヤーに分けている。運用設計では、このレイヤーごとに「誰が何を守るのか」を明示する必要がある。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>レイヤー</th><th>典型範囲</th><th>主な確認点</th></tr></thead>
+<tbody>
+<tr><td>AI / Intelligence</td><td>Joule、SAP Business AI、AI Foundation、生成AI Hub、Joule Studio</td><td>プロンプト、grounding、検索文脈、モデル経路、保持、契約、監査</td></tr>
+<tr><td>SAP SaaS</td><td>SuccessFactors、Ariba、Concur、Fieldglass、CXなど</td><td>テナント分離、管理者権限、ロール、データ所在地、監査レポート</td></tr>
+<tr><td>Integration Suite</td><td>Cloud Integration、API Management、Event Mesh、証明書、destination</td><td>資格情報、証明書、payload、API scope、イベント購読</td></tr>
+<tr><td>Core ERP</td><td>SAP Cloud ERP Private、S/4HANA、ECS管理コンポーネント</td><td>Basis、DB、OS、network、backup、変更、監視、顧客設定の責任分界</td></tr>
+<tr><td>SAP BTP</td><td>subaccount、extension、Datasphere、SAC、Build、AI Foundation</td><td>entitlement、destination、secret、audit log、custom code、接続</td></tr>
+<tr><td>Cloud Infrastructure</td><td>SAP運用またはSAP管理のDC/hyperscaler</td><td>リージョン、冗長化、backup、物理/ネットワーク、コンプライアンス</td></tr>
+</tbody>
+</table></div>
+<p>ここでの実務ポイントは、「SAPが運用する範囲」と「顧客が設計・設定・判断する範囲」を混ぜないこと。ECSやSaaSでは基盤運用はSAP側に寄るが、業務ロール、承認、データ分類、カスタムコード、接続先、監査解釈は顧客側に残る。</p>
+<h3>AIはUI機能ではなくデータフローとして扱う</h3>
+<p>JouleやSAP Business AIを有効化すると、ユーザーが見ている画面の裏で、プロンプト、回答、検索文脈、モデル選択、外部/内部モデル連携、AI支援アクションが発生する。記事はこのAI interactionを、単なるUI機能ではなく、統制されたデータフローとして扱うべきだとしている。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>リスク</th><th>具体例</th><th>運用側の確認</th></tr></thead>
+<tbody>
+<tr><td>Prompt injection</td><td>外部文書や入力がAIの動作を誘導する</td><td>入力元、ツール実行権限、危険指示の扱い</td></tr>
+<tr><td>Over-broad grounding</td><td>本来不要な業務データまで検索文脈に入る</td><td>ユーザー権限、検索対象、最小化、RLS/field制御</td></tr>
+<tr><td>Shadow AI</td><td>カスタム拡張が未承認LLMを直接呼ぶ</td><td>BTP destination、API利用、外部送信先、契約</td></tr>
+<tr><td>Output misuse</td><td>AI出力を検証せず業務判断に使う</td><td>人間承認、根拠表示、ログ、業務ルールチェック</td></tr>
+</tbody>
+</table></div>
+<p>SAP JouleのIAM参照アーキテクチャでも、SAP Cloud Identity Servicesを標準のID基盤として使い、Global User ID、SCIM、OIDC、principal propagation、SAP BTP Destination Serviceを組み合わせて、ユーザー文脈でJoule Function/APIを呼ぶ流れが説明されている。つまり、AIの便利さは、IDと権限伝播が崩れていないことが前提になる。</p>
+<h3>「中央認証」と「中央認可」は別物</h3>
+<p>記事の実務的な警告は、SAP Cloud Identity Servicesや企業IdPで入口をそろえても、各SaaSの業務ロールや権限が自動で統一されるわけではないという点。</p>
+<p>たとえば、SuccessFactors、Ariba、Concur、Cloud ERP、BTP拡張では、同じ人がログインできても、給与、購買承認、支払先銀行情報、旅費、顧客情報、API scopeへのアクセスは別々に管理される。MFAやSSOだけでは、過剰権限、非アクティブ特権ユーザー、OAuth client、技術ユーザー、証明書、管理委任の棚卸し不足は解消しない。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>見る対象</th><th>よくある落とし穴</th><th>チェック観点</th></tr></thead>
+<tbody>
+<tr><td>ユーザー</td><td>退職・異動後の残存権限</td><td>joiner/mover/leaver、IPS/SCIM同期、棚卸し</td></tr>
+<tr><td>管理者</td><td>サービスごとに特権が残る</td><td>privileged user review、職務分掌</td></tr>
+<tr><td>技術ユーザー</td><td>API連携用に広すぎる権限</td><td>scope、期限、所有者、ローテーション</td></tr>
+<tr><td>OAuth client</td><td>使途不明のclientが残る</td><td>登録理由、redirect、secret管理、ログ</td></tr>
+<tr><td>SaaS固有ロール</td><td>IdP側では見えない業務権限</td><td>アプリ内ロール、承認、field-level permission</td></tr>
+</tbody>
+</table></div>
+<p>Basis担当がCloud ERP案件を見る場合も、IdP連携が終わったかどうかだけでなく、アプリ別の認可と技術アクセス棚卸しまで見る必要がある。</p>
+<h3>Integration Suiteは「便利な接続」ではなく露出境界</h3>
+<p>Integration Suiteは、SAPと非SAPの間でデータが動く場所。ここでは資格情報、証明書、endpoint、payload、mapping、event subscriptionが、静かにデータ露出を広げる。</p>
+<p>記事は、承認済みAPIと文書化されたintegration patternを使うこと、destination、secret、certificate、integration credentialをライフサイクル管理すること、OAuth 2.0、mTLS、allow-listing、rate limiting、threat protectionを適用することを挙げている。</p>
+<p>自分向けには、Cloud Connector設定と公開resourceのレビューを定例化したい。Connectivityは便利設定ではなく、オンプレ/クラウド境界を開ける統制点。誰が、どのsubaccountから、どの内部ホスト/ポート/パスへ到達できるかを、構成図ではなく棚卸し表として持つ必要がある。</p>
+<h2>採用判断</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>判断軸</th><th>評価</th><th>メモ</th></tr></thead>
+<tbody>
+<tr><td>追跡優先度</td><td>高</td><td>SAPのAI/Cloud ERP運用で責任分界が複雑化する流れを整理できる</td></tr>
+<tr><td>すぐ使える度</td><td>高</td><td>Cloud ERP/BTP/SaaS/Integrationの監査チェックリストに落としやすい</td></tr>
+<tr><td>日本語圏の既出度</td><td>低〜中</td><td>SAPセキュリティ一般論はあるが、AI/BTP/SaaS横断の責任分界整理は薄い</td></tr>
+<tr><td>Basis関与</td><td>必須</td><td>ID、権限、ログ、Cloud Connector、destination、監査、変更管理が絡む</td></tr>
+<tr><td>注意点</td><td>高</td><td>公式ブログだが、個別サービスの契約、DPA、subprocessor、監査レポート確認は別途必要</td></tr>
+</tbody>
+</table></div>
+<p>結論として、このテーマはCloud ERP移行やJoule導入前の「セキュリティ質問票」に使える。特にAIを入れる案件では、モデル名や機能名より先に、どの業務データがプロンプト/検索文脈/回答/ログへ流れるかを確認する方が実務的。</p>
+<h2>自分向けメモ</h2>
+<ul>
+<li>Cloud ERPセキュリティは、S/4HANA権限設計だけで完結しない。BTP、SaaS、Integration、AI、契約まで横断で見る。</li>
+<li>JouleやBusiness AIは、画面の追加機能ではなく「業務データを別の処理系へ渡す流れ」として扱う。</li>
+<li>入口のSSO/MFAができていても、各SaaSの業務ロール、OAuth client、技術ユーザー、管理者委任は別に棚卸しする。</li>
+<li>SAP BTP destinationとCloud Connectorは、拡張開発チーム任せにせず、Basis/セキュリティ側でも所有者、用途、到達先、secret期限を確認する。</li>
+<li>生成AI HubやJouleを使う場合は、利用可能モデル、リージョン、保持、学習利用有無、subprocessor、契約条項をSAP NoteやTrust Center、DPAと合わせて確認する。</li>
+<li>「Clean Core」はアップグレード性だけでなく、攻撃面を減らすセキュリティ原則として説明できる。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li>SAP Community: <a href="https://community.sap.com/t5/technology-blog-posts-by-sap/modern-sap-cloud-erp-security-from-core-erp-to-btp-saas-and-ai/ba-p/14392369">Modern SAP Cloud ERP Security: From Core ERP to BTP, SaaS, and AI</a> - 本文。Cloud ERP、BTP、SaaS、Integration、AIを横断した責任分界と統制観点。</li>
+<li>SAP Trust Center: <a href="https://www.sap.com/about/trust-center/security/cloud-erp-security.html">SAP Cloud ERP Security and Compliance</a> - Cloud ERP / Cloud ERP Privateのセキュリティ、ログ監視、IAM、コンプライアンス、インシデント対応などの公式説明。</li>
+<li>SAP Architecture Center: <a href="https://architecture.learning.sap.com/docs/ref-arch/06ff6062dc/2">Identity and Access Management for SAP Joule</a> - JouleにおけるSAP Cloud Identity Services、OIDC、SCIM、principal propagation、Destination Serviceの参照アーキテクチャ。</li>
+<li>SAP Community: <a href="https://community.sap.com/t5/technology-blog-posts-by-sap/securing-sap-agentic-ai-across-architectural-boundaries/ba-p/14329833">Securing SAP Agentic AI Across Architectural Boundaries</a> - SAP Agentic AIのリクエストライフサイクル、ID、Gen AI Hub、RAG、AI Core、MCP Gateway、監査境界の整理。</li>
+<li>SAP Note: <a href="https://me.sap.com/notes/3437766">3437766 - Availability of Generative AI Models</a> - SAP Generative AI Hubで利用可能なモデル確認の参照先。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>SAP Cloud ERP Security</li>
+<li>SAP Cloud ERP Private</li>
+<li>SAP BTP Security</li>
+<li>SAP Integration Suite</li>
+<li>SAP Cloud Identity Services</li>
+<li>SAP Joule</li>
+<li>SAP Business AI</li>
+<li>Generative AI Hub</li>
+<li>Principal Propagation</li>
+<li>SAP BTP Destination Service</li>
+<li>Cloud Connector</li>
+<li>Clean Core</li>
+<li>Shared Responsibility</li>
+<li>Data Residency</li>
+<li>Audit Logging</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://community.sap.com/t5/technology-blog-posts-by-sap/modern-sap-cloud-erp-security-from-core-erp-to-btp-saas-and-ai/ba-p/14392369">community.sap.com - t5 / technology-blog-posts-by-sap</a></p></section>
+    </article>
+  </main>
+</body>
+</html>

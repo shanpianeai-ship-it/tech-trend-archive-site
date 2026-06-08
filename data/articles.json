@@ -1,5 +1,18 @@
 [
   {
+    "file": "SAP_ERP/2026-06-08_AM_SAP_Cloud_ERP横断セキュリティ設計.md",
+    "slug": "2026-06-08_AM_SAP_Cloud_ERP横断セキュリティ設計",
+    "title": "SAP Cloud ERP横断セキュリティ設計",
+    "genre": "SAP_ERP",
+    "genreLabel": "SAP / ERP",
+    "created": "2026-06-08",
+    "source": "https://community.sap.com/t5/technology-blog-posts-by-sap/modern-sap-cloud-erp-security-from-core-erp-to-btp-saas-and-ai/ba-p/14392369",
+    "importance": "high",
+    "confidence": "high",
+    "excerpt": "SAP Communityの公式ブログは、現代のSAP Cloud ERPセキュリティを「S/4HANA Cloud Privateだけを守る話」ではなく、SAP BTP、SaaS、Integration Suite、AI、クラウド基盤まで含む多層ランドスケープの統制問題として整理している。 重要なのは、各サービスに個別のセキュリティモデル、管理方法、ID/...",
+    "url": "articles/2026-06-08_AM_SAP_Cloud_ERP横断セキュリティ設計.html"
+  },
+  {
     "file": "SAP_ERP/2026-06-08_SAP_Autonomous_SCMとJoule_Assistants.md",
     "slug": "2026-06-08_SAP_Autonomous_SCMとJoule_Assistants",
     "title": "SAP Autonomous SCMとJoule Assistants",
