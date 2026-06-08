@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>2026年6月SAP Security Patch DayをBasis担当者の事前チェックリストにする | 興味レポート</title>
+  <meta name="description" content="2026年6月のSAP Security Patch Dayは、SAP公式の年間日程では6月9日予定。この記事作成時点の2026年6月8日 19:50 JSTでは、6月分の個別Bulletinページはまだ公開されていなかったため、明日見るべき順番を事前チェックリストとして整理する。 最初に見るべきなのは、SAP for MeのAll Security Not...">
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../../interests/index.html">興味レポート</a>
+    <span class="site-subtitle">Public redacted interest reports</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 興味レポート一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-08T19:50:00+09:00</span>
+        <span>SAP・業務システム</span>
+        <span>interest_report</span>
+      </div>
+      <h1>2026年6月SAP Security Patch DayをBasis担当者の事前チェックリストにする</h1>
+<h2>要約</h2>
+<p>2026年6月のSAP Security Patch Dayは、SAP公式の年間日程では6月9日予定。この記事作成時点の2026年6月8日 19:50 JSTでは、6月分の個別Bulletinページはまだ公開されていなかったため、明日見るべき順番を事前チェックリストとして整理する。</p>
+<p>最初に見るべきなのは、SAP for MeのAll Security NotesとSAP公式のSecurity Notes &amp; Newsで、特にPatch Day Security NotesのCritical/High、SAP_BASIS、S4CORE、SAP_UI、SAP_GWFND、Kernel、BusinessObjects、Commerce Cloud、HANA周辺を優先する。直近の2026年4月と5月のBulletinでは、SAP_BASISやS/4HANA、BusinessObjects、SAPUI5、Commerce Cloudなどが繰り返し対象になっており、Basis担当者は「自社に該当する製品か」だけでなく「公開入口、RFC/HTTP到達性、権限チェック、OSコマンド/SQL注入系か」を見る必要がある。</p>
+<h2>なぜ今見る価値があるか</h2>
+<p>SAP Security Patch Dayは毎月第2火曜日に設定されている。2026年6月は6月9日なので、当日公開後に慌てて読むより、前日に見る観点を決めておく方が実務に効く。</p>
+<p>候補作成時点のDiscordポールでは <code>2. SAP 6月Patch Day</code> に1票が入り、最多票だった。個人向けには、単なる脆弱性ニュースではなく、Basis担当者が「明日どの順でSAP Notesを開き、どの環境を確認し、誰に連絡するか」まで落とすのが読みどころになる。</p>
+<h2>調査メモ</h2>
+<h3>1. SAP公式日程では2026年6月9日がPatch Day</h3>
+<p>SAP公式のSecurity Notes &amp; Newsは、SAP Security Patch Dayを毎月第2火曜日に予定すると説明している。2026年の日程一覧では、June 9 が明記されている。</p>
+<p>同ページでは、SAP Patch DayにSAPがSecurity Notesを公開し、顧客はSAP for MeからAll Security Notesを確認できるとしている。また、SAP Security NotesはPatch Day Security NotesとSupport Package Security Notesに分けられ、Patch Dayでは重要修正に集中する考え方が示されている。</p>
+<h3>2. 6月Bulletinはまだ未公開なので、前月までの傾向をチェック軸にする</h3>
+<p>2026年6月8日夜時点で、<code>/june-2026.html</code> のSAP公式Bulletin URLはHTTP 404だった。つまり、この記事では6月の個別Note番号を断定しない。明日6月9日に公開されたら、以下を上から確認する。</p>
+<ol>
+<li>SAP公式Security Notes &amp; NewsにJune 2026 Bulletinが出ているか。</li>
+<li>SAP for MeでAll Security Notesを開き、Patch Day Security Notesに絞る。</li>
+<li>PriorityがCriticalまたはHighのNoteを先に読む。</li>
+<li>ProductとVersion(s)が自社の導入コンポーネントに一致するかを見る。</li>
+<li>SAP_BASIS、S4CORE、SAP_UI、SAP_GWFND、Kernel、BusinessObjects、Commerce Cloud、HANA関連を別枠で拾う。</li>
+<li>認証回避、Missing Authorization Check、SQL Injection、OS Command Injection、Code Injection、XSS、Information Disclosureを分類する。</li>
+<li>外部公開や社外接続があるシステムを優先度上位に置く。</li>
+</ol>
+<h3>3. 直近月はSAP_BASISとS/4HANA周辺が繰り返し出ている</h3>
+<p>SAP公式の2026年5月Bulletinでは、15件の新規Security Notesが公開された。Criticalは、SAP S/4HANA Enterprise Search for ABAPのSQL injection、SAP Commerce Cloud configurationのMissing authentication checkなど。HighにはSAP Forecasting &amp; ReplenishmentのOS Command Injectionが含まれていた。</p>
+<p>同じ5月Bulletinには、SAP NetWeaver Application Server for ABAP and ABAP Platform、SAPUI5、BusinessObjects、HANA Deployment Infrastructureなども並んでいる。Canadian Centre for Cyber Securityの月次ロールアップも、SAP_BASIS 700から758、816、918など広いバージョン範囲を列挙しており、Basis担当者がコンポーネント棚卸しを持っていないと該当判定に時間がかかることが分かる。</p>
+<p>2026年4月Bulletinでも、SAP Business Planning and Consolidation / SAP BWのSQL Injection、SAP ERP and SAP S/4HANAのMissing Authorization Check、BusinessObjects、NetWeaver AS ABAP、SAP HANA Cockpit、SAP Landscape Transformationなどが対象になっていた。月ごとの個別テーマは変わるが、Basis観点では「ABAP基盤、S/4HANA業務コンポーネント、BI、HANA、UI、クラウド補助ツール」が繰り返し監視対象になる。</p>
+<h3>4. Basis担当者向けの当日チェックリスト</h3>
+<p>明日Bulletinが出たら、次の表で一次判定する。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>確認項目</th><th>見るもの</th><th>判断</th></tr></thead>
+<tbody>
+<tr><td>公開確認</td><td>SAP Security Patch Day June 2026、SAP for Me All Security Notes</td><td>Bulletin公開、Note更新有無</td></tr>
+<tr><td>重大度</td><td>Priority、CVSS</td><td>Critical/Highは即日一次判定</td></tr>
+<tr><td>対象製品</td><td>Product、Version(s)</td><td>導入済みコンポーネントと突合</td></tr>
+<tr><td>基盤影響</td><td>SAP_BASIS、Kernel、SAP_UI、SAP_GWFND、HANA、BOBJ</td><td>共通基盤なら優先度を上げる</td></tr>
+<tr><td>攻撃条件</td><td>認証要否、ネットワーク到達性、権限要否</td><td>外部公開・低権限悪用は優先</td></tr>
+<tr><td>業務影響</td><td>該当システム、利用部門、停止可否</td><td>本番適用窓と代替手順を確認</td></tr>
+<tr><td>実装方法</td><td>SNOTE、Support Package、Kernel更新、製品パッチ</td><td>検証環境で適用順を確認</td></tr>
+<tr><td>代替緩和</td><td>ICF停止、公開制限、権限見直し、WAF/Firewall</td><td>即時適用できない場合の暫定策</td></tr>
+</tbody>
+</table></div>
+<h3>5. 事前に持っておくべき棚卸し</h3>
+<p>Patch Day当日に弱い運用は、Noteを読んでから対象システムを探し始める運用。前日までに、最低限以下の一覧を手元に置く。</p>
+<ul>
+<li>システムID、用途、本番/検証/開発の区分</li>
+<li>SAP_BASIS、S4CORE、SAP_UI、SAP_GWFND、HANA、BusinessObjectsなどの主要バージョン</li>
+<li>KernelバージョンとOS/DB</li>
+<li>外部公開の有無、Web Dispatcher、Reverse Proxy、VPN越し利用の有無</li>
+<li>SNOTE適用可否、SP適用計画、Kernel更新手順</li>
+<li>重要業務の停止可能時間と連絡先</li>
+</ul>
+<p>特にSAP_BASISやS4COREが対象に入るNoteは、単一業務アドオンより横断影響が大きい。公開されているICFサービス、OData、BSP、Web Dynpro、RFC宛先、管理者系トランザクションへの到達性も合わせて見る。</p>
+<h2>個人向けの読みどころ</h2>
+<p>Basis実務としては、Patch Dayを「脆弱性一覧を読む日」にしない方がよい。読む順番は、重大度、対象コンポーネント、公開面、業務停止可否の4段階にする。</p>
+<p>個人が記事や動画ネタにするなら、切り口は「SAP Notes番号を紹介する」より「Basis担当者は当日何を見て、どう優先順位を付けるか」の方が強い。とくにRISE with SAPやS/4HANA Cloud Private Editionでは、ベンダー側管理と顧客側責任の境界が曖昧に見えやすい。顧客側で残る仕事は、対象システムの把握、業務影響の判断、権限・公開面の確認、検証計画、社内説明になる。</p>
+<p>実務チェックの短い型はこれでよい。</p>
+<ol>
+<li>Critical/Highだけ先に読む。</li>
+<li>SAP_BASIS/S4CORE/Kernel/HANA/BOBJを棚卸しに突合する。</li>
+<li>外部公開または低権限悪用なら優先度を上げる。</li>
+<li>即時適用できない場合は、公開制限や権限見直しを暫定策にする。</li>
+<li>本番適用は、業務部門に「何を直すか」ではなく「放置した場合の業務リスク」で説明する。</li>
+</ol>
+<h2>注意点</h2>
+<ul>
+<li>この記事は2026年6月8日 19:50 JST時点の公開情報に基づく事前チェックリスト。2026年6月の個別SAP Security Notesは、6月9日の公式公開後に必ず再確認する。</li>
+<li>SAP for MeのNote本文は認証が必要な場合がある。公開記事ではNote本文の非公開情報や契約者向け情報を引用しない。</li>
+<li>重大度だけで本番適用順を決めない。外部公開、認証条件、業務重要度、停止可能時間、検証容易性を合わせて判断する。</li>
+<li>Cloud、Private Cloud、On-Premiseでは責任分界が異なる。誰がパッチを当てるか、誰が業務影響を判断するかを分けて確認する。</li>
+<li>これは運用整理メモであり、個別環境への適用指示ではない。実システムではSAP公式Note、保守契約、社内変更管理、ベンダー通知を優先する。</li>
+</ul>
+<h2>参考リンク</h2>
+<ul>
+<li><a href="https://support.sap.com/en/my-support/knowledge-base/security-notes-news.html">SAP Support - SAP Security Notes &amp; News</a></li>
+<li><a href="https://support.sap.com/en/my-support/knowledge-base/security-notes-news/may-2026.html">SAP Support - SAP Security Patch Day May 2026</a></li>
+<li><a href="https://support.sap.com/en/my-support/knowledge-base/security-notes-news/april-2026.html">SAP Support - SAP Security Patch Day April 2026</a></li>
+<li><a href="https://me.sap.com/notes">SAP for Me - All Security Notes</a></li>
+<li><a href="https://www.cyber.gc.ca/en/alerts-advisories/sap-security-advisory-may-2026-monthly-rollup-av26-447">Canadian Centre for Cyber Security - SAP security advisory May 2026 monthly rollup</a></li>
+</ul>
+    </article>
+  </main>
+</body>
+</html>

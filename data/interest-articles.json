@@ -56,6 +56,17 @@
   },
   {
     "file": "[入力元伏せ]",
+    "slug": "2026-06-08-SAP・業務システム-2026年6月SAP-Security-Patch-DayをBasis担当者の事前チ-483c137a24",
+    "title": "2026年6月SAP Security Patch DayをBasis担当者の事前チェックリストにする",
+    "category": "SAP・業務システム",
+    "created": "2026-06-08T19:50:00+09:00",
+    "status": "",
+    "type": "interest_report",
+    "excerpt": "2026年6月のSAP Security Patch Dayは、SAP公式の年間日程では6月9日予定。この記事作成時点の2026年6月8日 19:50 JSTでは、6月分の個別Bulletinページはまだ公開されていなかったため、明日見るべき順番を事前チェックリストとして整理する。 最初に見るべきなのは、SAP for MeのAll Security Not...",
+    "url": "interests/articles/2026-06-08-SAP・業務システム-2026年6月SAP-Security-Patch-DayをBasis担当者の事前チ-483c137a24.html"
+  },
+  {
+    "file": "[入力元伏せ]",
     "slug": "2026-04-30-SAP・業務システム-RISE-with-SAP-Private-Cloud時代に残る顧客側Basis業務-ec51f3e7eb",
     "title": "RISE with SAP Private Cloud時代に残る顧客側Basis業務と高付加価値領域",
     "category": "SAP・業務システム",
