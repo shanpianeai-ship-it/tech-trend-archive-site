@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GitHub Agentic Workflows v0.77.4 | 海外技術情報アーカイブ</title>
+  <meta name="description" content="GitHub Agentic Workflows v0.77.4は、GitHub Actions上で動くAIエージェント自動化を、単発の実験からリポジトリ運用部品へ寄せる更新。 2026-06-01のWeekly Updateでは、Claude向けWorkload Identity Federation、Copilot SDK engine、`aw.yml`...">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-08</span>
+        <span>AI / LLM / Agent</span>
+        <span>importance: high</span>
+      </div>
+      <h1>GitHub Agentic Workflows v0.77.4</h1>
+<h2>要約</h2>
+<p>GitHub Agentic Workflows v0.77.4は、GitHub Actions上で動くAIエージェント自動化を、単発の実験からリポジトリ運用部品へ寄せる更新。</p>
+<p>2026-06-01のWeekly Updateでは、Claude向けWorkload Identity Federation、Copilot SDK engine、<code>aw.yml</code>の<code>includes</code>、<code>skills</code>、<code>agents</code>対応、24時間Effective Tokenガードレール、GitHub MCPの<code>search_commits</code>などがまとまって入ったと説明されている。</p>
+<p>自分用の見方では、これは「エージェントがCI/CDに入る」話というより、「エージェントワークフローを、認証、コスト上限、再利用部品、ツール境界込みで運用対象にする」流れとして重要。</p>
+<h2>背景</h2>
+<p>GitHub Agentic Workflowsは、自然言語で書いたMarkdownベースのワークフローを<code>gh aw</code> CLIでGitHub Actionsのロックファイルへコンパイルし、Copilot CLIやClaude、Codex、Geminiなどのコーディングエージェントに実行させる仕組み。</p>
+<p>GitHubの2026-02-13のTechnical Preview発表では、Issue triage、PR review、CI failure analysis、repository maintenanceなどを、AIエージェントがGitHub Actions内で実行する方向として紹介されていた。基本は読み取り専用から始め、書き込みはsafe outputsで制御する設計。</p>
+<p>今回のv0.77.4は、その土台に実務運用の要素を足している。特にWIF、Copilot SDK、manifestでの部品管理、トークンガードレールは、企業・チームでエージェント自動化を増やす時に避けられない論点。</p>
+<h2>何が重要か</h2>
+<h3>長期シークレットからWIFへ寄せる流れ</h3>
+<p>Claude engine向けにWorkload Identity Federation認証が入ったことで、リポジトリに長期APIキーを置く前提から離れやすくなる。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>認証方式</th><th>利点</th><th>リスク/確認点</th></tr></thead>
+<tbody>
+<tr><td>長期APIキー</td><td>実装が簡単</td><td>漏えい時の影響が大きい。ローテーション、スコープ、保管が重い</td></tr>
+<tr><td>GitHub Actions secrets</td><td>Actions標準で扱える</td><td>Secret利用箇所が増えるほど棚卸しが必要</td></tr>
+<tr><td>WIF</td><td>短命な信頼関係に寄せられる</td><td>IdP設定、audience、権限境界、監査ログを設計する必要</td></tr>
+<tr><td>GitHub App / safe output</td><td>書き込み権限を分けやすい</td><td>どの出力が外部化されるかをレビューする必要</td></tr>
+</tbody>
+</table></div>
+<p>エージェントがCI上でコード、Issue、PR、Actionsログ、外部APIを読むなら、秘密情報は必ず攻撃面になる。WIF対応は派手ではないが、本番運用ではかなり大きい。</p>
+<h3>Copilot SDK engineは「GitHub内エージェント」としての統合を深める</h3>
+<p><code>engine: copilot-sdk</code>またはSDK modeは、Copilot SDK runtimeへ直接接続する方向を示している。公式リファレンスでは、SDK modeでローカルsidecarとSDK driver processを動かすと説明されている。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Engine観点</th><th>従来の見方</th><th>v0.77.4以降で見る点</th></tr></thead>
+<tbody>
+<tr><td>Copilot CLI</td><td>Actions内でCopilotを呼ぶ実行手段</td><td>SDK runtimeとの接続、custom driver、model指定</td></tr>
+<tr><td>Claude / Codex / Gemini</td><td>代替エンジン</td><td>engine差分、secret、turn/timeout、tool制御を分けて設計</td></tr>
+<tr><td>Copilot SDK</td><td>アプリ/エージェント連携の実行面</td><td>GitHub内ワークフローとCopilotエージェントの統合点</td></tr>
+<tr><td>Custom agent</td><td>Copilot側の役割定義</td><td><code>gh aw init</code>やmanifestと合わせてリポジトリ内に定着しやすい</td></tr>
+</tbody>
+</table></div>
+<p>これにより、GitHub Actionsを単なる実行場所ではなく、Copilot系エージェントの運用面として使う流れが強くなる。</p>
+<h3><code>aw.yml</code> manifestがワークフロー部品化を進める</h3>
+<p><code>aw.yml</code>が<code>includes</code>、<code>skills</code>、<code>agents</code>を持てるようになった点は、地味だが重要。エージェントワークフローは自然言語なので、各リポジトリに同じような指示、スキル、権限設定、ツール設定が散らばりやすい。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>部品</th><th>期待される役割</th><th>運用上の注意</th></tr></thead>
+<tbody>
+<tr><td>includes</td><td>共通プロンプト、方針、手順を再利用</td><td>変更時の影響範囲、バージョン固定</td></tr>
+<tr><td>skills</td><td>エージェントに専門手順を渡す</td><td>古い手順、過剰権限、リポジトリ差分</td></tr>
+<tr><td>agents</td><td>役割別エージェント定義</td><td>誰が承認し、どこまで自律実行できるか</td></tr>
+<tr><td>lock.yml</td><td>コンパイル済みActions定義</td><td>生成物差分のレビュー、再コンパイル忘れ</td></tr>
+</tbody>
+</table></div>
+<p>自分のOpenClaw/Codex運用でも、AGENTS.md、skills、Cron payload、候補選定ルールが散らばるほど保守が難しくなる。GitHub側でも同じ問題に、manifestとlockで向き合い始めているように見える。</p>
+<h3>コストと暴走対策が前提化している</h3>
+<p>24時間Effective Token guardrailは、エージェントが長く動くほど必要になる上限設計。単発チャットではなく、スケジュール実行、Issue反応、PR反応、調査、修正、再試行が増えると、コスト暴走や無限ループが現実のリスクになる。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>リスク</th><th>例</th><th>見るべき制御</th></tr></thead>
+<tbody>
+<tr><td>コスト暴走</td><td>調査や修正が長時間継続する</td><td>max AI credits、token guardrail、timeout</td></tr>
+<tr><td>権限過多</td><td>エージェントが不要な書き込みをする</td><td>safe outputs、GitHub App権限、tool allowlist</td></tr>
+<tr><td>外部送信</td><td>秘密情報や内部文脈を外部APIへ渡す</td><td>sandbox、network allowlist、監査ログ</td></tr>
+<tr><td>成果物劣化</td><td>自然言語ワークフローが古くなる</td><td>lock差分、manifest管理、定期レビュー</td></tr>
+</tbody>
+</table></div>
+<p>特にエージェントCI/CDでは「成功したか」だけでなく、「どの権限で、どのコストで、どの出力を外部化したか」を記録する必要がある。</p>
+<h2>採用判断</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>判断軸</th><th>評価</th><th>メモ</th></tr></thead>
+<tbody>
+<tr><td>すぐ業務適用</td><td>慎重</td><td>Technical Preview色が残る。まず小さい保守系タスクがよい</td></tr>
+<tr><td>個人リポジトリ実験</td><td>高</td><td>AGENTS.md更新、ドキュメント保守、候補抽出などで試しやすい</td></tr>
+<tr><td>企業導入</td><td>条件付き</td><td>WIF、safe outputs、監査、権限、コスト上限が先</td></tr>
+<tr><td>追跡優先度</td><td>高</td><td>GitHub Actionsとエージェント運用が近づく代表例</td></tr>
+<tr><td>日本語圏既出度</td><td>低め</td><td>Copilot一般論に埋もれ、gh-aw固有の運用論はまだ薄い</td></tr>
+</tbody>
+</table></div>
+<p>現時点では「全自動でコードを直す」用途より、ドキュメント更新、Issue整理、CI失敗の一次調査、定期レポートのように、読み取り中心で人間レビューに接続できる用途から見るのが妥当。</p>
+<h2>自分向けメモ</h2>
+<ul>
+<li>GitHub Agentic Workflowsは、GitHub Actions、Copilot、MCP、safe outputsを束ねる運用面として追う。</li>
+<li>リポジトリ自動化にAIを入れるなら、最初にWIF/secret、safe outputs、token guardrail、timeout、lock差分レビューを決める。</li>
+<li><code>aw.yml</code>のincludes/skills/agentsは、OpenClawのskillsやCron運用にも近い。共通手順の部品化とバージョン固定を意識する。</li>
+<li>エージェントがPRやIssueを触る場合、権限よりも「どの出力だけ外部化してよいか」の設計が重要。</li>
+<li>日本語ではまだCopilotやActionsの一般ニュースに混ざるので、gh-aw固有の設計更新は継続して拾う。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li>GitHub Agentic Workflows: <a href="https://github.github.com/gh-aw/blog/2026-06-01-weekly-update/">Weekly Update - June 1, 2026</a> - v0.77.4の主要更新。</li>
+<li>GitHub Changelog: <a href="https://github.blog/changelog/2026-02-13-github-agentic-workflows-are-now-in-technical-preview/">GitHub Agentic Workflows are now in technical preview</a> - 技術プレビュー時点の位置づけ。</li>
+<li>GitHub Agentic Workflows Docs: <a href="https://github.github.com/gh-aw/setup/creating-workflows/">Creating Agentic Workflows</a> - Markdownからworkflowを作成し、lock.ymlへコンパイルする流れ。</li>
+<li>GitHub Agentic Workflows Docs: <a href="https://github.github.com/gh-aw/reference/engines/">AI Engines</a> - Copilot、Claude、Codex、GeminiなどのengineとSDK mode。</li>
+<li>GitHub Repository: <a href="https://github.com/github/gh-aw">github/gh-aw</a> - 実装とリリース確認先。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>GitHub Agentic Workflows</li>
+<li>gh-aw</li>
+<li>GitHub Actions</li>
+<li>GitHub Copilot</li>
+<li>Copilot SDK</li>
+<li>Workload Identity Federation</li>
+<li>safe outputs</li>
+<li>aw.yml</li>
+<li>skills</li>
+<li>agents</li>
+<li>Effective Token</li>
+<li>MCP</li>
+<li>CI/CD</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://github.github.com/gh-aw/blog/2026-06-01-weekly-update/">github.github.com - gh-aw / blog</a></p></section>
+    </article>
+  </main>
+</body>
+</html>

@@ -1,5 +1,18 @@
 [
   {
+    "file": "AI/2026-06-08_AM_GitHub_Agentic_Workflows_v0.77.4.md",
+    "slug": "2026-06-08_AM_GitHub_Agentic_Workflows_v0.77.4",
+    "title": "GitHub Agentic Workflows v0.77.4",
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "created": "2026-06-08",
+    "source": "https://github.github.com/gh-aw/blog/2026-06-01-weekly-update/",
+    "importance": "high",
+    "confidence": "high",
+    "excerpt": "GitHub Agentic Workflows v0.77.4は、GitHub Actions上で動くAIエージェント自動化を、単発の実験からリポジトリ運用部品へ寄せる更新。 2026-06-01のWeekly Updateでは、Claude向けWorkload Identity Federation、Copilot SDK engine、`aw.yml`...",
+    "url": "articles/2026-06-08_AM_GitHub_Agentic_Workflows_v0.77.4.html"
+  },
+  {
     "file": "SAP_ERP/2026-06-07_Joule_Studioの統制アーキテクチャ.md",
     "slug": "2026-06-07_Joule_Studioの統制アーキテクチャ",
     "title": "Joule Studioの統制アーキテクチャ",
