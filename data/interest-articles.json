@@ -56,6 +56,17 @@
   },
   {
     "file": "[入力元伏せ]",
+    "slug": "2026-06-08-SAP・業務システム-SAP-AI-CoreをBasis向けBTP運用チェックリストに落とす-ad15994fe2",
+    "title": "SAP AI CoreをBasis向けBTP運用チェックリストに落とす",
+    "category": "SAP・業務システム",
+    "created": "2026-06-08T20:02:00+09:00",
+    "status": "",
+    "type": "interest_report",
+    "excerpt": "SAP AI Coreは「AIを動かす基盤」だが、Basis視点では単なる新サービスではなく、BTPサブアカウント、XSUAA、サービスキー、resource group、コンテナ実行、オブジェクトストア、監査ログが組み合わさった運用対象として見るのがよい。 特に見るべき軸は、1. 誰がどのrole collectionで管理できるか、2. service ...",
+    "url": "interests/articles/2026-06-08-SAP・業務システム-SAP-AI-CoreをBasis向けBTP運用チェックリストに落とす-ad15994fe2.html"
+  },
+  {
+    "file": "[入力元伏せ]",
     "slug": "2026-06-08-SAP・業務システム-2026年6月SAP-Security-Patch-DayをBasis担当者の事前チ-483c137a24",
     "title": "2026年6月SAP Security Patch DayをBasis担当者の事前チェックリストにする",
     "category": "SAP・業務システム",

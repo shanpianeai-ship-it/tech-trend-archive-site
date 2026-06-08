@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SAP AI CoreをBasis向けBTP運用チェックリストに落とす | 興味レポート</title>
+  <meta name="description" content="SAP AI Coreは「AIを動かす基盤」だが、Basis視点では単なる新サービスではなく、BTPサブアカウント、XSUAA、サービスキー、resource group、コンテナ実行、オブジェクトストア、監査ログが組み合わさった運用対象として見るのがよい。 特に見るべき軸は、1. 誰がどのrole collectionで管理できるか、2. service ...">
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../../interests/index.html">興味レポート</a>
+    <span class="site-subtitle">Public redacted interest reports</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 興味レポート一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-08T20:02:00+09:00</span>
+        <span>SAP・業務システム</span>
+        <span>interest_report</span>
+      </div>
+      <h1>SAP AI CoreをBasis向けBTP運用チェックリストに落とす</h1>
+<h2>要約</h2>
+<p>SAP AI Coreは「AIを動かす基盤」だが、Basis視点では単なる新サービスではなく、BTPサブアカウント、XSUAA、サービスキー、resource group、コンテナ実行、オブジェクトストア、監査ログが組み合わさった運用対象として見るのがよい。</p>
+<p>特に見るべき軸は、1. 誰がどのrole collectionで管理できるか、2. service keyや証明書をどう保護・ローテーションするか、3. resource groupでワークロードとsecretを分けられているか、4. Kubernetes workload templateがSAP側の制約に弾かれないか、5. SAP Security Patch DayやBTP側の変更をどう運用カレンダーに入れるか、の5つ。</p>
+<h2>なぜ今見る価値があるか</h2>
+<p>SAPのAI機能はJoule、Generative AI Hub、AI Core/AI Launchpad、BTP上の拡張とつながっており、従来のABAPサーバやS/4HANAだけを見ているBasis運用では境界が曖昧になる。AI Coreの公式資料はKubernetes、OAuth、resource group、secret、audit logを前提にしているため、Basis担当が「どこまで自分の監視・権限・棚卸し範囲か」を決める材料になる。</p>
+<p>もう一つの理由は、SAP Security Patch Dayとの接続である。SAPは毎月第2火曜日にSecurity Patch Dayを運用しており、2026年6月は6月9日が該当する。AI Core単体の脆弱性だけを待つのではなく、BTP、SDK、コンテナイメージ、CI/CD、接続先のobject storeやsecret管理まで含めて、月次の確認項目へ落とす価値がある。</p>
+<h2>調査メモ</h2>
+<h3>1. 責任分界点は「SAP管理Kubernetes」でも運用責任が消えるわけではない</h3>
+<p>SAP AI CoreのワークロードはSAP側の管理基盤上で動くが、顧客側はresource group、service key、secret、object store、template、実行・デプロイ設定を扱う。公式資料では、tenant levelのexecutablesとresource group levelのruntime entitiesが分けて説明されており、executions、deployments、configurations、artifacts、generic secretsは特定のresource groupに属する。</p>
+<p>Basis向けには、以下のように分けると扱いやすい。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>領域</th><th>Basisが見るべきこと</th></tr></thead>
+<tbody>
+<tr><td>BTP subaccount</td><td>AI Core instance、role collection、監査ログの所在</td></tr>
+<tr><td>XSUAA/service key</td><td>client secretまたはx.509証明書、token取得、ローテーション</td></tr>
+<tr><td>Resource group</td><td>業務、環境、利用者単位の分離、default依存の有無</td></tr>
+<tr><td>Secret/object store</td><td>同じbucket/IAM userの使い回し禁止、削除・作成ログ</td></tr>
+<tr><td>Workload template</td><td>root実行、権限昇格、capability追加などの禁止設定</td></tr>
+<tr><td>Patch/変更管理</td><td>SAP Security Patch Day、SDK/コンテナイメージ、接続先更新</td></tr>
+</tbody>
+</table></div>
+<h3>2. Kubernetes securityは「開発者任せ」にしない</h3>
+<p>SAP Help PortalのKubernetes Securityでは、workflow templateやserving templateで適切なKubernetes security featuresを有効にすることが推奨されている。代表的な制約として、non-root実行、privilege escalation禁止、capabilities drop、特定のuser/group設定などが挙げられている。</p>
+<p>Basisが直接YAMLを書くとは限らないが、レビュー観点は持てる。</p>
+<ul>
+<li>root userで動く前提のimageをAI Coreへ持ち込んでいないか</li>
+<li><code>allowPrivilegeEscalation</code> や追加capabilityを要求するimageになっていないか</li>
+<li>secretを環境変数やログへ出していないか</li>
+<li>workload templateの修正履歴と承認者を残せているか</li>
+<li>本番resource groupと検証resource groupを同じobject store資格情報で共有していないか</li>
+</ul>
+<h3>3. Service keyは「接続情報」ではなく「特権資格情報」として扱う</h3>
+<p>SAP AI Coreの初期設定では、BTP cockpitからservice instanceを作成し、service keyを発行する。service keyにはSAP AI CoreへアクセスするためのURLとcredentialが含まれる。公式資料では、access credentialやcertificateのローテーションは利用者側の責任として明記されている。</p>
+<p>運用チェックリストとしては、以下を月次または変更時に確認する。</p>
+<ul>
+<li>service keyの保管先が個人端末や共有メモに散らばっていないか</li>
+<li>x.509 certificateを使える場面ではclient secretより短い有効期限で運用できるか</li>
+<li>key発行者、用途、対象resource group、最終利用日を台帳化しているか</li>
+<li>不要なservice keyを削除できているか</li>
+<li>admin scopeが必要な自動化と、read/runだけでよい自動化を分けているか</li>
+</ul>
+<p>SAP Communityの認証エラー解説でも、resource group作成時のRBAC access deniedはtoken期限切れではなく、service keyに管理scopeが足りないケースとして説明されている。これは障害対応時の一次切り分けにも使える。</p>
+<h3>4. AI Launchpad側のrole collectionを監査対象にする</h3>
+<p>SAP AI LaunchpadのSecurity資料には、AI Core Administration appのrole collectionとscopeが整理されている。repositories、applications、docker registry secrets、object store secrets、generic secrets、resource groupsなど、それぞれviewer/editor系の権限が分かれる。</p>
+<p>Basis向けには「広いadminを少人数に集める」だけでは不十分で、以下の職務分離が必要になる。</p>
+<ul>
+<li>repositoryやapplicationを変更できる人</li>
+<li>docker registry secretやobject store secretを閲覧・更新できる人</li>
+<li>resource groupを作成・削除できる人</li>
+<li>deploymentやexecutionを起動・停止できる人</li>
+<li>audit logを読む人</li>
+</ul>
+<p>特にsecret系のviewer/editor権限は、単なる閲覧権限ではなくcredential露出リスクとして扱う。</p>
+<h3>5. Security Patch DayはABAPだけでなくAI/BTPの棚卸し日にする</h3>
+<p>SAP Security Notes &amp; Newsでは、SAP Security Patch Dayが毎月第2火曜日に設定されている。2026年の日付にも6月9日が掲載されている。AI Core運用では、この日にSAP Noteだけを見るのではなく、以下もまとめて確認すると実務に落ちる。</p>
+<ul>
+<li>SAP AI Core / AI Launchpad / Generative AI Hub関連のSecurity Noteや重要告知</li>
+<li>SAP Cloud SDK for AI、AI SDK、npm/Python packageのバージョンと脆弱性情報</li>
+<li>Docker base image、private registry、CI/CD runnerの更新状況</li>
+<li>BTP subaccountのrole collection差分</li>
+<li>service key、generic secret、object store secretの作成・削除ログ</li>
+<li>本番resource groupのdeployment一覧と最終実行日</li>
+</ul>
+<h2>個人向けの読みどころ</h2>
+<p>これはSAP Basisコンテンツ化しやすい。タイトルは「SAP AI Core時代のBasis運用チェックリスト」くらいにすると、JouleやBusiness AIの華やかな話から一段下げて、実際に誰が何を見続けるのかという運用論にできる。</p>
+<p>特に強い切り口は「AI CoreはKubernetesを知らなくてよいサービスではなく、Kubernetes的な失敗をBTP運用に翻訳して見る対象」という点。Basis担当者向けには、以下の5枚構成でYouTube/記事化できる。</p>
+<ol>
+<li>AI CoreでBasisが見る場所</li>
+<li>service keyとresource groupの危険な使い方</li>
+<li>Kubernetes securityで弾かれるtemplateの典型</li>
+<li>role collectionとsecret権限の棚卸し</li>
+<li>Security Patch Dayに追加する月次チェック</li>
+</ol>
+<h2>注意点</h2>
+<p>このメモは公開資料からの運用観点整理であり、SAP契約、RISE運用範囲、個別BTP環境の責任分界を断定するものではない。実環境へ適用する場合は、利用中のSAP契約、BTP subaccount設計、社内セキュリティ基準、SAP公式サポートの最新情報を確認する必要がある。</p>
+<p>また、SAP Help PortalのPDFやオンライン文書は更新される。特にAI Core、Generative AI Hub、AI SDK、role collectionの名称やscopeは変更される可能性があるため、チェックリスト化する場合は「確認日」と「参照URL」を残す。</p>
+<h2>参考リンク</h2>
+<ul>
+<li>SAP Help Portal: <a href="https://help.sap.com/docs/sap-ai-core/sap-ai-core-service-guide/kubernetes-security">SAP AI Core Kubernetes Security</a></li>
+<li>SAP Help Portal: <a href="https://help.sap.com/doc/c31b38b32a5d4e07a4488cb0f8bb55d9/CLOUD/en-US/f17fa8568d0448c685f2a0301061a6ee.pdf">SAP AI Core service guide PDF</a></li>
+<li>SAP Help Portal: <a href="https://help.sap.com/docs/ai-launchpad/sap-ai-launchpad/security">SAP AI Launchpad Security</a></li>
+<li>SAP Support: <a href="https://support.sap.com/en/my-support/knowledge-base/security-notes-news.html">SAP Security Notes &amp; News</a></li>
+<li>SAP Community: <a href="https://community.sap.com/t5/artificial-intelligence-blogs-posts/sap-ai-core-authentication-errors-and-how-to-fix-them-part-1-of-2/ba-p/14356113">SAP AI Core authentication errors and how to fix them</a></li>
+</ul>
+    </article>
+  </main>
+</body>
+</html>
