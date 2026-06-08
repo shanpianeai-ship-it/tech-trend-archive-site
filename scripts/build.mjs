@@ -14,9 +14,14 @@ const outAssets = path.join(repoRoot, "assets");
 const interestsRoot = path.resolve(
   process.env.INTEREST_NOTES || path.join(process.env.HOME, "Desktop/Report/興味"),
 );
+const knowledgeRoot = path.resolve(
+  process.env.KNOWLEDGE_BLOG_NOTES || path.join(process.env.HOME, "Desktop/Report/Claude公開ナレッジブログ/公開済み"),
+);
 const outInterests = path.join(repoRoot, "interests");
 const outInterestArticles = path.join(outInterests, "articles");
 const outInterestCategories = path.join(outInterests, "categories");
+const outKnowledge = path.join(repoRoot, "knowledge");
+const outKnowledgeArticles = path.join(outKnowledge, "articles");
 
 fs.mkdirSync(outArticles, { recursive: true });
 fs.mkdirSync(outData, { recursive: true });
@@ -28,6 +33,8 @@ for (const file of fs.readdirSync(outArticles)) {
 fs.rmSync(outInterests, { recursive: true, force: true });
 fs.mkdirSync(outInterestArticles, { recursive: true });
 fs.mkdirSync(outInterestCategories, { recursive: true });
+fs.rmSync(outKnowledge, { recursive: true, force: true });
+fs.mkdirSync(outKnowledgeArticles, { recursive: true });
 
 const genreLabels = {
   AI: "AI / LLM / Agent",
@@ -359,6 +366,17 @@ function isPublishableInterestFile(file, meta) {
   return true;
 }
 
+function isTrue(value) {
+  return ["true", "yes", "1"].includes(String(value || "").toLowerCase());
+}
+
+function categoryFromKnowledgeFile(file, meta) {
+  if (meta.category) return redactSensitive(meta.category);
+  const relative = path.relative(knowledgeRoot, file);
+  const firstDir = relative.split(path.sep)[0];
+  return firstDir && firstDir !== path.basename(file) ? redactSensitive(firstDir) : "ERP運用";
+}
+
 const notes = walkMarkdown(notesRoot).map((file) => {
   const raw = redactSensitive(fs.readFileSync(file, "utf8"));
   const [meta, body] = parseFrontMatter(raw);
@@ -426,7 +444,7 @@ const indexBody = `    <section class="hero">
       <p>海外のAI、SAP/ERP、セキュリティ動向を日本語で読み返すための個人用アーカイブ。</p>
     </section>
     <section class="toolbar">
-      <span><a href="interests/index.html">興味レポートも読む</a></span>
+      <span><a href="interests/index.html">興味レポートも読む</a> / <a href="knowledge/index.html">公開ナレッジブログも読む</a></span>
       <span>Redacted public reports</span>
     </section>
     <section class="toolbar">
@@ -612,6 +630,108 @@ fs.writeFileSync(
       ...note,
       file: "[入力元伏せ]",
       url: `interests/articles/${note.slug}.html`,
+    })),
+    null,
+    2,
+  ),
+);
+
+function knowledgeShell(options) {
+  return pageShell({
+    ...options,
+    current: options.current ?? "../",
+    siteTitle: "公開ナレッジブログ",
+    siteSubtitle: "Public ERP operations notes",
+    homeHref: "knowledge/index.html",
+  });
+}
+
+const knowledgeNotes = walkMarkdown(knowledgeRoot).flatMap((file) => {
+  const raw = redactSensitive(fs.readFileSync(file, "utf8"));
+  const [meta, body] = parseFrontMatter(raw);
+  if (!isTrue(meta.approved_by_user)) return [];
+  if (String(meta.publish || "").toLowerCase() === "false") return [];
+
+  const category = categoryFromKnowledgeFile(file, meta);
+  const title = redactSensitive(titleFromMarkdown(body, path.basename(file, ".md")));
+  const slug = stableSlug(file, title, category);
+  const created = meta.created || path.basename(file).match(/\d{4}-\d{2}-\d{2}/)?.[0] || "";
+
+  return [{
+    file,
+    slug,
+    title,
+    category,
+    created,
+    excerpt: redactSensitive(excerptFrom(body)),
+    html: markdownToHtml(body),
+  }];
+});
+
+knowledgeNotes.sort((a, b) => `${b.created}${b.title}`.localeCompare(`${a.created}${a.title}`, "ja"));
+
+for (const note of knowledgeNotes) {
+  const body = `    <article class="article">
+      <nav class="back"><a href="../index.html">← 公開ナレッジ一覧へ</a></nav>
+      <div class="meta-row">
+        ${note.created ? `<span>${escapeHtml(note.created)}</span>` : ""}
+        <span>${escapeHtml(note.category)}</span>
+      </div>
+      ${note.html}
+    </article>`;
+
+  fs.writeFileSync(
+    path.join(outKnowledgeArticles, `${note.slug}.html`),
+    knowledgeShell({
+      title: note.title,
+      description: note.excerpt,
+      body,
+      current: "../../",
+    }),
+  );
+}
+
+const knowledgeCards = knowledgeNotes
+  .map(
+    (note) => `      <article class="card">
+        <div class="meta-row">
+          ${note.created ? `<span>${escapeHtml(note.created)}</span>` : ""}
+          <span>${escapeHtml(note.category)}</span>
+        </div>
+        <h2><a href="articles/${note.slug}.html">${escapeHtml(note.title)}</a></h2>
+        <p>${escapeHtml(note.excerpt)}</p>
+      </article>`,
+  )
+  .join("\n");
+
+fs.writeFileSync(
+  path.join(outKnowledge, "index.html"),
+  knowledgeShell({
+    title: "記事一覧",
+    description: "公開可能な形に抽象化したERP運用ナレッジの記事一覧",
+    body: `    <section class="hero">
+      <p class="back"><a href="../index.html">海外技術情報アーカイブへ</a></p>
+      <h1>公開ナレッジブログ</h1>
+      <p>業務システム運用・技術アセスメント・レポーティングの知見を、固有名詞や内部情報を除いて一般化した公開用メモ。</p>
+    </section>
+    <section class="toolbar">
+      <span>${knowledgeNotes.length} notes</span>
+      <span>Updated ${new Date().toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" })}</span>
+    </section>
+    <section class="cards">
+${knowledgeCards || "      <p>まだ記事がありません。</p>"}
+    </section>`,
+    current: "../",
+  }),
+);
+
+fs.writeFileSync(
+  path.join(outData, "knowledge-articles.json"),
+  JSON.stringify(
+    knowledgeNotes.map(({ html, ...note }) => ({
+      ...note,
+      file: "[入力元伏せ]",
+      url: `knowledge/articles/${note.slug}.html`,
     })),
     null,
     2,
