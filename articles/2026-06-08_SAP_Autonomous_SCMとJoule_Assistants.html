@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SAP Autonomous SCMとJoule Assistants | 海外技術情報アーカイブ</title>
+  <meta name="description" content="SAPはSapphire 2026で、サプライチェーン領域にJoule Assistantsと目的別AI agentsを埋め込む「Autonomous Supply Chain Management」を発表した。 ポイントは、SCM向けAIを単独のチャットボットとして置くのではなく、計画、製造、物流、設計、資産・サービス管理の実業務アプリ内に組み込み、例外検...">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-08</span>
+        <span>SAP / ERP</span>
+        <span>importance: high</span>
+      </div>
+      <h1>SAP Autonomous SCMとJoule Assistants</h1>
+<h2>要約</h2>
+<p>SAPはSapphire 2026で、サプライチェーン領域にJoule Assistantsと目的別AI agentsを埋め込む「Autonomous Supply Chain Management」を発表した。</p>
+<p>ポイントは、SCM向けAIを単独のチャットボットとして置くのではなく、計画、製造、物流、設計、資産・サービス管理の実業務アプリ内に組み込み、例外検知、影響分析、対応調整を継続的に進める構想にしていること。SAP公式は、6つのJoule Assistantと60以上のSCM向けagentを示し、2026年中に段階的に一般提供すると説明している。</p>
+<p>Basis/ERP運用目線では、これは「SCM部門向けの便利AI」だけではない。SAP Cloud ERP、SAP IBP、SAP Digital Manufacturing、SAP EWM、Field Service / Asset Management、Business Network、Business AI Platform、AI Agent Hubまで含めた、業務横断の実行・権限・監査設計の話になる。</p>
+<h2>背景</h2>
+<p>SAPは2026年のSapphireで、Autonomous Enterpriseを大きな方向性として打ち出した。中心にあるのはSAP Business AI Platformで、SAP BTP、SAP Business Data Cloud、AI Foundationを束ね、SAP Knowledge GraphやDomain ModelsによってAI agentsへ業務文脈を与える構成。</p>
+<p>この上にSAP Autonomous Suiteが置かれ、Autonomous Finance、Autonomous Spend、Autonomous Supply Chain Management、Autonomous HCM、Autonomous CXの5領域へ広げる。SAP公式の基調講演記事では、Suite全体で200以上のagentsと50以上のassistantsを提供する方向が説明されている。</p>
+<p>今回のAutonomous Supply Chain Managementは、そのSCM版。SAP News Centerの記事では、計画、製造、物流、エンジニアリング、資産管理にJoule Assistantsを直接埋め込み、断片的な引き継ぎ、遅い判断、手作業による価値漏れを減らす狙いが示されている。</p>
+<h2>何が重要か</h2>
+<h3>SCM AIは「会話」より「例外対応の連鎖」に寄っている</h3>
+<p>SAPの説明では、Autonomous SCMは人が目標と優先順位を定義し、assistantsが領域横断の活動を調整し、agentsが定義された業務ガードレール内で作業を実行する形になっている。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>層</th><th>役割</th><th>運用で見る点</th></tr></thead>
+<tbody>
+<tr><td>人</td><td>方針、優先順位、最終判断、例外時の裁量</td><td>承認者、責任者、判断を戻す条件</td></tr>
+<tr><td>Joule Assistant</td><td>領域ごとの業務文脈を持ち、signalsや例外を束ねる</td><td>どのSAPアプリに埋め込まれるか、どのKPIを持つか</td></tr>
+<tr><td>Agent</td><td>イベント検知、影響分析、推奨、ガードレール内の実行</td><td>実行権限、監査ログ、停止条件、補償処理</td></tr>
+<tr><td>SAP基盤</td><td>ERP、SCMアプリ、Business Data Cloud、Agent Hub</td><td>ID、権限、データ連携、監視、変更管理</td></tr>
+</tbody>
+</table></div>
+<p>ここで重要なのは、AIが独立して業務を勝手に進めるのではなく、既存SAPアプリのプロセスとデータに接地して動く前提になっている点。裏返すと、マスタ、組織、権限、例外処理、実行ログが整理されていない環境では、価値もリスクも読みづらい。</p>
+<h3>6つのJoule AssistantがSCMの役割単位に置かれる</h3>
+<p>SAP公式記事では、以下のassistantがコアSAPサプライチェーンアプリへ埋め込まれると説明されている。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Assistant</th><th>対象領域</th><th>見るべき業務影響</th></tr></thead>
+<tbody>
+<tr><td>Planning Assistant</td><td>需給計画、制約、例外</td><td>IBP/S&amp;OPの例外処理、在庫・補充判断の説明可能性</td></tr>
+<tr><td>Manufacturing Assistant</td><td>製造、品質、設備信号</td><td>生産遅延、品質逸脱、作業指図変更の検知と通知</td></tr>
+<tr><td>Logistics Assistant</td><td>倉庫、輸送、実行</td><td>入荷検証、労務負荷、輸送制約への即応</td></tr>
+<tr><td>Product Design Assistant</td><td>設計から製造への引き渡し</td><td>BOM、routing、lead time、原価影響の事前把握</td></tr>
+<tr><td>Asset and Service Assistant</td><td>保全、サービス、作業割当</td><td>異常検知、優先度付け、初回修理率の改善</td></tr>
+<tr><td>Business Network Assistant</td><td>取引先、物流会社、サービス会社</td><td>企業境界をまたぐ調整、外部接続の責任分界</td></tr>
+</tbody>
+</table></div>
+<p>SCMはもともと、ひとつの遅延や欠品が計画、製造、倉庫、輸送、顧客対応へ連鎖しやすい。Joule Assistantsの狙いは、この連鎖を人が手で追いかける前に、signalsを拾って文脈化し、次の行動へつなげることにある。</p>
+<h3>60以上の目的別agentsは「業務KPI付き自動化」として見る</h3>
+<p>SAPはSCM向けに60以上のpurpose-built agentsを提供するとしている。記事中では例として、Production Excellence Agent、Production Master Data Readiness Agent、Asset Performance Alert Processing Agent、Technician Briefing Agentが挙げられている。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Agent例</th><th>想定する働き</th><th>Basis/運用で気にする点</th></tr></thead>
+<tbody>
+<tr><td>Production Excellence Agent</td><td>生産、品質、機械信号を監視し、早期に問題を検知</td><td>shop floor連携、データ遅延、誤検知時の扱い</td></tr>
+<tr><td>Production Master Data Readiness Agent</td><td>routingや作業指図を企業計画と整合させる</td><td>マスタ変更権限、承認、変更履歴</td></tr>
+<tr><td>Asset Performance Alert Processing Agent</td><td>設備状態を評価し、保全対応の優先度を付ける</td><td>アラートの根拠、通知先、SLA連携</td></tr>
+<tr><td>Technician Briefing Agent</td><td>技術者向けに作業情報を整理する</td><td>作業指示の正確性、部品情報、現場端末アクセス</td></tr>
+</tbody>
+</table></div>
+<p>AI agentが業務KPIに結びつくほど、運用側は「提案だけか」「登録や変更まで行うか」を分けて設計する必要がある。特にマスタ更新、作業指図、輸送計画、保全指示のような後続影響の大きい処理では、人間承認、ロールバック、ログ確認が必須になる。</p>
+<h3>Cloud ERPとSCM周辺サービスの境界がさらに重要になる</h3>
+<p>SAP公式は、これらのassistantsとagentsがSAP Cloud ERP Privateを含むSAPのクラウドERP環境にも広がると説明している。つまり、SCM単体導入ではなく、Cloud ERP、BTP、Business Data Cloud、Business Network、EWM、IBP、Digital Manufacturingなどの境界をまたぐ。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>境界</th><th>典型リスク</th><th>確認すること</th></tr></thead>
+<tbody>
+<tr><td>ERPとSCM SaaS</td><td>権限や組織構造の差</td><td>ユーザー同期、ロール設計、職務分掌</td></tr>
+<tr><td>SAPと非SAPデータ</td><td>AIの根拠が分散する</td><td>データ品質、分類、同期頻度、責任者</td></tr>
+<tr><td>社内とBusiness Network</td><td>外部企業との情報共有</td><td>送信範囲、契約、監査、誤共有時の対応</td></tr>
+<tr><td>現場設備とSAP</td><td>machine signalの品質差</td><td>OT/IT接続、遅延、欠損、セキュリティ</td></tr>
+<tr><td>AssistantとAgent Hub</td><td>agentの棚卸し漏れ</td><td>登録、所有者、KPI、利用状況、停止手順</td></tr>
+</tbody>
+</table></div>
+<p>Autonomous SCMを追う時は、AI機能の見た目よりも、どのシステム間で何を読めるか、何を書けるか、誰の責任で止められるかを見る方が実務的。</p>
+<h2>採用判断</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>判断軸</th><th>評価</th><th>メモ</th></tr></thead>
+<tbody>
+<tr><td>追跡優先度</td><td>高</td><td>SAPのAI戦略が業務アプリ本体へ入る流れをSCMで確認できる</td></tr>
+<tr><td>すぐ導入すべきか</td><td>慎重</td><td>2026年中に段階GA。利用可能範囲、ライセンス、対象アプリ、リージョン確認が先</td></tr>
+<tr><td>PoC価値</td><td>高</td><td>例外検知、作業者ブリーフィング、入荷検証、マスタ準備状況などは効果測定しやすい</td></tr>
+<tr><td>本番適用</td><td>条件付き</td><td>人間承認、職務分掌、ログ、戻し方、誤提案時の責任分界が前提</td></tr>
+<tr><td>Basis関与</td><td>必須</td><td>ID、権限、BTP連携、Agent Hub、監査、データ連携、ジョブ/イベント監視が絡む</td></tr>
+</tbody>
+</table></div>
+<p>自分用の結論としては、SAP Autonomous SCMは「SCM版Joule」ではなく、SAPが業務アプリ内にagentic automationを埋め込む時の具体例として見る。今後のBasis/運用では、AI assistantの有効化そのものより、agentが参照・変更できる業務データと、実行証跡の管理が焦点になる。</p>
+<h2>自分向けメモ</h2>
+<ul>
+<li>SCM領域は例外・遅延・制約が多く、agentic AIの価値が出やすい一方で、誤った自動実行の影響も大きい。</li>
+<li>「AIが提案するだけ」か「SAPオブジェクトを変更する」かでリスクがまったく違う。PoC時点から区別して記録する。</li>
+<li>SAP AI Agent Hubが本当にSCM agentの棚卸し、所有者、KPI、権限、停止を一元管理できるか継続確認する。</li>
+<li>Business Network Assistantは外部企業を巻き込むので、情報共有範囲と契約面の確認が必要。</li>
+<li>製造・設備信号を使うagentは、SAP側だけでなく現場システム、OTネットワーク、データ遅延、セキュリティも見る。</li>
+<li>SAPが「people remain in control」と言っている領域こそ、承認フロー、例外時の手戻し、ログ保管を具体化する必要がある。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li>SAP News Center: <a href="https://news.sap.com/2026/05/more-autonomous-supply-chain/">Moving Toward a More Autonomous Supply Chain</a> - Autonomous SCM、Joule Assistants、SCM向けagents、2026年段階GAの公式説明。</li>
+<li>SAP News Center: <a href="https://news.sap.com/2026/05/sap-sapphire-keynote-business-ai-platform-power-autonomous-enterprise/">SAP Unveils Business AI Platform to Power the Autonomous Enterprise</a> - Business AI Platform、Autonomous Suite、Agent Hub、Joule Workの全体像。</li>
+<li>SAP News Center: <a href="https://news.sap.com/2026/05/new-joule-studio-enterprise-scale-agentic-development/">Announcing New Joule Studio for Enterprise Scale Agentic Development</a> - Joule Studio、Knowledge Graph、Domain Models、agent開発基盤の位置づけ。</li>
+<li>SAP製品ページ: <a href="https://www.sap.com/products/scm/integrated-business-planning.html">SAP Integrated Business Planning</a> - 計画領域の基盤。</li>
+<li>SAP製品ページ: <a href="https://www.sap.com/products/scm/extended-warehouse-management.html">SAP Extended Warehouse Management</a> - 倉庫・物流実行領域の基盤。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>SAP Autonomous Supply Chain Management</li>
+<li>Joule Assistants</li>
+<li>Joule Agents</li>
+<li>SAP Autonomous Suite</li>
+<li>SAP Business AI Platform</li>
+<li>SAP AI Agent Hub</li>
+<li>SAP Cloud ERP</li>
+<li>SAP Integrated Business Planning</li>
+<li>SAP Digital Manufacturing</li>
+<li>SAP Extended Warehouse Management</li>
+<li>SAP Business Network</li>
+<li>Supply Chain Orchestration</li>
+<li>Agentic AI</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://news.sap.com/2026/05/more-autonomous-supply-chain/">news.sap.com - 2026 / 05</a></p></section>
+    </article>
+  </main>
+</body>
+</html>
