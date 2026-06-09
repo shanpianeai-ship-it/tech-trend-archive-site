@@ -1,5 +1,18 @@
 [
   {
+    "file": "AI/2026-06-09_Gemini_Agentic_RAGと十分性判定.md",
+    "slug": "2026-06-09_Gemini_Agentic_RAGと十分性判定",
+    "title": "Gemini Agentic RAGと十分性判定",
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "created": "2026-06-09",
+    "source": "https://research.google/blog/unlocking-dependable-responses-with-gemini-enterprise-agent-platforms-agentic-rag/",
+    "importance": "high",
+    "confidence": "high",
+    "excerpt": "Google Research / Google Cloud が、Gemini Enterprise Agent Platform 上の Cross-Corpus Retrieval powered by Agentic RAG を紹介した。従来の単発検索型RAGではなく、Planner、Query Rewriter、Search Fanout、Suffic...",
+    "url": "articles/2026-06-09_Gemini_Agentic_RAGと十分性判定.html"
+  },
+  {
     "file": "SAP_ERP/2026-06-08_AM_SAP_Cloud_ERP横断セキュリティ設計.md",
     "slug": "2026-06-08_AM_SAP_Cloud_ERP横断セキュリティ設計",
     "title": "SAP Cloud ERP横断セキュリティ設計",

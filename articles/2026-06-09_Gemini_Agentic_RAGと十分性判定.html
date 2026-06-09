@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gemini Agentic RAGと十分性判定 | 海外技術情報アーカイブ</title>
+  <meta name="description" content="Google Research / Google Cloud が、Gemini Enterprise Agent Platform 上の Cross-Corpus Retrieval powered by Agentic RAG を紹介した。従来の単発検索型RAGではなく、Planner、Query Rewriter、Search Fanout、Suffic...">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-09</span>
+        <span>AI / LLM / Agent</span>
+        <span>importance: high</span>
+      </div>
+      <h1>Gemini Agentic RAGと十分性判定</h1>
+<h2>要約</h2>
+<p>Google Research / Google Cloud が、Gemini Enterprise Agent Platform 上の Cross-Corpus Retrieval powered by Agentic RAG を紹介した。従来の単発検索型RAGではなく、Planner、Query Rewriter、Search Fanout、Sufficient Context Agent、Synthesis Agent のように役割を分け、複数コーパスをまたいで検索計画、追加検索、根拠十分性の判定を繰り返す設計。</p>
+<p>自分向けには、「企業RAGの品質」は検索ランキングだけでなく、どの情報源を選ぶか、足りない根拠を検知できるか、根拠が揃うまで探索を続けられるかに移っている、という話として重要。SAPや社内ナレッジ検索でも、業務データが複数システムに分かれている前提にかなり近い。</p>
+<h2>背景</h2>
+<p>企業内の質問は、1つの文書検索だけで完結しないことが多い。たとえば「Project Xで使われたサーバの仕様」を聞く場合、プロジェクト資料にはサーバIDしかなく、別の構成管理DBや資産台帳をもう一度引く必要がある。</p>
+<p>Googleの説明では、今回のAgentic RAGはこのような multi-source / multi-hop の業務質問を想定している。Root Agent が依頼を分解し、Planner Agent がどのコーパスを見に行くかを決め、Query Rewriter が検索しやすい質問へ分解し、RAG Agent が検索する。</p>
+<p>そこで止まらない点が特徴。Sufficient Context Agent が、取得したスニペット、途中ドラフト、元の質問を比べて「回答に十分な根拠があるか」を確認する。不足があれば、何が足りないかをフィードバックし、追加検索を回す。</p>
+<h2>何が重要か</h2>
+<h3>RAGの失敗を「検索漏れ」として検知する</h3>
+<p>従来のRAGでは、最初の検索で足りない情報を拾えないと、曖昧な回答、部分回答、または「情報がありません」で終わりやすい。今回の設計は、そこを品質管理ポイントとして明示している。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>観点</th><th>単発RAG</th><th>Agentic RAG</th></tr></thead>
+<tbody>
+<tr><td>検索単位</td><td>1回の検索中心</td><td>計画、分解、再検索を含む</td></tr>
+<tr><td>情報源</td><td>事前指定や単一コーパス寄り</td><td>複数コーパスから選択</td></tr>
+<tr><td>不足検知</td><td>生成時の曖昧さに埋もれやすい</td><td>Sufficient Context Agent が不足を判定</td></tr>
+<tr><td>監査性</td><td>どこで足りなかったか見えにくい</td><td>不足理由と追加検索のログを残しやすい</td></tr>
+</tbody>
+</table></div>
+<p>これはエージェントの「賢さ」というより、業務上の回答品質を運用できる形に分解している点が大きい。</p>
+<h3>コーパス説明がルーティング品質を左右する</h3>
+<p>Google Cloud の Cross Corpus Retrieval ドキュメントでは、RAG corpus 作成時の <code>description</code> が重要で、作成後に編集できないと明記されている。Planning Agent はコーパス説明を見て、質問のどの部分をどのコーパスへ投げるかを決める。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>設計項目</th><th>実務上の意味</th></tr></thead>
+<tbody>
+<tr><td>corpus description</td><td>「このコーパスに何が入っているか」をAIが判断する台帳</td></tr>
+<tr><td>corpus boundary</td><td>業務、部門、システム、データ分類の境界設計</td></tr>
+<tr><td>routing plan</td><td>全検索ではなく、必要な情報源へ絞るための計画</td></tr>
+<tr><td>SCA feedback</td><td>不足情報を再検索させるための制御信号</td></tr>
+</tbody>
+</table></div>
+<p>社内RAGでは、データ投入よりも先に「コーパスをどう分け、どう説明するか」を設計しないと、Agentic Retrieval の利点が出にくい。</p>
+<h3>SAP/ERP文脈ではかなり現実的な問題</h3>
+<p>SAP周辺では、業務質問の答えが1つの場所にない。伝票、品目、BP、ワークフロー、ジョブログ、監査証跡、運用手順、外部連携ログが分かれている。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>業務質問例</th><th>必要になりそうな情報源</th></tr></thead>
+<tbody>
+<tr><td>受注遅延の原因は何か</td><td>SD伝票、在庫、配送、外部倉庫連携、ジョブログ</td></tr>
+<tr><td>月次締めで止まった処理は何か</td><td>FI/COジョブ、エラー一覧、運用手順、担当者メモ</td></tr>
+<tr><td>この取引先の与信判断は妥当か</td><td>BPマスタ、与信、過去入金、承認履歴、社内規程</td></tr>
+<tr><td>この変更は監査上説明できるか</td><td>変更管理、Transport、承認、実機ログ、設計書</td></tr>
+</tbody>
+</table></div>
+<p>単純な文書検索では、この種の質問に対して「それっぽい断片」は出せても、根拠の揃った回答にしにくい。Agentic RAGのポイントは、複数システムをまたぐ前提をRAG側の設計に入れていること。</p>
+<h3>数字は有望だが、評価方法は見る必要がある</h3>
+<p>Google Research は、FramesQA を使った評価で、標準RAGに対して最大34%の精度改善、cross-corpus設定でも90.1%の正答率を示したとしている。cross-corpusでもsingle-corpusとほぼ同等の精度に近づき、レイテンシも平均3%以内の差と説明されている。</p>
+<p>ただし、これはベンチマーク上の結果で、実企業データではコーパス説明、アクセス権、古い文書、重複、機密情報、監査要件が絡む。特に医療・ERP・セキュリティ運用では、正答率だけでなく、根拠提示、否定回答、権限境界、ログ保存を合わせて評価する必要がある。</p>
+<h2>自分向けメモ</h2>
+<ul>
+<li>社内RAGを作る時は、まず「検索対象」ではなく「コーパス境界」と「説明文」を設計する。</li>
+<li>RAG評価では、最終回答の正誤だけでなく、足りない情報を足りないと言えたか、追加検索へ回せたかを見る。</li>
+<li>SAP運用に接続するなら、業務データ、運用手順、ログ、監査証跡を別コーパスにし、質問分解でどこを引くべきかを明示する。</li>
+<li>Agentic RAGは便利な反面、検索回数、権限、レイテンシ、コストが増える。全質問に使うのではなく、複数情報源が必要な質問に限定する設計がよさそう。</li>
+<li>Sufficient Context Agent 相当の判定は、OpenClaw/Codexの調査系Cronにも応用できる。ノート作成時に「根拠が足りない項目」を明示させると品質が上がる。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li>Google Research: <a href="https://research.google/blog/unlocking-dependable-responses-with-gemini-enterprise-agent-platforms-agentic-rag/">Unlocking dependable responses with Gemini Enterprise Agent Platform's Agentic RAG</a> - 今回の中心記事。Agentic RAGの構成、Sufficient Context Agent、評価結果。</li>
+<li>Google Cloud Docs: <a href="https://docs.cloud.google.com/gemini-enterprise-agent-platform/build/rag-engine/cross-corpus-retrieval">RAG Engine Cross Corpus Retrieval</a> - Cross Corpus Retrieval API、コーパス選択、SCA、us-central1制約など。</li>
+<li>Google Cloud Docs: <a href="https://docs.cloud.google.com/gemini-enterprise-agent-platform/build/rag-engine/rag-overview">RAG Engine overview</a> - RAG Engineの基本概念、対応リージョン、データ投入から生成までの流れ。</li>
+<li>Google Research: <a href="https://research.google/blog/deeper-insights-into-retrieval-augmented-generation-the-role-of-sufficient-context/">Deeper insights into Retrieval-Augmented Generation: The role of sufficient context</a> - Sufficient Context Awareness の背景。</li>
+<li>Hugging Face: <a href="https://huggingface.co/datasets/google/frames-benchmark">FRAMES benchmark dataset</a> - Google Research記事で評価対象として触れられているFramesQA/FRAMES系データ。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>Agentic RAG</li>
+<li>Gemini Enterprise Agent Platform</li>
+<li>Cross-Corpus Retrieval</li>
+<li>RAG Engine</li>
+<li>Sufficient Context Agent</li>
+<li>Sufficient Context Awareness</li>
+<li>multi-hop retrieval</li>
+<li>enterprise search</li>
+<li>grounding</li>
+<li>SAP</li>
+<li>ERP</li>
+<li>knowledge management</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://research.google/blog/unlocking-dependable-responses-with-gemini-enterprise-agent-platforms-agentic-rag/">research.google - blog / unlocking-dependable-responses-with-gemini-enterprise-agent-platforms-agentic-rag</a></p></section>
+    </article>
+  </main>
+</body>
+</html>
