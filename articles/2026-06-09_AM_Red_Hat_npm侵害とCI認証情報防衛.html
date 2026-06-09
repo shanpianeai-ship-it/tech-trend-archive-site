@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Red Hat npm侵害とCI認証情報防衛 | 海外技術情報アーカイブ</title>
+  <meta name="description" content="Red Hat は 2026-06-01 に、`@redhat-cloud-services` npm 名前空間の複数パッケージでサプライチェーン侵害が公表されたと説明した。Red Hat の初期調査では、侵害された GitHub アカウントから RedHatInsights 配下のリポジトリへ不正コミットが入り、npm へ悪性バージョンが公開された流れとさ...">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-09</span>
+        <span>Security</span>
+        <span>importance: high</span>
+      </div>
+      <h1>Red Hat npm侵害とCI認証情報防衛</h1>
+<h2>要約</h2>
+<p>Red Hat は 2026-06-01 に、<code>@redhat-cloud-services</code> npm 名前空間の複数パッケージでサプライチェーン侵害が公表されたと説明した。Red Hat の初期調査では、侵害された GitHub アカウントから RedHatInsights 配下のリポジトリへ不正コミットが入り、npm へ悪性バージョンが公開された流れとされている。</p>
+<p>StepSecurity の解析では、悪性パッケージは <code>preinstall</code> hook で <code>npm install</code> 時に実行され、GitHub Actions secrets、AWS、GCP、Azure、Kubernetes、Vault、npm、CircleCI などの認証情報を狙う多段の credential harvester とされる。さらに盗んだ npm token と <code>bypass_2fa</code> パラメータを使い、別パッケージへ自己伝播する挙動も報告されている。</p>
+<p>自分向けには、「有名ベンダーの公式スコープなら安全」と見なせない点が重要。CI/CD の OIDC trusted publishing、npm token、install script、開発端末の環境変数まで含めて、サプライチェーン防御を運用設計として見直す案件。</p>
+<h2>背景</h2>
+<p>npm サプライチェーン攻撃は、typosquatting や新規悪性パッケージだけでなく、正規パッケージ、正規メンテナ、正規CI/CD経路を踏み台にする方向へ寄っている。今回の特徴は、Red Hat 関連の公式っぽい npm スコープで、フロントエンド系ライブラリが複数影響したこと。</p>
+<p>Red Hat の bulletin では、影響パッケージは Hybrid Cloud Console の Web UI で使われる frontend JavaScript libraries だが、侵害期間中に Hybrid Cloud Console のリリースは公開されておらず、console.redhat.com へのデプロイ前に install-time scripts を取り除く保護もあると説明している。また、ARO / OSD / ROSA / ACS Cloud Service / AAP Managed などの Red Hat managed cloud services とは関係しないとしている。</p>
+<p>一方で、StepSecurity は、影響バージョンを開発端末やCIでインストールした場合は、すでに認証情報が抜かれた前提で扱うべきだと強く警告している。つまり、Red Hat サービス利用者全体の障害ではなく、対象 npm バージョンを引いた開発・CI環境の侵害リスクとして読むのが妥当。</p>
+<h2>何が重要か</h2>
+<h3>install script は「依存解決」ではなくコード実行面</h3>
+<p><code>npm install</code> は依存パッケージを取得するだけではない。<code>preinstall</code> / <code>install</code> / <code>postinstall</code> があれば、その時点でコードが動く。今回のように、悪性コードがアプリ起動前に CI runner や開発端末の環境変数、設定ファイル、トークンへアクセスできる構図になる。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>観点</th><th>従来の見方</th><th>今回の教訓</th></tr></thead>
+<tbody>
+<tr><td>依存導入</td><td>パッケージを取るだけ</td><td>install hook で任意コード実行になり得る</td></tr>
+<tr><td>信頼判断</td><td>公式スコープ、知名度、2FA</td><td>GitHubアカウントやCI経路の侵害で崩れる</td></tr>
+<tr><td>影響範囲</td><td>アプリに取り込んだ時点</td><td><code>npm install</code> した開発端末・CIまで</td></tr>
+<tr><td>初動</td><td>パッケージ更新や削除</td><td>認証情報ローテーションと実行ログ確認</td></tr>
+</tbody>
+</table></div>
+<p>特に CI は secrets、OIDC、クラウド認証、npm token が集中する。依存パッケージ更新PRを自動で通す運用ほど、install script 実行のリスクを明示的に制御する必要がある。</p>
+<h3>OIDC trusted publishing も万能ではない</h3>
+<p>OIDC trusted publishing は長期 npm token を減らせる点では有効だが、「正規リポジトリのワークフロー自体が不正に動かされる」ケースまでは防げない。StepSecurity は、影響パッケージが GitHub Actions OIDC 経由で公開されたと見ている。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>防御策</th><th>効くこと</th><th>残る問題</th></tr></thead>
+<tbody>
+<tr><td>npm 2FA</td><td>アカウント直接乗っ取り対策</td><td>CI発行や <code>bypass_2fa</code> 悪用に弱い場合がある</td></tr>
+<tr><td>OIDC trusted publishing</td><td>長期公開トークン削減</td><td>正規CIが侵害されると正規経路で公開される</td></tr>
+<tr><td>lockfile 固定</td><td>意図しない更新抑制</td><td>更新PRや新規環境構築時は拾う可能性がある</td></tr>
+<tr><td>registry cooldown</td><td>公開直後の悪性版を保留</td><td>業務に導入しないと効果がない</td></tr>
+<tr><td>CI egress制御</td><td>C2通信や外部送信の抑止</td><td>例外設定と監視設計が必要</td></tr>
+</tbody>
+</table></div>
+<p>「tokenを消せば終わり」ではなく、誰が、どのworkflowで、どのパッケージを、どの条件で公開できるかを見る必要がある。</p>
+<h3>開発端末の侵害も同じ重さで扱う</h3>
+<p>CIだけを守っても、開発者がローカルで影響バージョンを <code>npm install</code> していれば、SSH key、クラウドCLI設定、npm token、AIツール設定、環境変数などが抜かれる可能性がある。StepSecurity も、開発端末側の検出と影響端末特定を強調している。</p>
+<p>企業環境では、被害確認をリポジトリ単位だけで閉じず、以下を追う必要がある。</p>
+<ul>
+<li>lockfile と package manager cache に影響バージョンが残っていないか</li>
+<li>CI runner の該当時刻の outbound connection と process execution</li>
+<li>npm / GitHub / cloud / Vault / CircleCI token の発行・利用ログ</li>
+<li>開発端末での <code>npm install</code> 実行履歴、EDRログ、npm cache</li>
+<li>GitHub Actions の権限、OIDC subject condition、environment protection</li>
+</ul>
+<h2>自分向けメモ</h2>
+<ul>
+<li>npm パッケージ更新は「コードレビュー」だけでなく「インストール時コード実行レビュー」として扱う。</li>
+<li>GitHub Actions のデフォルト権限は最小化し、<code>contents: read</code> を基本にする。公開やリリース用 workflow は分離し、手動承認や protected environment を使う。</li>
+<li>OIDC を使う場合も、cloud側の subject / repository / branch / workflow 条件を絞る。<code>pull_request</code> や任意branchから強い権限を出さない。</li>
+<li>private registry / proxy に cooldown を置く価値が高い。公開直後のバージョンを即CIに入れないだけで、今回のような短時間検出案件では被弾率を下げられる。</li>
+<li>影響パッケージを引いた可能性がある場合は、ビルド再実行より先に token rotation。特に npm token、GitHub PAT、cloud keys、Vault token、CircleCI token を優先。</li>
+<li>SAP/Basis文脈では、フロントエンドや周辺ツールの npm 依存も本番影響になり得る。ABAPやBTPだけでなく、管理UI、拡張アプリ、CIテンプレートの依存棚卸しが必要。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li>Red Hat: <a href="https://access.redhat.com/security/vulnerabilities/RHSB-2026-006">RHSB-2026-006 Supply chain compromise of @redhat-cloud-services npm packages</a> - Red Hat公式bulletin。影響範囲、初期調査、顧客向け見解。</li>
+<li>StepSecurity: <a href="https://www.stepsecurity.io/blog/multiple-redhat-cloud-services-npm-packages-compromised">Multiple redhat-cloud-services npm Packages compromised</a> - 悪性payload、影響パッケージ、preinstall hook、認証情報窃取、自己伝播の解析。</li>
+<li>npm Docs: <a href="https://docs.npmjs.com/about-registry-signatures">About ECDSA registry signatures</a> - npm package provenance / registry signatures を確認する際の背景資料。</li>
+<li>GitHub Docs: <a href="https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-cloud-providers">Configuring OpenID Connect in cloud providers</a> - GitHub Actions OIDC の制約条件設計。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>npm</li>
+<li>supply chain security</li>
+<li>preinstall hook</li>
+<li>GitHub Actions</li>
+<li>OIDC trusted publishing</li>
+<li>credential harvesting</li>
+<li>Red Hat</li>
+<li>CI/CD</li>
+<li>token rotation</li>
+<li>registry cooldown</li>
+<li>developer endpoint security</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://access.redhat.com/security/vulnerabilities/RHSB-2026-006">access.redhat.com - security / vulnerabilities</a></p></section>
+    </article>
+  </main>
+</body>
+</html>

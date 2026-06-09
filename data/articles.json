@@ -1,5 +1,18 @@
 [
   {
+    "file": "Security/2026-06-09_AM_Red_Hat_npm侵害とCI認証情報防衛.md",
+    "slug": "2026-06-09_AM_Red_Hat_npm侵害とCI認証情報防衛",
+    "title": "Red Hat npm侵害とCI認証情報防衛",
+    "genre": "Security",
+    "genreLabel": "Security",
+    "created": "2026-06-09",
+    "source": "https://access.redhat.com/security/vulnerabilities/RHSB-2026-006",
+    "importance": "high",
+    "confidence": "high",
+    "excerpt": "Red Hat は 2026-06-01 に、`@redhat-cloud-services` npm 名前空間の複数パッケージでサプライチェーン侵害が公表されたと説明した。Red Hat の初期調査では、侵害された GitHub アカウントから RedHatInsights 配下のリポジトリへ不正コミットが入り、npm へ悪性バージョンが公開された流れとさ...",
+    "url": "articles/2026-06-09_AM_Red_Hat_npm侵害とCI認証情報防衛.html"
+  },
+  {
     "file": "AI/2026-06-09_Gemini_Agentic_RAGと十分性判定.md",
     "slug": "2026-06-09_Gemini_Agentic_RAGと十分性判定",
     "title": "Gemini Agentic RAGと十分性判定",
