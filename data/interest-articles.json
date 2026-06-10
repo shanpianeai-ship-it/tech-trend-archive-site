@@ -56,6 +56,17 @@
   },
   {
     "file": "[入力元伏せ]",
+    "slug": "2026-06-10-SAP・業務システム-Clean-CoreをBasis運用ガバナンスに落とす2026年版チェックリスト-ffde631a49",
+    "title": "Clean CoreをBasis運用ガバナンスに落とす2026年版チェックリスト",
+    "category": "SAP・業務システム",
+    "created": "2026-06-10T19:55:00+09:00",
+    "status": "",
+    "type": "interest_report",
+    "excerpt": "SAPのClean Coreは、単に「標準改修を減らす」「BTPへ逃がす」という技術スローガンではなく、2026年時点ではBasis/運用チームが日々の変更管理に組み込むべきガバナンス項目として見る方が実務に効く。 SAP公式はClean Coreを、ERPを俊敏で費用対効果が高く、継続的なイノベーションを取り込める状態に保つための戦略として説明している。5...",
+    "url": "interests/articles/2026-06-10-SAP・業務システム-Clean-CoreをBasis運用ガバナンスに落とす2026年版チェックリスト-ffde631a49.html"
+  },
+  {
+    "file": "[入力元伏せ]",
     "slug": "2026-06-10-SAP・業務システム-SAP-Sapphire-2026のAutonomous-EnterpriseとJo-49aca7f011",
     "title": "SAP Sapphire 2026のAutonomous EnterpriseとJoule StudioはBasis運用をどう変えるか",
     "category": "SAP・業務システム",

@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clean CoreをBasis運用ガバナンスに落とす2026年版チェックリスト | 興味レポート</title>
+  <meta name="description" content="SAPのClean Coreは、単に「標準改修を減らす」「BTPへ逃がす」という技術スローガンではなく、2026年時点ではBasis/運用チームが日々の変更管理に組み込むべきガバナンス項目として見る方が実務に効く。 SAP公式はClean Coreを、ERPを俊敏で費用対効果が高く、継続的なイノベーションを取り込める状態に保つための戦略として説明している。5...">
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../../interests/index.html">興味レポート</a>
+    <span class="site-subtitle">Public redacted interest reports</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 興味レポート一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-10T19:55:00+09:00</span>
+        <span>SAP・業務システム</span>
+        <span>interest_report</span>
+      </div>
+      <h1>Clean CoreをBasis運用ガバナンスに落とす2026年版チェックリスト</h1>
+<h2>要約</h2>
+<p>SAPのClean Coreは、単に「標準改修を減らす」「BTPへ逃がす」という技術スローガンではなく、2026年時点ではBasis/運用チームが日々の変更管理に組み込むべきガバナンス項目として見る方が実務に効く。</p>
+<p>SAP公式はClean Coreを、ERPを俊敏で費用対効果が高く、継続的なイノベーションを取り込める状態に保つための戦略として説明している。5つの原則は、プロセス、拡張性、データ、インテグレーション、オペレーション。Basis目線では、このうち拡張性だけでなく、データ、連携、運用まで含めて「リリースのたびに壊れにくい変更か」「標準アップグレードを妨げないか」「誰が例外を承認したか」を記録する仕組みに落とす必要がある。</p>
+<p>結論として、Clean Core運用は次の6点を最低ラインにする。</p>
+<ol>
+<li>カスタムオブジェクトと拡張を棚卸しする。</li>
+<li>新規開発はReleased API、ABAP Cloud、Key User Extensibility、Side-by-Sideを優先する。</li>
+<li>ATCのClean Core系チェックを開発時と移送前に実行する。</li>
+<li>SAP Cloud ALMまたは同等の台帳でClean Core状態を可視化する。</li>
+<li>例外は期限、理由、代替案、撤退条件つきで承認する。</li>
+<li>リリース影響分析を、技術部門だけでなく業務オーナーへ説明できる形にする。</li>
+</ol>
+<h2>なぜ今見る価値があるか</h2>
+<p>2026年のS/4HANA移行やRISE with SAPの文脈では、Clean Coreは移行プロジェクトの設計原則から、移行後の運用品質を測る物差しに変わっている。投票では <code>2. Clean Core運用チェックリスト</code> に1票が入り、afternoon枠の最多票だった。</p>
+<p>重要なのは、Clean Coreを「開発標準」だけに閉じないこと。SAP公式のERP Clean Coreページでは、標準プロセス、モダンな拡張、信頼できるデータとAI、標準化された連携、運用ガバナンスをまとめて扱っている。つまりBasis担当者が見るべき対象は、Zプログラムだけではない。ICF/OData/API、RFC、ジョブ、権限、データ増加、監視、移送、例外承認まで含めた運用設計になる。</p>
+<p>個人向けには、SAP BasisのYouTube/記事ネタとしても使いやすい。「Clean Coreとは何か」ではなく、「Basis担当者は明日から何を台帳化し、どの会議で何を止めるべきか」に落とせるから。</p>
+<h2>調査メモ</h2>
+<h3>1. Clean Coreは5原則で見る</h3>
+<p>SAP公式のERP Clean Core Strategyでは、Clean Coreを継続的な業務変革と近代化を支える原則群として扱っている。FAQでは、5つの guiding principles として、Processes、Extensibility、Data、Integrations、Operations が挙げられている。</p>
+<p>Basis運用に翻訳すると、次のようになる。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>原則</th><th>Basis運用で見るもの</th><th>失敗パターン</th></tr></thead>
+<tbody>
+<tr><td>Processes</td><td>標準プロセスからの乖離、業務アドオン、例外運用</td><td>業務都合の小改修が恒久化する</td></tr>
+<tr><td>Extensibility</td><td>Released API、BAdI、Key User、Developer、Side-by-Side</td><td>未リリースAPIや改修が増える</td></tr>
+<tr><td>Data</td><td>マスタ品質、データ増加、保持期間、アーカイブ</td><td>移行・AI活用・性能問題で詰まる</td></tr>
+<tr><td>Integrations</td><td>API、RFC、IDoc、イベント、認証、監視</td><td>点対点連携が増え、影響範囲が読めない</td></tr>
+<tr><td>Operations</td><td>監視、移送、権限、変更管理、例外承認</td><td>Clean Coreがプロジェクト標語で終わる</td></tr>
+</tbody>
+</table></div>
+<p>ここでのポイントは、Basisが「開発方式を決める人」ではなくても、「変更を本番へ入れてよい状態か」を判定するゲートキーパーにはなれること。Clean Coreは設計思想だけでなく、移送前チェック、月次レビュー、リリース前影響分析の入力にする。</p>
+<h3>2. 拡張方式は「どこに作るか」より「アップグレード時に壊れにくいか」で見る</h3>
+<p>SAP公式のClean Core extensibility資料は、必要な拡張を許しつつ、スムーズなアップグレードと拡張管理を可能にすることを目的としている。Private Edition向け資料でも、ABAP Cloud開発モデル、既存カスタムコードの変換、ABAP Test Cockpitによるガバナンスが扱われている。</p>
+<p>Basis運用の判断軸は、次の順番でよい。</p>
+<ol>
+<li>標準機能や設定で吸収できるか。</li>
+<li>Key User Extensibilityで足りるか。</li>
+<li>Released API/BAdI/CDS view/RAPなど、公開された拡張ポイントで実装できるか。</li>
+<li>Side-by-Sideで切り離す方がよいか。</li>
+<li>Classic ABAPや内部オブジェクト参照が必要なら、例外管理に入れるか。</li>
+</ol>
+<p>「BTPならClean Core」という単純化は危ない。Side-by-Side化しても、連携が密結合、認証が属人化、監視が抜ける、障害時の責任境界が曖昧なら、汚れは別の場所へ移動しただけになる。逆にオンスタックでも、Released APIとABAP Cloudの制約を守り、ATCで継続確認できるなら、運用上は管理しやすい。</p>
+<h3>3. ATCを移送ゲートにする</h3>
+<p>SAP LearningのClean Core development教材では、ABAP Cloud開発やClean Coreチェックに関連するATC check variantが説明されている。特に、<code>ABAP_CLOUD_DEVELOPMENT_DEFAULT</code>、<code>ABAP_CLOUD_READINESS</code>、Released API、Classic API、Internal Object、Not Recommendedを分けるClean Core向けカスタムvariantの考え方は、Basis運用にそのまま使える。</p>
+<p>運用チェックとしては、次の形にする。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>タイミング</th><th>実行すること</th><th>Basisが確認する証跡</th></tr></thead>
+<tbody>
+<tr><td>開発開始</td><td>使用予定API、拡張方式、パッケージ方針を確認</td><td>設計書、API根拠、例外有無</td></tr>
+<tr><td>開発中</td><td>ATCを定期実行</td><td>ATC結果、未解消finding</td></tr>
+<tr><td>移送前</td><td>Priority 1/2やClean Core違反を確認</td><td>移送番号、ATC実行結果、免除申請</td></tr>
+<tr><td>本番前</td><td>影響範囲、ロールバック、監視項目を確認</td><td>リリース判定メモ</td></tr>
+<tr><td>リリース後</td><td>ジョブ、連携、性能、エラーを監視</td><td>Cloud ALM/監視ログ</td></tr>
+</tbody>
+</table></div>
+<p>例外はゼロにできない。だから「誰が承認したか」「いつ見直すか」「次のリリースで置き換える候補は何か」を残す。例外を記録しないClean Core運用は、時間が経つと単なる精神論になる。</p>
+<h3>4. SAP Cloud ALMのClean Coreビューは運用会議の材料にする</h3>
+<p>SAP Help PortalのCloud ALM System Viewは、software stack、extensibility、data、integration KPIに基づいてClean Core complianceを概観できると説明している。Operations Viewはoperations principleに基づくClean Core complianceを扱う。ExtensibilityやCustomer Objectsの画面では、カスタムコード分布やClean Core complianceの深掘りができる。</p>
+<p>これは「ダッシュボードを眺める」ためではなく、月次またはリリース前の運用会議に使うもの。Basisが見るべき問いは次の5つ。</p>
+<ul>
+<li>カスタムオブジェクトは増えているか、減っているか。</li>
+<li>未リリースAPI参照や内部オブジェクト参照はどこに残っているか。</li>
+<li>データ量や連携数の増加が、性能・監視・障害対応を難しくしていないか。</li>
+<li>次回アップグレードで影響を受けそうな拡張はどれか。</li>
+<li>例外が「期限切れの恒久例外」になっていないか。</li>
+</ul>
+<p>Cloud ALMがない環境でも、同じ観点をExcelやObsidianで台帳化できる。ただし、手作業台帳にするなら、更新責任者、更新タイミング、移送番号との紐づけを決めないとすぐ腐る。</p>
+<h3>5. 2026年版Basisチェックリスト</h3>
+<p>Clean CoreをBasis運用へ落とすなら、チェックリストはこれくらい具体化した方がよい。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>項目</th><th>確認内容</th><th>NGならどうするか</th></tr></thead>
+<tbody>
+<tr><td>拡張方式</td><td>標準、Key User、Developer、Side-by-Side、Classic ABAPのどれか</td><td>理由を設計書へ追記</td></tr>
+<tr><td>API</td><td>Released APIまたは公式拡張ポイントか</td><td>代替APIを探す。なければ例外申請</td></tr>
+<tr><td>カスタムコード</td><td>ATC結果、Cloudification Repository、未解消finding</td><td>Priorityに応じて移送停止または条件付き承認</td></tr>
+<tr><td>改修・コピー</td><td>SAP標準オブジェクト改修、コピー、暗黙enhancement</td><td>撤退計画をつける</td></tr>
+<tr><td>連携</td><td>点対点、RFC、IDoc、OData、イベント、認証方式</td><td>監視と責任分界を追加</td></tr>
+<tr><td>データ</td><td>テーブル増加、保持期間、アーカイブ、削除方針</td><td>性能・保守計画に入れる</td></tr>
+<tr><td>権限</td><td>新規ロール、技術ユーザー、過剰権限</td><td>SoD/監査観点でレビュー</td></tr>
+<tr><td>運用</td><td>監視、ジョブ、エラー通知、問い合わせ先</td><td>運用設計がない変更は本番投入しない</td></tr>
+<tr><td>例外</td><td>理由、期限、承認者、代替案</td><td>期限なし例外を認めない</td></tr>
+<tr><td>アップグレード</td><td>次回リリース影響、テスト観点</td><td>リリース前テストに入れる</td></tr>
+</tbody>
+</table></div>
+<p>Basis担当者が強く見るべき赤信号は、未リリースAPI、SAP標準改修、コピー改修、監視のないSide-by-Side、責任者不明の技術ユーザー、期限なし例外。この6つは、後でアップグレードや障害対応の負債になりやすい。</p>
+<h2>個人向けの読みどころ</h2>
+<p>個人向けの一番おいしい切り口は、「Clean Coreを開発者向けのきれいごとで終わらせない」こと。Basis実務では、開発チームに対して次のように聞けると強い。</p>
+<ul>
+<li>この変更は標準機能では吸収できない理由がありますか。</li>
+<li>使っているAPIはReleased APIですか。</li>
+<li>ATCの結果と未解消findingを見せられますか。</li>
+<li>本番後の監視項目と障害時の切り戻しはありますか。</li>
+<li>例外なら、いつ解消する予定ですか。</li>
+</ul>
+<p>動画や記事にするなら、タイトルは「Clean Coreとは何か」より「Basis担当者がClean Coreで止めるべき変更10選」の方が刺さる。RISE with SAPやS/4HANA Cloud Private Editionでも、顧客側に残る責任は消えない。むしろ、ベンダー管理範囲と顧客管理範囲を分けて、変更理由、例外、監視、業務影響を説明する仕事が重くなる。</p>
+<h2>注意点</h2>
+<ul>
+<li>この記事は公開情報をもとにした運用整理メモであり、個別SAP環境への適用指示ではない。</li>
+<li>SAP Notes、保守契約、Cloud/Private Cloud/On-Premiseの責任分界、社内変更管理を優先する。</li>
+<li>SAP Community記事の一部はブラウザ上でJavaScript/認証確認が必要だったため、本文ではSAP公式サイト、SAP Help Portal、SAP Learning、公開検索で確認できた範囲を中心に整理した。</li>
+<li>Clean Coreの成熟度やATC variantは、利用しているS/4HANAリリース、ABAP Platform、BTP ABAP Environment、契約条件で変わる。導入環境の公式HelpとSAP Noteを必ず確認する。</li>
+<li>Side-by-SideやBTP採用は万能ではない。連携、認証、監視、費用、障害時責任を合わせて設計する必要がある。</li>
+</ul>
+<h2>参考リンク</h2>
+<ul>
+<li><a href="https://www.sap.com/products/erp/rise/methodology/clean-core.html">SAP - ERP clean core strategy</a></li>
+<li><a href="https://www.sap.com/documents/2024/09/20aece06-d87e-0010-bca6-c68f7e60039b.html">SAP - Clean core extensibility for SAP S/4HANA Cloud</a></li>
+<li><a href="https://www.sap.com/assetdetail/2024/10/be407a0d-dc7e-0010-bca6-c68f7e60039b.html">SAP - Clean core extensibility in SAP S/4HANA Cloud Private Edition</a></li>
+<li><a href="https://help.sap.com/docs/cloud-alm/applicationhelp/system-view">SAP Help Portal - System View, SAP Cloud ALM</a></li>
+<li><a href="https://help.sap.com/docs/cloud-alm/applicationhelp/operations-view">SAP Help Portal - Operations View, SAP Cloud ALM</a></li>
+<li><a href="https://help.sap.com/docs/cloud-alm/applicationhelp/extensibility">SAP Help Portal - Extensibility, SAP Cloud ALM</a></li>
+<li><a href="https://learning.sap.com/courses/practicing-clean-core-extensibility-for-sap-s-4hana-cloud/creating-tier-2-cloud-apis_a75bf2cd-815c-42bb-8d3b-2bba4931ecad">SAP Learning - Setting Up For Clean Core Development</a></li>
+<li><a href="https://github.com/SAP/abap-atc-cr-cv-s4hc">SAP GitHub - abap-atc-cr-cv-s4hc</a></li>
+</ul>
+    </article>
+  </main>
+</body>
+</html>
