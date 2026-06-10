@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>企業AIに必要なAgent Logic | 海外技術情報アーカイブ</title>
+  <meta name="description" content="IBM Research は Hugging Face Blog で、企業AIの本格導入には LLM 単体の性能向上だけでは足りず、Agent Logic が必要だと整理している。 ここでいう Agent Logic は、ナレッジグラフ、アルゴリズム、プログラム解析ライブラリ、ポリシー制御、観測データに基づくオーケストレーションなどを、エージェントの実行層に...">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-10</span>
+        <span>AI / LLM / Agent</span>
+        <span>importance: medium</span>
+      </div>
+      <h1>企業AIに必要なAgent Logic</h1>
+<h2>要約</h2>
+<p>IBM Research は Hugging Face Blog で、企業AIの本格導入には LLM 単体の性能向上だけでは足りず、Agent Logic が必要だと整理している。</p>
+<p>ここでいう Agent Logic は、ナレッジグラフ、アルゴリズム、プログラム解析ライブラリ、ポリシー制御、観測データに基づくオーケストレーションなどを、エージェントの実行層に組み込む考え方。</p>
+<p>ポイントは「巨大なコンテキストに全部入れてLLMに考えさせる」のではなく、業務ワークフローに沿って LLM の探索範囲を絞り、正確性、コスト、統制、監査性を上げることにある。</p>
+<h2>背景</h2>
+<p>企業業務のワークフローは、個人向けチャットや単発のコード生成よりかなり厄介。</p>
+<ul>
+<li>長時間続き、途中状態を持つ</li>
+<li>API、DB、サービス、ログ、運用手順が多い</li>
+<li>業務ルール、権限、規制、監査要件に縛られる</li>
+<li>失敗時の説明責任や差し戻し経路が必要になる</li>
+</ul>
+<p>このため、LLMのコンテキスト長が伸びても、それだけで業務システムの中核を任せられるわけではない。むしろ、関連情報を無秩序に詰めるほど、トークンコスト、幻覚、判断の再現性、監査不能性が問題になる。</p>
+<p>IBMの記事は、Agent Logic を「エージェントハーネス内で LLM を業務ワークフロー方向へ意図的に誘導し、コンテキスト空間を減らすソフトウェアプリミティブ」と定義している。これはかなり実務寄りの定義で、AI導入をプロンプト設計からシステム設計へ戻す話として読める。</p>
+<h2>何が重要か</h2>
+<h3>1. LLM中心ではなく、業務制約中心の設計になる</h3>
+<div class="table-wrap"><table>
+<thead><tr><th>観点</th><th>LLM単体寄り</th><th>Agent Logic寄り</th></tr></thead>
+<tbody>
+<tr><td>入力</td><td>大量文脈を投入</td><td>必要範囲を構造化して投入</td></tr>
+<tr><td>判断</td><td>モデルの推論に寄せる</td><td>ポリシー、グラフ、解析結果で誘導</td></tr>
+<tr><td>状態</td><td>会話履歴やメモリ依存</td><td>ワークフロー状態として管理</td></tr>
+<tr><td>コスト</td><td>コンテキスト拡大で増えやすい</td><td>取得範囲を絞って抑える</td></tr>
+<tr><td>監査</td><td>後追いしにくい</td><td>根拠、権限、経路を残しやすい</td></tr>
+</tbody>
+</table></div>
+<p>企業AIでは「モデルが賢いか」より、「どこまでをモデルに任せ、どこからを業務ロジック・統制・観測基盤で縛るか」が重要になる。</p>
+<h3>2. レガシー、テスト、運用、コンプライアンスに向いている</h3>
+<p>IBMは例として、以下の領域を挙げている。</p>
+<ul>
+<li>COBOL / PL/I などレガシーコード理解</li>
+<li>単体・結合・APIテスト生成</li>
+<li>インシデント調査とアプリケーションレジリエンス</li>
+<li>重要環境のITコンプライアンス近代化</li>
+<li>保険顧客対応のポリシー制御</li>
+<li>設備保全・資産運用の状態分析</li>
+</ul>
+<p>どれも「正解が会話の中だけにない」領域。コード構造、依存関係、監視データ、業務ルール、過去の運用知識をどう結びつけるかが成果を左右する。</p>
+<h3>3. SAP / ERP領域にもそのまま刺さる</h3>
+<p>SAPやERPにAIエージェントを入れる場合、Agent Logic はかなり重要になる。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>ERPでの対象</th><th>必要なAgent Logic</th></tr></thead>
+<tbody>
+<tr><td>伝票処理</td><td>権限、承認フロー、金額閾値、例外処理</td></tr>
+<tr><td>障害対応</td><td>ジョブ、IDoc、RFC、DB、アプリログの関係グラフ</td></tr>
+<tr><td>変更管理</td><td>移送、影響範囲、テスト証跡、監査ログ</td></tr>
+<tr><td>マスタ変更</td><td>入力制約、重複検知、承認、差し戻し</td></tr>
+<tr><td>月次処理</td><td>処理順序、締め条件、リカバリ手順</td></tr>
+</tbody>
+</table></div>
+<p>つまり、ERP向けAIエージェントは「JouleやCopilotがあるから動く」では足りない。業務プロセス、権限、データモデル、運用手順、監査証跡を Agent Logic として実装できるかが本丸になる。</p>
+<h2>自分向けメモ</h2>
+<ul>
+<li>Agent Logic は「AIエージェント版の業務アプリケーション層」と捉えると分かりやすい。</li>
+<li>既存のBasis運用、ITSM、監視、権限設計、運用手順書は、エージェントに食わせる文書ではなく、エージェントを縛る実行ロジックに変換する対象。</li>
+<li>SAP領域では、外部エージェントに自由にAPIを触らせるより、SAP内外の統制されたAgent Logic層を通す形が現実的。</li>
+<li>今後のAI導入案件では「どのモデルを使うか」より先に、状態管理、権限、根拠リンク、差し戻し、監査ログ、失敗時の人間介入を設計項目に入れる。</li>
+<li>「プロンプトで頑張る」から「業務知識をソフトウェア構造に戻す」方向へ進む兆候として見る。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://huggingface.co/blog/ibm-research/agent-logic-and-scalable-ai-adoption">Hugging Face Blog - Beyond LLMs: Why Scalable Enterprise AI Adoption Depends on Agent Logic</a> - 主記事。IBM ResearchがAgent Logicの定義と事例を整理。</li>
+<li><a href="https://community.ibm.com/community/user/blogs/nicholas-fuller/2026/05/20/agent-logic-and-scalable-enterprise-ai-adoption">IBM Community - Beyond LLMs: Why Scalable Enterprise AI Adoption Depends on Agent Logic</a> - IBM Community側の同内容掲載。著者・文脈確認用。</li>
+<li><a href="https://www.ibm.com/thought-leadership/institute-business-value/en-us/report/agentic-ai-operating-model">IBM IBV - Agentic AI's strategic ascent</a> - 企業運用モデルとしてAgentic AIをどう扱うかの背景資料。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>Agent Logic</li>
+<li>enterprise AI</li>
+<li>agent harness</li>
+<li>knowledge graph</li>
+<li>policy-as-code</li>
+<li>workflow orchestration</li>
+<li>IT operations</li>
+<li>SAP AI agents</li>
+<li>governed agents</li>
+<li>auditability</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://huggingface.co/blog/ibm-research/agent-logic-and-scalable-ai-adoption">huggingface.co - blog / ibm-research</a></p></section>
+    </article>
+  </main>
+</body>
+</html>

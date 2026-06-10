@@ -1,5 +1,18 @@
 [
   {
+    "file": "AI/2026-06-10_AM_企業AIに必要なAgent_Logic.md",
+    "slug": "2026-06-10_AM_企業AIに必要なAgent_Logic",
+    "title": "企業AIに必要なAgent Logic",
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "created": "2026-06-10",
+    "source": "https://huggingface.co/blog/ibm-research/agent-logic-and-scalable-ai-adoption",
+    "importance": "medium",
+    "confidence": "high",
+    "excerpt": "IBM Research は Hugging Face Blog で、企業AIの本格導入には LLM 単体の性能向上だけでは足りず、Agent Logic が必要だと整理している。 ここでいう Agent Logic は、ナレッジグラフ、アルゴリズム、プログラム解析ライブラリ、ポリシー制御、観測データに基づくオーケストレーションなどを、エージェントの実行層に...",
+    "url": "articles/2026-06-10_AM_企業AIに必要なAgent_Logic.html"
+  },
+  {
     "file": "SAP_ERP/2026-06-10_SAP_APIポリシーと組織記憶.md",
     "slug": "2026-06-10_SAP_APIポリシーと組織記憶",
     "title": "SAP APIポリシーと組織記憶",
