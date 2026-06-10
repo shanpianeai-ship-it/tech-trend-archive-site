@@ -30,6 +30,23 @@ assets/style.css
 node scripts/build.mjs
 ```
 
+## サイト上だけ記事を非表示にする
+
+Obsidian のMarkdownを残したままGitHub Pagesからだけ消したい記事は、`hidden-articles.json` に指定します。
+
+```json
+{
+  "all": [],
+  "articles": [
+    "articles/2026-06-06_GitHub_Copilotのクラウド_ローカルサンドボックス.html"
+  ],
+  "interests": [],
+  "knowledge": []
+}
+```
+
+指定には、公開URL、`articles/...html` の相対URL、生成slug、元Markdownの相対パス、記事タイトルのいずれかを使えます。編集後に `node scripts/build.mjs` を実行すると、対象記事は一覧、HTML、JSONから除外されます。
+
 ## ローカル確認
 
 ```bash

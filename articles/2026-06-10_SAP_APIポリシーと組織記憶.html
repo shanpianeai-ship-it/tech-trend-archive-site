@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SAP APIポリシーと組織記憶 | 海外技術情報アーカイブ</title>
+  <meta name="description" content="SAP Sapphire 2026後の論点として、SAP API Policyの更新と「organizational memory」が同じ文脈で語られている。ポイントは、AIエージェントがSAP上の業務データや操作に入るほど、単なるAPI開放ではなく、認証、監査、利用量制御、文脈管理が必要になるということ。 今回のdiginomica記事はSAP CTO P...">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-10</span>
+        <span>SAP / ERP</span>
+        <span>importance: medium</span>
+      </div>
+      <h1>SAP APIポリシーと組織記憶</h1>
+<h2>要約</h2>
+<p>SAP Sapphire 2026後の論点として、SAP API Policyの更新と「organizational memory」が同じ文脈で語られている。ポイントは、AIエージェントがSAP上の業務データや操作に入るほど、単なるAPI開放ではなく、認証、監査、利用量制御、文脈管理が必要になるということ。</p>
+<p>今回のdiginomica記事はSAP CTO Philipp Herzigへの取材を軸に、APIポリシー変更の理由、ユーザー会の反応、MCP/A2Aのような新しいエージェント連携標準がSAPアーキテクチャに与える圧力を整理している。</p>
+<h2>背景</h2>
+<p>SAPは2026年5月のSapphireで、SAP Business AI Platform、SAP Autonomous Suite、Joule Workを含むAutonomous Enterprise構想を発表した。SAP公式発表では、AIエージェントを業務プロセス、データ、ガバナンスに結びつけ、正確で準拠性のある業務実行を狙うと説明している。</p>
+<p>一方で、エージェントがAPIを大量・自律的に呼び出す時代になると、従来の「人間や固定バッチが呼ぶAPI」とは負荷・権限・監査の前提が変わる。SAPのFAQでも、API PolicyはAPIの意図通りの利用、安定性とセキュリティ、誤用防止、AI/自動化の増加に対応したスケーラブルな利用を目的にした枠組みだと説明されている。</p>
+<h2>何が重要か</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>論点</th><th>従来の見方</th><th>エージェント時代の見方</th><th>Basis/運用で見る点</th></tr></thead>
+<tbody>
+<tr><td>API利用量</td><td>連携ごとの想定負荷を見積もる</td><td>1プロンプトが多数API呼び出しへ展開し得る</td><td>rate limit、throttling、監視値</td></tr>
+<tr><td>API種別</td><td>動けば使えるインターフェースも残りがち</td><td>Published APIか、非公開/内部APIかがより重要</td><td>Business Accelerator Hub、Help Portal、ATC確認</td></tr>
+<tr><td>認証</td><td>技術ユーザーや連携ユーザーで管理</td><td>エージェントごとの識別と監査証跡が必要</td><td>デジタルID、権限分離、監査ログ</td></tr>
+<tr><td>データ抽出</td><td>ODP/RFCや独自抽出の実績を重視</td><td>大規模分析はBDC Connectなど統制された経路へ寄せる</td><td>データ出口の標準化</td></tr>
+<tr><td>AI連携</td><td>外部LLM/ツールからSAPを呼ぶ</td><td>Joule、A2A、MCP Gatewayなど統制レイヤが前提化</td><td>アーキテクチャ承認、例外管理</td></tr>
+</tbody>
+</table></div>
+<p>SAP FAQでは、既存の契約権利やライセンスを変更するものではなく、公開・文書化されたAPIを制御内で使う統合は大きく壊さない姿勢が示されている。ただし、SAP内部向けAPIや非公開API、特にODP-RFCのような本来用途外の使い方は、セキュリティと監査性の観点で見直し対象になる。</p>
+<p>同時に、diginomicaが強調する「organizational memory」は、AIエージェントに必要な業務文脈の話だ。構造化データだけでなく、なぜその判断をしたのか、どの例外が過去に認められたのか、どの業務慣習が実際に機能しているのかといった意思決定の痕跡をAIが参照できないと、ERP上の自律実行は危うい。</p>
+<h2>自分向けメモ</h2>
+<ul>
+<li>SAPのAPI Policyは「外部AIを閉め出す話」とだけ見ると雑すぎる。実務上は、AIエージェントのAPI連打、データ持ち出し、誤更新、監査不能性をどう抑えるかの話。</li>
+<li>Basis観点では、Clean Core、Published API、BTP Integration Suite、Joule/A2A/MCP Gateway、BDC Connectを1枚の統制図に並べたい。</li>
+<li>ODP-RFCのような歴史的連携は、動いているかではなく「今後も監査可能でサポートされる経路か」で棚卸しする。</li>
+<li>組織記憶はRAGの社内文書検索より広い。業務ルール、例外判断、承認履歴、障害対応、変更理由まで含めないと、AIはERPを安全に動かせない。</li>
+<li>SAPがJoule経由を強く推すほど、顧客側は「SAP推奨経路の安心」と「外部エージェント/OSS/MCPの柔軟性」の間で設計判断を迫られる。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://diginomica.com/sap-sapphire-2026-sap-cto-philipp-herzig-saps-api-policy-changes-and-why-organizational-memory">diginomica - SAP CTO Philipp Herzig on SAP's API policy changes, and why organizational memory matters</a>: 今回の主記事。API Policy、ユーザー会反応、organizational memory、MCP/A2Aの論点整理。</li>
+<li><a href="https://news.sap.com/2026/05/sap-sapphire-sap-unveils-autonomous-enterprise/">SAP News Center - SAP Unveils the Autonomous Enterprise</a>: SAP公式発表。Business AI Platform、Autonomous Suite、Joule Workの位置づけ確認。</li>
+<li><a href="https://www.sap.com/docs/download/2026/04/e2a0665e-4c7f-0010-bca6-c68f7e60039b.pdf">SAP - API Policy FAQ</a>: API Policyの公式FAQ。目的、rate limit、監視、第三者AI/データ基盤連携、ODP-RFCの扱いを確認。</li>
+<li><a href="https://architecture.learning.sap.com/docs/ai-golden-path">SAP Architecture Center - AI Golden Path</a>: SAPエコシステムでAIアプリ/エージェントを作る際の技術スタックと推奨導線。</li>
+<li><a href="https://architecture.learning.sap.com/docs/community/validation-rules">SAP Architecture Center - Architecture Validation Rules</a>: Joule、MCP、BDC、SAP Generative AI Hubなどの検証ルールを確認できる。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>SAP API Policy</li>
+<li>organizational memory</li>
+<li>Joule</li>
+<li>A2A</li>
+<li>MCP Gateway</li>
+<li>SAP Integration Suite</li>
+<li>Business Data Cloud</li>
+<li>Published API</li>
+<li>ODP-RFC</li>
+<li>Clean Core</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://diginomica.com/sap-sapphire-2026-sap-cto-philipp-herzig-saps-api-policy-changes-and-why-organizational-memory">diginomica.com - sap-sapphire-2026-sap-cto-philipp-herzig-saps-api-policy-changes-and-why-organizational-memory</a></p></section>
+    </article>
+  </main>
+</body>
+</html>

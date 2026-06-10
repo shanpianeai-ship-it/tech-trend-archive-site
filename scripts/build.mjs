@@ -22,6 +22,7 @@ const outInterestArticles = path.join(outInterests, "articles");
 const outInterestCategories = path.join(outInterests, "categories");
 const outKnowledge = path.join(repoRoot, "knowledge");
 const outKnowledgeArticles = path.join(outKnowledge, "articles");
+const hiddenArticlesPath = path.join(repoRoot, "hidden-articles.json");
 
 fs.mkdirSync(outArticles, { recursive: true });
 fs.mkdirSync(outData, { recursive: true });
@@ -53,6 +54,67 @@ function walkMarkdown(dir) {
       return [];
     })
     .sort();
+}
+
+function readJsonFile(file, fallback) {
+  if (!fs.existsSync(file)) return fallback;
+  try {
+    return JSON.parse(fs.readFileSync(file, "utf8"));
+  } catch (error) {
+    throw new Error(`${path.relative(repoRoot, file)} のJSONを読めません: ${error.message}`);
+  }
+}
+
+const hiddenArticles = readJsonFile(hiddenArticlesPath, {});
+
+function normalizeHiddenIdentifier(value) {
+  let normalized = String(value || "").trim();
+  if (!normalized) return "";
+
+  try {
+    const parsed = new URL(normalized);
+    normalized = parsed.pathname;
+  } catch {
+    // Plain slugs, titles, and relative paths are accepted as-is.
+  }
+
+  return normalized
+    .replace(/^\/+/, "")
+    .replace(/^tech-trend-archive-site\//, "")
+    .replace(/\\/g, "/")
+    .toLowerCase();
+}
+
+function hiddenSetFor(section) {
+  const values = [
+    ...(Array.isArray(hiddenArticles.all) ? hiddenArticles.all : []),
+    ...(Array.isArray(hiddenArticles[section]) ? hiddenArticles[section] : []),
+  ];
+  return new Set(values.map(normalizeHiddenIdentifier).filter(Boolean));
+}
+
+const hiddenSets = {
+  articles: hiddenSetFor("articles"),
+  interests: hiddenSetFor("interests"),
+  knowledge: hiddenSetFor("knowledge"),
+};
+
+function isHiddenArticle(section, note, root, url) {
+  const hidden = hiddenSets[section];
+  if (!hidden.size) return false;
+
+  const relativeFile = path.relative(root, note.file).replace(/\\/g, "/");
+  const identifiers = [
+    note.slug,
+    note.title,
+    relativeFile,
+    path.basename(relativeFile),
+    url,
+    `/${url}`,
+    `https://shanpianeai-ship-it.github.io/tech-trend-archive-site/${url}`,
+  ];
+
+  return identifiers.map(normalizeHiddenIdentifier).some((identifier) => hidden.has(identifier));
 }
 
 function parseFrontMatter(raw) {
@@ -396,7 +458,7 @@ const notes = walkMarkdown(notesRoot).map((file) => {
     excerpt: excerptFrom(body),
     html: markdownToHtml(body),
   };
-});
+}).filter((note) => !isHiddenArticle("articles", note, notesRoot, `articles/${note.slug}.html`));
 
 notes.sort((a, b) => `${b.created}${b.title}`.localeCompare(`${a.created}${a.title}`, "ja"));
 
@@ -497,7 +559,7 @@ const interestNotes = walkMarkdown(interestsRoot).flatMap((file) => {
     excerpt: redactSensitive(excerptFrom(body)),
     html: markdownToHtml(body),
   }];
-});
+}).filter((note) => !isHiddenArticle("interests", note, interestsRoot, `interests/articles/${note.slug}.html`));
 
 interestNotes.sort(
   (a, b) =>
@@ -666,7 +728,7 @@ const knowledgeNotes = walkMarkdown(knowledgeRoot).flatMap((file) => {
     excerpt: redactSensitive(excerptFrom(body)),
     html: markdownToHtml(body),
   }];
-});
+}).filter((note) => !isHiddenArticle("knowledge", note, knowledgeRoot, `knowledge/articles/${note.slug}.html`));
 
 knowledgeNotes.sort((a, b) => `${b.created}${b.title}`.localeCompare(`${a.created}${a.title}`, "ja"));
 
