@@ -56,6 +56,17 @@
   },
   {
     "file": "[入力元伏せ]",
+    "slug": "2026-06-10-SAP・業務システム-SAP-Sapphire-2026のAutonomous-EnterpriseとJo-49aca7f011",
+    "title": "SAP Sapphire 2026のAutonomous EnterpriseとJoule StudioはBasis運用をどう変えるか",
+    "category": "SAP・業務システム",
+    "created": "2026-06-10T19:48:00+09:00",
+    "status": "",
+    "type": "interest_report",
+    "excerpt": "SAP Sapphire 2026の大きなメッセージは、ERPにAIを横付けする段階から、SAP Business AI PlatformとSAP Autonomous Suiteを前提に業務実行そのものを再設計する段階へ移る、というものだった。 Basis運用の観点では「AIがBasis作業を消す」というより、見る対象が増える。Joule Studioで作...",
+    "url": "interests/articles/2026-06-10-SAP・業務システム-SAP-Sapphire-2026のAutonomous-EnterpriseとJo-49aca7f011.html"
+  },
+  {
+    "file": "[入力元伏せ]",
     "slug": "2026-06-08-SAP・業務システム-SAP-AI-CoreをBasis向けBTP運用チェックリストに落とす-ad15994fe2",
     "title": "SAP AI CoreをBasis向けBTP運用チェックリストに落とす",
     "category": "SAP・業務システム",

@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SAP Sapphire 2026のAutonomous EnterpriseとJoule StudioはBasis運用をどう変えるか | 興味レポート</title>
+  <meta name="description" content="SAP Sapphire 2026の大きなメッセージは、ERPにAIを横付けする段階から、SAP Business AI PlatformとSAP Autonomous Suiteを前提に業務実行そのものを再設計する段階へ移る、というものだった。 Basis運用の観点では「AIがBasis作業を消す」というより、見る対象が増える。Joule Studioで作...">
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../../interests/index.html">興味レポート</a>
+    <span class="site-subtitle">Public redacted interest reports</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 興味レポート一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-10T19:48:00+09:00</span>
+        <span>SAP・業務システム</span>
+        <span>interest_report</span>
+      </div>
+      <h1>SAP Sapphire 2026のAutonomous EnterpriseとJoule StudioはBasis運用をどう変えるか</h1>
+<h2>要約</h2>
+<p>SAP Sapphire 2026の大きなメッセージは、ERPにAIを横付けする段階から、SAP Business AI PlatformとSAP Autonomous Suiteを前提に業務実行そのものを再設計する段階へ移る、というものだった。</p>
+<p>Basis運用の観点では「AIがBasis作業を消す」というより、見る対象が増える。Joule Studioで作られたエージェント、SAP Knowledge Graph、Business Data Cloud、Joule Studio runtime、A2A連携、監査ログ、権限、デプロイ、コスト、業務影響を、従来のS/4HANA、BTP、Cloud ALM、ID管理、変更管理の延長線で扱う必要がある。</p>
+<p>特に重要なのは、SAPがJoule Studio runtimeに観測性、ライフサイクル管理、権限、監査、運用ガバナンスを含めて語っている点。Basis担当者は「作る人」ではなくても、「本番で動かし続ける責任分界を読める人」として関与余地が大きい。</p>
+<h2>なぜ今見る価値があるか</h2>
+<p>Sapphire 2026では、SAP Business AI PlatformがSAP BTP、SAP Business Data Cloud、SAP Business AIを単一のガバナンス環境として束ねる構想が示された。さらにSAP Knowledge Graphが、SAPランドスケープ内の業務エンティティ、プロセス、関係性をAIエージェントに渡す基盤として位置付けられている。</p>
+<p>これはBasis運用にとって、単なる新機能ニュースではない。エージェントが「会話するだけ」から「業務プロセス内で実行する」方向へ進むほど、権限、監査証跡、変更管理、障害切り分け、業務停止時の説明責任が重くなる。SAPが50以上のJoule Assistantsと200以上の専門エージェントを語るなら、運用側は「誰が、どのエージェントを、どの権限で、どの業務データに対して、いつ実行したか」を追える設計を先に用意する必要がある。</p>
+<p>個人向けには、Basis発信のネタとしてかなり使いやすい。華やかなAI発表をそのまま紹介するより、「Autonomous Enterprise時代にBasis担当者が増やすべき運用チェック項目」として翻訳した方が実務に刺さる。</p>
+<h2>調査メモ</h2>
+<h3>1. Autonomous Enterpriseは「ERP + AI」ではなく業務実行モデルの変更</h3>
+<p>SAP公式発表では、SAP Business AI PlatformはSAP BTP、SAP Business Data Cloud、SAP Business AIを統合し、SAP Knowledge Graphを中核に据えると説明されている。さらにSAP Autonomous Suiteは、既存SAPアプリケーションにAIエージェントを組み込み、業務プロセスを開始から終了まで実行できる方向を示している。</p>
+<p>Basis視点の読み替えは次の通り。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>発表要素</th><th>Basis運用で見ること</th></tr></thead>
+<tbody>
+<tr><td>SAP Business AI Platform</td><td>BTPサブアカウント、権限、サービス有効化、監査ログ、接続先</td></tr>
+<tr><td>SAP Knowledge Graph</td><td>データ参照範囲、業務エンティティの意味付け、権限境界</td></tr>
+<tr><td>SAP Autonomous Suite</td><td>業務プロセス実行時の承認、例外処理、停止条件</td></tr>
+<tr><td>Joule Assistants / Agents</td><td>利用者、実行権限、変更履歴、実行ログ、業務影響</td></tr>
+<tr><td>Joule Work</td><td>ユーザー入口、SSO、アクセス制御、問い合わせ導線</td></tr>
+</tbody>
+</table></div>
+<p>つまり、Basisが見るべき中心はサーバ稼働だけではなく、「AIが業務操作を実行するための運用統制」に広がる。</p>
+<h3>2. Joule Studioは開発ツールであり、同時に本番運用対象</h3>
+<p>SAPはJoule Studioを、AIエージェント、アプリケーション、ワークフローのライフサイクル全体を作成・管理するフルマネージドな仕組みとして発表した。自然言語から要件、技術仕様、コードひな形、テスト成果物、プレビューを生成する intent-based development も強調されている。</p>
+<p>ただしBasis向けに重要なのは、開発体験より運用面である。SAPはJoule Studio runtimeについて、デプロイ、実行環境、ストレージ、モデルアクセスなどの運用能力をマネージドに提供し、観測性、ライフサイクル管理、schema validation、Cloud ALM連携、コストや業務インパクトの監視を語っている。</p>
+<p>ここから作れるBasisチェックリストは明確。</p>
+<ul>
+<li>Joule Studioで作られたエージェント一覧を誰が管理するか</li>
+<li>本番、検証、PoCの実行環境を分けているか</li>
+<li>エージェントのデプロイ承認とロールバック手順があるか</li>
+<li>実行ログ、失敗ログ、業務影響ログをCloud ALMや社内監視へ接続できるか</li>
+<li>モデル利用、外部ツール、n8n、Vercelなどの接続先を棚卸しできるか</li>
+<li>費用、実行回数、業務KPIを月次で見られるか</li>
+</ul>
+<p>「Joule Studioは開発部門のもの」と切り離すと危ない。SAP管理ランタイムであっても、本番利用する以上、顧客側の変更管理、権限管理、監査説明は残る。</p>
+<h3>3. Agent-to-Agent連携は責任分界を難しくする</h3>
+<p>SAPはJouleの双方向Agent-to-Agent機能をQ4に一般提供予定とし、第三者エージェントがJoule Agentsを安全に呼び出し、SAPおよび非SAP環境をまたいで業務プロセス内で動ける方向を示している。</p>
+<p>これは便利だが、運用設計では責任分界が難しくなる。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>事故パターン</th><th>先に決めるべきこと</th></tr></thead>
+<tbody>
+<tr><td>外部エージェントが誤った入力でSAP処理を起動</td><td>呼び出し元ID、許可スコープ、入力検証、承認条件</td></tr>
+<tr><td>SAP側エージェントが非SAP SaaSへデータを渡す</td><td>データ分類、DLP、契約、ログ保存期間</td></tr>
+<tr><td>複数エージェントの連鎖で処理遅延</td><td>タイムアウト、再試行、業務SLA、停止条件</td></tr>
+<tr><td>実行結果が業務データを変更</td><td>変更履歴、承認者、リカバリ手順</td></tr>
+</tbody>
+</table></div>
+<p>従来のRFC、OData、CPI、API Managementの監視に加えて、「エージェント呼び出しチェーン」を監査できる設計が必要になる。Basis担当者はネットワークや証明書だけでなく、AI実行のトレースを業務部門に説明する役割を持つ。</p>
+<h3>4. Joule Studio runtimeは「技術権限」と「業務上やってよいか」を分ける</h3>
+<p>SAPとNVIDIAのエージェント実行に関する記事では、OpenShellが安全に実行できるかを扱い、Joule Studio runtimeが業務意図や説明責任の観点から「そのアクションを実行すべきか」を扱う、と整理されている。</p>
+<p>これはBasis運用の言葉に直すと、従来の「権限があるから実行できる」では足りないということ。たとえば支払、発注、在庫引当、価格変更、マスタ変更のような処理では、ABAP権限やBTPロールだけでなく、業務ルール、承認状態、例外条件、監査証跡を合わせて見る必要がある。</p>
+<p>運用設計では、少なくとも次の4層を分けるとよい。</p>
+<ol>
+<li>技術実行権限: BTP role collection、SAP権限、API scope、destination</li>
+<li>業務実行権限: どの業務データ、どの金額・数量・組織範囲まで許可するか</li>
+<li>ランタイム制御: タイムアウト、再試行、手動承認、停止条件</li>
+<li>監査証跡: 入力、判断理由、呼び出し先、出力、最終更新者、ロールバック可否</li>
+</ol>
+<p>Basisはこのうち1だけを見る担当ではなく、2から4を監査・運用・Cloud ALM・インシデント対応に落とす橋渡し役になる。</p>
+<h3>5. パートナーエコシステムが広がるほど顧客側の棚卸しが必要</h3>
+<p>SAPはパートナー向けにも、Joule Studioで開発しSAP Business AI Platform runtimeへデプロイするエージェントを重視している。Sapphire後のTechEdへ向けたPartner Agent Raceでは、Joule Studioで作られ、SAP Cloud SDK for AIやAI Foundationを使い、Business AI Platform runtimeへ展開されることが条件として示されている。</p>
+<p>これは、顧客企業に「SAP標準のJoule Assistant」「パートナー製エージェント」「自社開発エージェント」「非SAPエージェント」が混在する未来を意味する。Basis運用では、導入済みアドオン一覧と同じ感覚で、エージェント台帳が必要になる。</p>
+<p>最低限の台帳項目はこれでよい。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>項目</th><th>内容</th></tr></thead>
+<tbody>
+<tr><td>エージェント名</td><td>業務名ではなく実体名で記録</td></tr>
+<tr><td>提供元</td><td>SAP標準、パートナー、自社、外部SaaS</td></tr>
+<tr><td>実行場所</td><td>Joule Studio runtime、BTP、外部基盤</td></tr>
+<tr><td>呼び出し先</td><td>S/4HANA、BTP、非SAP SaaS、ファイル、メール等</td></tr>
+<tr><td>データ分類</td><td>個人情報、財務、購買、在庫、技術ログ</td></tr>
+<tr><td>権限</td><td>BTP role、SAP role、API scope</td></tr>
+<tr><td>監視</td><td>Cloud ALM、アプリログ、SIEM、手動確認</td></tr>
+<tr><td>オーナー</td><td>業務責任者、技術責任者、ベンダー窓口</td></tr>
+</tbody>
+</table></div>
+<h2>個人向けの読みどころ</h2>
+<p>このテーマは、SAP Basis向けコンテンツとして「Autonomous Enterprise時代にBasisの仕事はなくなるのか？」という入り口が強い。結論は、なくならない。ただし、作業対象は変わる。</p>
+<p>従来は、システム、クライアント、ジョブ、RFC、証明書、パッチ、性能、監視を見る仕事だった。これからはそこに、エージェント、業務意図、A2A連携、Knowledge Graph、実行ログ、コスト、承認、モデルアクセスが追加される。</p>
+<p>動画や記事にするなら、以下の構成が使いやすい。</p>
+<ol>
+<li>Sapphire 2026のAutonomous Enterpriseを30秒で整理</li>
+<li>Joule Studioは開発ツールではなく本番運用対象</li>
+<li>Basisが見るべき新しい台帳: エージェント、権限、呼び出し先、監査ログ</li>
+<li>Cloud ALMと変更管理へどうつなげるか</li>
+<li>「AI時代のBasis」は手順実行者ではなく責任分界の翻訳者になる</li>
+</ol>
+<p>特に個人のSAP Basis発信では、AIの派手さより「運用で事故らないために誰が何を見るか」に落とすと差別化しやすい。</p>
+<h2>注意点</h2>
+<ul>
+<li>この記事は2026年6月10日時点の公開情報をもとにした運用観点整理であり、個別契約、SAP製品ライセンス、ロードマップの確定内容を断定するものではない。</li>
+<li>SAPの発表には今後提供予定の内容が含まれる。一般提供時期、機能名、対応製品、料金、責任分界は公式ドキュメントと契約条件で再確認する必要がある。</li>
+<li>Joule Studio、Business AI Platform、A2A連携を実環境に入れる場合は、セキュリティ、監査、個人情報、業務承認、変更管理、ベンダー責任分界を事前に確認する。</li>
+<li>AIエージェントの実行は、技術的に可能であることと業務上許されることを分けて設計する必要がある。</li>
+</ul>
+<h2>参考リンク</h2>
+<ul>
+<li>SAP News Center: <a href="https://news.sap.com/2026/05/sap-sapphire-sap-unveils-autonomous-enterprise/">SAP Unveils the Autonomous Enterprise</a></li>
+<li>SAP News Center: Announcing <a href="https://news.sap.com/2026/05/new-joule-studio-enterprise-scale-agentic-development/">New Joule Studio for Enterprise Scale Agentic Development</a></li>
+<li>SAP News Center: <a href="https://news.sap.com/2026/05/future-enterprise-autonomous/">The Future of the Enterprise Is Autonomous</a></li>
+<li>SAP News Center: <a href="https://news.sap.com/2026/05/secure-ai-agents-how-sap-and-nvidia-co-define-enterprise-grade-agent-execution/">SAP and NVIDIA Co-Define Enterprise-Grade Agent Execution</a></li>
+<li>SAP News Center: <a href="https://news.sap.com/2026/05/partner-summit-sap-sapphire-autonomous-enterprise-era/">Autonomous Enterprise at Partner Summit</a></li>
+<li>SAP News Center: <a href="https://news.sap.com/2026/04/sap-business-ai-release-highlights-q1-2026/">SAP Business AI Release Highlights Q1 2026</a></li>
+</ul>
+    </article>
+  </main>
+</body>
+</html>
