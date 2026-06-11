@@ -133,6 +133,17 @@
   },
   {
     "file": "[入力元伏せ]",
+    "slug": "2026-06-11-セキュリティ-CISAの「最短3日パッチ」指令で脆弱性対応の優先順位はどう変わるか-adafec6d3e",
+    "title": "CISAの「最短3日パッチ」指令で脆弱性対応の優先順位はどう変わるか",
+    "category": "セキュリティ",
+    "created": "2026-06-11",
+    "status": "",
+    "type": "interest_report",
+    "excerpt": "2026年6月10日、CISAは Binding Operational Directive 26-04「Prioritizing Security Updates Based on Risk」を公開した。対象は米国のFederal Civilian Executive Branch機関だが、内容は一般企業の脆弱性管理にもかなり参考になる。 ポイントは、すべ...",
+    "url": "interests/articles/2026-06-11-セキュリティ-CISAの「最短3日パッチ」指令で脆弱性対応の優先順位はどう変わるか-adafec6d3e.html"
+  },
+  {
+    "file": "[入力元伏せ]",
     "slug": "2026-06-07-セキュリティ-MCPサーバーとnpm依存を「個人AIエージェント環境」の新しい攻撃面として棚卸しす-d47732223d",
     "title": "MCPサーバーとnpm依存を「個人AIエージェント環境」の新しい攻撃面として棚卸しする",
     "category": "セキュリティ",

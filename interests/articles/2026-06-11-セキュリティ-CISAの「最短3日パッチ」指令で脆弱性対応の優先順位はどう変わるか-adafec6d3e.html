@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CISAの「最短3日パッチ」指令で脆弱性対応の優先順位はどう変わるか | 興味レポート</title>
+  <meta name="description" content="2026年6月10日、CISAは Binding Operational Directive 26-04「Prioritizing Security Updates Based on Risk」を公開した。対象は米国のFederal Civilian Executive Branch機関だが、内容は一般企業の脆弱性管理にもかなり参考になる。 ポイントは、すべ...">
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../../interests/index.html">興味レポート</a>
+    <span class="site-subtitle">Public redacted interest reports</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 興味レポート一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-11</span>
+        <span>セキュリティ</span>
+        <span>interest_report</span>
+      </div>
+      <h1>CISAの「最短3日パッチ」指令で脆弱性対応の優先順位はどう変わるか</h1>
+<h2>要約</h2>
+<p>2026年6月10日、CISAは Binding Operational Directive 26-04「Prioritizing Security Updates Based on Risk」を公開した。対象は米国のFederal Civilian Executive Branch機関だが、内容は一般企業の脆弱性管理にもかなり参考になる。</p>
+<p>ポイントは、すべての脆弱性をCVSSの高低だけで並べるのではなく、公開露出、KEV登録、攻撃自動化のしやすさ、攻撃成功時の技術的影響で期限を変えること。最も危険な組み合わせでは、3日以内の修正または緩和に加えて、侵害有無を確認するフォレンジック・トリアージも求められる。</p>
+<p>これは「AIで攻撃が速くなるから全部を急げ」という話ではない。むしろ、限られた運用リソースを本当に危ない資産へ寄せるための優先順位表である。SAP、Windows、VPN、クラウド、公開Web、管理コンソールを持つ現場なら、「今月中に全部パッチ」よりも、「インターネット公開かつ悪用済みかつ自動化可能なものを先に潰す」という運用に寄せるべきだ。</p>
+<h2>なぜ今見る価値があるか</h2>
+<p>CISAは今回の指令で、AIが脆弱性発見と攻撃自動化を速める可能性を明示している。従来は「月次パッチ」「重大度Critical/High」「KEVに入ったら急ぐ」という運用でも、ある程度は説明しやすかった。しかし、公開資産に対する自動化攻撃が速くなると、月次サイクルでは間に合わない領域が増える。</p>
+<p>WIREDやCybersecurity Diveの報道でも、CISA側は「攻撃者が自動化で大規模に突けるシステムを数週間放置できない」という趣旨を説明している。Nextgov/FCWは、CISAが大規模な民間機関で分析したところ、3日カテゴリに入る脆弱性インスタンスは約1%にとどまり、60%以上は次回の大きなシステム更新まで延期可能だったと報じている。</p>
+<p>ここが重要で、3日パッチ指令は「全部を3日で直せ」ではない。公開されていて、実際に悪用されていて、自動化されやすく、攻撃成功時にシステム制御まで持っていかれるものを、他より先に扱うためのルールである。</p>
+<h2>調査メモ</h2>
+<p>CISA BOD 26-04の判断軸は4つある。</p>
+<p>1つ目はAsset Exposure。脆弱な資産がインターネットなどの公衆ネットワークから、未認証または信頼できない主体に到達可能かを見る。VPN装置、境界FW、公開Web、公開API、リモート管理画面、クラウド上の公開サービスはここに入りやすい。</p>
+<p>2つ目はKEV Status。CVEがCISAのKnown Exploited Vulnerabilities Catalogに入っているかを見る。KEV入りは「実際に悪用が確認されている」ことを示すため、単なる理論上の脆弱性より優先度が高い。</p>
+<p>3つ目はExploit Automation。攻撃者が exploit の手順を自動化できるかを見る。認証不要、スキャンしやすい、攻撃コードが単純、インターネット全体へ横展開しやすいものは、AIや自動化ツールの恩恵を受けやすい。</p>
+<p>4つ目はTechnical Impact。攻撃成功時に部分的な制御で済むのか、システムの完全制御や認証情報奪取まで行くのかを見る。CISAの定義では、ログイン認証情報を安定して露出させる場合も total control に含まれる。</p>
+<p>運用上の読み替えはこうなる。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>条件</th><th>現場での扱い</th></tr></thead>
+<tbody>
+<tr><td>公開資産 + KEV + 自動化可能 + total control</td><td>休日・夜間でも例外対応候補。パッチ、遮断、緩和、侵害確認を同時に走らせる</td></tr>
+<tr><td>公開資産 + KEV + partial control</td><td>通常の月次を待たず、短期SLAで処理する</td></tr>
+<tr><td>公開資産だがKEVなし</td><td>CVSSだけでなく、PoC公開、自動化可能性、製品の露出度で繰り上げ判断する</td></tr>
+<tr><td>非公開資産 + KEV</td><td>内部到達経路、認証情報流出、横展開リスクを見て期限を決める</td></tr>
+<tr><td>非公開資産 + KEVなし + 自動化困難</td><td>計画停止や次回メンテで処理してよい候補</td></tr>
+</tbody>
+</table></div>
+<p>フォレンジック・トリアージの実装ガイダンスも実務的である。CISAは、スコープ特定、証拠保全、重要パッチと安定化、封じ込め、分析、エスカレーション判断という流れを示している。これは「パッチを当てたら終わり」ではなく、「すでに入られていないか」を見る工程を最初から組み込むということだ。</p>
+<h2>個人向けの読みどころ</h2>
+<p>SAP Basisや業務システム運用に引き寄せるなら、この指令の価値は「パッチ適用順の説明責任」を作れる点にある。</p>
+<p>たとえば、同じCriticalでも、インターネット公開のVPN装置、SAP Web Dispatcher、公開Fiori、境界WAF、Windowsの公開RDP、クラウド管理APIと、社内限定の検証サーバーでは扱いを変えるべきである。CISA式に並べると、次のような判断表が作れる。</p>
+<ul>
+<li>公開露出: 外部から直接到達できるか</li>
+<li>悪用実績: KEV、ベンダー警告、攻撃観測があるか</li>
+<li>自動化: スキャンから侵入まで機械的に回せるか</li>
+<li>影響: 権限昇格、認証情報奪取、任意コード実行、横展開につながるか</li>
+<li>業務影響: 止められるか、緩和できるか、代替経路があるか</li>
+<li>侵害確認: ログ、EDR、WAF、認証履歴、設定変更履歴を見られるか</li>
+</ul>
+<p>この表を使うと、「なぜこのSAP関連パッチを先にやるのか」「なぜこの検証機は次回メンテでよいのか」を説明しやすい。特にBasis向けコンテンツにするなら、月次パッチ運用を否定するのではなく、月次パッチの前に差し込む緊急レーンをどう作るかが題材になる。</p>
+<p>個人運用でも同じで、OpenClawやGitHub Pages、Discord連携、ローカルCLI、公開サイトを持つなら、まず見るべきは公開面と認証情報に近いところである。公開サイトそのものより、git push権限、GitHub token、npm token、クラウド認証、公開されるMarkdownの情報漏えいのほうが被害半径は大きい。</p>
+<h2>注意点</h2>
+<p>この記事は公開情報にもとづくセキュリティ運用メモであり、法令・監査・インシデント対応の専門助言ではない。実際の組織運用では、契約、監査要件、業務停止リスク、変更管理、ベンダーサポート条件を合わせて判断する必要がある。</p>
+<p>CISA BOD 26-04は米国FCEB機関向けの拘束力ある指令であり、日本企業や個人環境にそのまま義務として適用されるものではない。ただし、KEV、公開露出、自動化可能性、技術影響を使った優先順位付けは、SAP/Windows/クラウド/境界機器を抱える現場でも再利用しやすい。</p>
+<p>また、3日以内にベンダーパッチが存在しない場合もある。その場合は、パッチだけに固執せず、公開停止、アクセス制限、WAF/IPSルール、該当機能の無効化、ネットワーク分離、認証強化、監視強化、代替システム切替を含めて「リスクを下げた」と説明できる状態にするのが現実的である。</p>
+<h2>参考リンク</h2>
+<ul>
+<li>CISA: BOD 26-04: Prioritizing Security Updates Based on Risk</li>
+</ul>
+<p><a href="https://www.cisa.gov/news-events/directives/bod-26-04-prioritizing-security-updates-based-risk">cisa.gov - news-events / directives</a></p>
+<ul>
+<li>CISA: BOD 26-04 Implementation Guidance</li>
+</ul>
+<p><a href="https://www.cisa.gov/news-events/directives/bod-26-04-implementation-guidance-prioritizing-security-updates-based-risk">cisa.gov - news-events / directives</a></p>
+<ul>
+<li>CISA: Known Exploited Vulnerabilities Catalog</li>
+</ul>
+<p><a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog">cisa.gov - known-exploited-vulnerabilities-catalog</a></p>
+<ul>
+<li>CISA: Vulnrichment Program</li>
+</ul>
+<p><a href="https://www.cisa.gov/news-events/news/unlocking-vulnrichment-enriching-cve-data">cisa.gov - news-events / news</a></p>
+<ul>
+<li>WIRED: CISA Tells US Agencies to Fix Security Bugs in as Little as 3 Days Thanks to AI Threats</li>
+</ul>
+<p><a href="https://www.wired.com/story/cisa-ai-vulnerability-directive/">wired.com - story / cisa-ai-vulnerability-directive</a></p>
+<ul>
+<li>Cybersecurity Dive: CISA gives agencies new vulnerability remediation deadlines that take risk levels into account</li>
+</ul>
+<p><a href="https://www.cybersecuritydive.com/news/cisa-vulnerability-remediation-prioritization-directive/822504/">cybersecuritydive.com - news / cisa-vulnerability-remediation-prioritization-directive</a></p>
+<ul>
+<li>Nextgov/FCW: CISA directive revamps how agencies prioritize vulnerable systems</li>
+</ul>
+<p><a href="https://www.nextgov.com/cybersecurity/2026/06/cisa-directive-revamps-how-agencies-prioritize-vulnerable-systems/414096/">nextgov.com - cybersecurity / 2026</a></p>
+    </article>
+  </main>
+</body>
+</html>
