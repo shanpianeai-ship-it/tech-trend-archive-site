@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bambu Studio 2.7のTexture-to-Colorで塗装なし多色フィギュア制作は楽になるか | 興味レポート</title>
+  <meta name="description" content="Bambu Studio 2.7系で入ったTexture-to-Color Paintingは、テクスチャ付き3Dモデルの色をモデル表面のマルチカラー指定へ変換する機能です。公式リリースでは、OBJ、glTF、GLBのテクスチャ付きモデルを対象に、ロゴや装飾パターンのような色付き表現をマルチカラー印刷へ持ち込む用途が示されています。 結論として、塗装なしフィ...">
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../../interests/index.html">興味レポート</a>
+    <span class="site-subtitle">Public redacted interest reports</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 興味レポート一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-11T19:49:00+09:00</span>
+        <span>3Dプリンタ・フィギュア制作</span>
+        <span>interest_report</span>
+      </div>
+      <h1>Bambu Studio 2.7のTexture-to-Colorで塗装なし多色フィギュア制作は楽になるか</h1>
+<h2>要約</h2>
+<p>Bambu Studio 2.7系で入ったTexture-to-Color Paintingは、テクスチャ付き3Dモデルの色をモデル表面のマルチカラー指定へ変換する機能です。公式リリースでは、OBJ、glTF、GLBのテクスチャ付きモデルを対象に、ロゴや装飾パターンのような色付き表現をマルチカラー印刷へ持ち込む用途が示されています。</p>
+<p>結論として、塗装なしフィギュア制作を「完成品レベルまで自動化する」機能ではなく、「手で塗り分ける前処理を大きく減らす」機能として見るのが現実的です。特に服の模様、台座ロゴ、平滑な装飾面には効きます。一方で、肌、髪、目、細い輪郭、陰影込みのイラスト的テクスチャは、フィラメント色数、AMSの交換回数、表面解像度、サポート痕、色にじみの制約を受けやすいです。</p>
+<h2>なぜ今見る価値があるか</h2>
+<p>Bambu Studio 2.7.1 Public Releaseは、2.6.0系からの更新としてTexture-to-Color PaintingとFilament Managerを主要な新機能に挙げています。さらに2.7.1では、2.7.0 Public Betaからの改善として、マルチテクスチャモデルの色サンプリング安定化、UVマッピング修正、色クラスタリング、メッシュエラー検出と修復確認、FBXインポート対応が追加されています。</p>
+<p>これはフィギュア制作ではかなり意味があります。従来の多色FDMは、パーツ分割か手作業のカラー塗りが必要で、特に既存モデルを後から多色化する作業が重い。Texture-to-Colorが安定すれば、Blenderなどで付けたテクスチャや、配布モデルに含まれる色情報を「印刷用の色指定」に変換する入口になります。</p>
+<p>ただし、2.7.1のリリースノートにはmacOS 26.5以降で起動後のUI遅延やメモリ使用量増加、クラッシュにつながる既知問題も記載されています。制作フローへ入れるなら、まず小さいモデルで検証してから本番サイズへ進めるべきです。</p>
+<h2>調査メモ</h2>
+<ul>
+<li>公式GitHubリリースでは、Texture-to-Color Paintingを「テクスチャ付きモデルを表面のマルチカラー塗装へ直接変換する」機能として説明し、対応形式はOBJ、glTF、GLBとされています。</li>
+<li>Bambu Lab Wikiの2.7.1リリースノートでは、マルチテクスチャモデルの色サンプリング、UVアトラス、base color material、色クラスタリング、スムージング制御が改善項目として並んでいます。</li>
+<li>既存のColor Painting Toolは、3Dシーン上で塗った色を複数フィラメントのGCodeツールパスへ反映する仕組みです。Texture-to-Colorは、この「手塗り」をテクスチャ情報から半自動化する位置づけに近いです。</li>
+<li>Bambu Wikiのマルチカラー印刷ガイドは、モデル読み込み後にフィラメント選択、色指定、スライス、AMSスロット割り当てという流れを前提にしています。Texture-to-Color後も、実際のスプール色への割り当てと確認は残ります。</li>
+<li>Fabbalooはこの機能を、取り込んだ色付きモデルを手で表面塗装する面倒さへの回答として紹介しています。第三者レビューとしては有用ですが、現時点では公式説明と小型サンプル検証を優先して判断したいです。</li>
+</ul>
+<h2>個人向けの読みどころ</h2>
+<p>フィギュア制作での使いどころは、最初から「塗装を完全に置き換える」と考えないことです。現実的には次の順番がよさそうです。</p>
+<ol>
+<li>ロゴ、服の模様、台座、メカ部品など、境界がはっきりしたモデルで試す。</li>
+<li>使うフィラメント色を4色以内に絞り、色クラスタリング後の見え方を確認する。</li>
+<li>顔、瞳、髪のハイライトなど、細部の印象を左右する部分は手塗り、デカール、後処理へ逃がす。</li>
+<li>1体だけではなく、同じ配色の小物や台座を複数個作る用途で時間短縮効果を見る。</li>
+</ol>
+<p>人物フィギュアでは、FDMの積層、ノズル径、サポート痕、色替えのパージ量が見た目に直結します。Texture-to-Colorは「塗装前の色分け試作」や「ざっくり色付きプロトタイプ」には向きますが、展示用の最終品質はまだ後処理込みで考えるのが安全です。</p>
+<h2>注意点</h2>
+<ul>
+<li>対応形式は公式説明上、OBJ、glTF、GLBが中心です。2.7.1ではFBXインポート対応も改善項目に入っていますが、制作元ソフトからのエクスポート設定によって結果が変わる可能性があります。</li>
+<li>AMS前提の多色印刷では、色数が増えるほど印刷時間、パージ量、失敗時の損失が増えます。小さい顔パーツに多数色を入れるほど効率は悪くなります。</li>
+<li>テクスチャの陰影やグラデーションをそのまま再現する機能ではありません。実際には手持ちフィラメント色への近似、色クラスタリング、スライス後の確認が必要です。</li>
+<li>2.7.1時点でmacOS 26.5以降の既知問題があるため、該当環境では作業中の保存と小型テストを優先します。</li>
+<li>配布モデルを使う場合は、モデルとテクスチャのライセンス、再配布可否、キャラクター権利を別途確認する必要があります。</li>
+</ul>
+<h2>参考リンク</h2>
+<ul>
+<li><a href="https://github.com/bambulab/BambuStudio/releases">BambuStudio GitHub Releases</a></li>
+<li>Bambu Studio V2.7.1 <a href="https://wiki.bambulab.com/en/software/bambu-studio/release/release-note-2-7-1">Release Note</a></li>
+<li><a href="https://wiki.bambulab.com/en/software/bambu-studio/multi-color-printing">Bambu Lab Wiki - Multi-Color Printing</a></li>
+<li><a href="https://wiki.bambulab.com/en/software/bambu-studio/color-painting-tool">Bambu Lab Wiki - Color Painting Tool</a></li>
+<li>Fabbaloo - New BambuStudio Feature <a href="https://www.fabbaloo.com/news/new-bambustudio-feature-converts-textured-3d-models-into-automatically-painted-prints">Converts Textured 3D Models Into Automatically Painted Prints</a></li>
+</ul>
+    </article>
+  </main>
+</body>
+</html>
