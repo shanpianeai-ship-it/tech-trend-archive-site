@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Claude FableとMythosの運用設計 | 海外技術情報アーカイブ</title>
+  <meta name="description" content="Anthropic は 2026年6月9日、Claude Fable 5 と Claude Mythos 5 を発表した。Fable 5 は一般提供される Mythos-class モデルで、Mythos 5 は同じ基盤モデルから一部セーフガードを外した限定提供版という位置づけ。 単なるベンチマーク更新ではなく、「長時間エージェント作業に強い高性能モデルを、...">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-11</span>
+        <span>AI / LLM / Agent</span>
+        <span>importance: high</span>
+      </div>
+      <h1>Claude FableとMythosの運用設計</h1>
+<h2>要約</h2>
+<p>Anthropic は 2026年6月9日、Claude Fable 5 と Claude Mythos 5 を発表した。Fable 5 は一般提供される Mythos-class モデルで、Mythos 5 は同じ基盤モデルから一部セーフガードを外した限定提供版という位置づけ。</p>
+<p>単なるベンチマーク更新ではなく、「長時間エージェント作業に強い高性能モデルを、どこまで一般提供し、どこから信頼済みアクセスに分けるか」という運用設計の発表として読むのが重要。</p>
+<p>開発・分析・調査では Fable 5 の長時間タスク性能が魅力になる一方、サイバー、バイオ、化学、蒸留関連では安全分類器による拒否やフォールバックを前提に、アプリ側のエラー処理、代替モデル、ログ、データ保持を設計する必要がある。</p>
+<h2>背景</h2>
+<p>Anthropic は 4月に Mythos Preview を Project Glasswing 経由で限定提供していた。今回の Fable 5 は、その Mythos-class 能力を一般ユーザーにも広げるための安全強化版に見える。</p>
+<p>公式発表では、Fable 5 / Mythos 5 はこれまでの Claude より長時間自律的に動作でき、ソフトウェアエンジニアリング、知識労働、ビジョン、メモリ、生命科学研究で大きな改善があると説明されている。</p>
+<p>ただし、能力が高いほど悪用リスクも上がる。Anthropic は、Fable 5 にサイバーセキュリティ、バイオ・化学、モデル蒸留などを検出する分類器を入れ、該当領域では Fable 5 がそのまま答えない設計にしている。</p>
+<h2>何が重要か</h2>
+<h3>1. モデルの強さより、アクセス制御の分け方が主題</h3>
+<div class="table-wrap"><table>
+<thead><tr><th>モデル</th><th>提供範囲</th><th>主な違い</th><th>運用上の注意</th></tr></thead>
+<tbody>
+<tr><td>Claude Fable 5</td><td>一般提供</td><td>Mythos-class能力に安全分類器を追加</td><td>拒否、フォールバック、30日データ保持を前提にする</td></tr>
+<tr><td>Claude Mythos 5</td><td>Project Glasswingなど限定提供</td><td>Fable 5と同じ基盤で一部制限を解除</td><td>信頼済み組織向け。一般ユーザーは直接使えない</td></tr>
+<tr><td>Claude Opus 4.8</td><td>既存上位モデル</td><td>Fableの拒否時の代替先にもなる</td><td>高リスク領域の通常業務では現実的な受け皿</td></tr>
+</tbody>
+</table></div>
+<p>この分け方は、今後のフロンティアAIが「全員に同じモデルを提供する」方向だけでは進まないことを示している。モデル能力、利用者の信頼度、用途の危険度でアクセス層を分ける考え方が強まる。</p>
+<h3>2. 長時間エージェント運用の現実味が増す</h3>
+<p>公式発表では、Fable 5 がコードベース規模の移行、複雑な分析、ビジョンのみの長時間タスク、ファイルベースメモリを使う継続作業で強いと説明されている。</p>
+<p>自分の用途に引き寄せると、次のような領域で意味がある。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>用途</th><th>期待できること</th><th>先に設計すべきこと</th></tr></thead>
+<tbody>
+<tr><td>コード改修</td><td>大きな変更を計画、実装、検証まで進める</td><td>テスト、差分確認、権限、ロールバック</td></tr>
+<tr><td>調査ノート作成</td><td>複数ソースを横断し、長文の構成を保つ</td><td>出典管理、引用範囲、再調査条件</td></tr>
+<tr><td>業務自動化</td><td>長い手順を途中状態つきで進める</td><td>監査ログ、人間承認、失敗時停止条件</td></tr>
+<tr><td>SAP/ERP運用支援</td><td>ログ、手順書、変更履歴を横断して仮説を作る</td><td>本番操作禁止、権限分離、証跡保存</td></tr>
+</tbody>
+</table></div>
+<p>「賢いモデルに任せる」では足りない。長時間動けるほど、作業状態、権限、検証、差し戻しを外側のシステムで持つ必要がある。</p>
+<h3>3. 拒否とフォールバックを正常系として扱う必要がある</h3>
+<p>Claude API docs では、Fable 5 が拒否した場合も API 的には HTTP 200 の成功応答になり、<code>stop_reason: &quot;refusal&quot;</code> が返ると説明されている。つまり、アプリ側では通信エラーではなく、モデル判断による分岐として扱う必要がある。</p>
+<p>また、サーバー側 fallback、SDK middleware、手動 retry の選択肢が示されている。Fable 5 を組み込むなら、最初から以下を設計しておくべき。</p>
+<ul>
+<li>refusal を UI とログで明示する</li>
+<li>Opus 4.8 など代替モデルへ切り替える条件を決める</li>
+<li>代替モデルに渡す文脈を最小化する</li>
+<li>拒否が多いプロンプトや業務領域をレビューする</li>
+<li>危険領域の回避をユーザーに隠さない</li>
+</ul>
+<p>これは、モデル選定ではなく運用設計の話。高性能モデルほど「失敗時の見せ方」がプロダクト品質になる。</p>
+<h3>4. データ保持条件は業務利用の足切りになる</h3>
+<p>API docs では、Fable 5 / Mythos 5 は 30日データ保持の Covered Models とされ、ゼロデータ保持では使えないと説明されている。</p>
+<p>企業利用ではここがかなり大きい。コード、顧客情報、セキュリティ情報、未公開資料を扱うワークフローでは、性能よりもデータ保持ポリシーが先に来る。Microsoft 社内利用制限の報道も、この論点を補強している。</p>
+<h2>自分向けメモ</h2>
+<ul>
+<li>Fable 5 は「全部これに置き換えるモデル」ではなく、長時間・高難度タスク用の高価な実行レーンとして見る。</li>
+<li>Cron、Obsidian整理、調査ノート、コード改修のような自分の運用では、Fable級モデルを使うなら作業ログと出典ログを必ず残す。</li>
+<li>セーフガードで Opus 4.8 へ流れる可能性があるなら、出力品質差や拒否理由を記録できる設計が必要。</li>
+<li>SAP/ERPやセキュリティ調査では、モデルの能力より「本番系へ触らせない」「証跡を残す」「人間確認を挟む」が重要。</li>
+<li>日本語圏では速報記事や概要解説が出始めている。自分用アーカイブでは、ベンチマークの順位より、アクセス制御、データ保持、フォールバック、長時間エージェント運用の設計論として追う。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://www.anthropic.com/news/claude-fable-5-mythos-5">Anthropic - Claude Fable 5 and Claude Mythos 5</a> - 公式発表。モデルの位置づけ、能力、セーフガード、価格、提供範囲。</li>
+<li><a href="https://platform.claude.com/docs/en/about-claude/models/introducing-claude-fable-5-and-claude-mythos-5">Claude API Docs - Introducing Claude Fable 5 and Claude Mythos 5</a> - API利用時のモデルID、refusal、fallback、課金、データ保持。</li>
+<li><a href="https://www.anthropic.com/news/expanding-project-glasswing">Anthropic - Expanding Project Glasswing</a> - Mythos Preview とサイバー防衛向け限定提供の背景。</li>
+<li><a href="https://techcrunch.com/2026/06/09/anthropics-claude-fable-5-is-a-version-of-mythos-the-public-can-access-today/">TechCrunch - Anthropic's Claude Fable 5 is a version of Mythos the public can access today</a> - 一般向け提供とガードレールを外部メディア視点で整理。</li>
+<li><a href="https://forest.watch.impress.co.jp/docs/news/2115807.html">窓の杜 - Claude Fable 5をリリース</a> - 日本語圏での速報的整理。既出度確認用。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>Claude Fable 5</li>
+<li>Claude Mythos 5</li>
+<li>Mythos-class</li>
+<li>Project Glasswing</li>
+<li>long-horizon agents</li>
+<li>safety classifiers</li>
+<li>refusal handling</li>
+<li>model fallback</li>
+<li>data retention</li>
+<li>agent governance</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://www.anthropic.com/news/claude-fable-5-mythos-5">anthropic.com - news / claude-fable-5-mythos-5</a></p></section>
+    </article>
+  </main>
+</body>
+</html>

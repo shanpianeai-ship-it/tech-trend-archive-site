@@ -13,6 +13,19 @@
     "url": "articles/2026-06-11_本番AIエージェント五層統治.html"
   },
   {
+    "file": "AI/2026-06-11_AM_Claude_FableとMythosの運用設計.md",
+    "slug": "2026-06-11_AM_Claude_FableとMythosの運用設計",
+    "title": "Claude FableとMythosの運用設計",
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "created": "2026-06-11",
+    "source": "https://www.anthropic.com/news/claude-fable-5-mythos-5",
+    "importance": "high",
+    "confidence": "high",
+    "excerpt": "Anthropic は 2026年6月9日、Claude Fable 5 と Claude Mythos 5 を発表した。Fable 5 は一般提供される Mythos-class モデルで、Mythos 5 は同じ基盤モデルから一部セーフガードを外した限定提供版という位置づけ。 単なるベンチマーク更新ではなく、「長時間エージェント作業に強い高性能モデルを、...",
+    "url": "articles/2026-06-11_AM_Claude_FableとMythosの運用設計.html"
+  },
+  {
     "file": "AI/2026-06-10_AM_企業AIに必要なAgent_Logic.md",
     "slug": "2026-06-10_AM_企業AIに必要なAgent_Logic",
     "title": "企業AIに必要なAgent Logic",
