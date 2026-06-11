@@ -1,5 +1,18 @@
 [
   {
+    "file": "Security/2026-06-11_本番AIエージェント五層統治.md",
+    "slug": "2026-06-11_本番AIエージェント五層統治",
+    "title": "本番AIエージェント五層統治",
+    "genre": "Security",
+    "genreLabel": "Security",
+    "created": "2026-06-11",
+    "source": "https://arxiv.org/abs/2606.12320",
+    "importance": "high",
+    "confidence": "high",
+    "excerpt": "arXiv に投稿された \"A Five-Plane Reference Architecture for Runtime Governance of Production AI Agents\" は、本番AIエージェントを「モデル出力」ではなく「企業システムに対する委任された実行主体」として統治する参照アーキテクチャを提案している。 中核は、reasonin...",
+    "url": "articles/2026-06-11_本番AIエージェント五層統治.html"
+  },
+  {
     "file": "AI/2026-06-10_AM_企業AIに必要なAgent_Logic.md",
     "slug": "2026-06-10_AM_企業AIに必要なAgent_Logic",
     "title": "企業AIに必要なAgent Logic",

@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>本番AIエージェント五層統治 | 海外技術情報アーカイブ</title>
+  <meta name="description" content="arXiv に投稿された &quot;A Five-Plane Reference Architecture for Runtime Governance of Production AI Agents&quot; は、本番AIエージェントを「モデル出力」ではなく「企業システムに対する委任された実行主体」として統治する参照アーキテクチャを提案している。 中核は、reasonin...">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-11</span>
+        <span>Security</span>
+        <span>importance: high</span>
+      </div>
+      <h1>本番AIエージェント五層統治</h1>
+<h2>要約</h2>
+<p>arXiv に投稿された &quot;A Five-Plane Reference Architecture for Runtime Governance of Production AI Agents&quot; は、本番AIエージェントを「モデル出力」ではなく「企業システムに対する委任された実行主体」として統治する参照アーキテクチャを提案している。</p>
+<p>中核は、reasoning plane が意図、委任チェーン、セッション状態を一度だけ判定し、その判定を network / identity / endpoint / data の4つの実行面へ投影する設計。従来の「APIリクエスト単位」「単一ユーザー単位」「allow / deny 単位」の認可では、エージェントの連続行動、委任、ツール連鎖、監査証跡を扱い切れないという問題意識がある。</p>
+<p>自分向けには、OpenClaw / Codex / MCP のようなツール実行型エージェントを業務利用する時に、どこで止めるか、どこで権限を細らせるか、どの証跡を残すかを設計するための地図として有用。</p>
+<h2>背景</h2>
+<p>企業セキュリティは長く、データ境界とリクエスト境界を守る形で発展してきた。ネットワーク境界、アプリ境界、DLP、IAM、ゼロトラスト、サービスメッシュなどは、基本的には「誰が、どのリソースへ、どの通信でアクセスするか」を判定する。</p>
+<p>本番AIエージェントでは、守る対象が少し変わる。エージェントは文書を読み、検索し、ツールを呼び、別エージェントへ委任し、メールやチケットやERPのような systems of record を更新する。単発のアクセスが許可されていても、連続した行動全体としては許可されていない業務変更や情報流出になる。</p>
+<p>論文はこのズレを、既存のポリシーエンジンの5つの不足として整理している。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>不足</th><th>従来型</th><th>エージェントで必要なもの</th></tr></thead>
+<tbody>
+<tr><td>単位</td><td>単発リクエスト</td><td>実行計画と行動列</td></tr>
+<tr><td>主体</td><td>単一principal</td><td>人間、planner、executor、toolを含む委任チェーン</td></tr>
+<tr><td>権限</td><td>絶対的なscope</td><td>委任ごとに狭まるcapability</td></tr>
+<tr><td>状態</td><td>ステートレス</td><td>セッション内で読んだデータや過去判断</td></tr>
+<tr><td>結果</td><td>allow / deny</td><td>pause, escalate, narrow, modify, defer, rollback</td></tr>
+</tbody>
+</table></div>
+<p>つまり、モデルの安全性やプロンプト防御だけではなく、実行時の行動統治レイヤーが必要になる。</p>
+<h2>何が重要か</h2>
+<h3>1. 五層モデルは「判断」と「実行」を分ける</h3>
+<p>この論文の五層は、1つの reasoning plane と4つの infrastructure plane で構成される。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Plane</th><th>役割</th><th>既存基盤で近いもの</th></tr></thead>
+<tbody>
+<tr><td>Reasoning</td><td>意図、計画、委任チェーン、状態を判定</td><td>policy engine, orchestrator, agent runtime</td></tr>
+<tr><td>Network</td><td>接続先、mTLS、rate limit、通信制御</td><td>firewall, service mesh</td></tr>
+<tr><td>Identity</td><td>短命credential、scope、委任された権限</td><td>IdP, OAuth/OBO, token service</td></tr>
+<tr><td>Endpoint</td><td>実行環境、姿勢、attestation</td><td>EDR, container/runtime policy</td></tr>
+<tr><td>Data</td><td>取得候補、分類、lineage、residency</td><td>DLP, data catalog, access gateway</td></tr>
+</tbody>
+</table></div>
+<p>ポイントは、各planeがバラバラに判断しないこと。Reasoning plane が「このエージェントのこの行動は、この委任権限と状態で許可できるか」を一度判定し、その結果を各planeが実現する。監査証跡も1つの構造化された evidence record として束ねる。</p>
+<p>これはゼロトラストの延長として読むと分かりやすい。ゼロトラストは信頼判断をネットワーク境界からリクエスト境界へ寄せた。五層アーキテクチャは、さらにエージェントの「次の実行ステップ」へ寄せる。</p>
+<h3>2. 「止める場所」が7つある</h3>
+<p>論文は stop-anywhere mediation として、エージェントの実行ループに7つの介入点を置く。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>介入点</th><th>何を見るか</th><th>効く脅威</th></tr></thead>
+<tbody>
+<tr><td>MP1 Plan formation</td><td>計画全体、連鎖効果</td><td>prompt injection, tool chain abuse, workflow改変</td></tr>
+<tr><td>MP2 Context retrieval</td><td>取得候補、検索範囲</td><td>connector overreach</td></tr>
+<tr><td>MP3 Tool selection</td><td>使うツール</td><td>過剰ツール権限</td></tr>
+<tr><td>MP4 Argument generation</td><td>tool引数</td><td>生ID、外部宛先、危険パラメータ</td></tr>
+<tr><td>MP5 Action commit</td><td>実際の副作用直前</td><td>最後の阻止点</td></tr>
+<tr><td>MP6 Output return</td><td>tool応答</td><td>汚染された応答、次計画への混入</td></tr>
+<tr><td>MP7 Audit emission</td><td>証跡の完全性</td><td>監査不能</td></tr>
+</tbody>
+</table></div>
+<p>多くの現行エージェント基盤は MP5、つまり tool call の直前でしか止めにくい。だが、危険な行動は計画段階で見た方が安いし、読み取り範囲は取得前に絞った方が安全。MP1やMP2をランタイムが露出できるかが、今後のエージェント基盤の差になる。</p>
+<h3>3. allow / deny だけでは足りない</h3>
+<p>本番運用では、全てを許可するか止めるかだけでは使い物にならない。論文は6つの interruption primitive を挙げる。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Primitive</th><th>意味</th><th>実務例</th></tr></thead>
+<tbody>
+<tr><td>Pause</td><td>条件が解決するまで一時停止</td><td>最新権限の再評価待ち</td></tr>
+<tr><td>Escalate</td><td>人間や上位権限へ承認依頼</td><td>高額返金、外部送信、デプロイ</td></tr>
+<tr><td>Narrow</td><td>権限を狭めて続行</td><td>mailbox全体ではなく1スレッドだけ許可</td></tr>
+<tr><td>Modify</td><td>計画、検索、引数、応答を書き換え</td><td>raw IDをtoken化、外部宛先を社内宛へ変更</td></tr>
+<tr><td>Defer</td><td>後続条件が満たされるまで延期</td><td>endpoint posture確認待ち</td></tr>
+<tr><td>Rollback</td><td>副作用を補償して戻す</td><td>デプロイrollback、レコード更新取り消し</td></tr>
+</tbody>
+</table></div>
+<p>特に Narrow はMCP運用と相性がよい。MCPサーバやコネクタは広い権限を持ちがちなので、タスク単位で「今回だけ読める範囲」を狭める設計が必要になる。</p>
+<h3>4. 委任チェーンを明示する</h3>
+<p>論文の composite principal は、単に「誰が呼んだか」ではなく、誰から誰へ権限が委任されたかを順序付きチェーンとして持つ。</p>
+<p>例:</p>
+<p>``<code>text human -&gt; planner agent -&gt; executor agent -&gt; tool host </code>``</p>
+<p>各ステップの capability set は親の capability set の部分集合でなければならず、実効権限はチェーン全体の積集合になる。途中のエージェントが侵害されても、親から委任されていない権限を突然持てない。</p>
+<p>これは confused deputy 問題への対策としても重要。強い権限を持つツールやエージェントが、弱い権限の依頼者に誘導されて強権限を使ってしまう事故を、委任チェーンの交差で抑える。</p>
+<h3>5. 対象脅威が実務に近い</h3>
+<p>論文は、以下の7つを本番エージェントの主要脅威として挙げている。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>脅威</th><th>ざっくり内容</th><th>自分向けの読み替え</th></tr></thead>
+<tbody>
+<tr><td>T1 Indirect prompt injection</td><td>読み取った文書やtool応答が計画を汚染</td><td>Web検索、メール、Obsidian、添付ファイルに混じる指示</td></tr>
+<tr><td>T2 Tool chain abuse</td><td>個別には合法な操作列が全体では危険</td><td>読むのはOK、外部送信もOK、でも同一文脈の組合せはNG</td></tr>
+<tr><td>T3 Connector overreach</td><td>必要以上に広い範囲を読む</td><td>Drive全体、メールボックス全体、Vault全体を読ませる問題</td></tr>
+<tr><td>T4 Approval evasion</td><td>承認が必要な効果を別経路で達成</td><td>送金ではなく権限変更や値引きで実質同じ効果</td></tr>
+<tr><td>T5 Delegation chain exploitation</td><td>委任途中で権限が膨らむ</td><td>subagentが親より強い操作を持つ</td></tr>
+<tr><td>T6 Audit opacity</td><td>後から再構成できない</td><td>「なぜ送ったか」「何を読んだか」が分からない</td></tr>
+<tr><td>T7 Workflow integrity loss</td><td>業務プロセス自体が変わる</td><td>ERP伝票、承認、デプロイ、顧客対応の流れが変質</td></tr>
+</tbody>
+</table></div>
+<p>この分類はかなり実務寄り。特にT2とT7は、単純なアクセス制御では見落としやすい。</p>
+<h2>自分向けメモ</h2>
+<ul>
+<li>OpenClaw/Codex運用では、ツール実行前の確認だけでは不足。候補選定、ファイル読み取り、外部送信、Git操作、Discord投稿の各段階を別の介入点として見る。</li>
+<li>MCPサーバは「便利なコネクタ」ではなく、権限を持つ実行面。タスクごとの Narrow、短命credential、監査証跡が必要。</li>
+<li>サブエージェントへ任せる時は、親の権限をそのまま渡さない。ファイル範囲、ネットワーク、書き込み先、外部送信可否を明示的に狭める設計が要る。</li>
+<li>SAP/ERP領域では、AIエージェントが伝票、マスタ、承認、ジョブ、移送を触るなら、単一API認可では足りない。プロセス全体としての許可、承認、rollback、監査を設計する必要がある。</li>
+<li>ただし、論文自身も限界を明示している。参照実装はpolicy-engine coreの検証で、ライブエージェントベンチマークでのフルシステム評価は今後。MP1を露出しない既存ランタイムでは防御価値が落ちる。</li>
+<li>一番大事な実装論点は「計画形成フック」。エージェントが何をしようとしているかを構造化して出せないと、結局MP5のtool call直前チェックに戻ってしまう。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://arxiv.org/abs/2606.12320">arXiv - A Five-Plane Reference Architecture for Runtime Governance of Production AI Agents</a> - 主論文。五層モデル、7つの介入点、6つのinterruption primitive、composite principal、audit substrateを整理。</li>
+<li><a href="https://arxiv.org/abs/2603.16586">arXiv - Runtime Governance for AI Agents: Policies on Paths</a> - エージェント統治を実行パス上のポリシー評価として捉える関連研究。</li>
+<li><a href="https://techcommunity.microsoft.com/blog/microsoft-security-blog/authorization-and-governance-for-ai-agents-runtime-authorization-beyond-identity/4509161">Microsoft Security Blog - Authorization and Governance for AI Agents</a> - AIエージェントのruntime authorizationを企業ID統制の文脈で整理。</li>
+<li><a href="https://blogs.oracle.com/ai-and-datascience/runtime-governance-enterprise-agentic-ai">Oracle Blog - From Model Safety to Runtime Governance</a> - モデル安全性から実行時統治へ重心が移る背景整理。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>AI agent governance</li>
+<li>runtime governance</li>
+<li>five-plane architecture</li>
+<li>composite principal</li>
+<li>capability attenuation</li>
+<li>stop-anywhere mediation</li>
+<li>MCP security</li>
+<li>indirect prompt injection</li>
+<li>tool chain abuse</li>
+<li>audit evidence</li>
+<li>enterprise security</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://arxiv.org/abs/2606.12320">arxiv.org - abs / 2606.12320</a></p></section>
+    </article>
+  </main>
+</body>
+</html>
