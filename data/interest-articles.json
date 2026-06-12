@@ -12,6 +12,17 @@
   },
   {
     "file": "[入力元伏せ]",
+    "slug": "2026-06-12-AI・エージェント-Chrome-Enterprise-MCPサーバーでブラウザ管理はAIエージェント化-ffaf170694",
+    "title": "Chrome Enterprise MCPサーバーでブラウザ管理はAIエージェント化できるか",
+    "category": "AI・エージェント",
+    "created": "2026-06-12",
+    "status": "",
+    "type": "interest_report",
+    "excerpt": "Googleは2026年5月28日、Chrome Enterprise APIをAIエージェントから呼び出せるようにするChrome Enterprise Premium向けMCPサーバーを公開した。狙いは、管理コンソール上で人間が何十手もかけて行っていたブラウザのセキュリティ確認、DLPルール、コネクタ、拡張機能、ライセンス、ログ確認などを、MCP対応エー...",
+    "url": "interests/articles/2026-06-12-AI・エージェント-Chrome-Enterprise-MCPサーバーでブラウザ管理はAIエージェント化-ffaf170694.html"
+  },
+  {
+    "file": "[入力元伏せ]",
     "slug": "2026-06-07-AI・エージェント-CodexのChatGPT統合とワークスペースエージェントで「事務処理エージェント」-56a7b87ea2",
     "title": "CodexのChatGPT統合とワークスペースエージェントで「事務処理エージェント」は何が変わるか",
     "category": "AI・エージェント",
