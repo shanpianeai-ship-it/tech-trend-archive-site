@@ -13,6 +13,19 @@
     "url": "articles/2026-06-12_SAP_AI_Native_North_Star_Architecture.html"
   },
   {
+    "file": "AI/2026-06-12_AM_Claude_Fable透明セーフガード.md",
+    "slug": "2026-06-12_AM_Claude_Fable透明セーフガード",
+    "title": "Claude Fable 5の透明なセーフガード運用",
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "created": "2026-06-12",
+    "source": "https://www.anthropic.com/news/claude-fable-5-mythos-5",
+    "importance": "high",
+    "confidence": "high",
+    "excerpt": "Anthropic は 2026年6月9日、Claude Fable 5 と Claude Mythos 5 を発表した。Fable 5 は一般提供される Mythos-class モデル、Mythos 5 は同じ基盤モデルから一部セーフガードを外した限定提供版という構成。 前日に作成したノートでは、Fable / Mythos の提供階層、refusal、...",
+    "url": "articles/2026-06-12_AM_Claude_Fable透明セーフガード.html"
+  },
+  {
     "file": "Security/2026-06-11_本番AIエージェント五層統治.md",
     "slug": "2026-06-11_本番AIエージェント五層統治",
     "title": "本番AIエージェント五層統治",

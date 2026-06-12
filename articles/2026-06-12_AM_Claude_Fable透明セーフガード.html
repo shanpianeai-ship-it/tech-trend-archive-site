@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Claude Fable 5の透明なセーフガード運用 | 海外技術情報アーカイブ</title>
+  <meta name="description" content="Anthropic は 2026年6月9日、Claude Fable 5 と Claude Mythos 5 を発表した。Fable 5 は一般提供される Mythos-class モデル、Mythos 5 は同じ基盤モデルから一部セーフガードを外した限定提供版という構成。 前日に作成したノートでは、Fable / Mythos の提供階層、refusal、...">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-12</span>
+        <span>AI / LLM / Agent</span>
+        <span>importance: high</span>
+      </div>
+      <h1>Claude Fable 5の透明なセーフガード運用</h1>
+<h2>要約</h2>
+<p>Anthropic は 2026年6月9日、Claude Fable 5 と Claude Mythos 5 を発表した。Fable 5 は一般提供される Mythos-class モデル、Mythos 5 は同じ基盤モデルから一部セーフガードを外した限定提供版という構成。</p>
+<p>前日に作成したノートでは、Fable / Mythos の提供階層、refusal、fallback、30日データ保持を中心に整理した。今回はその後に出た「隠れたセーフガード」批判と、Anthropic が透明性を高める方向へ修正した点を追記観点として見る。</p>
+<p>重要なのは、フロンティアモデルの安全運用が「拒否するか、しないか」だけではなく、「ユーザーに安全制御が発動したことを見せるか」「代替モデルへ流したことをどう説明するか」というプロダクト設計の問題になっていること。</p>
+<h2>背景</h2>
+<p>公式発表では、Claude Fable 5 はサイバーセキュリティ、バイオ、化学、モデル蒸留など一部の高リスク領域で、Fable 5 がそのまま回答せず Claude Opus 4.8 へフォールバックする設計とされていた。Anthropic は、この安全分類器が平均で5%未満のセッションに発動すると説明している。</p>
+<p>Claude API Docs では、Fable 5 の refusal は HTTP 200 の正常応答として返り、<code>stop_reason: &quot;refusal&quot;</code> と分類器情報をアプリ側で扱う必要があると説明されている。また、Fable 5 / Mythos 5 は 30日データ保持の Covered Models とされ、ゼロデータ保持では使えない。</p>
+<p>その後、モデル蒸留関連の安全制御で、ユーザーに明示せず出力を劣化・変更する設計が批判された。The Verge の報道によると、Anthropic はこの判断を謝罪し、蒸留関連のクエリでも Opus 4.8 へのフォールバックを明示する方向へ変えるとしている。</p>
+<h2>何が重要か</h2>
+<h3>1. セーフガードはUI/ログ設計まで含めて評価する</h3>
+<div class="table-wrap"><table>
+<thead><tr><th>論点</th><th>見えない制御</th><th>見える制御</th></tr></thead>
+<tbody>
+<tr><td>ユーザー体験</td><td>一見スムーズだが、出力品質低下に気づきにくい</td><td>拒否やフォールバックが見えるため納得しやすい</td></tr>
+<tr><td>評価・検証</td><td>ベンチマークや研究評価を歪める可能性がある</td><td>どの条件で制御されたか記録しやすい</td></tr>
+<tr><td>悪用対策</td><td>制御条件を推測されにくい</td><td>回避探索の対象になりやすい</td></tr>
+<tr><td>業務運用</td><td>隠れた品質差が事故原因になり得る</td><td>監査ログ、説明責任、再実行判断に乗せやすい</td></tr>
+</tbody>
+</table></div>
+<p>Fable 5 の件は、単に Anthropic 固有の炎上ではなく、今後の高性能AI全般に出る問題。強いモデルほど安全制御が複雑になり、アプリ利用者は「モデルが答えた」と思っていても、実際には別モデル・別ポリシー・別品質の出力を受け取る可能性がある。</p>
+<h3>2. API利用では refusal をエラーではなく分岐として扱う</h3>
+<p>Fable 5 の refusal は通信失敗ではない。HTTP 200 で返る正常なモデル判断なので、アプリ側では次のような分岐を持つ必要がある。</p>
+<ul>
+<li>refusal が返ったら、画面とログに理由カテゴリを残す</li>
+<li>Opus 4.8 など代替モデルへ送る場合、ユーザーへモデル変更を明示する</li>
+<li>高リスク領域の入力は、業務上必要なものと危険なものを分けて扱う</li>
+<li>refusal / fallback の頻度をメトリクス化し、プロンプトや業務設計を見直す</li>
+<li>自動再試行で、同じ危険な文脈を必要以上に別モデルへ渡さない</li>
+</ul>
+<p>これは、チャットUIだけでなく、エージェント、コードレビュー、セキュリティ調査、社内ナレッジ検索にも関係する。</p>
+<h3>3. 「強いモデルを使う権利」は用途と信頼度で分かれる</h3>
+<div class="table-wrap"><table>
+<thead><tr><th>モデル</th><th>位置づけ</th><th>自分の運用での見方</th></tr></thead>
+<tbody>
+<tr><td>Claude Fable 5</td><td>一般提供される高性能レーン</td><td>長時間調査、コード改修、複雑な整理に使う。ただし拒否・データ保持前提</td></tr>
+<tr><td>Claude Mythos 5</td><td>Project Glasswing など限定提供</td><td>サイバー防衛や研究の信頼済みアクセス例として観察する</td></tr>
+<tr><td>Claude Opus 4.8</td><td>Fable拒否時の受け皿</td><td>高リスク領域では現実的な代替先。品質差をログに残す</td></tr>
+</tbody>
+</table></div>
+<p>モデル能力が上がるほど、全員に同じ能力を同じ条件で出す設計は難しくなる。今後は「一般公開モデル」「信頼済み研究者向け」「政府・重要インフラ向け」「社内限定」などの階層が普通になる可能性が高い。</p>
+<h3>4. データ保持と透明性は企業導入の足切りになる</h3>
+<p>Fable 5 / Mythos 5 は高性能だが、API Docs 上は30日データ保持が前提になっている。コード、顧客情報、脆弱性情報、未公開設計を扱う企業では、性能より先にここで止まることがある。</p>
+<p>さらに、見えないセーフガードがあった場合、業務監査では「なぜこの出力になったか」を説明しづらい。AIを基幹業務やセキュリティ運用に入れるなら、モデル名、拒否理由、fallback先、データ保持条件をログに残すことが最低ラインになる。</p>
+<h2>自分向けメモ</h2>
+<ul>
+<li>Fable 5 は「最強モデル」ではなく、「安全制御込みで運用する高性能実行環境」として見る。</li>
+<li>自分のOpenClaw / Obsidian / コード作業に置き換えるなら、モデル切替、拒否、再試行、出典ログを見える形で残す設計が重要。</li>
+<li>調査ノート作成では、モデルが出した答えより「どの情報源を根拠にしたか」「どこで安全制御が入ったか」を残す方が将来役に立つ。</li>
+<li>SAP / ERP 領域では、Business AI やエージェントを導入するときに、基幹データを30日保持モデルへ渡してよいかが先に問題になる。</li>
+<li>セキュリティ領域では、防御目的の調査でも分類器に当たりやすい。正当業務の妨げになるなら、信頼済みアクセスや専用環境が必要になる。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://www.anthropic.com/news/claude-fable-5-mythos-5">Anthropic - Claude Fable 5 and Claude Mythos 5</a> - 公式発表。Fable 5 / Mythos 5 の位置づけ、能力、価格、提供範囲。</li>
+<li><a href="https://platform.claude.com/docs/en/about-claude/models/introducing-claude-fable-5-and-claude-mythos-5">Claude API Docs - Introducing Claude Fable 5 and Claude Mythos 5</a> - API利用時の refusal、fallback、課金、データ保持条件。</li>
+<li><a href="https://www-cdn.anthropic.com/d00db56fa754a1b115b6dd7cb2e3c342ee809620.pdf">Anthropic - Claude Fable 5 &amp; Claude Mythos 5 System Card</a> - 安全評価とセーフガード設計の詳細。</li>
+<li><a href="https://www.theverge.com/ai-artificial-intelligence/948280/anthropic-claude-fable-invisible-distillation-guardrail">The Verge - Anthropic apologizes for invisible Claude Fable guardrails</a> - 隠れたセーフガード批判と透明化への方針転換。</li>
+<li><a href="https://techcrunch.com/2026/06/09/anthropics-claude-fable-5-is-a-version-of-mythos-the-public-can-access-today/">TechCrunch - Anthropic's Claude Fable 5 is a version of Mythos the public can access today</a> - 一般提供版 Fable と限定提供版 Mythos の外部メディア整理。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>Claude Fable 5</li>
+<li>Claude Mythos 5</li>
+<li>Mythos-class</li>
+<li>Project Glasswing</li>
+<li>safety classifiers</li>
+<li>refusal handling</li>
+<li>model fallback</li>
+<li>visible safeguards</li>
+<li>data retention</li>
+<li>AI governance</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://www.anthropic.com/news/claude-fable-5-mythos-5">anthropic.com - news / claude-fable-5-mythos-5</a></p></section>
+    </article>
+  </main>
+</body>
+</html>
