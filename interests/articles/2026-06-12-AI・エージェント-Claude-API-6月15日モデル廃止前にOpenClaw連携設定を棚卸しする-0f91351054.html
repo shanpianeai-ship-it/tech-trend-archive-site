@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Claude API 6月15日モデル廃止前にOpenClaw連携設定を棚卸しする | 興味レポート</title>
+  <meta name="description" content="AnthropicのClaude APIでは、`claude-sonnet-4-20250514` と `claude-opus-4-20250514` が2026年6月15日に退役予定である。退役日を過ぎると、対象モデルへのリクエストは失敗する。推奨移行先は、Sonnet 4が `claude-sonnet-4-6`、Opus 4が `claude-opu...">
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../../interests/index.html">興味レポート</a>
+    <span class="site-subtitle">Public redacted interest reports</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 興味レポート一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-12T19:52:00+09:00</span>
+        <span>AI・エージェント</span>
+        <span>interest_report</span>
+      </div>
+      <h1>Claude API 6月15日モデル廃止前にOpenClaw連携設定を棚卸しする</h1>
+<h2>要約</h2>
+<p>AnthropicのClaude APIでは、<code>claude-sonnet-4-20250514</code> と <code>claude-opus-4-20250514</code> が2026年6月15日に退役予定である。退役日を過ぎると、対象モデルへのリクエストは失敗する。推奨移行先は、Sonnet 4が <code>claude-sonnet-4-6</code>、Opus 4が <code>claude-opus-4-8</code> である。</p>
+<p>今回のeveningポールは0票だったため、候補一覧から重要度と個人適合度が高いこのテーマを選んだ。理由は単純で、OpenClaw、Codex、各種Cron、ローカルスクリプト、連携サービスのどこかに古いClaudeモデルIDが残っていると、6月15日以降に自動処理が突然止まる可能性があるためである。</p>
+<p>棚卸しの焦点は「新しい一番強いモデルを選ぶ」ことではなく、「固定モデルID、エイリアス、外部サービスのClaudeモジュール、環境変数、cron payload、ワークスペース内の設定ファイルを見つける」ことにある。モデル変更はコスト、トークン数、thinking設定、データ保持条件にも影響するので、単純な文字列置換だけで済ませない方がよい。</p>
+<h2>なぜ今見る価値があるか</h2>
+<p>2026年6月12日夜時点で、退役予定日まで残り3日である。Anthropicのモデル廃止ページは、退役日を過ぎたモデルへのリクエストは失敗すると説明している。つまり、検証用の古いスクリプトや、普段はあまり触らない自動化ジョブほど危ない。</p>
+<p>ClaudeのモデルIDは「古い名前でもしばらく動く」期間があるため、日常利用だけでは問題に気づきにくい。だが、Cronや外部連携は人間がその場で修正できない時間帯に動く。興味レポート、X投稿、文書整理、画像処理のような定期ジョブにClaude APIを噛ませている場合、モデル廃止は小さな設定ミスではなく運用停止要因になる。</p>
+<p>また、2026年6月9日にClaude Fable 5とClaude Mythos 5が出ており、Claudeモデルの選択肢が増えている。移行先を <code>claude-sonnet-4-6</code> や <code>claude-opus-4-8</code> に寄せるだけなら比較的保守的だが、Fable 5へ上げる場合は価格、30日データ保持、常時adaptive thinkingなども見る必要がある。モデル名の棚卸しと、モデル選定の判断を分けておくと事故が少ない。</p>
+<h2>調査メモ</h2>
+<p>Anthropic公式のModel deprecationsでは、2026年4月14日にClaude Sonnet 4とClaude Opus 4の退役予定が通知され、退役日は2026年6月15日とされている。対象のAPI model nameは次の2つである。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>廃止対象</th><th style="text-align:right">退役予定日</th><th>推奨移行先</th></tr></thead>
+<tbody>
+<tr><td><code>claude-sonnet-4-20250514</code></td><td style="text-align:right">2026-06-15</td><td><code>claude-sonnet-4-6</code></td></tr>
+<tr><td><code>claude-opus-4-20250514</code></td><td style="text-align:right">2026-06-15</td><td><code>claude-opus-4-8</code></td></tr>
+</tbody>
+</table></div>
+<p>同じページでは、モデル状態をActive、Legacy、Deprecated、Retiredに分けている。Deprecatedはまだ動くが推奨されず、Retiredになると利用できない。Claude API、Claude Platform on AWS、Microsoft FoundryはAnthropic側の退役スケジュールに従う一方、Amazon BedrockやVertex AIなどのパートナー運営基盤は別スケジュールになる可能性がある。</p>
+<p>棚卸しでは、まず文字列検索で古いIDを探すのが現実的である。見るべき文字列は最低限、<code>claude-sonnet-4-20250514</code>、<code>claude-opus-4-20250514</code>、短い別名として使っていそうな <code>claude-sonnet-4</code>、<code>claude-opus-4</code>、設定名としての <code>ANTHROPIC_MODEL</code>、<code>CLAUDE_MODEL</code>、<code>model:</code>、<code>modelName</code> あたりである。</p>
+<p>OpenClaw/Codex周辺では、次の場所を確認対象にするとよい。</p>
+<ul>
+<li>エージェントやCronのpayloadに埋め込んだモデル指定</li>
+<li>ワークスペースやプロジェクトの <code>.env</code>、設定YAML、JSON、TOML</li>
+<li>ローカルのNode/Pythonスクリプトに直書きしたClaude API呼び出し</li>
+<li>MCP、プラグイン、外部サービス連携のモデル設定</li>
+<li>Make、Zapier、n8nのような自動化SaaSのClaudeモジュール</li>
+</ul>
+<p>移行先は、費用と用途で分けるのが現実的である。Anthropicのモデル一覧では、<code>claude-sonnet-4-6</code> は速度と知能のバランス型、<code>claude-opus-4-8</code> は複雑推論や長期エージェント作業向けのOpus-tierモデルと説明されている。価格は、Sonnet 4.6が入力100万トークンあたり3ドル、出力100万トークンあたり15ドル、Opus 4.8が入力5ドル、出力25ドルである。Fable 5は入力10ドル、出力50ドルで、30日データ保持要件もある。</p>
+<p>Migration guideを見ると、新しいClaudeモデルではthinkingやprefillまわりに差がある。特にFable 5やMythos 5はadaptive thinkingが常時有効で、<code>thinking: {&quot;type&quot;: &quot;disabled&quot;}</code> のような指定はエラーになる。古い自動化コードがthinking設定やassistant prefillに依存している場合は、モデルIDだけを置換して終わらせると別の400エラーに変わる可能性がある。</p>
+<h2>個人向けの読みどころ</h2>
+<p>個人向けには、「趣味の自動化がいつの間にか止まるのを防ぐ棚卸し」として扱うのがよい。興味レポート、X運用、文書整理、画像処理のような定期処理は、毎日動いているからこそ1回止まるまで気づきにくい。</p>
+<p>最初にやることは、リポジトリ単位の検索で古いモデルIDを洗い出すことだと思う。候補コマンドは次のようなものになる。</p>
+<p>``<code>bash rg -n &quot;claude-(sonnet|opus)-4-20250514|claude-sonnet-4|claude-opus-4|ANTHROPIC_MODEL|CLAUDE_MODEL|modelName|model:&quot; [内部パス] ~/.openclaw </code>``</p>
+<p>ただし、実行結果には秘密情報や個人設定ファイル名が混ざる可能性があるので、公開記事には貼らない。実務上は、検出した場所を「すぐ修正」「検証してから修正」「外部サービス側で確認」に分けるのがよい。</p>
+<p>判断基準は次の3つで足りる。</p>
+<ul>
+<li>低コスト・日次処理: まず <code>claude-sonnet-4-6</code> を候補にする</li>
+<li>長文調査・コード修正・判断が重い処理: <code>claude-opus-4-8</code> を候補にする</li>
+<li>最高性能を試したい処理: <code>claude-fable-5</code> は価格とデータ保持条件を確認してから使う</li>
+</ul>
+<p>OpenClaw運用では、モデル指定を各Cron本文に直書きしすぎない方がよい。可能なら、用途別に「既定の軽量モデル」「重い調査モデル」「画像・ブラウザ検証用の別枠」のように分け、Cronのpayloadには用途だけを書く方が後から移行しやすい。</p>
+<h2>注意点</h2>
+<p>この記事は公開情報に基づく運用メモであり、Anthropic、OpenClaw、Codex、外部自動化SaaSの契約・課金・データ保持設定を保証するものではない。実際の移行前には、利用中の管理画面、APIログ、請求設定、組織のデータ保持条件を確認する必要がある。</p>
+<p>Bedrock、Vertex AI、Microsoft Foundry、Claude Platform on AWSでは、モデルID、利用可能リージョン、退役スケジュール、価格、データ保持条件がClaude API本体と異なる場合がある。特にパートナー基盤を使っている場合は、Anthropic公式ページだけでなく、利用している基盤側のモデル一覧も確認する。</p>
+<p>また、<code>rg</code> で見つからないから安全とは限らない。外部サービスのGUI設定、暗号化されたSecrets、クラウド側の環境変数、チームメンバーの個人設定、古いバックアップには残っている可能性がある。最低限、直近で動くCronと、失敗すると困る自動化から順に確認するのが現実的である。</p>
+<h2>参考リンク</h2>
+<ul>
+<li>Anthropic Docs: Model deprecations</li>
+</ul>
+<p><a href="https://platform.claude.com/docs/en/about-claude/model-deprecations">platform.claude.com - docs / en</a></p>
+<ul>
+<li>Anthropic Docs: Claude Platform release notes</li>
+</ul>
+<p><a href="https://platform.claude.com/docs/en/release-notes/overview">platform.claude.com - docs / en</a></p>
+<ul>
+<li>Anthropic Docs: Migration guide</li>
+</ul>
+<p><a href="https://platform.claude.com/docs/en/about-claude/models/migration-guide">platform.claude.com - docs / en</a></p>
+<ul>
+<li>Anthropic Docs: Models overview</li>
+</ul>
+<p><a href="https://platform.claude.com/docs/en/about-claude/models/overview">platform.claude.com - docs / en</a></p>
+<ul>
+<li>Anthropic Docs: Pricing</li>
+</ul>
+<p><a href="https://platform.claude.com/docs/en/about-claude/pricing">platform.claude.com - docs / en</a></p>
+    </article>
+  </main>
+</body>
+</html>
