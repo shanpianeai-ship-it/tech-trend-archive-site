@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>安全なLLMエージェント設計 | 海外技術情報アーカイブ</title>
+  <meta name="description" content="arXivのサーベイ「Toward Secure LLM Agents」は、LLMエージェントのセキュリティを247本の研究から整理した論文。単なるプロンプトインジェクション対策ではなく、ツール実行、委任権限、永続メモリ、マルチエージェント連鎖まで含めて、エージェントを「ソフトウェアシステム」として守る必要があると位置づけている。 今回のDiscordポール...">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-13</span>
+        <span>AI / LLM / Agent</span>
+        <span>importance: high</span>
+      </div>
+      <h1>安全なLLMエージェント設計</h1>
+<h2>要約</h2>
+<p>arXivのサーベイ「Toward Secure LLM Agents」は、LLMエージェントのセキュリティを247本の研究から整理した論文。単なるプロンプトインジェクション対策ではなく、ツール実行、委任権限、永続メモリ、マルチエージェント連鎖まで含めて、エージェントを「ソフトウェアシステム」として守る必要があると位置づけている。</p>
+<p>今回のDiscordポールは全候補0票だったため、運用ルールの選定基準に従い、日本語圏でまだ整理が薄く、今後のエージェント運用設計に効くこのサーベイを採用した。</p>
+<h2>背景</h2>
+<p>LLMエージェントは、チャット画面で返答するだけのモデルから、外部ツールを呼び出し、ファイルやWebを読み、記憶を持ち、他のシステムへ操作を実行する部品に変わっている。ここでの失敗は「変な文章を出す」では済まず、権限のある操作、情報漏洩、状態汚染、外部への副作用に直結する。</p>
+<p>論文は、この変化を次の3軸で捉える。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>軸</th><th>見るべき論点</th><th>典型リスク</th></tr></thead>
+<tbody>
+<tr><td>情報フロー</td><td>どの入力が、どの判断やツール実行へ影響するか</td><td>間接プロンプトインジェクション、機密情報混入</td></tr>
+<tr><td>委任権限</td><td>エージェントがどの操作権限を持つか</td><td>過剰権限、意図しない外部アクション</td></tr>
+<tr><td>永続状態</td><td>メモリやログが後続判断へどう使われるか</td><td>メモリ汚染、長期的な制御フロー乗っ取り</td></tr>
+</tbody>
+</table></div>
+<p>特に重要なのは、攻撃面が単発の入力から、長期的で状態をまたぐものへ広がっている点。メモリ、ツール、外部データ、他エージェント連携を使うほど、従来の「モデルへの注意書き」だけでは境界を作れない。</p>
+<h2>何が重要か</h2>
+<p>第一に、エージェントの安全性はプロンプト単体では評価できない。プロンプトインジェクションは引き続き中心的な脅威だが、実害はツール実行、認可境界、永続状態の扱いで発生する。したがって、対策も「システムプロンプトを強くする」ではなく、入力の信頼度、ツール権限、実行前承認、ログ/メモリの出所管理を組み合わせる必要がある。</p>
+<p>第二に、既存ベンチマークは長期運用リスクを十分に測れていない。論文は、現在の評価が短いタスク、単発攻撃、単一エージェント寄りになりやすく、長期メモリ、複数ステップの権限濫用、実デプロイ時の設定差を過小評価しがちだと整理している。</p>
+<p>第三に、業務利用では「何を禁止するか」よりも「どの境界で止めるか」を設計する必要がある。読み取り専用、下書き作成、内部ファイル操作、外部送信、決済/削除のように、操作の危険度ごとに権限と確認を分ける方が実務に落としやすい。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>設計項目</th><th>弱い設計</th><th>強い設計</th></tr></thead>
+<tbody>
+<tr><td>ツール権限</td><td>まとめて広い権限を渡す</td><td>タスク単位で最小権限を付与</td></tr>
+<tr><td>外部入力</td><td>Webやメール本文を同じ文脈に混ぜる</td><td>信頼境界を明示し、命令として扱わない</td></tr>
+<tr><td>メモリ</td><td>追記された内容を無条件に再利用</td><td>出所、時刻、信頼度、削除/巻き戻しを管理</td></tr>
+<tr><td>承認</td><td>最後まで自動実行</td><td>外部送信・削除・課金などで人間確認</td></tr>
+<tr><td>評価</td><td>単発プロンプト攻撃だけを見る</td><td>長期状態、権限、ツール連鎖を含めて試験</td></tr>
+</tbody>
+</table></div>
+<h2>自分向けメモ</h2>
+<ul>
+<li>OpenClawやCodex系の運用では、スキル、ツール、メモリ、Discord送信、ファイル操作が同じ実行面に乗る。これは論文のいう「情報フロー、委任権限、永続状態」がそのまま現れる領域。</li>
+<li>「内部作業は自由、外部送信は確認」という自分向けルールは妥当。ただし、内部作業でも永続メモリや将来の自動実行に影響するファイルは、外部送信に近い重さで扱うべき。</li>
+<li>スキル導入時は、便利さだけでなく、どのファイルを読めるか、どの外部操作を誘発できるか、説明と実動作が一致しているかを確認する。</li>
+<li>エージェント用チェックリストを作るなら、モデル名より先に「信頼境界」「ツール権限」「メモリ出所」「人間承認ポイント」を固定項目にする。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://arxiv.org/abs/2606.10749">arXiv: Toward Secure LLM Agents</a> - 今回の主対象。脅威面、攻撃、防御、評価のサーベイ。</li>
+<li><a href="https://arxiv.org/html/2606.10749v1">arXiv HTML: Toward Secure LLM Agents</a> - 本文確認用。</li>
+<li><a href="https://arxiv.org/abs/2604.16548">arXiv: A Survey on Long-Term Memory Security in LLM Agents</a> - 永続メモリの汚染、来歴、巻き戻しを掘る関連サーベイ。</li>
+<li><a href="https://arxiv.org/abs/2603.19469">arXiv: A Framework for Formalizing LLM Agent Security</a> - contextual security、task/action alignment、data isolation の整理。</li>
+<li><a href="https://arxiv.org/abs/2605.16976">arXiv: Securing LLM Agents Need Intent-to-Execution Integrity</a> - ユーザー意図から実行までの整合性を安全性の中心に置く論点。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>LLM agent security</li>
+<li>prompt injection</li>
+<li>tool-mediated control-flow hijacking</li>
+<li>persistent memory poisoning</li>
+<li>provenance-aware state management</li>
+<li>delegated authority</li>
+<li>least privilege</li>
+<li>multi-agent propagation</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://arxiv.org/abs/2606.10749">arxiv.org - abs / 2606.10749</a></p></section>
+    </article>
+  </main>
+</body>
+</html>
