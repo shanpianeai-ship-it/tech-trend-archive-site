@@ -45,6 +45,17 @@
   },
   {
     "file": "[入力元伏せ]",
+    "slug": "2026-06-13-SAP・業務システム-SAP-Sapphire-2026のAutonomous-EnterpriseとJo-8895de65c1",
+    "title": "SAP Sapphire 2026のAutonomous EnterpriseとJoule StudioはBasis運用に何を要求するか",
+    "category": "SAP・業務システム",
+    "created": "2026-06-13T19:55:00+09:00",
+    "status": "",
+    "type": "interest_report",
+    "excerpt": "SAP Sapphire 2026でSAPは、Business AI Platform、Autonomous Suite、Joule Work、Joule Studioをまとめて「Autonomous Enterprise」の中核として打ち出した。単なるチャット型AIではなく、SAP Knowledge Graph、Business Data Cloud、S...",
+    "url": "interests/articles/2026-06-13-SAP・業務システム-SAP-Sapphire-2026のAutonomous-EnterpriseとJo-8895de65c1.html"
+  },
+  {
+    "file": "[入力元伏せ]",
     "slug": "2026-06-10-SAP・業務システム-Clean-CoreをBasis運用ガバナンスに落とす2026年版チェックリスト-ffde631a49",
     "title": "Clean CoreをBasis運用ガバナンスに落とす2026年版チェックリスト",
     "category": "SAP・業務システム",

@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SAP Sapphire 2026のAutonomous EnterpriseとJoule StudioはBasis運用に何を要求するか | 興味レポート</title>
+  <meta name="description" content="SAP Sapphire 2026でSAPは、Business AI Platform、Autonomous Suite、Joule Work、Joule Studioをまとめて「Autonomous Enterprise」の中核として打ち出した。単なるチャット型AIではなく、SAP Knowledge Graph、Business Data Cloud、S...">
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../../interests/index.html">興味レポート</a>
+    <span class="site-subtitle">Public redacted interest reports</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 興味レポート一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-13T19:55:00+09:00</span>
+        <span>SAP・業務システム</span>
+        <span>interest_report</span>
+      </div>
+      <h1>SAP Sapphire 2026のAutonomous EnterpriseとJoule StudioはBasis運用に何を要求するか</h1>
+<h2>要約</h2>
+<p>SAP Sapphire 2026でSAPは、Business AI Platform、Autonomous Suite、Joule Work、Joule Studioをまとめて「Autonomous Enterprise」の中核として打ち出した。単なるチャット型AIではなく、SAP Knowledge Graph、Business Data Cloud、SAP BTP、AI Agent Hub、Joule Studio runtimeを使い、業務プロセス上でAIエージェントを作り、実行し、監査する方向へ寄せている。</p>
+<p>Basis運用目線では、見るべき点は「便利な生成AI機能が増えた」ではない。Joule Studioがエージェント、アプリ、ワークフローのライフサイクル管理を担い、実行時にはID、権限、ポリシー、監査、観測性、コスト、ランドスケープ管理が絡む。つまり、従来のBTP運用、SAP Cloud ALM、Signavio、LeanIX、認可設計、監査証跡設計の延長に、エージェント実行基盤が入ってくる。</p>
+<p>個人向けには、SAPの発表を「AIで業務が自動化される」話として読むより、「Basis/運用チームがAIエージェントの本番実行をどう止め、見張り、説明するか」の話として読むのが実務に近い。検証順序は、ユースケース選定、接続先棚卸し、ID/権限、監査ログ、失敗時停止、費用監視、変更管理の順でよい。</p>
+<h2>なぜ今見る価値があるか</h2>
+<p>今回のDiscordポールは全候補0票だったため、候補一覧から重要度と個人適合度が高いテーマとして本件を選定した。SAP Sapphire 2026は、SAPがエージェントAIを単発機能ではなく、ERP変革、BTP、Business Data Cloud、Joule、パートナーエコシステムへ広げる方針を示したタイミングである。</p>
+<p>SAP公式発表では、SAP Business AI PlatformがSAP Business Technology Platform、SAP Business Data Cloud、SAP Business AIを単一のガバナンスされた環境に統合すると説明されている。またSAP Knowledge GraphがSAPランドスケープ内の業務エンティティ、プロセス、関係性をAIエージェントへ与える中核要素として置かれ、Joule Studioはエージェント、アプリケーション、エージェント型ワークフローを構築する場所として位置付けられた。</p>
+<p>この構図はBasis運用にとって重い。これまでのBasisは、可用性、性能、ジョブ、移送、権限、監査、クラウド接続、インテグレーションを守る仕事だった。エージェントがSAP内外のツールを呼び、業務データを読んで、ワークフローを動かすなら、同じ運用観点をAI実行にも適用しなければならない。</p>
+<h2>調査メモ</h2>
+<h3>1. SAPの発表は「AI機能追加」より「実行基盤化」</h3>
+<p>SAPはAutonomous Enterpriseを、Business AI Platform、Autonomous Suite、Joule Workを含む大きな構想として示している。Autonomous Suiteは、既存のSAP業務アプリケーションにAIエージェントを組み込み、財務、サプライチェーン、調達、人事、CXなどでドメイン別Joule Assistantsと専門エージェントを動かす方向である。</p>
+<p>ここで重要なのは、エージェントが「業務プロセス外の便利ツール」ではなく、業務プロセスの内側に入る前提になっている点である。財務締め、調達、サプライチェーン、資産管理のような領域では、AIの提案ミスだけでなく、誤った伝票、誤った承認、誤った在庫・保全判断が問題になる。</p>
+<p>Basis運用は、この時点で次の問いを持つ必要がある。</p>
+<ul>
+<li>どのエージェントが、どのSAPシステム、どのクライアント、どの会社コード、どの業務オブジェクトへアクセスできるか。</li>
+<li>エージェントの実行権限は、人間ユーザー、技術ユーザー、サービスプリンシパルのどれに紐づくか。</li>
+<li>実行ログ、判断根拠、呼び出しAPI、更新前後の値をどこで監査できるか。</li>
+<li>エージェントが失敗したとき、人間の承認待ち、ロールバック、再実行禁止をどう設計するか。</li>
+</ul>
+<h3>2. Joule Studioは開発体験だけでなくライフサイクル管理の話</h3>
+<p>SAPのJoule Studio発表では、自然言語で意図を伝えると、SAP Signavio Process Consultant Agent、SAP Knowledge Graph、SAP Domain Models、SAP LeanIXなどを使って業務コンテキストとランドスケープを理解し、PRD、技術仕様、コードスキャフォールド、テスト成果物、プレビューまで生成する流れが説明されている。</p>
+<p>開発者向けには、LangChain、Pydantic AI、LlamaIndex、n8n、Vercelなどの名前が出ており、Joule StudioがSAP閉域のローコードだけでなく、外部のエージェント開発・オーケストレーションの流儀を取り込む方向であることがわかる。</p>
+<p>Basis目線では、ここが運用境界になる。外部フレームワークやワークフローが使えるほど、次の管理が必要になる。</p>
+<ul>
+<li>利用可能なフレームワーク、コネクタ、外部APIの許可リスト。</li>
+<li>開発環境、検証環境、本番環境の分離。</li>
+<li>生成されたコードやワークフローのレビュー基準。</li>
+<li>SAP Cloud ALMや既存ITSMへどう変更記録を残すか。</li>
+<li>n8nなどのワークフローが呼ぶ外部サービスの認証情報管理。</li>
+</ul>
+<h3>3. 実行時統制はNVIDIA OpenShellとJoule Studio runtimeが焦点</h3>
+<p>SAPとNVIDIAの発表では、AIエージェントが実システム内でタスクを実行し、ツールを呼び、継続的に業務プロセスを横断する段階では、安全性、ガバナンス、監査可能性が必須だと説明されている。NVIDIA OpenShellは、ファイルシステムやネットワークアクセスをポリシーで制御し、隔離された実行環境でエージェントを動かす基盤として位置付けられている。</p>
+<p>Joule Studio runtime側では、エンタープライズIDとアクセス制御、エージェント行動の観測性と監査性、デプロイと運用ガバナンス、ロールやスキルなどの業務文脈に沿ったポリシーが論点になる。SAPの説明はまだ製品詳細より構想色が強いが、方向性としては「AIエージェントにもBasis運用の運用設計が必要」という結論になる。</p>
+<p>この領域で最初に作るべきチェックリストは、技術的な性能検証ではなく統制チェックである。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>観点</th><th>確認すること</th></tr></thead>
+<tbody>
+<tr><td>ID</td><td>エージェント実行主体、代行実行、ユーザー委任の扱い</td></tr>
+<tr><td>権限</td><td>最小権限、職務分掌、会社コード/購買組織/プラント単位の制約</td></tr>
+<tr><td>監査</td><td>誰が、何を、どの根拠で、どの値へ変更したか</td></tr>
+<tr><td>境界</td><td>ファイル、ネットワーク、API、外部SaaSへのアクセス制御</td></tr>
+<tr><td>変更</td><td>開発、テスト、本番、移送、承認、ロールバック</td></tr>
+<tr><td>監視</td><td>実行回数、失敗率、待ち時間、コスト、業務KPIへの影響</td></tr>
+<tr><td>停止</td><td>緊急停止、手動承認への切替、再実行抑止</td></tr>
+</tbody>
+</table></div>
+<h3>4. クラウド移行とAI導入がさらに結び付く</h3>
+<p>SAPはRISE with SAP、GROW with SAP、S/4HANA Cloudへの移行、ERP migration toolingにもAIを絡めている。発表では、ERP移行作業を35%以上削減するエージェント主導の変革ツールも示された。これは、AI活用が「移行後の便利機能」ではなく、「移行プロジェクト自体を進める道具」にもなるという意味である。</p>
+<p>Basis運用としては、AI導入を単独PoCに閉じるより、クラウドERP移行、BTP標準化、Cloud ALM導入、Signavio/LeanIX整備とセットで見る方が自然である。逆に言えば、ランドスケープ棚卸し、インターフェース棚卸し、権限棚卸しが荒い会社ほど、Joule StudioやAutonomous Suiteを本番適用する前に土台整備が必要になる。</p>
+<h3>5. まずは「自律実行させない」ユースケースから入る</h3>
+<p>実務導入の第一歩は、いきなり更新系エージェントを動かすことではない。Basis/運用チームに向いている入口は、読み取り・要約・差分抽出・影響分析である。</p>
+<ul>
+<li>SAP Cloud ALM、ジョブログ、監視アラートの要約。</li>
+<li>移送依頼と変更チケットの差分説明。</li>
+<li>権限ロール変更の影響範囲チェック。</li>
+<li>インターフェース障害時の関連システム・担当者・過去事例の整理。</li>
+<li>Signavio/LeanIX情報を使ったプロセス影響の説明。</li>
+</ul>
+<p>これらは、判断支援として価値があり、更新系よりリスクが低い。ここで監査ログ、権限境界、レビュー導線を整えてから、限定的な再実行、通知、チケット起票、承認付き更新へ進めるのがよい。</p>
+<h2>個人向けの読みどころ</h2>
+<p>個人がSAP Basisや運用設計の動画・記事に落とすなら、テーマは「Joule Studioで何が作れるか」より「BasisはAIエージェントをどう本番運用するか」が刺さりやすい。</p>
+<p>切り口は次の3つが使える。</p>
+<ol>
+<li>AIエージェントにも職務分掌が必要</li>
+</ol>
+<p>人間のユーザー権限と同じように、エージェントにも業務ロール、許可範囲、承認者、監査ログが必要になる。</p>
+<ol>
+<li>PoCの成功条件と本番運用の成功条件は違う</li>
+</ol>
+<p>デモで動くことより、失敗時に止まること、誰が説明できること、コストと影響が見えることが重要になる。</p>
+<ol>
+<li>Basisの仕事は減るより変わる</li>
+</ol>
+<p>手作業の一部は減る可能性があるが、AI実行基盤、権限、監査、ポリシー、外部連携、Cloud ALM/Signavio/LeanIX連携を見る仕事が増える。</p>
+<p>検証メモとしては、まず以下のテンプレートを作ると使い回しやすい。</p>
+<ul>
+<li>ユースケース名</li>
+<li>対象プロセス</li>
+<li>読み取り対象システム</li>
+<li>更新対象システム</li>
+<li>実行主体</li>
+<li>必要権限</li>
+<li>人間承認の有無</li>
+<li>監査ログの保存場所</li>
+<li>失敗時の停止条件</li>
+<li>コスト監視方法</li>
+<li>本番化しない条件</li>
+</ul>
+<h2>注意点</h2>
+<p>SAP Sapphire 2026時点の発表には、構想、今後提供、パートナー連携、利用条件が混ざっている。Joule Studio runtime、Joule Work、Autonomous Suite、各Joule Assistantの提供範囲、リージョン、ライセンス、既存契約での利用可否は、実案件ではSAP公式ドキュメント、SAP Note、契約条件、担当アカウントチームで確認する必要がある。</p>
+<p>この記事は公開情報にもとづく運用設計メモであり、特定企業のSAPランドスケープ、契約、権限設計、監査要件を前提にした助言ではない。実導入では、社内のセキュリティ、監査、法務、業務部門、SAP Basis/アプリ運用、クラウド運用の合意が必要になる。</p>
+<p>また、AIエージェントを更新系業務に使う場合は、通常のRPAやバッチよりも説明責任が重くなる。自然言語で指示できることは便利だが、曖昧な指示で業務データを更新できる状態は危険である。最小権限、人間承認、監査ログ、緊急停止を先に設計するべきである。</p>
+<h2>参考リンク</h2>
+<ul>
+<li>SAP News Center: SAP Unveils the Autonomous Enterprise</li>
+</ul>
+<p><a href="https://news.sap.com/2026/05/sap-sapphire-sap-unveils-autonomous-enterprise/">news.sap.com - 2026 / 05</a></p>
+<ul>
+<li>SAP News Center: Announcing New Joule Studio for Enterprise Scale Agentic Development</li>
+</ul>
+<p><a href="https://news.sap.com/2026/05/new-joule-studio-enterprise-scale-agentic-development/">news.sap.com - 2026 / 05</a></p>
+<ul>
+<li>SAP News Center: Shaping the Future of Secure AI Agents: How SAP and NVIDIA Are Co-Defining Enterprise-Grade Agent Execution</li>
+</ul>
+<p><a href="https://news.sap.com/2026/05/secure-ai-agents-how-sap-and-nvidia-co-define-enterprise-grade-agent-execution/">news.sap.com - 2026 / 05</a></p>
+<ul>
+<li>SAP: SAP Sapphire 2026 Innovation News Guide</li>
+</ul>
+<p><a href="https://www.sap.com/topics/events/sapphire/innovation-news-guide-2026">sap.com - topics / events</a></p>
+<ul>
+<li>Microsoft Azure Blog: Advancing enterprise AI: New SAP on Azure announcements from SAP Sapphire 2026</li>
+</ul>
+<p><a href="https://azure.microsoft.com/en-us/blog/advancing-enterprise-ai-new-sap-on-azure-announcements-from-sap-sapphire-2026/">azure.microsoft.com - en-us / blog</a></p>
+<ul>
+<li>Constellation Research: SAP Sapphire 2026: SAP makes its case that it should be your autonomous enterprise platform</li>
+</ul>
+<p><a href="https://www.constellationr.com/insights/news/sap-sapphire-2026-sap-makes-its-case-it-should-your-autonomous-enterprise-platform">constellationr.com - insights / news</a></p>
+    </article>
+  </main>
+</body>
+</html>
