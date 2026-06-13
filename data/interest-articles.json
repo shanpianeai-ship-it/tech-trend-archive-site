@@ -12,6 +12,17 @@
   },
   {
     "file": "[入力元伏せ]",
+    "slug": "2026-06-13-AI・エージェント-Cloudflare-Browser-Runで「人間が介入できるブラウザエージェント-62f4f13d07",
+    "title": "Cloudflare Browser Runで「人間が介入できるブラウザエージェント」をOpenClaw設計へ取り込む",
+    "category": "AI・エージェント",
+    "created": "2026-06-13",
+    "status": "",
+    "type": "interest_report",
+    "excerpt": "CloudflareはBrowser RenderingをBrowser Runへ改名し、AIエージェント向けのクラウド実行ブラウザとして位置づけ直した。単なるスクリーンショット取得基盤ではなく、Puppeteer、Playwright、CDP、MCPクライアント、WebMCP、Live View、Human in the Loop、Session Reco...",
+    "url": "interests/articles/2026-06-13-AI・エージェント-Cloudflare-Browser-Runで「人間が介入できるブラウザエージェント-62f4f13d07.html"
+  },
+  {
+    "file": "[入力元伏せ]",
     "slug": "2026-06-12-AI・エージェント-Claude-API-6月15日モデル廃止前にOpenClaw連携設定を棚卸しする-0f91351054",
     "title": "Claude API 6月15日モデル廃止前にOpenClaw連携設定を棚卸しする",
     "category": "AI・エージェント",

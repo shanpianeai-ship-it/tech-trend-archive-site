@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cloudflare Browser Runで「人間が介入できるブラウザエージェント」をOpenClaw設計へ取り込む | 興味レポート</title>
+  <meta name="description" content="CloudflareはBrowser RenderingをBrowser Runへ改名し、AIエージェント向けのクラウド実行ブラウザとして位置づけ直した。単なるスクリーンショット取得基盤ではなく、Puppeteer、Playwright、CDP、MCPクライアント、WebMCP、Live View、Human in the Loop、Session Reco...">
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../../interests/index.html">興味レポート</a>
+    <span class="site-subtitle">Public redacted interest reports</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 興味レポート一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-13</span>
+        <span>AI・エージェント</span>
+        <span>interest_report</span>
+      </div>
+      <h1>Cloudflare Browser Runで「人間が介入できるブラウザエージェント」をOpenClaw設計へ取り込む</h1>
+<h2>要約</h2>
+<p>CloudflareはBrowser RenderingをBrowser Runへ改名し、AIエージェント向けのクラウド実行ブラウザとして位置づけ直した。単なるスクリーンショット取得基盤ではなく、Puppeteer、Playwright、CDP、MCPクライアント、WebMCP、Live View、Human in the Loop、Session Recordingsを組み合わせ、エージェントが実ブラウザを操作し、人間が必要時に割り込める設計を前面に出している。</p>
+<p>OpenClaw運用に引き寄せると、重要なのは「クラウドでブラウザを動かせる」ことだけではない。エージェントが失敗した場面を観察できること、ログインやCAPTCHAや予期しない画面で人間へ渡せること、実行記録を後で見返せること、そして常用ブラウザと自動化ブラウザを分けられることが実務上の価値になる。</p>
+<p>すぐに全部を置き換える話ではなく、ローカルブラウザ操作、サンドボックスブラウザ、クラウドブラウザを役割分担するための設計材料として読むのがよい。OpenClawのブラウザツールも、人間介入、記録、権限境界、失敗時の復旧手順を明示すると、日常の調べ物やフォーム操作をかなり堅くできる。</p>
+<h2>なぜ今見る価値があるか</h2>
+<p>AIエージェントがWebを読むだけでなく、ログイン済みページを確認し、ボタンを押し、フォームを入力し、複数ページをまたいで作業する機会が増えている。これまでは「ローカルのChromeをPlaywrightで動かす」「ブラウザ画面をスクリーンショットで見てクリックする」という実装が中心だったが、Browser Runはそこにクラウド実行、CDP直結、MCP接続、人間介入、セッション記録をまとめて載せようとしている。</p>
+<p>Cloudflare公式ブログでは、Browser Runの新機能としてLive View、Human in the Loop、CDP Endpoint、MCP Client Support、WebMCP Support、Session Recordings、同時実行数の引き上げが挙げられている。これは、ブラウザエージェントの弱点である「画面で何が起きているか分からない」「ログインで止まる」「失敗後に再現できない」「ローカル環境に依存する」をまとめて潰しにいく方向である。</p>
+<p>OpenClaw目線では、ブラウザ操作はかなり便利だが、同時に危険な面もある。ログイン済みセッション、個人情報、購入、投稿、送信、金融、GitHub、Discordなどが同じブラウザ権限でつながると、間接プロンプトインジェクションや誤操作の影響が大きい。Browser Runの設計は、便利さよりも「観測可能にして、人間へ渡せる」ことを先に学ぶ材料として価値がある。</p>
+<h2>調査メモ</h2>
+<p>Browser Runの中核は、Cloudflareのグローバルネットワーク上でヘッドレスChromeを起動し、ブラウザ自動化、スクレイピング、テスト、コンテンツ生成に使える点にある。公式ドキュメントでは、Markdown、スクリーンショット、PDF、スナップショット、リンク、HTML要素、構造化データ、クロール結果などを取得できると説明されている。</p>
+<p>統合方法は大きく2系統ある。1つはQuick Actionsで、スクリーンショット、PDF、スクレイピング、JSON抽出、クロールなどを単発APIとして呼ぶ方式。もう1つはBrowser Sessionsで、Puppeteer、Playwright、CDP、Stagehandなどから直接ブラウザを制御する方式である。OpenClaw的には、前者は定型取得、後者はログイン後の確認や複数ステップ作業に近い。</p>
+<p>AIエージェント連携ではCDPが大きい。Cloudflareのブログは、CDPを直接公開することで、既存のCDP対応スクリプトやMCPクライアントがBrowser Runへ接続できると説明している。Chrome DevTools MCPのような道具を経由すれば、ローカルChromeを常時開かなくても、エージェントにリモートブラウザを使わせられる。</p>
+<p>Human in the Loopは、ログインページや予期しない画面でエージェントが詰まったとき、人間が一時的に操作を引き取り、その後エージェントへ戻す機能である。これはOpenClawで特に重要だと思う。完全自動化より、「危ないところだけ止まる」「人間が見てから続行する」方が、趣味の事務処理や調べ物では実用的で事故が少ない。</p>
+<p>Session Recordingsも設計上のポイントになる。ブラウザエージェントは、失敗したあとに「どの画面で何を見て、どの操作をしたのか」が残らないと修正しづらい。セッション記録があれば、フォーム誤入力、クリック対象のずれ、ログイン切れ、モーダル表示、ネットワーク失敗を後から見直せる。OpenClaw側でも、重要作業ではスクリーンショットやステップログを残す価値がある。</p>
+<p>Cloudflareは2026年5月の記事で、Browser RunをCloudflare Containers上に再構築し、Workers Bindingでは毎分60ブラウザ起動、最大120同時実行、Quick Action応答時間の50%以上短縮をうたっている。個人利用ではここまでのスケールは不要だが、「大量のブラウザを安定して短時間動かす」用途を前提にしている点は、従来のローカル自動化と違う。</p>
+<h2>個人向けの読みどころ</h2>
+<p>個人向けには、OpenClawのbrowser toolを次の3層に分けて考える材料になる。</p>
+<ul>
+<li>ローカル常用ブラウザ: ログイン状態や人間の確認が必要な作業に使う。便利だが、権限が強いので送信・購入・公開投稿は明示承認にする。</li>
+<li>ローカルまたは一時プロファイルの検証ブラウザ: 調査、スクリーンショット、ページ構造確認、フォーム入力テストに使う。日常自動化の主力にしやすい。</li>
+<li>クラウドブラウザ: 大量取得、定型スクリーンショット、ログイン不要ページの調査、分離した実行環境が欲しい作業に使う。</li>
+</ul>
+<p>Browser RunのHuman in the Loopは、OpenClawにもそのまま思想を取り込みたい。たとえば、ログイン、年齢確認、購入、送信、公開投稿、個人情報が見える画面では、エージェントが勝手に進まず「ここだけ人間が操作する」状態にする。完全自動化を目指すより、途中で止まる設計の方が実用的である。</p>
+<p>もう1つの読みどころは、記録である。OpenClawのブラウザ作業でも、重要な操作は「開始URL、目的、実行した主な操作、最終結果、スクリーンショット有無、送信や変更の有無」を残すと、後からレビューしやすい。Browser RunのSession Recordingsは、その方向性を製品レベルで示している。</p>
+<p>実装の優先順位としては、まずローカル側で「危険操作の承認」「一時プロファイル」「スクリーンショット付き失敗ログ」「ログインが出たら停止」を整えるのがよい。Browser Runはその後、ログイン不要のページ収集や定型スクリーンショットから試すのが現実的だと思う。</p>
+<h2>注意点</h2>
+<p>Browser Runは強力だが、ブラウザ自動化は相手サイトの利用規約、robots.txt、認証、レート制限、個人情報、著作権に触れやすい。Cloudflareの公式ドキュメントにもrobots.txtやサイトマップに関する項目があり、単に技術的にアクセスできることと、運用上やってよいことは別に考える必要がある。</p>
+<p>ログイン済み作業、購入、投稿、予約、アカウント設定変更、金融、メール、Discord送信、GitHub操作は、ブラウザエージェントへ無条件に任せない方がよい。間接プロンプトインジェクションでページ側の文言に誘導されたり、ボタン判定を誤ったり、確認画面を読み違えたりする可能性がある。</p>
+<p>また、クラウドブラウザへCookieや認証情報を渡す設計は慎重に扱う必要がある。Browser Run自体の機能評価とは別に、個人運用では「ログイン不要の公開ページ」「検証用アカウント」「一時セッション」から始め、常用アカウントの権限をそのまま渡さないのが安全である。</p>
+<h2>参考リンク</h2>
+<ul>
+<li>Cloudflare Blog: Browser Run: give your agents a browser</li>
+</ul>
+<p><a href="https://blog.cloudflare.com/browser-run-for-ai-agents/">blog.cloudflare.com - browser-run-for-ai-agents</a></p>
+<ul>
+<li>Cloudflare Docs: Browser Run</li>
+</ul>
+<p><a href="https://developers.cloudflare.com/browser-run/">developers.cloudflare.com - browser-run</a></p>
+<ul>
+<li>Cloudflare Docs: Browser tools for Agents</li>
+</ul>
+<p><a href="https://developers.cloudflare.com/agents/tools/browser/">developers.cloudflare.com - agents / tools</a></p>
+<ul>
+<li>Cloudflare Blog: Browser Run now running on Cloudflare Containers</li>
+</ul>
+<p><a href="https://blog.cloudflare.com/browser-run-containers/">blog.cloudflare.com - browser-run-containers</a></p>
+<ul>
+<li>Cloudflare product page: Browser Run</li>
+</ul>
+<p><a href="https://www.cloudflare.com/products/browser-rendering/">cloudflare.com - products / browser-rendering</a></p>
+    </article>
+  </main>
+</body>
+</html>
