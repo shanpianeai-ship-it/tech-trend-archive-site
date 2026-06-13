@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agent Memoryをシステム特性として評価する | 海外技術情報アーカイブ</title>
+  <meta name="description" content="arXivに投稿された「Agent Memory: Characterization and System Implications of Stateful Long-Horizon Workloads」は、長期タスクを行うLLMエージェントのメモリを、単なるRAGや便利機能ではなく、構築・検索・生成にまたがるシステムワークロードとして評価した論文。 この論...">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-13</span>
+        <span>AI / LLM / Agent</span>
+        <span>importance: high</span>
+      </div>
+      <h1>Agent Memoryをシステム特性として評価する</h1>
+<h2>要約</h2>
+<p>arXivに投稿された「Agent Memory: Characterization and System Implications of Stateful Long-Horizon Workloads」は、長期タスクを行うLLMエージェントのメモリを、単なるRAGや便利機能ではなく、構築・検索・生成にまたがるシステムワークロードとして評価した論文。</p>
+<p>この論文の価値は、メモリ方式を「どれが賢いか」ではなく、「どこにコストが乗るか」「読み書きのどちらに負荷を寄せるか」「長期運用でSLOやfleet管理にどう効くか」で整理している点にある。</p>
+<p>自分向けには、OpenClawやコードエージェント、個人秘書エージェントの記憶設計を考えるときに、「全部保存して検索する」から一段進んで、メモリ構築のタイミング、更新頻度、検索品質、生成時レイテンシを分けて見るための基準になる。</p>
+<h2>背景</h2>
+<p>LLMエージェントは、単発チャットから、コード修正、調査、Web操作、個人秘書、業務ワークフローのような長期タスクへ広がっている。長期タスクでは、過去の会話、作業履歴、ユーザーの好み、失敗した手順、外部ツールの結果を次回以降に持ち越す必要がある。</p>
+<p>これまでは、長期記憶というと次のような実装に寄りがちだった。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>方式</th><th>典型例</th><th>強み</th><th>弱み</th></tr></thead>
+<tbody>
+<tr><td>フラット検索</td><td>会話ログをembedding検索</td><td>実装が簡単</td><td>ノイズと古い情報に弱い</td></tr>
+<tr><td>LLM抽出</td><td>会話後に要約や事実を抽出</td><td>人間向けに読みやすい</td><td>書き込みコストが重い</td></tr>
+<tr><td>統合ファクトストア</td><td>プロフィール、好み、プロジェクト状態を管理</td><td>更新済み状態を扱いやすい</td><td>更新規則と衝突解決が難しい</td></tr>
+<tr><td>エージェント制御</td><td>何を覚えるかをエージェント自身が判断</td><td>柔軟</td><td>監査と再現性が難しい</td></tr>
+</tbody>
+</table></div>
+<p>論文は、こうした方式を横並びで眺めるだけでなく、メモリ構築、検索、生成というフェーズごとに計測し、設計選択が読み書きパスのどこへ負荷を移すかを見ている。</p>
+<h2>何が重要か</h2>
+<h3>1. Agent MemoryはRAGではなく状態管理として見る</h3>
+<p>RAGは「外部文書を検索して回答に足す」発想が中心だが、エージェントメモリはそれより広い。過去の行動、途中状態、ユーザー固有の制約、失敗履歴、ツール実行結果を、次の行動決定に使う。</p>
+<p>この違いを見落とすと、メモリ設計が「ベクトルDBを入れたので終わり」になりやすい。実際には、何を記憶に昇格するか、いつ更新するか、古い記憶をどう扱うか、検索結果を生成時にどれだけ信用するかが運用品質を決める。</p>
+<h3>2. コストは構築・検索・生成に分けて測る</h3>
+<p>論文の中心は、メモリ方式をフェーズ別にプロファイルする考え方。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>フェーズ</th><th>主な処理</th><th>運用上の論点</th></tr></thead>
+<tbody>
+<tr><td>Construction</td><td>ログから記憶を作る、要約する、統合する</td><td>書き込みコスト、バックグラウンド実行、失敗時の再処理</td></tr>
+<tr><td>Retrieval</td><td>現在タスクに関係する記憶を探す</td><td>レイテンシ、検索品質、古い情報の混入</td></tr>
+<tr><td>Generation</td><td>検索済み記憶を使って応答や行動を作る</td><td>コンテキスト肥大、根拠の混線、ユーザー体感速度</td></tr>
+</tbody>
+</table></div>
+<p>個人秘書や常駐エージェントでは、チャット直後に毎回LLMで記憶抽出すると書き込み側が重くなる。一方で、保存を軽くして検索時に毎回多く読むと、ユーザーが待つ生成側に負荷が出る。どちらが正しいかではなく、用途ごとのSLOで決める話になる。</p>
+<h3>3. 書き込み重視と読み取り重視の設計はトレードオフ</h3>
+<p>長期稼働エージェントでは、メモリを丁寧に整理してから保存する方式と、なるべく生ログを残して後で検索する方式の間で設計が分かれる。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>設計</th><th>向く用途</th><th>注意点</th></tr></thead>
+<tbody>
+<tr><td>書き込み時に整理</td><td>ユーザー設定、プロジェクト状態、反復業務</td><td>抽出ミスが長く残る</td></tr>
+<tr><td>読み取り時に再構成</td><td>調査、コード作業、曖昧な長期文脈</td><td>検索・生成時の遅延が増える</td></tr>
+<tr><td>階層化</td><td>日次ログ、長期記憶、タスク状態の併用</td><td>同じ事実の重複と矛盾管理が必要</td></tr>
+<tr><td>エージェント判断</td><td>例外の多い個人秘書、探索型タスク</td><td>監査ログがないと挙動を説明しにくい</td></tr>
+</tbody>
+</table></div>
+<p>自分の運用では、Obsidianのdaily note、MEMORY.md、タスク単位の候補一覧、Discord結果を別々に持っている。これはすでに階層化に近いが、どの層を生成時に読むか、どの層を長期記憶へ昇格するかを明確にしないと、将来ノイズが増える。</p>
+<h3>4. fleet-scale管理は個人環境にも関係する</h3>
+<p>論文はfleet-scale managementにも触れている。これは企業が多数のエージェントを動かす話に見えるが、個人環境でも同じ問題が小さく起きる。</p>
+<ul>
+<li>複数のCronが同じ記憶や候補一覧を更新する</li>
+<li>Discordポール、Obsidian、GitHub Pagesの状態がずれる</li>
+<li>古い候補や過去の判断が、次回の選定に混ざる</li>
+<li>失敗した実行の途中状態が残り、次の実行で誤参照される</li>
+<li>どの記憶を根拠に判断したか追えなくなる</li>
+</ul>
+<p>メモリは「覚える力」ではなく、状態を壊さずに持ち越す運用基盤として考えた方がよい。</p>
+<h2>自分向けメモ</h2>
+<ul>
+<li>OpenClawのメモリ設計は、daily note、MEMORY.md、AGENTS.md、タスク成果物の役割をもっと明確に分けると強くなる。</li>
+<li>「読ませたいファイル」「確認済み」「候補一覧」「解説ノート」のようなフォルダ運用も、エージェントメモリの状態遷移として見られる。</li>
+<li>長期記憶へ昇格する条件を明文化しないと、毎回のCronや調査結果がノイズとして蓄積する。</li>
+<li>コードエージェントでは、単に過去ログを検索するより、プロジェクトごとの決定事項、失敗した実装方針、テスト観点を別層に置く方が実用的。</li>
+<li>SAP / ERP領域のAIエージェントにも同じ論点がある。業務プロセス、権限、例外処理、過去障害を記憶するなら、監査と更新ルールが先に必要。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://arxiv.org/abs/2606.06448">arXiv - Agent Memory: Characterization and System Implications of Stateful Long-Horizon Workloads</a> - 論文の要旨、著者、投稿日、PDFリンク。</li>
+<li><a href="https://arxiv.org/html/2606.06448">arXiv HTML - Agent Memory</a> - 本文HTML。メモリ方式の分類、フェーズ別プロファイル、システム推奨事項の確認用。</li>
+<li><a href="https://github.com/TsinghuaC3I/Awesome-Memory-for-Agents">GitHub - Awesome Memory for Agents</a> - エージェントメモリ関連論文の整理。周辺研究を追う入口。</li>
+<li><a href="https://github.blog/ai-and-ml/github-copilot/building-an-agentic-memory-system-for-github-copilot/">GitHub Blog - Building an agentic memory system for GitHub Copilot</a> - 実プロダクト側でのクロスエージェント記憶の文脈。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>agent memory</li>
+<li>long-horizon agents</li>
+<li>stateful workloads</li>
+<li>RAG</li>
+<li>memory construction</li>
+<li>retrieval policy</li>
+<li>generation latency</li>
+<li>fleet-scale management</li>
+<li>personal AI assistant</li>
+<li>OpenClaw</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://arxiv.org/abs/2606.06448">arxiv.org - abs / 2606.06448</a></p></section>
+    </article>
+  </main>
+</body>
+</html>

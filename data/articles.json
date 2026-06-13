@@ -1,5 +1,18 @@
 [
   {
+    "file": "AI/2026-06-13_Agent_Memoryシステム特性評価.md",
+    "slug": "2026-06-13_Agent_Memoryシステム特性評価",
+    "title": "Agent Memoryをシステム特性として評価する",
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "created": "2026-06-13",
+    "source": "https://arxiv.org/abs/2606.06448",
+    "importance": "high",
+    "confidence": "high",
+    "excerpt": "arXivに投稿された「Agent Memory: Characterization and System Implications of Stateful Long-Horizon Workloads」は、長期タスクを行うLLMエージェントのメモリを、単なるRAGや便利機能ではなく、構築・検索・生成にまたがるシステムワークロードとして評価した論文。 この論...",
+    "url": "articles/2026-06-13_Agent_Memoryシステム特性評価.html"
+  },
+  {
     "file": "SAP_ERP/2026-06-12_SAP_AI_Native_North_Star_Architecture.md",
     "slug": "2026-06-12_SAP_AI_Native_North_Star_Architecture",
     "title": "SAP AI-Native North Star Architecture",
