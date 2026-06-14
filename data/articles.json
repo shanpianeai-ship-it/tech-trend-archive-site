@@ -1,5 +1,18 @@
 [
   {
+    "file": "SAP_ERP/2026-06-14_AM_SAP_APIポリシーとAIエージェント統制.md",
+    "slug": "2026-06-14_AM_SAP_APIポリシーとAIエージェント統制",
+    "title": "SAP APIポリシーとAIエージェント統制",
+    "genre": "SAP_ERP",
+    "genreLabel": "SAP / ERP",
+    "created": "2026-06-14",
+    "source": "https://diginomica.com/sap-sapphire-2026-sap-cto-philipp-herzig-saps-api-policy-changes-and-why-organizational-memory",
+    "importance": "high",
+    "confidence": "high",
+    "excerpt": "SAPのAPI Policy更新は、単なるAPI利用制限ではなく、agentic AI時代のERPアクセス制御を整える動きとして見るべき内容。DiginomicaのSAP CTO Philipp Herzig氏への取材と、SAP公式FAQを合わせると、狙いは「外部AIを締め出すこと」よりも、公開済みAPI、監査可能なID、レート制御、SAP Integrat...",
+    "url": "articles/2026-06-14_AM_SAP_APIポリシーとAIエージェント統制.html"
+  },
+  {
     "file": "SAP_ERP/2026-06-14_SAP_6月Patch_Day_Critical.md",
     "slug": "2026-06-14_SAP_6月Patch_Day_Critical",
     "title": "SAP 6月Patch Day Critical",
