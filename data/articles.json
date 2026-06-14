@@ -1,5 +1,18 @@
 [
   {
+    "file": "SAP_ERP/2026-06-14_SAP_6月Patch_Day_Critical.md",
+    "slug": "2026-06-14_SAP_6月Patch_Day_Critical",
+    "title": "SAP 6月Patch Day Critical",
+    "genre": "SAP_ERP",
+    "genreLabel": "SAP / ERP",
+    "created": "2026-06-14",
+    "source": "https://support.sap.com/en/my-support/knowledge-base/security-notes-news/june-2026.html",
+    "importance": "high",
+    "confidence": "high",
+    "excerpt": "SAPの2026年6月Security Patch Dayでは、NetWeaver AS ABAP / ABAP Platform、SAP Commerce Cloud、SAP Data Hub、NetWeaver AS Javaなどに関する重要なSecurity Noteが公開された。特に見るべきは、SAML認証のXML Signature Wrappin...",
+    "url": "articles/2026-06-14_SAP_6月Patch_Day_Critical.html"
+  },
+  {
     "file": "AI/2026-06-13_AM_安全なLLMエージェント設計.md",
     "slug": "2026-06-13_AM_安全なLLMエージェント設計",
     "title": "安全なLLMエージェント設計",

@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SAP 6月Patch Day Critical | 海外技術情報アーカイブ</title>
+  <meta name="description" content="SAPの2026年6月Security Patch Dayでは、NetWeaver AS ABAP / ABAP Platform、SAP Commerce Cloud、SAP Data Hub、NetWeaver AS Javaなどに関する重要なSecurity Noteが公開された。特に見るべきは、SAML認証のXML Signature Wrappin...">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-14</span>
+        <span>SAP / ERP</span>
+        <span>importance: high</span>
+      </div>
+      <h1>SAP 6月Patch Day Critical</h1>
+<h2>要約</h2>
+<p>SAPの2026年6月Security Patch Dayでは、NetWeaver AS ABAP / ABAP Platform、SAP Commerce Cloud、SAP Data Hub、NetWeaver AS Javaなどに関する重要なSecurity Noteが公開された。特に見るべきは、SAML認証のXML Signature Wrapping、ABAPカーネルのメモリ破壊、Commerce Cloud / Data HubのSpring Security系、NetWeaver AS Java Web Containerのディレクトリトラバーサルである。</p>
+<p>今回のポイントは「SAPの月例パッチだから次回定例で見る」では遅い可能性があること。SSO、RFC、Web Container、Commerce Cloudのように、認証境界やリモート到達性に近い箇所が複数含まれるため、Basis運用では対象コンポーネントの有無、外部公開、SAML利用、RFC到達性を先に切り分ける必要がある。</p>
+<h2>背景</h2>
+<p>SAP Security Patch Dayは毎月第2火曜日に公開される。SAP公式のSecurity Notes &amp; Newsでは、SAP Security Noteを優先的に実装すること、NetWeaver系の修正はSupport Packageにも含まれること、2026年6月のPatch Dayが6月9日であることが示されている。</p>
+<p>2026年6月分は、SAP公式ページと複数のSAPセキュリティ専門ベンダーが同じ主要論点を挙げている。SAML認証、ABAPカーネル、Commerce Cloud / Data Hub、NetWeaver AS Javaが中心で、単一製品の脆弱性というより、SAPランドスケープ横断の優先順位付けが必要な回である。</p>
+<h2>何が重要か</h2>
+<h3>最初に見るべきCritical</h3>
+<div class="table-wrap"><table>
+<thead><tr><th>Note</th><th>CVE</th><th>対象</th><th style="text-align:right">CVSS</th><th>初動で見る点</th></tr></thead>
+<tbody>
+<tr><td>3746332</td><td>CVE-2026-44748</td><td>NetWeaver AS ABAP / ABAP PlatformのSAML認証</td><td style="text-align:right">9.9</td><td>SAML利用有無、IdP連携、信頼関係、外部入口</td></tr>
+<tr><td>3717897</td><td>CVE-2026-27671</td><td>NetWeaver / ABAP PlatformのABAPカーネル</td><td style="text-align:right">9.8</td><td>カーネル版、RFC経路、外部・内部到達性</td></tr>
+<tr><td>3748262</td><td>CVE-2026-22732</td><td>SAP Commerce Cloud / SAP Data Hub</td><td style="text-align:right">9.1</td><td>Commerce/Data Hub利用有無、Spring Security影響範囲</td></tr>
+<tr><td>3727078</td><td>CVE-2026-40128</td><td>NetWeaver AS Java Web Container</td><td style="text-align:right">9.0</td><td>AS Java稼働有無、Web公開、リバースプロキシ経路</td></tr>
+</tbody>
+</table></div>
+<p>CVSSだけでなく、認証境界に近いか、ネットワーク越しに到達できるか、共通基盤として複数システムに影響するかで優先度を決める。特にSAMLとカーネルは、単体のアプリ修正より影響範囲が広くなりやすい。</p>
+<h3>SAMLのXML Signature WrappingはSSO境界の問題として扱う</h3>
+<p>CVE-2026-44748は、SAP公式ではNetWeaver AS ABAP / ABAP PlatformのSAML AuthenticationにおけるXML Signature Wrappingとして扱われている。第三者解説でも、署名済みXMLの検証と実際に参照するID情報のズレが問題になるタイプとして説明されている。</p>
+<p>運用目線では、これは単なるABAPアプリの不具合ではなく、SSO境界の信頼モデルに関わる。SAMLを使っている本番系、外部公開ポータル、社内横断IdP連携、複数システムの信頼関係を持つ環境では、影響確認を先に回す。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>確認観点</th><th>見るもの</th></tr></thead>
+<tbody>
+<tr><td>利用有無</td><td>対象ABAP系でSAML認証を有効化しているか</td></tr>
+<tr><td>到達経路</td><td>Fiori、ポータル、Web Dispatcher、リバースプロキシ経由の入口</td></tr>
+<tr><td>信頼範囲</td><td>IdP、SP、複数SAPシステム間の信頼関係</td></tr>
+<tr><td>暫定策</td><td>SAML停止が業務上可能か、恒久対応までの入口制限が可能か</td></tr>
+<tr><td>監査</td><td>不自然なログイン、権限昇格、通常と異なるSAML応答の痕跡</td></tr>
+</tbody>
+</table></div>
+<p>「SAMLを止めれば回避」という話が出ても、現実には多くの環境で業務影響が大きい。恒久対応は該当Note適用を前提にしつつ、公開入口の制限、監視強化、対象システムの優先順位付けを同時に行うのが現実的。</p>
+<h3>ABAPカーネル系はシステム単位ではなくカーネル単位で棚卸しする</h3>
+<p>CVE-2026-27671は、NetWeaver / ABAP PlatformのApplication Server ABAPで使われるSAP Kernelに関するメモリ破壊として扱われている。候補一覧にもある通り、RFC関連の文脈で優先度が高い。</p>
+<p>カーネル系は、個別アプリケーションの利用有無だけで判断しにくい。ECC、S/4HANA、BW、Solution Manager系、周辺ABAPシステムなど、同じカーネル系列を使う環境が広く存在するため、まずランドスケープ全体のカーネル版とパッチレベルを並べる。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>優先</th><th>条件</th><th>対応メモ</th></tr></thead>
+<tbody>
+<tr><td>最優先</td><td>外部または広い社内ネットワークからRFC到達可能</td><td>到達制限、監視、カーネル更新計画を即時化</td></tr>
+<tr><td>高</td><td>重要業務の中核ABAP、SSOやRFC連携が多い</td><td>停止時間、HA構成、ロールバック手順を確認</td></tr>
+<tr><td>中</td><td>閉域・限定用途だが対象カーネル</td><td>定例内でよいかをリスクオーナーと確認</td></tr>
+<tr><td>低</td><td>対象外バージョン、停止済み、隔離済み</td><td>証跡として対象外理由を残す</td></tr>
+</tbody>
+</table></div>
+<h3>Commerce Cloud / Data Hub / AS Javaも後回しにしない</h3>
+<p>SAP運用ではABAP系に目が行きやすいが、Commerce Cloud、Data Hub、AS Javaも今回のCritical対象に入っている。特にCommerce Cloudは外部顧客接点に近いことが多く、AS Javaは古い連携や管理系用途で残っていることがある。</p>
+<p>「使っていないはず」の確認で終わらせず、CMDB、クラウド契約、BTP/Commerce管理画面、監視対象、DNS、リバースプロキシ設定を突き合わせる。存在を見落としたJava系やCommerce系が、実際には外部から到達できる状態になっているのが一番危ない。</p>
+<h2>自分向けメモ</h2>
+<ul>
+<li>今回は投票なしのため、運用ルールの選定基準で採用。SAP Basis運用に直結し、日本語で「どれを先に見るか」の整理価値が高い。</li>
+<li>SAP Patch Dayは「月例」だが、CriticalがSSO/RFC/Web入口に絡む場合は、通常の月次パッチ運用ではなく緊急判定の土俵に載せる。</li>
+<li>初動テンプレートは、対象コンポーネント、外部公開、認証方式、RFC到達性、代替制御、停止可否、適用予定、監視強化の8項目でよい。</li>
+<li>SAML系はIdP/SPの担当境界が分かれやすい。Basis、ID管理、ネットワーク、アプリ運用の誰が何を見るかを切る。</li>
+<li>ABAPカーネルは「この業務アプリは使っているか」ではなく「このカーネル系列がどこにいるか」で探す。</li>
+<li>Commerce CloudやAS Javaは台帳から漏れやすい。DNS、WAF、プロキシ、監視対象から逆引きする。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://support.sap.com/en/my-support/knowledge-base/security-notes-news/june-2026.html">SAP Support Portal - SAP Security Patch Day - June 2026</a>: 主情報源。6月Patch DayのSecurity Note、対象製品、CVSS、Note番号を確認。</li>
+<li><a href="https://support.sap.com/en/my-support/knowledge-base/security-notes-news.html">SAP Support Portal - SAP Security Notes &amp; News</a>: SAP Security Patch Dayの位置づけ、月例日程、Security Note実装の基本方針を確認。</li>
+<li><a href="https://onapsis.com/blog/sap-security-patch-day-june-2026/">Onapsis - SAP Security Notes: June 2026 Patch Day</a>: SAPセキュリティ専門ベンダーの補助解説。HotNews/Highの優先順位確認に使う。</li>
+<li><a href="https://securitybridge.com/blog/sap-security-patch-day-june-2026/">SecurityBridge - SAP Security Patch Day June 2026</a>: SAML、ABAP Kernel、Commerce Cloud、AS Javaの影響整理を補助確認。</li>
+<li><a href="https://www.cve.org/CVERecord?id=CVE-2026-27671">CVE Record - CVE-2026-27671</a>: ABAPカーネルのRFCプロトコル検証に関するCVE本文確認用。</li>
+<li><a href="https://www.cve.org/CVERecord?id=CVE-2026-44748">CVE Record - CVE-2026-44748</a>: SAML認証のXML Signature Wrappingに関するCVE本文確認用。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>SAP Security Patch Day</li>
+<li>SAP Security Note</li>
+<li>SAP NetWeaver AS ABAP</li>
+<li>ABAP Platform</li>
+<li>SAP Kernel</li>
+<li>SAML Authentication</li>
+<li>XML Signature Wrapping</li>
+<li>RFC</li>
+<li>SAP Commerce Cloud</li>
+<li>SAP Data Hub</li>
+<li>SAP NetWeaver AS Java</li>
+<li>Basis運用</li>
+<li>パッチ優先順位</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://support.sap.com/en/my-support/knowledge-base/security-notes-news/june-2026.html">support.sap.com - en / my-support</a></p></section>
+    </article>
+  </main>
+</body>
+</html>
