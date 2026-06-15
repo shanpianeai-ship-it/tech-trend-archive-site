@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SAP AI-Native North Starの運用境界 | 海外技術情報アーカイブ</title>
+  <meta name="description" content="SAPの「AI-Native North Star Architecture」は、Autonomous Enterpriseを支える将来アーキテクチャとして、ERPを単なる記録システムから、業務コンテキストをAIが扱える基盤へ広げる構想を示している。 今回の読みどころは、JouleやAI agentsそのものよりも、AIが業務横断で判断するための「syste...">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-15</span>
+        <span>SAP / ERP</span>
+        <span>importance: high</span>
+      </div>
+      <h1>SAP AI-Native North Starの運用境界</h1>
+<h2>要約</h2>
+<p>SAPの「AI-Native North Star Architecture」は、Autonomous Enterpriseを支える将来アーキテクチャとして、ERPを単なる記録システムから、業務コンテキストをAIが扱える基盤へ広げる構想を示している。</p>
+<p>今回の読みどころは、JouleやAI agentsそのものよりも、AIが業務横断で判断するための「system of context」をどう作るかにある。SAP News Centerの記事では、AI-firstは既存アプリ内のAI機能追加に留まる一方、AI-nativeではデータ、プロセス知識、判断履歴、意味情報を接続し、エージェントが断片ではなく全体像を見て動く方向だと説明している。</p>
+<p>Basis/ERP運用目線では、これは新機能紹介ではなく、AI時代の権限、監査、例外処理、API公開、ログ設計の話として読むべき内容。AIに何を許可するかではなく、AIが業務文脈を持ったときに、どこで止め、誰が説明し、どの証跡を残すかが主戦場になる。</p>
+<h2>背景</h2>
+<p>SAPはSapphire 2026以降、Autonomous Enterprise、SAP Business AI Platform、Joule、Business Data Cloud、SAP Knowledge Graphを一体の流れとして打ち出している。North Star Architectureは、その中でSAPが目指すAI-nativeな企業システムの参照アーキテクチャという位置づけになる。</p>
+<p>SAP Architecture Centerでは、この文書は仕様書、製品ロードマップ、納期コミットメントではないと明記されている。つまり「いつ使えるか」を読む資料ではなく、「SAPがERPのAI化をどの責任境界で考えているか」を読む資料である。</p>
+<p>公式文書は2026年5月13日更新、SAP News Centerの記事は2026年6月8日公開。四半期ごとの更新予定も示されており、固定された白書というより、SAPとユーザー会、顧客、パートナーが議論しながら更新する設計方針に近い。</p>
+<h2>何が重要か</h2>
+<h3>AI-firstからAI-nativeへの差分</h3>
+<p>AI-firstは、請求書要約、仕訳提案、問い合わせ支援のように、既存アプリの中へAI機能を追加する考え方。便利ではあるが、アプリ単位の文脈に閉じやすい。</p>
+<p>AI-nativeは、業務データ、プロセス、意味情報、判断履歴、権限を横断して扱う。SAPはこれを「system of context」として説明しており、ERPが持つ正しい記録を、AIが理由づけや次アクションに使える文脈へ変換する方向である。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>観点</th><th>AI-first</th><th>AI-native</th><th>運用上の論点</th></tr></thead>
+<tbody>
+<tr><td>AIの位置</td><td>アプリ内の補助機能</td><td>業務横断の実行・推論レイヤ</td><td>影響範囲の棚卸し</td></tr>
+<tr><td>データ</td><td>画面やアプリ単位</td><td>Business Data CloudやKnowledge Graphで横断</td><td>データ品質と意味定義</td></tr>
+<tr><td>プロセス</td><td>個別業務の支援</td><td>agentic orchestrationで分解・委譲</td><td>API、イベント、例外条件</td></tr>
+<tr><td>統制</td><td>ユーザー権限中心</td><td>agent identityと監査も必要</td><td>職務分掌、証跡、停止方法</td></tr>
+<tr><td>価値</td><td>作業効率化</td><td>結果責任に近い業務成果</td><td>説明責任と責任分界</td></tr>
+</tbody>
+</table></div>
+<h3>deterministic path と AI-native path を分ける</h3>
+<p>SAPは、ルールベースで予測可能な業務実行を捨てるとは言っていない。むしろ、会計転記、支払、出荷、マスタ更新のようなミッションクリティカル処理は、従来どおり厳密なルール、権限、承認、監査の上で動く必要がある。</p>
+<p>AI-nativeが入りやすいのは、原因推定、例外分類、優先度付け、関連情報検索、ドラフト作成、調整タスクの生成などの周辺領域である。ここを混同すると「AIにERPを操作させるかどうか」という粗い議論になってしまう。</p>
+<p>運用設計では、処理ごとに次のように線引きしておくのが現実的。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>領域</th><th>AIに任せやすい</th><th>人間承認を残すべき</th></tr></thead>
+<tbody>
+<tr><td>調査</td><td>関連伝票、取引先、過去対応の検索</td><td>権限外データの参照判断</td></tr>
+<tr><td>判断補助</td><td>原因候補、次アクション、リスク提示</td><td>支払停止、契約変更、出荷停止</td></tr>
+<tr><td>実行</td><td>通知、チケット起票、ドラフト作成</td><td>会計転記、マスタ変更、本番設定変更</td></tr>
+<tr><td>学習</td><td>修正内容のdecision trace化</td><td>誤処理の自動再利用</td></tr>
+</tbody>
+</table></div>
+<h3>agent identityがBasis運用の管理対象になる</h3>
+<p>SAP News Centerの記事では、エージェントが「first-class principals」として扱われ、限定された権限範囲と監査対象になると説明されている。ここはBasis担当にとって重要。</p>
+<p>従来は人間ユーザー、技術ユーザー、連携ユーザー、バッチユーザーを管理してきた。AI-nativeでは、そこに業務エージェントやアシスタントが加わる。人間の代理なのか、システム主体なのか、どのロールで何を読めるのか、どの操作ログをどこへ残すのかを決める必要がある。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>管理対象</th><th>従来の例</th><th>AI-nativeで増える論点</th></tr></thead>
+<tbody>
+<tr><td>人間ユーザー</td><td>業務担当、承認者、運用者</td><td>AI提案を承認した責任</td></tr>
+<tr><td>技術ユーザー</td><td>RFC、API、バッチ</td><td>agentが使う接続経路</td></tr>
+<tr><td>エージェント</td><td>なし、または曖昧</td><td>agent identity、権限、所有者、監査</td></tr>
+<tr><td>モデル/ハーネス</td><td>なし</td><td>guardrails、memory、sandbox、停止条件</td></tr>
+</tbody>
+</table></div>
+<h3>Knowledge Graphとデータ品質が安全性に直結する</h3>
+<p>SAP Knowledge Graphは、自然言語の要求とSAPの構造化された業務データ、メタデータ、API、エンティティをつなぐ意味基盤として扱われている。ここが弱いと、AIは正しいデータにたどり着けないだけでなく、誤った組織範囲や権限で判断する危険がある。</p>
+<p>AI導入前の実務チェックは、モデル性能の比較だけでは足りない。品目、得意先、仕入先、組織、勘定、権限、API公開範囲、ログ保存が整っているかを見る必要がある。ERPのデータ整理を後回しにしたままAI-nativeを進めると、便利な自然言語UIが既存の混乱を増幅する。</p>
+<h2>自分向けメモ</h2>
+<ul>
+<li>North Starは「製品機能の一覧」ではなく、SAPがAI時代にERPの責任境界をどう再設計したいかを見る資料。</li>
+<li>JouleをチャットUIとしてだけ見ると読み違える。実際には業務横断の入口、agentic orchestration、権限、監査が論点になる。</li>
+<li>Basis観点のチェックリストには、agent owner、agent identity、読み取り範囲、書き込み範囲、承認条件、停止方法、ログ保存先を入れる。</li>
+<li>AIがERP文脈を持つほど、誤回答より誤実行の方が問題になる。実行権限は段階的に開ける。</li>
+<li>「system of context」は魅力的だが、文脈が正しくない環境では危険。マスタ、組織、データモデル、権限の棚卸しが先。</li>
+<li>提案資料では、North Starの構想、提供済み機能、プレビュー、将来予定を必ず分ける。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://news.sap.com/2026/06/sap-ai-native-north-star-architecture-technical-backbone-autonomous-enterprise/">SAP News Center - SAP's AI-Native North Star Architecture</a>: 今回の主記事。AI-firstからAI-nativeへの転換、system of context、4層構成、agent identityの要点。</li>
+<li><a href="https://architecture.learning.sap.com/docs/ai-native-north-star-architecture">SAP Architecture Center - AI-native North Star architecture</a>: 公式アーキテクチャ文書。仕様書や納期コミットメントではなく、戦略的な参照アーキテクチャであることを確認。</li>
+<li><a href="https://d.dam.sap.com/a/7TLSUpY/ai-native-north-star-architecture-public-q2-2026.pdf?inline=true&amp;rc=10">SAP PDF - AI-Native North Star Architecture Public Q2 2026</a>: 公式PDF版。DSAG/ASUGの前書き、4層構成、統制・セキュリティ章の確認用。</li>
+<li><a href="https://news.sap.com/2026/05/sap-sapphire-keynote-business-ai-platform-power-autonomous-enterprise/">SAP News Center - 2026 SAP Sapphire Keynote: Powering the Autonomous Enterprise</a>: Sapphire 2026のBusiness AI Platform文脈。</li>
+<li><a href="https://news.sap.com/2026/05/sap-sapphire-sap-unveils-autonomous-enterprise/">SAP News Center - SAP Unveils the Autonomous Enterprise</a>: Autonomous Enterprise全体発表。North Starを読む前提情報。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>SAP AI-Native North Star Architecture</li>
+<li>Autonomous Enterprise</li>
+<li>SAP Business AI Platform</li>
+<li>Joule</li>
+<li>SAP Business Data Cloud</li>
+<li>SAP Knowledge Graph</li>
+<li>system of context</li>
+<li>agent identity</li>
+<li>agentic orchestration</li>
+<li>deterministic path</li>
+<li>AI-native path</li>
+<li>decision trace</li>
+<li>ERP governance</li>
+<li>SAP Basis</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://news.sap.com/2026/06/sap-ai-native-north-star-architecture-technical-backbone-autonomous-enterprise/">news.sap.com - 2026 / 06</a></p></section>
+    </article>
+  </main>
+</body>
+</html>

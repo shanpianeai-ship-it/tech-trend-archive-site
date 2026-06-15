@@ -1,5 +1,18 @@
 [
   {
+    "file": "SAP_ERP/2026-06-15_SAP_AI_Native_North_Star_運用境界.md",
+    "slug": "2026-06-15_SAP_AI_Native_North_Star_運用境界",
+    "title": "SAP AI-Native North Starの運用境界",
+    "genre": "SAP_ERP",
+    "genreLabel": "SAP / ERP",
+    "created": "2026-06-15",
+    "source": "https://news.sap.com/2026/06/sap-ai-native-north-star-architecture-technical-backbone-autonomous-enterprise/",
+    "importance": "high",
+    "confidence": "high",
+    "excerpt": "SAPの「AI-Native North Star Architecture」は、Autonomous Enterpriseを支える将来アーキテクチャとして、ERPを単なる記録システムから、業務コンテキストをAIが扱える基盤へ広げる構想を示している。 今回の読みどころは、JouleやAI agentsそのものよりも、AIが業務横断で判断するための「syste...",
+    "url": "articles/2026-06-15_SAP_AI_Native_North_Star_運用境界.html"
+  },
+  {
     "file": "SAP_ERP/2026-06-14_AM_SAP_APIポリシーとAIエージェント統制.md",
     "slug": "2026-06-14_AM_SAP_APIポリシーとAIエージェント統制",
     "title": "SAP APIポリシーとAIエージェント統制",
