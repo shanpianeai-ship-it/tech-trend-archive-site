@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>企業AIエージェント事前保証 | 海外技術情報アーカイブ</title>
+  <meta name="description" content="arXiv論文「Toward Pre-Deployment Assurance for Enterprise AI Agents」は、企業AIエージェントを本番投入する前に、権限、業務制約、安全性、ガバナンス、自治レベルをまとめて検証するための枠組みを提案している。 中核は、エージェントの許可範囲を定義する Agent Operational Envelop...">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-15</span>
+        <span>AI / LLM / Agent</span>
+        <span>importance: high</span>
+      </div>
+      <h1>企業AIエージェント事前保証</h1>
+<h2>要約</h2>
+<p>arXiv論文「Toward Pre-Deployment Assurance for Enterprise AI Agents」は、企業AIエージェントを本番投入する前に、権限、業務制約、安全性、ガバナンス、自治レベルをまとめて検証するための枠組みを提案している。</p>
+<p>中核は、エージェントの許可範囲を定義する Agent Operational Envelope、業務・規制オントロジーからテストシナリオを作る生成パイプライン、そして機械検証可能な Trust Certificate。著者らのパイロットでは、金融、銀行、保険、医療の4領域で1,800シナリオを生成し、125件の一次規制要件と25件の注入フォルトに照らして評価している。</p>
+<p>今回のDiscordポールでは3番が1票で最多だったため、この論文を採用した。</p>
+<h2>背景</h2>
+<p>企業AIエージェントの導入は、チャットボットやRAG検索より一段危険度が高い。エージェントは外部ツールを呼び、ワークフローを進め、権限のある操作を実行し、場合によっては人間の承認前に判断材料を整える。</p>
+<p>従来の対策は、本番監視、人間確認、プロンプト上のガードレールに寄りがちだった。ただし、エージェントが一度本番で動き始めると、誤った権限付与、業務ルール違反、規制要件の見落としは後追い監視だけでは止めにくい。</p>
+<p>この論文の立場は明確で、「本番投入前に、業務・規制・権限・自治レベルを含む運用可能範囲を証明可能な形にする」ことが必要だというもの。モデル性能ベンチマークではなく、デプロイ判断のための保証を作る話として読むべき。</p>
+<h2>何が重要か</h2>
+<p>第一に、エージェントの検証対象を「応答品質」から「運用範囲」に広げている。Agent Operational Envelope は、どの権限で、どの業務領域で、どの安全制約と統制ルールの下で、どの自治レベルまで動かせるかを定義する。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>観点</th><th>従来の評価</th><th>事前保証の評価</th></tr></thead>
+<tbody>
+<tr><td>対象</td><td>回答品質、タスク成功率</td><td>権限、制約、規制、自治レベル</td></tr>
+<tr><td>テスト</td><td>代表プロンプト、ペルソナ</td><td>業務・規制オントロジー由来のシナリオ</td></tr>
+<tr><td>成果物</td><td>スコア、レポート</td><td>Trust Certificate、配備可否の判定</td></tr>
+<tr><td>タイミング</td><td>本番前後に断片的</td><td>本番投入前のゲート</td></tr>
+<tr><td>実務価値</td><td>モデル比較に強い</td><td>監査、承認、リリース判断に強い</td></tr>
+</tbody>
+</table></div>
+<p>第二に、オントロジー由来のシナリオ生成を使っている点が重要。論文のパイロットでは、オントロジー接地の手法がペルソナベースのベースラインより規制カバレッジで高い結果を出した。ただし、plain prompting や retrieval-augmented prompting に対する優位は Bonferroni 補正後には残らなかった、と著者らは明記している。ここは過大評価せず、「ペルソナだけで評価するよりは強いが、決定版ではない」と読むのがよい。</p>
+<p>第三に、Trust Certificate という形に落とすことで、AI評価を運用証跡へ近づけている。SAPやERP、金融、医療、基幹システムでは、単に「テストしました」では足りず、誰が、何を、どの条件で、どの根拠に基づいて承認したかが必要になる。機械検証可能な証明書という発想は、AIエージェント版のリリース判定票に近い。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>構成要素</th><th>役割</th><th>実務での置き換え</th></tr></thead>
+<tbody>
+<tr><td>Agent Operational Envelope</td><td>エージェントの許可された運用範囲を定義</td><td>権限設計、業務範囲、自治レベル表</td></tr>
+<tr><td>Ontology-to-Scenario</td><td>業務・規制知識から試験ケースを生成</td><td>業務シナリオ、例外系、監査観点テスト</td></tr>
+<tr><td>Trust Certificate</td><td>結果と配備判定を機械可読に残す</td><td>リリース承認、監査証跡、再検証条件</td></tr>
+<tr><td>Simulation Gate</td><td>判定に応じて配備を止める</td><td>CI/CDの品質ゲート、変更管理承認</td></tr>
+</tbody>
+</table></div>
+<h2>自分向けメモ</h2>
+<ul>
+<li>OpenClawやCodex系の運用では、スキル、ファイル権限、Discord送信、Git push、外部Web調査が同じ実行面にある。Agent Operational Envelope 的に「どこまで自動、どこから人間確認」を明文化する価値がある。</li>
+<li>エージェント評価を作るなら、プロンプト攻撃テストだけでは薄い。対象業務のルール、利用可能ツール、外部送信可否、永続メモリ更新可否、失敗時の停止条件をセットで見る。</li>
+<li>Trust Certificate は、趣味事務でも軽量版を作れる。たとえば「対象ファイル、使った外部情報、実行コマンド、外部送信の有無、最終成果物、公開URL」をfrontmatterやログに残すだけでも再現性が上がる。</li>
+<li>SAP/ERP文脈では、Jouleや外部LLMエージェントに本番データ操作を任せる前に、権限、トランザクション範囲、承認ワークフロー、監査ログ、ロールバック条件をOperational Envelopeとして固定すべき。</li>
+<li>この論文は実装済み標準ではなく研究提案。数値は参考になるが、実務では既存の変更管理、監査、セキュリティレビュー、NIST AI RMF、EU AI Act系の要件とつなぐ必要がある。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://arxiv.org/abs/2606.04037">arXiv: Toward Pre-Deployment Assurance for Enterprise AI Agents</a> - 今回の主対象。v2は2026-06-04改訂、著者はThanh Luong TuanとAbhijit Sanyal。</li>
+<li><a href="https://arxiv.org/html/2606.04037v2">arXiv HTML: Toward Pre-Deployment Assurance for Enterprise AI Agents</a> - 本文確認用。Operational Envelope、Trust Certificate、Simulation Gateの章を確認できる。</li>
+<li><a href="https://github.com/frank-luongt/faos-research/tree/main/RA-6">GitHub: FAOS Research RA-6</a> - 論文の再現用コード、オントロジー、規制チェックリスト、結果サマリの置き場。</li>
+<li><a href="https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence">NIST: AI RMF Generative AI Profile</a> - 生成AIリスク管理の公式プロファイル。企業導入時のリスク整理の基準として参照。</li>
+<li><a href="https://microsoft.github.io/agent-governance-toolkit/compliance/eu-ai-act-checklist/">Microsoft Agent Governance Toolkit: EU AI Act Checklist</a> - エージェント統制をEU AI Act観点でチェックリスト化する実装寄り資料。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>enterprise AI agents</li>
+<li>pre-deployment assurance</li>
+<li>Agent Operational Envelope</li>
+<li>ontology-grounded simulation</li>
+<li>Trust Certificate</li>
+<li>simulation gate</li>
+<li>AI governance</li>
+<li>NIST AI RMF</li>
+<li>EU AI Act</li>
+<li>regulated industries</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://arxiv.org/abs/2606.04037">arxiv.org - abs / 2606.04037</a></p></section>
+    </article>
+  </main>
+</body>
+</html>

@@ -1,5 +1,18 @@
 [
   {
+    "file": "AI/2026-06-15_AM_企業AIエージェント事前保証.md",
+    "slug": "2026-06-15_AM_企業AIエージェント事前保証",
+    "title": "企業AIエージェント事前保証",
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "created": "2026-06-15",
+    "source": "https://arxiv.org/abs/2606.04037",
+    "importance": "high",
+    "confidence": "high",
+    "excerpt": "arXiv論文「Toward Pre-Deployment Assurance for Enterprise AI Agents」は、企業AIエージェントを本番投入する前に、権限、業務制約、安全性、ガバナンス、自治レベルをまとめて検証するための枠組みを提案している。 中核は、エージェントの許可範囲を定義する Agent Operational Envelop...",
+    "url": "articles/2026-06-15_AM_企業AIエージェント事前保証.html"
+  },
+  {
     "file": "SAP_ERP/2026-06-15_SAP_AI_Native_North_Star_運用境界.md",
     "slug": "2026-06-15_SAP_AI_Native_North_Star_運用境界",
     "title": "SAP AI-Native North Starの運用境界",
