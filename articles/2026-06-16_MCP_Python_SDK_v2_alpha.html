@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MCP Python SDK v2 alpha | 海外技術情報アーカイブ</title>
+  <meta name="description" content="MCP Python SDKの`v2.0.0a1`は、2026-07-28予定のMCP仕様変更に向けた最初のalpha。現行のv1系利用者がすぐ自動更新されるものではないが、stable v2が出る前に依存上限と移行方針を決めておく必要がある。 最大の論点は、MCPのプロトコル層が長期セッション前提から、stateless request/response寄...">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-16</span>
+        <span>AI / LLM / Agent</span>
+        <span>importance: high</span>
+      </div>
+      <h1>MCP Python SDK v2 alpha</h1>
+<h2>要約</h2>
+<p>MCP Python SDKの<code>v2.0.0a1</code>は、2026-07-28予定のMCP仕様変更に向けた最初のalpha。現行のv1系利用者がすぐ自動更新されるものではないが、stable v2が出る前に依存上限と移行方針を決めておく必要がある。</p>
+<p>最大の論点は、MCPのプロトコル層が長期セッション前提から、stateless request/response寄りへ大きく変わること。Python SDK v1は長期セッション中心に作られているため、v2では中核が置き換わり、サーバー/クライアント実装の抽象も変わる。</p>
+<p>自分向けには、OpenClawやCodex周辺でMCPサーバーを増やす前に、「今はv1で固定する」「v2対応は別ブランチ/別環境で試す」「長期状態はプロトコルのセッションではなく明示的なIDやタスク状態として持つ」という設計メモとして重要。</p>
+<h2>背景</h2>
+<p>MCPは、LLMアプリケーションやエージェントが外部ツール、リソース、プロンプトへ接続するための共通プロトコルとして広がっている。Python SDKは、自作MCPサーバーやクライアントを作るときの主要実装の一つ。</p>
+<p>2026-07-28仕様RCでは、MCPは次の方向へ寄っている。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>項目</th><th>2025-11-25系の見方</th><th>2026-07-28系の方向</th></tr></thead>
+<tbody>
+<tr><td>セッション</td><td><code>initialize</code>後に<code>Mcp-Session-Id</code>を持ち回る</td><td>プロトコル層のセッションをなくす</td></tr>
+<tr><td>ルーティング</td><td>sticky sessionや共有session storeが必要になりやすい</td><td>任意のサーバーインスタンスへ回しやすい</td></tr>
+<tr><td>状態管理</td><td>transport/sessionに隠れやすい</td><td>tool引数やtask handleなど明示的な状態へ寄せる</td></tr>
+<tr><td>拡張</td><td>core仕様に入りがち</td><td>Extensions frameworkで独立進化させる</td></tr>
+<tr><td>観測性</td><td>実装ごとの工夫が混ざる</td><td>Trace Contextやheadersで追いやすくする</td></tr>
+</tbody>
+</table></div>
+<p>Python SDK v2 alphaは、この仕様変更に合わせた先行実装。v2.0.0a1時点では2025-11-25仕様機能のみの対応で、2026-07-28機能はalpha期間中に追加され、betaは2026-06-30、stable v2は2026-07-28前後を目標としている。</p>
+<h2>何が重要か</h2>
+<h3>依存上限を入れないPythonパッケージが一斉に壊れる可能性</h3>
+<p>リリースノートでは、PyPI上で<code>mcp</code>に依存する多数のパッケージが上限を指定していない点が明示されている。stable v2が出た日に、<code>mcp&gt;=1.x</code>のような指定がv2を解決してしまうと、利用者側で予期せぬ破壊的変更を踏む。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>立場</th><th>今やること</th><th>理由</th></tr></thead>
+<tbody>
+<tr><td>MCPサーバー利用者</td><td><code>mcp&gt;=1.27,&lt;2</code>のように上限を入れる</td><td>stable v2公開時の自動混入を防ぐ</td></tr>
+<tr><td>ライブラリ作者</td><td>pre-release依存はpre-releaseだけに閉じる</td><td>利用者をalphaへ巻き込まない</td></tr>
+<tr><td>運用者</td><td>lockfileとCIでSDKバージョンを固定する</td><td>Cronや常駐エージェントの突然死を防ぐ</td></tr>
+<tr><td>検証者</td><td>v2は別環境で試す</td><td>alpha間でも破壊的変更があり得る</td></tr>
+</tbody>
+</table></div>
+<p>これは派手な新機能というより、依存管理の事故予防として重要。</p>
+<h3>長期セッション前提の設計を見直す必要がある</h3>
+<p>MCP 2026-07-28 RCでは、<code>initialize</code>/<code>initialized</code> handshakeと<code>Mcp-Session-Id</code>がなくなる方向。状態が必要なアプリケーションは、プロトコルが裏で持つsessionではなく、toolが返す明示的なhandleを次の呼び出しに渡す設計へ寄る。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>状態の種類</th><th>v1的な置き場所</th><th>v2以降で考える置き場所</th></tr></thead>
+<tbody>
+<tr><td>作業中のブラウザ/買い物かご</td><td>sessionに紐づく内部状態</td><td><code>browser_id</code>や<code>basket_id</code>をtool結果で返す</td></tr>
+<tr><td>長時間処理</td><td>coreのTasks実験機能</td><td>Tasks extensionのhandleで追う</td></tr>
+<tr><td>利用者文脈</td><td>接続単位の暗黙状態</td><td><code>_meta</code>、認証主体、明示的な入力で渡す</td></tr>
+<tr><td>監査/追跡</td><td>実装ごとのログ</td><td>Trace Contextとgateway側ログでつなぐ</td></tr>
+</tbody>
+</table></div>
+<p>OpenClawのような長時間エージェント環境では、この変更はかなり自然に見える。裏の接続に状態を隠すより、ファイル、タスクID、候補一覧、Discord message id、commit hashのように、後から追える形で状態を持った方が復旧しやすい。</p>
+<h3>SDK APIも単なる型追加ではなく中核が変わる</h3>
+<p>v2 alphaでは、サーバー側で<code>ServerSession</code>を置き換えるDispatcher pipelineが入り、low-level Server interfaceも変わる。handlerはdecoratorではなくconstructor parameterになり、戻り値のauto-wrapもなくなる。FastMCPは<code>MCPServer</code>へrenameされる。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>変更</th><th>影響</th></tr></thead>
+<tbody>
+<tr><td>Dispatcher pipeline</td><td>session中心の実装からrequest処理中心へ読み替えが必要</td></tr>
+<tr><td>handler定義変更</td><td>サーバー実装の書き換えが必要になり得る</td></tr>
+<tr><td>return value auto-wrap廃止</td><td>型とレスポンス生成を明示する必要</td></tr>
+<tr><td>snake_case field names / stricter validation</td><td>既存コードの暗黙変換に頼れない</td></tr>
+<tr><td>FastMCP rename</td><td>importやドキュメント、サンプルの更新が必要</td></tr>
+</tbody>
+</table></div>
+<p>「pipを上げれば終わり」ではなく、自作MCPサーバーの構造を一度棚卸しする種類の移行。</p>
+<h3>仕様変更は運用面では悪い話だけではない</h3>
+<p>stateless化は破壊的だが、運用面ではかなり筋がよい。MCPサーバーを普通のHTTP基盤に載せやすくなり、load balancer、cache、rate limit、traceの扱いが素直になる。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>運用論点</th><th>期待できる改善</th></tr></thead>
+<tbody>
+<tr><td>horizontal scale</td><td>sticky sessionや共有session storeへの依存を減らせる</td></tr>
+<tr><td>gateway制御</td><td><code>Mcp-Method</code>や<code>Mcp-Name</code>でルーティング/制限しやすい</td></tr>
+<tr><td>キャッシュ</td><td><code>tools/list</code>などにTTL/スコープを持たせられる</td></tr>
+<tr><td>observability</td><td>Trace Contextでhostからserver、その先の外部APIまで追いやすい</td></tr>
+<tr><td>セキュリティ</td><td>OAuth/OIDC寄りの認可強化、issuer検証が入る</td></tr>
+</tbody>
+</table></div>
+<p>企業内MCPや個人環境の常駐MCPでも、「どのtoolが呼ばれたか」「どのユーザー/エージェントが呼んだか」「どの外部APIへつながったか」を追いやすくなる方向。</p>
+<h2>自分向けメモ</h2>
+<ul>
+<li>自作/利用中のMCP Python依存は、stable v2前に<code>&lt;2</code>上限を入れる。特にCronや常駐エージェントの裏で使うものはlockfileも確認する。</li>
+<li>v2 alphaは本番へ入れない。試すなら<code>mcp==2.0.0a1</code>を明示し、検証用venvや別コンテナで見る。</li>
+<li>MCPサーバー設計では、transport sessionに状態を隠さず、tool結果として明示的なIDを返す設計へ寄せる。</li>
+<li>長時間処理は「sessionが生きているから続く」ではなく、task handle、ファイル、DB、キューで復元できるようにする。</li>
+<li>OpenClaw/Codexの外部ツール連携でも、Discord message id、候補一覧frontmatter、commit hashのような追跡可能な状態を残す方針を続ける。</li>
+<li>2026-06-30 beta、2026-07-28 stable予定を追う。v2 migration guideが更新されたら、既存MCP利用箇所を棚卸しする。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li>GitHub Releases: <a href="https://github.com/modelcontextprotocol/python-sdk/releases">modelcontextprotocol/python-sdk v2.0.0a1</a> - v2 alpha、移行理由、予定、依存上限の注意。</li>
+<li>MCP Blog: <a href="https://blog.modelcontextprotocol.io/posts/2026-07-28-release-candidate/">The 2026-07-28 MCP Specification Release Candidate</a> - stateless core、Extensions、Tasks、認可強化の概要。</li>
+<li>MCP Specification: <a href="https://modelcontextprotocol.io/specification/2025-06-18">2025-06-18 specification</a> - 現行仕様を確認する入口。</li>
+<li>GitHub Repository: <a href="https://github.com/modelcontextprotocol/python-sdk">modelcontextprotocol/python-sdk</a> - SDK本体、issues、migration guide確認先。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>MCP</li>
+<li>Model Context Protocol</li>
+<li>Python SDK</li>
+<li>v2 alpha</li>
+<li>stateless protocol</li>
+<li>request response</li>
+<li>Dispatcher pipeline</li>
+<li>MCPServer</li>
+<li>Tasks extension</li>
+<li>MCP Apps</li>
+<li>OAuth</li>
+<li>OpenID Connect</li>
+<li>dependency upper bound</li>
+<li>long-running agents</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://github.com/modelcontextprotocol/python-sdk/releases">github.com - modelcontextprotocol / python-sdk</a></p></section>
+    </article>
+  </main>
+</body>
+</html>

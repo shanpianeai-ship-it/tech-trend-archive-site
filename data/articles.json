@@ -1,5 +1,18 @@
 [
   {
+    "file": "AI/2026-06-16_MCP_Python_SDK_v2_alpha.md",
+    "slug": "2026-06-16_MCP_Python_SDK_v2_alpha",
+    "title": "MCP Python SDK v2 alpha",
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "created": "2026-06-16",
+    "source": "https://github.com/modelcontextprotocol/python-sdk/releases",
+    "importance": "high",
+    "confidence": "high",
+    "excerpt": "MCP Python SDKの`v2.0.0a1`は、2026-07-28予定のMCP仕様変更に向けた最初のalpha。現行のv1系利用者がすぐ自動更新されるものではないが、stable v2が出る前に依存上限と移行方針を決めておく必要がある。 最大の論点は、MCPのプロトコル層が長期セッション前提から、stateless request/response寄...",
+    "url": "articles/2026-06-16_MCP_Python_SDK_v2_alpha.html"
+  },
+  {
     "file": "AI/2026-06-15_AM_企業AIエージェント事前保証.md",
     "slug": "2026-06-15_AM_企業AIエージェント事前保証",
     "title": "企業AIエージェント事前保証",
