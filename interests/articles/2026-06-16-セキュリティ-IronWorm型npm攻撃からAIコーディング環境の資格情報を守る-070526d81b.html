@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Miasma/IronWorm型npm攻撃からAIコーディング環境の資格情報を守る | 興味レポート</title>
+  <meta name="description" content="Miasmaは、Red Hat Cloud Services配下のnpmパッケージを改ざんし、`preinstall`フックで開発機やCI/CDの資格情報を盗むサプライチェーン攻撃として報告された。Microsoftは、32個の改ざんパッケージと90超のバージョンが影響し、GitHub Actions OIDCのtrusted publishing経路を悪用...">
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../../interests/index.html">興味レポート</a>
+    <span class="site-subtitle">Public redacted interest reports</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 興味レポート一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-16T19:49:00+09:00</span>
+        <span>セキュリティ</span>
+        <span>interest_report</span>
+      </div>
+      <h1>Miasma/IronWorm型npm攻撃からAIコーディング環境の資格情報を守る</h1>
+<h2>要約</h2>
+<p>Miasmaは、Red Hat Cloud Services配下のnpmパッケージを改ざんし、<code>preinstall</code>フックで開発機やCI/CDの資格情報を盗むサプライチェーン攻撃として報告された。Microsoftは、32個の改ざんパッケージと90超のバージョンが影響し、GitHub Actions OIDCのtrusted publishing経路を悪用したため、改ざんパッケージが正規のprovenance署名を持って見えた点を重く見ている。</p>
+<p>この攻撃がAIコーディング環境で厄介なのは、単にnpmトークンを盗むだけではない点にある。OSVの記録では、GitHub PAT、npm publish token、クラウド認証情報、Kubernetes service account token、Vault token、<code>.npmrc</code>、<code>.netrc</code>、shell historyなどが狙われ、さらに<code>.claude/settings.json</code>や<code>.vscode/tasks.json</code>を使った永続化も記録されている。つまり、Claude Code、Codex、OpenClaw、VS Code、CI runnerが集まる場所は、攻撃者にとってかなり効率のよい侵入口になる。</p>
+<p>結論として、個人のAIコーディング環境では「npm installは低リスクな準備作業」と見なさない方がよい。特にMCPサーバー、CLI補助ツール、AIエージェント連携、GitHub Pages公開自動化のように、ローカルファイル・GitHub・Discord・クラウド・トークンへ近い依存は、通常のフロントエンド依存より一段厳しく扱うべきである。</p>
+<h2>なぜ今見る価値があるか</h2>
+<p>今見る価値は、AI開発環境が「依存パッケージ」と「実行権限」と「資格情報」を同じ作業面に置きがちだからだ。</p>
+<p>Microsoftの分析では、攻撃はnpm install時の<code>preinstall</code>で自動実行され、Nodeからshell、Bun、二段目payloadへ進む。Linux CI/CD runnerが主な標的とされつつ、macOSやWindowsの開発機でも動作する。OpenClawやCodexのような長時間実行環境では、ローカル作業ディレクトリ、GitHub remote、Discord連携、Pages公開、各種APIキーが一つの作業文脈に寄りやすい。便利さの裏側で、盗まれたときの被害半径も広がる。</p>
+<p>また、Miasmaは「怪しいパッケージを直接入れたら危ない」という単純な話ではない。trusted publishingやprovenance署名のような正規の仕組みを通ったように見えるため、署名や出所表示だけで安心しにくい。パッケージ名、バージョン、スクリプト、lockfile差分、実行環境、トークン権限を合わせて見る必要がある。</p>
+<h2>調査メモ</h2>
+<p>Microsoftは、RedHatInsights/javascript-clientsのCI/CDパイプライン侵害から、<code>@redhat-cloud-services</code>スコープの複数npmパッケージが改ざんされたと説明している。改ざんパッケージにはMiasmaのキャンペーンマーカーが含まれ、GitHub Actions OIDCの公開フローを通じて配布された。インストール時には<code>package.json</code>の<code>preinstall</code>が発火し、4MB超のdropperがBun runtimeを取得して二段目payloadを動かす流れだった。</p>
+<p>OSVの<code>MAL-2026-5129</code>は、対象の一つとして<code>@redhat-cloud-services/hcc-feo-mcp</code>を挙げている。記録されているリスクはかなり広い。AWS、Azure、GCP、Vault、Kubernetes、GitHub、npmの資格情報、CI環境変数、ローカル設定ファイル、shell履歴が窃取対象になる。Docker socketが使える環境ではコンテナ外への脱出やsudoers改変も示されている。</p>
+<p>AIコーディング環境で特に見るべきなのは、<code>.claude/settings.json</code>と<code>.vscode/tasks.json</code>への干渉だ。前者はAIエージェントの設定、後者はエディタ作業の自動実行に近い。ここを改ざんされると、ユーザーが意識しないタイミングで外部コマンドや追加サーバーが起動する可能性がある。MCPサーバーやAI用CLIをnpm経由で入れる運用では、設定ファイルの差分監視が防御線になる。</p>
+<p>GitHub AdvisoryとOSVは、該当パッケージが入った端末は完全侵害として扱い、別端末から秘密情報をローテーションすることを推奨している。これはやや強い表現だが、今回のようにローカルファイル、CI変数、クラウドメタデータ、GitHub/npm publish権限まで狙う攻撃では妥当な前提だと見てよい。</p>
+<p>個人環境での実務対策は、次の順に切るのが現実的だ。まず、最近追加したnpmグローバルCLI、MCPサーバー、AI補助ツールを棚卸しする。次に、<code>package.json</code>とlockfileの差分、<code>preinstall</code>/<code>postinstall</code>/<code>prepare</code>を持つ依存を確認する。さらに、<code>.claude/settings.json</code>、<code>.vscode/tasks.json</code>、MCP設定、OpenClaw/Codex設定、GitHub Actions workflowの差分を見る。最後に、GitHub、npm、クラウド、Discord bot、AI APIキーのスコープと保存場所を見直す。</p>
+<h2>個人向けの読みどころ</h2>
+<p>個人の運用では、OpenClawがDiscordポールを読み、Markdownを書き、GitHub Pagesへpushし、公開URLまで確認する。これは便利だが、GitHub、Discord、ローカルObsidian、Node build、cronが同じ流れに入っているということでもある。</p>
+<p>今回の読みどころは、AIエージェント自体よりも「AIエージェントが使う周辺npm」と「設定ファイル」を守ることだ。CodexやOpenClawを直接攻撃しなくても、MCPサーバーや補助CLIの<code>preinstall</code>を踏ませ、<code>.claude/settings.json</code>や<code>.vscode/tasks.json</code>を汚染できれば、次回以降の作業に入り込める。</p>
+<p>実務的には、次の小さな台帳をObsidianに作ると効果が出やすい。</p>
+<ul>
+<li>AI/MCP npm台帳: パッケージ名、用途、インストール方法、固定バージョン、最終確認日</li>
+<li>postinstall系チェック: <code>preinstall</code>、<code>postinstall</code>、<code>prepare</code>を持つ依存と、その実行理由</li>
+<li>設定ファイル監視: <code>.claude/settings.json</code>、<code>.vscode/tasks.json</code>、MCP設定、OpenClaw設定の差分</li>
+<li>資格情報棚卸し: GitHub token、npm token、Discord bot token、AI API key、クラウドCLIログインの保存場所</li>
+<li>侵害時の初動: ネットワーク切断、別端末からトークン失効、GitHub/npm監査ログ確認、該当依存削除ではなく端末再構築判断</li>
+</ul>
+<p>この興味レポート自動化にも応用するなら、<code>node scripts/build.mjs</code>の前後で<code>git diff</code>を確認し、公開対象に内部パスや秘密情報が混じっていないかを見る運用は続けたい。npm依存を増やすときは、便利なライブラリかどうかだけでなく、インストール時スクリプトとメンテナ権限も確認対象に入れる。</p>
+<h2>注意点</h2>
+<p>この記事は公開情報にもとづくセキュリティ運用メモであり、特定端末の侵害有無を診断するものではない。不審なnpmパッケージ、身に覚えのないAI/MCP設定、予期しないGitHub Actions workflow、未知の外部通信、資格情報流出の疑いがある場合は、該当端末を信頼せず、別端末からトークン失効とログ確認を行うべきである。</p>
+<p>また、Miasma/IronWormという呼称やキャンペーン範囲は、ベンダーや研究者によって表現が揺れる可能性がある。実務判断では、Microsoft、OSV、GitHub Advisory、npm公式・GitHub公式の情報を優先し、二次解説は補助として読むのがよい。</p>
+<h2>参考リンク</h2>
+<ul>
+<li>Microsoft Security Blog: Preinstall to persistence: Inside the Red Hat npm Miasma credential-stealing campaign</li>
+</ul>
+<p><a href="https://www.microsoft.com/en-us/security/blog/2026/06/02/preinstall-persistence-inside-red-hat-npm-miasma-credential-stealing-campaign/">microsoft.com - en-us / security</a></p>
+<ul>
+<li>OSV: MAL-2026-5129</li>
+</ul>
+<p><a href="https://osv.dev/vulnerability/MAL-2026-5129">osv.dev - vulnerability / MAL-2026-5129</a></p>
+<ul>
+<li>GitHub Advisory Database: GHSA-vgm5-jmvr-cjgf</li>
+</ul>
+<p><a href="https://github.com/advisories/GHSA-vgm5-jmvr-cjgf">github.com - advisories / GHSA-vgm5-jmvr-cjgf</a></p>
+<ul>
+<li>SafeDep: Mini Shai-Hulud &quot;Miasma&quot; Hits @redhat-cloud-services</li>
+</ul>
+<p><a href="https://safedep.io/redhat-cloud-services-hit-by-mini-shai-hulud-npm-worm/">safedep.io - redhat-cloud-services-hit-by-mini-shai-hulud-npm-worm</a></p>
+<ul>
+<li>Cloud Security Alliance: Miasma / IronWorm AI coding supply chain research note</li>
+</ul>
+<p><a href="https://labs.cloudsecurityalliance.org/wp-content/uploads/2026/06/CSA_research_note_miasma_ironworm_AI_coding_supply_chain_20260609-csa-styled.pdf">labs.cloudsecurityalliance.org - wp-content / uploads</a></p>
+    </article>
+  </main>
+</body>
+</html>

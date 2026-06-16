@@ -210,6 +210,17 @@
   },
   {
     "file": "[入力元伏せ]",
+    "slug": "2026-06-16-セキュリティ-IronWorm型npm攻撃からAIコーディング環境の資格情報を守る-070526d81b",
+    "title": "Miasma/IronWorm型npm攻撃からAIコーディング環境の資格情報を守る",
+    "category": "セキュリティ",
+    "created": "2026-06-16T19:49:00+09:00",
+    "status": "",
+    "type": "interest_report",
+    "excerpt": "Miasmaは、Red Hat Cloud Services配下のnpmパッケージを改ざんし、`preinstall`フックで開発機やCI/CDの資格情報を盗むサプライチェーン攻撃として報告された。Microsoftは、32個の改ざんパッケージと90超のバージョンが影響し、GitHub Actions OIDCのtrusted publishing経路を悪用...",
+    "url": "interests/articles/2026-06-16-セキュリティ-IronWorm型npm攻撃からAIコーディング環境の資格情報を守る-070526d81b.html"
+  },
+  {
+    "file": "[入力元伏せ]",
     "slug": "2026-06-11-セキュリティ-CISAの「最短3日パッチ」指令で脆弱性対応の優先順位はどう変わるか-adafec6d3e",
     "title": "CISAの「最短3日パッチ」指令で脆弱性対応の優先順位はどう変わるか",
     "category": "セキュリティ",
