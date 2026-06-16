@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ChatGPT Agent以後の「調査から実行まで任せるAI」は個人秘書運用でどこまで安全か | 興味レポート</title>
+  <meta name="description" content="ChatGPT Agentは、従来の「調べるAI」と「ブラウザを操作するAI」を統合し、Web閲覧、ファイル、コネクタ、フォーム入力、表計算編集のような複数ステップ作業を一つの流れで扱える方向へ進んだ。OpenAIの説明では、ユーザーは作業中に介入でき、重要な操作では確認が入る。これは個人秘書運用にとって便利だが、同時に「AIが見た外部情報が、ユーザーの意図...">
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../../interests/index.html">興味レポート</a>
+    <span class="site-subtitle">Public redacted interest reports</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 興味レポート一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-16T19:54:00+09:00</span>
+        <span>AI・エージェント</span>
+        <span>interest_report</span>
+      </div>
+      <h1>ChatGPT Agent以後の「調査から実行まで任せるAI」は個人秘書運用でどこまで安全か</h1>
+<h2>要約</h2>
+<p>ChatGPT Agentは、従来の「調べるAI」と「ブラウザを操作するAI」を統合し、Web閲覧、ファイル、コネクタ、フォーム入力、表計算編集のような複数ステップ作業を一つの流れで扱える方向へ進んだ。OpenAIの説明では、ユーザーは作業中に介入でき、重要な操作では確認が入る。これは個人秘書運用にとって便利だが、同時に「AIが見た外部情報が、ユーザーの意図より強く振る舞う」prompt injectionのリスクを大きくする。</p>
+<p>結論として、個人秘書AIに任せてよい範囲は「調査、整理、下書き、ローカルファイル生成、公開前チェック」までならかなり広い。一方で、送信、購入、予約、権限変更、外部共有、金融・医療・個人情報を含む操作は、人間確認を必須にするべきだ。完全自動化よりも、作業を細かく分けて「読み取り専用」「下書き」「実行前確認」に分離する運用が現実的だ。</p>
+<h2>なぜ今見る価値があるか</h2>
+<p>OpenAIはChatGPT Agentを、Deep ResearchとOperatorの流れを統合した「調査から実行」型の機能として位置づけている。さらにChatGPT Atlasのagent modeでは、ブラウザ上のページを見てクリックや入力まで行うため、日常のWeb作業とAIが直接つながる。個人秘書として使う場合、これはメール要約、カレンダー調整、買い物候補整理、レポート公開、台帳更新のような作業を一気に楽にする。</p>
+<p>ただし、便利さの増加は攻撃面の増加でもある。OpenAIはAtlas向けのprompt injection対策で、ブラウザエージェントは攻撃者にとって高価値な対象になると説明している。これは会社の業務環境だけでなく、個人のOpenClawやObsidian運用にもそのまま当てはまる。ローカルファイル、コネクタ、Discord、Git、Pages公開がつながっている環境では、AIの「実行できること」を増やすほど、確認ゲートの設計が重要になる。</p>
+<h2>調査メモ</h2>
+<p>OpenAIのChatGPT Agent発表では、Agentは必要に応じてツールを選び、リサーチ、スライド作成、表計算編集、Web上の作業を進められるとされている。コネクタにもアクセスでき、メールや文書リポジトリの情報を使えるが、サイト上で実際に行動する場面ではブラウザを引き継ぐログインやユーザー確認が前提になる。</p>
+<p>Help Centerの説明では、ChatGPT AgentはVisual browser、text browser、terminal、connectorsなどを使う。ユーザー側の安全策として、不要なアプリ連携を無効化すること、機密性の高いログインを避けること、作業後にログアウトすることが挙げられている。これは「AI側のガードレールに任せる」ではなく、ユーザーの運用設計も安全性の一部だという読み方ができる。</p>
+<p>System Cardでは、主なリスクとしてprompt injection、誤操作、有害タスクが整理されている。対策には安全性訓練、監視、ユーザー確認、機微なブラウザ操作時のWatch Mode、terminal network restrictions、ChatGPT memoryの無効化が含まれる。特に個人秘書運用では、記憶やコネクタが便利なほど、外部ページやメール本文からの間接指示を混ぜない境界が必要になる。</p>
+<p>Atlasのprompt injection対策記事では、OpenAIは自動レッドチーミングと強化学習で新しい攻撃パターンを探し、迅速に防御を更新する流れを説明している。ただし、このタイプの攻撃はWeb上の詐欺やソーシャルエンジニアリングに近く、単発の対策で終わるものではない。個人運用では「常に新しい攻撃が出る」前提で、権限と承認の構造を変えないことが重要になる。</p>
+<p>prompt injectionの基礎解説では、会話の中にユーザー以外の第三者コンテンツが入り込むことが問題の根にあると整理されている。AI秘書はメール、Webページ、PDF、Issue、SNS、Discordログなどを読むほど便利になるが、それらはすべて「第三者が書いた命令を含みうる入力」でもある。したがって、外部コンテンツを読んだ後の実行アクションは、通常の会話より一段厳しく扱うべきだ。</p>
+<h2>個人向けの読みどころ</h2>
+<p>OpenClaw運用で実用的なのは、作業を3段階に分けることだ。</p>
+<ol>
+<li>読むだけ: Web調査、メール要約、候補抽出、ローカル検索、差分確認。</li>
+<li>作るだけ: Markdown下書き、CSV更新案、Git差分、Discord報告文案。</li>
+<li>外へ出す: Discord送信、Git push、Pages公開、メール送信、予約、購入、権限変更。</li>
+</ol>
+<p>1と2はかなり自動化してよい。3は原則として承認ゲートを置く。ただし、今回の興味レポートCronのように運用ルールが明確で、保存先・コミットメッセージ・報告先が固定され、出す情報の安全制約も決まっているものは、自動実行に向く。逆に、送信相手や公開範囲が毎回変わる作業、金銭・本人確認・機微ログインを含む作業は自動化しすぎない方がよい。</p>
+<p>具体的には、個人秘書AIには次の制限を置くと扱いやすい。</p>
+<ul>
+<li>コネクタは必要なものだけ有効化し、使わない連携は外す。</li>
+<li>Discord、GitHub、Google系など外部送信先ごとに「読み取り」「下書き」「送信」を分ける。</li>
+<li>ローカルファイル操作は広く許可しても、削除はtrash優先、公開はビルド後の差分確認を挟む。</li>
+<li>Webページやメール本文に書かれた「前の指示を無視して」系の命令は、外部コンテンツとして扱い、実行指示に昇格させない。</li>
+<li>Cronは成功条件を厳密にし、途中でDiscord、git、build、公開確認のどれかが失敗したら成功扱いにしない。</li>
+</ul>
+<h2>注意点</h2>
+<p>この記事はAIエージェント運用上の安全設計メモであり、法務・セキュリティ監査の助言ではない。実運用で機密情報、顧客情報、金融取引、医療情報、会社の認証情報を扱う場合は、組織のセキュリティ担当者や専門家の確認が必要になる。</p>
+<p>また、OpenAI側の安全機能は更新され続ける。Watch Mode、確認プロンプト、Lockdown Mode、コネクタ権限、Atlasの防御強化は有用だが、ユーザーのローカル自動化や外部ツール連携まで一律に守ってくれるわけではない。自分の環境でAIが実際に何を読めて、何を書けて、どこへ送れるかを棚卸しすることが、最初の安全対策になる。</p>
+<h2>参考リンク</h2>
+<ul>
+<li>OpenAI: Introducing ChatGPT agent: bridging research and action</li>
+</ul>
+<p><a href="https://openai.com/index/introducing-chatgpt-agent/">openai.com - index / introducing-chatgpt-agent</a></p>
+<ul>
+<li>OpenAI Help Center: ChatGPT agent</li>
+</ul>
+<p><a href="https://help.openai.com/en/articles/11752874-chatgpt-agent">help.openai.com - en / articles</a></p>
+<ul>
+<li>OpenAI: ChatGPT agent System Card</li>
+</ul>
+<p><a href="https://openai.com/index/chatgpt-agent-system-card/">openai.com - index / chatgpt-agent-system-card</a></p>
+<ul>
+<li>OpenAI: Continuously hardening ChatGPT Atlas against prompt injection attacks</li>
+</ul>
+<p><a href="https://openai.com/index/hardening-atlas-against-prompt-injection/">openai.com - index / hardening-atlas-against-prompt-injection</a></p>
+<ul>
+<li>OpenAI: Understanding prompt injections: a frontier security challenge</li>
+</ul>
+<p><a href="https://openai.com/index/prompt-injections/">openai.com - index / prompt-injections</a></p>
+    </article>
+  </main>
+</body>
+</html>
