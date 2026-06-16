@@ -13,6 +13,19 @@
     "url": "articles/2026-06-16_MCP_Python_SDK_v2_alpha.html"
   },
   {
+    "file": "Security/2026-06-16_AM_AI_Agent_Skill供給網リスク.md",
+    "slug": "2026-06-16_AM_AI_Agent_Skill供給網リスク",
+    "title": "AI Agent Skill供給網リスク",
+    "genre": "Security",
+    "genreLabel": "Security",
+    "created": "2026-06-16",
+    "source": "https://unit42.paloaltonetworks.com/ai-agent-supply-chain-risks/",
+    "importance": "high",
+    "confidence": "high",
+    "excerpt": "Unit 42の「Trust No Skill」は、AIエージェント用の第三者Skillを、モバイルアプリやブラウザ拡張と同じ供給網リスクとして扱うべきだと整理している。 ポイントは、Skillが単なる説明文や便利スクリプトではなく、エージェントの権限文脈でファイル、環境変数、ネットワーク、シェル実行へ触れる小さな実行パッケージだという点。悪意の有無は別とし...",
+    "url": "articles/2026-06-16_AM_AI_Agent_Skill供給網リスク.html"
+  },
+  {
     "file": "AI/2026-06-15_AM_企業AIエージェント事前保証.md",
     "slug": "2026-06-15_AM_企業AIエージェント事前保証",
     "title": "企業AIエージェント事前保証",

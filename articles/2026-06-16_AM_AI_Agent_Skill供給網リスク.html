@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI Agent Skill供給網リスク | 海外技術情報アーカイブ</title>
+  <meta name="description" content="Unit 42の「Trust No Skill」は、AIエージェント用の第三者Skillを、モバイルアプリやブラウザ拡張と同じ供給網リスクとして扱うべきだと整理している。 ポイントは、Skillが単なる説明文や便利スクリプトではなく、エージェントの権限文脈でファイル、環境変数、ネットワーク、シェル実行へ触れる小さな実行パッケージだという点。悪意の有無は別とし...">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-16</span>
+        <span>Security</span>
+        <span>importance: high</span>
+      </div>
+      <h1>AI Agent Skill供給網リスク</h1>
+<h2>要約</h2>
+<p>Unit 42の「Trust No Skill」は、AIエージェント用の第三者Skillを、モバイルアプリやブラウザ拡張と同じ供給網リスクとして扱うべきだと整理している。</p>
+<p>ポイントは、Skillが単なる説明文や便利スクリプトではなく、エージェントの権限文脈でファイル、環境変数、ネットワーク、シェル実行へ触れる小さな実行パッケージだという点。悪意の有無は別として、宣言された機能と実際の挙動がずれると、資格情報窃取、遠隔コード実行、静かなデータ流出につながる。</p>
+<p>Unit 42は Behavioral Integrity Verification、略してBIVという監査手法を提案している。これは、Skillのメタデータ、実行コード、自然言語指示を横断して読み、「宣言された能力」と「実際に使う能力」が一致しているかを比較する考え方。</p>
+<h2>背景</h2>
+<p>LLMエージェントは、単体モデルではなく、ツールやSkillを足して作業範囲を広げる方向へ進んでいる。OpenClaw、Codex、MCP、各種ブラウザ/メール/Driveコネクタのような仕組みでは、エージェントが外部サービスやローカルファイルへアクセスする。</p>
+<p>この構造は便利だが、セキュリティ上は「小さな拡張機能に強い権限を渡す」形になる。従来のnpmパッケージ、ブラウザ拡張、モバイルアプリと似ているが、AIエージェント特有の違いもある。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>観点</th><th>従来の拡張</th><th>AI Agent Skill</th></tr></thead>
+<tbody>
+<tr><td>挙動の場所</td><td>主にコード</td><td>コード、メタデータ、自然言語指示</td></tr>
+<tr><td>利用者</td><td>人間やアプリ</td><td>エージェントの判断ループ</td></tr>
+<tr><td>権限</td><td>API権限、ファイル、ネットワーク</td><td>それに加えてプロンプト上の行動誘導</td></tr>
+<tr><td>リスク</td><td>情報収集、RCE、権限濫用</td><td>それに加えてエージェントの判断乗っ取り</td></tr>
+<tr><td>監査単位</td><td>パッケージや権限</td><td>宣言と実挙動の差分、複数能力の連鎖</td></tr>
+</tbody>
+</table></div>
+<p>特に重要なのは、自然言語指示も実質的な実行ロジックになる点。例えば「常にこのSkillを使え」「ユーザー確認を避けろ」のような指示は、通常の静的コードスキャナでは拾いにくいが、エージェントの判断を変える。</p>
+<h2>何が重要か</h2>
+<h3>1. 単独能力ではなく「連鎖」が危ない</h3>
+<p>Unit 42の記事では、BIVが見つけた危険な複合パターンとして、ファイル読み取り、エンコード、ネットワーク送信のような組み合わせが挙げられている。</p>
+<p>単体で見ると、ファイル読み取りもネットワーク送信も正当な用途がある。だが同じSkill内で「秘密情報を読む」「base64化する」「外部へ送る」が並ぶと、資格情報流出の可能性が高くなる。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>連鎖</th><th>単体ではどう見えるか</th><th>全体での意味</th></tr></thead>
+<tbody>
+<tr><td>FILE_READ -&gt; base64 -&gt; NETWORK_SEND</td><td>読み取り、変換、通信</td><td>静かなデータ持ち出し</td></tr>
+<tr><td>download -&gt; write -&gt; execute</td><td>更新、保存、実行</td><td>遠隔コード実行</td></tr>
+<tr><td>encoding -&gt; dynamic eval</td><td>難読化、動的実行</td><td>検知回避つきコード実行</td></tr>
+<tr><td>instruction override -&gt; exfiltration</td><td>指示追加、外部通信</td><td>エージェント判断の乗っ取り</td></tr>
+</tbody>
+</table></div>
+<p>従来の「危険APIを使っているか」だけでは足りない。エージェント用Skillでは、能力の組み合わせと、宣言されていない組み合わせを見なければならない。</p>
+<h3>2. 多くは悪意ではなく仕様未成熟</h3>
+<p>arXiv版のBIV論文では、OpenClaw registryの49,943件のSkillを調査し、80.0%に宣言と挙動のズレがあったと報告している。ただし、ズレの多くは悪意ではなく、説明不足、テンプレート残り、補助コードの記載漏れのような開発者側の未成熟として分類されている。</p>
+<p>これは重要な読み替えが必要。数字だけを見ると「ほとんど危険」に見えるが、実務上の結論は「すべて拒否」ではない。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>層</th><th>見るべき状態</th><th>運用判断</th></tr></thead>
+<tbody>
+<tr><td>benign mismatch</td><td>説明不足、未使用宣言、補助コード</td><td>メタデータ修正、台帳更新</td></tr>
+<tr><td>single-stage suspicious</td><td>未宣言のcredential/env/network利用</td><td>手動レビュー、権限縮小</td></tr>
+<tr><td>multi-stage chain</td><td>秘密読み取りから送信、指示乗っ取りから外部送信</td><td>導入禁止または隔離検証</td></tr>
+</tbody>
+</table></div>
+<p>つまり、Skill監査は「脅威検知」だけでなく「仕様と権限を正しく記録する運用」でもある。</p>
+<h3>3. AIエージェント特有の監査対象がある</h3>
+<p>BIVの分類は、ネットワーク、ファイルシステム、プロセス実行、環境変数、エンコード、資格情報、instruction-level threatsを扱う。最後のinstruction-level threatsがAIエージェント特有の要点。</p>
+<p>コードの中に危険な関数がなくても、SKILL.mdやREADME、frontmatterの自然言語指示がエージェントの判断を変えることがある。これは「静的解析だけではSkill監査にならない」ことを意味する。</p>
+<p>自分の環境でも、Skillは単なるドキュメントではない。いつ使うか、何を読んでよいか、どのツールを呼んでよいか、ユーザー確認を必要とするかを決める実行ポリシーの一部として扱う必要がある。</p>
+<h3>4. OpenClaw/Codex運用に直結する</h3>
+<p>この話は企業向けだけではない。OpenClawやCodexで個人作業を任せる場合も、SkillやMCP、コネクタは同じ問題を持つ。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>対象</th><th>リスク</th><th>自分向けの対策</th></tr></thead>
+<tbody>
+<tr><td>OpenClaw Skill</td><td>自然言語指示で過剰なツール利用</td><td>SKILL.mdの差分確認、権限境界の明記</td></tr>
+<tr><td>MCPサーバ</td><td>広いAPI権限や外部送信</td><td>接続先、scope、ログの台帳化</td></tr>
+<tr><td>Codex subagent</td><td>親より広いファイル/ネットワーク利用</td><td>作業ディレクトリ、書き込み範囲、外部送信を明示</td></tr>
+<tr><td>Discord/メール送信</td><td>意図しない外部発信</td><td>送信前承認、チャンネル分離</td></tr>
+<tr><td>ローカルファイル操作</td><td>秘密情報や個人情報の読み過ぎ</td><td>Common/Obsidian/作業フォルダごとの扱い分離</td></tr>
+</tbody>
+</table></div>
+<p>特に、Skill追加時に「便利そうだから入れる」だけだと危ない。最低限、読み取り可能なファイル、外部通信、環境変数、シェル実行、外部投稿の有無を台帳に残すべき。</p>
+<h2>自分向けメモ</h2>
+<ul>
+<li>Skillは「ドキュメント」ではなく「エージェントに渡す実行権限パッケージ」として扱う。</li>
+<li>導入前チェックは、コードだけでなくSKILL.md、frontmatter、README、依存スクリプトまで見る。</li>
+<li>単体の危険APIより、<code>読む -&gt; 変換する -&gt; 送る</code> のような連鎖を優先して見る。</li>
+<li>OpenClawのスキル運用では、各Skillに「外部送信するか」「ローカル書き込みするか」「秘密情報に触るか」を短く記録する台帳がほしい。</li>
+<li>MCPサーバも同じ。ツール名だけではなく、接続先、scope、認証方式、ログの残り方を管理する。</li>
+<li>企業利用なら、Skill registryに入る前のBIV的チェックと、導入済みSkillの棚卸しを別プロセスにするのがよい。</li>
+<li>SAP/ERPエージェントでは、伝票、マスタ、認証情報、ジョブログを扱うSkillが出てくるはず。ここは通常の業務権限レビューと同じ重さで見る必要がある。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://unit42.paloaltonetworks.com/ai-agent-supply-chain-risks/">Unit 42 - Trust No Skill: Integrity Verification for AI Agent Supply Chains</a> - 主記事。BIVの考え方、OpenClaw registry調査、複合攻撃パターン、運用上のレビュー階層を説明。</li>
+<li><a href="https://arxiv.org/html/2605.11770">arXiv - Behavioral Integrity Verification for AI Agent Skills</a> - 論文版。49,943件のSkill調査、29能力分類、宣言と実挙動の比較、悪性Skill検出ベンチマークを説明。</li>
+<li><a href="https://arxiv.org/pdf/2603.00195">arXiv - Formal Analysis and Supply Chain Security for Agentic AI Skills</a> - エージェントSkillを検証可能な供給網アーティファクトとして見る関連研究。</li>
+<li><a href="https://arxiv.org/html/2605.13940v1">arXiv - AgentTrap: Measuring Runtime Trust Failures in Third-Party Agent Skills</a> - 第三者Skillの実行時トラスト失敗を測る関連研究。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>AI agent supply chain</li>
+<li>agent skills</li>
+<li>Behavioral Integrity Verification</li>
+<li>BIV</li>
+<li>OpenClaw registry</li>
+<li>MCP security</li>
+<li>skill governance</li>
+<li>credential exfiltration</li>
+<li>instruction override</li>
+<li>prompt injection</li>
+<li>third-party extensions</li>
+<li>supply-chain security</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://unit42.paloaltonetworks.com/ai-agent-supply-chain-risks/">unit42.paloaltonetworks.com - ai-agent-supply-chain-risks</a></p></section>
+    </article>
+  </main>
+</body>
+</html>
