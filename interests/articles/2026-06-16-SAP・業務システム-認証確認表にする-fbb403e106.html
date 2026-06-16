@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SAP Security Patch Day 2026年6月版をBasis向けSAML/認証確認表にする | 興味レポート</title>
+  <meta name="description" content="2026年6月9日のSAP Security Patch Dayは、SAP公式Bulletinで15件の新規Security Notesが公開された。Basis担当者が最初に見るべきは、SAP NetWeaver AS ABAP / ABAP PlatformのSAML Authenticationに関するXML Signature Wrapping脆弱性、...">
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../../interests/index.html">興味レポート</a>
+    <span class="site-subtitle">Public redacted interest reports</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 興味レポート一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-16T19:58:00+09:00</span>
+        <span>SAP・業務システム</span>
+        <span>interest_report</span>
+      </div>
+      <h1>SAP Security Patch Day 2026年6月版をBasis向けSAML/認証確認表にする</h1>
+<h2>要約</h2>
+<p>2026年6月9日のSAP Security Patch Dayは、SAP公式Bulletinで15件の新規Security Notesが公開された。Basis担当者が最初に見るべきは、SAP NetWeaver AS ABAP / ABAP PlatformのSAML Authenticationに関するXML Signature Wrapping脆弱性、Note 3746332 / CVE-2026-44748である。SAP公式ではCritical、CVSS 9.9、対象はSAP_BASIS 702、731、740、750から758、816、918、919とされている。</p>
+<p>同じ月には、Application Server ABAPのMemory Corruption、Commerce Cloud / Data HubのSpring Security関連、NetWeaver AS Java Web ContainerのDirectory TraversalなどもCriticalとして並ぶ。だが、個人向けに実務化するなら、まず「SAML/SSOを使っているABAP系システムがあるか」「該当SAP_BASISか」「即時パッチ不可ならSAMLを一時停止できるか」「外部公開・低権限ユーザーの到達性はどうか」を確認表に落とすのが効く。</p>
+<h2>なぜ今見る価値があるか</h2>
+<p>候補一覧に紐づくDiscordポールは読めたが、19:45 JST時点で投票数は0だった。そのため、重要度と個人適合度が高く、公開直後の公式情報で裏取りできる <code>2. SAP 6月Patch Day認証確認表</code> を選んだ。</p>
+<p>今回のポイントは、単なる脆弱性一覧ではなく「Basisが今日見る順番」にできること。SAML AuthenticationのXML Signature Wrappingは、SSOや認証基盤の信頼境界に関わる。SAP公式BulletinとOnapsisの解説を合わせると、通常権限の認証済み攻撃者が署名済みメッセージを悪用し、改ざんしたXMLのID情報が受け入れられる可能性があるという読みになる。これは、ABAP基盤、IdP連携、SAML設定、外部公開経路、緊急停止手順をまとめて確認する題材として使いやすい。</p>
+<h2>調査メモ</h2>
+<h3>1. 2026年6月Patch Dayの最優先はSAML Authentication</h3>
+<p>SAP公式の2026年6月Bulletinでは、6月9日に15件の新規Security Notesが公開されたとされている。先頭に掲載されているNote 3746332は、CVE-2026-44748、XML Signature Wrapping in SAML Authentication in SAP NetWeaver AS ABAP and ABAP Platformで、PriorityはCritical、CVSSは9.9。</p>
+<p>対象バージョンとして、SAP_BASIS 702、731、740、750、751、752、753、754、755、756、757、758、816、918、919が列挙されている。Basisの一次確認は「自社にSAML/SSOを有効化したABAP系システムがあるか」ではなく、その前に「該当SAP_BASISのABAP系システムを全部出す」から始める方が漏れにくい。</p>
+<h3>2. 同月のCriticalはSAMLだけではない</h3>
+<p>SAP公式Bulletinでは、SAMLのほかにも以下がCriticalとして並ぶ。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Note</th><th>CVE</th><th>対象</th><th>Priority / CVSS</th><th>Basis向け見方</th></tr></thead>
+<tbody>
+<tr><td>3746332</td><td>CVE-2026-44748</td><td>NetWeaver AS ABAP / ABAP Platform SAML Authentication</td><td>Critical / 9.9</td><td>SSO、SAML、ABAP基盤を最優先</td></tr>
+<tr><td>3717897</td><td>CVE-2026-27671</td><td>Application Server ABAP Memory Corruption</td><td>Critical / 9.8</td><td>Kernel/RFC到達性とパッチ計画</td></tr>
+<tr><td>3748262</td><td>CVE-2026-22732</td><td>SAP Commerce Cloud / SAP Data Hub</td><td>Critical / 9.1</td><td>Commerce/Data Hub利用有無</td></tr>
+<tr><td>3727078</td><td>CVE-2026-40128</td><td>NetWeaver AS Java Web Container</td><td>Critical / 9.0</td><td>Java系公開HTTP経路</td></tr>
+</tbody>
+</table></div>
+<p>Onapsisは、6月Patch Dayを「20件の新規・更新Security Notes、6件のHotNews、3件のHigh Priority」と整理している。SAP公式の「15件の新規Security Notes」と数字が違って見えるのは、Onapsisが更新Noteも含めて数えているためと読める。運用上は、公式Bulletinで新規Noteを押さえたうえで、ベンダー解説で更新Noteや攻撃条件を補うのがよい。</p>
+<h3>3. SAML/認証まわりのBasis確認表</h3>
+<div class="table-wrap"><table>
+<thead><tr><th>確認項目</th><th>具体的に見るもの</th><th>判断</th></tr></thead>
+<tbody>
+<tr><td>対象棚卸し</td><td>SAP_BASIS 702/731/740/750-758/816/918/919のABAP系SID</td><td>該当があればNote確認へ</td></tr>
+<tr><td>SAML利用</td><td>SAML 2.0設定、IdP連携、SSO有効化、利用URL</td><td>SAML利用ありなら最優先</td></tr>
+<tr><td>公開経路</td><td>Web Dispatcher、Reverse Proxy、VPN、社外公開、Fiori入口</td><td>社外到達性が高いほど優先</td></tr>
+<tr><td>攻撃条件</td><td>認証済み低権限ユーザーの有無、広い利用者母数</td><td>一般利用者が多い本番を優先</td></tr>
+<tr><td>暫定策</td><td>SAML停止可否、代替ログイン、IdP側制限、WAF/Firewall</td><td>パッチ遅延時の業務影響を確認</td></tr>
+<tr><td>適用方式</td><td>SAP Note、SNOTE、Support Package、検証環境</td><td>本番前にSSO回帰テスト</td></tr>
+<tr><td>監査</td><td>不自然なログオン、ユーザー切替、権限外データ参照</td><td>セキュリティ監視へ連携</td></tr>
+</tbody>
+</table></div>
+<p>Onapsisは、Note 3746332について一時的な回避策はSAML authenticationの無効化のみと説明している。これは業務影響が大きいので、現実的には「すぐ無効化する」ではなく、「パッチ適用までの間、どのシステムでSAML停止が許容できるか」「VPNやIP制限で入口を絞れるか」「高権限ロールを持つユーザーのログオン監視を強めるか」を並べて判断する。</p>
+<h3>4. 当日から48時間以内の動き方</h3>
+<ol>
+<li>SAP公式Bulletinを開き、Note 3746332、3717897、3748262、3727078を読む。</li>
+<li>SAP for Meで自社S-user権限を使い、Note本文、Correction Instruction、Prerequisite、Manual Activityを確認する。</li>
+<li>CMDBまたは手元台帳でSAP_BASISとKernelを突合する。</li>
+<li>SAML/SSO利用システムだけを別表に切り出す。</li>
+<li>本番、外部公開、利用者数、特権ユーザー利用の4軸で優先順位を決める。</li>
+<li>検証環境でSNOTEまたはSP適用後、ログオン、IdP連携、Fiori、RFC、ジョブ、重要業務トランザクションを回帰テストする。</li>
+<li>即時適用できないSIDは、暫定策、リスク受容者、期限を明記する。</li>
+</ol>
+<h3>5. Basis向けの報告文テンプレ</h3>
+<p>&gt; 2026年6月SAP Security Patch Dayで、ABAP PlatformのSAML AuthenticationにCritical/CVSS 9.9のNote 3746332が公開されました。該当SAP_BASISかつSAML/SSO利用の本番システムを優先して確認します。即時パッチ不可の場合は、SAML停止可否、入口制限、ログオン監視強化、リスク受容期限を個別に判断します。</p>
+<p>このレベルまで短くすると、セキュリティ部門、Basis、業務オーナーに同じ絵を見せやすい。Note番号、CVE、対象製品、業務影響、暫定策を1枚にするのが目的で、技術詳細を長く説明しすぎない方が動きやすい。</p>
+<h2>個人向けの読みどころ</h2>
+<p>YouTubeやObsidian記事にするなら、「SAP Patch Dayの読み方」ではなく「SAML/認証のNoteが出た時、Basisは何を先に確認するか」という切り口がよい。具体的には、SAP_BASIS棚卸し、SAML利用有無、外部公開経路、パッチ適用不可時の暫定策、SSO回帰テストの5点。</p>
+<p>SAP Basisの実務ネタとしては、Note番号を読むだけでは価値が弱い。視聴者や読者が使える形にするなら、「Criticalが出たらこの順で台帳を見る」「SAML停止は業務影響が大きいので代替策も併記する」「ベンダー解説は公式Noteの補助として使う」と説明すると刺さりやすい。</p>
+<h2>注意点</h2>
+<ul>
+<li>SAP Note本文の詳細、Correction Instruction、ダウンロードや適用条件はSAP for Me側で権限付き確認が必要。公開Bulletinだけで適用可否を断定しない。</li>
+<li>Onapsis、SecurityBridge、Pathlockなどのベンダー解説は有用だが、最終判断はSAP公式Noteと自社環境の棚卸しで行う。</li>
+<li>SAML無効化は業務ログインに大きく影響するため、緊急時でも代替ログイン、利用者影響、監査記録をセットで判断する。</li>
+<li>この記事は公開情報に基づく運用メモであり、特定環境への適用指示ではない。</li>
+</ul>
+<h2>参考リンク</h2>
+<ul>
+<li>SAP Support Portal: <a href="https://support.sap.com/en/my-support/knowledge-base/security-notes-news/june-2026.html">SAP Security Patch Day - June 2026</a></li>
+<li>SAP Support Portal: <a href="https://support.sap.com/en/my-support/knowledge-base/security-notes-news.html">SAP Security Notes &amp; News</a></li>
+<li>Onapsis: <a href="https://onapsis.com/blog/sap-security-patch-day-june-2026/">SAP Security Notes: June 2026 Patch Day</a></li>
+<li>SecurityBridge: <a href="https://securitybridge.com/blog/sap-security-patch-day-june-2026/">SAP Security Patch Day - June 2026</a></li>
+</ul>
+    </article>
+  </main>
+</body>
+</html>

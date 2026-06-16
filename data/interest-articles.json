@@ -100,6 +100,17 @@
   },
   {
     "file": "[入力元伏せ]",
+    "slug": "2026-06-16-SAP・業務システム-認証確認表にする-fbb403e106",
+    "title": "SAP Security Patch Day 2026年6月版をBasis向けSAML/認証確認表にする",
+    "category": "SAP・業務システム",
+    "created": "2026-06-16T19:58:00+09:00",
+    "status": "",
+    "type": "interest_report",
+    "excerpt": "2026年6月9日のSAP Security Patch Dayは、SAP公式Bulletinで15件の新規Security Notesが公開された。Basis担当者が最初に見るべきは、SAP NetWeaver AS ABAP / ABAP PlatformのSAML Authenticationに関するXML Signature Wrapping脆弱性、...",
+    "url": "interests/articles/2026-06-16-SAP・業務システム-認証確認表にする-fbb403e106.html"
+  },
+  {
+    "file": "[入力元伏せ]",
     "slug": "2026-06-13-SAP・業務システム-SAP-Sapphire-2026のAutonomous-EnterpriseとJo-8895de65c1",
     "title": "SAP Sapphire 2026のAutonomous EnterpriseとJoule StudioはBasis運用に何を要求するか",
     "category": "SAP・業務システム",
