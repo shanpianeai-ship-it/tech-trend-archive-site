@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SAP Business Data CloudとKnowledge GraphはJouleエージェントの「根拠レイヤー」になるか | 興味レポート</title>
+  <meta name="description" content="SAP Sapphire 2026後のSAP AIは、単なるチャットUIとしてのJouleではなく、SAP Business AI Platform、SAP Business Data Cloud、SAP Knowledge Graph、Joule Studioを組み合わせた「業務データに根拠づけられたエージェント基盤」へ寄せている。SAP公式は、Joule...">
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../../interests/index.html">興味レポート</a>
+    <span class="site-subtitle">Public redacted interest reports</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 興味レポート一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-17T19:56:00+09:00</span>
+        <span>SAP・業務システム</span>
+        <span>interest_report</span>
+      </div>
+      <h1>SAP Business Data CloudとKnowledge GraphはJouleエージェントの「根拠レイヤー」になるか</h1>
+<h2>要約</h2>
+<p>SAP Sapphire 2026後のSAP AIは、単なるチャットUIとしてのJouleではなく、SAP Business AI Platform、SAP Business Data Cloud、SAP Knowledge Graph、Joule Studioを組み合わせた「業務データに根拠づけられたエージェント基盤」へ寄せている。SAP公式は、Joule AgentsがSAP Knowledge GraphとSAP Business Data Cloudにより、データと業務プロセスを理解してビジネスアプリケーション上で動く、と説明している。</p>
+<p>Basis/運用目線で見ると、論点は「AIが賢いか」よりも「AIが参照するデータ、業務文脈、権限、監査証跡を誰が保証するか」に移る。BDCとKnowledge Graphは、Jouleエージェントの回答・実行を支える根拠レイヤーになり得るが、同時にマスタデータ品質、権限設計、データ製品のライフサイクル、例外時の責任境界が運用課題になる。</p>
+<h2>なぜ今見る価値があるか</h2>
+<p>SAPは2026年5月のSapphireでAutonomous Enterpriseを打ち出し、SAP Business AI Platformを「SAP BTP、SAP Business Data Cloud、SAP Business AIを統合したガバナンス済み環境」として位置づけた。Joule Studioも、企業がAI agents、applications、workflowsのライフサイクルを構築・管理するための新しい提供物として発表されている。</p>
+<p>これはBasis担当にとって、SAP AIがPoCのチャットボットから、本番業務フローに入り込む段階へ進むサインになる。AIが購買、財務、サプライチェーン、人事などの業務に関わるなら、従来のジョブ監視・権限管理・変更管理・インシデント対応に「エージェントが何を根拠に動いたか」を追跡する設計が必要になる。</p>
+<h2>調査メモ</h2>
+<p>SAP公式のJoule Agentsページでは、Joule AgentsはSAP Knowledge GraphとSAP Business Data Cloudに根拠づけられ、データとプロセスを理解してビジネスアプリケーション上で信頼性高く動く、と説明されている。ここで重要なのは、生成AIモデル単体ではなく、SAP側が持つ業務オブジェクト、プロセス、データ製品、権限境界を組み合わせている点。</p>
+<p>SAP Business Data Cloudについて、SAP NewsはHANA CloudをBDCの中核コンポーネントとして位置づけ、トランザクション、分析、グラフ、ベクトルなどのワークロードをまたいでエージェントが推論できるようにする、と説明している。また、SAP Master Data GovernanceをBDCの中核に入れることで、AI-readyなデータに対するガバナンスを組み込む構想も示している。これは、AI活用の成否がモデル性能だけでなく、マスタデータとポリシーの整備に依存することを意味する。</p>
+<p>Joule Studioは、SAP Business AI Platform上でエージェント、アプリケーション、ワークフローを構築・管理するための機能として発表された。公式発表では、SAP環境に存在するライブ業務データ、エンドツーエンドプロセス、業務セマンティクスにネイティブに根拠づけられる点が強調されている。つまり、個別部門が勝手にLLM連携を作るよりも、SAP側の統制下でエージェント開発を管理する方向が見える。</p>
+<p>SAP LearningのKnowledge Graph教材では、Knowledge Graphが業務プロセスとデータに関するSAPの専門知識を構造化し、AI agentsが関連する業務プロセス知識やデータ製品を辿れるようにする、と説明している。Basis担当が読むべき点は、Knowledge Graphが「回答の補助資料」ではなく、エージェントが業務文脈を解釈するための構造化レイヤーになっていることだ。</p>
+<p>独立系のBARCも、Joule Studioで作られる会社固有のJoule agentsやskillsがBDCとKnowledge Graphにアクセスし、業務シナリオにセマンティックな文脈を追加する、と整理している。公式発表を外から読むと、SAPの狙いは「ERPをAIに置き換える」よりも「ERP/BDC/Knowledge GraphをAI実行の業務コンテキスト層にする」ことに近い。</p>
+<h2>個人向けの読みどころ</h2>
+<p>Basisネタとしては、「Jouleを入れるか」よりも、導入前に確認すべきチェックリストへ落とすと使いやすい。</p>
+<ul>
+<li>どの業務データ製品がJoule Agentsの根拠として使われるか</li>
+<li>BDC上のデータ製品に、所有者、更新頻度、品質基準、廃止ルールがあるか</li>
+<li>Knowledge Graphが参照する業務オブジェクトと権限が、実際の職務分掌と一致しているか</li>
+<li>エージェントの実行ログ、参照データ、承認履歴を監査で追えるか</li>
+<li>AIの提案、半自動実行、自動実行のどこで人間承認を必須にするか</li>
+<li>障害時に、SAP標準、拡張、データ品質、AI推論、外部連携のどこを切り分けるか</li>
+</ul>
+<p>OpenClawや個人秘書エージェントにも同じ構図がある。AIに作業を任せるほど、「モデル」よりも「根拠として読ませるデータ」「外部送信前の承認」「ログとして残す粒度」が効いてくる。SAPのBDC/Knowledge Graphは、その企業版の大きな設計例として読める。</p>
+<h2>注意点</h2>
+<p>SAP Business Data CloudやJoule Studioの一部機能は、2026年後半の一般提供予定や段階的提供を含むため、すべての顧客環境で即時利用できる前提では読まない方がよい。実導入では契約、対象製品、リージョン、データ所在、既存SAPランドスケープ、BTP利用状況を個別に確認する必要がある。</p>
+<p>また、Knowledge Graphに根拠づけられることは、AIの判断が常に正しいことを意味しない。マスタデータが古い、権限ロールが粗い、例外業務が標準プロセスから外れている、承認フローが未整備、といった状態では、エージェントはもっともらしい誤動作を起こし得る。Basis/運用担当は、AI導入を「新機能追加」ではなく、データガバナンスと監査設計の変更として扱うべき。</p>
+<h2>参考リンク</h2>
+<ul>
+<li><a href="https://www.sap.com/products/artificial-intelligence/ai-agents.html">SAP: Joule Agents and Joule Assistants</a></li>
+<li><a href="https://news.sap.com/2026/05/sap-sapphire-sap-unveils-autonomous-enterprise/">SAP News: SAP Unveils the Autonomous Enterprise</a></li>
+<li><a href="https://news.sap.com/2026/05/sap-bdc-accelerate-autonomous-enterprise/">SAP News: Accelerate the Autonomous Enterprise with SAP Business Data Cloud</a></li>
+<li><a href="https://news.sap.com/2026/05/new-joule-studio-enterprise-scale-agentic-development/">SAP News: Announcing New Joule Studio for Enterprise Scale Agentic Development</a></li>
+<li><a href="https://learning.sap.com/courses/boosting-ai-driven-business-transformation-with-joule-agents/exploring-sap-knowledge-graph">SAP Learning: Exploring SAP Knowledge Graph</a></li>
+<li><a href="https://barc.com/sap-data-analytics-2026/">BARC: SAP data and analytics 2026</a></li>
+</ul>
+    </article>
+  </main>
+</body>
+</html>

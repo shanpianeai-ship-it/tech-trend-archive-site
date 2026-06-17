@@ -111,6 +111,17 @@
   },
   {
     "file": "[入力元伏せ]",
+    "slug": "2026-06-17-SAP・業務システム-SAP-Business-Data-CloudとKnowledge-GraphはJo-0bc1aec22c",
+    "title": "SAP Business Data CloudとKnowledge GraphはJouleエージェントの「根拠レイヤー」になるか",
+    "category": "SAP・業務システム",
+    "created": "2026-06-17T19:56:00+09:00",
+    "status": "",
+    "type": "interest_report",
+    "excerpt": "SAP Sapphire 2026後のSAP AIは、単なるチャットUIとしてのJouleではなく、SAP Business AI Platform、SAP Business Data Cloud、SAP Knowledge Graph、Joule Studioを組み合わせた「業務データに根拠づけられたエージェント基盤」へ寄せている。SAP公式は、Joule...",
+    "url": "interests/articles/2026-06-17-SAP・業務システム-SAP-Business-Data-CloudとKnowledge-GraphはJo-0bc1aec22c.html"
+  },
+  {
+    "file": "[入力元伏せ]",
     "slug": "2026-06-16-SAP・業務システム-認証確認表にする-fbb403e106",
     "title": "SAP Security Patch Day 2026年6月版をBasis向けSAML/認証確認表にする",
     "category": "SAP・業務システム",
