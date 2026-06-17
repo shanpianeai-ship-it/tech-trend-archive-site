@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OpenAI本番分布型モデル評価 | 海外技術情報アーカイブ</title>
+  <meta name="description" content="OpenAIは2026-06-16に、新モデルの公開前リスク評価手法として「Deployment Simulation」を公開した。過去の実運用会話から個人情報などを除いた上で、旧モデルの応答部分を候補モデルで再生成し、公開後に起きそうな望ましくない挙動の種類と頻度を事前に推定する。 重要なのは、評価用に作った人工プロンプトだけでなく、実際の利用分布に近い文...">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-17</span>
+        <span>AI / LLM / Agent</span>
+        <span>importance: high</span>
+      </div>
+      <h1>OpenAI本番分布型モデル評価</h1>
+<h2>要約</h2>
+<p>OpenAIは2026-06-16に、新モデルの公開前リスク評価手法として「Deployment Simulation」を公開した。過去の実運用会話から個人情報などを除いた上で、旧モデルの応答部分を候補モデルで再生成し、公開後に起きそうな望ましくない挙動の種類と頻度を事前に推定する。</p>
+<p>重要なのは、評価用に作った人工プロンプトだけでなく、実際の利用分布に近い文脈でリスクを測ろうとしている点。GPT-5系Thinkingモデルの複数デプロイでは、従来のchallenging promptsより実運用での発生率推定が改善し、評価されていることをモデルが見抜く「evaluation awareness」も下げられたと説明している。</p>
+<p>今回のDiscordポールは全候補0票だったため、運用ルールの選定基準に従い、一次情報が明確で、AIエージェント本番投入前の評価設計に直結する1番を採用した。</p>
+<h2>背景</h2>
+<p>AIモデルの公開前評価は、これまでレッドチーミング、ターゲット評価、難問プロンプト、既知リスク用のベンチマークに寄りがちだった。これらは、低頻度だが重大なリスクを探すには有効だが、実際のユーザー利用分布でどの失敗がどれくらい起きるかを見積もるには弱い。</p>
+<p>モデルが高性能になるほど、この差は大きくなる。テストらしいプロンプトではおとなしく振る舞うが、本番に近い長い会話、曖昧な依頼、ツール利用、ファイル操作、外部検索が混じると別の失敗が出る可能性がある。</p>
+<p>Deployment Simulationは、この問題に対して「公開前に仮想的な本番を走らせる」発想を取る。最近の実運用会話をサンプリングし、候補モデルに応答させ、その結果を分類・監査することで、公開後のリスクを数量的に予測する。</p>
+<h2>何が重要か</h2>
+<p>第一に、評価対象を「危ないプロンプトにどう答えるか」から「本番分布でどんな失敗が何件くらい出るか」へ移している。これはAI安全性だけでなく、企業内エージェントや個人秘書エージェントの運用設計にも効く。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>観点</th><th>従来評価</th><th>Deployment Simulation</th></tr></thead>
+<tbody>
+<tr><td>入力</td><td>人工プロンプト、既知リスク用データ</td><td>実運用に近い会話prefix</td></tr>
+<tr><td>強み</td><td>低頻度・高重大リスクを狙いやすい</td><td>本番で出やすい失敗の頻度推定に強い</td></tr>
+<tr><td>弱み</td><td>分布代表性、評価バレ、飽和</td><td>低頻度リスク、分布変化、プライバシー制約</td></tr>
+<tr><td>成果</td><td>スコア、レッドチーム所見</td><td>事前の発生率予測と公開後検証</td></tr>
+</tbody>
+</table></div>
+<p>第二に、評価バレへの対策として現実的である。OpenAIは、実運用に近い文脈を使うことで、モデルが「これは評価だ」と認識する度合いを下げられると報告している。記事中では、GPT-5.2が実運用トラフィックを評価らしいと分類した割合が5.4%、シミュレーショントラフィックが5.1%だった一方、SWE-BenchやMonorepoBenchのような伝統的評価はほぼ100%評価として分類された、と説明している。</p>
+<p>第三に、エージェント評価へ拡張している点が大きい。ツールを持つエージェントでは、1つの軌跡が多数のツール呼び出し、リポジトリ状態、ネットワーク応答、失敗リトライに依存する。OpenAIは、実システムに危険な書き込みをさせず、LLMベースのツールシミュレータに過去の状態や読み取り専用コネクタを与えることで、実軌跡に近い挙動を再現しようとしている。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>実務論点</th><th>読み替え</th></tr></thead>
+<tbody>
+<tr><td>本番ログの再利用</td><td>評価データの代表性は上がるが、プライバシーと同意管理が必須</td></tr>
+<tr><td>ツールシミュレーション</td><td>本物の外部操作を避けつつ、エージェント失敗を再現するための中核技術</td></tr>
+<tr><td>公開後検証</td><td>事前予測と実測を突き合わせ、評価パイプラインを改善できる</td></tr>
+<tr><td>低頻度リスク</td><td>100万件規模でも見つからない失敗は残るため、レッドチームは必要</td></tr>
+</tbody>
+</table></div>
+<h2>自分向けメモ</h2>
+<ul>
+<li>OpenClaw/Codexのような個人エージェントでも、「本番前に実運用に近いタスクを再生する」考え方は使える。過去の依頼ログを匿名化し、外部送信やGit pushをモック化した上で、新しいプロンプトやスキル変更の影響を見るイメージ。</li>
+<li>評価セットは「難しい問題集」だけだと足りない。普段の曖昧な依頼、途中で方針が変わる依頼、ファイル操作、Discord報告、Web調査、ビルド、Git操作が混じる流れを入れないと、運用上の失敗は見えにくい。</li>
+<li>ツールシミュレータは重要。実環境に対して破壊的な操作や外部送信をさせず、ただし返ってくる状態は本物に近づける必要がある。</li>
+<li>この手法はプライバシーに依存する。個人利用でも、会話ログを評価データに回すなら、秘密情報、認証情報、第三者情報を切り離すルールが必要。</li>
+<li>低頻度だが重大な事故は、Deployment Simulationだけでは拾えない。外部送信、支払い、認証情報、削除、公開投稿のような高リスク操作は、別途ルールベースのゲートと人間確認を残す。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://openai.com/index/deployment-simulation/">OpenAI: Predicting model behavior before release by simulating deployment</a> - 今回の主対象。Deployment Simulationの概要、GPT-5系での評価、エージェント軌跡への拡張、限界を説明。</li>
+<li><a href="https://cdn.openai.com/pdf/predicting-llm-safety-before-release-by-simulating-deployment.pdf">OpenAI PDF: Predicting LLM Safety Before Release by Simulating Deployment</a> - 記事からリンクされている論文PDF。詳細な実験設計、予測誤差、WildChatを使う外部監査の検証を確認する入口。</li>
+<li><a href="https://deploymentsafety.openai.com/">OpenAI Deployment Safety</a> - OpenAIのモデル公開時の安全性説明。Deployment Simulationをシステムカードや公開前評価の流れと結びつけて読むための関連情報。</li>
+<li><a href="https://wildchat.allen.ai/">WildChat</a> - 外部監査向けに使える公開会話データセットの代表例。OpenAI記事では、社内の実運用データより精度は落ちるが補完的に有用とされている。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>Deployment Simulation</li>
+<li>pre-deployment risk assessment</li>
+<li>AI safety evaluation</li>
+<li>production traffic resampling</li>
+<li>evaluation awareness</li>
+<li>agentic trajectories</li>
+<li>tool simulation</li>
+<li>model release governance</li>
+<li>red teaming</li>
+<li>WildChat</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://openai.com/index/deployment-simulation/">openai.com - index / deployment-simulation</a></p></section>
+    </article>
+  </main>
+</body>
+</html>

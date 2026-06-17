@@ -1,5 +1,18 @@
 [
   {
+    "file": "AI/2026-06-17_AM_OpenAI本番分布型モデル評価.md",
+    "slug": "2026-06-17_AM_OpenAI本番分布型モデル評価",
+    "title": "OpenAI本番分布型モデル評価",
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "created": "2026-06-17",
+    "source": "https://openai.com/index/deployment-simulation/",
+    "importance": "high",
+    "confidence": "high",
+    "excerpt": "OpenAIは2026-06-16に、新モデルの公開前リスク評価手法として「Deployment Simulation」を公開した。過去の実運用会話から個人情報などを除いた上で、旧モデルの応答部分を候補モデルで再生成し、公開後に起きそうな望ましくない挙動の種類と頻度を事前に推定する。 重要なのは、評価用に作った人工プロンプトだけでなく、実際の利用分布に近い文...",
+    "url": "articles/2026-06-17_AM_OpenAI本番分布型モデル評価.html"
+  },
+  {
     "file": "SAP_ERP/2026-06-17_ERPがAIの業務コンテキスト層へ.md",
     "slug": "2026-06-17_ERPがAIの業務コンテキスト層へ",
     "title": "ERPがAIの業務コンテキスト層へ",
