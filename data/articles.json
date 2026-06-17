@@ -1,5 +1,18 @@
 [
   {
+    "file": "SAP_ERP/2026-06-17_ERPがAIの業務コンテキスト層へ.md",
+    "slug": "2026-06-17_ERPがAIの業務コンテキスト層へ",
+    "title": "ERPがAIの業務コンテキスト層へ",
+    "genre": "SAP_ERP",
+    "genreLabel": "SAP / ERP",
+    "created": "2026-06-17",
+    "source": "https://erp.today/sap-executives-ai-erp-strategy-sapphire-2026/",
+    "importance": "medium",
+    "confidence": "high",
+    "excerpt": "ERP Todayの記事は、SAP Sapphire 2026でSAP幹部が語った「AI時代にERPが再び事業戦略の中心へ戻る」という見立てを整理している。ポイントは、AIエージェントそのものではなく、AIが正しく動くための業務データ、プロセス、権限、監査、例外処理をERPが握っているという点。 SAP公式発表でも、Autonomous Enterprise...",
+    "url": "articles/2026-06-17_ERPがAIの業務コンテキスト層へ.html"
+  },
+  {
     "file": "AI/2026-06-16_MCP_Python_SDK_v2_alpha.md",
     "slug": "2026-06-16_MCP_Python_SDK_v2_alpha",
     "title": "MCP Python SDK v2 alpha",

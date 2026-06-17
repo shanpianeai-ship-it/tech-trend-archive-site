@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ERPがAIの業務コンテキスト層へ | 海外技術情報アーカイブ</title>
+  <meta name="description" content="ERP Todayの記事は、SAP Sapphire 2026でSAP幹部が語った「AI時代にERPが再び事業戦略の中心へ戻る」という見立てを整理している。ポイントは、AIエージェントそのものではなく、AIが正しく動くための業務データ、プロセス、権限、監査、例外処理をERPが握っているという点。 SAP公式発表でも、Autonomous Enterprise...">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-17</span>
+        <span>SAP / ERP</span>
+        <span>importance: medium</span>
+      </div>
+      <h1>ERPがAIの業務コンテキスト層へ</h1>
+<h2>要約</h2>
+<p>ERP Todayの記事は、SAP Sapphire 2026でSAP幹部が語った「AI時代にERPが再び事業戦略の中心へ戻る」という見立てを整理している。ポイントは、AIエージェントそのものではなく、AIが正しく動くための業務データ、プロセス、権限、監査、例外処理をERPが握っているという点。</p>
+<p>SAP公式発表でも、Autonomous EnterpriseはSAP Business AI Platform、SAP Business Data Cloud、SAP Business AIを統合し、AIエージェントを業務プロセス、データ、ガバナンスへ接続する構想として説明されている。つまりERPは「入力と転記の画面」から、「AIが業務判断に使うコンテキスト層」へ役割を広げようとしている。</p>
+<p>Basis/ERP運用目線では、これはAI機能の追加ニュースではなく、ERP近代化、clean core、データ意味定義、権限設計、ログ設計をAI戦略と分離できなくなるという話として読むべき内容。</p>
+<h2>背景</h2>
+<p>生成AIやAIエージェントの文脈では、チャットUIや個別モデルの性能に注目が集まりやすい。しかし企業業務では、AIが「何を根拠に、どの範囲で、誰の責任で、どの操作を実行してよいか」を決める必要がある。</p>
+<p>SAPはSapphire 2026で、SAP Business AI Platform、SAP Autonomous Suite、Joule Work、SAP Knowledge Graph、Joule Studioなどをまとめて提示した。SAP News Centerの発表では、AIエージェントを業務プロセス、データ、ガバナンスに根付かせ、正確・準拠・安全な成果を出すことが強調されている。</p>
+<p>Bainも、ERPの将来価値は単なるトランザクション処理ではなく、企業内のデータ、業務コンテキスト、オーケストレーション層を誰が握るかへ移っていると整理している。これはERPが不要になるというより、AIが強くなるほど、監査可能で追跡可能な記録システムの重要性が増すという見方に近い。</p>
+<h2>何が重要か</h2>
+<h3>ERPは記録システムから文脈システムへ寄る</h3>
+<p>従来のERPは、受注、購買、在庫、会計、人事などのトランザクションを正しく記録する基盤だった。AI時代のERPには、それに加えて「この伝票はどの業務プロセス上のどの状態か」「この顧客・品目・組織・契約にはどの制約があるか」をAIが参照できる形で渡す役割が求められる。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>観点</th><th>従来のERP</th><th>AI時代のERP</th><th>運用論点</th></tr></thead>
+<tbody>
+<tr><td>主目的</td><td>正確な記録と転記</td><td>AIが使う業務コンテキスト提供</td><td>意味定義とマスタ品質</td></tr>
+<tr><td>UI</td><td>画面操作、帳票、承認</td><td>Jouleやエージェント経由の業務入口</td><td>操作権限と責任分界</td></tr>
+<tr><td>データ</td><td>モジュール別の業務データ</td><td>横断的なデータ・プロセス関係</td><td>BDC、Knowledge Graph、連携範囲</td></tr>
+<tr><td>統制</td><td>人間ユーザー中心</td><td>人間とAIエージェントの混在</td><td>agent identity、監査、停止条件</td></tr>
+<tr><td>価値</td><td>業務標準化と証跡</td><td>業務判断・実行の土台</td><td>clean coreと例外処理</td></tr>
+</tbody>
+</table></div>
+<h3>AI単体では業務を閉じられない</h3>
+<p>LLMは文書理解や推論は得意でも、企業ごとの品目体系、価格条件、承認階層、与信、在庫制約、会計ルールを標準では知らない。ERP Todayの記事が示す「AIでERPが中心に戻る」という論点はここにある。</p>
+<p>AIエージェントが業務を進めるには、ERPや周辺システムから次の情報を安全に取れる必要がある。</p>
+<ul>
+<li>どのデータが正で、どれが参考情報か。</li>
+<li>どの業務状態なら次アクションに進めるか。</li>
+<li>誰の権限で、どの操作を実行できるか。</li>
+<li>例外が出たとき、誰へ戻すか。</li>
+<li>実行前後にどの証跡を残すか。</li>
+</ul>
+<p>ここが未整理のままAIを入れると、自然言語UIは便利でも、裏側では既存の例外運用、古いカスタム、権限の曖昧さを増幅する。</p>
+<h3>clean coreはAI導入の前提条件になりつつある</h3>
+<p>clean coreは、これまではアップグレード容易性や保守性の文脈で語られがちだった。Sapphire 2026以降は、AIが安定して業務文脈を読めるかどうかにも直結する。</p>
+<p>過剰な独自拡張、部門別の例外マスタ、属人的な承認迂回、未整理の外部連携が多い環境では、AIエージェントに正しい文脈を渡しにくい。結果として、AI導入の前にアプリ棚卸し、カスタム整理、権限整理、データ統合、API公開範囲の再設計が必要になる。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>整備対象</th><th>AIへの影響</th><th>Basis/ERP側の確認</th></tr></thead>
+<tbody>
+<tr><td>マスタデータ</td><td>推論・検索の前提になる</td><td>重複、命名、組織範囲、廃止データ</td></tr>
+<tr><td>権限ロール</td><td>AIの参照・実行範囲を決める</td><td>人間代理か、システム主体か</td></tr>
+<tr><td>カスタムコード</td><td>標準AI機能との接続性に影響</td><td>clean core準拠、API化、保守責任</td></tr>
+<tr><td>ログ/監査</td><td>誤実行時の追跡に必須</td><td>agent操作、承認、却下、再実行</td></tr>
+<tr><td>外部連携</td><td>業務横断エージェントの経路</td><td>データ境界、同期遅延、例外処理</td></tr>
+</tbody>
+</table></div>
+<h3>ベンダー競争は「モデル」より「業務文脈」へ移る</h3>
+<p>SAPはAnthropic、AWS、Google Cloud、Microsoft、NVIDIA、Palantirなどとの提携を示している。これはSAPが単独モデルで勝負するというより、モデルや外部エージェントをSAPの業務文脈へ接続する側に立つ戦略と見える。</p>
+<p>Constellation Researchも、Sapphire 2026の発表は「SAPの業務データがAI展開上の堀になる」という主張に集約できると見ている。Salesforce、ServiceNow、Microsoft、Workdayも同じように、自社アプリ群をAIの業務入口にしようとしているため、今後の競争軸は「どのLLMが賢いか」だけではなく「誰のデータモデルと業務プロセスを信頼するか」になる。</p>
+<h2>自分向けメモ</h2>
+<ul>
+<li>SAPのAI戦略は、Jouleのチャット体験だけでなく、Business Data Cloud、Knowledge Graph、権限、監査、clean coreをまとめて見る。</li>
+<li>ERP近代化提案では「AIを使いたいなら、先にERPのデータと権限を整える」という言い方がしやすくなっている。</li>
+<li>Basis観点では、AIエージェントを新しい技術ユーザー種別として扱う準備が必要。所有者、権限、接続先、ログ、停止方法を決める。</li>
+<li>AI導入の成否はモデル選定だけでは決まらない。品目、得意先、仕入先、組織、勘定、承認経路などの意味が揃っているかが効く。</li>
+<li>「ERPは古い、AIが置き換える」という話には注意。むしろAIが実業務へ入るほど、監査可能なsystem of recordとsystem of contextが必要になる。</li>
+<li>公開記事では「SAP寄りの主張」と「CIO/運用者が現実に見るべき前提」を分けて説明する。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://erp.today/sap-executives-ai-erp-strategy-sapphire-2026/">ERP Today - SAP Executives Say AI Is Pushing ERP Back to the Center of Business Strategy</a>: 今回の選定記事。SAP幹部インタビューを通じて、AIがERP近代化と業務文脈の重要性を押し戻している点を整理。</li>
+<li><a href="https://news.sap.com/2026/05/sap-sapphire-sap-unveils-autonomous-enterprise/">SAP News Center - SAP Unveils the Autonomous Enterprise</a>: SAP公式発表。SAP Business AI Platform、SAP Knowledge Graph、Joule Studio、Autonomous Suiteの全体像。</li>
+<li><a href="https://www.sap.com/topics/events/sapphire/innovation-news-guide-2026">SAP - Sapphire 2026 Innovation News Guide</a>: 公式ニュースガイド。Claude連携、SAP Domain Models、HANA Cloud in SAP Business Data Cloud、Joule Studioなどの詳細確認用。</li>
+<li><a href="https://www.bain.com/insights/sap-sapphire-2026-erp-moves-beyond-transactions-to-orchestration/">Bain - SAP Sapphire 2026: ERP Moves Beyond Transactions to Orchestration</a>: ERPがtransaction処理からcontext/orchestration層へ広がるという分析。</li>
+<li><a href="https://www.constellationr.com/insights/news/sap-sapphire-2026-sap-makes-its-case-it-should-your-autonomous-enterprise-platform">Constellation Research - SAP makes its case that it should be your autonomous enterprise platform</a>: SAPの業務データとプロセス文脈をAI展開の差別化要素として読む分析。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>SAP Sapphire 2026</li>
+<li>ERP modernization</li>
+<li>Autonomous Enterprise</li>
+<li>SAP Business AI Platform</li>
+<li>SAP Business Data Cloud</li>
+<li>SAP Knowledge Graph</li>
+<li>Joule</li>
+<li>Joule Work</li>
+<li>clean core</li>
+<li>system of context</li>
+<li>business context</li>
+<li>agent identity</li>
+<li>ERP governance</li>
+<li>SAP Basis</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://erp.today/sap-executives-ai-erp-strategy-sapphire-2026/">erp.today - sap-executives-ai-erp-strategy-sapphire-2026</a></p></section>
+    </article>
+  </main>
+</body>
+</html>
