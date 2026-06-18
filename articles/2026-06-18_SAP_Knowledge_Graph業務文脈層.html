@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SAP Knowledge Graphが業務AIの文脈層に | 海外技術情報アーカイブ</title>
+  <meta name="description" content="SAP Knowledge Graphは、JouleやSAP上のAIエージェントに対して、SAPシステム内の業務データ、メタデータ、プロセス、エンティティ間の関係を文脈として渡すためのレイヤー。SAP公式は、AIを「正しいデータ」に接地させることで幻覚を避け、自然言語でSAPソリューションのトランザクション情報へアクセスし、エージェントがタスク実行に必要な情...">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-18</span>
+        <span>SAP / ERP</span>
+        <span>importance: medium-high</span>
+      </div>
+      <h1>SAP Knowledge Graphが業務AIの文脈層に</h1>
+<h2>要約</h2>
+<p>SAP Knowledge Graphは、JouleやSAP上のAIエージェントに対して、SAPシステム内の業務データ、メタデータ、プロセス、エンティティ間の関係を文脈として渡すためのレイヤー。SAP公式は、AIを「正しいデータ」に接地させることで幻覚を避け、自然言語でSAPソリューションのトランザクション情報へアクセスし、エージェントがタスク実行に必要な情報を見つけられるようにすると説明している。</p>
+<p>今回のDiscordポールでは7番「SAP Knowledge Graph」が1票で最多だったため採用した。前日の「ERPがAIの業務コンテキスト層へ」という大きな流れに対して、今回はその中核部品であるKnowledge Graphを、Basis/ERP運用目線で切り出して整理する。</p>
+<p>結論として、これは単なるAI検索機能ではなく、「SAPの業務意味論をAIエージェントへ渡す基盤」と見るべき。AI導入の論点はモデル性能だけでなく、マスタ品質、権限、データ製品、CDS/ABAPメタデータ、監査ログ、clean coreへ広がる。</p>
+<h2>背景</h2>
+<p>企業内AIで難しいのは、LLMが一般知識を持っていても、自社の品目、仕入先、組織、承認経路、会計ルール、在庫制約を標準では知らないこと。単純なRAGで文書を検索しても、ERPのテーブル関係、CDSビュー、業務プロセス上の意味、権限範囲までは十分に扱えない。</p>
+<p>SAP Learningでは、SAP Knowledge GraphはLLMに明示的な意味とエンティティ間関係を与え、AI出力の不正確さや幻覚を減らすものとして説明されている。また、SAP S/4HANAのKnowledge Graphは、452,000のABAPテーブル、80,000のCDSビュー、7.3百万のフィールドを土台にするとされている。</p>
+<p>SAP Sapphire 2026以降の文脈では、SAP Business AI Platform、SAP Business Data Cloud、Joule Studio、Joule Work、SAP Autonomous Suiteがまとめて語られている。Knowledge Graphはその中で、エージェントが業務データを「読める」だけでなく、意味と関係をたどって判断できるようにする部品に近い。</p>
+<h2>何が重要か</h2>
+<h3>RAGではなく業務意味論の問題</h3>
+<p>ERPの世界では、「似た文書を検索できる」だけでは足りない。購買発注、仕入先、品目、製造拠点、請求、会計転記、承認権限は相互に接続されており、AIエージェントが誤った関係を前提に動くと、業務影響が大きい。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>観点</th><th>一般的な文書RAG</th><th>SAP Knowledge Graph</th></tr></thead>
+<tbody>
+<tr><td>主対象</td><td>文書、FAQ、ナレッジ記事</td><td>SAPの業務データ、メタデータ、関係性</td></tr>
+<tr><td>得意なこと</td><td>類似文書の検索と要約</td><td>エンティティ、プロセス、制約の関係把握</td></tr>
+<tr><td>弱いところ</td><td>テーブル関係、権限、業務状態</td><td>SAP外データ品質や実装範囲に依存</td></tr>
+<tr><td>実務価値</td><td>問い合わせ効率化</td><td>AIエージェントの判断根拠と実行前提</td></tr>
+</tbody>
+</table></div>
+<p>SAP Learningが指摘する通り、単純なベクトル検索はテキスト内の関係性を見落としやすい。ERPではこの関係性こそが重要で、例えば「この納期遅延はどの仕入先、どの製造ライン、どの顧客納品、どの売上影響につながるか」をたどる必要がある。</p>
+<h3>AIエージェントの権限設計に直結する</h3>
+<p>Knowledge GraphがAIに文脈を渡すなら、Basis/ERP運用側の論点は「AIがどこまで見えて、どこまで実行できるか」になる。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>運用論点</th><th>確認したいこと</th></tr></thead>
+<tbody>
+<tr><td>参照権限</td><td>Jouleやエージェントが読むデータは人間ユーザー権限に従うのか、専用主体を持つのか</td></tr>
+<tr><td>実行権限</td><td>自然言語の依頼から購買、会計、在庫、ワークフロー操作まで進めてよい範囲</td></tr>
+<tr><td>監査ログ</td><td>AIが参照した根拠、提案、実行、却下、人間承認を追跡できるか</td></tr>
+<tr><td>マスタ品質</td><td>仕入先、得意先、品目、組織、勘定の重複や意味揺れをどう扱うか</td></tr>
+<tr><td>例外処理</td><td>グラフ上の関係が不足・矛盾・古い場合に、AIが停止して人間へ戻せるか</td></tr>
+</tbody>
+</table></div>
+<p>この観点では、Knowledge Graphは便利機能というより、AI導入前の統制棚卸しを可視化する装置でもある。曖昧なロール設計、古いカスタム、部門独自マスタ、影響範囲が見えない外部連携は、AIエージェント時代にそのままリスクになる。</p>
+<h3>SAPの差別化軸はモデルではなく業務文脈</h3>
+<p>SAPは汎用LLMそのものを単独で競うより、SAPが持つ業務アプリ、データモデル、プロセス知識、権限、監査にAIを接続する立場を取っている。Knowledge Graphはその象徴的な部品。</p>
+<p>Futurumの分析も、SAP Knowledge GraphをAutonomous Enterpriseの文脈層として位置づけ、汎用モデルが苦手な構造化データ、テーブルロジック、業務依存関係を補うものと見ている。記事では、標準的なRAGは非構造テキストには向くが、ERPの関係性には弱いという整理がされている。</p>
+<p>重要なのは、これがSAPだけの話ではないこと。Salesforce、ServiceNow、Microsoft、Workdayなども、自社アプリ群のデータモデルをAIエージェントの文脈層にしようとしている。今後の企業AIの競争軸は、「どのLLMが賢いか」から「どの業務文脈を信頼して実行させるか」へ寄っていく。</p>
+<h3>Basis/ERP運用で見ておく項目</h3>
+<div class="table-wrap"><table>
+<thead><tr><th>領域</th><th>見るべきポイント</th><th>理由</th></tr></thead>
+<tbody>
+<tr><td>BDC/Datasphere</td><td>データ製品、外部データ連携、ゼロコピー連携</td><td>SAP内外の文脈をAIに渡す入口になる</td></tr>
+<tr><td>CDS/メタデータ</td><td>標準・拡張CDS、意味定義、命名</td><td>AIが業務意味を理解する土台になる</td></tr>
+<tr><td>権限</td><td>人間権限継承、agent identity、職務分掌</td><td>AIの参照・実行範囲を制御する</td></tr>
+<tr><td>clean core</td><td>カスタム棚卸し、API化、標準準拠</td><td>グラフや標準AI機能との接続性に効く</td></tr>
+<tr><td>ログ/監査</td><td>根拠、提案、承認、実行履歴</td><td>誤判断時の追跡と説明責任に必須</td></tr>
+</tbody>
+</table></div>
+<h2>自分向けメモ</h2>
+<ul>
+<li>SAP Knowledge Graphは「Jouleの検索精度改善」ではなく、「ERPの意味関係をAIへ渡す基盤」として見る。</li>
+<li>AI導入前チェックリストに、マスタ重複、CDSビュー整理、権限ロール、技術ユーザー、外部連携、監査ログを入れる。</li>
+<li>「AIが業務を自動実行する」話は、結局データ品質と権限設計へ戻る。Basis/ERP側の地味な整備がAIの成否に直結する。</li>
+<li>Knowledge GraphがSAP管理の事前構築グラフを提供するなら、顧客独自拡張や非SAPデータをどう接続・説明・監査するかが実装上の焦点になる。</li>
+<li>前日のERP文脈層ノートと合わせて、公開ブログでは「ERPはAIに置き換えられるのではなく、AIが業務を理解するための文脈基盤になる」と説明すると分かりやすい。</li>
+<li>提案時は「モデル選定」より先に、「AIに見せるデータの意味、参照範囲、実行範囲、停止条件」を確認する。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://www.sap.com/products/artificial-intelligence/knowledge-graph.html">SAP - SAP Knowledge Graph</a>: 今回の主対象。SAP Knowledge Graphの位置づけ、Joule連携、自然言語クエリ、AIエージェントによるSAPデータアクセスを確認する公式ページ。</li>
+<li><a href="https://learning.sap.com/courses/boosting-ai-driven-business-transformation-with-joule-agents/exploring-sap-knowledge-graph">SAP Learning - Exploring SAP Knowledge Graph</a>: SAP公式Learning。LLMの幻覚、単純RAGの限界、GraphRAG、S/4HANA Knowledge Graphの規模、エージェント文脈を説明。</li>
+<li><a href="https://www.techradar.com/pro/almost-right-just-isnt-good-enough-sap-ceo-unveils-the-autonomous-enterprise-with-ai-at-the-core">TechRadar Pro - SAP CEO unveils the Autonomous Enterprise</a>: Sapphire 2026の外部報道。Business AI Platform、Knowledge Graph、Joule Studio、Autonomous Suiteの全体像を確認する補助情報。</li>
+<li><a href="https://futurumgroup.com/insights/precision-over-prose-why-sap-knowledge-graph-is-the-secret-to-production-ready-ai/">Futurum - Why SAP Knowledge Graph is the Secret to Production-Ready AI</a>: Knowledge Graphを本番AIの文脈層、標準RAGの限界、SAP-RPT-1.5やBDCと合わせて読む分析。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>SAP Knowledge Graph</li>
+<li>Joule</li>
+<li>SAP Business AI Platform</li>
+<li>SAP Business Data Cloud</li>
+<li>SAP Business Suite</li>
+<li>GraphRAG</li>
+<li>semantic model</li>
+<li>business context</li>
+<li>agentic AI</li>
+<li>SAP S/4HANA</li>
+<li>CDS views</li>
+<li>ABAP tables</li>
+<li>clean core</li>
+<li>agent identity</li>
+<li>ERP governance</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://www.sap.com/products/artificial-intelligence/knowledge-graph.html">sap.com - products / artificial-intelligence</a></p></section>
+    </article>
+  </main>
+</body>
+</html>

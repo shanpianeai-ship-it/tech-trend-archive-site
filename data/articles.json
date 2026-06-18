@@ -1,5 +1,18 @@
 [
   {
+    "file": "SAP_ERP/2026-06-18_SAP_Knowledge_Graph業務文脈層.md",
+    "slug": "2026-06-18_SAP_Knowledge_Graph業務文脈層",
+    "title": "SAP Knowledge Graphが業務AIの文脈層に",
+    "genre": "SAP_ERP",
+    "genreLabel": "SAP / ERP",
+    "created": "2026-06-18",
+    "source": "https://www.sap.com/products/artificial-intelligence/knowledge-graph.html",
+    "importance": "medium-high",
+    "confidence": "high",
+    "excerpt": "SAP Knowledge Graphは、JouleやSAP上のAIエージェントに対して、SAPシステム内の業務データ、メタデータ、プロセス、エンティティ間の関係を文脈として渡すためのレイヤー。SAP公式は、AIを「正しいデータ」に接地させることで幻覚を避け、自然言語でSAPソリューションのトランザクション情報へアクセスし、エージェントがタスク実行に必要な情...",
+    "url": "articles/2026-06-18_SAP_Knowledge_Graph業務文脈層.html"
+  },
+  {
     "file": "AI/2026-06-17_AM_OpenAI本番分布型モデル評価.md",
     "slug": "2026-06-17_AM_OpenAI本番分布型モデル評価",
     "title": "OpenAI本番分布型モデル評価",
