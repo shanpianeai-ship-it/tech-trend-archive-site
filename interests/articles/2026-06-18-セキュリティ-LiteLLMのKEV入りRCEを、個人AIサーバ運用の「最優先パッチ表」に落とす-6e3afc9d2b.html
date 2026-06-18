@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LiteLLMのKEV入りRCEを、個人AIサーバ運用の「最優先パッチ表」に落とす | 興味レポート</title>
+  <meta name="description" content="CISAは2026-06-08、BerriAI LiteLLMのCVE-2026-42271をKnown Exploited Vulnerabilities Catalogへ追加した。NVDとGitHub Advisory系の情報では、影響範囲はLiteLLM 1.74.2以上、1.83.7未満。MCPサーバ接続を保存前に試験するためのエンドポイントで、認証...">
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../../interests/index.html">興味レポート</a>
+    <span class="site-subtitle">Public redacted interest reports</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 興味レポート一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-18 19:42 JST</span>
+        <span>セキュリティ</span>
+        <span>interest_report</span>
+      </div>
+      <h1>LiteLLMのKEV入りRCEを、個人AIサーバ運用の「最優先パッチ表」に落とす</h1>
+<h2>要約</h2>
+<p>CISAは2026-06-08、BerriAI LiteLLMのCVE-2026-42271をKnown Exploited Vulnerabilities Catalogへ追加した。NVDとGitHub Advisory系の情報では、影響範囲はLiteLLM 1.74.2以上、1.83.7未満。MCPサーバ接続を保存前に試験するためのエンドポイントで、認証済みユーザーが細工した入力を使うとコマンド実行につながる、という整理になっている。</p>
+<p>個人のAIサーバ運用で見るべき点は、「LiteLLMを使っているか」だけではない。AI Gateway、MCP Gateway、ローカル実験用プロキシ、コンテナ内の一時環境が、外部ネットワークやブラウザ操作エージェントから到達できる形になっていないかをまとめて棚卸しする必要がある。</p>
+<h2>なぜ今見る価値があるか</h2>
+<p>KEV入りは「理論上危ない」ではなく、既に悪用確認がある脆弱性として扱われる。CISAの拘束力は米国連邦機関向けだが、個人運用でも優先順位付けのシグナルとして強い。</p>
+<p>LiteLLMは、OpenAI互換APIのプロキシ、複数LLMベンダーの統合、MCP連携の入口として使われやすい。つまり侵害されると、単なるWebアプリ1つではなく、APIキー、ツール実行権限、ローカルファイルや社内向け接続情報に波及しやすい。</p>
+<h2>調査メモ</h2>
+<ul>
+<li>CISAは2026-06-08のアラートで、BerriAI LiteLLMとCheck Point Security Gatewayの2件をKEV Catalogへ追加した。CVE-2026-42271は「既知悪用あり」として扱う。</li>
+<li>NVDの説明では、LiteLLMはOpenAI形式またはネイティブ形式でLLM APIを呼ぶプロキシサーバで、影響バージョンは1.74.2から1.83.7未満。修正済みバージョンは1.83.7。</li>
+<li>問題の中心はMCPサーバを保存前にプレビューする2つのエンドポイント。<code>POST /mcp-rest/test/connection</code> と、同系統のツール試験エンドポイントが言及されている。</li>
+<li>LiteLLM公式ドキュメントは、LiteLLM ProxyがMCP Gatewayとして機能し、キーやチーム単位でMCPアクセスを制御できると説明している。これは便利な一方、Gateway自体の認証境界が破られた時の被害が大きいことも意味する。</li>
+<li>MCPのゼロトラスト認証ドキュメントでは、MCPサーバがLiteLLM経由のリクエストか直接到達かを区別できない場合、アクセス制御を迂回されうる点が示されている。CVE対応だけでなく、直アクセス遮断も点検対象にする。</li>
+</ul>
+<h2>個人向けの読みどころ</h2>
+<p>最初にやるべきことは、環境にLiteLLMがいるかの確認。Docker、Python仮想環境、古い実験ディレクトリ、常駐サービスを横断して <code>litellm</code> の利用有無とバージョンを見る。見つかったら1.83.7以上へ更新し、更新できないものは停止する。</p>
+<p>次に、AI Gatewayの到達経路を確認する。ローカルホスト限定のつもりでも、Dockerのポート公開、Tailscale、ngrok、Cloudflare Tunnel、リバースプロキシ設定で外から見えていることがある。MCPやツール実行を扱うプロキシは、普通のLLMチャットAPIより危険度を一段上げて見る。</p>
+<p>OpenClaw周辺では、LiteLLMを直接使っていなくても「外部から叩けるAIプロキシ」「MCPサーバへ橋渡しするプロセス」「APIキーを持つ実験コンテナ」を同じ棚に入れて点検するとよい。最小チェック表は次の通り。</p>
+<ol>
+<li>LiteLLMの有無とバージョンを確認する。</li>
+<li>1.83.7未満なら更新、停止、またはネットワーク遮断する。</li>
+<li>MCP試験・管理系エンドポイントを公開ネットワークに出さない。</li>
+<li>管理UI、APIキー、チームキーを使い回さない。</li>
+<li>MCPサーバへ直接到達できる経路を閉じる。</li>
+<li>コンテナはrootless、読み取り専用、最小権限、必要な環境変数だけで動かす。</li>
+<li>侵害前提でAPIキーをローテーションできる手順を作る。</li>
+</ol>
+<h2>注意点</h2>
+<p>現時点の公開情報だけでは、実際の悪用キャンペーンの規模や侵入後の挙動までは十分に確認できない。記事内のバージョン、エンドポイント、修正状況は2026-06-18時点の公開情報に基づく。</p>
+<p>また、PoCや攻撃手順の再現は不要。個人運用で重要なのは、脆弱性の細部を試すことではなく、該当バージョンの排除、到達経路の縮小、APIキーとMCP権限の分離である。</p>
+<h2>参考リンク</h2>
+<ul>
+<li>CISA: CISA <a href="https://www.cisa.gov/news-events/alerts/2026/06/08/cisa-adds-two-known-exploited-vulnerabilities-catalog">Adds Two Known Exploited Vulnerabilities to Catalog, 2026-06-08</a></li>
+<li>CISA: <a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog">Known Exploited Vulnerabilities Catalog</a></li>
+<li>NVD: <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-42271">CVE-2026-42271 Detail</a></li>
+<li>OSV: <a href="https://osv.dev/vulnerability/GHSA-v4p8-mg3p-g94g">GHSA-v4p8-mg3p-g94g</a></li>
+<li>LiteLLM Docs: <a href="https://docs.litellm.ai/docs/mcp">MCP Overview</a></li>
+<li>LiteLLM Docs: <a href="https://docs.litellm.ai/docs/mcp_zero_trust">MCP Zero Trust Auth</a></li>
+</ul>
+    </article>
+  </main>
+</body>
+</html>

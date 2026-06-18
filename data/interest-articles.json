@@ -254,6 +254,17 @@
   },
   {
     "file": "[入力元伏せ]",
+    "slug": "2026-06-18-セキュリティ-LiteLLMのKEV入りRCEを、個人AIサーバ運用の「最優先パッチ表」に落とす-6e3afc9d2b",
+    "title": "LiteLLMのKEV入りRCEを、個人AIサーバ運用の「最優先パッチ表」に落とす",
+    "category": "セキュリティ",
+    "created": "2026-06-18 19:42 JST",
+    "status": "",
+    "type": "interest_report",
+    "excerpt": "CISAは2026-06-08、BerriAI LiteLLMのCVE-2026-42271をKnown Exploited Vulnerabilities Catalogへ追加した。NVDとGitHub Advisory系の情報では、影響範囲はLiteLLM 1.74.2以上、1.83.7未満。MCPサーバ接続を保存前に試験するためのエンドポイントで、認証...",
+    "url": "interests/articles/2026-06-18-セキュリティ-LiteLLMのKEV入りRCEを、個人AIサーバ運用の「最優先パッチ表」に落とす-6e3afc9d2b.html"
+  },
+  {
+    "file": "[入力元伏せ]",
     "slug": "2026-06-16-セキュリティ-IronWorm型npm攻撃からAIコーディング環境の資格情報を守る-070526d81b",
     "title": "Miasma/IronWorm型npm攻撃からAIコーディング環境の資格情報を守る",
     "category": "セキュリティ",
