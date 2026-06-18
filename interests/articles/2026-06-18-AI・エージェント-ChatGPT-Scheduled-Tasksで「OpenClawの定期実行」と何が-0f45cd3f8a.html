@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ChatGPT Scheduled Tasksで「OpenClawの定期実行」と何が重なり、何が違うのか | 興味レポート</title>
+  <meta name="description" content="OpenAIは2026年6月17日のChatGPTリリースノートで、Scheduled tasksを大きく更新しました。新しいScheduledページ、作成・編集フローの改善、実行時刻の柔軟化、通知改善、監視タスクが主な変更点です。ユーザーはリマインダー、定期作業、変化監視をChatGPTに頼めるようになり、ChatGPTが「会話したら答える道具」から「指定...">
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../../interests/index.html">興味レポート</a>
+    <span class="site-subtitle">Public redacted interest reports</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 興味レポート一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-18T19:49:00+09:00</span>
+        <span>AI・エージェント</span>
+        <span>interest_report</span>
+      </div>
+      <h1>ChatGPT Scheduled Tasksで「OpenClawの定期実行」と何が重なり、何が違うのか</h1>
+<h2>要約</h2>
+<p>OpenAIは2026年6月17日のChatGPTリリースノートで、Scheduled tasksを大きく更新しました。新しいScheduledページ、作成・編集フローの改善、実行時刻の柔軟化、通知改善、監視タスクが主な変更点です。ユーザーはリマインダー、定期作業、変化監視をChatGPTに頼めるようになり、ChatGPTが「会話したら答える道具」から「指定したタイミングで自分から動く個人秘書」に寄ってきています。</p>
+<p>OpenClaw cronと重なるのは、定期実行、調査、通知、日次ブリーフィング、監視という用途です。一方で、性格はかなり違います。ChatGPT Scheduled TasksはChatGPT内のユーザー体験として扱いやすく、通知やアプリ連携を含む軽い定期チェックに向きます。OpenClaw cronはローカルファイル、CLI、Git、Discord、Obsidian、Pagesビルドのような実作業を組み合わせ、成功条件を自分で厳密に定義する運用に向きます。</p>
+<p>今回の興味レポート自動化で言えば、ChatGPT Scheduled Tasksは「毎日、候補を見て通知する」までは自然に合います。しかし「Discordポールを読み、Markdownを書き、候補一覧frontmatterを更新し、サイトをビルドし、git commit/pushし、公開URLをHTTP 200で確認し、結果をDiscordへ報告する」という一連の完了条件は、OpenClaw cronの方が適しています。</p>
+<h2>なぜ今見る価値があるか</h2>
+<p>個人のOpenClaw運用は、すでに「定期実行するAI秘書」の実例になっています。興味レポート、X投稿在庫、PSA台帳、Obsidian整理、Discord報告のように、ローカルの文脈と外部サービスをまたぐ処理が増えています。そこへChatGPT本体のScheduled Tasksが強化されたので、どちらに何を任せるかを整理する価値があります。</p>
+<p>OpenAI公式ヘルプでは、Scheduled Tasksは一回限り・定期実行のタスクを作れるだけでなく、ChatGPTに変化を確認させ、意味のある更新があったときだけ通知させる用途も説明されています。2026年6月17日のリリースノートでは、タスク一覧ページで次回実行予定を確認し、pause/resume/edit/deleteできること、morning/afternoon/eveningのような幅を持つ時間指定、接続アプリやWebを使った監視、1時間に1回を超えて実行できない制約も示されています。</p>
+<p>これは「秘書的な定期チェック」が一般ユーザー向けUIに降りてきたということです。逆に言えば、OpenClaw側でやるべきことは、単なるリマインダーではなく、ローカル実行・検証・公開・ログ更新まで含む、ChatGPTのScheduled Tasksでは扱いにくい作業に寄せるのが自然です。</p>
+<h2>調査メモ</h2>
+<p>OpenAIのリリースノートでは、Scheduled tasksの用途を「reminders」「recurring work」「monitor things」と整理しています。今回の更新では、Scheduledページがサイドバーから見つけられるようになり、アクティブなタスク、次回実行、停止、再開、編集、削除を1か所で扱えるようになったと説明されています。管理UIが整備されたことで、実験的なモデル選択肢ではなく、ChatGPT本体の継続機能として扱う段階に入ったと見てよさそうです。</p>
+<p>専用ヘルプ記事では、Scheduledページから新規タスクを作る方法に加えて、会話内で「荷物が届いたら教えて」のように頼んでタスクを作る方法も説明されています。ただし、プロジェクト内でファイルを持つタスクを作っても、そのタスクはプロジェクトファイルへアクセスできないという注意があります。OpenClawのようにローカルvaultやPages repoを直接読む前提とは、ここが大きく違います。</p>
+<p>利用制限も重要です。ヘルプ記事では、TasksはProモデル以外のChatGPTモデルでサポートされ、プラン別の利用制限が適用されるとされています。アクティブタスク上限は、Goが3、Plusが5、Business/Eduが10、Pro/Enterpriseが15です。また、タスクは1時間に1回を超えて実行できず、放置されたタスクは一定期間後に自動停止することがあります。分単位の厳密な自動化や、多数の細かいcronを積む使い方には向きません。</p>
+<p>アプリ連携については、Gmailのような対応アプリをタスクから使える場合がある一方、権限はユーザーやワークスペース設定に依存します。Business/Enterpriseでは、管理者がアプリ利用や許可条件を制御できます。OpenAIのEnterprise/Eduリリースノートでも、2026年6月8日に接続アプリのApp permissionsが説明されており、読み取りは自動化しつつ、重要な外部アクションでは確認を求めるような統制が示されています。これは、OpenClawで「外部送信は確認」「内部ファイル処理は自由」という境界を置いている考え方に近いです。</p>
+<p>OpenClaw cron側の強みは、実行環境をこちらで持てることです。たとえばこのレポート自動化では、Discordポールの票を読む、候補一覧Markdownを更新する、調査ノートを特定フォルダへ保存する、<code>node scripts/build.mjs</code> を実行する、git commit/pushする、公開URLをcurlで確認する、結果報告をDiscordへ送る、という完了条件を明示できます。これはChatGPT Scheduled Tasksの「通知してくれる定期タスク」より、CI/CDに近い運用です。</p>
+<p>一方で、OpenClaw cronは自分で安全策を設計する必要があります。失敗時に成功扱いにしない、ツールが使えない場合は止める、投票読み取りだけで完了にしない、外部送信は意図したチャンネルだけにする、内部パスや個人情報を公開記事に出さない、というルールを毎ジョブに埋め込む必要があります。ChatGPT Scheduled Tasksはこのあたりをプロダクト側のUIと権限管理で包み、OpenClawは運用ルールとコードで包む、という違いです。</p>
+<h2>個人向けの読みどころ</h2>
+<p>使い分けの基準は「完了条件が通知で足りるか、ローカルの成果物まで必要か」です。天気、軽いリマインダー、週次の関心トピック通知、アプリ内情報の変化確認のように、ChatGPT内で完結するものはScheduled Tasksに向きます。Obsidianノート作成、CSV台帳更新、GitHub Pages公開、画像ファイル処理、Discordポール連動のように、ローカルファイルとCLIの実行結果が成果物になるものはOpenClaw cronに残すべきです。</p>
+<p>興味レポート自動化は、OpenClaw cron向きの典型です。候補作成だけならChatGPT Scheduled Tasksでも近いことはできますが、候補一覧frontmatter、投票ID、公開Markdown、サイトHTML、git履歴、公開URL確認までを1つの成功条件にするには、ローカル実行の制御が必要です。今回のように「Discord読み取りが使えなければ失敗」「git pushまで終わらなければ成功扱いにしない」といった硬い条件は、OpenClaw側で管理した方がよいです。</p>
+<p>ただし、Scheduled TasksはOpenClaw運用の補助には使えます。たとえば「OpenClawのcron結果チャンネルに未完了報告がないか毎朝確認する」「興味レポートの公開が止まっていないかざっくり知らせる」「個人が読むだけでよいニュースを朝にまとめる」といった、人間向けの軽い監視には向いています。OpenClawが実行系、ChatGPT Scheduled Tasksが人間向けの通知・振り返り系、という分担が現実的です。</p>
+<h2>注意点</h2>
+<p>Scheduled Tasksは、現時点ではWebhooksをサポートしていないと公式ヘルプに書かれています。そのため、外部イベントをトリガーに即時起動する自動化ではなく、定時または一定間隔の確認に向きます。OpenClaw cronや外部CIのような、イベント駆動・シェル実行・Git操作を前提にした仕組みとは用途が違います。</p>
+<p>また、ChatGPT内のタスクは実行頻度とアクティブ数に制限があります。1時間未満の間隔で監視したい、複数の細かいジョブを多数持ちたい、失敗時に再試行や代替経路を組みたい、実行ログをファイルとして残したい、という要求が強い場合はOpenClaw cronの方が扱いやすいです。</p>
+<p>最後に、Connected appsを使うタスクは便利ですが、権限境界を雑にすると「読める情報」と「外に出してよい情報」が混ざります。OpenClawでも同じですが、公開記事化する処理では、内部パス、個人情報、資産額、具体地名、未公開メモを本文に混ぜないルールを明示する必要があります。Scheduled Tasksを使う場合も、通知内容がどこへ届くか、どのアプリを読めるか、外部アクション前に確認が入るかを確認してから使うべきです。</p>
+<h2>参考リンク</h2>
+<ul>
+<li>OpenAI Help Center: ChatGPT Release Notes, Scheduled tasks in ChatGPT, 2026-06-17</li>
+</ul>
+<p><a href="https://help.openai.com/en/articles/6825453-chatgpt-release-notes">help.openai.com - en / articles</a></p>
+<ul>
+<li>OpenAI Help Center: Scheduled Tasks in ChatGPT</li>
+</ul>
+<p><a href="https://help.openai.com/en/articles/10291617-tasks-in-chatgpt">help.openai.com - en / articles</a></p>
+<ul>
+<li>OpenAI Help Center: ChatGPT Enterprise &amp; Edu Release Notes, App permissions for connected apps</li>
+</ul>
+<p><a href="https://help.openai.com/en/articles/10128477-chatgpt-enterprise-edu-release-notes">help.openai.com - en / articles</a></p>
+<ul>
+<li>OpenClaw運用ルール: 興味レポート自動化_運用ルール.md</li>
+</ul>
+    </article>
+  </main>
+</body>
+</html>

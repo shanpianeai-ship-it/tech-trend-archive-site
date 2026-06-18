@@ -12,6 +12,17 @@
   },
   {
     "file": "[入力元伏せ]",
+    "slug": "2026-06-18-AI・エージェント-ChatGPT-Scheduled-Tasksで「OpenClawの定期実行」と何が-0f45cd3f8a",
+    "title": "ChatGPT Scheduled Tasksで「OpenClawの定期実行」と何が重なり、何が違うのか",
+    "category": "AI・エージェント",
+    "created": "2026-06-18T19:49:00+09:00",
+    "status": "",
+    "type": "interest_report",
+    "excerpt": "OpenAIは2026年6月17日のChatGPTリリースノートで、Scheduled tasksを大きく更新しました。新しいScheduledページ、作成・編集フローの改善、実行時刻の柔軟化、通知改善、監視タスクが主な変更点です。ユーザーはリマインダー、定期作業、変化監視をChatGPTに頼めるようになり、ChatGPTが「会話したら答える道具」から「指定...",
+    "url": "interests/articles/2026-06-18-AI・エージェント-ChatGPT-Scheduled-Tasksで「OpenClawの定期実行」と何が-0f45cd3f8a.html"
+  },
+  {
+    "file": "[入力元伏せ]",
     "slug": "2026-06-17-AI・エージェント-VisaとOpenAIのChatGPT決済連携で「買い物エージェント」の権限設計はど-e52d31a320",
     "title": "VisaとOpenAIのChatGPT決済連携で「買い物エージェント」の権限設計はどう変わるか",
     "category": "AI・エージェント",
