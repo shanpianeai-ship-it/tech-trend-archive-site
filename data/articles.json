@@ -13,6 +13,19 @@
     "url": "articles/2026-06-18_SAP_Knowledge_Graph業務文脈層.html"
   },
   {
+    "file": "SAP_ERP/2026-06-18_AM_SAP_for_Me_Joule統合.md",
+    "slug": "2026-06-18_AM_SAP_for_Me_Joule統合",
+    "title": "SAP for MeのJoule統合はサポートポータルのエージェント化",
+    "genre": "SAP_ERP",
+    "genreLabel": "SAP / ERP",
+    "created": "2026-06-18",
+    "source": "https://news.sap.com/2026/06/sap-launches-joule-in-sap-for-me/",
+    "importance": "high",
+    "confidence": "high",
+    "excerpt": "SAPは2026年6月11日、SAP for MeにJouleを統合したと発表した。SAP for Meは顧客・パートナーがサポート、アラート、メトリクス、製品ポートフォリオ情報にアクセスする入口であり、ここにJouleを入れることで、クリックして探すポータルから、会話で意図を伝え、案内を受け、必要な作業へ進む入口へ変える狙いがある。 今回のDiscordポ...",
+    "url": "articles/2026-06-18_AM_SAP_for_Me_Joule統合.html"
+  },
+  {
     "file": "AI/2026-06-17_AM_OpenAI本番分布型モデル評価.md",
     "slug": "2026-06-17_AM_OpenAI本番分布型モデル評価",
     "title": "OpenAI本番分布型モデル評価",
