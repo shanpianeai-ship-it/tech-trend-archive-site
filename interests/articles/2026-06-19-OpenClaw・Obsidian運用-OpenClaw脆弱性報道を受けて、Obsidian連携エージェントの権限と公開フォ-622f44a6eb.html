@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OpenClaw脆弱性報道を受けて、Obsidian連携エージェントの権限と公開フォルダを棚卸しする | 興味レポート</title>
+  <meta name="description" content="2026年に入って、OpenClawのようなローカル常駐型AIエージェントは「便利な自動化ツール」ではなく、ファイル、ブラウザ、メッセージ、実行コマンド、認証情報へまたがる新しい操作主体として扱うべきだ、という報道と研究が増えている。 Oasis Securityは、悪意あるWebサイトからローカルのOpenClawエージェントを乗っ取れる脆弱性チェーンを公...">
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../../interests/index.html">興味レポート</a>
+    <span class="site-subtitle">Public redacted interest reports</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 興味レポート一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-19T19:55:00+09:00</span>
+        <span>OpenClaw・Obsidian運用</span>
+        <span>interest_report</span>
+      </div>
+      <h1>OpenClaw脆弱性報道を受けて、Obsidian連携エージェントの権限と公開フォルダを棚卸しする</h1>
+<h2>要約</h2>
+<p>2026年に入って、OpenClawのようなローカル常駐型AIエージェントは「便利な自動化ツール」ではなく、ファイル、ブラウザ、メッセージ、実行コマンド、認証情報へまたがる新しい操作主体として扱うべきだ、という報道と研究が増えている。</p>
+<p>Oasis Securityは、悪意あるWebサイトからローカルのOpenClawエージェントを乗っ取れる脆弱性チェーンを公表した。TechRadarの解説では、ローカルWebSocket gateway、弱い認証、接続済みノード、コマンド実行権限が組み合わさると、単一エージェントの侵害がワークステーション侵害に近い意味を持つと整理されている。IBM X-Forceも、ブラウザ操作、SSH、ファイルシステム、コンテナ、メッセージ連携、LLMが一体化することで攻撃面が広がると指摘している。</p>
+<p>個人の運用に落とすなら、まず見るべきは「AIが何をできるか」ではなく、「どのフォルダ、どの送信先、どの公開先、どの認証情報に触れるか」である。特にObsidian vault、Discord送信、GitHub Pages公開、ローカルのファイル受け渡しは、日次cronの便利さと誤公開・誤送信リスクが同じ場所にある。</p>
+<p>今回のDiscordポールは全選択肢0票だったため、候補一覧から重要度と個人適合度が高いこのテーマを選んだ。選定理由は、今日の興味レポート自動化そのものが、ファイル読み書き、Discord、Git、公開URL確認を横断するためである。</p>
+<h2>なぜ今見る価値があるか</h2>
+<p>AIエージェントのリスクは、単体の脆弱性だけでは見落としやすい。OpenClawのような常駐エージェントは、外部コンテンツを読み、ローカルファイルへアクセスし、コマンドを実行し、DiscordやGitHubへ結果を出せる。これは人間の代行に近い一方、攻撃者から見ると「複数の権限が束ねられた入口」になる。</p>
+<p>OasisのClawJacked報告は、任意のWebサイトがローカルエージェントへ到達できる前提が崩れると、プラグイン追加や明示クリックなしでも乗っ取りが起こり得ることを示した。TechRadarの2026-06-08記事は、AIエージェントを「業務アクター」と見なし、インベントリ、パッチ、最小権限、非人間IDとしての統制、監査ログを求めている。</p>
+<p>Obsidian側も同じ発想で見る必要がある。Obsidian公式のPlugin security文書は、Community pluginsがObsidianと同じアクセス権を継承し、コンピュータ上のファイルアクセス、インターネット接続、追加プログラムのインストールが可能になり得ると説明している。つまり、Obsidian vaultはローカルで閉じた安全地帯ではなく、プラグイン、同期、AIエージェント、公開ビルドの境界を持つ作業空間として扱うべきである。</p>
+<h2>調査メモ</h2>
+<p>Oasis Securityの報告では、OpenClawのローカルgatewayと接続ノードの信頼関係が焦点になっている。研究者は、Webサイト経由でローカルのAIエージェントを乗っ取れる脆弱性チェーンを発見し、OpenClaw側は高 severity として24時間以内に修正したとされる。実務上の読み替えは、「localhostだから安全」「自分のPC内だから外部から触れない」という前提を置かないことだ。</p>
+<p>TechRadarの解説は、OpenClawをShadow AIの例として扱う。個人が便利だから導入したエージェントが、認証情報を持ち、メッセージやカレンダーへ接続し、コマンドを実行し、ITやセキュリティの監視外で動く。この構図は企業だけではなく、個人の趣味事務でもほぼ同じである。特に、日次cronが増えると「自分で見ていない時間に公開・送信が起きる」状態になる。</p>
+<p>IBM X-Forceは、エージェントの攻撃面を、UI、メッセージ連携、ブラウザ自動化、SSH、コンテナ、ファイルシステム、LLMが結合したものとして捉えている。これはOpenClawを単なるLLMチャットではなく、ホスト上の操作レイヤーとして見るべきだという整理である。</p>
+<p>Barracudaのチェックリストも、個人運用へ落としやすい。エージェントをインターネットへ直接出さない、専用VMやコンテナで隔離する、権限を狭くする、外部入力を敵対的に扱う、ログを残す、Shadow AIを見える化する、という方向性である。</p>
+<p>Obsidianについては、公式ヘルプの説明が重要だ。Restricted Modeは第三者コード実行を防ぐための初期状態だが、Community pluginsを有効化すると、プラグインはObsidianと同等のアクセス権を持つ。AIエージェントがObsidian vaultを読む場合も、公開対象フォルダと非公開フォルダの境界を人間側で明確にしておく必要がある。</p>
+<h2>個人向けの読みどころ</h2>
+<p>最初に棚卸しするのは、エージェント単位ではなく「権限の束」である。</p>
+<ol>
+<li>読める場所: Obsidian vault、[内部パス]</li>
+<li>書ける場所: Report配下、候補一覧、公開用Markdown、Pages repo、ログ、メモリファイル。</li>
+<li>送れる先: Discord要アクション、Discord結果報告、GitHub push、将来のメールやSNS。</li>
+<li>読む外部入力: Webページ、Discord返信、添付ファイル、受け渡しフォルダ内の未確認ファイル。</li>
+<li>公開される成果物: GitHub Pages、添付Markdown、Discord本文、コミット履歴。</li>
+</ol>
+<p>この5分類で見ると、興味レポート自動化の安全設計がかなり明確になる。候補一覧や調査ノートはObsidian管理でよいが、公開ビルドが拾うのは <code>publish: true</code> の調査ノートだけにする。候補一覧、運用ルール、内部メモ、台帳、未確認ファイルは公開対象にしない。現在のビルドスクリプトは候補一覧を除外する設計になっているが、記事本文側でも内部パスや不要な個人情報を書かない方がよい。</p>
+<p>次に、cronごとの最小権限を考える。</p>
+<ul>
+<li>候補作成cron: Web検索、候補一覧Markdown作成、Discordポール作成まで。Git pushは不要。</li>
+<li>記事作成cron: 候補一覧読取、Discordポール読取、Web調査、Markdown作成、ビルド、Git push、Discord報告まで。</li>
+<li>台帳更新系cron: 台帳CSVと確認済みフォルダだけ。GitHub PagesやObsidian全体は不要。</li>
+<li>画像処理系タスク: 入力画像、出力フォルダ、生成ログだけ。DiscordやGit pushは原則不要。</li>
+</ul>
+<p>実装上すぐできる小さな対策は、権限表を1枚作ることだ。各cronについて、読むフォルダ、書くフォルダ、送信先、公開先、失敗時に止める条件をMarkdownで固定する。さらに、受け渡しフォルダの直下は未確認ファイル専用、確認済みファイルは別フォルダへ移すという既存ルールを維持し、AIが未確認ファイルを公開記事へ直接混ぜないようにする。</p>
+<p>OpenClaw本体については、一般論として以下を優先する。</p>
+<ol>
+<li>OpenClawと関連プラグインを最新化する。</li>
+<li>gatewayやブラウザ制御を公開ネットワークへ出さない。</li>
+<li>Discord、GitHub、ブラウザ、ファイル操作のログを残す。</li>
+<li>外部Webページ、Discord返信、添付ファイルを信頼済み命令として扱わない。</li>
+<li>公開フォルダと非公開フォルダを分け、公開ビルド側にも除外条件を置く。</li>
+<li>送信・公開を伴うcronは、成功条件を「ファイル作成」ではなく「公開URL確認と結果報告完了」までにする。</li>
+</ol>
+<h2>注意点</h2>
+<p>この記事は公開情報に基づく運用メモであり、特定環境の侵害有無を診断するものではない。OpenClawの脆弱性情報は更新が速く、バージョン番号や修正状況は利用中の公式リリース、ローカルの更新状態、実際の設定で確認する必要がある。</p>
+<p>また、Obsidian Community pluginsやOpenClaw skillsを危険物として一律に避ける必要はない。重要なのは、第三者コードや外部入力が、どの権限で、どのフォルダと送信先に触れるかを明示することだ。</p>
+<p>公開記事では、個人情報、内部パス、資産額、具体的な居住地、非公開トークン、未確認ファイルの内容を扱わない。サイトビルド側で伏せる仕組みがあっても、元Markdownに不要な情報を書かない方が安全である。</p>
+<h2>参考リンク</h2>
+<ul>
+<li>Oasis Security: ClawJacked: <a href="https://www.oasis.security/blog/openclaw-vulnerability">OpenClaw Vulnerability Enables Full Agent Takeover</a></li>
+<li>TechRadar: What the OpenClaw <a href="https://www.techradar.com/pro/what-the-openclaw-vulnerability-reveals-about-the-future-of-agentic-ai-security">vulnerability reveals about the future of agentic AI security</a></li>
+<li>IBM X-Force: <a href="https://www.ibm.com/think/x-force/what-openclaw-reveals-about-agentic-ai-security-risks">What OpenClaw reveals about agentic AI security risks</a></li>
+<li>Barracuda: OpenClaw security risks: <a href="https://blog.barracuda.com/2026/04/09/openclaw-security-risks-agentic-ai">What security teams need to know about agentic AI</a></li>
+<li>Obsidian Help: <a href="https://github.com/obsidianmd/obsidian-help/blob/master/en/Extending%20Obsidian/Plugin%20security.md">Plugin security</a></li>
+</ul>
+    </article>
+  </main>
+</body>
+</html>

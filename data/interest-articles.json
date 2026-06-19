@@ -155,6 +155,17 @@
   },
   {
     "file": "[入力元伏せ]",
+    "slug": "2026-06-19-OpenClaw・Obsidian運用-OpenClaw脆弱性報道を受けて、Obsidian連携エージェントの権限と公開フォ-622f44a6eb",
+    "title": "OpenClaw脆弱性報道を受けて、Obsidian連携エージェントの権限と公開フォルダを棚卸しする",
+    "category": "OpenClaw・Obsidian運用",
+    "created": "2026-06-19T19:55:00+09:00",
+    "status": "",
+    "type": "interest_report",
+    "excerpt": "2026年に入って、OpenClawのようなローカル常駐型AIエージェントは「便利な自動化ツール」ではなく、ファイル、ブラウザ、メッセージ、実行コマンド、認証情報へまたがる新しい操作主体として扱うべきだ、という報道と研究が増えている。 Oasis Securityは、悪意あるWebサイトからローカルのOpenClawエージェントを乗っ取れる脆弱性チェーンを公...",
+    "url": "interests/articles/2026-06-19-OpenClaw・Obsidian運用-OpenClaw脆弱性報道を受けて、Obsidian連携エージェントの権限と公開フォ-622f44a6eb.html"
+  },
+  {
+    "file": "[入力元伏せ]",
     "slug": "2026-06-17-SAP・業務システム-SAP-Business-Data-CloudとKnowledge-GraphはJo-0bc1aec22c",
     "title": "SAP Business Data CloudとKnowledge GraphはJouleエージェントの「根拠レイヤー」になるか",
     "category": "SAP・業務システム",
