@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AIエージェント用ブラウザを、普段使いブラウザから分けるべきか | 興味レポート</title>
+  <meta name="description" content="2026年のChromium系ブラウザでは、V8を中心に「既に悪用確認あり」とされる脆弱性が複数KEV入りしている。直近ではCISAが2026-06-09にCVE-2026-11645をKnown Exploited Vulnerabilities Catalogへ追加し、GoogleもChrome Stable更新で同CVEの悪用を確認している。3月にもV...">
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../../interests/index.html">興味レポート</a>
+    <span class="site-subtitle">Public redacted interest reports</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 興味レポート一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-19 19:58 JST</span>
+        <span>セキュリティ</span>
+        <span>interest_report</span>
+      </div>
+      <h1>AIエージェント用ブラウザを、普段使いブラウザから分けるべきか</h1>
+<h2>要約</h2>
+<p>2026年のChromium系ブラウザでは、V8を中心に「既に悪用確認あり」とされる脆弱性が複数KEV入りしている。直近ではCISAが2026-06-09にCVE-2026-11645をKnown Exploited Vulnerabilities Catalogへ追加し、GoogleもChrome Stable更新で同CVEの悪用を確認している。3月にもV8のCVE-2026-3910がKEV入りしており、ブラウザは単なる閲覧アプリではなく、ログイン済みセッション、Cookie、拡張機能、クリップボード、ダウンロード、ローカルファイル選択に触れる高価値な実行環境として見る必要がある。</p>
+<p>結論として、OpenClawやCodexのようなAIエージェントにブラウザ操作を任せるなら、普段使いブラウザとは別プロファイル、できれば別ブラウザまたは隔離されたOpenClaw管理ブラウザに寄せたほうがよい。目的は「V8脆弱性を完全に防ぐ」ことではなく、攻撃や誤操作が起きた時に、個人の常用ログイン状態まで巻き込まないことにある。</p>
+<h2>なぜ今見る価値があるか</h2>
+<p>CISA KEVは、理論上の危険ではなく実際の悪用確認を優先順位付けするためのリストである。CVE-2026-11645はV8の範囲外読み書き、CVE-2026-3910はV8の不適切な実装として整理され、どちらも細工されたHTMLページを入口にブラウザサンドボックス内のコード実行へつながりうる。</p>
+<p>AIエージェントのブラウザ操作は、通常の人間の閲覧よりリスクの形が少し違う。エージェントは検索結果やリンク先を高速に開き、ユーザーが逐一読まないページにも到達する。さらに、ログイン済みの管理画面、クラウドサービス、Obsidian公開用サイト、Discord、GitHubなどを同じブラウザプロファイルで扱うと、侵害時の横展開範囲が広がる。</p>
+<h2>調査メモ</h2>
+<ul>
+<li>CISAのKEV JSONでは、CVE-2026-11645はGoogle Chromium V8の範囲外読み書きとして登録されている。説明には、Chrome、Microsoft Edge、OperaなどChromium利用ブラウザに影響しうること、細工されたHTMLページでサンドボックス内コード実行につながりうることが示されている。</li>
+<li>Google Chrome Releasesの2026-06更新では、CVE-2026-11645をHighのV8範囲外メモリアクセスとして記載し、同CVEの悪用が存在することを明記している。バグ詳細は、多数ユーザーの更新が進むまで制限されるという通常の扱いになっている。</li>
+<li>NVDのCVE-2026-11645ページでは、Chrome 149.0.7827.103未満が対象として整理され、CISA-ADPのCVSS 3.1は8.8 High、攻撃ベクトルはネットワーク、ユーザー操作あり、影響は機密性・完全性・可用性すべてHighになっている。</li>
+<li>2026-03のCVE-2026-3910もV8関連の悪用確認済みCVEで、Chrome 146.0.7680.75/76系の緊急更新で修正された。NVDではCISA KEV追加日が2026-03-13、対応期限が2026-03-27として記録されている。</li>
+<li>Microsoft Edgeのセキュリティ更新ノートも、Chromium由来のCVE-2026-11645修正を取り込む形になっている。Chromeだけでなく、Chromiumベースの普段使いブラウザ全体を同じリスク棚で見るべきである。</li>
+</ul>
+<h2>個人向けの読みどころ</h2>
+<p>OpenClaw運用では、ブラウザを「人間用」「エージェント用」「高権限作業用」に分けるのが現実的だと思う。最小構成なら次の3層でよい。</p>
+<ol>
+<li>普段使いブラウザ: 個人アカウント、買い物、メール、日常ログインを置く。エージェントには触らせない。</li>
+<li>エージェント用ブラウザ: 調査、記事確認、公開ページ確認、一般Web検索に使う。ログインは最小限にし、Cookieや拡張機能を絞る。</li>
+<li>高権限作業用プロファイル: GitHub、Pages、OpenClaw管理、Discord管理などを扱う。必要な時だけ開き、調査用リンク巡回には使わない。</li>
+</ol>
+<p>特に注意したいのは、便利だからといって「既に全部ログイン済みの普段使いChrome」をエージェント用に渡すこと。悪意あるページ、脆弱な拡張機能、誤クリック、プロンプト注入のどれが入口でも、被害範囲が日常アカウント側へ寄ってしまう。</p>
+<p>OpenClaw側の運用メモとしては、ブラウザ操作をするcronや調査タスクで次をチェック項目にする。</p>
+<ol>
+<li>調査対象が未知サイト中心なら、ログイン済みユーザーブラウザではなくOpenClaw管理ブラウザを使う。</li>
+<li>Discord、GitHub、Pages確認などログインが必要な時は、作業後に不要タブを閉じる。</li>
+<li>エージェント用プロファイルには、パスワードマネージャ、銀行、証券、個人メールの常用ログインを入れない。</li>
+<li>Chrome、Edge、BraveなどChromium系はまとめて更新確認する。</li>
+<li>ブラウザ拡張機能は、エージェント用では最小限にする。</li>
+<li>ダウンロード先は専用フォルダにし、未知ファイルを自動実行しない。</li>
+</ol>
+<h2>注意点</h2>
+<p>この整理は、特定CVEの攻撃手順やPoC再現を目的にしない。公開情報から判断できる範囲で、ブラウザプロファイル分離と更新優先度を決めるための運用メモである。</p>
+<p>また、ブラウザを分けても脆弱性そのものは消えない。更新、OS側の保護、権限分離、不要ログインの削減、拡張機能の棚卸しをセットで行う必要がある。ブラウザ分離は万能策ではなく、侵害時の被害半径を小さくするための現実的な防火区画として扱う。</p>
+<h2>参考リンク</h2>
+<ul>
+<li>CISA: <a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog">Known Exploited Vulnerabilities Catalog</a></li>
+<li>CISA: <a href="https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json">Known Exploited Vulnerabilities JSON feed</a></li>
+<li>Google Chrome Releases: <a href="https://chromereleases.googleblog.com/2026/06/stable-channel-update-for-desktop_0153744567.html">Stable Channel Update for Desktop, 2026-06</a></li>
+<li>Google Chrome Releases: <a href="https://chromereleases.googleblog.com/2026/03/stable-channel-update-for-desktop_12.html">Stable Channel Update for Desktop, 2026-03</a></li>
+<li>NVD: <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-11645">CVE-2026-11645 Detail</a></li>
+<li>NVD: <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-3910">CVE-2026-3910 Detail</a></li>
+<li>Microsoft Learn: <a href="https://learn.microsoft.com/en-us/deployedge/microsoft-edge-relnotes-security">Release notes for Microsoft Edge Security Updates</a></li>
+</ul>
+    </article>
+  </main>
+</body>
+</html>

@@ -287,6 +287,17 @@
   },
   {
     "file": "[入力元伏せ]",
+    "slug": "2026-06-19-セキュリティ-AIエージェント用ブラウザを、普段使いブラウザから分けるべきか-ecb7ae5ee2",
+    "title": "AIエージェント用ブラウザを、普段使いブラウザから分けるべきか",
+    "category": "セキュリティ",
+    "created": "2026-06-19 19:58 JST",
+    "status": "",
+    "type": "interest_report",
+    "excerpt": "2026年のChromium系ブラウザでは、V8を中心に「既に悪用確認あり」とされる脆弱性が複数KEV入りしている。直近ではCISAが2026-06-09にCVE-2026-11645をKnown Exploited Vulnerabilities Catalogへ追加し、GoogleもChrome Stable更新で同CVEの悪用を確認している。3月にもV...",
+    "url": "interests/articles/2026-06-19-セキュリティ-AIエージェント用ブラウザを、普段使いブラウザから分けるべきか-ecb7ae5ee2.html"
+  },
+  {
+    "file": "[入力元伏せ]",
     "slug": "2026-06-18-セキュリティ-LiteLLMのKEV入りRCEを、個人AIサーバ運用の「最優先パッチ表」に落とす-6e3afc9d2b",
     "title": "LiteLLMのKEV入りRCEを、個人AIサーバ運用の「最優先パッチ表」に落とす",
     "category": "セキュリティ",
