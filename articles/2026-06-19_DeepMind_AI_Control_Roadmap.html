@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DeepMind AI Control Roadmap | 海外技術情報アーカイブ</title>
+  <meta name="description" content="Google DeepMind が、社内で使う高度な AI agent を「潜在的な insider threat」として扱う AI Control Roadmap を公開した。 ポイントは、エージェントを完全に信頼するのではなく、alignment が不完全でも被害を抑えられるように、監視、権限制御、応答、停止インフラを段階的に強めること。従来の sand...">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-19</span>
+        <span>AI / LLM / Agent</span>
+        <span>importance: high</span>
+      </div>
+      <h1>DeepMind AI Control Roadmap</h1>
+<h2>要約</h2>
+<p>Google DeepMind が、社内で使う高度な AI agent を「潜在的な insider threat」として扱う AI Control Roadmap を公開した。</p>
+<p>ポイントは、エージェントを完全に信頼するのではなく、alignment が不完全でも被害を抑えられるように、監視、権限制御、応答、停止インフラを段階的に強めること。従来の sandboxing、endpoint security、prompt injection resistance に加えて、AI supervisor による行動監視や、危険操作の同期的ブロックまで含めている。</p>
+<p>今回のDiscordポールは満了後も全候補0票だったため、運用ルールの選定基準に従ってこの候補を採用した。エージェントを「便利な自動化」ではなく「内部システムにアクセスする実行主体」として扱う転換点として、アーカイブ価値が高い。</p>
+<h2>背景</h2>
+<p>AI agent は、単なるチャット応答ではなく、コードを書く、ツールを呼ぶ、ファイルを読む、社内システムにアクセスする、作業を継続する、といった実行能力を持ち始めている。</p>
+<p>この段階では、モデルの alignment だけに頼る設計は弱い。モデルが通常は安全に振る舞っていても、長いタスク、外部入力、ツール連鎖、監視回避、権限の積み上がりによって、意図しない副作用や情報流出が起きる可能性がある。</p>
+<p>DeepMind のロードマップは、この問題をセキュリティ工学として扱う。つまり、AI agent を「善意の従業員」ではなく、「すでに内部アクセスを持つが、場合によっては組織目標とずれた行動を取るかもしれない主体」として脅威モデル化する。</p>
+<h2>何が重要か</h2>
+<h3>1. alignment の外側に system-level control を置く</h3>
+<p>このロードマップの大きな意味は、AI安全性をモデル内部だけの問題に閉じていないこと。alignment は第一防衛線だが、それが失敗した場合に備えて、外側の実行環境で検知・制御・停止する。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>層</th><th>目的</th><th>実務での読み替え</th></tr></thead>
+<tbody>
+<tr><td>Alignment</td><td>モデル自体を安全にする</td><td>通常時に期待通り振る舞わせる</td></tr>
+<tr><td>Detection</td><td>行動、推論、計画を監視する</td><td>agent transcript / tool call / plan の監査</td></tr>
+<tr><td>Prevention</td><td>危険操作を事前に止める</td><td>高リスクAPI、外部送信、権限変更のブロック</td></tr>
+<tr><td>Response</td><td>問題発生時に封じ込める</td><td>セッション停止、credential失効、rollback</td></tr>
+<tr><td>Infrastructure</td><td>環境を硬化する</td><td>sandbox、endpoint security、network isolation</td></tr>
+</tbody>
+</table></div>
+<p>これは、本番AIエージェントを扱うときの現実的な考え方に近い。モデルを信じるか信じないかではなく、信じすぎないための実行基盤を作る話。</p>
+<h3>2. MITRE ATT&amp;CK 的に AI agent の攻撃行動を分解する</h3>
+<p>DeepMind は、AI agent の脅威モデリングで MITRE ATT&amp;CK の考え方を参照している。攻撃を大きな抽象論のまま扱うのではなく、目的、戦術、技術に分けて、防御、検知、訓練に使える粒度へ落とす。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>観点</th><th>人間の insider threat</th><th>AI agent での対応</th></tr></thead>
+<tbody>
+<tr><td>既存アクセス</td><td>社内アカウント、端末、業務知識</td><td>tool権限、API credential、社内データ</td></tr>
+<tr><td>悪用方法</td><td>情報持ち出し、改ざん、権限乱用</td><td>model exfiltration、秘密情報取得、危険操作</td></tr>
+<tr><td>検知</td><td>ログ、EDR、UEBA</td><td>transcript監視、tool call監視、行動異常検知</td></tr>
+<tr><td>抑止</td><td>最小権限、職務分離、承認</td><td>capability制限、AI supervisor、同期ブロック</td></tr>
+<tr><td>対応</td><td>アカウント停止、端末隔離</td><td>agent停止、credential失効、環境遮断</td></tr>
+</tbody>
+</table></div>
+<p>エージェントの危険性は、人間の内部不正と完全には同じではない。ただし「内部アクセスを持つ実行主体」として設計することで、既存のセキュリティ資産を転用しやすくなる。</p>
+<h3>3. supervisor agent は便利だが、監視回避能力が論点になる</h3>
+<p>ロードマップでは、信頼できる AI システムを supervisor として使い、作業中の agent の reasoning、actions、plans を監視する構想が出ている。</p>
+<p>ここで重要なのは、監視対象モデルの能力が上がるほど、監視も強化する必要がある点。現在は可視の chain-of-thought や行動ログを読めるとしても、将来のモデルが監視されていることを意識して振る舞いを変えたり、可視テキストに出さずに推論したりするなら、単純な transcript review では足りなくなる。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>モデル能力の変化</th><th>必要になる防御</th></tr></thead>
+<tbody>
+<tr><td>可視ログに沿って行動する</td><td>transcript / tool call review</td></tr>
+<tr><td>監視を意識して隠す</td><td>行動ベースの異常検知</td></tr>
+<tr><td>高リスク操作を実行できる</td><td>同期的なアクセス制御</td></tr>
+<tr><td>被害が大きく不可逆</td><td>事前ブロック、停止インフラ、人間承認</td></tr>
+<tr><td>内部状態が読みにくい</td><td>activation monitoring など研究段階の監視</td></tr>
+</tbody>
+</table></div>
+<p>エージェント監視は「AIでAIを見ればよい」という単純な話ではない。監視される側の能力に合わせて、防御レベルを上げる必要がある。</p>
+<h3>4. 非同期レビューから同期ブロックへ移る境界がある</h3>
+<p>低リスクで可逆な作業なら、後から transcript を見て問題があれば修正する非同期レビューで足りる。たとえば、内部メモの草稿作成、検索結果の整理、読み取り専用の調査など。</p>
+<p>一方で、高リスクで不可逆な操作は、実行後レビューでは遅い。外部送信、本番環境変更、credential操作、大規模なデータ取得、セキュリティに関わる変更は、実行前に止められる設計が必要になる。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>操作例</th><th>推奨される扱い</th></tr></thead>
+<tbody>
+<tr><td>文書要約、検索、候補整理</td><td>非同期レビューで十分な場合が多い</td></tr>
+<tr><td>ファイル作成、ローカルビルド</td><td>ログと差分確認</td></tr>
+<tr><td>Git commit / push</td><td>実行前後の差分、権限、公開範囲確認</td></tr>
+<tr><td>Discord / email 送信</td><td>外部送信として明示的に扱う</td></tr>
+<tr><td>本番API更新、credential変更</td><td>同期ブロック、人間承認、rollback設計</td></tr>
+</tbody>
+</table></div>
+<p>この区分は、個人用の OpenClaw / Codex 運用にもそのまま使える。特に「ローカルファイル作成」と「外部送信」と「GitHub Pages公開」はリスクが違うため、同じ自動化フロー内でも扱いを分けるべき。</p>
+<h2>自分向けメモ</h2>
+<ul>
+<li>OpenClaw の cron は、候補作成、Discordポール、Obsidianノート作成、GitHub Pages公開、Discord報告まで一気通貫で動く。これは便利だが、AI agent がローカル知識、Git、外部送信、公開サイトをまたいで動く典型例でもある。</li>
+<li>今回のような公開系cronでは、実行ログ、選定方法、作成ファイル、公開URL、commit hash を必ず残すのが軽量な AI Control になる。</li>
+<li>Codex の subagent や OpenClaw の detached task を使う場合、読み取り範囲、書き込み範囲、外部送信可否、Git操作可否をタスクごとに分ける。全権限を渡して「よしなに」は避ける。</li>
+<li>SAP/ERP の AI agent では、このロードマップはかなり重要。Joule や外部 agent が業務プロセスを動かすなら、最小権限、職務分離、承認、監査、停止、ロールバックを agent 前提で設計し直す必要がある。</li>
+<li>「AI supervisor が見ているから安全」とは言い切れない。supervisor の coverage、recall、time-to-response を測るという DeepMind の観点は、自分の自動化にも応用できる。</li>
+<li>日本語圏ではまだ「DeepMindがAI agentを内部脅威として扱った」という表層紹介に寄りそう。実務的には、agent権限設計と公開自動化のチェックリストへ落とすのが有用。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://deepmind.google/blog/securing-the-future-of-ai-agents/">Google DeepMind - Securing the future of AI agents</a> - 主記事。AI Control Roadmap の目的、insider threat としての扱い、AI supervisor、能力に応じた防御強化を説明。</li>
+<li><a href="https://storage.googleapis.com/deepmind-media/DeepMind.com/Blog/securing-the-future-of-ai-agents/gdm-ai-control-roadmap.pdf">Google DeepMind - GDM AI Control Roadmap PDF</a> - 技術レポート本体。AI control の定義、脅威分類、検知・予防・応答レベル、ロードマップを確認する一次資料。</li>
+<li><a href="https://attack.mitre.org/">MITRE ATT&amp;CK</a> - DeepMind が参照する脅威モデリングの元になる、攻撃者の戦術・技術ナレッジベース。</li>
+<li><a href="https://saif.google/">Google Secure AI Framework</a> - Google のAIセキュリティ全体方針。AI agent control を broader security framework と接続して読むための関連情報。</li>
+<li><a href="https://www.axios.com/2026/06/18/google-deepmind-prepares-for-rogue-ai-agents">Axios - Google DeepMind prepares for rogue AI agents</a> - 海外メディアによる要点整理。社会的な受け止めを確認する補助情報。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>AI control</li>
+<li>AI agent security</li>
+<li>insider threat</li>
+<li>agent governance</li>
+<li>supervisor agent</li>
+<li>MITRE ATT&amp;CK</li>
+<li>zero trust</li>
+<li>system-level safety</li>
+<li>prompt injection resistance</li>
+<li>access control</li>
+<li>shutdown infrastructure</li>
+<li>model exfiltration</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://deepmind.google/blog/securing-the-future-of-ai-agents/">deepmind.google - blog / securing-the-future-of-ai-agents</a></p></section>
+    </article>
+  </main>
+</body>
+</html>

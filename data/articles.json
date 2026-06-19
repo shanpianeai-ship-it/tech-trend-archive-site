@@ -1,5 +1,18 @@
 [
   {
+    "file": "AI/2026-06-19_DeepMind_AI_Control_Roadmap.md",
+    "slug": "2026-06-19_DeepMind_AI_Control_Roadmap",
+    "title": "DeepMind AI Control Roadmap",
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "created": "2026-06-19",
+    "source": "https://deepmind.google/blog/securing-the-future-of-ai-agents/",
+    "importance": "high",
+    "confidence": "high",
+    "excerpt": "Google DeepMind が、社内で使う高度な AI agent を「潜在的な insider threat」として扱う AI Control Roadmap を公開した。 ポイントは、エージェントを完全に信頼するのではなく、alignment が不完全でも被害を抑えられるように、監視、権限制御、応答、停止インフラを段階的に強めること。従来の sand...",
+    "url": "articles/2026-06-19_DeepMind_AI_Control_Roadmap.html"
+  },
+  {
     "file": "SAP_ERP/2026-06-18_SAP_Knowledge_Graph業務文脈層.md",
     "slug": "2026-06-18_SAP_Knowledge_Graph業務文脈層",
     "title": "SAP Knowledge Graphが業務AIの文脈層に",
