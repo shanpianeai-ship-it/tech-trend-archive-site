@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bayesian-Agentスキル進化 | 海外技術情報アーカイブ</title>
+  <meta name="description" content="Bayesian-Agentは、LLMエージェントのプロンプト、ツール、メモリ、SOP、スキルを「モデル外にある運用資産」として扱い、その成功・失敗を検証済み軌跡からベイズ的に更新する研究・OSSである。モデル重みを変えるのではなく、エージェントを動かすハーネス側の条件を、証拠に基づいて保守する発想が中心になっている。 具体的には、各スキルやSOPを「この文...">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-19</span>
+        <span>AI / LLM / Agent</span>
+        <span>importance: high</span>
+      </div>
+      <h1>Bayesian-Agentスキル進化</h1>
+<h2>要約</h2>
+<p>Bayesian-Agentは、LLMエージェントのプロンプト、ツール、メモリ、SOP、スキルを「モデル外にある運用資産」として扱い、その成功・失敗を検証済み軌跡からベイズ的に更新する研究・OSSである。モデル重みを変えるのではなく、エージェントを動かすハーネス側の条件を、証拠に基づいて保守する発想が中心になっている。</p>
+<p>具体的には、各スキルやSOPを「この文脈なら凍結済みモデルが成功するはず」という仮説として持ち、失敗モード、トークン量、ターン数、レイテンシ、タスク文脈などから事後信念を更新する。その結果を、patch / split / compress / retire / explore という監査しやすい保守アクションへ変換する。</p>
+<p>今回のDiscordポールは対象ポールがfinalized済みで全候補0票だったため、運用ルールの選定基準に従い、一次情報が明確で、日本語圏での深い解説がまだ薄く、OpenClaw/Codexのスキル運用にも直接つながる1番を採用した。</p>
+<h2>背景</h2>
+<p>LLMエージェントの性能は、モデル本体だけでなく、周辺の実行環境に強く依存する。プロンプト、ツール定義、メモリ、SOP、リトライ手順、検証ルール、ファイル操作の作法が変わると、同じモデルでも結果が変わる。</p>
+<p>問題は、これらの「外部化された能力」がそのまま「外部化された失敗」にもなること。スキルが古い前提を含んでいたり、一度の失敗に合わせた過剰なパッチを入れたり、逆に繰り返し失敗している手順を放置したりすると、エージェントの運用品質は落ちる。</p>
+<p>従来の自己改善型エージェントは、失敗後の自然言語リフレクションや、成功例の再利用でスキルを更新することが多い。Bayesian-Agentはここに「証拠状態」を明示的に置く。どのスキルが、どの文脈で、どの失敗モードを起こし、どれくらい確からしく有効なのかを、ハーネス側で記録・更新する。</p>
+<h2>何が重要か</h2>
+<p>第一に、スキルやSOPを単なるテキスト資産ではなく、証拠で更新される運用仮説として扱っている点が重要。これはプロンプト改善を「文章をよくする作業」から「再利用資産の信頼性管理」へ寄せる。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>観点</th><th>一般的なスキル更新</th><th>Bayesian-Agent</th></tr></thead>
+<tbody>
+<tr><td>更新根拠</td><td>LLMの反省、成功/失敗の単純集計</td><td>検証済み軌跡と特徴量に基づく事後信念</td></tr>
+<tr><td>管理対象</td><td>スキル本文、SOP本文</td><td>スキル本文、失敗モード、文脈、コスト、信頼度</td></tr>
+<tr><td>アクション</td><td>追記、書き換え、再利用</td><td>patch / split / compress / retire / explore</td></tr>
+<tr><td>監査性</td><td>変更理由が曖昧になりやすい</td><td>事後信念と失敗モードを残せる</td></tr>
+</tbody>
+</table></div>
+<p>第二に、モデルに見せる情報と、監査用の事後信念を分離している。Bayesian-Agentは、LLMに生の確率値を読ませて判断させるのではなく、モデル向けには具体的なガードレールや失敗モードパッチを渡す。確率や観測数は、人間やハーネスがランキング・デバッグ・監査に使う。</p>
+<p>第三に、スキル保守のアクションが実務的である。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>アクション</th><th>意味</th><th>実務での読み替え</th></tr></thead>
+<tbody>
+<tr><td>explore</td><td>観測が足りないので探索する</td><td>いきなり書き換えず、証拠を集める</td></tr>
+<tr><td>patch</td><td>繰り返す失敗モードに対策を足す</td><td>「終了前に出力ファイルを確認」のような具体ルール化</td></tr>
+<tr><td>split</td><td>文脈が広すぎるスキルを分ける</td><td>SAP調査用、Git修正用、Discord報告用などに分割</td></tr>
+<tr><td>compress</td><td>安定したスキルを短くする</td><td>長い成功手順を短いチェックリストへ圧縮</td></tr>
+<tr><td>retire</td><td>失敗が支配的なスキルを退役させる</td><td>古い手順や有害な癖を使わない</td></tr>
+</tbody>
+</table></div>
+<p>第四に、実験結果は「万能な自己改善」ではなく、どこで効くかを比較的正直に示している。deepseek-v4-flashでの増分修復では、SOP-Benchが80%から95%、Lifelong AgentBenchが90%から100%、RealFin-Benchが45%から65%へ改善した。一方で、フルオンライン進化が常に良いわけではなく、Lifelong AgentBenchではベースラインより悪化したケースも報告されている。</p>
+<p>この限界の出し方は実務上むしろ価値がある。スキル更新は、やればやるほど良くなるとは限らない。証拠が少ない段階での書き換え、非定常な環境、主観的な評価、ツールやデータ欠落が原因の失敗では、ベイズ的なスキル保守だけでは解けない。</p>
+<h2>自分向けメモ</h2>
+<ul>
+<li>OpenClaw/Codexのスキル運用にかなり近い。<code>SKILL.md</code> や <code>AGENTS.md</code> の更新を、単なる経験則ではなく「どの失敗を何回見たから追加するか」で管理する発想にできる。</li>
+<li>特に有用なのは、繰り返し起きる運用ミスの扱い。例: Discordポールだけ読んで完了扱いにする、ビルド後の公開URL確認を忘れる、候補一覧frontmatter更新を漏らす、Git push前に差分確認を忘れる、など。</li>
+<li>一回だけの失敗で長いルールを足すと、AGENTSやスキルが肥大化する。Bayesian-Agentの「patchは繰り返し失敗で発火」「安定したらcompress」は、個人秘書エージェントのルール保守にもそのまま使える。</li>
+<li>「モデルに確率を渡す」のではなく「モデルには実行可能なガードレールを渡す」という分離が大事。自分の運用でも、内部メモには根拠を残し、実際の指示文は短く実行可能にするほうがよい。</li>
+<li>この論文は、エージェントの性能向上をモデル変更ではなくハーネス最適化として見る流れの一部。今後は、スキル供給網、スキル監査、スキル退役、スキル圧縮が運用テーマになりそう。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://arxiv.org/abs/2606.08348">arXiv: Bayesian-Agent: Posterior-Guided Skill Evolution for LLM Agent Harnesses</a> - 論文の一次情報。概要、手法、実験結果、限界を確認する入口。</li>
+<li><a href="https://arxiv.org/html/2606.08348">arXiv HTML版</a> - 本文をブラウザで読みやすい形式。手法、実験、Appendixのスキル進化例まで確認できる。</li>
+<li><a href="https://github.com/DataArcTech/Bayesian-Agent">GitHub: DataArcTech/Bayesian-Agent</a> - 実装とREADME。v0.5のネイティブハーネス、GenericAgent / mini-swe-agent / Claude Codeアダプタ、証拠モデルの説明がある。</li>
+<li><a href="https://dataarctech.github.io/Bayesian-Agent/">Bayesian-Agent Docs</a> - プロジェクトドキュメント。論文より実装寄りの把握に使う。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>Bayesian-Agent</li>
+<li>LLMエージェント</li>
+<li>harness engineering</li>
+<li>skill evolution</li>
+<li>SOP</li>
+<li>posterior-guided optimization</li>
+<li>verified trajectory</li>
+<li>failure-mode patch</li>
+<li>agent memory</li>
+<li>prompt accumulation</li>
+<li>GenericAgent</li>
+<li>Claude Code</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://arxiv.org/abs/2606.08348">arxiv.org - abs / 2606.08348</a></p></section>
+    </article>
+  </main>
+</body>
+</html>

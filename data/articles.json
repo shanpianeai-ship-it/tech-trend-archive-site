@@ -13,6 +13,19 @@
     "url": "articles/2026-06-19_DeepMind_AI_Control_Roadmap.html"
   },
   {
+    "file": "AI/2026-06-19_AM_Bayesian-Agentスキル進化.md",
+    "slug": "2026-06-19_AM_Bayesian-Agentスキル進化",
+    "title": "Bayesian-Agentスキル進化",
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "created": "2026-06-19",
+    "source": "https://arxiv.org/abs/2606.08348",
+    "importance": "high",
+    "confidence": "high",
+    "excerpt": "Bayesian-Agentは、LLMエージェントのプロンプト、ツール、メモリ、SOP、スキルを「モデル外にある運用資産」として扱い、その成功・失敗を検証済み軌跡からベイズ的に更新する研究・OSSである。モデル重みを変えるのではなく、エージェントを動かすハーネス側の条件を、証拠に基づいて保守する発想が中心になっている。 具体的には、各スキルやSOPを「この文...",
+    "url": "articles/2026-06-19_AM_Bayesian-Agentスキル進化.html"
+  },
+  {
     "file": "SAP_ERP/2026-06-18_SAP_Knowledge_Graph業務文脈層.md",
     "slug": "2026-06-18_SAP_Knowledge_Graph業務文脈層",
     "title": "SAP Knowledge Graphが業務AIの文脈層に",
