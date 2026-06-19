@@ -12,6 +12,17 @@
   },
   {
     "file": "[入力元伏せ]",
+    "slug": "2026-06-19-AI・エージェント-OpenAIの企業向け利用分析・支出制御アップデートを、個人エージェント運用のコスト-f215a65abd",
+    "title": "OpenAIの企業向け利用分析・支出制御アップデートを、個人エージェント運用のコスト監視に転用できるか",
+    "category": "AI・エージェント",
+    "created": "2026-06-19T19:40:00+09:00",
+    "status": "",
+    "type": "interest_report",
+    "excerpt": "OpenAIは2026年6月18日、ChatGPT Enterprise向けにクレジット利用分析と支出制御を強化した。Global Admin ConsoleでChatGPTとCodexのクレジット利用を一体で見られるようにし、ユーザー、製品、モデル単位で利用傾向を分解できる。さらに、ワークスペース、グループ、ユーザー単位の月次利用上限や、上限引き上げリクエ...",
+    "url": "interests/articles/2026-06-19-AI・エージェント-OpenAIの企業向け利用分析・支出制御アップデートを、個人エージェント運用のコスト-f215a65abd.html"
+  },
+  {
+    "file": "[入力元伏せ]",
     "slug": "2026-06-18-AI・エージェント-Noam-ShazeerのOpenAI移籍で「人格AI・個人秘書エージェント」の主戦-ff61f5e91e",
     "title": "Noam ShazeerのOpenAI移籍で「人格AI・個人秘書エージェント」の主戦場はどう変わるか",
     "category": "AI・エージェント",
