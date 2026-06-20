@@ -1,5 +1,18 @@
 [
   {
+    "file": "SAP_ERP/2026-06-20_AM_製造領域Joule_Agent実装.md",
+    "slug": "2026-06-20_AM_製造領域Joule_Agent実装",
+    "title": "製造領域Joule Agent実装はERP内AIの現実的な入口",
+    "genre": "SAP_ERP",
+    "genreLabel": "SAP / ERP",
+    "created": "2026-06-20",
+    "source": "https://community.sap.com/t5/enterprise-resource-planning-blog-posts-by-sap/manufacturing-update-in-sap-s-4hana-cloud-public-edition-2602-3-hfc10/ba-p/14398211",
+    "importance": "high",
+    "confidence": "high",
+    "excerpt": "SAP S/4HANA Cloud Public Editionの製造領域アップデートで、Manage Production OrdersアプリにJouleベースのProduction Planning and Operations Agentが組み込まれる。Discordポールでは7番「製造領域Joule Agent実装」が1票で最多だったため採用した。 ...",
+    "url": "articles/2026-06-20_AM_製造領域Joule_Agent実装.html"
+  },
+  {
     "file": "AI/2026-06-20_バイオエージェント決定論的データ基盤.md",
     "slug": "2026-06-20_バイオエージェント決定論的データ基盤",
     "title": "バイオエージェント決定論的データ基盤",
