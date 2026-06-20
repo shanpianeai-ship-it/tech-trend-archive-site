@@ -1,5 +1,18 @@
 [
   {
+    "file": "AI/2026-06-20_バイオエージェント決定論的データ基盤.md",
+    "slug": "2026-06-20_バイオエージェント決定論的データ基盤",
+    "title": "バイオエージェント決定論的データ基盤",
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "created": "2026-06-20",
+    "source": "https://www.anthropic.com/research/agents-in-biology",
+    "importance": "medium",
+    "confidence": "high",
+    "excerpt": "Anthropic が、バイオ領域で AI エージェントを実用化するには、モデル能力だけでなく「決定論的で再現可能なデータ取得レイヤー」が必要だと整理している。 題材は NCBI Virus からウイルス配列データを取得するワークフロー。Claude、Biomni OSS、Edison Analysis、GPT 系の科学研究エージェントに現状のインフラだけで...",
+    "url": "articles/2026-06-20_バイオエージェント決定論的データ基盤.html"
+  },
+  {
     "file": "AI/2026-06-19_DeepMind_AI_Control_Roadmap.md",
     "slug": "2026-06-19_DeepMind_AI_Control_Roadmap",
     "title": "DeepMind AI Control Roadmap",
