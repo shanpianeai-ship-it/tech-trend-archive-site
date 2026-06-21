@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Microsoft 365 Copilot「SearchLeak」から考える業務AI導入時のデータ漏えい設計 | 興味レポート</title>
+  <meta name="description" content="Varonisが公開した「SearchLeak」は、Microsoft 365 Copilotを直接侵害するというより、Copilotが持つ企業内検索・要約・外部コンテンツ取得の組み合わせが、権限設定の甘い社内データを外へにじませうることを示した研究である。公開記事では、攻撃者がユーザーに外部ページを開かせ、プロンプト注入とMicrosoft 365内検索を...">
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../../interests/index.html">興味レポート</a>
+    <span class="site-subtitle">Public redacted interest reports</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 興味レポート一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-21 19:52 JST</span>
+        <span>セキュリティ</span>
+        <span>interest_report</span>
+      </div>
+      <h1>Microsoft 365 Copilot「SearchLeak」から考える業務AI導入時のデータ漏えい設計</h1>
+<h2>要約</h2>
+<p>Varonisが公開した「SearchLeak」は、Microsoft 365 Copilotを直接侵害するというより、Copilotが持つ企業内検索・要約・外部コンテンツ取得の組み合わせが、権限設定の甘い社内データを外へにじませうることを示した研究である。公開記事では、攻撃者がユーザーに外部ページを開かせ、プロンプト注入とMicrosoft 365内検索を組み合わせ、Copilotがアクセス可能な情報を攻撃者側へ送らせる流れが説明されている。</p>
+<p>見るべきポイントは「Copilotが危険か」ではなく、「AIが検索できる範囲は、人間が読む範囲より広く、速く、見落としなくなる」ということ。SharePoint、OneDrive、Teams、メール、社内Wikiに眠る過剰共有データは、人間運用では表面化しにくいが、AI検索では一気に引き出される。業務AI導入前の権限棚卸しは、便利機能の後処理ではなく、導入前提条件として扱うべきだ。</p>
+<h2>なぜ今見る価値があるか</h2>
+<p>Microsoft 365 CopilotやEnterprise Searchは、業務文書の検索体験を大きく変える。従来なら「探し方を知っている人だけが見つけられる」状態だった情報も、Copilotに聞けば候補として出てくる。これは生産性の上昇である一方、不要に広く共有されたファイル、古い退職者フォルダ、誰でも読める契約書、個人情報入りのExcelが可視化されるという意味でもある。</p>
+<p>SearchLeakの価値は、AIエージェント時代の漏えい設計を具体化してくれる点にある。特にOpenClawやCodexのような個人秘書エージェントを運用する個人にとって、構図はそのまま応用できる。エージェントが「検索できる」「読める」「外部に送れる」「自動で操作できる」なら、漏えい防止はアプリ単体ではなく、検索権限、外部送信、承認、ログ、プロンプト注入耐性の束で考える必要がある。</p>
+<h2>調査メモ</h2>
+<ul>
+<li>VaronisのSearchLeak記事は、Microsoft 365 CopilotのEnterprise Searchと外部ページ閲覧を絡めたデータ流出リスクを扱っている。記事上の主張では、攻撃チェーンはユーザーのクリック、悪意ある指示、Copilotの社内検索、外部への情報送信がつながる形で説明されている。</li>
+<li>重要なのは、Copilotがユーザーの権限を超えて情報を見るわけではない点である。問題は、ユーザー自身に広く読めてしまうファイルが多すぎる場合、AIがそれを高速に探し、要約し、文脈に沿って抽出してしまうことにある。</li>
+<li>Microsoft 365系のAI導入では、SharePoint/OneDrive/Teamsの共有リンク、全社共有、古いグループ、ゲストアクセス、秘密情報を含むファイル名や本文が主要な点検対象になる。</li>
+<li>CISAのKnown Exploited Vulnerabilities Catalogは、実際に悪用確認がある脆弱性を優先するためのリストである。SearchLeakそのものとは別系統だが、AI導入時の優先順位として「実際に悪用されている入口」と「AIで可視化される過剰権限」を同時に見る必要がある。</li>
+<li>Microsoft側の一般的なCopilot/Graph権限モデルでは、CopilotはMicrosoft Graph上の既存アクセス権に基づいて回答する設計とされる。したがって、AI導入前に直すべきものは、まず既存の情報設計である。</li>
+</ul>
+<h2>個人向けの読みどころ</h2>
+<p>OpenClaw運用に置き換えると、SearchLeakはかなり実用的な警告になる。エージェントにObsidian、Discord、GitHub、ブラウザ、ローカルファイル、将来的なメールやカレンダーを渡すほど、便利さと同じ速度で「読めるもの」「送れるもの」が増える。</p>
+<p>まず分けるべきは、権限の棚である。</p>
+<ol>
+<li>読むだけでよい情報: 公開Web、公開ドキュメント、一般ニュース、公開API。</li>
+<li>読めるが外へ出してはいけない情報: 個人メモ、台帳、未公開原稿、内部パス、趣味資産の細かい記録。</li>
+<li>操作できる情報: GitHub push、Discord送信、ファイル移動、記事公開、外部サービス投稿。</li>
+<li>人間確認が必要な情報: 金銭、公開投稿、個人情報、権限変更、削除、アカウント連携。</li>
+</ol>
+<p>この棚を作ると、エージェント設計のチェックリストは自然に決まる。</p>
+<ol>
+<li>検索対象を増やす前に、公開してよい情報とローカル限定情報を分ける。</li>
+<li>外部送信を伴うツールは、送信先・本文・添付のプレビューを残す。</li>
+<li>記事化Cronは、候補一覧と投票結果だけを入力にし、台帳や個人メモを不用意に参照しない。</li>
+<li>Discord報告、GitHub push、Pages公開はログに残す。</li>
+<li>ブラウザ調査では、ログイン済み高権限ブラウザと一般調査ブラウザを分ける。</li>
+<li>「AIが見つけられる情報」は「公開候補」ではない、という前提をルール化する。</li>
+</ol>
+<p>個人環境では、企業のDLPやPurviewのような大きな仕組みを入れるより、フォルダ単位・ツール単位の境界が効く。たとえば <code>Common/</code> は読み取り待ち、<code>確認済み/</code> は処理済み、Obsidian vaultは公開対象と非公開対象を明確に分ける、Pagesビルドは公開frontmatterだけ拾う、という運用で事故の半径をかなり小さくできる。</p>
+<h2>注意点</h2>
+<p>このメモは、SearchLeakの攻撃手順を再現するためのものではない。公開情報をもとに、業務AIや個人秘書エージェントを入れる前にどの権限・検索・外部送信を点検するかを整理した運用メモである。</p>
+<p>また、Varonisの記事はセキュリティベンダーによる研究公開であり、細部の実装状況やMicrosoft側の修正状況は変わる可能性がある。実務判断では、Microsoft 365管理センター、Microsoft Learn、組織の監査ログ、実際のテナント設定を確認する必要がある。</p>
+<h2>参考リンク</h2>
+<ul>
+<li>Varonis: SearchLeak: How <a href="https://www.varonis.com/blog/searchleak">We Turned M365 Copilot Into a One-Click Data Exfiltration Weapon</a></li>
+<li>Microsoft Learn: <a href="https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-privacy">Data, Privacy, and Security for Microsoft 365 Copilot</a></li>
+<li>Microsoft Learn: <a href="https://learn.microsoft.com/en-us/graph/permissions-reference">Microsoft Graph permissions reference</a></li>
+<li>CISA: <a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog">Known Exploited Vulnerabilities Catalog</a></li>
+<li>CISA: <a href="https://www.cisa.gov/news-events/alerts/2026/06/18/cisa-adds-one-known-exploited-vulnerability-catalog">Adds One Known Exploited Vulnerability to Catalog, 2026-06-18</a></li>
+</ul>
+    </article>
+  </main>
+</body>
+</html>

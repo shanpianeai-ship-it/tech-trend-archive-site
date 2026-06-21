@@ -287,6 +287,17 @@
   },
   {
     "file": "[入力元伏せ]",
+    "slug": "2026-06-21-セキュリティ-Microsoft-365-Copilot「SearchLeak」から考える業務AI-6a60eaec91",
+    "title": "Microsoft 365 Copilot「SearchLeak」から考える業務AI導入時のデータ漏えい設計",
+    "category": "セキュリティ",
+    "created": "2026-06-21 19:52 JST",
+    "status": "",
+    "type": "interest_report",
+    "excerpt": "Varonisが公開した「SearchLeak」は、Microsoft 365 Copilotを直接侵害するというより、Copilotが持つ企業内検索・要約・外部コンテンツ取得の組み合わせが、権限設定の甘い社内データを外へにじませうることを示した研究である。公開記事では、攻撃者がユーザーに外部ページを開かせ、プロンプト注入とMicrosoft 365内検索を...",
+    "url": "interests/articles/2026-06-21-セキュリティ-Microsoft-365-Copilot「SearchLeak」から考える業務AI-6a60eaec91.html"
+  },
+  {
+    "file": "[入力元伏せ]",
     "slug": "2026-06-19-セキュリティ-AIエージェント用ブラウザを、普段使いブラウザから分けるべきか-ecb7ae5ee2",
     "title": "AIエージェント用ブラウザを、普段使いブラウザから分けるべきか",
     "category": "セキュリティ",
