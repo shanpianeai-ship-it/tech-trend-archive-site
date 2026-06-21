@@ -12,6 +12,17 @@
   },
   {
     "file": "[入力元伏せ]",
+    "slug": "2026-06-21-AI・エージェント-Codex-pluginsとworkspace-agentsで「趣味事務の役割別エー-a0ad52e97b",
+    "title": "Codex pluginsとworkspace agentsで「趣味事務の役割別エージェント」を作れるか",
+    "category": "AI・エージェント",
+    "created": "2026-06-21T19:56:00+09:00",
+    "status": "",
+    "type": "interest_report",
+    "excerpt": "OpenAIは2026年6月2日に、Codexを開発者向けのコード支援だけでなく、分析、営業、制作、投資、プロダクト設計などの知識労働へ広げる更新を発表した。中心になるのは、役割別プラグイン、Codex Sites、アノテーションである。役割別プラグインは、アプリ、スキル、指示、ワークフローをまとめた束として提供され、チームの仕事の型にCodexを合わせる狙...",
+    "url": "interests/articles/2026-06-21-AI・エージェント-Codex-pluginsとworkspace-agentsで「趣味事務の役割別エー-a0ad52e97b.html"
+  },
+  {
+    "file": "[入力元伏せ]",
     "slug": "2026-06-19-AI・エージェント-OpenAIの企業向け利用分析・支出制御アップデートを、個人エージェント運用のコスト-f215a65abd",
     "title": "OpenAIの企業向け利用分析・支出制御アップデートを、個人エージェント運用のコスト監視に転用できるか",
     "category": "AI・エージェント",

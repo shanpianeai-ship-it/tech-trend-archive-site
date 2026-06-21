@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Codex pluginsとworkspace agentsで「趣味事務の役割別エージェント」を作れるか | 興味レポート</title>
+  <meta name="description" content="OpenAIは2026年6月2日に、Codexを開発者向けのコード支援だけでなく、分析、営業、制作、投資、プロダクト設計などの知識労働へ広げる更新を発表した。中心になるのは、役割別プラグイン、Codex Sites、アノテーションである。役割別プラグインは、アプリ、スキル、指示、ワークフローをまとめた束として提供され、チームの仕事の型にCodexを合わせる狙...">
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../../interests/index.html">興味レポート</a>
+    <span class="site-subtitle">Public redacted interest reports</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 興味レポート一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-21T19:56:00+09:00</span>
+        <span>AI・エージェント</span>
+        <span>interest_report</span>
+      </div>
+      <h1>Codex pluginsとworkspace agentsで「趣味事務の役割別エージェント」を作れるか</h1>
+<h2>要約</h2>
+<p>OpenAIは2026年6月2日に、Codexを開発者向けのコード支援だけでなく、分析、営業、制作、投資、プロダクト設計などの知識労働へ広げる更新を発表した。中心になるのは、役割別プラグイン、Codex Sites、アノテーションである。役割別プラグインは、アプリ、スキル、指示、ワークフローをまとめた束として提供され、チームの仕事の型にCodexを合わせる狙いがある。</p>
+<p>一方、workspace agents in ChatGPTは、Codexを基盤にした共有エージェントをチーム内で作り、ChatGPTやSlack上で使い回す仕組みとして説明されている。単発チャットではなく、ツール連携、記憶、承認、スケジュール実行、実行履歴を持つ「業務の役割」を作る発想に近い。</p>
+<p>今回のポールは0票だったため、候補一覧からこのテーマを選んだ。理由は、趣味の事務処理でも、調査、画像処理、Obsidian整理、Discord報告、GitHub Pages公開のように役割が分かれており、1体の万能秘書よりも「役割別に権限と成果物を分ける」設計の方が事故を減らせるためである。</p>
+<h2>なぜ今見る価値があるか</h2>
+<p>個人用エージェント運用は、便利になるほど境界が曖昧になる。候補収集、調査、Markdown作成、画像生成、台帳更新、公開、Discord報告をすべて同じ権限で動かすと、失敗時にどこを止めるべきか分かりにくい。特に、外部送信、公開サイト反映、画像生成、ファイル整理は、同じ「エージェント作業」でもリスクが違う。</p>
+<p>OpenAIのCodex更新は、この問題を組織向けに分解している。Codexの役割別プラグインは、仕事の種類ごとに必要なアプリ、スキル、指示、ワークフローを束ねる発想である。workspace agentsも、共有エージェントを作って、承認が必要な操作、接続アプリ、実行ログ、スケジュール実行を管理する方向に寄っている。</p>
+<p>この考え方を個人運用に置き換えると、「全部できる秘書」を強くするより、役割ごとの小さな担当者を作る方が扱いやすい。たとえば、興味レポート担当、Obsidian整理担当、画像加工担当、PSAカード台帳担当、公開前チェック担当を分ける。各担当の入力、出力、触ってよいフォルダ、外部送信可否、失敗時の報告先を明確にするだけでも、運用の見通しはかなり良くなる。</p>
+<h2>調査メモ</h2>
+<p>Codexの2026年6月2日発表では、Codexの利用が開発者以外へ広がっていることが強調されている。OpenAIは、Codexの週次利用者が500万人を超え、非開発者が全体の約20%を占めると説明している。これは「コードを書く道具」から「成果物を作る作業台」への移行を示す数字として読める。</p>
+<p>役割別プラグインは、単なるツール追加ではない。OpenAIの説明では、プラグインが関連アプリ、スキル、指示、ワークフローを束ねる。データ分析、クリエイティブ制作、営業、プロダクト設計、公開株投資、投資銀行などのプラグインが例示されており、合計で62のアプリと110のスキルを含むとされる。個人運用に置き換えるなら、「調査用」「文書整理用」「画像用」「公開用」のような作業パッケージを作る発想に近い。</p>
+<p>Codex Sitesは、Codexが作った分析、計画、レビュー用ワークスペース、ダッシュボード、軽量ツールをURLで共有できるプレビュー機能として発表されている。趣味事務では、調査結果をMarkdownだけで閉じず、比較表、進捗ボード、カード台帳、画像生成候補一覧のような小さな閲覧面に変換する設計の参考になる。</p>
+<p>workspace agentsは、Codexを基盤にした共有エージェントとして説明されている。OpenAIの発表では、クラウド上で動き、ファイル、コード、ツール、メモリを使い、複数ステップの作業を継続できる。ChatGPTやSlackで使えるほか、スケジュール実行やSlack常駐も想定されている。これはOpenClawのcron、Discord、Obsidian、ローカルファイル操作にかなり近い運用モデルである。</p>
+<p>重要なのは、workspace agentsが「権限と承認」を中心に説明されている点だ。OpenAIは、エージェントに使わせるツールやデータ、実行できる操作、承認が必要な場面を管理できると説明している。また、管理者向けには活動や使用状況の可視化、構成や実行履歴の監視も用意される。個人運用でも、外部投稿、公開、削除、支払い、画像生成のような操作は、役割ごとに承認線を分けるべきである。</p>
+<h2>個人向けの読みどころ</h2>
+<p>趣味事務のエージェント設計は、まず役割を5つに分けるのが現実的である。</p>
+<ul>
+<li>調査担当: Web検索、一次情報確認、参考リンク整理まで。外部送信とファイル削除はしない。</li>
+<li>文書担当: Obsidian形式のMarkdown作成、frontmatter整理、分類、リンク付けまで。公開はしない。</li>
+<li>公開担当: サイトビルド、git commit/push、公開URL確認まで。本文の内容判断はしない。</li>
+<li>画像担当: 画像生成・編集、ファイル命名、確認済みフォルダ整理まで。公開投稿は別承認にする。</li>
+<li>台帳担当: PSAカードや費用のCSV更新、差分確認、集計まで。外部公開はしない。</li>
+</ul>
+<p>この分け方の利点は、失敗時の原因が見えやすいことだ。調査が弱いのか、Markdown変換が弱いのか、公開手順が弱いのか、Discord報告が弱いのかを切り分けられる。1体のエージェントに全部を持たせるより、各役割の成功条件を短くできる。</p>
+<p>OpenAIの役割別プラグインの考え方から見ると、各担当には「使えるアプリ」「よく使うスキル」「作業手順」「禁止事項」をまとめておくのがよい。たとえば興味レポート担当なら、候補一覧、ポール、Markdown、Pagesビルド、Discord報告までの手順を持つ。ただし、削除や公開のような操作は公開担当に寄せ、調査担当単体では実行しない。</p>
+<p>workspace agentsの考え方から見ると、次に必要なのは実行履歴である。各エージェントが、いつ、どの入力から、どの成果物を作り、どのコミットやURLに到達したかを残す。特にcronは「実行されたこと」ではなく、「最後の公開確認まで終わったこと」を成功条件にした方がよい。</p>
+<h2>注意点</h2>
+<p>この記事は公開情報に基づく運用メモであり、OpenAIの各機能がすべてのプラン、地域、環境で使えることを保証するものではない。利用可否、料金、管理機能、プラグイン共有、workspace agentsの提供状態は、公式の最新情報と利用中のワークスペース設定で確認する必要がある。</p>
+<p>また、個人運用へ転用する場合も、エージェントに与える権限を広げすぎない方がよい。外部送信、公開、削除、購入、支払い、個人情報を含む処理は、役割ごとに明示的な承認線を置く。特にDiscordやGitHub Pagesのように外へ出る面では、本文に個人情報、内部パス、資産額、具体的な居住地、非公開メモを混ぜない。</p>
+<p>Codex pluginsやworkspace agentsは便利な抽象化だが、抽象化だけで運用は安定しない。役割、入力、出力、権限、失敗時の止め方、ログの粒度まで決めて初めて、自動化として扱いやすくなる。</p>
+<h2>参考リンク</h2>
+<ul>
+<li><a href="https://openai.com/index/codex-for-every-role-tool-workflow/">OpenAI: Codex for every role, tool, and workflow</a></li>
+<li><a href="https://openai.com/index/introducing-workspace-agents-in-chatgpt/">OpenAI: Introducing workspace agents in ChatGPT</a></li>
+<li><a href="https://help.openai.com/en/articles/10128477-chatgpt-enterprise-edu-release-notes">OpenAI Help Center: ChatGPT Enterprise &amp; Edu release notes</a></li>
+<li><a href="https://openai.com/academy/workspace-agents/">OpenAI Academy: Workspace agents</a></li>
+</ul>
+    </article>
+  </main>
+</body>
+</html>
