@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SAP Sapphire 2026発表総覧はERP AIの実装地図 | 海外技術情報アーカイブ</title>
+  <meta name="description" content="SAP Communityの「SAP Sapphire 2026 Announcements only」は、Sapphire 2026で出た主要なプロダクト発表、プラットフォーム発表、パートナーシップを一覧化したまとめ。Discordポールでは6番「Sapphire 2026発表総覧」が1票で最多だったため採用した。 単体ニュースとして見ると広いが、運用目線...">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-21</span>
+        <span>SAP / ERP</span>
+        <span>importance: medium</span>
+      </div>
+      <h1>SAP Sapphire 2026発表総覧はERP AIの実装地図</h1>
+<h2>要約</h2>
+<p>SAP Communityの「SAP Sapphire 2026 Announcements only」は、Sapphire 2026で出た主要なプロダクト発表、プラットフォーム発表、パートナーシップを一覧化したまとめ。Discordポールでは6番「Sapphire 2026発表総覧」が1票で最多だったため採用した。</p>
+<p>単体ニュースとして見ると広いが、運用目線ではかなり使いやすい。SAP Business AI Platform、SAP Autonomous Suite、Joule Work、SAP AI Agent Hub、RISE/GROWのAI導入支援、各社連携を、個別機能ではなく「ERPをAIエージェントの業務文脈・実行・統制基盤へ変える動き」として束ねて読めるから。</p>
+<p>結論として、この発表総覧は「今年のSAP発表まとめ」ではなく、Basis/ERP運用者が今後のAI導入で見るべき棚卸し項目の索引になる。特に、権限、監査、データモデル、非SAP連携、agent identity、移行自動化の論点を早めに切り出したい。</p>
+<h2>背景</h2>
+<p>SAPはSapphire 2026で、Autonomous Enterpriseという大きな方向性を打ち出した。SAP News Centerの発表では、SAP Business AI PlatformがSAP BTP、SAP Business Data Cloud、SAP Business AIを単一の統制された環境にまとめ、SAP Knowledge GraphがAIエージェントに業務エンティティ、プロセス、関係性の構造化マップを与えると説明している。</p>
+<p>同じ発表では、SAP Autonomous Suiteが既存のSAP業務アプリにAIエージェントを組み込み、50以上のJoule Assistantsと200以上の専門エージェントを展開する計画も示された。Joule Workは、ユーザーが個別アプリを渡り歩くのではなく、目的をJouleへ伝え、ワークフロー、データ、エージェントを組み合わせて処理を進める体験として説明されている。</p>
+<p>つまりSapphire 2026の発表群は、生成AI機能の追加ではなく、SAPアプリ、BTP、BDC、Joule、パートナー連携、移行支援を一つのAI実行基盤として再編する話に近い。</p>
+<h2>何が重要か</h2>
+<h3>発表の中心は「AI機能」ではなく三層構造</h3>
+<p>Sapphire 2026の発表は、個別機能名を追うだけだと散らばって見える。運用目線では、SAP Business AI Platformを次の三層で見ると整理しやすい。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>層</th><th>主な要素</th><th>運用上の意味</th></tr></thead>
+<tbody>
+<tr><td>文脈層</td><td>SAP Knowledge Graph、Business Data Cloud、Domain Models</td><td>AIに業務データ、関係性、非SAPデータをどう理解させるか</td></tr>
+<tr><td>構築層</td><td>Joule Studio、n8n連携、外部モデル連携</td><td>SAP標準/顧客独自/パートナーAgentをどう作るか</td></tr>
+<tr><td>統制層</td><td>SAP AI Agent Hub、LeanIX、ガバナンス</td><td>Agentの棚卸し、権限、KPI、ライフサイクルをどう管理するか</td></tr>
+</tbody>
+</table></div>
+<p>この三層は、そのままBasis/ERP運用の確認項目になる。AIを導入する前に、業務データの意味、Agentの実行主体、承認フロー、監査ログ、外部モデルや外部Agentとの接続範囲を決める必要がある。</p>
+<h3>Autonomous Suiteは業務アプリの再編として見る</h3>
+<p>SAP Autonomous Suiteは、Finance、Spend、Supply Chain、HCM、CXなどの領域で、Joule Assistantsと専門Agentを組み合わせる構想として説明されている。ここで重要なのは、AIが単独で業務を置き換えるのではなく、SAPの業務プロセス内に組み込まれる点。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>領域</th><th>期待される変化</th><th>注意点</th></tr></thead>
+<tbody>
+<tr><td>Finance</td><td>決算、照合、エラー解消の短縮</td><td>最終承認、証跡、職務分掌</td></tr>
+<tr><td>Supply Chain</td><td>例外検知、計画変更、現場提案</td><td>マスタ品質、制約条件、現場承認</td></tr>
+<tr><td>Procurement</td><td>依頼、発注、サプライヤー判断支援</td><td>支出権限、契約条件、監査</td></tr>
+<tr><td>HCM</td><td>従業員体験と管理業務の支援</td><td>個人情報、ロール、説明責任</td></tr>
+<tr><td>CX</td><td>顧客対応Agentと業務データ接続</td><td>顧客データ保護、応対履歴、外部チャネル</td></tr>
+</tbody>
+</table></div>
+<p>「Agentが何をしてくれるか」よりも、「どの業務プロセスのどのステップに入るか」を先に見るべき。ERPではAIの出力ミスが会計、在庫、購買、顧客対応に直結するため、提案と実行を分ける設計が重要になる。</p>
+<h3>パートナー連携は便利さと統制範囲の両方を広げる</h3>
+<p>SAPはAnthropic、AWS、Google Cloud、Microsoft、Mistral AI、Cohere、n8n、NVIDIA、Palantir、Accentureなどとの連携も発表している。これはSAPが単独で全AI機能を抱えるというより、SAPの業務文脈と外部AI/クラウド/移行ツールを接続する方向性を示している。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>連携カテゴリ</th><th>例</th><th>見るべき論点</th></tr></thead>
+<tbody>
+<tr><td>基盤モデル</td><td>Anthropic、Mistral AI、Cohere</td><td>どのデータがどのモデルに渡るか</td></tr>
+<tr><td>データ連携</td><td>AWS Athena、Google Cloud、Microsoft</td><td>ゼロコピー/双方向連携時の権限とデータ所在</td></tr>
+<tr><td>Agent相互運用</td><td>Google Cloud、Microsoft、MCP/A2A文脈</td><td>SAP内外Agentの責任境界</td></tr>
+<tr><td>実行基盤</td><td>NVIDIA OpenShell、Joule Studio</td><td>Agent実行環境の隔離と監査</td></tr>
+<tr><td>移行/実装</td><td>Palantir、Accenture、Conduct</td><td>移行自動化の検証、変更管理、成果責任</td></tr>
+</tbody>
+</table></div>
+<p>便利になるほど、監査対象も広がる。特に非SAPデータと外部Agentが入る場合、SAP権限だけでは説明しきれない。ID、ログ、データ分類、ネットワーク境界、契約上のデータ利用条件まで見たい。</p>
+<h3>RISE/GROWはAI導入の入口に変わりつつある</h3>
+<p>SAPはRISE with SAPとGROW with SAPにもAI導入支援を組み込む方向を示している。RISE顧客には初年度にJoule Assistantsを有効化するコミットメント、GROW顧客にはオンボーディング時点からAI assistant群を提供する説明がある。</p>
+<p>これは、RISE/GROWを単なるクラウド移行メニューではなく、Autonomous Enterpriseへ入る導線として再定義する動きに見える。オンプレミスECCやS/4HANA Private Cloudの顧客にとっては、AI機能を使いたいならどこまでCloud ERPへ寄せる必要があるのか、既存ランドスケープのどこが制約になるのかを確認するきっかけになる。</p>
+<h2>自分向けメモ</h2>
+<ul>
+<li>Sapphire 2026の発表群は「SAPがAIを足した」ではなく、「SAPがERP/BTP/BDC/JouleをAI実行基盤として再編している」と見る。</li>
+<li>AI導入前チェックリストに、Knowledge Graph、BDC、AI Agent Hub、Joule Studio、外部モデル、非SAPデータ連携、MCP/A2A相互運用を入れる。</li>
+<li>SAP AI Agent Hubは今後の統制論点として重要。Agent棚卸し、所有者、KPI、権限、監査、廃止基準を管理する場所になり得る。</li>
+<li>RISE/GROWの提案を受ける時は、AI assistantの数よりも、有効化条件、追加ライセンス、対象業務、ログ、職務分掌を確認する。</li>
+<li>公開ブログでは「Sapphire 2026発表総覧 = ERP AI導入の索引」として、個別ニュースへの入口になるよう整理すると使いやすい。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://community.sap.com/t5/technology-blog-posts-by-sap/sap-sapphire-2026-announcements-only/ba-p/14396190">SAP Community - SAP Sapphire 2026 Announcements only</a>: 今回の主対象。Sapphire 2026の主要発表をまとめた索引。</li>
+<li><a href="https://news.sap.com/2026/05/sap-sapphire-sap-unveils-autonomous-enterprise/">SAP News Center - SAP Unveils the Autonomous Enterprise</a>: SAP Business AI Platform、Autonomous Suite、Joule Work、主要パートナー連携の公式発表。</li>
+<li><a href="https://news.sap.com/2026/05/sap-sapphire-keynote-business-ai-platform-power-autonomous-enterprise/">SAP News Center - SAP Unveils Business AI Platform to Power the Autonomous Enterprise</a>: Sapphire keynoteの解説。文脈層、構築層、統制層、AI Agent Hub、RISE/GROWの方向性を確認。</li>
+<li><a href="https://news.sap.com/2026/05/future-enterprise-autonomous/">SAP News Center - The Future of the Enterprise Is Autonomous</a>: Autonomous Enterprise、Joule Assistants、Joule Agents、Joule Studioの全体像を補足。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>SAP Sapphire 2026</li>
+<li>Autonomous Enterprise</li>
+<li>SAP Business AI Platform</li>
+<li>SAP Autonomous Suite</li>
+<li>SAP Business Data Cloud</li>
+<li>SAP BTP</li>
+<li>SAP Knowledge Graph</li>
+<li>Joule Studio</li>
+<li>Joule Work</li>
+<li>SAP AI Agent Hub</li>
+<li>Joule Assistants</li>
+<li>Joule Agents</li>
+<li>RISE with SAP</li>
+<li>GROW with SAP</li>
+<li>agent governance</li>
+<li>ERP AI</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://community.sap.com/t5/technology-blog-posts-by-sap/sap-sapphire-2026-announcements-only/ba-p/14396190">community.sap.com - t5 / technology-blog-posts-by-sap</a></p></section>
+    </article>
+  </main>
+</body>
+</html>

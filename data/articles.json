@@ -1,5 +1,18 @@
 [
   {
+    "file": "SAP_ERP/2026-06-21_AM_Sapphire_2026発表総覧.md",
+    "slug": "2026-06-21_AM_Sapphire_2026発表総覧",
+    "title": "SAP Sapphire 2026発表総覧はERP AIの実装地図",
+    "genre": "SAP_ERP",
+    "genreLabel": "SAP / ERP",
+    "created": "2026-06-21",
+    "source": "https://community.sap.com/t5/technology-blog-posts-by-sap/sap-sapphire-2026-announcements-only/ba-p/14396190",
+    "importance": "medium",
+    "confidence": "high",
+    "excerpt": "SAP Communityの「SAP Sapphire 2026 Announcements only」は、Sapphire 2026で出た主要なプロダクト発表、プラットフォーム発表、パートナーシップを一覧化したまとめ。Discordポールでは6番「Sapphire 2026発表総覧」が1票で最多だったため採用した。 単体ニュースとして見ると広いが、運用目線...",
+    "url": "articles/2026-06-21_AM_Sapphire_2026発表総覧.html"
+  },
+  {
     "file": "Security/2026-06-21_CISA最短3日パッチ指令.md",
     "slug": "2026-06-21_CISA最短3日パッチ指令",
     "title": "CISA最短3日パッチ指令",
