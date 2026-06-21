@@ -1,5 +1,18 @@
 [
   {
+    "file": "Security/2026-06-21_CISA最短3日パッチ指令.md",
+    "slug": "2026-06-21_CISA最短3日パッチ指令",
+    "title": "CISA最短3日パッチ指令",
+    "genre": "Security",
+    "genreLabel": "Security",
+    "created": "2026-06-21",
+    "source": "https://www.cisa.gov/news-events/directives/bod-26-04-prioritizing-security-updates-based-risk",
+    "importance": "high",
+    "confidence": "high",
+    "excerpt": "CISAのBinding Operational Directive 26-04は、米連邦文民機関向けの脆弱性修正ルールを「CVSSの重大度に応じた一律期限」から、実際の攻撃リスクに応じた期限へ寄せる指令。 判断軸は、公開インターネットから到達可能か、CISAのKnown Exploited Vulnerabilities Catalogに入っているか、攻撃...",
+    "url": "articles/2026-06-21_CISA最短3日パッチ指令.html"
+  },
+  {
     "file": "SAP_ERP/2026-06-20_AM_製造領域Joule_Agent実装.md",
     "slug": "2026-06-20_AM_製造領域Joule_Agent実装",
     "title": "製造領域Joule Agent実装はERP内AIの現実的な入口",

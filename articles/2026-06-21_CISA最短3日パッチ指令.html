@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CISA最短3日パッチ指令 | 海外技術情報アーカイブ</title>
+  <meta name="description" content="CISAのBinding Operational Directive 26-04は、米連邦文民機関向けの脆弱性修正ルールを「CVSSの重大度に応じた一律期限」から、実際の攻撃リスクに応じた期限へ寄せる指令。 判断軸は、公開インターネットから到達可能か、CISAのKnown Exploited Vulnerabilities Catalogに入っているか、攻撃...">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-21</span>
+        <span>Security</span>
+        <span>importance: high</span>
+      </div>
+      <h1>CISA最短3日パッチ指令</h1>
+<h2>要約</h2>
+<p>CISAのBinding Operational Directive 26-04は、米連邦文民機関向けの脆弱性修正ルールを「CVSSの重大度に応じた一律期限」から、実際の攻撃リスクに応じた期限へ寄せる指令。</p>
+<p>判断軸は、公開インターネットから到達可能か、CISAのKnown Exploited Vulnerabilities Catalogに入っているか、攻撃手順を自動化できるか、悪用後に部分制御か全体制御を得られるか、の4点。最も危険な組み合わせでは3暦日以内の修正または緩和に加えて、既に侵害されていないかを確認するforensic triageも求める。</p>
+<p>自分向けには、AIで脆弱性発見と悪用が速くなる時代の「パッチSLA」ではなく、「公開入口、KEV、PoC/自動化、侵害後影響を使った優先順位付けモデル」として読むのがよい。</p>
+<h2>背景</h2>
+<p>従来の脆弱性管理は、CVSS重大度、製品ベンダーのラベル、月次パッチサイクル、KEV掲載期限を組み合わせて回すことが多い。ただし実務では、重大度が高くても外部から到達できないもの、重大度は中程度でも既に悪用されているもの、PoCが公開されて一気にスキャン対象になるものが混在する。</p>
+<p>CISAはBOD 26-04で、BOD 19-02とBOD 22-01を置き換え、KEVだけでなくCVE全体に対するリスクベースの修正タイムラインを定義した。CISA本文は、AIによってパッチ公開から悪用までの反応時間がさらに狭まる可能性を明示している。</p>
+<p>WIREDの報道でも、CISA担当者は「最も危険な脆弱性から直すための優先順位付け」が狙いだと説明している。つまり「全部を3日で直せ」ではなく、「公開され、悪用済みで、自動化され、制御を奪えるものを3日で止める」という運用モデルに近い。</p>
+<h2>何が重要か</h2>
+<h3>1. 4つの質問で修正期限を決める</h3>
+<p>BOD 26-04の実務的な価値は、修正優先度を次の4つの質問に落としたこと。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>軸</th><th>見るもの</th><th>自分向けの読み替え</th></tr></thead>
+<tbody>
+<tr><td>Asset Exposure</td><td>公開ネットワークから未認証/非信頼主体が到達できるか</td><td>外向き入口、VPN前、公開API、公開管理画面か</td></tr>
+<tr><td>KEV Status</td><td>CISA KEV Catalogに入っているか</td><td>既に悪用実績が確認されたCVEか</td></tr>
+<tr><td>Exploit Automation</td><td>攻撃手順を自動化できるか</td><td>スキャンから侵入まで量産可能か、再現性あるPoCがあるか</td></tr>
+<tr><td>Technical Impact</td><td>悪用後に部分制御か全体制御を得るか</td><td>RCE、認証情報取得、管理権限、DoS、情報露出の重さ</td></tr>
+</tbody>
+</table></div>
+<p>この形だと、CVSS単体よりも運用判断に近い。特に「公開露出」を独立した軸にした点が大きい。外部到達性がある資産とない資産を同じ期限で扱わないため、限られたパッチ作業を攻撃者が実際に踏める経路へ寄せられる。</p>
+<h3>2. 3日対応にはforensic triageが付く</h3>
+<p>最上位リスクでは、修正だけで終わらない。BOD 26-04は3暦日以内の対応に加え、対象システムが既に侵害されていないかを確認するforensic triageを求める。</p>
+<p>実装ガイダンスの流れは、スコープ確認、証拠保全、重要パッチ/安定化、封じ込め、分析、エスカレーション判断。つまり、パッチ適用とインシデント初動が同じ時計で動く。</p>
+<p>これは実務上かなり重要。KEV化された公開RCEを塞いでも、既にWeb shell、認証情報窃取、永続化、横展開が起きていれば「修正済み」ではない。脆弱性管理とIRを分けたままでは、3日SLAを満たしてもリスクが残る。</p>
+<h3>3. 「低リスクは次回アップグレードまで待つ」も明文化された</h3>
+<p>BOD 26-04は厳しいだけの指令ではない。リスクが低い組み合わせでは、Fix on System Upgrade、つまり次回の大きなアップグレードや再構築まで待てる扱いもある。</p>
+<p>この点が、単純な「パッチを急げ」ではなく優先順位付けモデルとして重要。全部を急ぐ運用は、結局どれも中途半端になる。公開露出やKEVや自動化可能性を使って、3日、14日、60日、次回アップグレードという作業レーンを分ける発想が実務向き。</p>
+<h3>4. 資産台帳と外部露出台帳が前提になる</h3>
+<p>この指令は、脆弱性スキャナだけでは完結しない。どの資産が公開到達可能か、どのCVEがどのホストにあるか、KEV/Vulnrichmentメタデータをどう取り込むか、CDMやCyber Hygieneのような継続監視とどう結ぶかが前提になる。</p>
+<p>民間企業に読み替えるなら、必要なのは次の4点。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>必要な台帳/データ</th><th>使い道</th></tr></thead>
+<tbody>
+<tr><td>外部露出資産一覧</td><td>公開入口のYes/Noを決める</td></tr>
+<tr><td>脆弱性検出結果</td><td>CVEと対象資産を結びつける</td></tr>
+<tr><td>KEV/脅威Intel</td><td>悪用実績を判断する</td></tr>
+<tr><td>PoC/自動化/影響メタデータ</td><td>3日/14日/60日の作業レーンに分ける</td></tr>
+</tbody>
+</table></div>
+<p>AI時代のポイントは、攻撃側の自動化だけではない。防御側も、メタデータ取り込み、外部露出判定、チケット化、例外承認、証跡保存を自動化しないと、3日SLAは現場の根性論になる。</p>
+<h2>自分向けメモ</h2>
+<ul>
+<li>OpenClawや自宅サーバ運用にも、そのまま「公開入口から先に見る」ルールを適用できる。公開URL、Webhook、VPN、管理画面、GitHub Actionsのsecret到達面を優先する。</li>
+<li>SAP/Basis文脈では、NetWeaverやSAProuter、Web Dispatcher、Fiori、Cloud Connectorなど、外部に近い入口の棚卸しが先。内部の大量CVEより、外向き入口のKEVを先に潰す。</li>
+<li>パッチSLAを作るなら、CVSS high/criticalだけでなく「外部到達Yes」「KEV Yes」「PoC/自動化Yes」「RCE/credential/total control」を別列にする。</li>
+<li>3日対応対象は、変更管理の例外ルートとIR初動をセットにする。通常CAB待ちでは間に合わないし、証拠保全なしで再起動すると侵害有無を追えない。</li>
+<li>低リスクを「後でよい」と明文化するのも大事。全部を最優先にすると、公開KEVのような本当の最優先が埋もれる。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://www.cisa.gov/news-events/directives/bod-26-04-prioritizing-security-updates-based-risk">CISA - BOD 26-04: Prioritizing Security Updates Based on Risk</a> - 指令本文。4つの判断軸、対象範囲、フェーズ、修正タイムライン、BOD 19-02/22-01の置き換えを確認できる。</li>
+<li><a href="https://www.cisa.gov/news-events/directives/bod-26-04-implementation-guidance-prioritizing-security-updates-based-risk">CISA - BOD 26-04 Implementation Guidance</a> - forensic triageの流れ、公開露出やautomatableの運用定義、FAQを確認できる。</li>
+<li><a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog">CISA - Known Exploited Vulnerabilities Catalog</a> - KEV判定の一次情報。</li>
+<li><a href="https://www.cisa.gov/resources-tools/resources/vulnrichment">CISA - Vulnrichment</a> - CVEにSSVC/CVSS/CWEなどの実務メタデータを付与するCISAの仕組み。</li>
+<li><a href="https://www.wired.com/story/cisa-ai-vulnerability-directive/">WIRED - CISA Tells US Agencies to Fix Security Bugs in as Little as 3 Days Thanks to AI Threats</a> - AIによる脆弱性発見/悪用高速化を背景にした解説報道。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>CISA BOD 26-04</li>
+<li>KEV Catalog</li>
+<li>vulnerability remediation</li>
+<li>risk-based patching</li>
+<li>forensic triage</li>
+<li>SSVC</li>
+<li>Vulnrichment</li>
+<li>public exposure</li>
+<li>exploit automation</li>
+<li>patch SLA</li>
+<li>AI-enabled threats</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://www.cisa.gov/news-events/directives/bod-26-04-prioritizing-security-updates-based-risk">cisa.gov - news-events / directives</a></p></section>
+    </article>
+  </main>
+</body>
+</html>
