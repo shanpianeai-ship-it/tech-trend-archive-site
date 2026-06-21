@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Citrix NetScaler KEV事例から「外向き入口」の緊急棚卸し手順を作る | 興味レポート</title>
+  <meta name="description" content="CVE-2026-3055は、NetScaler ADC / NetScaler GatewayがSAML Identity Providerとして構成されている場合に、入力検証不足からメモリ過読みに至る脆弱性である。NVDではCVSS 4.0のCNAスコアが9.3、CVSS 3.1では9.8のcriticalとして扱われ、CISAのKnown Exploi...">
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../../interests/index.html">興味レポート</a>
+    <span class="site-subtitle">Public redacted interest reports</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 興味レポート一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-21 20:02 JST</span>
+        <span>セキュリティ</span>
+        <span>interest_report</span>
+      </div>
+      <h1>Citrix NetScaler KEV事例から「外向き入口」の緊急棚卸し手順を作る</h1>
+<h2>要約</h2>
+<p>CVE-2026-3055は、NetScaler ADC / NetScaler GatewayがSAML Identity Providerとして構成されている場合に、入力検証不足からメモリ過読みに至る脆弱性である。NVDではCVSS 4.0のCNAスコアが9.3、CVSS 3.1では9.8のcriticalとして扱われ、CISAのKnown Exploited Vulnerabilities Catalogにも2026-03-30に追加された。CISA上の連邦機関向け期限は2026-04-02で、通常よりかなり短い。</p>
+<p>ここで見るべき点は、NetScaler固有の設定だけではない。インターネット側から触れるVPN、ADC、リバースプロキシ、SAML/SSO入口、管理画面、個人運用の公開サービスは、平時の資産台帳ではなく「悪用確認済み入口」から逆順に棚卸しする必要がある。KEVに入った脆弱性は、CVSSの高さだけでなく、実際に攻撃で使われたことを示す信号として扱う。</p>
+<h2>なぜ今見る価値があるか</h2>
+<p>個人の趣味事務でも、OpenClaw、Obsidian、Discord連携、GitHub Pages、ブラウザ調査、将来的な外部API連携が増えるほど「外から届く入口」と「外へ送れる出口」は増える。企業のNetScalerほど大きくなくても、個人の公開ダッシュボード、Webhook、リモートアクセス、開発中のローカル公開、Pages公開、Discord Botは、入口棚卸しの考え方を流用できる。</p>
+<p>NetScalerの事例は、入口棚卸しの優先順位を作りやすい。特に、SAML/SSOのような認証境界に近い部品は、侵害された時に単体サービスの不具合では済みにくい。入口装置がメモリ過読みによってセッション情報や認証関連情報を漏らす可能性があるなら、単なる「バージョンアップ予定」ではなく、公開面・認証境界・ログ確認・資格情報ローテーションまで含めた緊急対応になる。</p>
+<h2>調査メモ</h2>
+<ul>
+<li>NVDのCVE-2026-3055ページでは、NetScaler ADC / GatewayがSAML IDPとして設定されている場合の入力検証不足によるメモリ過読みと説明されている。CNAスコアはCVSS 4.0で9.3、NVDのCVSS 3.1評価は9.8 critical。</li>
+<li>NVD上では、このCVEがCISA KEV Catalog入りしていることも明記されている。Date Addedは2026-03-30、Due Dateは2026-04-02、Required Actionはベンダー手順に従った緩和、クラウドサービスはBOD 22-01に従うこと、緩和不能なら利用停止という内容である。</li>
+<li>Citrix / NetScalerのベンダーアドバイザリCTX696300は、CVE-2026-3055とCVE-2026-4368を扱う一次情報である。詳細な該当バージョンと修正版は、実運用では必ずこのページを正として確認する。</li>
+<li>Rapid7は、CVE-2026-3055がNetScaler ADC / Gateway 14.1 before 14.1-66.59、13.1 before 13.1-62.23、NetScaler ADC 13.1-FIPS / 13.1-NDcPP before 13.1-37.262に影響すると整理している。また、2026-03-31更新でCISA KEV追加とMetasploitモジュール公開に触れている。</li>
+<li>重要な条件は「デフォルト構成すべて」ではなく、SAML IDP構成が関係する点である。棚卸しでは、製品名だけでなく、実際の有効機能、公開仮想サーバ、SSO構成、管理画面公開有無まで見る必要がある。</li>
+</ul>
+<h2>個人向けの読みどころ</h2>
+<p>個人環境や趣味事務の入口棚卸しは、企業のCMDBほど重くしなくてよい。ただし「外から届くもの」を1枚に集める表は必要になる。</p>
+<p>最低限、次の列で作ると実用になる。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>項目</th><th>見る内容</th></tr></thead>
+<tbody>
+<tr><td>入口名</td><td>GitHub Pages、Discord Bot、Webhook、リモート接続、公開ダッシュボードなど</td></tr>
+<tr><td>外部公開</td><td>インターネットから直接届くか、ログイン後だけか、ローカル限定か</td></tr>
+<tr><td>認証境界</td><td>SSO、Bot token、API key、Basic認証、IP制限、なし</td></tr>
+<tr><td>更新責任</td><td>OS、アプリ、プラグイン、npm/pip依存、クラウド設定のどれを見るか</td></tr>
+<tr><td>ログ</td><td>成功/失敗ログ、管理操作ログ、送信ログがどこに残るか</td></tr>
+<tr><td>緊急停止</td><td>token revoke、公開停止、DNS切替、service stop、Pages非公開化の手順</td></tr>
+</tbody>
+</table></div>
+<p>この表は「全部を毎日点検する」ためではなく、KEVや重大アドバイザリが出た時に、最初の10分で見る順番を決めるためのものだ。優先順位は、外部公開、認証境界に近い、悪用確認済み、機密情報に触れる、停止しても生活や作業への影響が小さい、の順で上げる。</p>
+<p>OpenClaw運用に当てはめると、Discord送信やGitHub pushのような外部動作は出口でもあるが、WebhookやBot token、ブラウザログイン状態は入口側のリスクにもなる。権限棚卸しと入口棚卸しは別表にせず、同じ台帳に「読めるもの」「送れるもの」「外から呼ばれるもの」を並べた方が事故時に動きやすい。</p>
+<h2>注意点</h2>
+<p>このメモは攻撃手順の再現やPoC利用を目的にしない。公開情報をもとに、外向き入口をどう優先的に点検するかを整理する運用メモである。</p>
+<p>NetScalerの実運用判断では、ベンダーアドバイザリ、CISA KEV、NVD、利用中バージョン、実際の構成ファイル、サポート契約を確認する必要がある。個人環境に流用する場合も、公開サービスの停止、鍵の再発行、DNS変更、GitHub Pages公開範囲変更などは、影響範囲を確認してから行う。</p>
+<h2>参考リンク</h2>
+<ul>
+<li>NVD: <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-3055">CVE-2026-3055</a></li>
+<li>CISA: <a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog?field_cve=CVE-2026-3055">Known Exploited Vulnerabilities Catalog, CVE-2026-3055</a></li>
+<li>Citrix Support: NetScaler ADC and NetScaler <a href="https://support.citrix.com/support-home/kbsearch/article?articleNumber=CTX696300">Gateway Security Bulletin for CVE-2026-3055 and CVE-2026-4368</a></li>
+<li>Rapid7: CVE-2026-3055: <a href="https://www.rapid7.com/blog/post/etr-cve-2026-3055-citrix-netscaler-adc-and-netscaler-gateway-out-of-bounds-read/">Citrix NetScaler ADC and NetScaler Gateway Out-of-Bounds Read</a></li>
+</ul>
+    </article>
+  </main>
+</body>
+</html>
