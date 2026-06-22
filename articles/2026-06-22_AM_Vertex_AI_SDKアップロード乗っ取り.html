@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vertex AI SDKアップロード乗っ取り | 海外技術情報アーカイブ</title>
+  <meta name="description" content="Unit 42 は 2026-06-16 に、Google Cloud Vertex AI SDK for Python の `Model.upload()` に関する bucket squatting 型の脆弱性を公開した。対象は `google-cloud-aiplatform` SDK v1.139.0 と v1.140.0 で、修正版は v1.148...">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-22</span>
+        <span>Security</span>
+        <span>importance: high</span>
+      </div>
+      <h1>Vertex AI SDKアップロード乗っ取り</h1>
+<h2>要約</h2>
+<p>Unit 42 は 2026-06-16 に、Google Cloud Vertex AI SDK for Python の <code>Model.upload()</code> に関する bucket squatting 型の脆弱性を公開した。対象は <code>google-cloud-aiplatform</code> SDK v1.139.0 と v1.140.0 で、修正版は v1.148.0。</p>
+<p>問題は、SDK がデフォルトの staging bucket 名を project ID と region から予測可能に作り、同名 bucket が存在した場合に所有者確認をしない点にあった。攻撃者が先に同名 bucket を自分の Google Cloud project に作っておくと、被害者のモデルアップロードが攻撃者 bucket へ流れ、短い時間窓でモデル artifact を差し替えられる。</p>
+<p>差し替え後、被害者が Vertex AI endpoint へ model を deploy すると、serving container 側で pickle / joblib の deserialization が発火し、managed tenant project 内で任意コード実行につながる。AI/ML基盤の「学習・登録・デプロイ」経路そのものがサプライチェーン攻撃面になる例として重要。</p>
+<h2>背景</h2>
+<p>Vertex AI の Model Registry へ model を upload する場合、SDK は一度 Cloud Storage bucket に model artifact を stage し、その後 Model Registry がその artifact を参照する。被害者が明示的な <code>staging_bucket</code> を指定しないと、SDK はデフォルト名を組み立てる。</p>
+<p>Unit 42 の調査では、脆弱なSDKはこの default bucket について「存在するか」は確認していたが、「その bucket が呼び出し元 project の所有物か」は確認していなかった。Cloud Storage bucket 名はグローバル一意なので、攻撃者が予測した bucket 名を先に取れると、被害者の SDK はそれを既存 bucket として扱ってしまう。</p>
+<p>攻撃成立条件は限定的だが、現実的な線がある。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>条件</th><th>内容</th><th>実務上の見方</th></tr></thead>
+<tbody>
+<tr><td>SDK version</td><td>v1.139.0 / v1.140.0</td><td>古い notebook / pipeline image に残りやすい</td></tr>
+<tr><td>bucket</td><td>対象 region の default staging bucket が未作成</td><td>新規 project / 新 region 利用時に起きやすい</td></tr>
+<tr><td>設定</td><td><code>staging_bucket</code> を明示していない</td><td>サンプルコードや個人実験でありがち</td></tr>
+<tr><td>攻撃者情報</td><td>project ID と region を推測できる</td><td>project ID は公開ログやURLから漏れやすい</td></tr>
+<tr><td>artifact形式</td><td>pickle / joblib などコード実行性のある形式</td><td>Python ML標準運用と衝突する</td></tr>
+</tbody>
+</table></div>
+<p>Google 側では、v1.144.0 で auto-created GCS staging bucket 名を予測しにくくする修正が入り、v1.148.0 で <code>Model.upload()</code> に bucket ownership verification が追加された。</p>
+<h2>何が重要か</h2>
+<h3>1. MLモデル登録経路がクラウド境界をまたぐ攻撃面になる</h3>
+<p>この件は「モデルファイルが悪意ある pickle だった」という単純な話ではない。問題の本体は、SDK、Cloud Storage、Model Registry、serving infrastructure、Google-managed tenant project が連鎖する中で、staging bucket という一時領域の所有権確認が抜けていた点。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>攻撃段階</th><th>何が起きるか</th><th>防御で見る点</th></tr></thead>
+<tbody>
+<tr><td>予測</td><td>project ID と region から bucket 名を推測</td><td>project ID露出、命名規則、default依存</td></tr>
+<tr><td>先取り</td><td>攻撃者 project に同名 bucket を作成</td><td>bucket ownership確認、組織ポリシー</td></tr>
+<tr><td>アップロード誘導</td><td>被害者SDKが攻撃者bucketへartifactを送る</td><td>明示的な staging bucket、SDK更新</td></tr>
+<tr><td>差し替え</td><td>Cloud Function 等で model artifact を即時置換</td><td>artifact integrity、署名、hash検証</td></tr>
+<tr><td>実行</td><td>deploy時に joblib / pickle load でコード実行</td><td>unsafe serialization排除、runtime権限制限</td></tr>
+</tbody>
+</table></div>
+<p>一時領域は監視や設計レビューから漏れやすい。だが ML pipeline では、preprocess artifact、model artifact、evaluation output、registry連携など、一時領域が本番実行に直結する。</p>
+<h3>2. 「普通のSDK利用」でも攻撃経路になる</h3>
+<p>被害者側は特別に危険なAPIを呼んでいるわけではない。標準的に <code>aiplatform.init()</code> し、<code>Model.upload()</code> し、endpointへdeployするだけで攻撃経路に入る。</p>
+<p>これは AI/ML 運用でかなり厄介。開発者はクラウド内部の staging 実装を意識せず、SDKが安全に処理してくれる前提で使う。Notebook、CI、MLOps pipeline、AutoML周辺のサンプルコードほど default 設定に寄りやすい。</p>
+<h3>3. pickle / joblib はモデル配布形式として引き続き危険</h3>
+<p>Unit 42 のPoCでは、差し替えた joblib file の <code>__reduce__</code> により、deserialization 時にコード実行させている。これは Python の pickle 系 format の既知リスクだが、MLでは scikit-learn などの流れで自然に使われる。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>形式/運用</th><th>利点</th><th>リスク</th></tr></thead>
+<tbody>
+<tr><td>pickle / joblib</td><td>Python MLで扱いやすい</td><td>load時に任意コード実行の余地</td></tr>
+<tr><td>container image</td><td>実行環境ごと固定しやすい</td><td>image supply chainとregistry権限が重要</td></tr>
+<tr><td>model署名/hash</td><td>artifact改ざんを検知しやすい</td><td>pipeline全体へ組み込む必要</td></tr>
+<tr><td>専用format</td><td>実行性を下げやすい</td><td>framework差、互換性、変換コスト</td></tr>
+</tbody>
+</table></div>
+<p>ML基盤では「モデルはデータ」と見がちだが、pickle系 artifact は実質的にコードとして扱うべき。</p>
+<h3>4. 修正済みでも棚卸し対象は残る</h3>
+<p>Google の修正により、最新 SDK では bucket 名の予測困難化と ownership verification が入っている。ただし実務では、古い base image、古い notebook runtime、固定された requirements.txt、長期稼働 pipeline が残りやすい。</p>
+<p>すぐ見るべき項目は次の通り。</p>
+<ul>
+<li><code>google-cloud-aiplatform</code> が v1.148.0 以上か。</li>
+<li>Vertex AI の <code>Model.upload()</code> を使う pipeline で <code>staging_bucket</code> を明示しているか。</li>
+<li>明示した bucket が自組織 project / folder / perimeter の管理下にあるか。</li>
+<li>model artifact の hash / 署名 / provenance を registry 登録前後で検証しているか。</li>
+<li>pickle / joblib の load を前提にする serving container の権限が過大でないか。</li>
+<li>古い training / deployment image に SDK version が固定されていないか。</li>
+</ul>
+<h2>自分向けメモ</h2>
+<ul>
+<li>AI/ML基盤の脆弱性は、モデルAPIだけでなく「SDKの便利機能」「一時bucket」「managed service agent」「tenant project」まで見る必要がある。</li>
+<li>個人や小チームのAI実験でも、project ID は外に出やすい。Cloud Storage bucket 名が予測可能か、default bucket に依存していないかは確認したい。</li>
+<li>pickle / joblib は便利だが、外部由来 artifact だけでなく「途中で差し替えられる可能性のある artifact」も危険扱いにする。</li>
+<li>Vertex AIを使う手順書を作るなら、<code>pip install --upgrade google-cloud-aiplatform</code> と明示的 staging bucket 指定を標準手順に入れる。</li>
+<li>SAP / ERP のAI連携でも、業務データを使ったML pipelineは一時領域とartifact検証が盲点になりやすい。Basis運用目線では bucket/IAM/署名/ログをセットで見る。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://unit42.paloaltonetworks.com/hijacking-vertex-ai-model/">Unit 42: Pickle in the Middle - Hijacking Vertex AI Model Uploads for Cross-Tenant RCE</a> - 今回の主対象。攻撃条件、bucket squatting、差し替えタイミング、RCE影響、修正経緯を説明。</li>
+<li><a href="https://github.com/googleapis/python-aiplatform/releases/tag/v1.144.0">googleapis/python-aiplatform v1.144.0 release</a> - auto-created GCS staging bucket names を予測しにくくする修正。</li>
+<li><a href="https://github.com/googleapis/python-aiplatform/releases/tag/v1.148.0">googleapis/python-aiplatform v1.148.0 release</a> - <code>Model.upload()</code> に bucket ownership verification を追加した修正版。</li>
+<li><a href="https://cloud.google.com/vertex-ai/docs/python-sdk/use-vertex-ai-python-sdk">Google Cloud: Vertex AI SDK for Python</a> - SDK利用と <code>google-cloud-aiplatform</code> package の公式ドキュメント。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>Vertex AI</li>
+<li>google-cloud-aiplatform</li>
+<li>bucket squatting</li>
+<li>GCS staging bucket</li>
+<li>Model.upload</li>
+<li>pickle deserialization</li>
+<li>joblib</li>
+<li>model poisoning</li>
+<li>cross-tenant RCE</li>
+<li>ML supply chain security</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://unit42.paloaltonetworks.com/hijacking-vertex-ai-model/">unit42.paloaltonetworks.com - hijacking-vertex-ai-model</a></p></section>
+    </article>
+  </main>
+</body>
+</html>

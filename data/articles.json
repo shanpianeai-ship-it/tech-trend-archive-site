@@ -1,5 +1,18 @@
 [
   {
+    "file": "Security/2026-06-22_AM_Vertex_AI_SDKアップロード乗っ取り.md",
+    "slug": "2026-06-22_AM_Vertex_AI_SDKアップロード乗っ取り",
+    "title": "Vertex AI SDKアップロード乗っ取り",
+    "genre": "Security",
+    "genreLabel": "Security",
+    "created": "2026-06-22",
+    "source": "https://unit42.paloaltonetworks.com/hijacking-vertex-ai-model/",
+    "importance": "high",
+    "confidence": "high",
+    "excerpt": "Unit 42 は 2026-06-16 に、Google Cloud Vertex AI SDK for Python の `Model.upload()` に関する bucket squatting 型の脆弱性を公開した。対象は `google-cloud-aiplatform` SDK v1.139.0 と v1.140.0 で、修正版は v1.148...",
+    "url": "articles/2026-06-22_AM_Vertex_AI_SDKアップロード乗っ取り.html"
+  },
+  {
     "file": "Security/2026-06-22_AutoJackエージェントRCE.md",
     "slug": "2026-06-22_AutoJackエージェントRCE",
     "title": "AutoJackエージェントRCE",
