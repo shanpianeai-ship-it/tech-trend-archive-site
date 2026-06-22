@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OpenAI Agents SDKのサンドボックス実行とCodex連携を、個人秘書運用にどう使うか | 興味レポート</title>
+  <meta name="description" content="2026年4月のOpenAI発表で、Agents SDKはファイル確認、コマンド実行、コード編集、長時間タスクを「制御されたサンドボックス環境」で扱う方向へ大きく寄った。単なるLLM呼び出しライブラリではなく、エージェントが作業場所を持ち、ファイルを読み書きし、ツールを使い、必要なら実行状態を復元するための実行ハーネスとして見るべき更新である。 同時期のCo...">
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../../interests/index.html">興味レポート</a>
+    <span class="site-subtitle">Public redacted interest reports</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 興味レポート一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-22T19:56:00+09:00</span>
+        <span>AI・エージェント</span>
+        <span>interest_report</span>
+      </div>
+      <h1>OpenAI Agents SDKのサンドボックス実行とCodex連携を、個人秘書運用にどう使うか</h1>
+<h2>要約</h2>
+<p>2026年4月のOpenAI発表で、Agents SDKはファイル確認、コマンド実行、コード編集、長時間タスクを「制御されたサンドボックス環境」で扱う方向へ大きく寄った。単なるLLM呼び出しライブラリではなく、エージェントが作業場所を持ち、ファイルを読み書きし、ツールを使い、必要なら実行状態を復元するための実行ハーネスとして見るべき更新である。</p>
+<p>同時期のCodex更新では、デスクトップ上のアプリ操作、複数エージェントの並行作業、スケジュール実行、記憶、プラグイン、継続タスクが強調された。これは個人秘書運用にかなり近い。候補収集、投票、Markdown作成、Pages公開、Discord報告のような流れは、すでに「コード作成」ではなく「事務処理の成果物生成」になっている。</p>
+<p>今回のポールは投票0件だったため、候補一覧からこのテーマを選んだ。理由は、OpenClawやCron運用で今まさに課題になる「どこまで自動で実行させ、どこで隔離し、どこで承認線を置くか」を考える材料として最も実用性が高いためである。</p>
+<h2>なぜ今見る価値があるか</h2>
+<p>個人秘書エージェントは、便利になるほど危険な操作にも近づく。Web調査だけなら失敗しても修正しやすいが、ファイル編集、git push、Discord報告、画像生成、台帳更新、外部サービス操作まで同じ権限で動かすと、失敗時の影響範囲が広がる。</p>
+<p>Agents SDKのサンドボックス実行は、この問題を「作業場所」と「権限」の単位で分ける発想を与えてくれる。エージェントには入力ファイル、出力先、使えるツール、依存関係を明示したワークスペースを渡し、秘密情報や不要なディレクトリには触らせない。OpenAIの説明では、Manifestでローカルファイルや出力ディレクトリ、クラウドストレージを定義できる。つまり、秘書に丸ごと端末を渡すのではなく、案件ごとの作業机を渡す設計に近い。</p>
+<p>Codex側の更新も重要である。Codexは開発作業だけでなく、アプリ操作、画像生成、プラグイン、メモリ、スケジュール実行、継続タスクへ広がっている。個人運用では、OpenClawのCronやDiscord連携を「毎回の単発作業」ではなく、手順、成果物、承認、ログを持つ定期業務として扱う必要がある。</p>
+<h2>調査メモ</h2>
+<p>OpenAIのAgents SDK発表では、更新後のSDKを「モデルネイティブなハーネス」と位置づけている。エージェントがファイルやツールをまたいで作業し、サンドボックスで安全に実行するための標準的な基盤を提供する、という説明である。特に、ファイル検査、コマンド実行、コード編集、長い手順の継続が明示されている点が、個人秘書用途と相性がよい。</p>
+<p>サンドボックス実行では、エージェントに制御されたコンピュータ環境を与える。OpenAIは、ローカル実行のほか、Blaxel、Cloudflare、Daytona、E2B、Modal、Runloop、Vercelなどのサンドボックス提供者に触れている。個人利用では最初から外部サンドボックスに寄せる必要はないが、「案件ごとに作業ディレクトリを切る」「不要な秘密情報を渡さない」「出力ディレクトリを固定する」という考え方はそのまま使える。</p>
+<p>Manifestは、エージェントの作業空間を説明するための抽象化である。入力ファイルのマウント、出力先、クラウドストレージなどを定義できる。OpenClaw運用に置き換えるなら、興味レポート担当には候補一覧、運用ルール、公開用リポジトリだけを渡し、画像加工担当には素材フォルダと出力フォルダだけを渡す、という切り分けになる。</p>
+<p>Agents SDKドキュメントでは、SDKの基本プリミティブとして、Agent、handoff、guardrails、tracing、sessions、sandbox agents、MCP連携が整理されている。個人秘書で特に見るべきなのは、guardrails、sessions、tracingである。入力や出力の検証、会話や作業履歴の保持、実行過程の追跡がないと、定期実行は「動いたかどうか」しか分からない。</p>
+<p>Sessionsのドキュメントでは、会話履歴をセッション単位で保存し、次回実行時に自動で文脈へ戻す仕組みが説明されている。これは、毎日の候補生成や記事作成で「前回の失敗」「既に扱ったテーマ」「好みの文体」を継続的に反映するための基盤になる。一方で、長期メモリを無制限に渡すとノイズや漏えいリスクも増えるため、タスクごとにどの履歴を読むかを制限する設計が必要である。</p>
+<p>GitHubのopenai-agents-pythonリリースでは、2026年6月19日時点でv0.17.6が最新として出ている。候補一覧の発表記事にあった <code>openai-agents&gt;=0.14.0</code> よりも進んでいるため、実装検証をする場合は公式ドキュメントとリリースノートを見て、サンプルコードのバージョン差分を確認した方がよい。</p>
+<h2>個人向けの読みどころ</h2>
+<p>個人秘書運用へ落とすなら、まず「担当ごとの作業机」を作るのがよい。1体の秘書に全権限を渡すより、興味レポート担当、画像処理担当、Obsidian整理担当、PSA台帳担当、公開担当に分け、それぞれに読んでよいファイル、書いてよいフォルダ、外部送信の可否を持たせる。</p>
+<p>興味レポート担当なら、入力は候補一覧、投票結果、公式情報のURL、運用ルールで十分である。出力はMarkdownと候補一覧frontmatter更新まで。GitHub Pagesへの反映は公開担当の責務としてもよいし、今回のCronのように同一フローで実行する場合でも、ビルド、commit、push、公開URL確認、Discord報告を成功条件として明示する。ここを曖昧にすると、投票だけ読んで成功扱いになる。</p>
+<p>サンドボックス的に考えると、日次Cronは毎回「今日の作業ディレクトリ」と「今日の成果物」を持つべきである。候補一覧、選定理由、調査リンク、生成Markdown、ビルド結果、コミットハッシュ、公開URL確認結果を1つのログとして残す。これにより、後から失敗原因を追える。</p>
+<p>Codex連携で見るべきポイントは、継続タスクと記憶である。毎回同じ指示を長く書くより、役割ごとのスキルや運用ルールへ寄せる。興味レポートなら、候補カテゴリではなく具体テーマを記事化する、投票0件なら重要度・鮮度・適合度で選ぶ、公開確認まで成功扱いにしない、というルールを担当に持たせる。これはAgents SDKのguardrailsやsessionsの考え方と近い。</p>
+<h2>注意点</h2>
+<p>この記事は公開情報に基づく運用メモであり、OpenAI API、Codex、Agents SDKの利用可否、料金、提供地域、対応言語、サンドボックス提供者の仕様を保証するものではない。実装する場合は公式ドキュメント、利用中のプラン、SDKリリースノートを確認する必要がある。</p>
+<p>個人秘書エージェントに与える権限は、便利さではなく失敗時の被害範囲で決めるべきである。外部送信、公開、削除、購入、支払い、個人情報を含む処理は、担当やスキルごとに明確な承認線を置く。特に公開サイトに出る本文には、個人情報、内部パス、資産額、具体的な居住地、非公開メモを混ぜない。</p>
+<p>サンドボックスは万能ではない。作業場所を隔離しても、渡した入力に秘密情報が含まれていれば漏えいリスクは残る。また、エージェントが外部サイトを読む場合はプロンプトインジェクションを前提にし、外部ページの指示をそのまま実行しない設計が必要である。</p>
+<h2>参考リンク</h2>
+<ul>
+<li><a href="https://openai.com/index/the-next-evolution-of-the-agents-sdk/">OpenAI: The next evolution of the Agents SDK</a></li>
+<li><a href="https://openai.com/index/codex-for-almost-everything/">OpenAI: Codex for (almost) everything</a></li>
+<li><a href="https://openai.github.io/openai-agents-python/">OpenAI Agents SDK documentation</a></li>
+<li><a href="https://openai.github.io/openai-agents-python/sandbox/quickstart/">OpenAI Agents SDK: Sandbox agents quickstart</a></li>
+<li><a href="https://openai.github.io/openai-agents-python/sessions/">OpenAI Agents SDK: Sessions</a></li>
+<li><a href="https://github.com/openai/openai-agents-python/releases">GitHub: openai/openai-agents-python releases</a></li>
+</ul>
+    </article>
+  </main>
+</body>
+</html>

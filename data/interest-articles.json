@@ -12,6 +12,17 @@
   },
   {
     "file": "[入力元伏せ]",
+    "slug": "2026-06-22-AI・エージェント-OpenAI-Agents-SDKのサンドボックス実行とCodex連携を、個人秘書運-ead0734cbc",
+    "title": "OpenAI Agents SDKのサンドボックス実行とCodex連携を、個人秘書運用にどう使うか",
+    "category": "AI・エージェント",
+    "created": "2026-06-22T19:56:00+09:00",
+    "status": "",
+    "type": "interest_report",
+    "excerpt": "2026年4月のOpenAI発表で、Agents SDKはファイル確認、コマンド実行、コード編集、長時間タスクを「制御されたサンドボックス環境」で扱う方向へ大きく寄った。単なるLLM呼び出しライブラリではなく、エージェントが作業場所を持ち、ファイルを読み書きし、ツールを使い、必要なら実行状態を復元するための実行ハーネスとして見るべき更新である。 同時期のCo...",
+    "url": "interests/articles/2026-06-22-AI・エージェント-OpenAI-Agents-SDKのサンドボックス実行とCodex連携を、個人秘書運-ead0734cbc.html"
+  },
+  {
+    "file": "[入力元伏せ]",
     "slug": "2026-06-21-AI・エージェント-Codex-pluginsとworkspace-agentsで「趣味事務の役割別エー-a0ad52e97b",
     "title": "Codex pluginsとworkspace agentsで「趣味事務の役割別エージェント」を作れるか",
     "category": "AI・エージェント",
