@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AutoJackエージェントRCE | 海外技術情報アーカイブ</title>
+  <meta name="description" content="Microsoft Defender Security Research Teamが、AutoGen Studioの開発系コードを題材に「AutoJack」という攻撃連鎖を公開した。 要点は、ブラウジング機能を持つAIエージェントが悪意あるWebページを読むだけで、同じ端末上のlocalhost MCP WebSocketへ到達し、AutoGen Studi...">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-22</span>
+        <span>Security</span>
+        <span>importance: high</span>
+      </div>
+      <h1>AutoJackエージェントRCE</h1>
+<h2>要約</h2>
+<p>Microsoft Defender Security Research Teamが、AutoGen Studioの開発系コードを題材に「AutoJack」という攻撃連鎖を公開した。</p>
+<p>要点は、ブラウジング機能を持つAIエージェントが悪意あるWebページを読むだけで、同じ端末上のlocalhost MCP WebSocketへ到達し、AutoGen Studio側に任意プロセスを起動させられるというもの。Microsoftは現行ビルドでは成立しない実証用の連鎖だと説明しているが、localhost、MCP、ブラウザ付きエージェント、ローカル制御プレーンを同じ端末に置く設計の危うさをかなり具体的に示している。</p>
+<p>自分向けには、「localhostは信頼境界ではない」「MCPやローカル管理APIは必ず認証・認可・隔離する」「Webを読むエージェントとシェル/ファイル/認証情報へ触る制御面を同居させない」という設計メモとして読むのがよい。</p>
+<h2>背景</h2>
+<p>AIエージェントは、LLM単体ではなく、ブラウザ、MCPサーバ、ローカルCLI、ファイル操作、シェル実行、開発ツールをつないで実用化される方向へ進んでいる。ここで危ないのは、従来は人間の開発者だけが触る前提だったlocalhostの管理ポートやWebSocketを、エージェントが外部Webコンテンツを読みながら同時に扱う点。</p>
+<p>普通のWebアプリなら、悪意あるサイトから <code>localhost</code> の管理APIへ直接アクセスさせないためにOriginチェックやCSRF対策を置く。ただし、ブラウジングエージェントは同じ端末上のプロセスとしてWebページを取得し、Playwrightやツール経由でリクエストを実行する。つまり、攻撃者が操作するのは人間のブラウザではなく、ローカル権限を持つエージェントの実行環境になる。</p>
+<p>AutoJackはこのズレを突いた事例。AutoGen StudioのMCP WebSocketで、localhost前提、MCPパスの認証抜け、URL由来の <code>StdioServerParams</code> 実行が重なり、悪意あるページを読ませるだけでホスト上の任意コマンド実行に到達する。</p>
+<h2>何が重要か</h2>
+<h3>1. localhostチェックはエージェントには弱い</h3>
+<p>Microsoftの記事で一番重要なのは、「localhostから来たから安全」という前提が、ブラウジングエージェントでは崩れる点。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>従来の想定</th><th>エージェント時代の変化</th><th>事故の形</th></tr></thead>
+<tbody>
+<tr><td>localhostは開発者本人の端末内だけ</td><td>エージェントも同じ端末内のプロセス</td><td>外部ページがエージェント経由でlocalhostへ届く</td></tr>
+<tr><td>Origin allowlistで外部サイトを止める</td><td>エージェントのブラウザ/ツールがリクエストを代行</td><td>攻撃者入力がローカル制御面へ橋渡しされる</td></tr>
+<tr><td>MCP/管理APIはローカル専用だから軽い認証でよい</td><td>MCPはシェル、ファイル、外部APIへ接続しやすい</td><td>ローカルRCEや資格情報流出へつながる</td></tr>
+</tbody>
+</table></div>
+<p>これはAutoGen Studio固有の話で終わらない。OpenClaw、Codex、MCP、ブラウザ自動化、ローカルHTTP管理UIを組み合わせる環境では、同じ形の設計ミスが起きやすい。</p>
+<h3>2. 3つの弱点が連鎖してRCEになる</h3>
+<p>AutoJackは単発の魔法のようなAI攻撃ではなく、かなり普通のWeb/ローカルサービス脆弱性がエージェントでつながったもの。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>弱点</th><th>内容</th><th>防御の読み替え</th></tr></thead>
+<tbody>
+<tr><td>localhost Origin信頼</td><td>127.0.0.1 / localhostだけ許す設計が、エージェント経由では回避される</td><td>loopbackを認証代わりにしない</td></tr>
+<tr><td>MCPパスの認証抜け</td><td><code>/api/mcp/*</code> やWebSocket系パスが通常認証から外れていた</td><td>WebSocketもaccept前に認証・認可する</td></tr>
+<tr><td>URL由来コマンド実行</td><td><code>server_params</code> をdecodeして <code>StdioServerParams</code> として実行</td><td>コマンド、引数、MCPサーバをallowlist化する</td></tr>
+</tbody>
+</table></div>
+<p>この3つが重なると、攻撃者はWebページを用意し、エージェントにそのURLを読ませるだけで、AutoGen Studioプロセスの権限でコマンドを起動できる。危険なのは「人間が承認ボタンを押した」からではなく、「読む」という低リスクに見える行為がローカル制御面へ接続されること。</p>
+<h3>3. 影響範囲は限定的だが、設計教訓は広い</h3>
+<p>Microsoftは、記事内でこの連鎖は現行ビルドでは成立せず、AutoGen Studioは研究・試作用UIであり、本番利用を前提にした堅牢化済み製品とは異なる文脈だと説明している。</p>
+<p>一方でThe Hacker Newsは、通常の安定版 <code>autogenstudio</code> ではMCP routeがなく影響しないが、pre-release版には該当ハンドラが含まれていたと補足している。つまり、利用者側では「自分がどの配布形態を使ったか」「pre-releaseをpinしていないか」「mainブランチの修正を取り込んだか」を確認する必要がある。</p>
+<p>重要なのは、AutoGen Studioだけを悪者にすることではない。エージェントフレームワーク全般で、次のような条件がそろうと似た問題が出る。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>条件</th><th>例</th></tr></thead>
+<tbody>
+<tr><td>外部コンテンツを読む</td><td>Webページ、GitHub Issue、PDF、Markdown、検索結果</td></tr>
+<tr><td>ローカル制御面がある</td><td>MCP WebSocket、管理UI、debug port、CLI bridge</td></tr>
+<tr><td>強いツール権限がある</td><td>shell、file write、env read、browser automation、API token</td></tr>
+<tr><td>境界が曖昧</td><td>localhost信頼、認証なし、Originだけ、自然言語承認だけ</td></tr>
+</tbody>
+</table></div>
+<h3>4. 防御は「エージェントを信用しない」から始める</h3>
+<p>実務上の対策は、エージェントを便利な同僚ではなく、攻撃者入力を読むプロセスとして扱うこと。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>対策</th><th>具体化</th></tr></thead>
+<tbody>
+<tr><td>制御面の認証</td><td>MCP、WebSocket、管理APIはlocalhostでも認証・認可を必須にする</td></tr>
+<tr><td>実行allowlist</td><td>起動可能なMCPサーバ、コマンド、引数、作業ディレクトリを固定する</td></tr>
+<tr><td>隔離</td><td>ブラウジングエージェントとローカル管理UIを別コンテナ/VM/低権限ユーザーに分ける</td></tr>
+<tr><td>ネットワーク制限</td><td>エージェントの到達先を必要なドメインとローカルポートに絞る</td></tr>
+<tr><td>承認境界</td><td>Webページ読解とシェル実行、ファイル書き込み、外部送信を別の承認段階にする</td></tr>
+<tr><td>証跡</td><td>読んだURL、ツール呼び出し、MCP接続、プロセス起動、ファイル差分を残す</td></tr>
+</tbody>
+</table></div>
+<p>特にMCPは「ただのツール接続」ではなく、ローカルプロセス起動や外部API権限を運ぶ制御プレーンとして扱う必要がある。MCPサーバの起動パラメータをURLやプロンプト入力から自由に作る設計は避けるべき。</p>
+<h2>自分向けメモ</h2>
+<ul>
+<li>OpenClaw/Codex環境でも、ブラウザで外部ページを読む処理と、ローカルファイル編集・シェル実行・Discord送信を同じ文脈で扱う。だから「読むだけ」の入力を過信しない。</li>
+<li><code>localhost</code>、<code>127.0.0.1</code>、Unix socket、dev server、debug portは、全部「攻撃者に直接見えない」だけであって「信頼できる」ではない。</li>
+<li>MCPやローカルブリッジは、接続先、認証方式、実行可能コマンド、環境変数アクセス、ログ保存を台帳化したい。</li>
+<li>ブラウザ付きエージェントには、ローカル管理ポートへの接続制限がほしい。少なくとも不要な <code>localhost:*</code> へのアクセスをデフォルト許可にしない。</li>
+<li>SAP/Basis文脈では、Joule Agentsや運用自動化エージェントがSAP GUI、RFC、OSコマンド、ジョブ管理、監視APIへ触る場合、外部文書やチケット本文を読ませる入力面と実行権限を分離する必要がある。</li>
+<li>家庭内の個人秘書運用でも、便利なSkill追加時には「Webを読む」「ローカルを実行する」「外へ送る」が一つにまとまっていないかを見る。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://www.microsoft.com/en-us/security/blog/2026/06/18/autojack-single-page-rce-host-running-ai-agent/">Microsoft Security Blog - AutoJack: How a single page can RCE the host running your AI agent</a> - 一次情報。AutoJackの攻撃連鎖、localhost信頼境界、MCP WebSocket、認証抜け、<code>StdioServerParams</code> 実行の説明。</li>
+<li><a href="https://thehackernews.com/2026/06/autojack-attack-lets-one-web-page.html">The Hacker News - AutoJack Attack Lets One Web Page Hijack AI Agent for Host Code Execution</a> - 影響する配布形態、pre-release版、修正commit/PR、実務対策の補足。</li>
+<li><a href="https://microsoft.github.io/autogen/stable//reference/python/autogen_ext.tools.mcp.html">Microsoft AutoGen - MCP tool adapter documentation</a> - AutoGenでMCP toolをSTDIO/SSE/HTTP経由で扱う仕組みの参考。</li>
+<li><a href="https://learn.microsoft.com/en-us/agent-framework/migration-guide/from-autogen/">Microsoft Learn - AutoGen to Microsoft Agent Framework Migration Guide</a> - AutoGenの位置づけとMicrosoft Agent Frameworkへの移行文脈。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>AutoJack</li>
+<li>AutoGen Studio</li>
+<li>MCP security</li>
+<li>localhost trust boundary</li>
+<li>AI agent security</li>
+<li>WebSocket authentication</li>
+<li>RCE</li>
+<li>confused deputy</li>
+<li>browser-enabled agents</li>
+<li>prompt injection</li>
+<li>local control plane</li>
+<li>AgentOps</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://www.microsoft.com/en-us/security/blog/2026/06/18/autojack-single-page-rce-host-running-ai-agent/">microsoft.com - en-us / security</a></p></section>
+    </article>
+  </main>
+</body>
+</html>

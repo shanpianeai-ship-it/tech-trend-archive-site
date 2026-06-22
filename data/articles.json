@@ -1,5 +1,18 @@
 [
   {
+    "file": "Security/2026-06-22_AutoJackエージェントRCE.md",
+    "slug": "2026-06-22_AutoJackエージェントRCE",
+    "title": "AutoJackエージェントRCE",
+    "genre": "Security",
+    "genreLabel": "Security",
+    "created": "2026-06-22",
+    "source": "https://www.microsoft.com/en-us/security/blog/2026/06/18/autojack-single-page-rce-host-running-ai-agent/",
+    "importance": "high",
+    "confidence": "high",
+    "excerpt": "Microsoft Defender Security Research Teamが、AutoGen Studioの開発系コードを題材に「AutoJack」という攻撃連鎖を公開した。 要点は、ブラウジング機能を持つAIエージェントが悪意あるWebページを読むだけで、同じ端末上のlocalhost MCP WebSocketへ到達し、AutoGen Studi...",
+    "url": "articles/2026-06-22_AutoJackエージェントRCE.html"
+  },
+  {
     "file": "SAP_ERP/2026-06-21_AM_Sapphire_2026発表総覧.md",
     "slug": "2026-06-21_AM_Sapphire_2026発表総覧",
     "title": "SAP Sapphire 2026発表総覧はERP AIの実装地図",
