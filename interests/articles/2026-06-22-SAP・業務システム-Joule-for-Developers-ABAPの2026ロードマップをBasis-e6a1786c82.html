@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Joule for Developers ABAPの2026ロードマップをBasis運用者の武器にする | 興味レポート</title>
+  <meta name="description" content="SAPの2026年ABAP AIロードマップは、Joule for Developersを「ABAP開発者向けの補助チャット」から、ABAP Cloud、RAP、VS Code、MCP Server、S/4HANA Cloud Private Editionまで含めた開発支援基盤へ広げる方向に見える。候補元のSAP Community記事は、Joule fo...">
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../../interests/index.html">興味レポート</a>
+    <span class="site-subtitle">Public redacted interest reports</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 興味レポート一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-22T19:58:00+09:00</span>
+        <span>SAP・業務システム</span>
+        <span>interest_report</span>
+      </div>
+      <h1>Joule for Developers ABAPの2026ロードマップをBasis運用者の武器にする</h1>
+<h2>要約</h2>
+<p>SAPの2026年ABAP AIロードマップは、Joule for Developersを「ABAP開発者向けの補助チャット」から、ABAP Cloud、RAP、VS Code、MCP Server、S/4HANA Cloud Private Editionまで含めた開発支援基盤へ広げる方向に見える。候補元のSAP Community記事は、Joule for Developers ABAPの2026年ロードマップが、開発生産性を上げるエージェント機能とモダナイゼーションに重点を置くと説明している。</p>
+<p>Basis/運用者にとっての読みどころは、AIがABAPを書くこと自体ではない。重要なのは、AI支援開発が増えるほど、利用資格、対象システム、開発ツール接続、変更管理、ATC/ABAP Unit、監査ログ、Clean Core逸脱の検知を運用設計に組み込む必要が出ることだ。つまりJouleは開発者だけの道具ではなく、Basisが「安全に開発速度を上げるための統制点」を作る材料になる。</p>
+<h2>なぜ今見る価値があるか</h2>
+<p>SAP公式のJoule for Developersページでは、SAP BuildとABAPに埋め込まれた設計時AI機能として、アプリ生成、プロセス自動化、テスト生成、コード最適化、コード理解などが挙げられている。ABAP向けでは、SAPで訓練されたモデルにより、利用中のABAPバージョンに合わせた予測や最適化を行うという説明になっている。</p>
+<p>さらに、SAP S/4HANA Cloud Private Edition向けのJoule for developers ABAP AI featuresページでは、JouleのABAP開発者機能がABAP Cloudでのフルスタック開発を支援し、開発オブジェクトのリアルタイム説明などを提供すると説明されている。Discovery Center上でも、S/4HANA Cloud Private Edition向けとSAP BTP ABAP environment向けにABAP AI機能が別建てで掲載されており、PoCではなく製品機能として運用対象に入ってきている。</p>
+<p>2026年の焦点は、Eclipse ADT内の補完だけでなく、VS Code対応、MCP Server、S/4HANA Cloud Private Editionの対象拡大、カスタムコード変換支援へ広がる点にある。開発者体験が変わるほど、Basis側の管理対象も「トランスポートとジョブ」から「AIを含む開発ツールチェーン」へ広がる。</p>
+<h2>調査メモ</h2>
+<p>SAP公式ページは、Joule for DevelopersをSAP BuildとABAPの設計時AI機能群として位置づけている。含まれる機能例は、コード生成、ユニットテスト生成、コード説明であり、SAP Document AIやSAP AI Coreのような実行時・業務利用AIとは区別される。これは運用上かなり重要で、Joule for Developersは本番業務プロセスの自動実行権限ではなく、まずは開発ライフサイクル側の統制対象として扱うべきだ。</p>
+<p>候補元のSAP Communityロードマップ記事は、Joule for Developers ABAPの2026年ロードマップが、エージェントによる開発生産性向上とモダナイゼーションを重視すると紹介されている。関連するSAP Community記事では、MCP ServerがEclipseとVS Codeの両方で利用可能になり、VS Code版ABAP Development Toolsが2026年第2四半期に一般提供されるという説明も確認できる。ここから読むべき筋は、「ABAP開発はEclipseだけ」という前提が崩れ、AI IDEやMCPクライアントとの接続管理が論点になることだ。</p>
+<p>SAP S/4HANA Cloud Private Edition向けの公式ページでは、JouleがSAPデータとプロセスで訓練されたABAP開発者向けコパイロットであり、ABAP Cloudのフルスタック開発を支援するとされる。料金面ではAI Unitsが必要になる説明があり、無償プロモーションがあっても本格利用では契約・資格付与・コスト配賦の整理が必要になる。</p>
+<p>SAP Discovery CenterのAI Featureページは、S/4HANA Cloud Private Edition向けとSAP BTP ABAP environment向けのABAP AI機能を分けて掲載している。これはBasis目線では、どのランドスケープ、どのテナント、どの開発環境でJouleを有効化するのかを分けて台帳化すべきということでもある。</p>
+<p>独立系の解説では、Sapphire 2026以降のABAP MCP Server、VS Code、外部AIエージェント連携を、SAPがABAP開発をよりオープンなAI開発ツールチェーンへ接続する動きとして読むものが多い。ただし、外部解説は推測や期待も混じるため、実導入判断ではSAP公式のRoad Map Explorer、SAP Note、契約条件、対象リリースを優先して確認する必要がある。</p>
+<h2>個人向けの読みどころ</h2>
+<p>Basis向けには「Jouleを使うかどうか」ではなく、「Jouleを使っても壊れない開発運用」をチェックリスト化すると使いやすい。</p>
+<ul>
+<li>対象環境: S/4HANA Cloud Private Edition、BTP ABAP environment、ABAP Cloudのどこで使うか</li>
+<li>利用資格: AI Units、無償枠、ユーザー割当、開発者ロールを誰が管理するか</li>
+<li>開発ツール: Eclipse ADT、VS Code、MCP Server、外部AI IDEの接続可否をどう制御するか</li>
+<li>変更管理: AI生成コードも通常コードと同じレビュー、ATC、ABAP Unit、トランスポート承認を通すか</li>
+<li>Clean Core: released API、拡張ポイント、RAP/CDS、非推奨API利用をどこで検出するか</li>
+<li>ログ: 誰がどのAI機能を使い、どの開発オブジェクトに変更提案したかを監査できるか</li>
+<li>教育: 新人向けにはコード説明、既存コード理解、テスト生成から使わせると事故が少ないか</li>
+</ul>
+<p>YouTubeや創作ネタにするなら、「AIでABAPが自動化されてBasis不要」ではなく、「AIで開発が速くなるほどBasisの統制設計が重要になる」という切り口が強い。Joule導入後のBasisは、開発者を止める門番ではなく、AI支援開発を本番品質へ通すガードレール設計者として描ける。</p>
+<h2>注意点</h2>
+<p>2026年ロードマップ上の機能は、一般提供済み、ロードマップ掲載、段階提供、対象製品限定が混ざる。VS Code、MCP Server、S/4HANA Cloud Private Editionの対象リリース、AI Units、SAP Noteの条件は、実環境ごとに確認が必要だ。</p>
+<p>また、AIが生成・説明したABAPコードは、正しさやClean Core適合を保証するものではない。AI生成コードも、人間のレビュー、ATC、ABAP Unit、性能確認、権限確認、トランスポート承認を通すべきだ。特に既存アドオン、改修済み標準、古いカスタムコード、特殊な権限設計がある環境では、もっともらしい提案が本番障害の入口になり得る。</p>
+<h2>参考リンク</h2>
+<ul>
+<li><a href="https://www.sap.com/products/artificial-intelligence/joule-for-developers.html">SAP: Joule for Developers</a></li>
+<li><a href="https://community.sap.com/t5/technology-blog-posts-by-sap/our-2026-roadmap-for-joule-for-developers-abap-ai-capabilities/ba-p/14360358">SAP Community: Our 2026 Roadmap for Joule for Developers ABAP AI capabilities</a></li>
+<li><a href="https://community.sap.com/t5/technology-blog-posts-by-sap/entering-the-new-era-of-agentic-ai-for-abap-development/ba-p/14394643">SAP Community: Entering the New Era of Agentic AI for ABAP Development</a></li>
+<li><a href="https://www.sap.com/products/erp/s4hana-cloud-private-edition-joule-for-developers-abap-ai-features.html">SAP: SAP S/4HANA Cloud Private Edition, Joule for developers, ABAP AI features</a></li>
+<li><a href="https://discovery-center.cloud.sap/ai-feature/795cf9fa-d0cc-42b0-a3d7-52e8067e847d/">SAP Discovery Center: S/4HANA Cloud Private Edition, SAP Joule for Developers ABAP AI</a></li>
+<li><a href="https://discovery-center.cloud.sap/ai-feature/7f373198-9a41-4416-9eed-bdfca445d37a">SAP Discovery Center: SAP BTP ABAP environment, SAP Joule for Developers ABAP AI</a></li>
+</ul>
+    </article>
+  </main>
+</body>
+</html>

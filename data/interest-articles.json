@@ -188,6 +188,17 @@
   },
   {
     "file": "[入力元伏せ]",
+    "slug": "2026-06-22-SAP・業務システム-Joule-for-Developers-ABAPの2026ロードマップをBasis-e6a1786c82",
+    "title": "Joule for Developers ABAPの2026ロードマップをBasis運用者の武器にする",
+    "category": "SAP・業務システム",
+    "created": "2026-06-22T19:58:00+09:00",
+    "status": "",
+    "type": "interest_report",
+    "excerpt": "SAPの2026年ABAP AIロードマップは、Joule for Developersを「ABAP開発者向けの補助チャット」から、ABAP Cloud、RAP、VS Code、MCP Server、S/4HANA Cloud Private Editionまで含めた開発支援基盤へ広げる方向に見える。候補元のSAP Community記事は、Joule fo...",
+    "url": "interests/articles/2026-06-22-SAP・業務システム-Joule-for-Developers-ABAPの2026ロードマップをBasis-e6a1786c82.html"
+  },
+  {
+    "file": "[入力元伏せ]",
     "slug": "2026-06-17-SAP・業務システム-SAP-Business-Data-CloudとKnowledge-GraphはJo-0bc1aec22c",
     "title": "SAP Business Data CloudとKnowledge GraphはJouleエージェントの「根拠レイヤー」になるか",
     "category": "SAP・業務システム",
