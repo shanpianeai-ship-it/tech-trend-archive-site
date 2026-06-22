@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Obsidian Basesで「候補・投票・記事化・公開」を1画面にする最小プロパティ設計 | 興味レポート</title>
+  <meta name="description" content="Obsidian Basesは、Markdownノートのプロパティをもとに、フィルタ、表、カード、計算列を作るための仕組みである。興味レポート自動化に当てはめるなら、候補一覧ノートと調査ノートを同じビューで追えるようにし、「候補作成」「ポール送信」「選定」「記事化」「ビルド」「公開確認」「Discord報告」の状態を1画面に寄せるのが一番効く。 今回のDis...">
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../../interests/index.html">興味レポート</a>
+    <span class="site-subtitle">Public redacted interest reports</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 興味レポート一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-22T19:58:00+09:00</span>
+        <span>OpenClaw・Obsidian運用</span>
+        <span>interest_report</span>
+      </div>
+      <h1>Obsidian Basesで「候補・投票・記事化・公開」を1画面にする最小プロパティ設計</h1>
+<h2>要約</h2>
+<p>Obsidian Basesは、Markdownノートのプロパティをもとに、フィルタ、表、カード、計算列を作るための仕組みである。興味レポート自動化に当てはめるなら、候補一覧ノートと調査ノートを同じビューで追えるようにし、「候補作成」「ポール送信」「選定」「記事化」「ビルド」「公開確認」「Discord報告」の状態を1画面に寄せるのが一番効く。</p>
+<p>今回のDiscordポールは全選択肢0票だったため、候補一覧から重要度と個人適合度が高いこのテーマを選んだ。理由は単純で、興味レポート自動化はすでに毎日複数回走っており、失敗したときにどこで止まったのかをObsidian上で即座に見えるようにする価値が高いからである。</p>
+<p>結論として、最小設計は「候補一覧ノート」と「調査ノート」に共通する少数のプロパティを持たせ、Bases側で未完了、要確認、公開済みを切り替える形がよい。細かいログを全部frontmatterへ詰めるのではなく、人間が判断するための状態、選定理由、公開URL、コミットだけを残す。</p>
+<h2>なぜ今見る価値があるか</h2>
+<p>今の興味レポートCronは、候補作成、Discordポール、投票読み取り、調査Markdown作成、サイトビルド、GitHub Pages公開、結果報告までを横断する。便利だが、途中で止まった場合に「候補はあるのか」「投票は読めたのか」「記事は作ったのか」「push済みか」「公開URLは200か」をファイル、Discord、Git、ブラウザで個別に確認する必要がある。</p>
+<p>Obsidian公式ヘルプでは、Propertiesはノート先頭のYAMLとして保存され、テキスト、数値、チェックボックス、日付、リストなどの値を扱えると説明されている。これは自動化ログと相性がよい。人間が読む本文とは別に、機械が読む状態をfrontmatterへ置けるからである。</p>
+<p>Bases公式ヘルプでは、ベースファイル内でビュー、フィルタ、表示プロパティ、計算列を定義できる。つまり、候補一覧フォルダと記事フォルダを横断し、<code>run_slot</code>、<code>status</code>、<code>publish</code>、<code>selected_from_poll</code>、<code>public_url</code> のようなプロパティで絞り込める。</p>
+<p>OpenClawのCron Docsも重要である。CronはGateway側のスケジューラで、ジョブ定義、実行状態、履歴を保持し、指定時刻にエージェントを起こす。したがって、Obsidian側にはCronの全ログを複製する必要はない。必要なのは、日々の成果物に紐づく「人間が復旧判断できる状態」である。</p>
+<h2>調査メモ</h2>
+<p>最初に分けるべきノート種別は2つだけでよい。</p>
+<ul>
+<li><code>interest_candidates</code>: その枠の候補一覧。公開対象ではない。候補、ポールID、選定結果、失敗メモを持つ。</li>
+<li><code>interest_report</code>: 選ばれた1件の調査ノート。公開対象になり得る。ジャンル、選定元、公開URL、コミットを持つ。</li>
+</ul>
+<p>候補一覧ノートの最小プロパティは以下で足りる。</p>
+<p>``<code>yaml type: interest_candidates created: 2026-06-22T18:55:00+09:00 run_slot: evening status: selected poll_message_id: &quot;...&quot; poll_channel_id: &quot;...&quot; selected: 10 selected_answer: &quot;Basesで候補から公開まで管理&quot; selected_note: &quot;投票0票のため候補一覧から選定。重要度・鮮度・個人適合度で候補10を採用。&quot; report_path: &quot;興味/OpenClaw・Obsidian運用/2026-06-22_Obsidian_Basesで候補から公開まで管理する.md&quot; </code>``</p>
+<p>調査ノート側は、既存の公開ビルドに合わせつつ、後から照合しやすい項目だけ増やす。</p>
+<p>``<code>yaml type: interest_report created: 2026-06-22T19:58:00+09:00 genre: OpenClaw・Obsidian運用 source_count: 3 publish: true confidence: medium selected_from_poll: false selected_answer: &quot;10. Basesで候補から公開まで管理&quot; run_slot: evening public_url: commit: </code>``</p>
+<p>Basesで見る列は、最初は多くしない方がよい。おすすめは、<code>created</code>、<code>run_slot</code>、<code>type</code>、<code>status</code>、<code>genre</code>、<code>selected_answer</code>、<code>publish</code>、<code>public_url</code>、<code>commit</code>、<code>selected_note</code> の10列である。これ以上増やすと、日次運用の画面というより監査ログになる。</p>
+<p>ビューは3つ作ると使いやすい。</p>
+<ul>
+<li>今日の未完了: 今日作成、かつ <code>status</code> が <code>candidate</code>、<code>selected</code>、<code>draft</code> のもの。</li>
+<li>公開済み: <code>type</code> が <code>interest_report</code>、<code>publish</code> が true、<code>public_url</code> が空ではないもの。</li>
+<li>要確認: <code>status</code> が <code>failed</code>、または <code>public_url</code> が空、または <code>commit</code> が空のもの。</li>
+</ul>
+<p>ここで大事なのは、Basesを「全部自動で直す道具」ではなく「止まった場所をすぐ見る道具」として使うことだ。復旧は人間またはCronが行えばよい。Obsidian画面では、どの枠が未完了か、どの記事が公開済みか、どの候補が選ばれたかが分かれば十分である。</p>
+<h2>個人向けの読みどころ</h2>
+<p>個人の今の運用では、候補一覧が「毎回作られる運用ログ」、調査ノートが「公開される成果物」、Pages repoが「外向け表示」である。この3つを同じものとして扱うと事故りやすい。</p>
+<p>おすすめは、Obsidian Basesを管理画面として使い、実体は今のままMarkdownで残すことだ。候補一覧は公開しない。調査ノートは <code>publish: true</code> のものだけ公開する。候補一覧には <code>selected</code>、<code>selected_answer</code>、<code>selected_note</code>、<code>report_path</code> を残し、調査ノートには <code>selected_from_poll</code>、<code>run_slot</code>、<code>public_url</code>、<code>commit</code> を残す。</p>
+<p>これで、あとから「なぜこの記事が選ばれたのか」を候補一覧側で確認でき、「どこに公開されたのか」を調査ノート側で確認できる。DiscordのポールやGitHubのコミットを毎回掘り返さなくてよくなる。</p>
+<p>さらに、失敗時の状態も明示できる。たとえばDiscord読取に失敗したら <code>status: failed</code> と <code>selected_note: &quot;Discord poll read failed&quot;</code>、ビルド後にPages確認が取れなければ <code>status: built_not_verified</code> のようにしておく。これだけで、次回の復旧Cronや手動確認がかなり楽になる。</p>
+<h2>注意点</h2>
+<p>BasesはObsidian上の見せ方であり、公開ビルドやCronの成功条件そのものではない。したがって、Basesで「公開済み」に見えるだけで成功扱いにしてはいけない。記事作成Cronの成功条件は、Markdown作成、候補一覧更新、ビルド、Git push、公開URL確認、結果報告まで完了した状態である。</p>
+<p>また、frontmatterに内部パス、DiscordチャンネルID、メッセージID、コミットハッシュをどこまで残すかは分けて考える必要がある。候補一覧は非公開なので運用IDを残してよい。一方、公開される調査ノートには、読み手に不要な内部IDを増やさない方がよい。</p>
+<p>個人情報、資産額、年収、具体的な居住地、非公開トークン、未確認ファイルの内容は、Basesの列にも本文にも置かない。サイトビルド側で伏せる仕組みがあっても、元Markdownに不要な情報を書かない方が安全である。</p>
+<h2>参考リンク</h2>
+<ul>
+<li>Obsidian Help: <a href="https://obsidian.md/help/properties">Properties</a></li>
+<li>Obsidian Help: <a href="https://obsidian.md/help/bases/syntax">Bases syntax</a></li>
+<li>OpenClaw Docs: <a href="https://docs.openclaw.ai/automation/cron-jobs">Scheduled tasks</a></li>
+</ul>
+    </article>
+  </main>
+</body>
+</html>

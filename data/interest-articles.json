@@ -177,6 +177,17 @@
   },
   {
     "file": "[入力元伏せ]",
+    "slug": "2026-06-22-OpenClaw・Obsidian運用-Obsidian-Basesで「候補・投票・記事化・公開」を1画面にする最小プロパテ-d1bb0c3679",
+    "title": "Obsidian Basesで「候補・投票・記事化・公開」を1画面にする最小プロパティ設計",
+    "category": "OpenClaw・Obsidian運用",
+    "created": "2026-06-22T19:58:00+09:00",
+    "status": "",
+    "type": "interest_report",
+    "excerpt": "Obsidian Basesは、Markdownノートのプロパティをもとに、フィルタ、表、カード、計算列を作るための仕組みである。興味レポート自動化に当てはめるなら、候補一覧ノートと調査ノートを同じビューで追えるようにし、「候補作成」「ポール送信」「選定」「記事化」「ビルド」「公開確認」「Discord報告」の状態を1画面に寄せるのが一番効く。 今回のDis...",
+    "url": "interests/articles/2026-06-22-OpenClaw・Obsidian運用-Obsidian-Basesで「候補・投票・記事化・公開」を1画面にする最小プロパテ-d1bb0c3679.html"
+  },
+  {
+    "file": "[入力元伏せ]",
     "slug": "2026-06-19-OpenClaw・Obsidian運用-OpenClaw脆弱性報道を受けて、Obsidian連携エージェントの権限と公開フォ-622f44a6eb",
     "title": "OpenClaw脆弱性報道を受けて、Obsidian連携エージェントの権限と公開フォルダを棚卸しする",
     "category": "OpenClaw・Obsidian運用",
