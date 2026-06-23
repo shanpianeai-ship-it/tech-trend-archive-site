@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NSAのMCP安全設計 | 海外技術情報アーカイブ</title>
+  <meta name="description" content="NSA Artificial Intelligence Security Centerが、Model Context Protocol、つまりMCPを使うAI自動化システム向けに「Security Design Considerations for AI-Driven Automation」を公開した。 要点は、MCPを単なる便利なツール接続プロトコルではな...">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-23</span>
+        <span>Security</span>
+        <span>importance: high</span>
+      </div>
+      <h1>NSAのMCP安全設計</h1>
+<h2>要約</h2>
+<p>NSA Artificial Intelligence Security Centerが、Model Context Protocol、つまりMCPを使うAI自動化システム向けに「Security Design Considerations for AI-Driven Automation」を公開した。</p>
+<p>要点は、MCPを単なる便利なツール接続プロトコルではなく、AIエージェントが外部ツール、データ、実行環境へ到達する制御プレーンとして扱うべきだということ。NSAは、MCPの普及がセキュリティモデルの成熟より先に進んでおり、認証、認可、入力検証だけでは足りないリスクが出ていると整理している。</p>
+<p>自分向けには、OpenClaw/Codex/MCPサーバーを使う個人環境でも、企業のAIエージェント運用でも、「どのエージェントが、どの文脈で、どのツールを、どの権限で呼べるか」を台帳化し、定期的にスキャンするための基準として読むのがよい。</p>
+<h2>背景</h2>
+<p>MCPは、LLMやエージェントが外部ツール、データソース、サービスとやり取りするための標準的な接続方式として広がっている。もともとはAIアプリケーションと周辺ツールをつなぐ実装上の負担を下げるための仕組みだが、実際にはファイル、DB、ブラウザ、クラウドAPI、ローカルプロセス実行など、かなり強い権限を束ねる入口になりやすい。</p>
+<p>NSAの文書が重要なのは、MCPの安全性を「個別の脆弱性を直す話」ではなく、「エージェント環境全体の設計問題」として扱っている点。動的なツール呼び出し、暗黙の信頼関係、長く残るコンテキスト共有、未整理の承認フローが重なると、従来のWeb/APIセキュリティだけでは守りにくい。</p>
+<h2>何が重要か</h2>
+<h3>1. MCPは統合層ではなく制御プレーン</h3>
+<p>MCPを「USB-C for AI」のような便利な共通端子としてだけ見ると危ない。実運用では、MCPサーバーがツールの実行、データアクセス、タスク委譲、外部API連携の入口になる。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>観点</th><th>よくある見方</th><th>NSA文書からの読み替え</th></tr></thead>
+<tbody>
+<tr><td>役割</td><td>AIとツールをつなぐプロトコル</td><td>エージェントの実行権限を運ぶ制御プレーン</td></tr>
+<tr><td>主なリスク</td><td>個別MCPサーバーのバグ</td><td>設計、実装、運用姿勢のズレが連鎖する</td></tr>
+<tr><td>防御単位</td><td>エンドポイント単体</td><td>エージェント、MCPクライアント、サーバー、ツール、ログの全体</td></tr>
+<tr><td>判断軸</td><td>使えるかどうか</td><td>誰が、何を、どの権限で、どう承認して実行したか</td></tr>
+</tbody>
+</table></div>
+<p>この読み替えは、個人秘書エージェントにもそのまま効く。OpenClawのようにローカルファイル、Discord、ブラウザ、シェル、Obsidianをつなぐ環境では、MCPやSkillは小さな補助機能ではなく、権限境界そのものになる。</p>
+<h3>2. 認証・認可だけでは足りない</h3>
+<p>NSAは、MCP環境では従来の認証、認可、入力検証は必要だが、それだけでは十分ではないと説明している。理由は、エージェントが実行時にツールを選び、他のエージェントやツールの出力を信頼し、長い文脈をまたいで情報を共有するから。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>リスク</th><th>何が起きるか</th><th>対策の方向</th></tr></thead>
+<tbody>
+<tr><td>動的ツール呼び出し</td><td>エージェントが実行時に新しいツールを選ぶ</td><td>ツールごとのallowlist、目的別scope、呼び出しログ</td></tr>
+<tr><td>暗黙の信頼</td><td>別ツールや別エージェントの出力を検証なしに使う</td><td>出力の出所、権限、鮮度をメタデータとして扱う</td></tr>
+<tr><td>コンテキスト共有</td><td>長い会話や複数タスクの文脈が混ざる</td><td>タスク単位のcontext分離、秘密情報の保持期限管理</td></tr>
+<tr><td>承認フロー不足</td><td>一度許可したMCPサーバーが後で権限を広げる</td><td>権限変更時の再承認、差分レビュー、バージョン固定</td></tr>
+</tbody>
+</table></div>
+<p>特に「承認」は、人間が一回OKを押したかどうかでは足りない。MCPサーバーの機能、呼べるツール、アクセスするデータ、送信先が変わったときに、その差分を検知して再承認できる設計が必要になる。</p>
+<h3>3. セキュリティ境界はMCPサーバー単体で閉じない</h3>
+<p>MCPのリスクは、MCPサーバーのコードだけを監査しても見落とす。クライアント、ホスト、プロキシ、ツール、ネットワーク、ログ、承認UI、LLMのプロンプト処理まで含めて見ないと、実際の攻撃経路が見えない。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>レイヤー</th><th>見るべき点</th></tr></thead>
+<tbody>
+<tr><td>MCPクライアント</td><td>どのサーバーを登録できるか、設定変更を誰が承認するか</td></tr>
+<tr><td>MCPサーバー</td><td>認証、RBAC、入力検証、schema validation、バージョン管理</td></tr>
+<tr><td>ツール</td><td>shell、file write、network、credential accessの有無</td></tr>
+<tr><td>コンテキスト</td><td>秘密情報が別タスクへ漏れないか、長期保存されないか</td></tr>
+<tr><td>監視</td><td>呼び出し元、引数、戻り値、外部送信、プロセス起動の証跡</td></tr>
+<tr><td>ネットワーク</td><td>開いたMCPポート、localhost依存、外部公開、未知のサーバー</td></tr>
+</tbody>
+</table></div>
+<p>NSAが「agentic environment as a continuum」として扱うべきだとするのはこのため。MCPはプロトコルの一点ではなく、エージェントが判断して実行する一連の環境全体にまたがる。</p>
+<h3>4. ローカルネットワークのMCPサーバー棚卸しが実務的</h3>
+<p>文書の後半で特に使いやすいのは、ローカルネットワーク上のMCPサーバーを定期的にスキャンし、未認証、脆弱、未承認、外部通信経路ありのものを見つけるという提案。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>検出対象</th><th>意味</th></tr></thead>
+<tbody>
+<tr><td>未認証MCPサーバー</td><td>ログインや認可なしで接続できる</td></tr>
+<tr><td>脆弱MCPサーバー</td><td>既知の問題や古いバージョンを含む</td></tr>
+<tr><td>未承認MCPデプロイ</td><td>change controlや台帳外で動いている</td></tr>
+<tr><td>規制外の通信経路</td><td>inbound/outboundが想定より広い</td></tr>
+</tbody>
+</table></div>
+<p>これは企業だけでなく個人環境にも必要。ローカルで試したMCPサーバー、npm経由で入れた補助サーバー、開発用ポート、ブラウザ自動化の制御ポートは、放置すると「いつの間にか強い権限を持つ常駐入口」になる。</p>
+<h2>自分向けメモ</h2>
+<ul>
+<li>OpenClaw/Codex環境では、MCP、Skill、コネクタ、ローカルCLIを「便利機能」ではなく「権限境界」として記録する。</li>
+<li>MCPサーバーごとに、用途、起動方法、接続先、認証方式、利用ツール、ファイル権限、外部送信、ログ保存場所を台帳化したい。</li>
+<li><code>localhost</code> や家庭内LANに閉じていても、ブラウザAgentやプロンプトインジェクション経由で到達される可能性を前提にする。</li>
+<li>票なし時の自動選定としてこの候補を選んだ理由は、NSAの一次資料で信頼度が高く、MCPの本番導入や個人エージェント運用のチェックリストに直接落とせるため。</li>
+<li>SAP/Basis文脈では、Jouleや業務エージェントがRFC、ジョブ、ファイル連携、監査ログ、契約/購買データへ触る場合、MCP的なツール接続層を権限レビュー対象にする。</li>
+<li>個人利用でも、MCPサーバーを増やす前に「読むだけ」「ローカルを実行する」「外へ送る」を分離する設計に寄せる。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://www.nsa.gov/Portals/75/documents/Cybersecurity/CSI_MCP_SECURITY.pdf?ver=bmgiSbNQLP6Z_GiWtRt6bg%3D%3D">NSA - Model Context Protocol (MCP): Security Design Considerations for AI-Driven Automation</a> - 一次資料。MCPのアクセス制御、serialization、承認フロー、ツール呼び出し、ローカルネットワークスキャンなどを整理。</li>
+<li><a href="https://www.nsa.gov/Press-Room/Press-Releases-Statements/Press-Release-View/Article/4496698/nsa-releases-security-design-considerations-for-ai-driven-automation-leveraging/">NSA Press Release - NSA Releases Security Design Considerations for AI-Driven Automation Leveraging the Model Context Protocol</a> - 公開発表。MCPが業務、金融、法務、開発などで使われ始めた背景と注意喚起。</li>
+<li><a href="https://modelcontextprotocol.io/specification/2025-11-25/basic/security_best_practices">Model Context Protocol - Security Best Practices</a> - MCP仕様側のセキュリティベストプラクティス。token passthroughなど実装時の確認用。</li>
+<li><a href="https://modelcontextprotocol.io/specification/2025-11-25/basic/authorization">Model Context Protocol - Authorization</a> - MCPの認可仕様。identity、scope、authorization server周りの設計確認用。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>Model Context Protocol</li>
+<li>MCP security</li>
+<li>agentic AI security</li>
+<li>dynamic tool invocation</li>
+<li>implicit trust</li>
+<li>context sharing</li>
+<li>RBAC</li>
+<li>schema validation</li>
+<li>prompt injection</li>
+<li>local MCP server</li>
+<li>AI automation</li>
+<li>secure by default</li>
+<li>OpenClaw</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://www.nsa.gov/Portals/75/documents/Cybersecurity/CSI_MCP_SECURITY.pdf?ver=bmgiSbNQLP6Z_GiWtRt6bg%3D%3D">nsa.gov - Portals / 75</a></p></section>
+    </article>
+  </main>
+</body>
+</html>

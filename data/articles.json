@@ -1,5 +1,18 @@
 [
   {
+    "file": "Security/2026-06-23_AM_NSAのMCP安全設計.md",
+    "slug": "2026-06-23_AM_NSAのMCP安全設計",
+    "title": "NSAのMCP安全設計",
+    "genre": "Security",
+    "genreLabel": "Security",
+    "created": "2026-06-23",
+    "source": "https://www.nsa.gov/Portals/75/documents/Cybersecurity/CSI_MCP_SECURITY.pdf?ver=bmgiSbNQLP6Z_GiWtRt6bg%3D%3D",
+    "importance": "high",
+    "confidence": "high",
+    "excerpt": "NSA Artificial Intelligence Security Centerが、Model Context Protocol、つまりMCPを使うAI自動化システム向けに「Security Design Considerations for AI-Driven Automation」を公開した。 要点は、MCPを単なる便利なツール接続プロトコルではな...",
+    "url": "articles/2026-06-23_AM_NSAのMCP安全設計.html"
+  },
+  {
     "file": "SAP_ERP/2026-06-23_Agentic_ABAP_AI_GA.md",
     "slug": "2026-06-23_Agentic_ABAP_AI_GA",
     "title": "Agentic ABAP AI GAはABAP保守とS/4移行の作業単位を変える",
