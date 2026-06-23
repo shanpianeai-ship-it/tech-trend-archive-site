@@ -331,6 +331,17 @@
   },
   {
     "file": "[入力元伏せ]",
+    "slug": "2026-06-23-セキュリティ-Microsoft-365-Copilot「SearchLeak」から見る社内AI検-856fd0e6a2",
+    "title": "Microsoft 365 Copilot「SearchLeak」から見る社内AI検索のプロンプトインジェクション対策",
+    "category": "セキュリティ",
+    "created": "2026-06-23T19:48:00+09:00",
+    "status": "",
+    "type": "interest_report",
+    "excerpt": "SearchLeakは、Varonis Threat Labsが2026年6月に公開したMicrosoft 365 Copilot Enterprise Searchの脆弱性チェーンで、攻撃者が細工したMicrosoft 365系リンクを踏ませるだけで、Copilotにメール、会議、OneDrive、SharePointなどの検索結果を引き出させ、外部へ漏え...",
+    "url": "interests/articles/2026-06-23-セキュリティ-Microsoft-365-Copilot「SearchLeak」から見る社内AI検-856fd0e6a2.html"
+  },
+  {
+    "file": "[入力元伏せ]",
     "slug": "2026-06-21-セキュリティ-Citrix-NetScaler-KEV事例から「外向き入口」の緊急棚卸し手順を作る-923bceb6d6",
     "title": "Citrix NetScaler KEV事例から「外向き入口」の緊急棚卸し手順を作る",
     "category": "セキュリティ",
