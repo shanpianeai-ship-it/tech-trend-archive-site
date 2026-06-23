@@ -12,6 +12,17 @@
   },
   {
     "file": "[入力元伏せ]",
+    "slug": "2026-06-23-AI・エージェント-DeepMind-AI-Control-RoadmapをOpenClaw安全設計に落-8005095b87",
+    "title": "DeepMind AI Control RoadmapをOpenClaw安全設計に落とす",
+    "category": "AI・エージェント",
+    "created": "2026-06-23T19:55:00+09:00",
+    "status": "",
+    "type": "interest_report",
+    "excerpt": "Google DeepMindは2026年6月18日に、社内AIエージェントを「完全に善意で整列済み」と見なすのではなく、場合によっては内部者リスクとして扱うための AI Control Roadmap を公開した。主眼は、モデルを良くするアラインメントだけではなく、エージェントが実際に動くシステム側で監視、権限制御、遮断、復旧を組み合わせることにある。 個...",
+    "url": "interests/articles/2026-06-23-AI・エージェント-DeepMind-AI-Control-RoadmapをOpenClaw安全設計に落-8005095b87.html"
+  },
+  {
+    "file": "[入力元伏せ]",
     "slug": "2026-06-22-AI・エージェント-OpenAI-Agents-SDKのサンドボックス実行とCodex連携を、個人秘書運-ead0734cbc",
     "title": "OpenAI Agents SDKのサンドボックス実行とCodex連携を、個人秘書運用にどう使うか",
     "category": "AI・エージェント",
