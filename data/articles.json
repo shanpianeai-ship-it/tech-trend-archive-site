@@ -1,5 +1,18 @@
 [
   {
+    "file": "SAP_ERP/2026-06-23_Agentic_ABAP_AI_GA.md",
+    "slug": "2026-06-23_Agentic_ABAP_AI_GA",
+    "title": "Agentic ABAP AI GAはABAP保守とS/4移行の作業単位を変える",
+    "genre": "SAP_ERP",
+    "genreLabel": "SAP / ERP",
+    "created": "2026-06-23",
+    "source": "https://community.sap.com/t5/technology-blog-posts-by-sap/sapphire-2026-recap-joule-for-developers-agentic-abap-ai-is-generally/ba-p/14405739",
+    "importance": "high",
+    "confidence": "high",
+    "excerpt": "SAP CommunityのSapphire 2026 recapでは、Joule for DevelopersのABAP AI capabilitiesがagentic orchestration、ABAP MCP Server、ADT for VS Code、S/4HANA custom code migration支援へ広がり、2026年6月初旬から一...",
+    "url": "articles/2026-06-23_Agentic_ABAP_AI_GA.html"
+  },
+  {
     "file": "Security/2026-06-22_AM_Vertex_AI_SDKアップロード乗っ取り.md",
     "slug": "2026-06-22_AM_Vertex_AI_SDKアップロード乗っ取り",
     "title": "Vertex AI SDKアップロード乗っ取り",

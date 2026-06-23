@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agentic ABAP AI GAはABAP保守とS/4移行の作業単位を変える | 海外技術情報アーカイブ</title>
+  <meta name="description" content="SAP CommunityのSapphire 2026 recapでは、Joule for DevelopersのABAP AI capabilitiesがagentic orchestration、ABAP MCP Server、ADT for VS Code、S/4HANA custom code migration支援へ広がり、2026年6月初旬から一...">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-23</span>
+        <span>SAP / ERP</span>
+        <span>importance: high</span>
+      </div>
+      <h1>Agentic ABAP AI GAはABAP保守とS/4移行の作業単位を変える</h1>
+<h2>要約</h2>
+<p>SAP CommunityのSapphire 2026 recapでは、Joule for DevelopersのABAP AI capabilitiesがagentic orchestration、ABAP MCP Server、ADT for VS Code、S/4HANA custom code migration支援へ広がり、2026年6月初旬から一般提供に入ったことが整理されている。</p>
+<p>今回のDiscordポールは、該当ポールの <code>poll.results.answer_counts</code> に投票がなかった。そのため、運用ルールの選定基準に沿って候補一覧から6番「Agentic ABAP AI GA」を採用した。理由は、SAP運用・ABAP保守・ECCからS/4HANA移行の実務に直接効き、一次情報がSAP CommunityとSAP公式ページで確認できるため。</p>
+<p>結論として、これは「ABAP用のコード補完が賢くなる」話ではない。ABAP開発ツールの外側にあるAI assistant、orchestrator、LLMを、ABAP Language ServerとABAP MCP Server経由でSAP開発作業に接続し、ATC分析、quick fix、AI修正案、transport request、レビューを含む作業フローへ組み込む動きとして見るべき。</p>
+<h2>背景</h2>
+<p>SAPはSapphire 2026で、ABAP AIを単独の補助機能からエージェント型の開発支援へ進める方針を示した。発表の中心は、ABAP Language ServerとABAP MCP Serverを土台に、EclipseやVS CodeからGitHub Copilot、Amazon Qなどのagentic assistantへABAP開発能力を開くことにある。</p>
+<p>これにより、AIがただコードを生成するだけでなく、ABAP開発環境のツールを呼び出し、ATC結果を読み、修正候補を適用し、必要に応じて開発者へ確認を求める形に近づく。</p>
+<p>特に大きいのは、ECCからSAP S/4HANAへのcustom code migrationを対象にしたAgentだ。SAPの別記事では、S/4HANA readinessのATC分析、結果分類、deterministic quick fix、AI-generated fix、transport requestへの記録、最終レビューという流れが説明されている。</p>
+<h2>何が重要か</h2>
+<h3>ABAP MCP Serverが外部AIエージェントとの接続点になる</h3>
+<p>従来のABAP AIは、SAPの開発ツール内でコード説明、テスト生成、補完、検索を支援する色が強かった。今回の重要点は、MCP Serverによって、外部のAI assistantやorchestratorがABAP開発ツールの機能を構造化されたツールとして扱えるようになること。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>観点</th><th>従来の見方</th><th>今回の変化</th></tr></thead>
+<tbody>
+<tr><td>AIの役割</td><td>コード補完、説明、検索</td><td>複数ステップの開発作業を進めるAgent</td></tr>
+<tr><td>接続点</td><td>IDE内の個別AI機能</td><td>ABAP Language ServerとABAP MCP Server</td></tr>
+<tr><td>対象IDE</td><td>主にEclipse中心</td><td>Eclipseに加えてVS Codeも一般提供へ</td></tr>
+<tr><td>外部連携</td><td>SAP提供機能中心</td><td>GitHub Copilot、Amazon Qなどのassistantも視野</td></tr>
+<tr><td>実務影響</td><td>開発者の局所的な時短</td><td>移行・保守作業の単位を再設計する可能性</td></tr>
+</tbody>
+</table></div>
+<p>SAP側がMCPを採用する意味は大きい。エンタープライズ開発では、AIを単発チャットに閉じ込めるより、権限付きのツール呼び出し、開発環境、テスト、transport、レビューに接続できるかが効いてくる。</p>
+<h3>Custom Code Migration Agentは移行作業をバッチ処理化する</h3>
+<p>S/4HANA Custom Code Migration Agentの記事では、ECC由来のカスタムコードをS/4HANA対応へ直す作業を、Agentがある程度まとまった単位で処理する流れが示されている。開発者はパッケージ、ATC variant、対象システム、transport requestなどを指定し、AgentがATC実行、結果整理、quick fix、AI修正案の適用へ進む。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>フェーズ</th><th>Agentが支援すること</th><th>人間が見るべきこと</th></tr></thead>
+<tbody>
+<tr><td>分析</td><td>ATCでS/4HANA readinessを確認</td><td>variant、対象パッケージ、前提Notes</td></tr>
+<tr><td>分類</td><td>findingを複雑度や修正手段で整理</td><td>業務影響、対象オブジェクトの優先度</td></tr>
+<tr><td>修正</td><td>deterministic quick fixと高信頼AI fixを適用</td><td>差分レビュー、syntax、回帰リスク</td></tr>
+<tr><td>記録</td><td>同一transport requestに変更を記録</td><td>変更単位、承認、リリース計画</td></tr>
+<tr><td>最終確認</td><td>進捗と結果を要約</td><td>activate、最終ATC、テスト、業務検証</td></tr>
+</tbody>
+</table></div>
+<p>ここで重要なのは、Agentが「すべて自動で本番品質にする」わけではないこと。記事ではhuman-in-the-loop、confirmation、review、activation、final ATCが明確に残っている。つまり、移行作業を完全自動化するというより、反復的な分析と修正をまとめて進め、人間を判断とレビューへ寄せる設計に近い。</p>
+<h3>Basis/運用者にも関係する</h3>
+<p>一見すると開発者向けの話だが、Basis/ERP運用者にも関係がある。AI AgentがABAP開発環境、BTP上のhub service、Cloud Identity Services、AI Unit消費、外部AI assistant、transport requestへまたがるため、導入時の確認項目は開発チームだけでは閉じない。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>領域</th><th>確認ポイント</th></tr></thead>
+<tbody>
+<tr><td>権限</td><td>Joule for Developers、Cloud Identity Services、ADT、対象ABAP systemの権限</td></tr>
+<tr><td>接続</td><td>BTP hub service、AI Core、IDE、MCP host、ローカルMCP server</td></tr>
+<tr><td>ライセンス</td><td>AI Units、Joule for Developersの割当、外部assistantのライセンス</td></tr>
+<tr><td>監査</td><td>Agentが実行したATC、quick fix、AI fix、transportへの記録</td></tr>
+<tr><td>変更管理</td><td>Agent適用差分を通常のtransport、レビュー、テストにどう載せるか</td></tr>
+<tr><td>セキュリティ</td><td>MCP token、ローカルserver、外部assistantへ渡るコンテキスト範囲</td></tr>
+</tbody>
+</table></div>
+<p>特にMCP Serverは、AI assistantに開発ツールを操作させる入口になる。便利な一方で、誰が、どのシステムに、どの権限で、どのツールを呼べるかを明確にしないと、AI導入後の監査説明が弱くなる。</p>
+<h3>「Clean Core」と移行プロジェクトの作業設計に効く</h3>
+<p>S/4HANA移行では、カスタムコードの棚卸し、ATC対応、簡素化項目への追随、Clean Core化、Fiori化が重い。今回のAgentic ABAP AIは、この重い部分をAIで薄くするというより、作業の分解方法を変える。</p>
+<p>まずAgentに広い範囲を処理させ、決定論的に直せるものを先に片付け、高信頼のAI修正を適用し、曖昧なものや低信頼のものを人間レビューへ残す。これは移行プロジェクトの工数見積り、レビュー体制、transport分割、テスト計画に影響する。</p>
+<p>自分向けには、S/4HANA移行案件で次の順に見るとよさそう。</p>
+<ul>
+<li>Agentが対応できるATC findingの種類を先に確認する。</li>
+<li>deterministic quick fixとAI fixを分けてレビュー基準を作る。</li>
+<li>Agent用transport requestをどう切るか決める。</li>
+<li>低信頼AI fixをコメント提案として残す運用をレビュー手順に入れる。</li>
+<li>最終ATC、単体テスト、業務シナリオテストは従来どおり必須にする。</li>
+</ul>
+<h2>自分向けメモ</h2>
+<ul>
+<li>ABAP MCP Serverは、SAP開発における「AIエージェント用ツール口」になる。MCP host、token、権限、監査の設計をセットで見る。</li>
+<li>Custom Code Migration Agentは、ECCからS/4HANA移行のATC対応をバッチ的に進める材料。完全自動化ではなく、反復作業をAgentへ寄せ、人間はレビューと業務判断へ寄せる。</li>
+<li>導入前に、AI Units、Joule for Developers entitlement、Cloud Identity Services、BTP hub service、外部assistantライセンスを確認する。</li>
+<li>SAP Basis目線では、MCP serverを有効化する端末、接続先ABAP system、transport request、ログ、token管理を運用手順化したい。</li>
+<li>公開ブログでは「ABAP開発のAI化」より「S/4HANA移行の作業設計がAgent前提に変わる」と書くと実務寄りに伝わる。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://community.sap.com/t5/technology-blog-posts-by-sap/sapphire-2026-recap-joule-for-developers-agentic-abap-ai-is-generally/ba-p/14405739">SAP Community - Sapphire 2026 recap: Joule for Developers Agentic ABAP AI is generally available</a>: 今回の主対象。ABAP AIのGA、ABAP MCP Server、Private Edition 2021以降、Custom Code Migration支援を整理。</li>
+<li><a href="https://community.sap.com/t5/technology-blog-posts-by-sap/entering-the-new-era-of-agentic-ai-for-abap-development/ba-p/14394643">SAP Community - Entering the New Era of Agentic AI for ABAP Development</a>: Sapphire 2026でのABAP AI発表の公式寄り整理。ABAP MCP Server、ADT for VS Code、商用モデル、対応リリースを確認。</li>
+<li><a href="https://community.sap.com/t5/technology-blog-posts-by-sap/s-4hana-custom-code-migration-agent-accelerating-ecc-to-sap-s-4hana/ba-p/14418929">SAP Community - S/4HANA Custom Code Migration Agent</a>: Custom Code Migration Agentの処理フロー、前提条件、ATC、quick fix、AI fix、transport requestの扱いを説明。</li>
+<li><a href="https://www.sap.com/products/artificial-intelligence/joule-for-developers.html">SAP - Joule for Developers</a>: Joule for Developersの公式製品ページ。ABAP、SAP Build、AI Units、対象機能の位置づけを確認。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>Agentic ABAP AI</li>
+<li>SAP Joule for Developers</li>
+<li>ABAP MCP Server</li>
+<li>ABAP Language Server</li>
+<li>ADT for Eclipse</li>
+<li>ADT for VS Code</li>
+<li>S/4HANA Custom Code Migration</li>
+<li>ABAP Test Cockpit</li>
+<li>ATC quick fix</li>
+<li>Clean Core</li>
+<li>SAP BTP</li>
+<li>AI Units</li>
+<li>Cloud Identity Services</li>
+<li>transport request</li>
+<li>MCP security</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://community.sap.com/t5/technology-blog-posts-by-sap/sapphire-2026-recap-joule-for-developers-agentic-abap-ai-is-generally/ba-p/14405739">community.sap.com - t5 / technology-blog-posts-by-sap</a></p></section>
+    </article>
+  </main>
+</body>
+</html>
