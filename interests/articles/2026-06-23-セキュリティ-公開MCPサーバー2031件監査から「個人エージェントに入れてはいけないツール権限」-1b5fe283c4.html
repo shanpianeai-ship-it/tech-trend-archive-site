@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>公開MCPサーバー2031件監査から「個人エージェントに入れてはいけないツール権限」を分類する | 興味レポート</title>
+  <meta name="description" content="PolicyLayerの2026年6月版「State of MCP Security」は、公開レジストリから列挙できた2,031件のMCPサーバーと約31,000個のツールを分類し、AIエージェントに接続されるツール群がどれだけ強い操作権限を持つかを可視化している。注目点は、MCPが単なる検索・参照口ではなく、ファイル削除、コマンド実行、外部送信、資格情報利...">
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../../interests/index.html">興味レポート</a>
+    <span class="site-subtitle">Public redacted interest reports</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 興味レポート一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-23T19:58:00+09:00</span>
+        <span>セキュリティ</span>
+        <span>interest_report</span>
+      </div>
+      <h1>公開MCPサーバー2031件監査から「個人エージェントに入れてはいけないツール権限」を分類する</h1>
+<h2>要約</h2>
+<p>PolicyLayerの2026年6月版「State of MCP Security」は、公開レジストリから列挙できた2,031件のMCPサーバーと約31,000個のツールを分類し、AIエージェントに接続されるツール群がどれだけ強い操作権限を持つかを可視化している。注目点は、MCPが単なる検索・参照口ではなく、ファイル削除、コマンド実行、外部送信、資格情報利用、クラウド操作のような「実行面」をエージェントへ渡す仕組みになっていることだ。</p>
+<p>OpenClawの個人秘書運用に引き寄せるなら、MCPサーバーは「便利そうな拡張」ではなく「ローカル権限を持つプログラム」として扱うべきである。特に、ファイルシステム、シェル、ブラウザ、認証情報、ネットワーク送信、外部アカウント変更を持つツールは、導入前に隔離、allowlist、ログ、確認手順を決めてから使う必要がある。</p>
+<p>今回のポールは有効票が確認できなかったため、候補一覧から重要度、鮮度、個人適合度が高く、同日の既存記事と重複しにくいこのテーマを採用した。</p>
+<h2>なぜ今見る価値があるか</h2>
+<p>MCPは、AIエージェントが外部ツールやデータソースへ接続する標準インターフェースとして急速に広がっている。一方で、導入の心理的ハードルは「プラグインを足す」程度に見えやすい。実際には、MCPサーバーはユーザーのローカルOS、ブラウザ、ファイル、クラウドAPI、業務SaaSの権限を代理実行する位置に立つ。</p>
+<p>PolicyLayerの調査が有用なのは、抽象的な「MCPは危ない」という話ではなく、公開MCPサーバーに含まれるツールをリスク分類している点である。公開データセットもHugging Faceで提供されており、どのようなツール名・スキーマが危険操作に近いかを棚卸しする材料になる。</p>
+<p>OpenClawでは、既にファイル操作、シェル実行、ブラウザ、Discord、GitHub Pages、Obsidianをまたぐ作業がある。ここへ外部MCPを追加するなら、エージェント本体の賢さより、ツール権限の境界設計が先に来る。</p>
+<h2>調査メモ</h2>
+<p>PolicyLayerは、公開MCPサーバーのツールを列挙し、破壊的操作、コマンド実行、外部送信、資格情報、データアクセスなどの観点で分類している。サンプル数は2,031サーバー、31,000ツール規模で、2026年6月時点の公開エコシステムを眺める資料として使える。完全な脆弱性診断というより、「どの種類の権限が公開MCPにどれだけ普通に存在するか」を見る調査である。</p>
+<p>Hugging Face上のPolicyLayerデータセットは、各ツールを6つのリスクカテゴリに分類したカタログとして公開されている。実務上は、この分類をそのまま絶対視するより、導入前レビューの初期フィルタとして使うのがよい。ツール名に <code>delete</code>、<code>exec</code>、<code>shell</code>、<code>write</code>、<code>send</code>、<code>upload</code>、<code>token</code>、<code>credential</code>、<code>browser</code> のような語がある場合は、少なくとも人間の確認を挟む対象にする。</p>
+<p>公式MCPドキュメントも、認可が必要になる場面をかなり明確にしている。ユーザー固有データ、管理操作、監査、ユーザー同意、エンタープライズ環境、利用追跡を扱うなら、OAuth 2.1に沿った認可や監査を検討すべきだとしている。ローカルstdioサーバーでも、環境変数や埋め込みライブラリ経由で資格情報を持つため、「ローカルだから安全」とは言えない。</p>
+<p>NSAのMCPセキュリティ設計資料は、MCPクライアントライブラリがLLM生成リクエストをプロトコルメッセージへ変換し、MCPサーバーへルーティングする構造を説明している。ここで重要なのは、LLMの自然文判断と、実際のツール実行が同じ操作線上に乗ることだ。プロンプトインジェクションやツール汚染が発生すると、エージェントは「許可された権限」を攻撃者の意図で使ってしまう。</p>
+<p>GleanのMCPセキュリティ文書は、ローカルMCPサーバーがOS権限、ファイルシステム、ネットワーク、保存済み認証情報へ届き得る点を明記している。これは個人端末では特に重要で、エージェントに渡したMCPサーバーは、作業フォルダだけでなくホームディレクトリ、ブラウザプロファイル、クラウド同期フォルダまで触れる可能性がある。</p>
+<p>OpenClaw向けには、導入前の分類を次のように置くと実用的である。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>区分</th><th>例</th><th>導入判断</th></tr></thead>
+<tbody>
+<tr><td>低リスク参照</td><td>公開ドキュメント検索、読み取り専用の公式API</td><td>まずログ付きで試す</td></tr>
+<tr><td>個人データ参照</td><td>Obsidian、メール、カレンダー、Drive、ローカルファイル読取</td><td>対象フォルダ・対象アカウントを限定する</td></tr>
+<tr><td>外部送信</td><td>Discord送信、メール送信、Webhook、アップロード</td><td>原則として送信前確認または固定テンプレートにする</td></tr>
+<tr><td>破壊的変更</td><td>delete、move、overwrite、repository write、DB更新</td><td>allowlistとバックアップがない限り入れない</td></tr>
+<tr><td>任意実行</td><td>shell、exec、browser automation、コード実行</td><td>隔離環境か既存Codex権限の枠内に閉じる</td></tr>
+<tr><td>資格情報・課金</td><td>token、secret、OAuth、クラウド管理、決済</td><td>個人秘書用途では原則避ける</td></tr>
+</tbody>
+</table></div>
+<h2>個人向けの読みどころ</h2>
+<p>個人の運用では、便利なMCPを入れるほど「できること」が増える。しかし、個人秘書エージェントにとって本当に危ないのは、単体の悪意あるツールだけではなく、複数の普通のツールがつながることだ。Webを読むツール、ローカルファイルを読むツール、Discordへ送るツール、Gitへpushするツールが同時にあると、外部ページの指示が公開・送信まで届く経路が生まれる。</p>
+<p>したがって、新しいMCPやスキルを入れる前に見るべきなのは「便利そうか」ではなく、次の5点である。</p>
+<ul>
+<li>そのツールは何を読めるか。</li>
+<li>そのツールは何を書き換えられるか。</li>
+<li>そのツールは外部へ送信できるか。</li>
+<li>そのツールは認証情報や課金権限を持つか。</li>
+<li>そのツールの実行ログを後から追えるか。</li>
+</ul>
+<p>興味レポートCronのような公開系作業では、導入できるツールをさらに絞るのがよい。Markdown作成、候補一覧更新、ビルド、git commit/push、公開URL確認、Discord報告という成功条件は明確なので、目的外のMCPは不要である。必要なツールが増えた場合も、候補一覧や記事本文を読む権限と、外部送信する権限は分けて考えるべきである。</p>
+<h2>注意点</h2>
+<p>PolicyLayerの分類は公開MCPサーバーを対象にした外部調査であり、個々のサーバーが実際に悪性であることを示すものではない。ツール名やスキーマから危険度を推定する調査は、誤検知も見落としもあり得る。導入判断では、リポジトリ、実装、依存関係、認証方式、通信先、更新履歴を別途確認する必要がある。</p>
+<p>また、MCPの認可仕様やエンタープライズ管理認可は改善が続いている。標準側の進歩は重要だが、個人端末でローカルMCPを動かす場合は、仕様上の認可だけに頼らず、OSユーザー分離、コンテナ、専用作業フォルダ、読み取り専用マウント、実行前確認を組み合わせるのが現実的である。</p>
+<h2>参考リンク</h2>
+<ul>
+<li>PolicyLayer: <a href="https://policylayer.com/research/state-of-mcp">The State of MCP Security</a></li>
+<li>Hugging Face: <a href="https://huggingface.co/datasets/PolicyLayer/mcp-server-catalogue">PolicyLayer MCP Server Catalogue</a></li>
+<li>Model Context Protocol: <a href="https://modelcontextprotocol.io/docs/tutorials/security/security_best_practices">Security Best Practices</a></li>
+<li>Model Context Protocol: <a href="https://modelcontextprotocol.io/docs/tutorials/security/authorization">Understanding Authorization in MCP</a></li>
+<li>NSA: <a href="https://www.nsa.gov/Portals/75/documents/Cybersecurity/CSI_MCP_SECURITY.pdf">Model Context Protocol (MCP): Security Design Considerations</a></li>
+<li>Glean Docs: <a href="https://docs.glean.com/administration/platform/mcp/security">MCP Security, Data Flow, and Permissions</a></li>
+</ul>
+    </article>
+  </main>
+</body>
+</html>
