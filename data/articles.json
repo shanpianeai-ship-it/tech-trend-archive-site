@@ -1,5 +1,18 @@
 [
   {
+    "file": "AI/2026-06-24_AM_GateMem共有メモリ統制.md",
+    "slug": "2026-06-24_AM_GateMem共有メモリ統制",
+    "title": "GateMem共有メモリ統制",
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "created": "2026-06-24",
+    "source": "https://arxiv.org/abs/2606.18829",
+    "importance": "high",
+    "confidence": "high",
+    "excerpt": "GateMemは、複数の利用者や役割が同じメモリを共有するLLMエージェントで、記憶の有用性だけでなく、アクセス制御と削除後の忘却まで同時に測るベンチマーク。 従来のメモリ評価は「正しく思い出せるか」に寄りがちだった。GateMemは、病院、職場、学校、家庭のように複数主体が関わる環境を想定し、「その人に見せてよい情報か」「削除された情報を後から復元・示唆し...",
+    "url": "articles/2026-06-24_AM_GateMem共有メモリ統制.html"
+  },
+  {
     "file": "AI/2026-06-24_agentgateway運用ゲートウェイ.md",
     "slug": "2026-06-24_agentgateway運用ゲートウェイ",
     "title": "agentgateway運用ゲートウェイ",

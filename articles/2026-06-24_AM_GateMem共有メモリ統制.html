@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GateMem共有メモリ統制 | 海外技術情報アーカイブ</title>
+  <meta name="description" content="GateMemは、複数の利用者や役割が同じメモリを共有するLLMエージェントで、記憶の有用性だけでなく、アクセス制御と削除後の忘却まで同時に測るベンチマーク。 従来のメモリ評価は「正しく思い出せるか」に寄りがちだった。GateMemは、病院、職場、学校、家庭のように複数主体が関わる環境を想定し、「その人に見せてよい情報か」「削除された情報を後から復元・示唆し...">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-24</span>
+        <span>AI / LLM / Agent</span>
+        <span>importance: high</span>
+      </div>
+      <h1>GateMem共有メモリ統制</h1>
+<h2>要約</h2>
+<p>GateMemは、複数の利用者や役割が同じメモリを共有するLLMエージェントで、記憶の有用性だけでなく、アクセス制御と削除後の忘却まで同時に測るベンチマーク。</p>
+<p>従来のメモリ評価は「正しく思い出せるか」に寄りがちだった。GateMemは、病院、職場、学校、家庭のように複数主体が関わる環境を想定し、「その人に見せてよい情報か」「削除された情報を後から復元・示唆していないか」まで評価対象にする。</p>
+<p>自分向けには、個人秘書型エージェントや社内AIエージェントを長期メモリ付きで運用する前に、メモリを単なるRAGストアではなく「権限と削除要求を持つ共有状態」として設計するためのチェック材料として読むのがよい。</p>
+<h2>背景</h2>
+<p>LLMエージェントの長期メモリは、個人化や業務継続性のために重要になっている。ユーザーの好み、過去の会話、進行中タスク、組織内の関係、チケットやメールの履歴を覚えられるほど、エージェントは便利になる。</p>
+<p>ただし、単一ユーザーの私的メモリと、複数主体が使う共有メモリは別物。たとえば職場では、上司、同僚、HR、契約社員が同じプロジェクト記憶に触るかもしれない。家庭では、住人、ゲスト、介護者が同じ予定や鍵情報に関わる。医療や教育では、本人、家族、医師、教員、相談員で見せてよい範囲が変わる。</p>
+<p>GateMemが扱うのは、この「記憶はあるが、誰にどこまで出してよいかは文脈依存」という問題。記憶力が高いだけのエージェントは、共有環境ではむしろ漏えい装置になり得る。</p>
+<h2>何が重要か</h2>
+<h3>1. メモリ評価の軸が「想起」から「統治」へ移る</h3>
+<p>GateMemは、メモリを私的なキャッシュではなく、複数主体が書き込み、後から別の主体が問い合わせる共有状態として扱う。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>評価軸</th><th>何を見るか</th><th>失敗例</th></tr></thead>
+<tbody>
+<tr><td>Utility</td><td>正当な依頼に有用で最新の回答を返せるか</td><td>権限があるのに過去情報を見つけられない</td></tr>
+<tr><td>Access Control</td><td>権限外・範囲外の依頼に保護情報を漏らさないか</td><td>HR情報や医療情報を別の利用者に出す</td></tr>
+<tr><td>Active Forgetting</td><td>削除要求後に情報を復元・確認・推測しないか</td><td>「削除済みだが以前はこうだった」と示唆する</td></tr>
+</tbody>
+</table></div>
+<p>この3軸はトレードオフになりやすい。厳しく拒否すれば漏えいは減るが有用性が落ちる。全部覚えて長文コンテキストに入れれば回答は強くなるが、権限外情報や削除済み情報も混ざりやすい。</p>
+<h3>2. ベンチマークは実運用に近い長い会話で作られている</h3>
+<p>GateMemは、単発QAではなく、長いマルチパーティのエピソードに追加情報、更新、ノイズ、削除イベントを混ぜ、途中の隠しチェックポイントで評価する。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>項目</th><th>内容</th></tr></thead>
+<tbody>
+<tr><td>エピソード数</td><td>91件の長文マルチパーティエピソード</td></tr>
+<tr><td>チェックポイント</td><td>2,218件の隠し評価ポイント</td></tr>
+<tr><td>ドメイン</td><td>医療、オフィス、教育、家庭</td></tr>
+<tr><td>比較対象</td><td>Long-context、Naive RAG、Policy RAG、A-MEM、Mem0、ReMeMなど</td></tr>
+<tr><td>指標</td><td>Utility、Access-Control Violation、Active-Forgetting Failure、MGS</td></tr>
+</tbody>
+</table></div>
+<p>重要なのは、単に「RAGが漏らす」「長文コンテキストが強い」という単純比較ではない点。権限境界、関係性、削除要求、時系列更新を含むので、実際の秘書エージェントや社内ナレッジエージェントに近い失敗が見える。</p>
+<h3>3. 現状の方式は、有用性・アクセス制御・忘却を同時に満たせない</h3>
+<p>論文とプロジェクトページの主張はかなり明確で、現行のメモリエージェント方式では、強い有用性、堅牢なアクセス制御、信頼できる削除後忘却を同時に達成できていない。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>方式</th><th>強み</th><th>弱み</th></tr></thead>
+<tbody>
+<tr><td>Long-context</td><td>正当な依頼への根拠量が多く、有用性が出やすい</td><td>トークンコストが高く、保護情報や削除済み情報も混ざる</td></tr>
+<tr><td>Naive RAG</td><td>コストを抑えて関連記憶を引ける</td><td>権限や削除状態を知らない検索で漏えいしやすい</td></tr>
+<tr><td>Policy-aware RAG</td><td>requesterやpolicy metadataで安全側に寄せられる</td><td>必要情報を落として過剰拒否や有用性低下が起きる</td></tr>
+<tr><td>外部メモリ</td><td>構造化しやすく運用に載せやすい</td><td>外部メモリ化だけでは統治にならない</td></tr>
+</tbody>
+</table></div>
+<p>自分の環境に引き寄せると、「ObsidianやCSVに保存してRAGで引く」だけでは足りない。記憶ごとに所有者、公開範囲、根拠、削除状態、期限、用途を持たせ、それを検索・回答・要約の段階で強制する必要がある。</p>
+<h3>4. 削除はストレージ削除だけでは終わらない</h3>
+<p>GateMemのActive Forgettingは、明示的な削除要求の後に、その情報を後続会話で復元、確認、再構成しないかを見る。これは実務的にかなり重要。</p>
+<p>たとえば、メモリDBから該当レコードを消しても、会話履歴、要約、埋め込み、キャッシュ、評価ログ、別ユーザーの引用、モデル入力に残っていれば、エージェントは削除済み情報を再び使ってしまう。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>削除対象</th><th>残りやすい場所</th><th>必要な対策</th></tr></thead>
+<tbody>
+<tr><td>明示メモリ</td><td>RAG DB、JSON、CSV、Obsidian note</td><td>削除状態と検索除外を一貫管理する</td></tr>
+<tr><td>派生要約</td><td>日次要約、人物メモ、プロジェクトメモ</td><td>派生物の参照元を追えるようにする</td></tr>
+<tr><td>埋め込み</td><td>Vector DB、semantic cache</td><td>再生成またはtombstone管理を用意する</td></tr>
+<tr><td>会話履歴</td><td>セッションログ、タスクログ</td><td>回答時に使う履歴範囲を絞る</td></tr>
+</tbody>
+</table></div>
+<p>「忘れて」と言われた時に、どの保存層から何を消すか、派生情報をどう扱うかまで設計していないメモリエージェントは、共有環境では危ない。</p>
+<h2>自分向けメモ</h2>
+<ul>
+<li>OpenClaw/Codexの長期メモリも、便利さだけでなく、誰のための記憶か、どのセッションで使ってよいか、削除要求をどう反映するかを明示したい。</li>
+<li>Obsidian vault、daily memory、MEMORY.md、作業ログ、Discord履歴、候補一覧のような複数保存先に同じ情報が散るので、削除・修正の伝播を考える必要がある。</li>
+<li>家庭内や趣味用途でも、支払い、健康、成人向け、投資、仕事情報は、通常メモリと同じ扱いにしないほうがよい。</li>
+<li>SAP/Basis文脈では、Jouleや社内エージェントがチケット、保守契約、ユーザー情報、監査ログを長期記憶する場合、単なる検索精度ではなく、会社・ロール・委任・期限・削除要求を評価軸に入れる。</li>
+<li>票なし時の自動選定としてこの候補を選んだ理由は、AutoJackが既に6/22に解説済みだったため重複を避け、GateMemのほうが日本語圏で薄く、個人秘書型エージェントの運用設計に直接効くため。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://arxiv.org/abs/2606.18829">arXiv - GateMem: Benchmarking Memory Governance in Multi-Principal Shared-Memory Agents</a> - 一次情報。論文本文、提出日、概要、コード・データへのリンク。</li>
+<li><a href="https://rzhub.github.io/GateMem/project.html">GateMem Project Page</a> - ベンチマーク概要、指標、ドメイン、結果、ローカル評価手順。</li>
+<li><a href="https://github.com/rzhub/GateMem">GitHub - rzhub/GateMem</a> - 評価ツールキット、データ構成、ベースライン実行手順。</li>
+<li><a href="https://huggingface.co/papers/2606.18829">Hugging Face Papers - GateMem</a> - 論文ページ、著者投稿コメント、データセット・Leaderboard・Submit導線。</li>
+<li><a href="https://huggingface.co/datasets/Ray368/GateMem">Hugging Face Dataset - Ray368/GateMem</a> - 公開データセット。ローカル検証やサンプル確認用。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>GateMem</li>
+<li>shared-memory agents</li>
+<li>multi-principal agents</li>
+<li>memory governance</li>
+<li>access control</li>
+<li>active forgetting</li>
+<li>long-context prompting</li>
+<li>RAG</li>
+<li>policy-aware retrieval</li>
+<li>persistent memory</li>
+<li>AI agent security</li>
+<li>personal assistant agents</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://arxiv.org/abs/2606.18829">arxiv.org - abs / 2606.18829</a></p></section>
+    </article>
+  </main>
+</body>
+</html>
