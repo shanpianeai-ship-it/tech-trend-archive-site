@@ -210,6 +210,17 @@
   },
   {
     "file": "[入力元伏せ]",
+    "slug": "2026-06-24-SAP・業務システム-SAP-for-Meに入ったJouleは、Basis運用窓口をどこまで自律化できるか-c9f6dcf090",
+    "title": "SAP for Meに入ったJouleは、Basis運用窓口をどこまで自律化できるか",
+    "category": "SAP・業務システム",
+    "created": "2026-06-24T19:50:00+09:00",
+    "status": "",
+    "type": "interest_report",
+    "excerpt": "SAPは2026年6月、顧客・パートナー向けポータルであるSAP for MeにJouleを組み込んだことを発表した。SAP for Meは、製品ポートフォリオ、アラート、メトリクス、サポート、セルフサービス導線をまとめる入口であり、そこに会話型・エージェント型AIを置くことで、従来の「画面を探してクリックするポータル」から「質問して案内・実行に近づく窓口」...",
+    "url": "interests/articles/2026-06-24-SAP・業務システム-SAP-for-Meに入ったJouleは、Basis運用窓口をどこまで自律化できるか-c9f6dcf090.html"
+  },
+  {
+    "file": "[入力元伏せ]",
     "slug": "2026-06-22-SAP・業務システム-Joule-for-Developers-ABAPの2026ロードマップをBasis-e6a1786c82",
     "title": "Joule for Developers ABAPの2026ロードマップをBasis運用者の武器にする",
     "category": "SAP・業務システム",
