@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>agentgateway運用ゲートウェイ | 海外技術情報アーカイブ</title>
+  <meta name="description" content="agentgateway v1.3.0 は、LLM、MCP、A2A、通常のAPIトラフィックを同じゲートウェイで扱う方向をかなり明確にしたリリース。新しいLLM向けUI、コスト分析、仮想モデル、再利用可能なプロバイダとガードレール、MCP向けポリシー表示などが入っている。 単なる「LLMプロキシ」ではなく、AIアプリやエージェントの運用統制レイヤーとして見る...">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-24</span>
+        <span>AI / LLM / Agent</span>
+        <span>importance: high</span>
+      </div>
+      <h1>agentgateway運用ゲートウェイ</h1>
+<h2>要約</h2>
+<p>agentgateway v1.3.0 は、LLM、MCP、A2A、通常のAPIトラフィックを同じゲートウェイで扱う方向をかなり明確にしたリリース。新しいLLM向けUI、コスト分析、仮想モデル、再利用可能なプロバイダとガードレール、MCP向けポリシー表示などが入っている。</p>
+<p>単なる「LLMプロキシ」ではなく、AIアプリやエージェントの運用統制レイヤーとして見るのが重要。どのモデルを使わせるか、誰がいくら使ったか、MCPツールをどう認可するか、障害時にどこへフェイルオーバーするかを、アプリ側の個別実装ではなくゲートウェイ側へ寄せる流れが見える。</p>
+<p>自分向けには、OpenClaw/Codex/MCPを個人運用する場合でも、企業のAI基盤を設計する場合でも、「AIゲートウェイを境界にして費用、権限、監査、ルーティングを集約する」という発想を押さえておくとよい。</p>
+<h2>背景</h2>
+<p>AIアプリの運用は、単にOpenAIやAnthropicのAPIキーを設定して終わりではなくなっている。複数モデルの使い分け、MCPサーバー接続、A2Aエージェント連携、社内APIの公開、利用者別の認可、ログ、コスト配賦、ガードレールが同時に必要になる。</p>
+<p>従来のAPI GatewayはHTTP/gRPCのルーティング、認証、レート制限には強いが、MCPの長期セッション、ツール一覧の集約、A2Aのエージェント通信、LLMのトークン・コスト計測までは自然には扱いにくい。agentgatewayはここを、通常APIとAIトラフィックを分けずに扱う統合ゲートウェイとして埋めにいっている。</p>
+<h2>何が重要か</h2>
+<h3>1. AI利用がアプリ実装からプラットフォーム運用へ移る</h3>
+<p>v1.3.0の中心は、LLM利用を各アプリのSDK実装に閉じ込めず、ゲートウェイで制御すること。モデル、プロバイダ、認可、ガードレール、ログ、コストをUIと設定で扱える。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>観点</th><th>アプリ個別実装</th><th>ゲートウェイ集約</th></tr></thead>
+<tbody>
+<tr><td>モデル選択</td><td>各アプリのコードに埋める</td><td>入口モデル名とプロバイダを対応付ける</td></tr>
+<tr><td>認可</td><td>アプリごとに実装</td><td>モデル単位、利用者単位で制御</td></tr>
+<tr><td>コスト</td><td>請求書やログを後で集計</td><td>リクエスト単位でトークンと金額を記録</td></tr>
+<tr><td>ガードレール</td><td>SDKやプロンプトに散らばる</td><td>request/responseのポリシーとして配置</td></tr>
+<tr><td>監査</td><td>アプリログ依存</td><td>LLM、MCP、A2Aのログをまとめる</td></tr>
+</tbody>
+</table></div>
+<p>これはSAP/Basis的に見ると、AI基盤にも「出口管理」「監査ログ」「権限レビュー」「課金配賦」が必要になったという話に近い。</p>
+<h3>2. コスト分析が本番運用の主要機能になっている</h3>
+<p>agentgateway v1.3.0 は、モデルごとのレート設定やプロバイダの料金表取り込み、入力/出力/合計トークン、ドル換算コストをログ、トレース、メトリクス、UIに出すと説明している。利用者、チーム、モデル、プロバイダ、コーディングツール単位で切れるのもポイント。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>切り口</th><th>見えること</th><th>実務上の使い道</th></tr></thead>
+<tbody>
+<tr><td>ユーザー</td><td>誰が使っているか</td><td>個人別の濫用検知、教育</td></tr>
+<tr><td>チーム</td><td>どの部署が燃やしているか</td><td>チャージバック、予算管理</td></tr>
+<tr><td>モデル</td><td>高額モデルへの偏り</td><td>品質と費用の見直し</td></tr>
+<tr><td>プロバイダ</td><td>契約先ごとの消費</td><td>契約交渉、冗長化判断</td></tr>
+<tr><td>ツール/Agent</td><td>CursorやClaude Code等の消費</td><td>導入効果と利用制限の判断</td></tr>
+</tbody>
+</table></div>
+<p>AI導入の初期は「便利だから使う」で済むが、本番化すると費用の見える化がないと止まる。特にエージェントは自律的に複数回呼び出すため、利用量の爆発をゲートウェイで検知できることが重要になる。</p>
+<h3>3. 仮想モデルはAI基盤のルーティングポリシーになる</h3>
+<p>v1.3.0の仮想モデルは、クライアントから見えるモデル名を固定しつつ、裏側で複数モデルへ重み付け、条件分岐、フェイルオーバーする仕組み。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>戦略</th><th>使い方</th><th>意味</th></tr></thead>
+<tbody>
+<tr><td>Weighted</td><td>70%を本番モデル、30%を候補モデルへ流す</td><td>A/Bテストや段階移行</td></tr>
+<tr><td>Failover</td><td>第一候補がエラーやレート制限なら次へ</td><td>プロバイダ障害への耐性</td></tr>
+<tr><td>Conditional</td><td>ヘッダー、ユーザー層、プロンプト長などで分岐</td><td>高価なモデルを必要な時だけ使う</td></tr>
+</tbody>
+</table></div>
+<p>アプリ側は同じ仮想モデル名を呼ぶだけでよい。基盤側で「プレミアム利用者だけ高性能モデル」「長文だけ長コンテキストモデル」「障害時は別プロバイダ」などを変えられるので、AI運用の変更権限をアプリ開発からプラットフォーム運用へ移せる。</p>
+<h3>4. MCPとA2Aも同じ統制対象になる</h3>
+<p>agentgatewayのドキュメントは、通常API、LLM推論、MCPツールサーバー、A2Aエージェント通信を同じプロキシで扱えることを強調している。MCPではツールフェデレーション、認証/認可、プロトコル対応、OpenAPI統合が出てくる。</p>
+<p>ここが特に重要。MCPは「LLMにツールを足す便利機能」ではなく、ファイル、DB、ブラウザ、クラウドAPI、社内システムへの実行入口になり得る。A2Aも、エージェント同士の能力発見や長期タスク協調を扱うなら、権限境界と監査対象になる。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>対象</th><th>ゲートウェイで見たいもの</th></tr></thead>
+<tbody>
+<tr><td>LLM</td><td>モデル、プロバイダ、トークン、コスト、ガードレール</td></tr>
+<tr><td>MCP</td><td>サーバー、ツール、認可、list変更、呼び出しログ</td></tr>
+<tr><td>A2A</td><td>エージェント間通信、能力公開、長期タスク</td></tr>
+<tr><td>通常API</td><td>既存の社内API、OpenAPI、認証、レート制限</td></tr>
+</tbody>
+</table></div>
+<h2>自分向けメモ</h2>
+<ul>
+<li>OpenClawのような個人エージェント環境でも、ツールが増えるほど「どこで止めるか」「どこでログを見るか」が問題になる。</li>
+<li>MCPサーバーを増やす場合、個別に許可するだけでなく、将来的にはゲートウェイ層でツール公開、認可、ログ、外部送信を束ねる設計が欲しい。</li>
+<li>企業AI基盤では、LLM APIキーを各アプリへ配る方式は早めに限界が来る。モデル選択、費用配賦、認可、監査を中央に置くほうが運用しやすい。</li>
+<li>SAP文脈では、Jouleや業務エージェントがBTP、Business Data Cloud、社内API、外部LLMを横断するなら、AI GatewayはBasis/Platform運用の新しい監視点になる。</li>
+<li>票なし時の自動選定としてこの候補を選んだ理由は、日本語圏で個別OSS名としてまだ薄く、MCP/エージェント運用の将来像を具体的な実装と機能で読めるため。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://agentgateway.dev/blog/2026-06-17-agentgateway-v1.3.0/">agentgateway blog - Agentgateway v1.3.0: LLM Consumption, Reimagined</a> - v1.3.0の主要機能。LLM UI、コスト分析、仮想モデル、ガードレール、MCP強化の説明。</li>
+<li><a href="https://github.com/agentgateway/agentgateway/releases/tag/v1.3.0">GitHub - agentgateway v1.3.0 release</a> - リリースページ。バイナリ、コンテナ、Helm chart、変更点確認用。</li>
+<li><a href="https://agentgateway.dev/docs/kubernetes/latest/">agentgateway docs - Kubernetes Version 1.3.x</a> - 公式ドキュメント。通常API、LLM、MCP、A2Aを同じゲートウェイで扱う設計説明。</li>
+<li><a href="https://agentgateway.dev/docs/">agentgateway docs - Documentation index</a> - ドキュメント入口。Standalone/Kubernetesの使い分け確認用。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>agentgateway</li>
+<li>AI Gateway</li>
+<li>LLM Gateway</li>
+<li>MCP Gateway</li>
+<li>A2A</li>
+<li>Model Context Protocol</li>
+<li>virtual model</li>
+<li>cost tracking</li>
+<li>guardrails</li>
+<li>OpenTelemetry</li>
+<li>Gateway API</li>
+<li>AI platform operations</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://agentgateway.dev/blog/2026-06-17-agentgateway-v1.3.0/">agentgateway.dev - blog / 2026-06-17-agentgateway-v1.3.0</a></p></section>
+    </article>
+  </main>
+</body>
+</html>

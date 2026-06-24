@@ -1,5 +1,18 @@
 [
   {
+    "file": "AI/2026-06-24_agentgateway運用ゲートウェイ.md",
+    "slug": "2026-06-24_agentgateway運用ゲートウェイ",
+    "title": "agentgateway運用ゲートウェイ",
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "created": "2026-06-24",
+    "source": "https://agentgateway.dev/blog/2026-06-17-agentgateway-v1.3.0/",
+    "importance": "high",
+    "confidence": "high",
+    "excerpt": "agentgateway v1.3.0 は、LLM、MCP、A2A、通常のAPIトラフィックを同じゲートウェイで扱う方向をかなり明確にしたリリース。新しいLLM向けUI、コスト分析、仮想モデル、再利用可能なプロバイダとガードレール、MCP向けポリシー表示などが入っている。 単なる「LLMプロキシ」ではなく、AIアプリやエージェントの運用統制レイヤーとして見る...",
+    "url": "articles/2026-06-24_agentgateway運用ゲートウェイ.html"
+  },
+  {
     "file": "Security/2026-06-23_AM_NSAのMCP安全設計.md",
     "slug": "2026-06-23_AM_NSAのMCP安全設計",
     "title": "NSAのMCP安全設計",
