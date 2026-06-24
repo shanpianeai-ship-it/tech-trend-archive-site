@@ -364,6 +364,17 @@
   },
   {
     "file": "[入力元伏せ]",
+    "slug": "2026-06-24-セキュリティ-Microsoft-AutoJackから見る「localhostは信頼境界ではない」-3c839a4a7b",
+    "title": "Microsoft AutoJackから見る「localhostは信頼境界ではない」エージェント運用設計",
+    "category": "セキュリティ",
+    "created": "2026-06-24T19:58:00+09:00",
+    "status": "",
+    "type": "interest_report",
+    "excerpt": "Microsoft Defender Security Research Teamは2026年6月18日、AutoGen Studioの開発中コードにあったMCP WebSocketまわりの攻撃連鎖を「AutoJack」として公開した。ブラウジング可能なAIエージェントが外部の悪性ページを開き、そのページ上のJavaScriptがローカルホスト上のMCP W...",
+    "url": "interests/articles/2026-06-24-セキュリティ-Microsoft-AutoJackから見る「localhostは信頼境界ではない」-3c839a4a7b.html"
+  },
+  {
+    "file": "[入力元伏せ]",
     "slug": "2026-06-23-セキュリティ-公開MCPサーバー2031件監査から「個人エージェントに入れてはいけないツール権限」-1b5fe283c4",
     "title": "公開MCPサーバー2031件監査から「個人エージェントに入れてはいけないツール権限」を分類する",
     "category": "セキュリティ",
