@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Codex/ChatGPT Agent普及で「個人秘書ワーク」はどこまで現実化したか | 興味レポート</title>
+  <meta name="description" content="2026年6月25日時点で、AIエージェントは「会話相手」から「委任された作業を進める道具」へかなり寄ってきている。Axiosは、OpenAI、Columbia、Duke、University of PennsylvaniaによるCodex利用分析を紹介し、Codexの利用がOpenAI社内、外部組織、個人ユーザーの各層で広がっていると報じた。特に、個人利用...">
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../../interests/index.html">興味レポート</a>
+    <span class="site-subtitle">Public redacted interest reports</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 興味レポート一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-25T19:55:00+09:00</span>
+        <span>AI・エージェント</span>
+        <span>interest_report</span>
+      </div>
+      <h1>Codex/ChatGPT Agent普及で「個人秘書ワーク」はどこまで現実化したか</h1>
+<h2>要約</h2>
+<p>2026年6月25日時点で、AIエージェントは「会話相手」から「委任された作業を進める道具」へかなり寄ってきている。Axiosは、OpenAI、Columbia、Duke、University of PennsylvaniaによるCodex利用分析を紹介し、Codexの利用がOpenAI社内、外部組織、個人ユーザーの各層で広がっていると報じた。特に、個人利用者のサンプルでは、80.6%が「経験者の30分以上の作業」に相当すると推定されるCodexリクエストを少なくとも1回行っていたという。</p>
+<p>OpenAI自身も、Codexを「クラウド上で複数タスクを並列に進めるソフトウェアエンジニアリング・エージェント」として位置づけ、さらに2026年6月には役割別・ツール別・ワークフロー別の利用へ広げる方向を示している。ChatGPT agentも、Web操作、深い調査、コード実行、ファイル・コネクタ連携を組み合わせ、ユーザーの指示のもとで複雑なオンライン作業を進める仕組みとして公開されている。</p>
+<p>ただし、これは「完全自律の秘書が勝手に全部やる」段階ではない。現実的なのは、調査、整理、下書き、ファイル変換、候補抽出、ビルド、公開確認、日次運用のような、失敗条件を定義しやすい仕事を小さく委任する形である。OpenClawの興味レポートCronは、その縮図になっている。</p>
+<p>今回のポールは有効票がなかったため、候補一覧から重要度、鮮度、個人適合度が高いこのテーマを採用した。</p>
+<h2>なぜ今見る価値があるか</h2>
+<p>見るべき変化は、モデルの賢さそのものより「任せられる作業単位」が増えたことだ。以前のChatGPT的な使い方は、質問して回答を読む形が中心だった。いまのCodexやChatGPT agentは、リポジトリを読み、ファイルを編集し、テストを走らせ、Webを調べ、スライドや表を作り、途中でユーザー確認を挟む方向へ進んでいる。</p>
+<p>個人秘書ワークの観点では、これが重要になる。秘書的な仕事は、単発の質問回答ではなく、入力の確認、候補出し、優先順位付け、文書化、保存、公開、完了報告までが一連の流れになる。AIエージェントが本当に役に立つのは、ここを「途中で止まらず、ただし危ない操作では止まる」形にできた時である。</p>
+<p>Axiosの記事が面白いのは、非開発者の伸びにも触れている点である。Codexは出自としてはコーディングエージェントだが、文書、ダッシュボード、社内資料、チケット、調査メモのような「仕事の成果物」を扱えるなら、開発者以外にも広がる。個人の運用でいえば、Obsidian、Discord、GitHub Pages、画像・文書ファイル、候補一覧Markdownをまたいで作業するOpenClawの使い方に近い。</p>
+<h2>調査メモ</h2>
+<p>OpenAIが2025年5月に公開したCodexは、ChatGPT内から利用できるクラウド型のソフトウェアエンジニアリング・エージェントとして始まった。リポジトリごとに独立したクラウドサンドボックスを用意し、コードを読み、編集し、テストやリンターを実行し、完了時には変更内容とログをユーザーが確認できる。重要なのは、OpenAIが最初から「人間のレビュー」と「ログ・テスト結果による検証」を前提にしていることだ。</p>
+<p>Codexの設計は、個人秘書ワークにもそのまま転用できる。人間が毎回すべての手順を実行する代わりに、エージェントへ「候補一覧を読み、投票を確認し、記事を書き、ビルドし、pushし、公開URLを確認する」といった完了条件を渡す。途中でファイルがない、Discordが読めない、ビルドが落ちる、公開URLが200にならない場合は失敗扱いにする。これは、単なる生成AIではなく運用タスクの自動化に近い。</p>
+<p>OpenAI DevelopersのCodex Webドキュメントでは、Codex cloudはバックグラウンドで、複数タスクを並列に進められると説明されている。ローカルのCodex CLIも公開されており、GitHubのopenai/codexリポジトリでは、ローカルで動くコーディングエージェントとして案内されている。クラウド、CLI、ChatGPT、IDE、GitHub連携がそろうと、エージェントは「ひとつのチャット画面」ではなく、作業環境の中に分散して入ってくる。</p>
+<p>2026年6月のOpenAI記事「Codex for every role, tool, and workflow」では、非技術チームの利用例も示されている。社内アプリ、役員資料、ダッシュボード、クリエイティブブリーフ、ポストモーテム、インシデント対応計画、機能チケットなど、対象はかなり広い。さらに、Business/Enterprise向けにはCodex Sitesのプレビューも説明されており、調査、計画、レビュー、プロジェクトボードを共有可能なWebページや軽量ツールにする方向が見える。</p>
+<p>ChatGPT agentは、OperatorのWeb操作、deep researchの調査統合、ChatGPTの会話能力を統合したものとして説明されている。OpenAIは、カレンダーを見て会議準備をする、競合調査からスライドを作る、Webサイトを操作する、コードを実行する、スプレッドシートを編集するといった例を挙げている。一方で、コネクタやログイン済みWebサイトのデータに触れるため、重要な操作ではユーザーの許可、割り込み、ブラウザ引き継ぎ、停止が必要だとも明記している。</p>
+<p>ここから見ると、個人秘書ワークの現実化は「できる・できない」の二択ではない。かなり現実化しているのは、入力と出力がファイル・URL・チャンネル・Gitのように明確で、完了確認を機械的にできる仕事である。まだ慎重に扱うべきなのは、本人の声で外部へ連絡する、金銭を動かす、個人情報を広く渡す、法的・医療的・投資判断を確定する、相手の感情や文脈が重い返信を送る、といった仕事である。</p>
+<h2>個人向けの読みどころ</h2>
+<p>個人のOpenClaw運用では、すでに個人秘書ワークの核ができている。興味レポートは、候補作成、Discord投票、調査ノート作成、Obsidian保存、Pages公開、Discord報告までを一連の作業にしている。これはCodex的な「タスクを渡して、証跡を残し、完了条件で止める」運用に近い。</p>
+<p>今後伸ばすなら、委任単位をさらに小さく定義するのが効く。たとえば「Common直下の受け渡しファイルを確認し、読了後に確認済みへ移す」「Obsidianの未整理ノートを分類候補つきで並べる」「PSA台帳の未入力コストを検出する」「YouTube素材フォルダの欠品をチェックする」「健康・運動系の記事では医療助言にならないよう注意文を入れる」といった粒度である。これらは、入力、保存先、禁止事項、成功条件を明文化しやすい。</p>
+<p>一方で、外部送信は慎重に分けた方がよい。Discordの結果報告、GitHub push、Pages公開のように、内容が公開前提であり、成功条件が明確なものは自動化しやすい。メール返信、SNS投稿、購入、予約、他人への連絡は、草稿作成までは任せても、送信前に確認を挟む設計がよい。</p>
+<p>個人秘書ワークで一番価値が出るのは、AIに「考えさせる」より「忘れず完了させる」部分である。今日のCron条件にあるように、投票を読むだけでは成功にしない。Markdownを作り、候補一覧を更新し、ビルドし、commit/pushし、公開URLをHTTP 200で確認し、Discordへ報告する。この完了条件の厳しさが、エージェントを便利な会話相手から実務担当へ近づける。</p>
+<h2>注意点</h2>
+<p>エージェントは便利だが、権限を広げるほど事故の半径も広がる。ファイル削除、外部送信、Git push、購入、予約、個人情報の読み取り、ログイン済みWeb操作は、操作ログ、確認ポイント、停止条件を決めておく必要がある。</p>
+<p>また、非開発者への普及は「誰でも安全に自動化できる」という意味ではない。むしろ、自然言語で頼めるぶん、何を許可したかが曖昧になりやすい。OpenClawでは、cron payload、AGENTS.md、運用ルール、候補一覧frontmatterのように、意図と状態をファイルに残す運用が効いている。</p>
+<p>調査記事としては、Axiosの数値は紹介記事経由であり、元レポートの公開範囲や推定方法には注意が必要である。30分相当の作業という推定もモデル評価に基づくため、実際の人間の作業時間をそのまま測ったものではない。実運用では、作業時間の推定よりも、成果物の品質、再現性、失敗時の報告、公開前チェックを重視したい。</p>
+<h2>参考リンク</h2>
+<ul>
+<li>Axios: <a href="https://www.axios.com/2026/06/25/codex-agents-growth-openai">AI agents are here for real this time</a></li>
+<li>OpenAI: <a href="https://openai.com/index/introducing-codex/">Introducing Codex</a></li>
+<li>OpenAI: <a href="https://openai.com/index/codex-for-every-role-tool-workflow/">Codex for every role, tool, and workflow</a></li>
+<li>OpenAI: <a href="https://openai.com/index/introducing-chatgpt-agent/">Introducing ChatGPT agent: bridging research and action</a></li>
+<li>OpenAI Help Center: <a href="https://help.openai.com/en/articles/11794368-chatgpt-agent-release-notes">ChatGPT agent - release notes</a></li>
+<li>OpenAI Developers: <a href="https://developers.openai.com/codex/cloud">Codex web</a></li>
+<li>GitHub: <a href="https://github.com/openai/codex">openai/codex</a></li>
+</ul>
+    </article>
+  </main>
+</body>
+</html>
