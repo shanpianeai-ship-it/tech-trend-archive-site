@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LLMエージェント安全性サーベイ | 海外技術情報アーカイブ</title>
+  <meta name="description" content="「Toward Secure LLM Agents: Threat Surfaces, Attacks, Defenses, and Evaluation」は、LLMエージェントのセキュリティ研究247本を、脅威面、攻撃、防御、評価の観点で整理したサーベイ論文。 重要なのは、LLMエージェントの安全性を「プロンプトインジェクション対策」だけでなく、情報フロー...">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-25</span>
+        <span>Security</span>
+        <span>importance: high</span>
+      </div>
+      <h1>LLMエージェント安全性サーベイ</h1>
+<h2>要約</h2>
+<p>「Toward Secure LLM Agents: Threat Surfaces, Attacks, Defenses, and Evaluation」は、LLMエージェントのセキュリティ研究247本を、脅威面、攻撃、防御、評価の観点で整理したサーベイ論文。</p>
+<p>重要なのは、LLMエージェントの安全性を「プロンプトインジェクション対策」だけでなく、情報フロー、委任された権限、永続状態の相互作用として扱っている点。エージェントは文章を返すだけではなく、ツールを呼び、ファイルや外部サービスへ作用し、記憶を残し、別エージェントへ影響を伝播させる。</p>
+<p>自分向けには、OpenClaw/Codex/MCPのような個人秘書エージェント環境を運用するときのチェックリストとして読む価値が高い。特に、ツール権限、メモリ汚染、マルチエージェント伝播、長期タスク評価の不足は、趣味環境でも企業環境でもそのまま問題になる。</p>
+<h2>背景</h2>
+<p>従来のLLMセキュリティは、不適切な出力、幻覚、直接的なプロンプトインジェクション、機密情報漏えいを中心に語られてきた。しかしエージェント化すると、リスクの形が変わる。</p>
+<p>エージェントは、検索、ブラウザ操作、ファイル読み書き、メールやチャット送信、コード実行、クラウドAPI操作などを組み合わせる。さらに、会話履歴、メモリ、タスク状態、他エージェントとの連携を持つ。このため、低信頼な入力が計画を歪め、高権限ツールを実行させ、永続メモリに残り、次のタスクや別エージェントへ伝播する可能性がある。</p>
+<p>この論文は、その断片化した研究を「ライフサイクル上のどこで、どの権限が、どの状態を通って、どの副作用につながるか」というシステム設計の問題として再整理している。</p>
+<h2>何が重要か</h2>
+<h3>1. エージェントのリスクは情報フロー、権限、状態で見る</h3>
+<p>論文の中心は、エージェントを入力、計画、次アクション決定、ツール実行、状態、外部出力、協調チャネルの流れとして見るモデル。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>観点</th><th>典型例</th><th>見るべきリスク</th></tr></thead>
+<tbody>
+<tr><td>情報フロー</td><td>Webページ、PDF、メール、ツール出力</td><td>低信頼データが高信頼指示として扱われる</td></tr>
+<tr><td>委任権限</td><td>shell、browser、file write、API、Discord送信</td><td>モデル判断が強い副作用へ直結する</td></tr>
+<tr><td>永続状態</td><td>memory、候補一覧、作業ログ、長期タスク状態</td><td>汚染された情報が後続タスクで再利用される</td></tr>
+<tr><td>協調</td><td>サブエージェント、MCP、外部ワーカー</td><td>1つの汚染が別の実行主体へ広がる</td></tr>
+</tbody>
+</table></div>
+<p>この見方は実務的。単に「危険なプロンプトを検出する」ではなく、「低信頼な入力が高権限の行動に昇格する経路」を潰す必要がある。</p>
+<h3>2. 支配的な攻撃はまだプロンプトインジェクションだが、焦点は広がっている</h3>
+<p>論文は、プロンプトインジェクションとツール経由の制御フロー乗っ取りが依然として中心的な攻撃だと整理している。一方で、今後の焦点として、永続状態の破壊やマルチエージェント伝播が強く出てくる。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>攻撃面</th><th>何が起きるか</th><th>自分の環境での例</th></tr></thead>
+<tbody>
+<tr><td>間接プロンプトインジェクション</td><td>外部ページや文書内の命令がエージェントへ混入</td><td>ブラウザ調査中のページがファイル送信や記憶更新を誘導</td></tr>
+<tr><td>ツール権限の悪用</td><td>本来の目的外に強いツールを使う</td><td>要約タスクなのにshellや外部送信を呼ぶ</td></tr>
+<tr><td>メモリ汚染</td><td>長期記憶に偽情報や悪意ある優先順位が残る</td><td>「このサイトを信頼する」と記憶される</td></tr>
+<tr><td>マルチエージェント伝播</td><td>汚染された出力が別エージェントの入力になる</td><td>調査役のメモが保存役や投稿役の判断を歪める</td></tr>
+<tr><td>長期タスク乗っ取り</td><td>途中状態を使って後段で攻撃する</td><td>候補一覧、cron状態、承認済みファイルに仕込まれる</td></tr>
+</tbody>
+</table></div>
+<p>特に個人秘書エージェントでは、チャット送信、ファイル管理、Obsidian更新、Git push、ブラウザ調査が同じ作業列に入る。これは便利だが、攻撃側から見ると副作用の大きい道具箱でもある。</p>
+<h3>3. 既存防御は部品として有用だが、組み合わせが弱い</h3>
+<p>論文の重要な指摘は、現在の防御策は個別には有用でも、エージェント全体として組み合わされたときの保証が弱いという点。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>防御</th><th>効く場面</th><th>弱点</th></tr></thead>
+<tbody>
+<tr><td>入力フィルタ</td><td>既知の悪性文字列や命令を弾く</td><td>間接注入や文脈依存攻撃に弱い</td></tr>
+<tr><td>ガードエージェント</td><td>実行前後の判断を監視する</td><td>監視側も同じ入力に騙される可能性がある</td></tr>
+<tr><td>最小権限</td><td>ツールの被害範囲を絞る</td><td>動的タスクでは必要権限の設計が難しい</td></tr>
+<tr><td>実行隔離</td><td>コード実行やファイル操作を閉じ込める</td><td>外部APIやチャット送信など論理的副作用は残る</td></tr>
+<tr><td>provenance管理</td><td>入力やメモリの出所を追う</td><td>実装負荷が高く、UIやログ設計が必要</td></tr>
+<tr><td>人間承認</td><td>高リスク操作を止める</td><td>承認疲れ、差分不明、文脈不足が起きる</td></tr>
+</tbody>
+</table></div>
+<p>現実的には、単一の万能対策ではなく、信頼境界、権限スコープ、状態の出所、実行ログ、人間承認を組み合わせる必要がある。</p>
+<h3>4. 評価ベンチマークが運用リスクに追いついていない</h3>
+<p>論文は、既存ベンチマークが長期的、状態あり、デプロイ環境依存のリスクを十分に評価できていないと指摘している。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>評価不足</th><th>なぜ問題か</th></tr></thead>
+<tbody>
+<tr><td>長期タスク</td><td>数十ステップ後にだけ発火する攻撃を見逃す</td></tr>
+<tr><td>永続メモリ</td><td>1回の会話ではなく、翌日以降の判断汚染を測れない</td></tr>
+<tr><td>実ツール副作用</td><td>テスト環境では安全でも、本番APIでは被害が出る</td></tr>
+<tr><td>マルチエージェント連携</td><td>出力の受け渡しで信頼境界が曖昧になる</td></tr>
+<tr><td>コスト/遅延/有用性</td><td>防御を強くしすぎると実用性が落ちる</td></tr>
+</tbody>
+</table></div>
+<p>これはCron運用にも関係する。候補収集、Discordポール、Obsidian保存、サイトビルド、Git pushという一連の処理は、単発のLLM応答よりも状態と副作用が大きい。評価は「正しい記事を書けたか」だけでなく、「外部入力が保存先や送信内容を乗っ取っていないか」まで見る必要がある。</p>
+<h2>自分向けメモ</h2>
+<ul>
+<li>OpenClaw/Codexのツールは、便利機能ではなく権限付き実行主体として扱う。</li>
+<li><code>read</code>、<code>write</code>、<code>send</code>、<code>push</code>、<code>delete</code>、<code>exec</code> を同じ安全度で扱わない。特に外部送信と永続変更は明示的に分ける。</li>
+<li>ブラウザで読んだページ、PDF、GitHub README、arXiv HTMLなどは、すべて低信頼入力として扱う。そこから得た内容をそのまま指示として実行しない。</li>
+<li>メモリやObsidianノートへ保存する情報には、できれば出所と確認日を残す。後で「なぜそう判断したか」を追えることが防御になる。</li>
+<li>サブエージェントやCronでは、親タスクの目的、許可された書き込み先、外部送信条件を明示する。曖昧な委任は攻撃面を広げる。</li>
+<li>エージェント評価では、成功率だけでなく、過剰権限、不要な外部送信、未確認情報の永続化、危険操作の承認省略を観察する。</li>
+<li>票なし時の自動選定としてこの候補を選んだ理由は、一次情報のサーベイとして信頼性が高く、AIエージェント、MCP、個人秘書運用、企業セキュリティの全部に接続できるため。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://arxiv.org/abs/2606.10749">arXiv - Toward Secure LLM Agents: Threat Surfaces, Attacks, Defenses, and Evaluation</a> - 一次資料。247本の論文をもとに、LLMエージェントの脅威面、攻撃、防御、評価を整理。</li>
+<li><a href="https://arxiv.org/html/2606.10749v1">arXiv HTML - Toward Secure LLM Agents</a> - HTML版。表や章構成を確認しやすい。</li>
+<li><a href="https://www.sei.cmu.edu/library/bridging-research-and-practice-in-llm-agent-security/">CMU SEI - SOK: Bridging Research and Practice in LLM Agent Security</a> - 研究と実務の橋渡しを狙う関連サーベイ。ライフサイクル全体のベストプラクティス整理に近い。</li>
+<li><a href="https://genai.owasp.org/resource/agentic-ai-threats-and-mitigations/">OWASP - Agentic AI Threats and Mitigations</a> - Agentic AIの脅威モデリングと緩和策の参照先。</li>
+<li><a href="https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html">OWASP Cheat Sheet - AI Agent Security</a> - 実装・運用チェックリストとして使いやすい。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>LLM agent security</li>
+<li>prompt injection</li>
+<li>indirect prompt injection</li>
+<li>tool privilege</li>
+<li>delegated authority</li>
+<li>persistent state</li>
+<li>memory poisoning</li>
+<li>multi-agent propagation</li>
+<li>provenance</li>
+<li>least privilege</li>
+<li>guard agent</li>
+<li>agent benchmark</li>
+<li>long-horizon evaluation</li>
+<li>MCP security</li>
+<li>OpenClaw</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://arxiv.org/abs/2606.10749">arxiv.org - abs / 2606.10749</a></p></section>
+    </article>
+  </main>
+</body>
+</html>
