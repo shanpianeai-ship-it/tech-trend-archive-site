@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>fail-plausible運用障害分類 | 海外技術情報アーカイブ</title>
+  <meta name="description" content="arXiv論文「When Errors Become Narratives」は、長期間動き続けるLLMエージェントランタイムで起きたサイレント障害を、8週間・22件のポストモーテムから分類した事例研究。対象は、約40件の定期ジョブ、8つのLLMプロバイダ、ツールガバナンスプロキシ、メモリ基盤を持つ個人アシスタント型ランタイムで、単発チャットではなく「勝手に動...">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-25</span>
+        <span>AI / LLM / Agent</span>
+        <span>importance: high</span>
+      </div>
+      <h1>fail-plausible運用障害分類</h1>
+<h2>要約</h2>
+<p>arXiv論文「When Errors Become Narratives」は、長期間動き続けるLLMエージェントランタイムで起きたサイレント障害を、8週間・22件のポストモーテムから分類した事例研究。対象は、約40件の定期ジョブ、8つのLLMプロバイダ、ツールガバナンスプロキシ、メモリ基盤を持つ個人アシスタント型ランタイムで、単発チャットではなく「勝手に動き続けるエージェント運用」が前提になっている。</p>
+<p>一番重要なのは、LLMエージェントの障害が単に失敗を隠すだけでなく、エラーや汚染された入力をもっともらしい説明文へ変換して人間へ届けてしまう点。論文はこれを <code>fail-plausible</code> と呼び、クラウド基盤のグレーフェイルより厄介な、LLM時代の観測不能障害として扱っている。</p>
+<p>自分向けには、OpenClaw/Codex/Cron/MCPのような常駐エージェント環境では、「テストが通る」「ジョブが完了した」だけでは安心できない、という警告として読むのがよい。人間に届いた成果物そのものが、障害を隠す物語になっていないかを見る必要がある。</p>
+<h2>背景</h2>
+<p>従来のシステム運用でも、障害検知が正常を示すのにアプリケーション側では劣化しているグレーフェイルは問題だった。LLMエージェントではここに、自然言語生成という新しい層が乗る。</p>
+<p>エージェントは、スケジューラ、外部ツール、メモリ、通知、ブラウザ、ファイル操作、Git操作などをまたいで動く。どこかのエラーがログ、キャッシュ、要約、チャット履歴に混ざると、下流のLLMはそれを「異常」として扱わず、文脈に合った説明や分析に変換してしまうことがある。</p>
+<p>つまり障害の見え方が、クラッシュや例外ではなく「それっぽいレポート」「それっぽい原因説明」「それっぽい対応手順」になる。これは自動化が進むほど危ない。</p>
+<h2>何が重要か</h2>
+<h3>1. サイレント障害は場所ではなく仕組みで分類する</h3>
+<p>論文はサイレント障害を、発生箇所ではなくメカニズムで5分類している。これは実務的にかなり重要。ファイル単位、ジョブ単位で直すと似た障害が別の場所で再発するが、メカニズム単位でルール化すれば横断的に潰せる。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>分類</th><th>メカニズム</th><th>実務上の見方</th></tr></thead>
+<tbody>
+<tr><td>A</td><td>環境・プラットフォームの癖</td><td>OS権限、サンドボックス、外部ボリューム、実行環境差分</td></tr>
+<tr><td>B</td><td>設計前提の不一致</td><td>出力形式、引数順、状態名、設定ファイルの前提ずれ</td></tr>
+<tr><td>C</td><td>エラーの握り潰し・希釈</td><td>例外が要約、ログ、キャッシュ、通知経路で弱まる</td></tr>
+<tr><td>D</td><td>連鎖的幻覚・捏造</td><td>エラー混入をLLMが自然な説明文へ変換する</td></tr>
+<tr><td>E</td><td>運用漏れ・証跡欠落</td><td>そもそも記録されず、後から調べられない</td></tr>
+</tbody>
+</table></div>
+<p>この分類は、個人エージェントでもそのまま使える。たとえば「Discordに報告したから成功」ではなく、報告文がどのデータから作られたか、エラーを吸い込んでいないか、後から検証できる証跡があるかを分けて見る。</p>
+<h3>2. fail-plausible はLLMエージェント固有の危険</h3>
+<p>従来のサイレント障害は、信号が届かないことが問題だった。fail-plausibleでは、信号が届かないだけでなく、偽の信号がきれいな文章で届く。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>状態</th><th>人間からの見え方</th><th>危険性</th></tr></thead>
+<tbody>
+<tr><td>クラッシュ</td><td>失敗が明示される</td><td>対応しやすい</td></tr>
+<tr><td>グレーフェイル</td><td>正常に見えるが内部で劣化</td><td>検知が遅れる</td></tr>
+<tr><td>サイレント障害</td><td>成功/失敗が届かない</td><td>放置される</td></tr>
+<tr><td>fail-plausible</td><td>失敗がもっともらしい成果物になる</td><td>誤った判断に使われる</td></tr>
+</tbody>
+</table></div>
+<p>特にレポート作成、調査ノート、ニュース要約、脆弱性整理のようなタスクでは、出力が自然だと人間は読み流しやすい。実際にはHTTPエラー、古いログ、壊れたキャッシュ、途中で失敗した検索結果が元になっていても、LLMは文体を整えてしまう。</p>
+<h3>3. テストと監査は予防より回帰防止に効く</h3>
+<p>論文の面白い点は、テストやガバナンスチェックが多くても、サイレント障害の事前予防にはあまり効かなかったと整理していること。事後に原因が分かった後、同じ型の再発を止める回帰防止には強い。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>層</th><th>期待しがちな役割</th><th>現実的な役割</th></tr></thead>
+<tbody>
+<tr><td>Unit test</td><td>事前に障害を見つける</td><td>既知の契約違反を止める</td></tr>
+<tr><td>Governance check</td><td>危険操作を防ぐ</td><td>既知パターンの再発を止める</td></tr>
+<tr><td>Health check</td><td>システム全体の正常性を示す</td><td>見ている範囲の生存確認</td></tr>
+<tr><td>Human review</td><td>最終手段</td><td>成果物の違和感を拾う重要な観測点</td></tr>
+</tbody>
+</table></div>
+<p>これはCron運用にかなり刺さる。チェックは必要だが、「チェックが通ったので正しい」ではなく、「このチェックは何の再発を止めているか」を明示するほうがよい。</p>
+<h3>4. 長く潜る障害は複雑な部品ではなく接点に住む</h3>
+<p>論文では、障害の潜伏時間が13時間から60日まで幅広く、長く残ったものは複雑なアルゴリズムではなく、コンポーネント間の接点にあったと説明している。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>接点</th><th>起きやすい問題</th><th>対策の方向</th></tr></thead>
+<tbody>
+<tr><td>Cronと実行環境</td><td>権限、PATH、作業ディレクトリ差分</td><td>実行条件を明示し、ログへ残す</td></tr>
+<tr><td>LLMとツール</td><td>エラーを自然文入力として扱う</td><td>エラー枠と通常データ枠を分ける</td></tr>
+<tr><td>メモリと要約</td><td>古い警告や誤情報が再注入される</td><td>信頼境界と有効期限を持たせる</td></tr>
+<tr><td>ログと通知</td><td>失敗が要約で薄まる</td><td>生ログへの参照と失敗フラグを残す</td></tr>
+<tr><td>宣言状態と実状態</td><td>設定上は存在するが実行時は違う</td><td>収束チェックを機械化する</td></tr>
+</tbody>
+</table></div>
+<p>エージェント運用では、部品ごとに正しくても接点で破綻する。だから「ジョブが何を読んだか」「何を根拠に選んだか」「どのURLを確認したか」「どのコミットで公開したか」を成果物に残すのは、単なる記録ではなく障害対策になる。</p>
+<h2>自分向けメモ</h2>
+<ul>
+<li>OpenClawのCronでは、投票結果、候補一覧、調査ソース、作成ファイル、ビルド、commit/push、公開URL確認を1本の成功条件として扱う必要がある。途中の1つだけ成功しても成功扱いにしない。</li>
+<li>LLMにログやエラーを読ませるときは、「これはエラーであり本文根拠ではない」と構造化して渡す。裸のログやHTMLエラーを要約対象に混ぜない。</li>
+<li>解説ノート作成では、原文リンクを開けたか、一次情報か、候補一覧から何番を選んだかをfrontmatterや本文に残す。</li>
+<li>テストやガバナンスは、新しい未知障害を全部防ぐものではない。事故後に「同じ型を二度起こさない」ための仕組みとして育てる。</li>
+<li>人間の違和感は重要な検知器。Cron報告は短くても、選定方法と根拠URLだけは見える形にしたほうがよい。</li>
+<li>今回は票なしだったため、候補2を自動選定した。理由は、候補1よりも実運用ポストモーテムに基づいており、OpenClaw/Cron/ツール実行を持つ自分の環境に直接効くため。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://arxiv.org/abs/2606.14589">arXiv - When Errors Become Narratives</a> - 論文概要。8週間、22件のポストモーテム、5分類、fail-plausible、監査の回帰防止効果などの要点。</li>
+<li><a href="https://arxiv.org/html/2606.14589v1">arXiv HTML - full text</a> - 本文。背景、分類、事例、設計原則を確認する入口。</li>
+<li><a href="https://github.com/bisdom-cell/openclaw-model-bridge">GitHub - bisdom-cell/openclaw-model-bridge</a> - 論文で参照されている公開アーティファクトと実運用ランタイムのリポジトリ。</li>
+<li><a href="https://agentpatterns.ai/anti-patterns/silent-failure-mechanism-taxonomy/">AgentPatterns - Silent-Failure Mechanism Taxonomy</a> - 論文の5分類をエージェント設計パターンとして整理した関連解説。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>LLM agent</li>
+<li>silent failure</li>
+<li>fail-plausible</li>
+<li>gray failure</li>
+<li>agent runtime</li>
+<li>observability</li>
+<li>postmortem</li>
+<li>governance check</li>
+<li>tool governance</li>
+<li>memory plane</li>
+<li>cron automation</li>
+<li>regression blocking</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://arxiv.org/abs/2606.14589">arxiv.org - abs / 2606.14589</a></p></section>
+    </article>
+  </main>
+</body>
+</html>
