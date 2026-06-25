@@ -12,6 +12,17 @@
   },
   {
     "file": "[入力元伏せ]",
+    "slug": "2026-06-25-AI・エージェント-Workspace-Agentsで「チーム共有の個人秘書」を作る時の権限境界-bfcd51c0ee",
+    "title": "Workspace Agentsで「チーム共有の個人秘書」を作る時の権限境界",
+    "category": "AI・エージェント",
+    "created": "2026-06-25T20:05:00+09:00",
+    "status": "",
+    "type": "interest_report",
+    "excerpt": "OpenAIのWorkspace Agentsは、個人のチャット補助ではなく、チーム内で共有される反復業務エージェントとして設計されている。ChatGPT Business、Enterprise、Edu、Teachers向けのresearch previewとして提供され、ChatGPT内だけでなくSlack上でも使える方向に広がっている。重要なのは、エージ...",
+    "url": "interests/articles/2026-06-25-AI・エージェント-Workspace-Agentsで「チーム共有の個人秘書」を作る時の権限境界-bfcd51c0ee.html"
+  },
+  {
+    "file": "[入力元伏せ]",
     "slug": "2026-06-25-AI・エージェント-ChatGPT-Agent普及で「個人秘書ワーク」はどこまで現実化したか-afe0604843",
     "title": "Codex/ChatGPT Agent普及で「個人秘書ワーク」はどこまで現実化したか",
     "category": "AI・エージェント",

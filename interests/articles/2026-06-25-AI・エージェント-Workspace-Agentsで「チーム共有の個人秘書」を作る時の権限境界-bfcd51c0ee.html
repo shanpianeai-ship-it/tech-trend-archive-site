@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Workspace Agentsで「チーム共有の個人秘書」を作る時の権限境界 | 興味レポート</title>
+  <meta name="description" content="OpenAIのWorkspace Agentsは、個人のチャット補助ではなく、チーム内で共有される反復業務エージェントとして設計されている。ChatGPT Business、Enterprise、Edu、Teachers向けのresearch previewとして提供され、ChatGPT内だけでなくSlack上でも使える方向に広がっている。重要なのは、エージ...">
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../../interests/index.html">興味レポート</a>
+    <span class="site-subtitle">Public redacted interest reports</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 興味レポート一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-25T20:05:00+09:00</span>
+        <span>AI・エージェント</span>
+        <span>interest_report</span>
+      </div>
+      <h1>Workspace Agentsで「チーム共有の個人秘書」を作る時の権限境界</h1>
+<h2>要約</h2>
+<p>OpenAIのWorkspace Agentsは、個人のチャット補助ではなく、チーム内で共有される反復業務エージェントとして設計されている。ChatGPT Business、Enterprise、Edu、Teachers向けのresearch previewとして提供され、ChatGPT内だけでなくSlack上でも使える方向に広がっている。重要なのは、エージェントがファイル、コード、接続アプリ、メモリ、スケジュール、Slackなどをまたいで動ける点である。</p>
+<p>その便利さは、そのまま権限設計の難しさになる。共有エージェントを「チームの個人秘書」のように使うなら、誰のアカウントで読むのか、誰の権限で書くのか、Slackやメールに投稿する前に誰が承認するのか、外部コンテンツ由来のプロンプト注入をどう扱うのかを分けて考える必要がある。</p>
+<p>OpenAIのHelp Centerでは、Workspace Agentsに対して「エンドユーザーアカウント」と「エージェント所有アカウント」の認証方式、write action approvals、Connector Action Constraints、バージョン履歴、analytics、削除・複製・Slack接続変更といった運用管理が説明されている。これはOpenClawのような個人秘書運用にもそのまま効く。自動化の価値は「勝手に全部やる」ことではなく、読み取り、下書き、承認、外部送信、公開、停止を明確に分けることにある。</p>
+<p>今回のDiscordポールは全選択肢0票だったため、候補一覧から重要度、鮮度、個人適合度が高いこのテーマを採用した。</p>
+<h2>なぜ今見る価値があるか</h2>
+<p>Workspace Agentsの本質は、エージェントが「個人の会話相手」から「組織の作業単位」へ移ることにある。OpenAIの発表では、エージェントは共有コンテキスト、チーム手順、承認、複数ツールをまたぐ作業を扱うものとして説明されている。つまり、単に質問に答えるのではなく、決まった業務を継続的に進める存在になっている。</p>
+<p>ここで事故が起きやすいのは、チーム共有と個人秘書性が混ざる場面である。たとえば、Slackで誰でも呼べるエージェントが、個人のメール、カレンダー、ドライブ、社内Wiki、GitHub、チケット管理に触れるとする。このとき、エージェントの出力はチームに見えるが、入力の一部は個人や部門に閉じているかもしれない。読み取り権限と投稿権限を同じ粒度で扱うと、情報漏えいや誤送信の半径が大きくなる。</p>
+<p>さらに2026年6月19日のEnterprise/Eduリリースノートでは、Slack connector actionsが追加され、検索だけでなくチャンネル参加、リマインダー作成、ファイルアップロード、Slackプロフィール更新などの操作が可能になったと説明されている。これは便利だが、「検索できる」と「投稿・変更できる」はリスクがまったく違う。エージェント導入時のレビュー対象は、モデル品質だけではなく、接続アプリごとのwrite action、OAuth scope、承認フロー、監査ログになる。</p>
+<h2>調査メモ</h2>
+<p>OpenAIのWorkspace Agents発表記事では、エージェントはCodex-poweredで、クラウド上のworkspace、ファイル、コード、ツール、メモリを使い、長いワークフローを継続できると説明されている。チームはAgentタブから作成し、テンプレート、スキル、接続ツールを組み合わせ、ChatGPTやSlackで利用できる。Enterprise/Eduでは管理者が、どの接続ツールやアクションをユーザーグループに許可するかを制御でき、Compliance APIで構成、更新、実行の可視性も得られる。</p>
+<p>Help CenterのWorkspace Agents記事では、接続アプリの認証方式として、実行者ごとに本人のアカウントで認証する「End-user account」と、共有接続を使う「Agent-owned account」が示されている。後者を使う場合は、可能ならサービスアカウントを使い、必要最小限のアクセスに絞ることが推奨されている。個人アカウントを共有エージェントに持たせる運用は、責任分界と監査の面で弱くなる。</p>
+<p>write actionsについては、既定ではエージェント実行中にAlways askになる。アプリによってはNever askや特定アクションごとのCustom approvalも使えるが、OpenAIは送信、編集、投稿、削除を含むワークフローでは慎重に扱うよう注意している。OpenClawに読み替えると、Discord結果報告やGitHub pushのような既定の公開作業は自動化しやすいが、メール返信、SNS投稿、購入、予約、ファイル削除は承認ゲートを分けるべき領域になる。</p>
+<p>Connector Action Constraintsは、接続アプリでエージェントが要求できるアクションを絞る仕組みである。たとえば、メール送信先ドメインを限定する、特定のGoogle Docだけ読ませる、といった制約をエージェント単位で追加できる。ただし重要な注意点として、この制約は「エージェントがコネクタに依頼できること」を制限するものであり、コネクタが返すデータそのものをフィルタするものではない。つまり、検索条件を制約しても、許可された別経路で機密情報を含む結果が返る可能性は残る。</p>
+<p>ChatGPTのApps権限記事も補助線になる。通常のChatGPT会話では、app permissionsにより、Always ask、Any changes、Important actions、Never askなどを選べる。Important actionsには、メールやメッセージの送信・編集、削除、購入、クラウドファイルの移動、共有権限変更、認証情報作成、機微情報の共有などが含まれる。一方、Workspace Agentsは会話全体の設定ではなく、エージェントビルダーが定めるper-agent controlsで、どのapp actionsを許可し、いつ承認を求めるかを決める。</p>
+<p>セキュリティ観点では、OWASPのLLM Top 10でPrompt Injectionが主要リスクとして扱われている。Workspace Agentsの発表記事も、外部コンテンツに含まれる誤誘導やprompt injectionに対するbuilt-in safeguardsを挙げている。ただし、prompt injectionを完全に消す設計より、成功しても被害が限定される権限分離が実務的である。読み取り専用、下書きのみ、送信前確認、対象チャンネル限定、特定フォルダ限定、実行ログ保存、緊急停止を組み合わせるのが現実的な対策になる。</p>
+<h2>個人向けの読みどころ</h2>
+<p>個人のOpenClaw運用では、すでに「共有エージェントを個人秘書化する時の境界線」を考える材料がそろっている。Obsidian、[内部パス] Pages、cron、画像処理、PSA台帳、YouTube素材など、扱う対象は広い。だからこそ、全部を同じ権限で扱わない方がよい。</p>
+<p>まず、読み取り専用の仕事はかなり広げやすい。候補一覧を読む、Discordポールを読む、公開Webを調べる、Obsidianの既存ノートを検索する、台帳の未入力欄を検出する、といった作業は、基本的に情報を集めて報告するだけで済む。</p>
+<p>次に、ローカル成果物の作成は条件つきで自動化しやすい。Markdown作成、分類フォルダへの保存、候補一覧frontmatter更新、サイトビルド、公開URL確認は、成功条件が明確で、失敗時にも報告しやすい。このCronのように「投票読み取りだけでは成功にしない」と明記しておくと、エージェントが中途半端な完了報告をしにくくなる。</p>
+<p>一方で、外部に出る操作は別枠にしたい。Discord結果報告やGitHub Pages公開は、運用ルール上の公開先が明確なので自動化対象にできる。だが、メール送信、SNS投稿、購入、予約、個人や第三者への返信、公開範囲が曖昧なファイル共有は、草稿作成までを自動化し、送信・公開前に明示承認を挟むのがよい。</p>
+<p>実装メモとしては、OpenClaw側でもエージェントごとに「読める場所」「書ける場所」「送れる先」「削除してよいもの」「成功条件」「失敗時に報告する先」を分けておくとよい。特に、Discordに出す文章、GitHubにpushする成果物、Obsidianに残す内部メモは、それぞれ公開範囲が違う。Workspace Agentsのper-agent controlsやConnector Action Constraintsは、この分離を製品機能として持ち込もうとしていると読める。</p>
+<h2>注意点</h2>
+<p>Connector Action Constraintsは便利だが、データ漏えい対策として過信しない方がよい。OpenAIの説明どおり、制約はコネクタへの依頼内容を絞るものであり、返却データを完全に検閲する仕組みではない。機密情報に触れる可能性がある接続元は、そもそも読み取り対象を限定する必要がある。</p>
+<p>Agent-owned accountは、複数人が同じ権限でエージェントを使えるため便利だが、個人アカウントを流用すると責任追跡が曖昧になる。可能ならサービスアカウント化し、権限を最小化し、ログと停止手順を整えるべきである。</p>
+<p>SlackやDiscordのような会話面にエージェントを出す場合、誤投稿や文脈誤読が目立ちやすい。公開チャンネルでは「回答するだけ」の権限と「チケットを作る」「ファイルをアップロードする」「外部へ通知する」権限を分ける。個人秘書らしさを出すほど、本人の声との境界も曖昧になるため、外向き発言は慎重に扱う必要がある。</p>
+<h2>参考リンク</h2>
+<ul>
+<li>OpenAI: <a href="https://openai.com/index/introducing-workspace-agents-in-chatgpt/">Introducing workspace agents in ChatGPT</a></li>
+<li>OpenAI Help Center: <a href="https://help.openai.com/en/articles/20001143-chatgpt-workspace-agents-for-enterprise-and-business">ChatGPT Workspace Agents for Enterprise and Business</a></li>
+<li>OpenAI Help Center: <a href="https://help.openai.com/en/articles/11487775-connectors-in-chatgpt">Apps in ChatGPT</a></li>
+<li>OpenAI Help Center: <a href="https://help.openai.com/en/articles/10128477-chatgpt-enterprise-edu-release-notes">ChatGPT Enterprise &amp; Edu Release Notes</a></li>
+<li>OpenAI Developers: <a href="https://developers.openai.com/workspace-agents">Workspace Agents</a></li>
+<li>OWASP: <a href="https://owasp.org/www-project-top-10-for-large-language-model-applications/">Top 10 for Large Language Model Applications</a></li>
+</ul>
+    </article>
+  </main>
+</body>
+</html>
