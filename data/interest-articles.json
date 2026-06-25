@@ -375,6 +375,17 @@
   },
   {
     "file": "[入力元伏せ]",
+    "slug": "2026-06-25-セキュリティ-AIゲートウェイ脆弱性を「個人エージェントの管理面」として棚卸しする-01279710bb",
+    "title": "AIゲートウェイ脆弱性を「個人エージェントの管理面」として棚卸しする",
+    "category": "セキュリティ",
+    "created": "2026-06-25T20:05:00+09:00",
+    "status": "",
+    "type": "interest_report",
+    "excerpt": "2026年春から初夏にかけて、LiteLLM ProxyまわりでSQL Injection、権限昇格、RCE、MCP関連のコマンド実行など、AIゲートウェイを管理面から崩す事例が連続している。LiteLLMはOpenAI互換APIの前段に置かれ、モデルルーティング、仮想APIキー、予算、プロバイダ認証情報を集約するため、侵害されると「一つのアプリ」ではなくA...",
+    "url": "interests/articles/2026-06-25-セキュリティ-AIゲートウェイ脆弱性を「個人エージェントの管理面」として棚卸しする-01279710bb.html"
+  },
+  {
+    "file": "[入力元伏せ]",
     "slug": "2026-06-24-セキュリティ-Microsoft-AutoJackから見る「localhostは信頼境界ではない」-3c839a4a7b",
     "title": "Microsoft AutoJackから見る「localhostは信頼境界ではない」エージェント運用設計",
     "category": "セキュリティ",
