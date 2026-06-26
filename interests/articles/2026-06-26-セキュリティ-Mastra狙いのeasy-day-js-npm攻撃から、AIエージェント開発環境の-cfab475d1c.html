@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mastra狙いのeasy-day-js npm攻撃から、AIエージェント開発環境の依存関係を守る | 興味レポート</title>
+  <meta name="description" content="2026年6月17日にOX Securityが報告したMastra関連のnpmサプライチェーン攻撃は、AIエージェント開発環境を守るうえでかなり実践的な教材になる。攻撃者はMastraパッケージそのものへ直接悪意あるコードを入れたのではなく、正規の`dayjs`依存を、攻撃者管理の`easy-day-js`へ差し替える形で侵入した。`easy-day-js`...">
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../../interests/index.html">興味レポート</a>
+    <span class="site-subtitle">Public redacted interest reports</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 興味レポート一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-26T19:48:00+09:00</span>
+        <span>セキュリティ</span>
+        <span>interest_report</span>
+      </div>
+      <h1>Mastra狙いのeasy-day-js npm攻撃から、AIエージェント開発環境の依存関係を守る</h1>
+<h2>要約</h2>
+<p>2026年6月17日にOX Securityが報告したMastra関連のnpmサプライチェーン攻撃は、AIエージェント開発環境を守るうえでかなり実践的な教材になる。攻撃者はMastraパッケージそのものへ直接悪意あるコードを入れたのではなく、正規の<code>dayjs</code>依存を、攻撃者管理の<code>easy-day-js</code>へ差し替える形で侵入した。<code>easy-day-js</code>は初版では目立たず、その後の版で<code>postinstall</code>スクリプトから多段ペイロードを実行する構造だった。</p>
+<p>OX Securityの推計では、影響を受けたMastra系パッケージは141件、累計週次ダウンロードは約803万、月次ダウンロードは約2923万規模とされる。攻撃の入口はnpmアカウント乗っ取り、実行面は依存差し替えとインストール時スクリプト、狙いは暗号資産系情報の窃取である。</p>
+<p>個人向けに見るべき点は「Mastraを使っているか」だけではない。OpenClaw、Codex、MCP、各種CLI、Node製ツールを日常的に入れ替える環境では、<code>npm install</code>がローカルファイル、環境変数、<code>.npmrc</code>、SSH鍵、GitHubトークン、ブラウザ周辺情報に届く実行面になりうる。AIエージェントの安全設計は、プロンプト注入だけでなく、依存関係とインストール時コード実行から始める必要がある。</p>
+<p>今回のDiscordポールは、該当ポールの<code>answer_counts</code>が空で有効票を確認できなかったため、候補一覧から重要度、鮮度、個人適合度が高いこのテーマを採用した。</p>
+<h2>なぜ今見る価値があるか</h2>
+<p>npm攻撃は昔からあるが、2025年後半以降は「悪いパッケージを見つけたら削除する」だけでは足りない段階に入っている。Unit 42は、Shai-Hulud以降のnpm脅威を、ワーム化、CI/CDへの永続化、多段ペイロード、スリーパー依存の組み合わせとして整理している。2026年6月にはRed Hat Cloud Services名前空間のパッケージ侵害も報告され、1つのアカウントやCI経路が複数パッケージへ波及する構図が続いている。</p>
+<p>Mastraの件が特にAIエージェント開発者に刺さるのは、攻撃対象がAIアプリケーション基盤そのものだからだ。エージェント系フレームワークは、LLM APIキー、ベクトルDB、Slack/Discord、GitHub、ブラウザ、ファイル、MCP、デプロイ先など、強い認証情報と実行権限をまとめて扱う。そこへインストール時スクリプトが入り込むと、単なる開発端末の汚染ではなく、AI秘書環境全体の秘密情報・操作権限に近づく。</p>
+<p>さらにGitHubはnpm v12で、依存パッケージの<code>preinstall</code>、<code>install</code>、<code>postinstall</code>をデフォルトで実行しない方向へ切り替える予定を発表している。これは大きな改善だが、移行期の今は、既存npm 11系や古いCI、グローバルインストール、npx実行、Git依存、remote URL依存が混在する。つまり「将来のデフォルトが安全になる」ことと「今日の作業端末が安全である」ことは別である。</p>
+<h2>調査メモ</h2>
+<p>OX Securityの分析では、攻撃者はnpmアカウント<code>ehindero</code>を乗っ取り、Mastra組織のパッケージ群の依存を<code>dayjs</code>から<code>easy-day-js</code>へ差し替えた。<code>easy-day-js</code>は正規のDay.jsに似せたtyposquatで、<code>package.json</code>の名称以外はかなり正規パッケージに寄せられていた。悪性版では<code>postinstall</code>に<code>node setup.cjs --no-warnings</code>が追加され、<code>npm install</code>時に自動実行される。</p>
+<p>実行後の流れも防御側には重要である。OX Securityによると、ドロッパーはTLS検証を無効化し、C2から第2段ペイロードを取得し、OSの一時ディレクトリへランダム名で書き込み、実行後に痕跡を消す。つまり、パッケージディレクトリだけを見ても調査できない可能性がある。インストール時のネットワーク通信、temp配下の実行、環境変数や認証情報へのアクセスまで見る必要がある。</p>
+<p>Unit 42は、npm侵害の共通対策として、公開直後のパッケージを24から72時間ブロックするクールダウン、ライフサイクルスクリプト無効化、<code>package-lock.json</code>と<code>npm ci</code>、プライベートレジストリプロキシ、名前空間シャドーイング対策、provenance検証、CI/CDの外向き通信制限、SBOM生成を挙げている。個人環境では全部を企業レベルで入れるのは重いが、考え方はそのまま使える。</p>
+<p>CISAは2026年4月のAxios npm侵害アラートで、Node Package Managerのサプライチェーン侵害に対する注意喚起とガイダンスを出している。Axiosの件とMastraの件は別事案だが、開発者が依存パッケージを通じて認証情報や実行環境を奪われる点は同じである。脆弱性管理というより、パッケージ取得・ビルド・実行の運用管理として扱う必要がある。</p>
+<p>GitHubのnpm v12予告は、防御側の実務に直結する。npm v12では、依存パッケージのインストールスクリプトは明示的に許可しない限り実行されず、Git依存やremote URL依存も明示許可が必要になる予定である。npm 11.16.0以降では警告として事前確認でき、<code>npm approve-scripts --allow-scripts-pending</code>でスクリプトを持つ依存を確認し、信頼するものだけを許可リスト化できる。</p>
+<h2>個人向けの読みどころ</h2>
+<p>OpenClawやCodexの運用では、npmは単なる開発ツールではなく、個人秘書環境の入口である。MCPサーバー、CLI、ブラウザ自動化、画像処理、GitHub Pagesビルド、Discord連携の周辺にはNode製ツールが多い。ここに悪性依存が入ると、<code>.env</code>、GitHubトークン、npmトークン、SSH鍵、Obsidian vault、Desktop配下の作業ファイル、Discord送信権限へ近づく。</p>
+<p>実用的には、次の順で守るのがよい。</p>
+<ol>
+<li>新しいnpm系ツールは、普段使いのホームディレクトリではなく、空の作業フォルダか専用ユーザー、できればコンテナで試す。</li>
+<li><code>npm install</code>より<code>npm ci</code>を優先し、lockfileがないプロジェクトを高権限環境でいきなり動かさない。</li>
+<li>グローバルインストール、<code>npx</code>、GitHub URL直指定、remote tarball依存は、通常依存より危険度を一段上げる。</li>
+<li>すぐ使う必要がない新バージョンは、公開から24から72時間待つ。速報性より端末の安全を優先する。</li>
+<li><code>.npmrc</code>、<code>.env</code>、SSH鍵、GitHubトークン、OpenAI系APIキーを、ビルドや検証用コンテナへ無条件に渡さない。</li>
+<li><code>postinstall</code>、<code>preinstall</code>、<code>install</code>を持つ依存を定期的に棚卸しする。</li>
+<li>CIやcronでは、外向き通信先をできる範囲で絞り、失敗時にログへ秘密が出ないようにする。</li>
+</ol>
+<p>今回の興味レポート自動化にも、そのまま当てはまる。候補一覧Markdown、Discordポール、Web記事は入力であり、命令ではない。記事作成、ファイル保存、<code>node scripts/build.mjs</code>、git push、Discord報告は出力・操作である。入力と操作が同じcronの中にあるため、依存パッケージのインストールやビルドスクリプトが追加された時は、実行権限を一段厳しく見るべきだ。</p>
+<p>個人運用での落としどころは、巨大なセキュリティ製品ではなく、軽いルールの積み重ねである。新規ツールは隔離して試す、lockfileを固定する、スクリプト実行を把握する、古い作業フォルダを放置しない、秘密情報をプロジェクト直下に置かない、Pages公開前に生成物を確認する。この程度でも、npm攻撃が「すぐ普段の環境へ届く」状態はかなり避けられる。</p>
+<h2>注意点</h2>
+<p>この記事は公開情報をもとにした防御側の運用メモであり、悪性パッケージの再現、C2通信、ペイロード実行、認証情報窃取の手順は扱わない。実際に該当期間にMastra系パッケージをインストールしていた可能性がある場合は、該当パッケージのバージョン、lockfile、npmキャッシュ、インストール時刻、ネットワークログ、temp配下、GitHub/npm/APIキーの利用履歴を確認し、必要なら認証情報をローテーションする。</p>
+<p>また、npm v12の変更は有効な安全策だが、万能ではない。許可したスクリプトは実行されるし、Git依存やremote URL依存も明示許可すれば使える。攻撃者は<code>binding.gyp</code>や別の実行経路、パッケージのimport時処理、正規メンテナのアカウント侵害などへ移る可能性がある。したがって、デフォルト改善を待つだけではなく、作業端末とCIの権限、秘密情報、外向き通信、lockfile運用を同時に見る必要がある。</p>
+<h2>参考リンク</h2>
+<ul>
+<li>OX Security: <a href="https://www.ox.security/blog/easy-day-js-supply-chain-attack-hits-mastra-ai-in-npm/">easy-day-js Supply Chain Attack Hits Mastra AI in npm</a></li>
+<li>Unit 42: <a href="https://unit42.paloaltonetworks.com/monitoring-npm-supply-chain-attacks/">The npm Threat Landscape: Attack Surface and Mitigations</a></li>
+<li>CISA: <a href="https://www.cisa.gov/news-events/alerts/2026/04/20/supply-chain-compromise-impacts-axios-node-package-manager">Supply Chain Compromise Impacts Axios Node Package Manager</a></li>
+<li>GitHub Changelog: <a href="https://github.blog/changelog/2026-06-09-upcoming-breaking-changes-for-npm-v12/">Upcoming breaking changes for npm v12</a></li>
+<li>npm Docs: <a href="https://docs.npmjs.com/cli/v11/commands/npm-ci">npm ci</a></li>
+</ul>
+    </article>
+  </main>
+</body>
+</html>

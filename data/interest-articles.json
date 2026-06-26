@@ -397,6 +397,17 @@
   },
   {
     "file": "[入力元伏せ]",
+    "slug": "2026-06-26-セキュリティ-Mastra狙いのeasy-day-js-npm攻撃から、AIエージェント開発環境の-cfab475d1c",
+    "title": "Mastra狙いのeasy-day-js npm攻撃から、AIエージェント開発環境の依存関係を守る",
+    "category": "セキュリティ",
+    "created": "2026-06-26T19:48:00+09:00",
+    "status": "",
+    "type": "interest_report",
+    "excerpt": "2026年6月17日にOX Securityが報告したMastra関連のnpmサプライチェーン攻撃は、AIエージェント開発環境を守るうえでかなり実践的な教材になる。攻撃者はMastraパッケージそのものへ直接悪意あるコードを入れたのではなく、正規の`dayjs`依存を、攻撃者管理の`easy-day-js`へ差し替える形で侵入した。`easy-day-js`...",
+    "url": "interests/articles/2026-06-26-セキュリティ-Mastra狙いのeasy-day-js-npm攻撃から、AIエージェント開発環境の-cfab475d1c.html"
+  },
+  {
+    "file": "[入力元伏せ]",
     "slug": "2026-06-25-セキュリティ-AIゲートウェイ脆弱性を「個人エージェントの管理面」として棚卸しする-01279710bb",
     "title": "AIゲートウェイ脆弱性を「個人エージェントの管理面」として棚卸しする",
     "category": "セキュリティ",
