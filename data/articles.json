@@ -1,5 +1,18 @@
 [
   {
+    "file": "Security/2026-06-26_Cloudflare脆弱性ハーネス.md",
+    "slug": "2026-06-26_Cloudflare脆弱性ハーネス",
+    "title": "Cloudflare脆弱性ハーネス",
+    "genre": "Security",
+    "genreLabel": "Security",
+    "created": "2026-06-26",
+    "source": "https://blog.cloudflare.com/build-your-own-vulnerability-harness/",
+    "importance": "high",
+    "confidence": "high",
+    "excerpt": "Cloudflare が、AI を使った脆弱性探索を「単発のコードレビュー」ではなく、永続状態を持つハーネスとして運用する設計を公開した。 中核は Vulnerability Discovery Harness (VDH) と Vulnerability Validation System (VVS) の二段構え。探索側と検証側で別モデルを使い、発見、検証、...",
+    "url": "articles/2026-06-26_Cloudflare脆弱性ハーネス.html"
+  },
+  {
     "file": "Security/2026-06-25_AM_LLMエージェント安全性サーベイ.md",
     "slug": "2026-06-25_AM_LLMエージェント安全性サーベイ",
     "title": "LLMエージェント安全性サーベイ",

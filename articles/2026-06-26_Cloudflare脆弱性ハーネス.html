@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cloudflare脆弱性ハーネス | 海外技術情報アーカイブ</title>
+  <meta name="description" content="Cloudflare が、AI を使った脆弱性探索を「単発のコードレビュー」ではなく、永続状態を持つハーネスとして運用する設計を公開した。 中核は Vulnerability Discovery Harness (VDH) と Vulnerability Validation System (VVS) の二段構え。探索側と検証側で別モデルを使い、発見、検証、...">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-26</span>
+        <span>Security</span>
+        <span>importance: high</span>
+      </div>
+      <h1>Cloudflare脆弱性ハーネス</h1>
+<h2>要約</h2>
+<p>Cloudflare が、AI を使った脆弱性探索を「単発のコードレビュー」ではなく、永続状態を持つハーネスとして運用する設計を公開した。</p>
+<p>中核は Vulnerability Discovery Harness (VDH) と Vulnerability Validation System (VVS) の二段構え。探索側と検証側で別モデルを使い、発見、検証、重複排除、本番到達性判断、修正案生成までを分ける。</p>
+<p>重要なのは、AI が脆弱性を「見つける」話ではなく、ノイズ、幻覚、重複、途中失敗、コンテキスト枯渇を運用設計で抑える話になっている点。</p>
+<h2>背景</h2>
+<p>AI エージェントによるセキュリティレビューは、単一リポジトリに対して一回プロンプトを投げるだけなら始めやすい。しかし実運用では、以下の問題がすぐに出る。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>課題</th><th>単発エージェントの弱点</th><th>Cloudflareの設計</th></tr></thead>
+<tbody>
+<tr><td>コンテキスト枯渇</td><td>長時間調査で記憶が圧迫される</td><td>状態をDBへ外出しする</td></tr>
+<tr><td>偽陽性</td><td>もっともらしいだけの報告が混ざる</td><td>別モデルと決定的チェックで潰す</td></tr>
+<tr><td>再実行性</td><td>途中失敗で最初からやり直し</td><td>run_id / repo / stage 単位で再開</td></tr>
+<tr><td>横断影響</td><td>依存先・利用側を見落とす</td><td>dependency graph で追跡</td></tr>
+<tr><td>修正信頼性</td><td>AIが壊す修正を出す</td><td>fail to pass のテストゲートを要求</td></tr>
+</tbody>
+</table></div>
+<p>Cloudflare は、初期の <code>security-audit</code> skill から始め、Recon、Hunt、Validate、Report などの段階をハーネスに移した。最小構成でも Recon、Hunt、Validate をDBで管理し、Validator は自分では発見を登録できない役割にする、という考え方が実務的。</p>
+<h2>何が重要か</h2>
+<p>第一に、AI セキュリティ運用の主戦場が「モデル性能」から「状態管理と検証アーキテクチャ」に移っている。</p>
+<p>Cloudflare は、モデルを固定した前提で設計していない。探索側のモデルと検証側のモデルを分け、モデルプロバイダの変化や推論挙動の揺れを吸収する前提にしている。これは、AIエージェント基盤を長く運用するなら必須の発想。</p>
+<p>第二に、脆弱性発見の成果物を人間がレビューできる単位に落としている。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>成果物</th><th>目的</th></tr></thead>
+<tbody>
+<tr><td>threat model</td><td>どの攻撃者がどの境界を破るのかを明確にする</td></tr>
+<tr><td>PoC test</td><td>元コードに対して実際に再現するか確認する</td></tr>
+<tr><td>proposed patch</td><td>修正方針をレビュー可能にする</td></tr>
+<tr><td>mechanical validation</td><td>パス、行番号、スキーマ、テスト形式を決定的に確認する</td></tr>
+<tr><td>independent validation</td><td>別エージェントが発見を否定しにいく</td></tr>
+</tbody>
+</table></div>
+<p>第三に、AIが自分で作った脆弱性を報告する問題に明確な対策を置いている。</p>
+<p>モデルがソースを改変して自分のPoCを通してしまう、脅威モデルが空虚なまま報告してしまう、という失敗はAIレビューで起きやすい。Cloudflareは「元のコードに対する再現テスト」「Validatorは発見を登録できない」「Fixerは自動マージしない」という境界で抑えている。</p>
+<h2>自分向けメモ</h2>
+<p>OpenClaw / Codex 系の自動レビューにも、そのまま使える発想が多い。</p>
+<ul>
+<li>長い調査はチャット履歴ではなく、ファイルまたはDBに状態を残す。</li>
+<li>探索役と検証役を分け、検証役には「否定する」役割を与える。</li>
+<li>成果物は Markdown だけでなく、構造化JSONと機械チェックを通す。</li>
+<li>「ツールがない」「環境がない」場合は、無理に進めず wishlist 的な待ち行列にする。</li>
+<li>成功判定は例外の有無だけで見ない。本文上のエラーや空実行も失敗として分類する。</li>
+</ul>
+<p>特にCron運用では、Cloudflare記事中の「200 OK のストリームに一時エラー文が返っても、例外としては落ちない」という注意が刺さる。今後の自動化では、コマンド終了コード、出力内容、期待ファイル更新、公開URL確認を合わせて成功判定するべき。</p>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://blog.cloudflare.com/build-your-own-vulnerability-harness/">Cloudflare Blog - Build your own vulnerability harness</a> - VDH/VVS、永続状態、別モデル検証、修正ゲートの一次情報。</li>
+<li><a href="https://blog.cloudflare.com/project-glasswing/">Cloudflare Blog - Project Glasswing</a> - 前段となる、フロンティアモデルを企業コードベースに向けた検証。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>vulnerability harness</li>
+<li>LLM security</li>
+<li>AI security agent</li>
+<li>adversarial validation</li>
+<li>automated triage</li>
+<li>VDH</li>
+<li>VVS</li>
+<li>Cloudflare</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://blog.cloudflare.com/build-your-own-vulnerability-harness/">blog.cloudflare.com - build-your-own-vulnerability-harness</a></p></section>
+    </article>
+  </main>
+</body>
+</html>
