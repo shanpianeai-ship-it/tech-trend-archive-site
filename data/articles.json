@@ -13,6 +13,19 @@
     "url": "articles/2026-06-26_Cloudflare脆弱性ハーネス.html"
   },
   {
+    "file": "Security/2026-06-26_AM_AI開発環境サプライチェーン攻撃.md",
+    "slug": "2026-06-26_AM_AI開発環境サプライチェーン攻撃",
+    "title": "AI開発環境サプライチェーン攻撃",
+    "genre": "Security",
+    "genreLabel": "Security",
+    "created": "2026-06-26",
+    "source": "https://novee.security/blog/cordyceps/",
+    "importance": "high",
+    "confidence": "high",
+    "excerpt": "Cordyceps、Miasma、IronWorm は、AI開発環境がサプライチェーン攻撃の主戦場になりつつあることを示す一連の事例。 Cordyceps は、GitHub Actions などの CI/CD ワークフローで、未信頼の Pull Request、コメント、ブランチ名、成果物が高権限ワークフローへ渡る構成ミスを悪用する攻撃パターン。Novee ...",
+    "url": "articles/2026-06-26_AM_AI開発環境サプライチェーン攻撃.html"
+  },
+  {
     "file": "Security/2026-06-25_AM_LLMエージェント安全性サーベイ.md",
     "slug": "2026-06-25_AM_LLMエージェント安全性サーベイ",
     "title": "LLMエージェント安全性サーベイ",

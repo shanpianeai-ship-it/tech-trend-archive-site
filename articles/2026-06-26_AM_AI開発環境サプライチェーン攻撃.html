@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI開発環境サプライチェーン攻撃 | 海外技術情報アーカイブ</title>
+  <meta name="description" content="Cordyceps、Miasma、IronWorm は、AI開発環境がサプライチェーン攻撃の主戦場になりつつあることを示す一連の事例。 Cordyceps は、GitHub Actions などの CI/CD ワークフローで、未信頼の Pull Request、コメント、ブランチ名、成果物が高権限ワークフローへ渡る構成ミスを悪用する攻撃パターン。Novee ...">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-26</span>
+        <span>Security</span>
+        <span>importance: high</span>
+      </div>
+      <h1>AI開発環境サプライチェーン攻撃</h1>
+<h2>要約</h2>
+<p>Cordyceps、Miasma、IronWorm は、AI開発環境がサプライチェーン攻撃の主戦場になりつつあることを示す一連の事例。</p>
+<p>Cordyceps は、GitHub Actions などの CI/CD ワークフローで、未信頼の Pull Request、コメント、ブランチ名、成果物が高権限ワークフローへ渡る構成ミスを悪用する攻撃パターン。Novee は約3万の高影響リポジトリを調査し、654件をフラグし、300件超を完全に悪用可能と確認したとしている。</p>
+<p>Miasma と IronWorm は npm エコシステム経由の自己増殖型サプライチェーン攻撃で、Claude Code、Cursor、Gemini CLI、VS Code などの設定ディレクトリや AI API キーを明示的に狙っている。つまり、AIコーディングツールは単なる開発補助ではなく、認証情報、実行フック、CI/CD、クラウド権限へつながる攻撃面として扱う必要がある。</p>
+<h2>背景</h2>
+<p>従来の開発環境リスクは、npm パッケージ、GitHub Actions、クラウド認証情報、CI/CD シークレット、IDE 設定を別々に見がちだった。しかし AI コーディングツールが普及すると、これらが同じ作業フローに束ねられる。</p>
+<p>開発者は AI API キーを <code>.env</code>、shell profile、ツール設定、CI 変数に置き、AIツールはリポジトリ内のルール、hooks、tasks、設定ファイルを読み込む。さらに、エージェント型ツールはコマンド実行、ファイル編集、テスト実行、Git操作まで担う。</p>
+<p>このため攻撃者から見ると、AI開発環境は次のような複合的な侵入口になる。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>層</th><th>従来の見方</th><th>いま問題になること</th></tr></thead>
+<tbody>
+<tr><td>npm / package</td><td>依存ライブラリの侵害</td><td>install 時に AI ツール設定や CI 認証情報まで狙う</td></tr>
+<tr><td>CI/CD</td><td>ビルド設定</td><td>PR、コメント、artifact 経由で高権限ワークフローへ昇格する</td></tr>
+<tr><td>AIツール設定</td><td>個人の補助設定</td><td>hooks、rules、tasks が永続的な実行面になる</td></tr>
+<tr><td>APIキー</td><td>モデル利用の認証情報</td><td>盗まれると費用、データ、接続先システムへ影響する</td></tr>
+<tr><td>エージェント操作</td><td>開発効率化</td><td>侵害済み設定を読んで、攻撃者の意図どおりに作業する可能性がある</td></tr>
+</tbody>
+</table></div>
+<h2>何が重要か</h2>
+<h3>1. CI/CD YAML は設定ではなくコードとして扱う必要がある</h3>
+<p>Cordyceps のポイントは、GitHub Actions の単一行の危険パターンだけではなく、複数ワークフローをまたぐ信頼境界の破綻にある。</p>
+<p>たとえば、低権限の PR ワークフローで生成された成果物が、高権限の release workflow でそのまま使われる。PR コメントやブランチ名が shell や <code>github-script</code> に渡る。外部貢献者の入力が、メンテナ権限の token や cloud role と同じ実行文脈に入る。</p>
+<p>これはアプリケーションコードなら command injection や権限昇格として扱われる。しかし CI/CD YAML では「設定」と見なされ、レビューもスキャンも甘くなりやすい。</p>
+<h3>2. AIツール設定ディレクトリが信頼境界になった</h3>
+<p>CSA の整理では、Miasma は <code>.claude/</code>、<code>.cursor/</code>、<code>.gemini/</code>、<code>.vscode/</code> などに永続的な実行ファイルや設定を仕込む。Claude Code の <code>SessionStart</code> hooks、Cursor の常時適用ルール、VS Code の folder-open tasks のように、開発者がリポジトリを開く行為そのものが実行トリガーになり得る。</p>
+<p>この構図では、悪性 npm パッケージを一度 install しただけで終わらない。AIツール設定に残ったフックが、後日の開発セッションや別リポジトリの作業でも発火する可能性がある。</p>
+<h3>3. AI APIキーはクラウドキーと同じ水準で管理する</h3>
+<p>IronWorm は <code>ANTHROPIC_API_KEY</code>、<code>OPENAI_API_KEY</code>、<code>GEMINI_API_KEY</code>、<code>COHERE_API_KEY</code>、<code>MISTRAL_API_KEY</code>、<code>GROQ_API_KEY</code>、<code>PERPLEXITY_API_KEY</code>、<code>XAI_API_KEY</code> など、主要AIプロバイダの環境変数を明示的に探索すると報告されている。</p>
+<p>AI APIキーは「少し課金されるだけ」の鍵ではない。エージェント環境では、プロンプト、業務データ、接続ツール、MCP、クラウド操作、社内リポジトリ情報へつながる。特に長期キーをローカル環境や CI に広く置いている場合、漏えい時の影響はモデル利用料だけでは済まない。</p>
+<h3>4. Trusted Publishing も万能ではない</h3>
+<p>IronWorm は npm Trusted Publishing の OIDC トークン交換を伝播経路として悪用する可能性が指摘されている。長期 publish token をなくす設計は正しいが、感染した CI runner が短期 publish credential を得られるなら、攻撃者は保存済みシークレットなしで悪性バージョンを出せる。</p>
+<p>これは「長期シークレットを消したから安全」ではなく、「どの runner が、どの条件で、一時的な発行権限を得るか」まで見る必要があるという話。</p>
+<h2>自分向けメモ</h2>
+<ul>
+<li>OpenClaw/Codex/Claude Code/Cursor/Gemini CLI の設定ディレクトリは、便利設定ではなく実行権限を持つコードとして扱う。</li>
+<li>リポジトリに <code>.claude/</code>、<code>.cursor/</code>、<code>.gemini/</code>、<code>.vscode/tasks.json</code> が増えたら、通常のソースコード変更よりも強く疑う。</li>
+<li>GitHub Actions は <code>pull_request_target</code>、コメントトリガー、artifact 受け渡し、ブランチ名展開、<code>github-script</code>、OIDC role assumption を重点確認する。</li>
+<li>npm install 時の <code>binding.gyp</code>、<code>preinstall</code>、<code>postinstall</code>、Bun のダウンロード、難読化 payload は、AI開発環境でも即時警戒対象。</li>
+<li>AI APIキーはクラウドキーと同じ扱いにする。長期キーを shell profile や <code>.env</code> に広く置かず、用途別、短期、最小権限、ローテーション前提に寄せる。</li>
+<li>個人環境でも、AIツール設定を Git 管理する場合は差分レビューする。特に「自動実行」「常時適用」「外部URL取得」「shell実行」は危険度が高い。</li>
+<li>票なし時の自動選定としてこの候補を選んだ理由は、AIエージェント運用、GitHub Actions、npm、MCP、個人秘書環境の全部に接続する実務リスクで、日本語圏ではまだ論点が分散しているため。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://novee.security/blog/cordyceps/">Novee - Cordyceps: The Silent Parasite Consuming Your Supply Chain</a> - Cordyceps の一次情報。GitHub Actions の複合的な信頼境界破綻、約3万リポジトリ調査、300件超の悪用可能チェーン確認を説明。</li>
+<li><a href="https://labs.cloudsecurityalliance.org/research/csa-research-note-miasma-ironworm-ai-coding-supply-chain-202/">Cloud Security Alliance - Miasma and IronWorm: Self-Replicating Worms Targeting AI Credentials</a> - Miasma / IronWorm の整理。AIツール設定ディレクトリとAI APIキーを攻撃面として扱う点が重要。</li>
+<li><a href="https://thehackernews.com/2026/06/cordyceps-cicd-flaws-expose-300-github.html">The Hacker News - Cordyceps CI/CD Flaws Expose 300+ GitHub Repositories to Supply-Chain Attacks</a> - Cordyceps の外部報道。Microsoft、Google、Apache、Cloudflare、Python Software Foundation などの影響例を確認できる。</li>
+<li><a href="https://www.stepsecurity.io/">CSA reference - StepSecurity: Miasma npm Supply Chain Attack</a> - Miasma の npm 側調査への参照元。Phantom Gyp などの検知観点に関係する。</li>
+<li><a href="https://research.jfrog.com/">JFrog Security Research</a> - IronWorm の技術調査への参照元。eBPF rootkit、Tor C2、AI APIキー探索などの詳細確認先。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>Cordyceps</li>
+<li>Miasma</li>
+<li>IronWorm</li>
+<li>GitHub Actions</li>
+<li>CI/CD security</li>
+<li>supply chain security</li>
+<li>npm</li>
+<li>Trusted Publishing</li>
+<li>OIDC</li>
+<li>Claude Code</li>
+<li>Cursor</li>
+<li>Gemini CLI</li>
+<li>VS Code tasks</li>
+<li>AI API keys</li>
+<li>developer credentials</li>
+<li>agentic coding</li>
+<li>workflow injection</li>
+<li>artifact poisoning</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://novee.security/blog/cordyceps/">novee.security - blog / cordyceps</a></p></section>
+    </article>
+  </main>
+</body>
+</html>
