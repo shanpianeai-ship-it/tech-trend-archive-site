@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MCPサーバーのプロンプトインジェクションとコマンド実行リスクを、OpenClaw環境でどう棚卸しするか | 興味レポート</title>
+  <meta name="description" content="MCPは「LLMに道具を渡す標準」なので便利だが、リスクは通常のWebアプリよりも少し嫌な形で出る。攻撃者が直接コマンドを打たなくても、GitHub Issue、git log、ツール説明文、OAuth URL、ローカルMCPサーバー設定などを経由して、エージェントが自分で危険なツール呼び出しへ進む可能性がある。 OpenClaw環境で見るべきポイントは、M...">
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../../interests/index.html">興味レポート</a>
+    <span class="site-subtitle">Public redacted interest reports</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 興味レポート一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-26T19:46:00+09:00</span>
+        <span>セキュリティ</span>
+        <span>interest_report</span>
+      </div>
+      <h1>MCPサーバーのプロンプトインジェクションとコマンド実行リスクを、OpenClaw環境でどう棚卸しするか</h1>
+<h2>要約</h2>
+<p>MCPは「LLMに道具を渡す標準」なので便利だが、リスクは通常のWebアプリよりも少し嫌な形で出る。攻撃者が直接コマンドを打たなくても、GitHub Issue、git log、ツール説明文、OAuth URL、ローカルMCPサーバー設定などを経由して、エージェントが自分で危険なツール呼び出しへ進む可能性がある。</p>
+<p>OpenClaw環境で見るべきポイントは、MCPそのものを怖がることではなく、次の3つを分けて棚卸しすること。</p>
+<ul>
+<li>外部テキスト: Discord、GitHub、Web、Obsidian内の未検証メモなど、プロンプト注入が混ざり得る入力。</li>
+<li>実行権限: ローカルファイル、シェル、Git、ブラウザ、Discord送信、Pages公開など、実害につながるツール。</li>
+<li>境界設定: どのツールを自動実行してよいか、どこで確認を挟むか、どの資格情報をどの範囲に閉じるか。</li>
+</ul>
+<h2>なぜ今見る価値があるか</h2>
+<p>MCPの攻撃面は、2025年以降の実証やadvisoryでかなり具体化している。GitHub MCPを使った間接プロンプトインジェクションでは、公開リポジトリのIssueに置かれた指示が、私有リポジトリ情報の流出につながる流れが示された。別のGit系MCPサーバーでは、<code>child_process.exec</code> に未検証入力を渡す実装により、コマンドインジェクションとRCEがGitHub Advisoryで公開されている。</p>
+<p>OpenClawは、ローカルファイル、Obsidian、Discord、GitHub Pages、cronをつなぐため、MCPリスクの実験場としても実運用環境としても攻撃面が広い。特に「外部から入ったテキストを読んだ直後に、ローカル操作や公開送信をする」自動化は、便利さと危険さが同じ場所にある。</p>
+<h2>調査メモ</h2>
+<p>MCP公式のSecurity Best Practicesは、MCP固有の注意点として confused deputy、token passthrough、SSRF、session hijacking、local MCP server compromise、OAuth URL validation、stdio transport in proxy scenarios、scope minimization を挙げている。個人運用では全部を企業レベルで実装するより、まず「ローカルMCPサーバーはユーザー権限で動く」「OAuthやURLを雑に開かない」「MCPサーバー追加時に実行コマンド全文を見る」という基本を守るのが効く。</p>
+<p>GitHub Advisory GHSA-3q26-f695-pp76 / CVE-2025-53107 は、<code>@cyanheads/git-mcp-server</code> の <code>&lt;= 2.1.4</code> が影響を受け、<code>2.1.5</code> で修正済みとされている。原因は、MCPツールがGit操作用のシェルコマンドを文字列結合し、未検証入力を <code>child_process.exec</code> に渡していたこと。advisoryは、<code>execFile</code> のように引数を配列で渡すAPIを使う回避策を示している。</p>
+<p>Invariant LabsのGitHub MCP実証は、ツール自体が悪意あるものでなくても危険が起きる点が重要。公開Issueに置かれた悪意ある指示をエージェントが読み、信頼済みのGitHubツールを連鎖的に使って、私有リポジトリ情報を公開PRへ流すという構図だった。これは「ツールが公式なら安全」ではなく、「外部コンテンツを読んだあとのツール連鎖が安全か」を見る必要があるという話。</p>
+<p>同じくInvariant LabsのTool Poisoning Attackは、MCPツール説明文にユーザーには見えにくい悪意ある指示を埋め込む攻撃を示している。ユーザー画面では足し算ツールに見えても、モデルには「設定ファイルやSSH鍵を読め」といった隠れ指示が見える可能性がある。ツール説明文そのものを信頼境界の内側に置いてはいけない。</p>
+<p>2026年のMCP脅威分析論文でも、ツールメタデータに混ざる悪意ある指示、つまりtool poisoningが、クライアント側で特に影響の大きい脆弱性として整理されている。対策としては、静的なメタデータ検査、モデルの判断経路の追跡、異常行動検出、ユーザーに見える透明性の向上が提案されている。</p>
+<h2>個人向けの読みどころ</h2>
+<p>OpenClaw運用に引き寄せると、棚卸しは次の表で十分に始められる。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>領域</th><th>見るもの</th><th>最初の対策</th></tr></thead>
+<tbody>
+<tr><td>入力</td><td>Discord、GitHub Issue、Webページ、Obsidian未整理メモ</td><td>外部入力を読んだ直後の送信・削除・公開・シェル実行を高リスク扱いにする</td></tr>
+<tr><td>実行</td><td><code>exec</code>、Git操作、ファイル移動、Discord送信、Pages push</td><td>自動実行できるコマンド範囲を限定し、危険操作は確認またはログ必須にする</td></tr>
+<tr><td>MCPサーバー</td><td>インストール元、起動コマンド、環境変数、アクセスできるディレクトリ</td><td>使っていないサーバーを無効化し、起動コマンド全文と権限を記録する</td></tr>
+<tr><td>認証情報</td><td>GitHub token、Discord token、ローカル設定ファイル</td><td>スコープを狭くし、公開リポジトリと私有データを同じ資格情報で扱わない</td></tr>
+<tr><td>cron</td><td>無人で動く記事化、build、commit/push、通知</td><td>「読み取りだけ成功」を成功扱いにせず、失敗時は公開送信前に止める</td></tr>
+</tbody>
+</table></div>
+<p>特にこの興味レポート自動化は、Discord投票、候補Markdown、Web調査、Markdown生成、GitHub Pages反映、Discord報告が1本につながっている。実運用としては便利だが、外部テキストから公開成果物までの距離が短い。候補一覧やポール結果は信頼済み入力に見えるが、元の情報源やDiscord内容に注入文が混ざる可能性は残る。</p>
+<p>現実的な運用ルールは、次の5つ。</p>
+<ol>
+<li>MCPサーバー一覧を作り、用途、起動コマンド、権限、資格情報、最終利用日を記録する。</li>
+<li>新しいMCPサーバーやスキルを入れる時は、公式・信頼できる配布元、依存、起動コマンドを確認する。</li>
+<li>外部テキストを読んだ直後の <code>git push</code>、Discord送信、ファイル削除、シェル実行は高リスク操作としてログに残す。</li>
+<li>GitHubやDiscordのトークンは、必要最小限のスコープに分ける。公開リポジトリと私有情報を広いトークンでまたがせない。</li>
+<li>自動化Cronは、途中失敗を成功扱いにしない。今回のように「投票読み取りだけで完了しない」という条件は、セキュリティ面でも正しい。</li>
+</ol>
+<h2>注意点</h2>
+<p>この記事はセキュリティ棚卸しのための調査メモであり、特定環境の完全な監査結果ではない。実際のOpenClaw設定、インストール済みMCPサーバー、トークン権限、cron権限は別途ローカルで確認する必要がある。</p>
+<p>また、MCPのリスクは「MCPだから危険」というより、「LLMが外部入力を解釈し、権限ある道具を選んで実行する」ことから生じる。対策も、モデルの賢さに期待するより、権限分離、スコープ最小化、ログ、確認ポイント、サンドボックス化に寄せるのが堅い。</p>
+<h2>参考リンク</h2>
+<ul>
+<li>Model Context Protocol: <a href="https://modelcontextprotocol.io/docs/tutorials/security/security_best_practices">Security Best Practices</a></li>
+<li>GitHub Advisory Database: <a href="https://github.com/advisories/GHSA-3q26-f695-pp76">GHSA-3q26-f695-pp76 / CVE-2025-53107</a></li>
+<li>Invariant Labs: GitHub MCP Exploited: <a href="https://invariantlabs.ai/blog/mcp-github-vulnerability">Accessing private repositories via MCP</a></li>
+<li>Invariant Labs: MCP Security Notification: <a href="https://invariantlabs.ai/blog/mcp-security-notification-tool-poisoning-attacks">Tool Poisoning Attacks</a></li>
+<li>arXiv: Model Context Protocol Threat Modeling and Analyzing <a href="https://arxiv.org/html/2603.22489v1">Vulnerabilities to Prompt Injection with Tool Poisoning</a></li>
+</ul>
+    </article>
+  </main>
+</body>
+</html>
