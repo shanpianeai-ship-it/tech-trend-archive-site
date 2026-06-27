@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SAP Joule Studioと200エージェントはBasis/ERP運用をどう変えるか | 興味レポート</title>
+  <meta name="description" content="SAPのJoule Studioと200超の専門エージェント構想を、Basis/ERP運用で見るべき権限、監査、変更管理、責任分界の論点に翻訳する。">
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../../interests/index.html">興味レポート</a>
+    <span class="site-subtitle">Public redacted interest reports</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 興味レポート一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-27T19:55:00+09:00</span>
+        <span>SAP・業務システム</span>
+        <span>interest_report</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>SAPのJoule Studioと200超の専門エージェント構想を、Basis/ERP運用で見るべき権限、監査、変更管理、責任分界の論点に翻訳する。</p>
+      </aside>
+      <h1>SAP Joule Studioと200エージェントはBasis/ERP運用をどう変えるか</h1>
+<h2>要約</h2>
+<p>2026年5月のSAP Sapphire周辺で、SAPはJoule Studio、SAP Business AI Platform、SAP Autonomous Suite、Joule Assistants/Joule Agentsをまとめて「Autonomous Enterprise」の中核として打ち出した。Joule Studioは、AIエージェント、アプリ、ワークフローを作成・管理する開発環境であり、SAPは50以上のドメイン特化Joule Assistantsと200超の専門エージェントを業務プロセスに組み込む構想を示している。</p>
+<p>今回のDiscordポールでは候補2に1票が入り、最多票としてこのテーマを採用した。結論として、Basis/ERP運用で重要なのは「AIがBasis作業を置き換えるか」ではなく、「AIエージェントが業務データを読み、判断し、処理を起動する時代に、誰が権限、監査、変更管理、停止条件を持つか」である。</p>
+<p>Joule Studioは開発者向けの便利ツールに見えるが、本番利用が始まればBasis側の管理対象になる。エージェント台帳、BTPロール、S/4HANA側権限、実行ログ、Cloud ALM連携、コスト、外部ツール接続、例外時の人間承認を、従来のRFC/API/ジョブ/アドオン管理と同じ粒度で扱う必要がある。</p>
+<h2>なぜ今見る価値があるか</h2>
+<p>SAP公式発表では、Joule Studioは単なるチャットボット作成画面ではなく、エージェント、アプリ、ワークフローのライフサイクル全体を扱うフルマネージドな仕組みとして説明されている。自然言語の目的から、業務文脈、要件、技術仕様、コードひな形、テスト成果物、プレビューまでつなぐ intent-based development が前面に出ている。</p>
+<p>さらにSAPのAutonomous Enterprise発表では、SAP Autonomous Suiteが50以上のJoule Assistantsを展開し、それらが200超の専門エージェントを組み合わせて業務タスクを実行する構想が示された。これは、ERP画面の横にAIがいる段階から、AIが業務フローの中で複数システムをまたいで動く段階へ進むという意味がある。</p>
+<p>Basis目線では、ここで運用責任が増える。従来は「人がSAP GUIやFioriで操作する」「ジョブが定義済みの処理を走らせる」「外部システムがAPIを呼ぶ」という境界で考えられた。エージェント時代は、「自然言語の意図を解釈したAIが、複数のツールを選び、他のエージェントと連携し、業務データを更新する」可能性が出る。便利さより先に、監査と責任分界を決めないと危ない。</p>
+<h2>調査メモ</h2>
+<p>SAP News CenterのJoule Studio発表では、SAP Signavio Process Consultant Agent、SAP Knowledge Graph、SAP Domain Models、SAP LeanIXを使って業務・技術文脈を取り込み、PRD、技術仕様、コード、テスト、プレビューを生成する流れが説明されている。ここから見ると、Joule Studioは「開発者の補助」だけでなく、業務要件から本番実装までの翻訳レイヤーである。</p>
+<p>同じ発表では、LangChain、Pydantic AI、LlamaIndex、n8n、Vercelなど外部開発・オーケストレーション要素との接続も示されている。SAP中心の世界に閉じないことは強みだが、Basis運用では接続先の棚卸しが必須になる。どのエージェントが、どの外部ツールを、どの資格情報で、どの業務データに対して使うのかを記録しないと、障害時も監査時も追跡できない。</p>
+<p>SAPのJoule Studio製品ページでは、MCPやA2AでSAP/非SAPランドスケープのエージェント接続を行い、アクセス、性能、可観測性、ライフサイクルを統制できることが示されている。ここはBasis担当者が読むべき部分だ。AIエージェントが増えるほど、従来のインターフェース台帳に加えて、エージェント台帳が必要になる。</p>
+<p>SAPのJoule Agents/Assistants説明では、Joule Assistantsが役割・業務プロセス文脈を使ってJoule Agentsを調整し、複雑なワークフローを実行するとされている。また、SAP Business Data CloudとSAP Knowledge Graphにより、データ、プロセス、ポリシーのつながりを理解させる方向が示されている。これは、回答精度の話であると同時に、参照可能データと実行可能操作の境界をどう管理するかという権限設計の話でもある。</p>
+<p>SAP SapphireのAutonomous Enterprise発表では、50以上のJoule Assistantsと200超の専門エージェント、さらに財務決算を週単位から日単位へ短縮するAutonomous Close Assistantの例が出ている。財務、購買、人事、サプライチェーンのような基幹領域でAIが実行に近づくほど、「技術的にできる」と「業務上やってよい」は分けて管理する必要がある。</p>
+<p>SAP CommunityのAgent Builder一般提供記事では、Joule StudioのAgent BuilderがSAP Build内の機能として、ローコード/ノーコードのキャンバスでJoule agents and skillsを設計できると説明されている。つまり、専門開発者だけでなく業務寄りの担当者もエージェント作成に近づく。これは普及の鍵だが、野良自動化を増やさないための登録、レビュー、公開、廃止のルールが必要になる。</p>
+<h2>個人向けの読みどころ</h2>
+<p>SAP Basis向けの発信にするなら、「Joule StudioでBasisが不要になる」ではなく「Basisが見る対象が、サーバとジョブから、エージェントと業務実行ログまで広がる」と言うのが現実的だ。</p>
+<p>まず必要なのはエージェント台帳である。最低限、エージェント名、提供元、業務オーナー、技術オーナー、実行環境、呼び出し先、使うデータ分類、BTPロール、S/4HANA権限、外部接続、ログ保存先、停止手順を持たせたい。これはアドオン一覧、RFC一覧、ジョブ一覧のAI版に近い。</p>
+<p>次に、変更管理を分ける必要がある。エージェントのプロンプト、ツール定義、参照データ、ロール、外部連携、モデル設定は、どれも本番挙動を変える可能性がある。コード変更だけをChange Requestに載せても不十分で、エージェント設定変更も本番変更として扱うべきだ。</p>
+<p>三つ目は、障害切り分けである。エージェントが誤った回答や処理をした時、原因はモデル、プロンプト、入力データ、権限不足、API失敗、業務ルール、外部ツール、ユーザー指示のどれかに分かれる。Basis側は「SAPが落ちていないから問題なし」では済まなくなり、実行チェーンのログを追う役割が出てくる。</p>
+<p>最後に、YouTubeや記事ネタとしては「AIエージェント時代のBasisチェックリスト」が強い。Joule Studioの華やかさを紹介するより、実務者向けに「導入前に聞くべき10問」に落とす方が刺さる。</p>
+<ul>
+<li>このエージェントは誰が業務オーナーか</li>
+<li>本番実行前に誰が承認するか</li>
+<li>どのSAPロール/APIスコープで動くか</li>
+<li>どのデータを読めて、どのデータを更新できるか</li>
+<li>実行ログと判断根拠はどこに残るか</li>
+<li>失敗時に自動再実行するか、人間へ戻すか</li>
+<li>外部SaaSや非SAPエージェントへ何を渡すか</li>
+<li>月次で利用量と費用を誰が見るか</li>
+<li>廃止済みエージェントをどう止めるか</li>
+<li>インシデント時にSAP標準、パートナー、自社のどこへ問い合わせるか</li>
+</ul>
+<h2>注意点</h2>
+<p>公開情報だけでは、Joule Studio runtime、AI Agent Hub、各Joule Assistant/Agentの監査ログ、権限モデル、Cloud ALM連携、費用メトリクスが実環境でどの粒度まで見えるかは読み切れない。導入判断では、デモ画面よりもログ、ロール、データ境界、停止手順を確認する必要がある。</p>
+<p>また、AIエージェントは「会話するだけ」なら影響が小さいが、業務データ更新、発注、支払、在庫、マスタ変更、ユーザー権限、ケース返信に近づくとリスクが一段上がる。PoC段階でも、本番データ、個人情報、契約情報、障害ケース、システムIDを不用意に投入しない方がよい。</p>
+<p>SAP管理のサービスであっても、顧客側の責任は残る。誰が使うか、何を許可するか、誤動作時にどう止めるか、監査でどう説明するかは、Basis、業務部門、セキュリティ、開発、SAP/パートナー窓口で事前に決めるべきだ。</p>
+<h2>参考リンク</h2>
+<ul>
+<li>SAP News Center: Announcing <a href="https://news.sap.com/2026/05/new-joule-studio-enterprise-scale-agentic-development/">New Joule Studio for Enterprise Scale Agentic Development</a></li>
+<li>SAP News Center: <a href="https://news.sap.com/2026/05/sap-sapphire-sap-unveils-autonomous-enterprise/">SAP Unveils the Autonomous Enterprise</a></li>
+<li>SAP: <a href="https://www.sap.com/products/artificial-intelligence/joule-studio.html">Joule Studio</a></li>
+<li>SAP: <a href="https://www.sap.com/products/artificial-intelligence/ai-agents.html">Joule Agents and Joule Assistants</a></li>
+<li>SAP Community: <a href="https://community.sap.com/t5/artificial-intelligence-blogs-posts/agent-builder-in-joule-studio-is-now-generally-available-build-your-own/ba-p/14289282">Agent builder in Joule Studio is now generally available</a></li>
+</ul>
+    </article>
+  </main>
+</body>
+</html>

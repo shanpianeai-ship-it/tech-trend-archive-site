@@ -277,6 +277,18 @@
   },
   {
     "file": "[入力元伏せ]",
+    "slug": "2026-06-27-SAP・業務システム-ERP運用をどう変えるか-2c05375187",
+    "title": "SAP Joule Studioと200エージェントはBasis/ERP運用をどう変えるか",
+    "category": "SAP・業務システム",
+    "created": "2026-06-27T19:55:00+09:00",
+    "status": "",
+    "type": "interest_report",
+    "summary": "SAPのJoule Studioと200超の専門エージェント構想を、Basis/ERP運用で見るべき権限、監査、変更管理、責任分界の論点に翻訳する。",
+    "excerpt": "SAPのJoule Studioと200超の専門エージェント構想を、Basis/ERP運用で見るべき権限、監査、変更管理、責任分界の論点に翻訳する。",
+    "url": "interests/articles/2026-06-27-SAP・業務システム-ERP運用をどう変えるか-2c05375187.html"
+  },
+  {
+    "file": "[入力元伏せ]",
     "slug": "2026-06-24-SAP・業務システム-SAP-for-Meに入ったJouleは、Basis運用窓口をどこまで自律化できるか-c9f6dcf090",
     "title": "SAP for Meに入ったJouleは、Basis運用窓口をどこまで自律化できるか",
     "category": "SAP・業務システム",
