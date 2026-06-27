@@ -354,7 +354,19 @@ function plainTextFromMarkdown(value) {
 function compactSummary(value, limit = 140) {
   const summary = plainTextFromMarkdown(value);
   if (summary.length <= limit) return summary;
-  return `${summary.slice(0, limit).replace(/[、。,.，．\s]+$/u, "")}...`;
+  const sentences = summary.match(/[^。！？!?]+[。！？!?]?/g) || [];
+  let compact = "";
+  for (const sentence of sentences) {
+    const normalized = /[。！？!?]$/.test(sentence) ? sentence : `${sentence}。`;
+    const next = compact ? `${compact}${normalized}` : normalized;
+    if (next.length > limit) break;
+    compact = next;
+  }
+  if (compact) return compact;
+  if (sentences[0]) {
+    return /[。！？!?]$/.test(sentences[0]) ? sentences[0] : `${sentences[0]}。`;
+  }
+  return `${summary.slice(0, limit - 1).replace(/[、。,.，．\s]+$/u, "")}。`;
 }
 
 function summarySectionFrom(body) {
