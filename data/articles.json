@@ -1,5 +1,19 @@
 [
   {
+    "file": "SAP_ERP/2026-06-27_Joule_in_SAP_for_Me運用導線.md",
+    "slug": "2026-06-27_Joule_in_SAP_for_Me運用導線",
+    "title": "Joule in SAP for Meはサポート運用の入口を変える",
+    "genre": "SAP_ERP",
+    "genreLabel": "SAP / ERP",
+    "created": "2026-06-27",
+    "source": "https://news.sap.com/2026/06/sap-launches-joule-in-sap-for-me/",
+    "importance": "high",
+    "confidence": "high",
+    "summary": "SAP for MeへのJoule統合は、サポート検索やケース起票を会話型・エージェント型の導線へ移す動き。Basis運用では便利機能としてだけでなく、権限、根拠確認、ケース品質、変更管理を見直す材料になる。",
+    "excerpt": "SAP for MeへのJoule統合は、サポート検索やケース起票を会話型・エージェント型の導線へ移す動き。Basis運用では便利機能としてだけでなく、権限、根拠確認、ケース品質、変更管理を見直す材料になる。",
+    "url": "articles/2026-06-27_Joule_in_SAP_for_Me運用導線.html"
+  },
+  {
     "file": "Security/2026-06-26_Cloudflare脆弱性ハーネス.md",
     "slug": "2026-06-26_Cloudflare脆弱性ハーネス",
     "title": "Cloudflare脆弱性ハーネス",
