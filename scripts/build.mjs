@@ -341,6 +341,39 @@ function excerptFrom(body) {
   return excerpt.length >= 180 ? `${excerpt}...` : excerpt;
 }
 
+function plainTextFromMarkdown(value) {
+  return String(value || "")
+    .replace(/^#{1,6}\s+/gm, "")
+    .replace(/^[-*]\s+/gm, "")
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+    .replace(/[*_`>#|]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function compactSummary(value, limit = 140) {
+  const summary = plainTextFromMarkdown(value);
+  if (summary.length <= limit) return summary;
+  return `${summary.slice(0, limit).replace(/[、。,.，．\s]+$/u, "")}...`;
+}
+
+function summarySectionFrom(body) {
+  const match = body.match(/^##\s+要約\s*\n([\s\S]*?)(?=\n##\s+|\n#\s+|$)/m);
+  return match ? match[1] : "";
+}
+
+function summaryFrom(meta, body) {
+  return compactSummary(meta.summary || summarySectionFrom(body) || excerptFrom(body));
+}
+
+function summaryBox(summary) {
+  if (!summary) return "";
+  return `      <aside class="summary-box">
+        <span>Summary</span>
+        <p>${escapeHtml(summary)}</p>
+      </aside>`;
+}
+
 function pageShell({
   title,
   description,
@@ -445,6 +478,7 @@ const notes = walkMarkdown(notesRoot).map((file) => {
   const title = titleFromMarkdown(body, path.basename(file, ".md"));
   const slug = slugify(file);
   const genre = meta.genre || path.basename(path.dirname(file));
+  const summary = summaryFrom(meta, body);
   return {
     file,
     slug,
@@ -455,7 +489,8 @@ const notes = walkMarkdown(notesRoot).map((file) => {
     source: meta.source || "",
     importance: meta.importance || "",
     confidence: meta.confidence || "",
-    excerpt: excerptFrom(body),
+    summary,
+    excerpt: summary,
     html: markdownToHtml(body),
   };
 }).filter((note) => !isHiddenArticle("articles", note, notesRoot, `articles/${note.slug}.html`));
@@ -470,6 +505,7 @@ for (const note of notes) {
         <span>${escapeHtml(note.genreLabel)}</span>
         ${note.importance ? `<span>importance: ${escapeHtml(note.importance)}</span>` : ""}
       </div>
+      ${summaryBox(note.summary)}
       ${note.html}
       ${
         note.source
@@ -481,7 +517,7 @@ for (const note of notes) {
     path.join(outArticles, `${note.slug}.html`),
     pageShell({
       title: note.title,
-      description: note.excerpt,
+      description: note.summary,
       body,
       current: "../",
     }),
@@ -496,7 +532,7 @@ const cards = notes
           <span>${escapeHtml(note.genreLabel)}</span>
         </div>
         <h2><a href="articles/${note.slug}.html">${escapeHtml(note.title)}</a></h2>
-        <p>${escapeHtml(note.excerpt)}</p>
+        <p>${escapeHtml(note.summary)}</p>
       </article>`,
   )
   .join("\n");
@@ -547,6 +583,7 @@ const interestNotes = walkMarkdown(interestsRoot).flatMap((file) => {
   const title = redactSensitive(titleFromMarkdown(body, path.basename(file, ".md")));
   const slug = stableSlug(file, title, category);
   const created = meta.created || path.basename(file).match(/\d{4}-\d{2}-\d{2}/)?.[0] || "";
+  const summary = redactSensitive(summaryFrom(meta, body));
 
   return [{
     file,
@@ -556,7 +593,8 @@ const interestNotes = walkMarkdown(interestsRoot).flatMap((file) => {
     created,
     status: meta.status || "",
     type: meta.type || "",
-    excerpt: redactSensitive(excerptFrom(body)),
+    summary,
+    excerpt: summary,
     html: markdownToHtml(body),
   }];
 }).filter((note) => !isHiddenArticle("interests", note, interestsRoot, `interests/articles/${note.slug}.html`));
@@ -590,6 +628,7 @@ for (const note of interestNotes) {
         <span>${escapeHtml(note.category)}</span>
         ${note.type ? `<span>${escapeHtml(note.type)}</span>` : ""}
       </div>
+      ${summaryBox(note.summary)}
       ${note.html}
     </article>`;
 
@@ -597,7 +636,7 @@ for (const note of interestNotes) {
     path.join(outInterestArticles, `${note.slug}.html`),
     interestShell({
       title: note.title,
-      description: note.excerpt,
+      description: note.summary,
       body,
       current: "../../",
     }),
@@ -615,7 +654,7 @@ for (const category of [...categoryCounts.keys()].sort((a, b) => a.localeCompare
           <span>${escapeHtml(note.category)}</span>
         </div>
         <h2><a href="../articles/${note.slug}.html">${escapeHtml(note.title)}</a></h2>
-        <p>${escapeHtml(note.excerpt)}</p>
+        <p>${escapeHtml(note.summary)}</p>
       </article>`,
     )
     .join("\n");
@@ -654,7 +693,7 @@ const interestCards = interestNotes
           <span>${escapeHtml(note.category)}</span>
         </div>
         <h2><a href="articles/${note.slug}.html">${escapeHtml(note.title)}</a></h2>
-        <p>${escapeHtml(note.excerpt)}</p>
+        <p>${escapeHtml(note.summary)}</p>
       </article>`,
   )
   .join("\n");
@@ -718,6 +757,7 @@ const knowledgeNotes = walkMarkdown(knowledgeRoot).flatMap((file) => {
   const title = redactSensitive(titleFromMarkdown(body, path.basename(file, ".md")));
   const slug = stableSlug(file, title, category);
   const created = meta.created || path.basename(file).match(/\d{4}-\d{2}-\d{2}/)?.[0] || "";
+  const summary = redactSensitive(summaryFrom(meta, body));
 
   return [{
     file,
@@ -725,7 +765,8 @@ const knowledgeNotes = walkMarkdown(knowledgeRoot).flatMap((file) => {
     title,
     category,
     created,
-    excerpt: redactSensitive(excerptFrom(body)),
+    summary,
+    excerpt: summary,
     html: markdownToHtml(body),
   }];
 }).filter((note) => !isHiddenArticle("knowledge", note, knowledgeRoot, `knowledge/articles/${note.slug}.html`));
@@ -739,6 +780,7 @@ for (const note of knowledgeNotes) {
         ${note.created ? `<span>${escapeHtml(note.created)}</span>` : ""}
         <span>${escapeHtml(note.category)}</span>
       </div>
+      ${summaryBox(note.summary)}
       ${note.html}
     </article>`;
 
@@ -746,7 +788,7 @@ for (const note of knowledgeNotes) {
     path.join(outKnowledgeArticles, `${note.slug}.html`),
     knowledgeShell({
       title: note.title,
-      description: note.excerpt,
+      description: note.summary,
       body,
       current: "../../",
     }),
@@ -761,7 +803,7 @@ const knowledgeCards = knowledgeNotes
           <span>${escapeHtml(note.category)}</span>
         </div>
         <h2><a href="articles/${note.slug}.html">${escapeHtml(note.title)}</a></h2>
-        <p>${escapeHtml(note.excerpt)}</p>
+        <p>${escapeHtml(note.summary)}</p>
       </article>`,
   )
   .join("\n");
@@ -964,6 +1006,26 @@ main {
   border: 1px solid var(--line);
   border-radius: 999px;
   background: #f8fafc;
+}
+
+.summary-box {
+  margin: 18px 0 22px;
+  padding: 14px 16px;
+  border-left: 4px solid var(--accent);
+  background: #f0fdfa;
+}
+
+.summary-box span {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--accent-dark);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.summary-box p {
+  margin: 0;
+  color: #1e293b;
 }
 
 .article {

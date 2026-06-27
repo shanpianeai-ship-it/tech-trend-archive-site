@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>AIゲートウェイ脆弱性を「個人エージェントの管理面」として棚卸しする | 興味レポート</title>
-  <meta name="description" content="2026年春から初夏にかけて、LiteLLM ProxyまわりでSQL Injection、権限昇格、RCE、MCP関連のコマンド実行など、AIゲートウェイを管理面から崩す事例が連続している。LiteLLMはOpenAI互換APIの前段に置かれ、モデルルーティング、仮想APIキー、予算、プロバイダ認証情報を集約するため、侵害されると「一つのアプリ」ではなくA...">
+  <meta name="description" content="2026年春から初夏にかけて、LiteLLM ProxyまわりでSQL Injection、権限昇格、RCE、MCP関連のコマンド実行など、AIゲートウェイを管理面から崩す事例が連続している。LiteLLMはOpenAI互換APIの前段に置かれ、モデルルーティング、仮想APIキー...">
   <link rel="stylesheet" href="../../assets/style.css">
 </head>
 <body>
@@ -20,6 +20,10 @@
         <span>セキュリティ</span>
         <span>interest_report</span>
       </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>2026年春から初夏にかけて、LiteLLM ProxyまわりでSQL Injection、権限昇格、RCE、MCP関連のコマンド実行など、AIゲートウェイを管理面から崩す事例が連続している。LiteLLMはOpenAI互換APIの前段に置かれ、モデルルーティング、仮想APIキー...</p>
+      </aside>
       <h1>AIゲートウェイ脆弱性を「個人エージェントの管理面」として棚卸しする</h1>
 <h2>要約</h2>
 <p>2026年春から初夏にかけて、LiteLLM ProxyまわりでSQL Injection、権限昇格、RCE、MCP関連のコマンド実行など、AIゲートウェイを管理面から崩す事例が連続している。LiteLLMはOpenAI互換APIの前段に置かれ、モデルルーティング、仮想APIキー、予算、プロバイダ認証情報を集約するため、侵害されると「一つのアプリ」ではなくAI利用基盤の制御面が奪われる。</p>

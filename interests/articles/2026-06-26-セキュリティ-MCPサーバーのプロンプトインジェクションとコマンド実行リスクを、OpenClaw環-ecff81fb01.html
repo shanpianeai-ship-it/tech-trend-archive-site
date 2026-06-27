@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>MCPサーバーのプロンプトインジェクションとコマンド実行リスクを、OpenClaw環境でどう棚卸しするか | 興味レポート</title>
-  <meta name="description" content="MCPは「LLMに道具を渡す標準」なので便利だが、リスクは通常のWebアプリよりも少し嫌な形で出る。攻撃者が直接コマンドを打たなくても、GitHub Issue、git log、ツール説明文、OAuth URL、ローカルMCPサーバー設定などを経由して、エージェントが自分で危険なツール呼び出しへ進む可能性がある。 OpenClaw環境で見るべきポイントは、M...">
+  <meta name="description" content="MCPは「LLMに道具を渡す標準」なので便利だが、リスクは通常のWebアプリよりも少し嫌な形で出る。攻撃者が直接コマンドを打たなくても、GitHub Issue、git log、ツール説明文、OAuth URL、ローカルMCPサーバー設定などを経由して、エージェントが自分で危険な...">
   <link rel="stylesheet" href="../../assets/style.css">
 </head>
 <body>
@@ -20,6 +20,10 @@
         <span>セキュリティ</span>
         <span>interest_report</span>
       </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>MCPは「LLMに道具を渡す標準」なので便利だが、リスクは通常のWebアプリよりも少し嫌な形で出る。攻撃者が直接コマンドを打たなくても、GitHub Issue、git log、ツール説明文、OAuth URL、ローカルMCPサーバー設定などを経由して、エージェントが自分で危険な...</p>
+      </aside>
       <h1>MCPサーバーのプロンプトインジェクションとコマンド実行リスクを、OpenClaw環境でどう棚卸しするか</h1>
 <h2>要約</h2>
 <p>MCPは「LLMに道具を渡す標準」なので便利だが、リスクは通常のWebアプリよりも少し嫌な形で出る。攻撃者が直接コマンドを打たなくても、GitHub Issue、git log、ツール説明文、OAuth URL、ローカルMCPサーバー設定などを経由して、エージェントが自分で危険なツール呼び出しへ進む可能性がある。</p>

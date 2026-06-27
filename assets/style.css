@@ -162,6 +162,26 @@ main {
   background: #f8fafc;
 }
 
+.summary-box {
+  margin: 18px 0 22px;
+  padding: 14px 16px;
+  border-left: 4px solid var(--accent);
+  background: #f0fdfa;
+}
+
+.summary-box span {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--accent-dark);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.summary-box p {
+  margin: 0;
+  color: #1e293b;
+}
+
 .article {
   max-width: 1120px;
   margin: 0 auto;

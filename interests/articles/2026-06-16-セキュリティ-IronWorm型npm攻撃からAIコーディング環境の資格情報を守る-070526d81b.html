@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Miasma/IronWorm型npm攻撃からAIコーディング環境の資格情報を守る | 興味レポート</title>
-  <meta name="description" content="Miasmaは、Red Hat Cloud Services配下のnpmパッケージを改ざんし、`preinstall`フックで開発機やCI/CDの資格情報を盗むサプライチェーン攻撃として報告された。Microsoftは、32個の改ざんパッケージと90超のバージョンが影響し、GitHub Actions OIDCのtrusted publishing経路を悪用...">
+  <meta name="description" content="Miasmaは、Red Hat Cloud Services配下のnpmパッケージを改ざんし、preinstallフックで開発機やCI/CDの資格情報を盗むサプライチェーン攻撃として報告された。Microsoftは、32個の改ざんパッケージと90超のバージョンが影響し、GitHu...">
   <link rel="stylesheet" href="../../assets/style.css">
 </head>
 <body>
@@ -20,6 +20,10 @@
         <span>セキュリティ</span>
         <span>interest_report</span>
       </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>Miasmaは、Red Hat Cloud Services配下のnpmパッケージを改ざんし、preinstallフックで開発機やCI/CDの資格情報を盗むサプライチェーン攻撃として報告された。Microsoftは、32個の改ざんパッケージと90超のバージョンが影響し、GitHu...</p>
+      </aside>
       <h1>Miasma/IronWorm型npm攻撃からAIコーディング環境の資格情報を守る</h1>
 <h2>要約</h2>
 <p>Miasmaは、Red Hat Cloud Services配下のnpmパッケージを改ざんし、<code>preinstall</code>フックで開発機やCI/CDの資格情報を盗むサプライチェーン攻撃として報告された。Microsoftは、32個の改ざんパッケージと90超のバージョンが影響し、GitHub Actions OIDCのtrusted publishing経路を悪用したため、改ざんパッケージが正規のprovenance署名を持って見えた点を重く見ている。</p>

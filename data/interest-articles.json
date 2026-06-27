@@ -7,7 +7,8 @@
     "created": "2026-06-11T19:49:00+09:00",
     "status": "",
     "type": "interest_report",
-    "excerpt": "Bambu Studio 2.7系で入ったTexture-to-Color Paintingは、テクスチャ付き3Dモデルの色をモデル表面のマルチカラー指定へ変換する機能です。公式リリースでは、OBJ、glTF、GLBのテクスチャ付きモデルを対象に、ロゴや装飾パターンのような色付き表現をマルチカラー印刷へ持ち込む用途が示されています。 結論として、塗装なしフィ...",
+    "summary": "Bambu Studio 2.7系で入ったTexture-to-Color Paintingは、テクスチャ付き3Dモデルの色をモデル表面のマルチカラー指定へ変換する機能です。公式リリースでは、OBJ、glTF、GLBのテクスチャ付きモデルを対象に、ロゴや装飾パターンのような色付き...",
+    "excerpt": "Bambu Studio 2.7系で入ったTexture-to-Color Paintingは、テクスチャ付き3Dモデルの色をモデル表面のマルチカラー指定へ変換する機能です。公式リリースでは、OBJ、glTF、GLBのテクスチャ付きモデルを対象に、ロゴや装飾パターンのような色付き...",
     "url": "interests/articles/2026-06-11-3Dプリンタ・フィギュア制作-Bambu-Studio-2.7のTexture-to-Colorで塗装なし多色フィ-89faa1f86a.html"
   },
   {
@@ -18,7 +19,8 @@
     "created": "2026-06-26T19:48:00+09:00",
     "status": "",
     "type": "interest_report",
-    "excerpt": "OpenAIは2026年6月25日、「How agents are transforming work」で、Codex利用がチャット型AIから委任型エージェント作業へ移っている状況を公開した。要点は、Codexが開発者だけの道具ではなくなりつつあることだ。OpenAIによれば、2025年8月以降、非開発者の個人ユーザーは137倍、組織ユーザーは189倍に増え...",
+    "summary": "OpenAIは2026年6月25日、「How agents are transforming work」で、Codex利用がチャット型AIから委任型エージェント作業へ移っている状況を公開した。要点は、Codexが開発者だけの道具ではなくなりつつあることだ。OpenAIによれば、2...",
+    "excerpt": "OpenAIは2026年6月25日、「How agents are transforming work」で、Codex利用がチャット型AIから委任型エージェント作業へ移っている状況を公開した。要点は、Codexが開発者だけの道具ではなくなりつつあることだ。OpenAIによれば、2...",
     "url": "interests/articles/2026-06-26-AI・エージェント-OpenAIの非開発者Codex利用137倍は、個人秘書エージェント運用に何を示すか-90b309f5ac.html"
   },
   {
@@ -29,7 +31,8 @@
     "created": "2026-06-25T20:05:00+09:00",
     "status": "",
     "type": "interest_report",
-    "excerpt": "OpenAIのWorkspace Agentsは、個人のチャット補助ではなく、チーム内で共有される反復業務エージェントとして設計されている。ChatGPT Business、Enterprise、Edu、Teachers向けのresearch previewとして提供され、ChatGPT内だけでなくSlack上でも使える方向に広がっている。重要なのは、エージ...",
+    "summary": "OpenAIのWorkspace Agentsは、個人のチャット補助ではなく、チーム内で共有される反復業務エージェントとして設計されている。ChatGPT Business、Enterprise、Edu、Teachers向けのresearch previewとして提供され、Cha...",
+    "excerpt": "OpenAIのWorkspace Agentsは、個人のチャット補助ではなく、チーム内で共有される反復業務エージェントとして設計されている。ChatGPT Business、Enterprise、Edu、Teachers向けのresearch previewとして提供され、Cha...",
     "url": "interests/articles/2026-06-25-AI・エージェント-Workspace-Agentsで「チーム共有の個人秘書」を作る時の権限境界-bfcd51c0ee.html"
   },
   {
@@ -40,7 +43,8 @@
     "created": "2026-06-25T19:55:00+09:00",
     "status": "",
     "type": "interest_report",
-    "excerpt": "2026年6月25日時点で、AIエージェントは「会話相手」から「委任された作業を進める道具」へかなり寄ってきている。Axiosは、OpenAI、Columbia、Duke、University of PennsylvaniaによるCodex利用分析を紹介し、Codexの利用がOpenAI社内、外部組織、個人ユーザーの各層で広がっていると報じた。特に、個人利用...",
+    "summary": "2026年6月25日時点で、AIエージェントは「会話相手」から「委任された作業を進める道具」へかなり寄ってきている。Axiosは、OpenAI、Columbia、Duke、University of PennsylvaniaによるCodex利用分析を紹介し、Codexの利用がOp...",
+    "excerpt": "2026年6月25日時点で、AIエージェントは「会話相手」から「委任された作業を進める道具」へかなり寄ってきている。Axiosは、OpenAI、Columbia、Duke、University of PennsylvaniaによるCodex利用分析を紹介し、Codexの利用がOp...",
     "url": "interests/articles/2026-06-25-AI・エージェント-ChatGPT-Agent普及で「個人秘書ワーク」はどこまで現実化したか-afe0604843.html"
   },
   {
@@ -51,7 +55,8 @@
     "created": "2026-06-24T19:50:00+09:00",
     "status": "",
     "type": "interest_report",
-    "excerpt": "OpenAIは2026年6月18日に、ChatGPTの健康回答改善と、希少疾患診断支援の研究成果を相次いで公開した。前者は一般ユーザーが健康情報を理解し、受診時に何を聞くかを整理するための改善であり、後者はBoston Children's Hospital、Harvard University、OpenAIの研究者が、未解決だった376件の小児希少疾患ケー...",
+    "summary": "OpenAIは2026年6月18日に、ChatGPTの健康回答改善と、希少疾患診断支援の研究成果を相次いで公開した。前者は一般ユーザーが健康情報を理解し、受診時に何を聞くかを整理するための改善であり、後者はBoston Children's Hospital、Harvard Un...",
+    "excerpt": "OpenAIは2026年6月18日に、ChatGPTの健康回答改善と、希少疾患診断支援の研究成果を相次いで公開した。前者は一般ユーザーが健康情報を理解し、受診時に何を聞くかを整理するための改善であり、後者はBoston Children's Hospital、Harvard Un...",
     "url": "interests/articles/2026-06-24-AI・エージェント-OpenAIの医療・創薬系AI発表は「個人向け調査エージェント」の信頼設計に何を示す-57ebeb07bb.html"
   },
   {
@@ -62,7 +67,8 @@
     "created": "2026-06-23T19:55:00+09:00",
     "status": "",
     "type": "interest_report",
-    "excerpt": "Google DeepMindは2026年6月18日に、社内AIエージェントを「完全に善意で整列済み」と見なすのではなく、場合によっては内部者リスクとして扱うための AI Control Roadmap を公開した。主眼は、モデルを良くするアラインメントだけではなく、エージェントが実際に動くシステム側で監視、権限制御、遮断、復旧を組み合わせることにある。 個...",
+    "summary": "Google DeepMindは2026年6月18日に、社内AIエージェントを「完全に善意で整列済み」と見なすのではなく、場合によっては内部者リスクとして扱うための AI Control Roadmap を公開した。主眼は、モデルを良くするアラインメントだけではなく、エージェント...",
+    "excerpt": "Google DeepMindは2026年6月18日に、社内AIエージェントを「完全に善意で整列済み」と見なすのではなく、場合によっては内部者リスクとして扱うための AI Control Roadmap を公開した。主眼は、モデルを良くするアラインメントだけではなく、エージェント...",
     "url": "interests/articles/2026-06-23-AI・エージェント-DeepMind-AI-Control-RoadmapをOpenClaw安全設計に落-8005095b87.html"
   },
   {
@@ -73,7 +79,8 @@
     "created": "2026-06-22T19:56:00+09:00",
     "status": "",
     "type": "interest_report",
-    "excerpt": "2026年4月のOpenAI発表で、Agents SDKはファイル確認、コマンド実行、コード編集、長時間タスクを「制御されたサンドボックス環境」で扱う方向へ大きく寄った。単なるLLM呼び出しライブラリではなく、エージェントが作業場所を持ち、ファイルを読み書きし、ツールを使い、必要なら実行状態を復元するための実行ハーネスとして見るべき更新である。 同時期のCo...",
+    "summary": "2026年4月のOpenAI発表で、Agents SDKはファイル確認、コマンド実行、コード編集、長時間タスクを「制御されたサンドボックス環境」で扱う方向へ大きく寄った。単なるLLM呼び出しライブラリではなく、エージェントが作業場所を持ち、ファイルを読み書きし、ツールを使い、必要...",
+    "excerpt": "2026年4月のOpenAI発表で、Agents SDKはファイル確認、コマンド実行、コード編集、長時間タスクを「制御されたサンドボックス環境」で扱う方向へ大きく寄った。単なるLLM呼び出しライブラリではなく、エージェントが作業場所を持ち、ファイルを読み書きし、ツールを使い、必要...",
     "url": "interests/articles/2026-06-22-AI・エージェント-OpenAI-Agents-SDKのサンドボックス実行とCodex連携を、個人秘書運-ead0734cbc.html"
   },
   {
@@ -84,7 +91,8 @@
     "created": "2026-06-21T19:56:00+09:00",
     "status": "",
     "type": "interest_report",
-    "excerpt": "OpenAIは2026年6月2日に、Codexを開発者向けのコード支援だけでなく、分析、営業、制作、投資、プロダクト設計などの知識労働へ広げる更新を発表した。中心になるのは、役割別プラグイン、Codex Sites、アノテーションである。役割別プラグインは、アプリ、スキル、指示、ワークフローをまとめた束として提供され、チームの仕事の型にCodexを合わせる狙...",
+    "summary": "OpenAIは2026年6月2日に、Codexを開発者向けのコード支援だけでなく、分析、営業、制作、投資、プロダクト設計などの知識労働へ広げる更新を発表した。中心になるのは、役割別プラグイン、Codex Sites、アノテーションである。役割別プラグインは、アプリ、スキル、指示...",
+    "excerpt": "OpenAIは2026年6月2日に、Codexを開発者向けのコード支援だけでなく、分析、営業、制作、投資、プロダクト設計などの知識労働へ広げる更新を発表した。中心になるのは、役割別プラグイン、Codex Sites、アノテーションである。役割別プラグインは、アプリ、スキル、指示...",
     "url": "interests/articles/2026-06-21-AI・エージェント-Codex-pluginsとworkspace-agentsで「趣味事務の役割別エー-a0ad52e97b.html"
   },
   {
@@ -95,7 +103,8 @@
     "created": "2026-06-19T19:40:00+09:00",
     "status": "",
     "type": "interest_report",
-    "excerpt": "OpenAIは2026年6月18日、ChatGPT Enterprise向けにクレジット利用分析と支出制御を強化した。Global Admin ConsoleでChatGPTとCodexのクレジット利用を一体で見られるようにし、ユーザー、製品、モデル単位で利用傾向を分解できる。さらに、ワークスペース、グループ、ユーザー単位の月次利用上限や、上限引き上げリクエ...",
+    "summary": "OpenAIは2026年6月18日、ChatGPT Enterprise向けにクレジット利用分析と支出制御を強化した。Global Admin ConsoleでChatGPTとCodexのクレジット利用を一体で見られるようにし、ユーザー、製品、モデル単位で利用傾向を分解できる。さ...",
+    "excerpt": "OpenAIは2026年6月18日、ChatGPT Enterprise向けにクレジット利用分析と支出制御を強化した。Global Admin ConsoleでChatGPTとCodexのクレジット利用を一体で見られるようにし、ユーザー、製品、モデル単位で利用傾向を分解できる。さ...",
     "url": "interests/articles/2026-06-19-AI・エージェント-OpenAIの企業向け利用分析・支出制御アップデートを、個人エージェント運用のコスト-f215a65abd.html"
   },
   {
@@ -106,7 +115,8 @@
     "created": "2026-06-18T19:55:00+09:00",
     "status": "",
     "type": "interest_report",
-    "excerpt": "Noam ShazeerがGoogleからOpenAIへ移るという報道は、単なる大物研究者の移籍ではなく、「モデル性能」「人格AI」「長期記憶」「個人秘書エージェント」の競争軸が近づいているサインとして見る価値があります。ShazeerはTransformer論文の著者の一人であり、Google退職後にCharacter.AIを共同創業し、その後2024年に...",
+    "summary": "Noam ShazeerがGoogleからOpenAIへ移るという報道は、単なる大物研究者の移籍ではなく、「モデル性能」「人格AI」「長期記憶」「個人秘書エージェント」の競争軸が近づいているサインとして見る価値があります。ShazeerはTransformer論文の著者の一人であ...",
+    "excerpt": "Noam ShazeerがGoogleからOpenAIへ移るという報道は、単なる大物研究者の移籍ではなく、「モデル性能」「人格AI」「長期記憶」「個人秘書エージェント」の競争軸が近づいているサインとして見る価値があります。ShazeerはTransformer論文の著者の一人であ...",
     "url": "interests/articles/2026-06-18-AI・エージェント-Noam-ShazeerのOpenAI移籍で「人格AI・個人秘書エージェント」の主戦-ff61f5e91e.html"
   },
   {
@@ -117,7 +127,8 @@
     "created": "2026-06-18T19:49:00+09:00",
     "status": "",
     "type": "interest_report",
-    "excerpt": "OpenAIは2026年6月17日のChatGPTリリースノートで、Scheduled tasksを大きく更新しました。新しいScheduledページ、作成・編集フローの改善、実行時刻の柔軟化、通知改善、監視タスクが主な変更点です。ユーザーはリマインダー、定期作業、変化監視をChatGPTに頼めるようになり、ChatGPTが「会話したら答える道具」から「指定...",
+    "summary": "OpenAIは2026年6月17日のChatGPTリリースノートで、Scheduled tasksを大きく更新しました。新しいScheduledページ、作成・編集フローの改善、実行時刻の柔軟化、通知改善、監視タスクが主な変更点です。ユーザーはリマインダー、定期作業、変化監視をCh...",
+    "excerpt": "OpenAIは2026年6月17日のChatGPTリリースノートで、Scheduled tasksを大きく更新しました。新しいScheduledページ、作成・編集フローの改善、実行時刻の柔軟化、通知改善、監視タスクが主な変更点です。ユーザーはリマインダー、定期作業、変化監視をCh...",
     "url": "interests/articles/2026-06-18-AI・エージェント-ChatGPT-Scheduled-Tasksで「OpenClawの定期実行」と何が-0f45cd3f8a.html"
   },
   {
@@ -128,7 +139,8 @@
     "created": "2026-06-17T20:08:00+09:00",
     "status": "",
     "type": "interest_report",
-    "excerpt": "Visaは2026年6月10日、OpenAIと提携し、OpenAI上のエージェント型コマース体験にVisaの決済ネットワーク、トークン化、リスク管理、リアルタイム承認を組み込む方針を発表した。要点は「ChatGPTが商品を探す」から一歩進み、「ユーザーが許可した範囲で、AIエージェントが決済まで進める」ためのインフラを作ることにある。 発表で明示されている安...",
+    "summary": "Visaは2026年6月10日、OpenAIと提携し、OpenAI上のエージェント型コマース体験にVisaの決済ネットワーク、トークン化、リスク管理、リアルタイム承認を組み込む方針を発表した。要点は「ChatGPTが商品を探す」から一歩進み、「ユーザーが許可した範囲で、AIエージ...",
+    "excerpt": "Visaは2026年6月10日、OpenAIと提携し、OpenAI上のエージェント型コマース体験にVisaの決済ネットワーク、トークン化、リスク管理、リアルタイム承認を組み込む方針を発表した。要点は「ChatGPTが商品を探す」から一歩進み、「ユーザーが許可した範囲で、AIエージ...",
     "url": "interests/articles/2026-06-17-AI・エージェント-VisaとOpenAIのChatGPT決済連携で「買い物エージェント」の権限設計はど-e52d31a320.html"
   },
   {
@@ -139,7 +151,8 @@
     "created": "2026-06-17T19:58:00+09:00",
     "status": "",
     "type": "interest_report",
-    "excerpt": "OpenAIが2026年6月16日に公開した Deployment Simulation は、リリース前の候補モデルを、過去の実利用会話に近い文脈へ流し込み、望ましくない挙動が本番でどの程度出そうかを予測する手法です。従来のレッドチーミングや合成ベンチマークを置き換えるものではなく、「本番分布に近いサンプルで、発生頻度と新しい失敗モードを事前に見る」ための追...",
+    "summary": "OpenAIが2026年6月16日に公開した Deployment Simulation は、リリース前の候補モデルを、過去の実利用会話に近い文脈へ流し込み、望ましくない挙動が本番でどの程度出そうかを予測する手法です。従来のレッドチーミングや合成ベンチマークを置き換えるものではな...",
+    "excerpt": "OpenAIが2026年6月16日に公開した Deployment Simulation は、リリース前の候補モデルを、過去の実利用会話に近い文脈へ流し込み、望ましくない挙動が本番でどの程度出そうかを予測する手法です。従来のレッドチーミングや合成ベンチマークを置き換えるものではな...",
     "url": "interests/articles/2026-06-17-AI・エージェント-OpenAIの「リリース前シミュレーション」はエージェント事故をどこまで防げるか-04d184952e.html"
   },
   {
@@ -150,7 +163,8 @@
     "created": "2026-06-16T19:54:00+09:00",
     "status": "",
     "type": "interest_report",
-    "excerpt": "ChatGPT Agentは、従来の「調べるAI」と「ブラウザを操作するAI」を統合し、Web閲覧、ファイル、コネクタ、フォーム入力、表計算編集のような複数ステップ作業を一つの流れで扱える方向へ進んだ。OpenAIの説明では、ユーザーは作業中に介入でき、重要な操作では確認が入る。これは個人秘書運用にとって便利だが、同時に「AIが見た外部情報が、ユーザーの意図...",
+    "summary": "ChatGPT Agentは、従来の「調べるAI」と「ブラウザを操作するAI」を統合し、Web閲覧、ファイル、コネクタ、フォーム入力、表計算編集のような複数ステップ作業を一つの流れで扱える方向へ進んだ。OpenAIの説明では、ユーザーは作業中に介入でき、重要な操作では確認が入る...",
+    "excerpt": "ChatGPT Agentは、従来の「調べるAI」と「ブラウザを操作するAI」を統合し、Web閲覧、ファイル、コネクタ、フォーム入力、表計算編集のような複数ステップ作業を一つの流れで扱える方向へ進んだ。OpenAIの説明では、ユーザーは作業中に介入でき、重要な操作では確認が入る...",
     "url": "interests/articles/2026-06-16-AI・エージェント-ChatGPT-Agent以後の「調査から実行まで任せるAI」は個人秘書運用でどこま-bc84871e65.html"
   },
   {
@@ -161,7 +175,8 @@
     "created": "2026-06-15T19:58:00+09:00",
     "status": "",
     "type": "interest_report",
-    "excerpt": "2026年5月28日にAnthropicが公開したClaude Opus 4.8は、ベンチマーク上の性能向上だけでなく、エージェント作業中の「正直さ」を前面に出している。公式発表では、Opus 4.8は作業の不確実性を示しやすく、根拠の薄い進捗主張をしにくいモデルとして説明されている。特に、前モデルと比べて自分が書いたコードの欠陥を見過ごす確率が約4分の1に...",
+    "summary": "2026年5月28日にAnthropicが公開したClaude Opus 4.8は、ベンチマーク上の性能向上だけでなく、エージェント作業中の「正直さ」を前面に出している。公式発表では、Opus 4.8は作業の不確実性を示しやすく、根拠の薄い進捗主張をしにくいモデルとして説明されて...",
+    "excerpt": "2026年5月28日にAnthropicが公開したClaude Opus 4.8は、ベンチマーク上の性能向上だけでなく、エージェント作業中の「正直さ」を前面に出している。公式発表では、Opus 4.8は作業の不確実性を示しやすく、根拠の薄い進捗主張をしにくいモデルとして説明されて...",
     "url": "interests/articles/2026-06-15-AI・エージェント-Claude-Opus-4.8の「正直さ」改善は自律エージェント監査に効くか-2395671020.html"
   },
   {
@@ -172,7 +187,8 @@
     "created": "2026-06-15T19:46:00+09:00",
     "status": "",
     "type": "interest_report",
-    "excerpt": "OpenAIは2026年6月2日、Codexをソフトウェア開発だけでなく、分析、調査、資料作成、ワークフロー自動化、軽量ツール作成にも広げる方向を明確にした。公式発表では、Codexの週次利用者が500万人を超え、非開発者を含む知識労働者が全体の約20%を占め、開発者より速く増えていると説明されている。 趣味事務の文脈では、Codexは「コードを書く道具」か...",
+    "summary": "OpenAIは2026年6月2日、Codexをソフトウェア開発だけでなく、分析、調査、資料作成、ワークフロー自動化、軽量ツール作成にも広げる方向を明確にした。公式発表では、Codexの週次利用者が500万人を超え、非開発者を含む知識労働者が全体の約20%を占め、開発者より速く増え...",
+    "excerpt": "OpenAIは2026年6月2日、Codexをソフトウェア開発だけでなく、分析、調査、資料作成、ワークフロー自動化、軽量ツール作成にも広げる方向を明確にした。公式発表では、Codexの週次利用者が500万人を超え、非開発者を含む知識労働者が全体の約20%を占め、開発者より速く増え...",
     "url": "interests/articles/2026-06-15-AI・エージェント-Codexを「非エンジニア作業用エージェント」に広げると趣味事務はどこまで自動化でき-e744bb7fa6.html"
   },
   {
@@ -183,7 +199,8 @@
     "created": "2026-06-13",
     "status": "",
     "type": "interest_report",
-    "excerpt": "CloudflareはBrowser RenderingをBrowser Runへ改名し、AIエージェント向けのクラウド実行ブラウザとして位置づけ直した。単なるスクリーンショット取得基盤ではなく、Puppeteer、Playwright、CDP、MCPクライアント、WebMCP、Live View、Human in the Loop、Session Reco...",
+    "summary": "CloudflareはBrowser RenderingをBrowser Runへ改名し、AIエージェント向けのクラウド実行ブラウザとして位置づけ直した。単なるスクリーンショット取得基盤ではなく、Puppeteer、Playwright、CDP、MCPクライアント、WebMCP...",
+    "excerpt": "CloudflareはBrowser RenderingをBrowser Runへ改名し、AIエージェント向けのクラウド実行ブラウザとして位置づけ直した。単なるスクリーンショット取得基盤ではなく、Puppeteer、Playwright、CDP、MCPクライアント、WebMCP...",
     "url": "interests/articles/2026-06-13-AI・エージェント-Cloudflare-Browser-Runで「人間が介入できるブラウザエージェント-62f4f13d07.html"
   },
   {
@@ -194,7 +211,8 @@
     "created": "2026-06-13",
     "status": "",
     "type": "interest_report",
-    "excerpt": "2026年6月、OpenAI、Anthropic、Google DeepMind、Microsoft AIなどのAI企業幹部、生命科学者、国家安全保障関係者、DNA合成企業の関係者が、米国議会に対して合成DNA/RNAなどの核酸合成注文のスクリーニングと記録保持を義務化するよう求める公開書簡を出した。論点は「AIが危険な生物兵器を作る」という大きな話だけでは...",
+    "summary": "2026年6月、OpenAI、Anthropic、Google DeepMind、Microsoft AIなどのAI企業幹部、生命科学者、国家安全保障関係者、DNA合成企業の関係者が、米国議会に対して合成DNA/RNAなどの核酸合成注文のスクリーニングと記録保持を義務化するよう求...",
+    "excerpt": "2026年6月、OpenAI、Anthropic、Google DeepMind、Microsoft AIなどのAI企業幹部、生命科学者、国家安全保障関係者、DNA合成企業の関係者が、米国議会に対して合成DNA/RNAなどの核酸合成注文のスクリーニングと記録保持を義務化するよう求...",
     "url": "interests/articles/2026-06-13-AI・エージェント-AIと遺伝子合成規制を「個人エージェント時代の危険注文防止」として読む-a66a65b30e.html"
   },
   {
@@ -205,7 +223,8 @@
     "created": "2026-06-12T19:52:00+09:00",
     "status": "",
     "type": "interest_report",
-    "excerpt": "AnthropicのClaude APIでは、`claude-sonnet-4-20250514` と `claude-opus-4-20250514` が2026年6月15日に退役予定である。退役日を過ぎると、対象モデルへのリクエストは失敗する。推奨移行先は、Sonnet 4が `claude-sonnet-4-6`、Opus 4が `claude-opu...",
+    "summary": "AnthropicのClaude APIでは、claude-sonnet-4-20250514 と claude-opus-4-20250514 が2026年6月15日に退役予定である。退役日を過ぎると、対象モデルへのリクエストは失敗する。推奨移行先は、Sonnet 4が cla...",
+    "excerpt": "AnthropicのClaude APIでは、claude-sonnet-4-20250514 と claude-opus-4-20250514 が2026年6月15日に退役予定である。退役日を過ぎると、対象モデルへのリクエストは失敗する。推奨移行先は、Sonnet 4が cla...",
     "url": "interests/articles/2026-06-12-AI・エージェント-Claude-API-6月15日モデル廃止前にOpenClaw連携設定を棚卸しする-0f91351054.html"
   },
   {
@@ -216,7 +235,8 @@
     "created": "2026-06-12",
     "status": "",
     "type": "interest_report",
-    "excerpt": "Googleは2026年5月28日、Chrome Enterprise APIをAIエージェントから呼び出せるようにするChrome Enterprise Premium向けMCPサーバーを公開した。狙いは、管理コンソール上で人間が何十手もかけて行っていたブラウザのセキュリティ確認、DLPルール、コネクタ、拡張機能、ライセンス、ログ確認などを、MCP対応エー...",
+    "summary": "Googleは2026年5月28日、Chrome Enterprise APIをAIエージェントから呼び出せるようにするChrome Enterprise Premium向けMCPサーバーを公開した。狙いは、管理コンソール上で人間が何十手もかけて行っていたブラウザのセキュリティ確...",
+    "excerpt": "Googleは2026年5月28日、Chrome Enterprise APIをAIエージェントから呼び出せるようにするChrome Enterprise Premium向けMCPサーバーを公開した。狙いは、管理コンソール上で人間が何十手もかけて行っていたブラウザのセキュリティ確...",
     "url": "interests/articles/2026-06-12-AI・エージェント-Chrome-Enterprise-MCPサーバーでブラウザ管理はAIエージェント化-ffaf170694.html"
   },
   {
@@ -227,7 +247,8 @@
     "created": "2026-06-07",
     "status": "",
     "type": "interest_report",
-    "excerpt": "2026年6月時点の大きな変化は、Codexが「開発者がコードを書くための道具」から、レポート、調査、表計算、軽量ツール、社内ワークフローを扱う知識労働向けエージェント基盤へ広がっている点にある。 OpenAIは2026年4月に ChatGPT の Workspace Agents を発表し、チームが共有できる長時間実行型エージェント、Slack連携、承認つ...",
+    "summary": "2026年6月時点の大きな変化は、Codexが「開発者がコードを書くための道具」から、レポート、調査、表計算、軽量ツール、社内ワークフローを扱う知識労働向けエージェント基盤へ広がっている点にある。",
+    "excerpt": "2026年6月時点の大きな変化は、Codexが「開発者がコードを書くための道具」から、レポート、調査、表計算、軽量ツール、社内ワークフローを扱う知識労働向けエージェント基盤へ広がっている点にある。",
     "url": "interests/articles/2026-06-07-AI・エージェント-CodexのChatGPT統合とワークスペースエージェントで「事務処理エージェント」-56a7b87ea2.html"
   },
   {
@@ -238,7 +259,8 @@
     "created": "2026-06-22T19:58:00+09:00",
     "status": "",
     "type": "interest_report",
-    "excerpt": "Obsidian Basesは、Markdownノートのプロパティをもとに、フィルタ、表、カード、計算列を作るための仕組みである。興味レポート自動化に当てはめるなら、候補一覧ノートと調査ノートを同じビューで追えるようにし、「候補作成」「ポール送信」「選定」「記事化」「ビルド」「公開確認」「Discord報告」の状態を1画面に寄せるのが一番効く。 今回のDis...",
+    "summary": "Obsidian Basesは、Markdownノートのプロパティをもとに、フィルタ、表、カード、計算列を作るための仕組みである。興味レポート自動化に当てはめるなら、候補一覧ノートと調査ノートを同じビューで追えるようにし、「候補作成」「ポール送信」「選定」「記事化」「ビルド」「公...",
+    "excerpt": "Obsidian Basesは、Markdownノートのプロパティをもとに、フィルタ、表、カード、計算列を作るための仕組みである。興味レポート自動化に当てはめるなら、候補一覧ノートと調査ノートを同じビューで追えるようにし、「候補作成」「ポール送信」「選定」「記事化」「ビルド」「公...",
     "url": "interests/articles/2026-06-22-OpenClaw・Obsidian運用-Obsidian-Basesで「候補・投票・記事化・公開」を1画面にする最小プロパテ-d1bb0c3679.html"
   },
   {
@@ -249,7 +271,8 @@
     "created": "2026-06-19T19:55:00+09:00",
     "status": "",
     "type": "interest_report",
-    "excerpt": "2026年に入って、OpenClawのようなローカル常駐型AIエージェントは「便利な自動化ツール」ではなく、ファイル、ブラウザ、メッセージ、実行コマンド、認証情報へまたがる新しい操作主体として扱うべきだ、という報道と研究が増えている。 Oasis Securityは、悪意あるWebサイトからローカルのOpenClawエージェントを乗っ取れる脆弱性チェーンを公...",
+    "summary": "2026年に入って、OpenClawのようなローカル常駐型AIエージェントは「便利な自動化ツール」ではなく、ファイル、ブラウザ、メッセージ、実行コマンド、認証情報へまたがる新しい操作主体として扱うべきだ、という報道と研究が増えている。",
+    "excerpt": "2026年に入って、OpenClawのようなローカル常駐型AIエージェントは「便利な自動化ツール」ではなく、ファイル、ブラウザ、メッセージ、実行コマンド、認証情報へまたがる新しい操作主体として扱うべきだ、という報道と研究が増えている。",
     "url": "interests/articles/2026-06-19-OpenClaw・Obsidian運用-OpenClaw脆弱性報道を受けて、Obsidian連携エージェントの権限と公開フォ-622f44a6eb.html"
   },
   {
@@ -260,7 +283,8 @@
     "created": "2026-06-24T19:50:00+09:00",
     "status": "",
     "type": "interest_report",
-    "excerpt": "SAPは2026年6月、顧客・パートナー向けポータルであるSAP for MeにJouleを組み込んだことを発表した。SAP for Meは、製品ポートフォリオ、アラート、メトリクス、サポート、セルフサービス導線をまとめる入口であり、そこに会話型・エージェント型AIを置くことで、従来の「画面を探してクリックするポータル」から「質問して案内・実行に近づく窓口」...",
+    "summary": "SAPは2026年6月、顧客・パートナー向けポータルであるSAP for MeにJouleを組み込んだことを発表した。SAP for Meは、製品ポートフォリオ、アラート、メトリクス、サポート、セルフサービス導線をまとめる入口であり、そこに会話型・エージェント型AIを置くことで...",
+    "excerpt": "SAPは2026年6月、顧客・パートナー向けポータルであるSAP for MeにJouleを組み込んだことを発表した。SAP for Meは、製品ポートフォリオ、アラート、メトリクス、サポート、セルフサービス導線をまとめる入口であり、そこに会話型・エージェント型AIを置くことで...",
     "url": "interests/articles/2026-06-24-SAP・業務システム-SAP-for-Meに入ったJouleは、Basis運用窓口をどこまで自律化できるか-c9f6dcf090.html"
   },
   {
@@ -271,7 +295,8 @@
     "created": "2026-06-22T19:58:00+09:00",
     "status": "",
     "type": "interest_report",
-    "excerpt": "SAPの2026年ABAP AIロードマップは、Joule for Developersを「ABAP開発者向けの補助チャット」から、ABAP Cloud、RAP、VS Code、MCP Server、S/4HANA Cloud Private Editionまで含めた開発支援基盤へ広げる方向に見える。候補元のSAP Community記事は、Joule fo...",
+    "summary": "SAPの2026年ABAP AIロードマップは、Joule for Developersを「ABAP開発者向けの補助チャット」から、ABAP Cloud、RAP、VS Code、MCP Server、S/4HANA Cloud Private Editionまで含めた開発支援基盤...",
+    "excerpt": "SAPの2026年ABAP AIロードマップは、Joule for Developersを「ABAP開発者向けの補助チャット」から、ABAP Cloud、RAP、VS Code、MCP Server、S/4HANA Cloud Private Editionまで含めた開発支援基盤...",
     "url": "interests/articles/2026-06-22-SAP・業務システム-Joule-for-Developers-ABAPの2026ロードマップをBasis-e6a1786c82.html"
   },
   {
@@ -282,7 +307,8 @@
     "created": "2026-06-17T19:56:00+09:00",
     "status": "",
     "type": "interest_report",
-    "excerpt": "SAP Sapphire 2026後のSAP AIは、単なるチャットUIとしてのJouleではなく、SAP Business AI Platform、SAP Business Data Cloud、SAP Knowledge Graph、Joule Studioを組み合わせた「業務データに根拠づけられたエージェント基盤」へ寄せている。SAP公式は、Joule...",
+    "summary": "SAP Sapphire 2026後のSAP AIは、単なるチャットUIとしてのJouleではなく、SAP Business AI Platform、SAP Business Data Cloud、SAP Knowledge Graph、Joule Studioを組み合わせた「業...",
+    "excerpt": "SAP Sapphire 2026後のSAP AIは、単なるチャットUIとしてのJouleではなく、SAP Business AI Platform、SAP Business Data Cloud、SAP Knowledge Graph、Joule Studioを組み合わせた「業...",
     "url": "interests/articles/2026-06-17-SAP・業務システム-SAP-Business-Data-CloudとKnowledge-GraphはJo-0bc1aec22c.html"
   },
   {
@@ -293,7 +319,8 @@
     "created": "2026-06-16T19:58:00+09:00",
     "status": "",
     "type": "interest_report",
-    "excerpt": "2026年6月9日のSAP Security Patch Dayは、SAP公式Bulletinで15件の新規Security Notesが公開された。Basis担当者が最初に見るべきは、SAP NetWeaver AS ABAP / ABAP PlatformのSAML Authenticationに関するXML Signature Wrapping脆弱性、...",
+    "summary": "2026年6月9日のSAP Security Patch Dayは、SAP公式Bulletinで15件の新規Security Notesが公開された。Basis担当者が最初に見るべきは、SAP NetWeaver AS ABAP / ABAP PlatformのSAML Auth...",
+    "excerpt": "2026年6月9日のSAP Security Patch Dayは、SAP公式Bulletinで15件の新規Security Notesが公開された。Basis担当者が最初に見るべきは、SAP NetWeaver AS ABAP / ABAP PlatformのSAML Auth...",
     "url": "interests/articles/2026-06-16-SAP・業務システム-認証確認表にする-fbb403e106.html"
   },
   {
@@ -304,7 +331,8 @@
     "created": "2026-06-13T19:55:00+09:00",
     "status": "",
     "type": "interest_report",
-    "excerpt": "SAP Sapphire 2026でSAPは、Business AI Platform、Autonomous Suite、Joule Work、Joule Studioをまとめて「Autonomous Enterprise」の中核として打ち出した。単なるチャット型AIではなく、SAP Knowledge Graph、Business Data Cloud、S...",
+    "summary": "SAP Sapphire 2026でSAPは、Business AI Platform、Autonomous Suite、Joule Work、Joule Studioをまとめて「Autonomous Enterprise」の中核として打ち出した。単なるチャット型AIではなく、S...",
+    "excerpt": "SAP Sapphire 2026でSAPは、Business AI Platform、Autonomous Suite、Joule Work、Joule Studioをまとめて「Autonomous Enterprise」の中核として打ち出した。単なるチャット型AIではなく、S...",
     "url": "interests/articles/2026-06-13-SAP・業務システム-SAP-Sapphire-2026のAutonomous-EnterpriseとJo-8895de65c1.html"
   },
   {
@@ -315,7 +343,8 @@
     "created": "2026-06-10T19:55:00+09:00",
     "status": "",
     "type": "interest_report",
-    "excerpt": "SAPのClean Coreは、単に「標準改修を減らす」「BTPへ逃がす」という技術スローガンではなく、2026年時点ではBasis/運用チームが日々の変更管理に組み込むべきガバナンス項目として見る方が実務に効く。 SAP公式はClean Coreを、ERPを俊敏で費用対効果が高く、継続的なイノベーションを取り込める状態に保つための戦略として説明している。5...",
+    "summary": "SAPのClean Coreは、単に「標準改修を減らす」「BTPへ逃がす」という技術スローガンではなく、2026年時点ではBasis/運用チームが日々の変更管理に組み込むべきガバナンス項目として見る方が実務に効く。",
+    "excerpt": "SAPのClean Coreは、単に「標準改修を減らす」「BTPへ逃がす」という技術スローガンではなく、2026年時点ではBasis/運用チームが日々の変更管理に組み込むべきガバナンス項目として見る方が実務に効く。",
     "url": "interests/articles/2026-06-10-SAP・業務システム-Clean-CoreをBasis運用ガバナンスに落とす2026年版チェックリスト-ffde631a49.html"
   },
   {
@@ -326,7 +355,8 @@
     "created": "2026-06-10T19:48:00+09:00",
     "status": "",
     "type": "interest_report",
-    "excerpt": "SAP Sapphire 2026の大きなメッセージは、ERPにAIを横付けする段階から、SAP Business AI PlatformとSAP Autonomous Suiteを前提に業務実行そのものを再設計する段階へ移る、というものだった。 Basis運用の観点では「AIがBasis作業を消す」というより、見る対象が増える。Joule Studioで作...",
+    "summary": "SAP Sapphire 2026の大きなメッセージは、ERPにAIを横付けする段階から、SAP Business AI PlatformとSAP Autonomous Suiteを前提に業務実行そのものを再設計する段階へ移る、というものだった。",
+    "excerpt": "SAP Sapphire 2026の大きなメッセージは、ERPにAIを横付けする段階から、SAP Business AI PlatformとSAP Autonomous Suiteを前提に業務実行そのものを再設計する段階へ移る、というものだった。",
     "url": "interests/articles/2026-06-10-SAP・業務システム-SAP-Sapphire-2026のAutonomous-EnterpriseとJo-49aca7f011.html"
   },
   {
@@ -337,7 +367,8 @@
     "created": "2026-06-08T20:02:00+09:00",
     "status": "",
     "type": "interest_report",
-    "excerpt": "SAP AI Coreは「AIを動かす基盤」だが、Basis視点では単なる新サービスではなく、BTPサブアカウント、XSUAA、サービスキー、resource group、コンテナ実行、オブジェクトストア、監査ログが組み合わさった運用対象として見るのがよい。 特に見るべき軸は、1. 誰がどのrole collectionで管理できるか、2. service ...",
+    "summary": "SAP AI Coreは「AIを動かす基盤」だが、Basis視点では単なる新サービスではなく、BTPサブアカウント、XSUAA、サービスキー、resource group、コンテナ実行、オブジェクトストア、監査ログが組み合わさった運用対象として見るのがよい。",
+    "excerpt": "SAP AI Coreは「AIを動かす基盤」だが、Basis視点では単なる新サービスではなく、BTPサブアカウント、XSUAA、サービスキー、resource group、コンテナ実行、オブジェクトストア、監査ログが組み合わさった運用対象として見るのがよい。",
     "url": "interests/articles/2026-06-08-SAP・業務システム-SAP-AI-CoreをBasis向けBTP運用チェックリストに落とす-ad15994fe2.html"
   },
   {
@@ -348,7 +379,8 @@
     "created": "2026-06-08T19:50:00+09:00",
     "status": "",
     "type": "interest_report",
-    "excerpt": "2026年6月のSAP Security Patch Dayは、SAP公式の年間日程では6月9日予定。この記事作成時点の2026年6月8日 19:50 JSTでは、6月分の個別Bulletinページはまだ公開されていなかったため、明日見るべき順番を事前チェックリストとして整理する。 最初に見るべきなのは、SAP for MeのAll Security Not...",
+    "summary": "2026年6月のSAP Security Patch Dayは、SAP公式の年間日程では6月9日予定。この記事作成時点の2026年6月8日 19:50 JSTでは、6月分の個別Bulletinページはまだ公開されていなかったため、明日見るべき順番を事前チェックリストとして整理する...",
+    "excerpt": "2026年6月のSAP Security Patch Dayは、SAP公式の年間日程では6月9日予定。この記事作成時点の2026年6月8日 19:50 JSTでは、6月分の個別Bulletinページはまだ公開されていなかったため、明日見るべき順番を事前チェックリストとして整理する...",
     "url": "interests/articles/2026-06-08-SAP・業務システム-2026年6月SAP-Security-Patch-DayをBasis担当者の事前チ-483c137a24.html"
   },
   {
@@ -359,7 +391,8 @@
     "created": "2026-04-30",
     "status": "done",
     "type": "report",
-    "excerpt": "RISE with SAP / SAP S/4HANA Cloud Private Editionでは、インフラ運用・基盤監視・標準パッチ適用などはSAP側へ大きく移る。一方で、顧客側Basisの価値は消えず、むしろ「責任分界を読める」「業務影響を技術証拠に落とせる」「SAP/BTP/ネットワーク/証明書/性能/運用設計/サポートを横断できる」人材に集中する...",
+    "summary": "RISE with SAP / SAP S/4HANA Cloud Private Editionでは、インフラ運用・基盤監視・標準パッチ適用などはSAP側へ大きく移る。一方で、顧客側Basisの価値は消えず、むしろ「責任分界を読める」「業務影響を技術証拠に落とせる」「SAP/B...",
+    "excerpt": "RISE with SAP / SAP S/4HANA Cloud Private Editionでは、インフラ運用・基盤監視・標準パッチ適用などはSAP側へ大きく移る。一方で、顧客側Basisの価値は消えず、むしろ「責任分界を読める」「業務影響を技術証拠に落とせる」「SAP/B...",
     "url": "interests/articles/2026-04-30-SAP・業務システム-RISE-with-SAP-Private-Cloud時代に残る顧客側Basis業務-ec51f3e7eb.html"
   },
   {
@@ -370,7 +403,8 @@
     "created": "2026-06-09T19:58:00+09:00",
     "status": "",
     "type": "interest_report",
-    "excerpt": "Meta Questは「Horizon Worlds中心のメタバース端末」から、「ゲーム、フィットネス、軽い実用用途を選んで使うスタンドアロンVR端末」へ寄っていると見るのが自然。 Horizon Worldsについては、2026年2月から3月にかけて、Quest VRからの切り離し、VR版終了方針、そしてCTO発言による一部継続への反転が続いた。最終的には...",
+    "summary": "Meta Questは「Horizon Worlds中心のメタバース端末」から、「ゲーム、フィットネス、軽い実用用途を選んで使うスタンドアロンVR端末」へ寄っていると見るのが自然。",
+    "excerpt": "Meta Questは「Horizon Worlds中心のメタバース端末」から、「ゲーム、フィットネス、軽い実用用途を選んで使うスタンドアロンVR端末」へ寄っていると見るのが自然。",
     "url": "interests/articles/2026-06-09-VR・体験型ゲーム-Meta-QuestはHorizon-Worlds撤退後にフィットネス・実用VRへ寄-ac77bc8b9c.html"
   },
   {
@@ -381,7 +415,8 @@
     "created": "2026-06-06",
     "status": "",
     "type": "interest_report",
-    "excerpt": "Eleven Table Tennisは、少なくとも「座ってゲームをする」よりは明確に体を動かす。公開されている小規模調査では、Eleven Table Tennisを40分プレイした参加者の心拍ベースの推定運動強度は、平均して軽い運動から中等度寄りの範囲に入り、5 METs程度の活動として扱われている。 ただし、これは「痩せるための万能運動」ではなく、「楽...",
+    "summary": "Eleven Table Tennisは、少なくとも「座ってゲームをする」よりは明確に体を動かす。公開されている小規模調査では、Eleven Table Tennisを40分プレイした参加者の心拍ベースの推定運動強度は、平均して軽い運動から中等度寄りの範囲に入り、5 METs程度...",
+    "excerpt": "Eleven Table Tennisは、少なくとも「座ってゲームをする」よりは明確に体を動かす。公開されている小規模調査では、Eleven Table Tennisを40分プレイした参加者の心拍ベースの推定運動強度は、平均して軽い運動から中等度寄りの範囲に入り、5 METs程度...",
     "url": "interests/articles/2026-06-06-VR・体験型ゲーム-Eleven-Table-Tennisは運動になるのか-Meta-Quest卓球VR-ccfcc7631f.html"
   },
   {
@@ -392,7 +427,8 @@
     "created": "2026-06-14",
     "status": "",
     "type": "interest_report",
-    "excerpt": "Summer Game Fest 2026から見える大きな流れは、**ライブサービス一辺倒から、強いIP・単独体験・短時間で試せるデモへ重心が戻っている**こと。GuardianとThe Vergeはいずれも、SonyやMicrosoftがシングルプレイヤー大作や独占タイトルを前面に戻した点を大きな物語として扱っている。 一方で、単純な「昔ながらのAAA復権...",
+    "summary": "Summer Game Fest 2026から見える大きな流れは、ライブサービス一辺倒から、強いIP・単独体験・短時間で試せるデモへ重心が戻っていること。GuardianとThe Vergeはいずれも、SonyやMicrosoftがシングルプレイヤー大作や独占タイトルを前面に戻し...",
+    "excerpt": "Summer Game Fest 2026から見える大きな流れは、ライブサービス一辺倒から、強いIP・単独体験・短時間で試せるデモへ重心が戻っていること。GuardianとThe Vergeはいずれも、SonyやMicrosoftがシングルプレイヤー大作や独占タイトルを前面に戻し...",
     "url": "interests/articles/2026-06-14-ゲーム-Summer-Game-Fest-2026の潮流はライブサービス離れとY2Kノスタル-c49273fd91.html"
   },
   {
@@ -403,7 +439,8 @@
     "created": "2026-06-26T19:48:00+09:00",
     "status": "",
     "type": "interest_report",
-    "excerpt": "2026年6月17日にOX Securityが報告したMastra関連のnpmサプライチェーン攻撃は、AIエージェント開発環境を守るうえでかなり実践的な教材になる。攻撃者はMastraパッケージそのものへ直接悪意あるコードを入れたのではなく、正規の`dayjs`依存を、攻撃者管理の`easy-day-js`へ差し替える形で侵入した。`easy-day-js`...",
+    "summary": "2026年6月17日にOX Securityが報告したMastra関連のnpmサプライチェーン攻撃は、AIエージェント開発環境を守るうえでかなり実践的な教材になる。攻撃者はMastraパッケージそのものへ直接悪意あるコードを入れたのではなく、正規のdayjs依存を、攻撃者管理のe...",
+    "excerpt": "2026年6月17日にOX Securityが報告したMastra関連のnpmサプライチェーン攻撃は、AIエージェント開発環境を守るうえでかなり実践的な教材になる。攻撃者はMastraパッケージそのものへ直接悪意あるコードを入れたのではなく、正規のdayjs依存を、攻撃者管理のe...",
     "url": "interests/articles/2026-06-26-セキュリティ-Mastra狙いのeasy-day-js-npm攻撃から、AIエージェント開発環境の-cfab475d1c.html"
   },
   {
@@ -414,7 +451,8 @@
     "created": "2026-06-26T19:46:00+09:00",
     "status": "",
     "type": "interest_report",
-    "excerpt": "MCPは「LLMに道具を渡す標準」なので便利だが、リスクは通常のWebアプリよりも少し嫌な形で出る。攻撃者が直接コマンドを打たなくても、GitHub Issue、git log、ツール説明文、OAuth URL、ローカルMCPサーバー設定などを経由して、エージェントが自分で危険なツール呼び出しへ進む可能性がある。 OpenClaw環境で見るべきポイントは、M...",
+    "summary": "MCPは「LLMに道具を渡す標準」なので便利だが、リスクは通常のWebアプリよりも少し嫌な形で出る。攻撃者が直接コマンドを打たなくても、GitHub Issue、git log、ツール説明文、OAuth URL、ローカルMCPサーバー設定などを経由して、エージェントが自分で危険な...",
+    "excerpt": "MCPは「LLMに道具を渡す標準」なので便利だが、リスクは通常のWebアプリよりも少し嫌な形で出る。攻撃者が直接コマンドを打たなくても、GitHub Issue、git log、ツール説明文、OAuth URL、ローカルMCPサーバー設定などを経由して、エージェントが自分で危険な...",
     "url": "interests/articles/2026-06-26-セキュリティ-MCPサーバーのプロンプトインジェクションとコマンド実行リスクを、OpenClaw環-ecff81fb01.html"
   },
   {
@@ -425,7 +463,8 @@
     "created": "2026-06-25T20:05:00+09:00",
     "status": "",
     "type": "interest_report",
-    "excerpt": "2026年春から初夏にかけて、LiteLLM ProxyまわりでSQL Injection、権限昇格、RCE、MCP関連のコマンド実行など、AIゲートウェイを管理面から崩す事例が連続している。LiteLLMはOpenAI互換APIの前段に置かれ、モデルルーティング、仮想APIキー、予算、プロバイダ認証情報を集約するため、侵害されると「一つのアプリ」ではなくA...",
+    "summary": "2026年春から初夏にかけて、LiteLLM ProxyまわりでSQL Injection、権限昇格、RCE、MCP関連のコマンド実行など、AIゲートウェイを管理面から崩す事例が連続している。LiteLLMはOpenAI互換APIの前段に置かれ、モデルルーティング、仮想APIキー...",
+    "excerpt": "2026年春から初夏にかけて、LiteLLM ProxyまわりでSQL Injection、権限昇格、RCE、MCP関連のコマンド実行など、AIゲートウェイを管理面から崩す事例が連続している。LiteLLMはOpenAI互換APIの前段に置かれ、モデルルーティング、仮想APIキー...",
     "url": "interests/articles/2026-06-25-セキュリティ-AIゲートウェイ脆弱性を「個人エージェントの管理面」として棚卸しする-01279710bb.html"
   },
   {
@@ -436,7 +475,8 @@
     "created": "2026-06-24T19:58:00+09:00",
     "status": "",
     "type": "interest_report",
-    "excerpt": "Microsoft Defender Security Research Teamは2026年6月18日、AutoGen Studioの開発中コードにあったMCP WebSocketまわりの攻撃連鎖を「AutoJack」として公開した。ブラウジング可能なAIエージェントが外部の悪性ページを開き、そのページ上のJavaScriptがローカルホスト上のMCP W...",
+    "summary": "Microsoft Defender Security Research Teamは2026年6月18日、AutoGen Studioの開発中コードにあったMCP WebSocketまわりの攻撃連鎖を「AutoJack」として公開した。ブラウジング可能なAIエージェントが外部の悪...",
+    "excerpt": "Microsoft Defender Security Research Teamは2026年6月18日、AutoGen Studioの開発中コードにあったMCP WebSocketまわりの攻撃連鎖を「AutoJack」として公開した。ブラウジング可能なAIエージェントが外部の悪...",
     "url": "interests/articles/2026-06-24-セキュリティ-Microsoft-AutoJackから見る「localhostは信頼境界ではない」-3c839a4a7b.html"
   },
   {
@@ -447,7 +487,8 @@
     "created": "2026-06-23T19:58:00+09:00",
     "status": "",
     "type": "interest_report",
-    "excerpt": "PolicyLayerの2026年6月版「State of MCP Security」は、公開レジストリから列挙できた2,031件のMCPサーバーと約31,000個のツールを分類し、AIエージェントに接続されるツール群がどれだけ強い操作権限を持つかを可視化している。注目点は、MCPが単なる検索・参照口ではなく、ファイル削除、コマンド実行、外部送信、資格情報利...",
+    "summary": "PolicyLayerの2026年6月版「State of MCP Security」は、公開レジストリから列挙できた2,031件のMCPサーバーと約31,000個のツールを分類し、AIエージェントに接続されるツール群がどれだけ強い操作権限を持つかを可視化している。注目点は、MC...",
+    "excerpt": "PolicyLayerの2026年6月版「State of MCP Security」は、公開レジストリから列挙できた2,031件のMCPサーバーと約31,000個のツールを分類し、AIエージェントに接続されるツール群がどれだけ強い操作権限を持つかを可視化している。注目点は、MC...",
     "url": "interests/articles/2026-06-23-セキュリティ-公開MCPサーバー2031件監査から「個人エージェントに入れてはいけないツール権限」-1b5fe283c4.html"
   },
   {
@@ -458,7 +499,8 @@
     "created": "2026-06-23T19:48:00+09:00",
     "status": "",
     "type": "interest_report",
-    "excerpt": "SearchLeakは、Varonis Threat Labsが2026年6月に公開したMicrosoft 365 Copilot Enterprise Searchの脆弱性チェーンで、攻撃者が細工したMicrosoft 365系リンクを踏ませるだけで、Copilotにメール、会議、OneDrive、SharePointなどの検索結果を引き出させ、外部へ漏え...",
+    "summary": "SearchLeakは、Varonis Threat Labsが2026年6月に公開したMicrosoft 365 Copilot Enterprise Searchの脆弱性チェーンで、攻撃者が細工したMicrosoft 365系リンクを踏ませるだけで、Copilotにメール、会...",
+    "excerpt": "SearchLeakは、Varonis Threat Labsが2026年6月に公開したMicrosoft 365 Copilot Enterprise Searchの脆弱性チェーンで、攻撃者が細工したMicrosoft 365系リンクを踏ませるだけで、Copilotにメール、会...",
     "url": "interests/articles/2026-06-23-セキュリティ-Microsoft-365-Copilot「SearchLeak」から見る社内AI検-856fd0e6a2.html"
   },
   {
@@ -469,7 +511,8 @@
     "created": "2026-06-21 20:02 JST",
     "status": "",
     "type": "interest_report",
-    "excerpt": "CVE-2026-3055は、NetScaler ADC / NetScaler GatewayがSAML Identity Providerとして構成されている場合に、入力検証不足からメモリ過読みに至る脆弱性である。NVDではCVSS 4.0のCNAスコアが9.3、CVSS 3.1では9.8のcriticalとして扱われ、CISAのKnown Exploi...",
+    "summary": "CVE-2026-3055は、NetScaler ADC / NetScaler GatewayがSAML Identity Providerとして構成されている場合に、入力検証不足からメモリ過読みに至る脆弱性である。NVDではCVSS 4.0のCNAスコアが9.3、CVSS 3...",
+    "excerpt": "CVE-2026-3055は、NetScaler ADC / NetScaler GatewayがSAML Identity Providerとして構成されている場合に、入力検証不足からメモリ過読みに至る脆弱性である。NVDではCVSS 4.0のCNAスコアが9.3、CVSS 3...",
     "url": "interests/articles/2026-06-21-セキュリティ-Citrix-NetScaler-KEV事例から「外向き入口」の緊急棚卸し手順を作る-923bceb6d6.html"
   },
   {
@@ -480,7 +523,8 @@
     "created": "2026-06-21 19:52 JST",
     "status": "",
     "type": "interest_report",
-    "excerpt": "Varonisが公開した「SearchLeak」は、Microsoft 365 Copilotを直接侵害するというより、Copilotが持つ企業内検索・要約・外部コンテンツ取得の組み合わせが、権限設定の甘い社内データを外へにじませうることを示した研究である。公開記事では、攻撃者がユーザーに外部ページを開かせ、プロンプト注入とMicrosoft 365内検索を...",
+    "summary": "Varonisが公開した「SearchLeak」は、Microsoft 365 Copilotを直接侵害するというより、Copilotが持つ企業内検索・要約・外部コンテンツ取得の組み合わせが、権限設定の甘い社内データを外へにじませうることを示した研究である。公開記事では、攻撃者が...",
+    "excerpt": "Varonisが公開した「SearchLeak」は、Microsoft 365 Copilotを直接侵害するというより、Copilotが持つ企業内検索・要約・外部コンテンツ取得の組み合わせが、権限設定の甘い社内データを外へにじませうることを示した研究である。公開記事では、攻撃者が...",
     "url": "interests/articles/2026-06-21-セキュリティ-Microsoft-365-Copilot「SearchLeak」から考える業務AI-6a60eaec91.html"
   },
   {
@@ -491,7 +535,8 @@
     "created": "2026-06-19 19:58 JST",
     "status": "",
     "type": "interest_report",
-    "excerpt": "2026年のChromium系ブラウザでは、V8を中心に「既に悪用確認あり」とされる脆弱性が複数KEV入りしている。直近ではCISAが2026-06-09にCVE-2026-11645をKnown Exploited Vulnerabilities Catalogへ追加し、GoogleもChrome Stable更新で同CVEの悪用を確認している。3月にもV...",
+    "summary": "2026年のChromium系ブラウザでは、V8を中心に「既に悪用確認あり」とされる脆弱性が複数KEV入りしている。直近ではCISAが2026-06-09にCVE-2026-11645をKnown Exploited Vulnerabilities Catalogへ追加し、Goo...",
+    "excerpt": "2026年のChromium系ブラウザでは、V8を中心に「既に悪用確認あり」とされる脆弱性が複数KEV入りしている。直近ではCISAが2026-06-09にCVE-2026-11645をKnown Exploited Vulnerabilities Catalogへ追加し、Goo...",
     "url": "interests/articles/2026-06-19-セキュリティ-AIエージェント用ブラウザを、普段使いブラウザから分けるべきか-ecb7ae5ee2.html"
   },
   {
@@ -502,7 +547,8 @@
     "created": "2026-06-18 19:42 JST",
     "status": "",
     "type": "interest_report",
-    "excerpt": "CISAは2026-06-08、BerriAI LiteLLMのCVE-2026-42271をKnown Exploited Vulnerabilities Catalogへ追加した。NVDとGitHub Advisory系の情報では、影響範囲はLiteLLM 1.74.2以上、1.83.7未満。MCPサーバ接続を保存前に試験するためのエンドポイントで、認証...",
+    "summary": "CISAは2026-06-08、BerriAI LiteLLMのCVE-2026-42271をKnown Exploited Vulnerabilities Catalogへ追加した。NVDとGitHub Advisory系の情報では、影響範囲はLiteLLM 1.74.2以上...",
+    "excerpt": "CISAは2026-06-08、BerriAI LiteLLMのCVE-2026-42271をKnown Exploited Vulnerabilities Catalogへ追加した。NVDとGitHub Advisory系の情報では、影響範囲はLiteLLM 1.74.2以上...",
     "url": "interests/articles/2026-06-18-セキュリティ-LiteLLMのKEV入りRCEを、個人AIサーバ運用の「最優先パッチ表」に落とす-6e3afc9d2b.html"
   },
   {
@@ -513,7 +559,8 @@
     "created": "2026-06-16T19:49:00+09:00",
     "status": "",
     "type": "interest_report",
-    "excerpt": "Miasmaは、Red Hat Cloud Services配下のnpmパッケージを改ざんし、`preinstall`フックで開発機やCI/CDの資格情報を盗むサプライチェーン攻撃として報告された。Microsoftは、32個の改ざんパッケージと90超のバージョンが影響し、GitHub Actions OIDCのtrusted publishing経路を悪用...",
+    "summary": "Miasmaは、Red Hat Cloud Services配下のnpmパッケージを改ざんし、preinstallフックで開発機やCI/CDの資格情報を盗むサプライチェーン攻撃として報告された。Microsoftは、32個の改ざんパッケージと90超のバージョンが影響し、GitHu...",
+    "excerpt": "Miasmaは、Red Hat Cloud Services配下のnpmパッケージを改ざんし、preinstallフックで開発機やCI/CDの資格情報を盗むサプライチェーン攻撃として報告された。Microsoftは、32個の改ざんパッケージと90超のバージョンが影響し、GitHu...",
     "url": "interests/articles/2026-06-16-セキュリティ-IronWorm型npm攻撃からAIコーディング環境の資格情報を守る-070526d81b.html"
   },
   {
@@ -524,7 +571,8 @@
     "created": "2026-06-11",
     "status": "",
     "type": "interest_report",
-    "excerpt": "2026年6月10日、CISAは Binding Operational Directive 26-04「Prioritizing Security Updates Based on Risk」を公開した。対象は米国のFederal Civilian Executive Branch機関だが、内容は一般企業の脆弱性管理にもかなり参考になる。 ポイントは、すべ...",
+    "summary": "2026年6月10日、CISAは Binding Operational Directive 26-04「Prioritizing Security Updates Based on Risk」を公開した。対象は米国のFederal Civilian Executive Bran...",
+    "excerpt": "2026年6月10日、CISAは Binding Operational Directive 26-04「Prioritizing Security Updates Based on Risk」を公開した。対象は米国のFederal Civilian Executive Bran...",
     "url": "interests/articles/2026-06-11-セキュリティ-CISAの「最短3日パッチ」指令で脆弱性対応の優先順位はどう変わるか-adafec6d3e.html"
   },
   {
@@ -535,7 +583,8 @@
     "created": "2026-06-07",
     "status": "",
     "type": "interest_report",
-    "excerpt": "OpenClaw、Codex、Claude Code、Cursor、WindsurfのようなAIエージェント環境では、従来の「アプリの依存ライブラリ」だけでなく、MCPサーバー、ローカル設定ファイル、シェル実行権限、GitHub/npm/クラウド資格情報、DiscordやObsidianなどの連携先がまとめて攻撃面になる。 2026年春から初夏にかけて、MC...",
+    "summary": "OpenClaw、Codex、Claude Code、Cursor、WindsurfのようなAIエージェント環境では、従来の「アプリの依存ライブラリ」だけでなく、MCPサーバー、ローカル設定ファイル、シェル実行権限、GitHub/npm/クラウド資格情報、DiscordやObsi...",
+    "excerpt": "OpenClaw、Codex、Claude Code、Cursor、WindsurfのようなAIエージェント環境では、従来の「アプリの依存ライブラリ」だけでなく、MCPサーバー、ローカル設定ファイル、シェル実行権限、GitHub/npm/クラウド資格情報、DiscordやObsi...",
     "url": "interests/articles/2026-06-07-セキュリティ-MCPサーバーとnpm依存を「個人AIエージェント環境」の新しい攻撃面として棚卸しす-d47732223d.html"
   },
   {
@@ -546,7 +595,8 @@
     "created": "2026-06-20",
     "status": "",
     "type": "interest_report",
-    "excerpt": "PSAは2026年6月2日から、Value Bulk、Value、Value Plus、Value Maxの新規受付を一時停止した。背景は、2026年5月14日の大型投資発表後に提出が急増し、アクティブなバックログが約1,000万枚に近づいたこと。PSAはバックログを500万枚まで下げることを再開条件にしており、当面は低単価カードを安く大量に出す前提が崩れて...",
+    "summary": "PSAは2026年6月2日から、Value Bulk、Value、Value Plus、Value Maxの新規受付を一時停止した。背景は、2026年5月14日の大型投資発表後に提出が急増し、アクティブなバックログが約1,000万枚に近づいたこと。PSAはバックログを500万枚ま...",
+    "excerpt": "PSAは2026年6月2日から、Value Bulk、Value、Value Plus、Value Maxの新規受付を一時停止した。背景は、2026年5月14日の大型投資発表後に提出が急増し、アクティブなバックログが約1,000万枚に近づいたこと。PSAはバックログを500万枚ま...",
     "url": "interests/articles/2026-06-20-ポケカ・趣味性資産-PSA-Value停止でARカード提出ルールを作り直す-a66303398d.html"
   },
   {
@@ -557,7 +607,8 @@
     "created": "2026-06-14",
     "status": "",
     "type": "interest_report",
-    "excerpt": "「PSA9は生カードと同等」という言い方は、半分正しい。正確には、**現行から準現行の高供給カードでは、PSA9が美品生カードに近い価格帯へ寄りやすい**。一方で、人気カード・古いカード・状態難の多いカード・PSA10が極端に高いカードでは、PSA9にも「真贋確認済み」「状態説明が楽」「海外検索に乗る」という価値が残る。 投資判断では、PSA9を失敗グレード...",
+    "summary": "「PSA9は生カードと同等」という言い方は、半分正しい。正確には、現行から準現行の高供給カードでは、PSA9が美品生カードに近い価格帯へ寄りやすい。一方で、人気カード・古いカード・状態難の多いカード・PSA10が極端に高いカードでは、PSA9にも「真贋確認済み」「状態説明が楽」「...",
+    "excerpt": "「PSA9は生カードと同等」という言い方は、半分正しい。正確には、現行から準現行の高供給カードでは、PSA9が美品生カードに近い価格帯へ寄りやすい。一方で、人気カード・古いカード・状態難の多いカード・PSA10が極端に高いカードでは、PSA9にも「真贋確認済み」「状態説明が楽」「...",
     "url": "interests/articles/2026-06-14-ポケカ・趣味性資産-ポケカPSA投資で「PSA9は生カードと同等」は本当か-05d7312eb1.html"
   },
   {
@@ -568,7 +619,8 @@
     "created": "2026-04-30",
     "status": "done",
     "type": "report",
-    "excerpt": "個人さん向けには、趣味性オルタナ資産は「投資の主力」ではなく、**趣味消費を兼ねたサテライト枠**として扱うのが妥当。優先順位は、データ取得・小口分散・趣味適合の観点で **1. ポケモンカード、2. 腕時計、3. ウイスキー/酒、4. アート/広義コレクティブル**。ただし期待リターンは銘柄選別・買値・状態・手数料で大きく変わり、インデックス投資や不動産の...",
+    "summary": "個人さん向けには、趣味性オルタナ資産は「投資の主力」ではなく、趣味消費を兼ねたサテライト枠として扱うのが妥当。優先順位は、データ取得・小口分散・趣味適合の観点で 1. ポケモンカード、2. 腕時計、3. ウイスキー/酒、4. アート/広義コレクティブル。ただし期待リターン...",
+    "excerpt": "個人さん向けには、趣味性オルタナ資産は「投資の主力」ではなく、趣味消費を兼ねたサテライト枠として扱うのが妥当。優先順位は、データ取得・小口分散・趣味適合の観点で 1. ポケモンカード、2. 腕時計、3. ウイスキー/酒、4. アート/広義コレクティブル。ただし期待リターン...",
     "url": "interests/articles/2026-04-30-ポケカ・趣味性資産-趣味性オルタナ資産の投資価値比較：ポケカ・時計・酒・アート-d48d66773e.html"
   },
   {
@@ -579,7 +631,8 @@
     "created": "2026-04-29",
     "status": "done",
     "type": "report",
-    "excerpt": "ポケモンカードの中長期価値は「希少レアリティだから上がる」ではなく、**価格の実需・流動性・供給増リスク・キャラクター/イラスト需要・鑑定後の希少性・状態維持コスト**を総合して見るべき。特に現行〜準現行のAR/SARは、発売直後の過熱・再販・PSA10人口増で価格が崩れやすい。一方で、ピカチュウ/リザードン/イーブイ系/人気トレーナー、限定プロモ、物語性の...",
+    "summary": "ポケモンカードの中長期価値は「希少レアリティだから上がる」ではなく、価格の実需・流動性・供給増リスク・キャラクター/イラスト需要・鑑定後の希少性・状態維持コストを総合して見るべき。特に現行〜準現行のAR/SARは、発売直後の過熱・再販・PSA10人口増で価格が崩れやすい。一方で...",
+    "excerpt": "ポケモンカードの中長期価値は「希少レアリティだから上がる」ではなく、価格の実需・流動性・供給増リスク・キャラクター/イラスト需要・鑑定後の希少性・状態維持コストを総合して見るべき。特に現行〜準現行のAR/SARは、発売直後の過熱・再販・PSA10人口増で価格が崩れやすい。一方で...",
     "url": "interests/articles/2026-04-29-ポケカ・趣味性資産-ポケモンカード投資・コレクションの中長期価値分析フレーム-207ef22fbe.html"
   },
   {
@@ -590,7 +643,8 @@
     "created": "2026-06-08T19:45:00+09:00",
     "status": "",
     "type": "interest_report",
-    "excerpt": "AlphaTheta Chordcatは、J-POPのコード進行を「理論書で覚える前に手で試す」ためのメモ機としてはかなり相性がよい。特に Chord Cruiser は、いま鳴らしているコードに合う次のコード候補を出すので、王道進行や小室進行のような定番パターンから少し外したい時に使いやすい。 ただし、J-POP専用の自動作曲機ではない。内蔵音源だけで完成...",
+    "summary": "AlphaTheta Chordcatは、J-POPのコード進行を「理論書で覚える前に手で試す」ためのメモ機としてはかなり相性がよい。特に Chord Cruiser は、いま鳴らしているコードに合う次のコード候補を出すので、王道進行や小室進行のような定番パターンから少し外したい...",
+    "excerpt": "AlphaTheta Chordcatは、J-POPのコード進行を「理論書で覚える前に手で試す」ためのメモ機としてはかなり相性がよい。特に Chord Cruiser は、いま鳴らしているコードに合う次のコード候補を出すので、王道進行や小室進行のような定番パターンから少し外したい...",
     "url": "interests/articles/2026-06-08-音楽ツール・作曲-AlphaTheta-ChordcatはJ-POPコード進行メモ機として使えるか-9a8680dcf3.html"
   },
   {
@@ -601,7 +655,8 @@
     "created": "2026-06-06",
     "status": "",
     "type": "interest_report",
-    "excerpt": "AlphaTheta Chordcatは、鍵盤が得意ではない人がコード進行を探すための「発想補助機材」として見るとかなり筋がよい。特に Chord Cruiser が、いま鳴らしているコードに合う次のコードを候補として出すため、理論を暗記する前に「それっぽい進行」を試せる。 一方で、PSS-A50のような鍵盤練習機でも、インスタコードのような演奏表現楽器でも...",
+    "summary": "AlphaTheta Chordcatは、鍵盤が得意ではない人がコード進行を探すための「発想補助機材」として見るとかなり筋がよい。特に Chord Cruiser が、いま鳴らしているコードに合う次のコードを候補として出すため、理論を暗記する前に「それっぽい進行」を試せる。",
+    "excerpt": "AlphaTheta Chordcatは、鍵盤が得意ではない人がコード進行を探すための「発想補助機材」として見るとかなり筋がよい。特に Chord Cruiser が、いま鳴らしているコードに合う次のコードを候補として出すため、理論を暗記する前に「それっぽい進行」を試せる。",
     "url": "interests/articles/2026-06-06-音楽ツール・作曲-Chordcatは作曲補助機材として使えるか-b055cc1780.html"
   },
   {
@@ -612,7 +667,8 @@
     "created": "2026-06-12T19:49:00+09:00",
     "status": "",
     "type": "interest_report",
-    "excerpt": "王道進行は、メジャーキーで `IV-V-iii-vi`、Cメジャーなら `F-G-Em-Am` と並ぶ4コード進行である。日本語の作曲・DTM文脈では「王道進行」または「小悪魔コード進行」と呼ばれ、J-POP、アニソン、ゲーム音楽のサビや盛り上がり部分を説明する便利なラベルになっている。 刺さり方の中心は、`IV-V` で明るく上昇して `I` に解決しそう...",
+    "summary": "王道進行は、メジャーキーで IV-V-iii-vi、Cメジャーなら F-G-Em-Am と並ぶ4コード進行である。日本語の作曲・DTM文脈では「王道進行」または「小悪魔コード進行」と呼ばれ、J-POP、アニソン、ゲーム音楽のサビや盛り上がり部分を説明する便利なラベルになっている。",
+    "excerpt": "王道進行は、メジャーキーで IV-V-iii-vi、Cメジャーなら F-G-Em-Am と並ぶ4コード進行である。日本語の作曲・DTM文脈では「王道進行」または「小悪魔コード進行」と呼ばれ、J-POP、アニソン、ゲーム音楽のサビや盛り上がり部分を説明する便利なラベルになっている。",
     "url": "interests/articles/2026-06-12-音楽史・音楽理論-アニソンで刺さるのか-5f1b8a3c20.html"
   },
   {
@@ -623,7 +679,8 @@
     "created": "2026-06-10T19:48:37+09:00",
     "status": "",
     "type": "interest_report",
-    "excerpt": "2026年のシティポップ再評価は、「おしゃれなコード進行が海外で突然理解された」というより、YouTubeやTikTokの推薦、Spotifyなどのグローバル配信、再発レーベル、海外公演の成功が重なって、1970-80年代の日本音楽が新しい流通経路に乗り直した現象として見る方がわかりやすい。 象徴的なのは高中正義の動き。公式サイトは、2026年のワールドツア...",
+    "summary": "2026年のシティポップ再評価は、「おしゃれなコード進行が海外で突然理解された」というより、YouTubeやTikTokの推薦、Spotifyなどのグローバル配信、再発レーベル、海外公演の成功が重なって、1970-80年代の日本音楽が新しい流通経路に乗り直した現象として見る方がわ...",
+    "excerpt": "2026年のシティポップ再評価は、「おしゃれなコード進行が海外で突然理解された」というより、YouTubeやTikTokの推薦、Spotifyなどのグローバル配信、再発レーベル、海外公演の成功が重なって、1970-80年代の日本音楽が新しい流通経路に乗り直した現象として見る方がわ...",
     "url": "interests/articles/2026-06-10-音楽史・音楽理論-2026年の海外シティポップ再評価を流通とノスタルジアで読み直す-b4c4fa5cfa.html"
   },
   {
@@ -634,7 +691,8 @@
     "created": "2026-06-09",
     "status": "",
     "type": "interest_report",
-    "excerpt": "2026年上半期のBillboard JAPAN Hot 100は、米津玄師「IRIS OUT」が総合1位になり、M!LK、Mrs. GREEN APPLE、King Gnu、HANAなどが上位に並んだ。チャート全体はストリーミング主導のロングヒット、アニメ・映画タイアップ、旧作カタログの再浮上が目立つ。 コード進行学習の教材として見るなら、単に上位曲を順番...",
+    "summary": "2026年上半期のBillboard JAPAN Hot 100は、米津玄師「IRIS OUT」が総合1位になり、M!LK、Mrs. GREEN APPLE、King Gnu、HANAなどが上位に並んだ。チャート全体はストリーミング主導のロングヒット、アニメ・映画タイアップ、旧作...",
+    "excerpt": "2026年上半期のBillboard JAPAN Hot 100は、米津玄師「IRIS OUT」が総合1位になり、M!LK、Mrs. GREEN APPLE、King Gnu、HANAなどが上位に並んだ。チャート全体はストリーミング主導のロングヒット、アニメ・映画タイアップ、旧作...",
     "url": "interests/articles/2026-06-09-音楽史・音楽理論-2026年上半期Billboard-JAPAN-Hot-100をコード進行学習の教材-3e6673e6bd.html"
   },
   {
@@ -645,7 +703,8 @@
     "created": "2026-06-07",
     "status": "",
     "type": "interest_report",
-    "excerpt": "小室進行は、メジャーキーで `vi-IV-V-I`、Cメジャーなら `Am-F-G-C` と並ぶ4小節ループとして説明できる。最初に主和音ではなく相対短調の `vi` から入るため、いきなり少し陰りがあり、そのあと `IV-V-I` で明るく着地する。結果として、サビやアウトロで「切ないのに上がる」感覚を作りやすい。 1990年代J-POPの文脈では、小室哲...",
+    "summary": "小室進行は、メジャーキーで vi-IV-V-I、Cメジャーなら Am-F-G-C と並ぶ4小節ループとして説明できる。最初に主和音ではなく相対短調の vi から入るため、いきなり少し陰りがあり、そのあと IV-V-I で明るく着地する。結果として、サビやアウトロで「切ないのに上が...",
+    "excerpt": "小室進行は、メジャーキーで vi-IV-V-I、Cメジャーなら Am-F-G-C と並ぶ4小節ループとして説明できる。最初に主和音ではなく相対短調の vi から入るため、いきなり少し陰りがあり、そのあと IV-V-I で明るく着地する。結果として、サビやアウトロで「切ないのに上が...",
     "url": "interests/articles/2026-06-07-音楽史・音楽理論-小室進行vi-IV-V-Iを1990年代J-POPの聞き分け練習に落とし込む-d43bead961.html"
   },
   {
@@ -656,7 +715,8 @@
     "created": "2026-06-11",
     "status": "",
     "type": "interest_report",
-    "excerpt": "デスクワーカー向けのセルフケアは、細かい種目を増やすよりも「続く頻度」に寄せたほうが実用的である。2026年のACSMレジスタンストレーニング指針は、健康な成人にとって重要なのは複雑な完璧メニューではなく、継続して全身の筋群を動かすことだと整理している。CDCの一般向けガイドラインも、週150分程度の中強度運動に加え、週2日以上の筋力強化を勧めている。 今回...",
+    "summary": "デスクワーカー向けのセルフケアは、細かい種目を増やすよりも「続く頻度」に寄せたほうが実用的である。2026年のACSMレジスタンストレーニング指針は、健康な成人にとって重要なのは複雑な完璧メニューではなく、継続して全身の筋群を動かすことだと整理している。CDCの一般向けガイドライ...",
+    "excerpt": "デスクワーカー向けのセルフケアは、細かい種目を増やすよりも「続く頻度」に寄せたほうが実用的である。2026年のACSMレジスタンストレーニング指針は、健康な成人にとって重要なのは複雑な完璧メニューではなく、継続して全身の筋群を動かすことだと整理している。CDCの一般向けガイドライ...",
     "url": "interests/articles/2026-06-11-健康・運動-デスクワーカー向け肩甲骨・股関節セルフケアを週3回メニューにする-deb20187ba.html"
   },
   {
@@ -667,7 +727,8 @@
     "created": "2026-06-20T19:50:00+09:00",
     "status": "",
     "type": "interest_report",
-    "excerpt": "2026年6月16日、日銀は無担保コール翌日物を「1.0%程度」で推移させる方針へ引き上げた。低金利時代の感覚で「円預金はほぼ無利息」「生活防衛資金はとにかく普通預金」と置いていた部分を、預金、個人向け国債、短期債、J-REITの役割に分け直す局面になっている。 ただし、これは投資助言ではない。FIRE前後のキャッシュ設計は、家計、収入の安定性、税金、住宅ロ...",
+    "summary": "2026年6月16日、日銀は無担保コール翌日物を「1.0%程度」で推移させる方針へ引き上げた。低金利時代の感覚で「円預金はほぼ無利息」「生活防衛資金はとにかく普通預金」と置いていた部分を、預金、個人向け国債、短期債、J-REITの役割に分け直す局面になっている。",
+    "excerpt": "2026年6月16日、日銀は無担保コール翌日物を「1.0%程度」で推移させる方針へ引き上げた。低金利時代の感覚で「円預金はほぼ無利息」「生活防衛資金はとにかく普通預金」と置いていた部分を、預金、個人向け国債、短期債、J-REITの役割に分け直す局面になっている。",
     "url": "interests/articles/2026-06-20-資産運用・FIRE-日銀1.0-後のFIREキャッシュ置き場-53deffa7ac.html"
   },
   {
@@ -678,7 +739,8 @@
     "created": "2026-06-14",
     "status": "",
     "type": "interest_report",
-    "excerpt": "2026年後半に利回り商品を見るなら、単純に「年利が高い順」ではなく、**元本変動、信用リスク、金利感応度、為替、税制口座、毎月入金の安定性**で分けるのが現実的。Kiplingerの利回り商品整理では、短期金利商品から高配当株、REIT、BDC、CEFまで幅広く並ぶが、同じ「利回り」でも中身はかなり違う。 FIRE前のキャッシュフロー候補としては、まず短期...",
+    "summary": "2026年後半に利回り商品を見るなら、単純に「年利が高い順」ではなく、元本変動、信用リスク、金利感応度、為替、税制口座、毎月入金の安定性で分けるのが現実的。Kiplingerの利回り商品整理では、短期金利商品から高配当株、REIT、BDC、CEFまで幅広く並ぶが、同じ「利回り」で...",
+    "excerpt": "2026年後半に利回り商品を見るなら、単純に「年利が高い順」ではなく、元本変動、信用リスク、金利感応度、為替、税制口座、毎月入金の安定性で分けるのが現実的。Kiplingerの利回り商品整理では、短期金利商品から高配当株、REIT、BDC、CEFまで幅広く並ぶが、同じ「利回り」で...",
     "url": "interests/articles/2026-06-14-資産運用・FIRE-2026年後半の利回り商品10分類をFIRE前キャッシュフロー候補として棚卸しする-e0a9b0e54f.html"
   },
   {
@@ -689,7 +751,8 @@
     "created": "2026-06-07",
     "status": "",
     "type": "interest_report",
-    "excerpt": "野村総研の富裕層ピラミッドは「純金融資産」を基準にしているため、サラリーマンの実態的な財務力を測るには弱い。大企業勤務者や専門職サラリーマンは、現金化しやすい金融資産だけでなく、企業型DC、退職金、RSU、住宅の純資産、厚生年金、社宅・福利厚生などを組み合わせて生活防衛力を作っているからだ。 ただし、厚生年金や退職金を単純に「資産額」として足し込むと、流動性...",
+    "summary": "野村総研の富裕層ピラミッドは「純金融資産」を基準にしているため、サラリーマンの実態的な財務力を測るには弱い。大企業勤務者や専門職サラリーマンは、現金化しやすい金融資産だけでなく、企業型DC、退職金、RSU、住宅の純資産、厚生年金、社宅・福利厚生などを組み合わせて生活防衛力を作って...",
+    "excerpt": "野村総研の富裕層ピラミッドは「純金融資産」を基準にしているため、サラリーマンの実態的な財務力を測るには弱い。大企業勤務者や専門職サラリーマンは、現金化しやすい金融資産だけでなく、企業型DC、退職金、RSU、住宅の純資産、厚生年金、社宅・福利厚生などを組み合わせて生活防衛力を作って...",
     "url": "interests/articles/2026-06-07-資産運用・FIRE-サラリーマン総合財務力フレームワーク-5a9f0b9adc.html"
   },
   {
@@ -700,7 +763,8 @@
     "created": "2026-04-30",
     "status": "done",
     "type": "report",
-    "excerpt": "年収[金額伏せ]クラスの会社員では、課税所得が概ね所得税33%帯に入りやすく、住民税10%・復興特別所得税を含む追加的な所得控除の価値は概算で約43.7%になる。一方、会社員が使える「純粋な節税枠」は多くないため、税引後資産最大化の主戦場は、節税商品探しではなく、(1) NISAの非課税成長枠を最優先で埋める、(2) 企業型DC/iDeCo等の所得控除・運用...",
+    "summary": "年収[金額伏せ]クラスの会社員では、課税所得が概ね所得税33%帯に入りやすく、住民税10%・復興特別所得税を含む追加的な所得控除の価値は概算で約43.7%になる。一方、会社員が使える「純粋な節税枠」は多くないため、税引後資産最大化の主戦場は、節税商品探しではなく、(1) NIS...",
+    "excerpt": "年収[金額伏せ]クラスの会社員では、課税所得が概ね所得税33%帯に入りやすく、住民税10%・復興特別所得税を含む追加的な所得控除の価値は概算で約43.7%になる。一方、会社員が使える「純粋な節税枠」は多くないため、税引後資産最大化の主戦場は、節税商品探しではなく、(1) NIS...",
     "url": "interests/articles/2026-04-30-資産運用・FIRE-高所得会社員の税引後資産最大化戦略-ca5f3ac306.html"
   },
   {
@@ -711,7 +775,8 @@
     "created": "2026-04-30",
     "status": "done",
     "type": "report",
-    "excerpt": "日本円収入・日本居住のまま、円安・輸入インフレ・日本集中リスクに備えるには、**「生活費は円で守る」「長期購買力は外貨建て実物/企業価値で守る」「待機資金は短期・高格付け・低デュレーションで守る」**の三層構造がよい。個人さんのFIRE/セミリタイア志向と下振れリスク重視を前提にすると、最初の実行案は、生活防衛資金を円で12か月分、追加で外貨短期資産を3〜6...",
+    "summary": "日本円収入・日本居住のまま、円安・輸入インフレ・日本集中リスクに備えるには、「生活費は円で守る」「長期購買力は外貨建て実物/企業価値で守る」「待機資金は短期・高格付け・低デュレーションで守る」の三層構造がよい。個人さんのFIRE/セミリタイア志向と下振れリスク重視を前提に...",
+    "excerpt": "日本円収入・日本居住のまま、円安・輸入インフレ・日本集中リスクに備えるには、「生活費は円で守る」「長期購買力は外貨建て実物/企業価値で守る」「待機資金は短期・高格付け・低デュレーションで守る」の三層構造がよい。個人さんのFIRE/セミリタイア志向と下振れリスク重視を前提に...",
     "url": "interests/articles/2026-04-30-資産運用・FIRE-円安インフレ耐性を高める外貨・金・債券ポートフォリオ-73589e6106.html"
   },
   {
@@ -722,7 +787,8 @@
     "created": "2026-06-15T19:58:00+09:00",
     "status": "",
     "type": "interest_report",
-    "excerpt": "2026年6月15日夜時点で見るべき点は、日銀が6月15日、16日の金融政策決定会合で政策金利を1.0%へ引き上げるかどうかそのものより、「円金利がもう一段上がる前提で、日本不動産とJ-REITの要求利回りをどう置き直すか」である。 市場では6月会合での25bp利上げ観測がかなり強い。FTとWSJは、政策金利1.0%への引き上げが1995年以来の高水準になる...",
+    "summary": "2026年6月15日夜時点で見るべき点は、日銀が6月15日、16日の金融政策決定会合で政策金利を1.0%へ引き上げるかどうかそのものより、「円金利がもう一段上がる前提で、日本不動産とJ-REITの要求利回りをどう置き直すか」である。",
+    "excerpt": "2026年6月15日夜時点で見るべき点は、日銀が6月15日、16日の金融政策決定会合で政策金利を1.0%へ引き上げるかどうかそのものより、「円金利がもう一段上がる前提で、日本不動産とJ-REITの要求利回りをどう置き直すか」である。",
     "url": "interests/articles/2026-06-15-不動産投資-BOJ追加利上げ観測でJ-REIT利回りを再評価する-28f8b4ec05.html"
   },
   {
@@ -733,7 +799,8 @@
     "created": "2026-06-09T19:52:00+09:00",
     "status": "",
     "type": "interest_report",
-    "excerpt": "2026年6月時点のJ-REITを見るポイントは、単に「分配金利回りが高いか」ではなく、10年JGB・超長期JGBの利回り上昇に対して、J-REITの分配金、借入コスト、物件賃料、NAVディスカウントがどこまで耐えられるかである。 日銀は長期国債買入れを段階的に減らす方針を続け、2026年6月の金融政策決定会合でJGB買入れ減額計画の中間評価を行う予定と説明...",
+    "summary": "2026年6月時点のJ-REITを見るポイントは、単に「分配金利回りが高いか」ではなく、10年JGB・超長期JGBの利回り上昇に対して、J-REITの分配金、借入コスト、物件賃料、NAVディスカウントがどこまで耐えられるかである。",
+    "excerpt": "2026年6月時点のJ-REITを見るポイントは、単に「分配金利回りが高いか」ではなく、10年JGB・超長期JGBの利回り上昇に対して、J-REITの分配金、借入コスト、物件賃料、NAVディスカウントがどこまで耐えられるかである。",
     "url": "interests/articles/2026-06-09-不動産投資-BOJのQTとJGB利回り上昇がJ-REIT投資判断に与える影響-f9ff62a5f7.html"
   },
   {
@@ -744,7 +811,8 @@
     "created": "2026-06-08",
     "status": "",
     "type": "interest_report",
-    "excerpt": "2026年6月時点の日本不動産・J-REITを見る軸は、「利上げそのもの」よりも、長期金利上昇と賃料上昇の綱引きに移っている。 日銀は2026年6月3日の植田総裁講演で、経済・物価が見通しに沿えば政策金利を引き上げていく姿勢を示した。報道ベースでは、6月会合で政策金利を0.75%から1.00%へ上げる観測も強い。背景には、中東情勢によるエネルギー価格、企業の...",
+    "summary": "2026年6月時点の日本不動産・J-REITを見る軸は、「利上げそのもの」よりも、長期金利上昇と賃料上昇の綱引きに移っている。",
+    "excerpt": "2026年6月時点の日本不動産・J-REITを見る軸は、「利上げそのもの」よりも、長期金利上昇と賃料上昇の綱引きに移っている。",
     "url": "interests/articles/2026-06-08-不動産投資-日銀利上げ観測で日本不動産・J-REITの利回り目線はどう変わるか-e170c25e4d.html"
   },
   {
@@ -755,7 +823,8 @@
     "created": "2026-04-30",
     "status": "done",
     "type": "report",
-    "excerpt": "個人さんの前提（高収入だが住宅ローン残あり、48〜50歳リタイア視野、下振れリスク・流動性・出口戦略重視）では、**最優先はJ-REIT/REIT ETF等で小さく分散投資し、不動産エクスポージャーと値動きを学ぶこと**。次点でインフラファンドを小額のインカム補完として検討。現物不動産はレバレッジと税務・運営の自由度が最大だが、初回から大きく張るより、手残り...",
+    "summary": "個人さんの前提（高収入だが住宅ローン残あり、48〜50歳リタイア視野、下振れリスク・流動性・出口戦略重視）では、最優先はJ-REIT/REIT ETF等で小さく分散投資し、不動産エクスポージャーと値動きを学ぶこと。次点でインフラファンドを小額のインカム補完として検討。現物...",
+    "excerpt": "個人さんの前提（高収入だが住宅ローン残あり、48〜50歳リタイア視野、下振れリスク・流動性・出口戦略重視）では、最優先はJ-REIT/REIT ETF等で小さく分散投資し、不動産エクスポージャーと値動きを学ぶこと。次点でインフラファンドを小額のインカム補完として検討。現物...",
     "url": "interests/articles/2026-04-30-不動産投資-現物不動産・J-REIT・インフラファンド・不動産クラファンの実質利回り比較-2ffb12cf96.html"
   },
   {
@@ -766,7 +835,8 @@
     "created": "2026-04-30",
     "status": "done",
     "type": "report",
-    "excerpt": "[具体地名伏せ]付近で[金額伏せ]台の中古区分マンションを買い、賃貸に出す投資を検討した。結論として、**[金額伏せ]台の[具体地名伏せ]区分マンションは資産性・賃貸需要は悪くないが、融資を厚く使うと手残りはかなり薄い**。月[金額伏せ]の不動産手取り収入を狙う第一歩としては、無理なレバレッジより、**駅近・築浅/中築・管理良好・出口が読みやすい区分を、自己...",
+    "summary": "[具体地名伏せ]付近で[金額伏せ]台の中古区分マンションを買い、賃貸に出す投資を検討した。結論として、[金額伏せ]台の[具体地名伏せ]区分マンションは資産性・賃貸需要は悪くないが、融資を厚く使うと手残りはかなり薄い。月[金額伏せ]の不動産手取り収入を狙う第一歩としては、無理なレバ...",
+    "excerpt": "[具体地名伏せ]付近で[金額伏せ]台の中古区分マンションを買い、賃貸に出す投資を検討した。結論として、[金額伏せ]台の[具体地名伏せ]区分マンションは資産性・賃貸需要は悪くないが、融資を厚く使うと手残りはかなり薄い。月[金額伏せ]の不動産手取り収入を狙う第一歩としては、無理なレバ...",
     "url": "interests/articles/2026-04-30-不動産投資-[具体地名伏せ]2000万円台中古区分マンション投資候補・リフォーム・収支計画-af0fa29c9b.html"
   },
   {
@@ -777,7 +847,8 @@
     "created": "2026-04-29",
     "status": "done",
     "type": "research",
-    "excerpt": "年収[金額伏せ]・住宅ローン残債[金額伏せ]・金融資産[金額伏せ]の投資家は、属性面では融資相談の土台がある一方、自己資金が潤沢とは言い切れないため、最初の投資は「大きく勝つ」よりも「退場しない設計」を優先すべきです。 結論として、初手は **三大首都圏の流動性が高い小型物件**、または **福岡・仙台・広島など人口・雇用・賃貸需要が比較的読みやすい地方中核...",
+    "summary": "年収[金額伏せ]・住宅ローン残債[金額伏せ]・金融資産[金額伏せ]の投資家は、属性面では融資相談の土台がある一方、自己資金が潤沢とは言い切れないため、最初の投資は「大きく勝つ」よりも「退場しない設計」を優先すべきです。 結論として、初手は 三大首都圏の流動性が高い小型物件...",
+    "excerpt": "年収[金額伏せ]・住宅ローン残債[金額伏せ]・金融資産[金額伏せ]の投資家は、属性面では融資相談の土台がある一方、自己資金が潤沢とは言い切れないため、最初の投資は「大きく勝つ」よりも「退場しない設計」を優先すべきです。 結論として、初手は 三大首都圏の流動性が高い小型物件...",
     "url": "interests/articles/2026-04-29-不動産投資-三大首都圏・人口100万人以上都市における不動産投資戦略概況-da63747d5b.html"
   }
 ]
