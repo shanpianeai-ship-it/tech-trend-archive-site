@@ -1,5 +1,19 @@
 [
   {
+    "file": "SAP_ERP/2026-06-27_AM_SAP発注確認AIエージェント化.md",
+    "slug": "2026-06-27_AM_SAP発注確認AIエージェント化",
+    "title": "SAP発注確認AIエージェント化はERP業務AIの実装例として読む",
+    "genre": "SAP_ERP",
+    "genreLabel": "SAP / ERP",
+    "created": "2026-06-27",
+    "source": "https://news.sap.com/2026/06/lemvigh-muller-ai-agents-order-confirmations/",
+    "importance": "high",
+    "confidence": "high",
+    "summary": "Lemvigh-MuellerがSAP基盤上で発注確認PDF処理をAIエージェント化した事例。PoCではなく本番運用、10週間導入、90%超のタッチレス処理という具体値があり、ERP業務AIの現実的な設計材料になる。",
+    "excerpt": "Lemvigh-MuellerがSAP基盤上で発注確認PDF処理をAIエージェント化した事例。PoCではなく本番運用、10週間導入、90%超のタッチレス処理という具体値があり、ERP業務AIの現実的な設計材料になる。",
+    "url": "articles/2026-06-27_AM_SAP発注確認AIエージェント化.html"
+  },
+  {
     "file": "SAP_ERP/2026-06-27_Joule_in_SAP_for_Me運用導線.md",
     "slug": "2026-06-27_Joule_in_SAP_for_Me運用導線",
     "title": "Joule in SAP for Meはサポート運用の入口を変える",
