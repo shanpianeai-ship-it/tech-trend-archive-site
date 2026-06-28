@@ -14,6 +14,20 @@
     "url": "articles/2026-06-28_Joule_Studio_n8n業務フロー統合.html"
   },
   {
+    "file": "AI/2026-06-28_AM_GLM-5.2長期タスク向け1M文脈.md",
+    "slug": "2026-06-28_AM_GLM-5.2長期タスク向け1M文脈",
+    "title": "GLM-5.2長期タスク向け1M文脈",
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "created": "2026-06-28",
+    "source": "https://huggingface.co/blog/zai-org/glm-52-blog",
+    "importance": "high",
+    "confidence": "high",
+    "summary": "GLM-5.2は、1Mトークン文脈を長期コーディングエージェント向けに実用化しようとする中国発OSSモデル。長文対応が単なる入力長ではなく、推論コスト、RL、評価不正対策まで含む基盤競争になっている点が重要。",
+    "excerpt": "GLM-5.2は、1Mトークン文脈を長期コーディングエージェント向けに実用化しようとする中国発OSSモデル。長文対応が単なる入力長ではなく、推論コスト、RL、評価不正対策まで含む基盤競争になっている点が重要。",
+    "url": "articles/2026-06-28_AM_GLM-5.2長期タスク向け1M文脈.html"
+  },
+  {
     "file": "SAP_ERP/2026-06-27_AM_SAP発注確認AIエージェント化.md",
     "slug": "2026-06-27_AM_SAP発注確認AIエージェント化",
     "title": "SAP発注確認AIエージェント化はERP業務AIの実装例として読む",

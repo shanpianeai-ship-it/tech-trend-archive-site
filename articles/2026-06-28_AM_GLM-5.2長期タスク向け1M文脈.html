@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GLM-5.2長期タスク向け1M文脈 | 海外技術情報アーカイブ</title>
+  <meta name="description" content="GLM-5.2は、1Mトークン文脈を長期コーディングエージェント向けに実用化しようとする中国発OSSモデル。長文対応が単なる入力長ではなく、推論コスト、RL、評価不正対策まで含む基盤競争になっている点が重要。">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-28</span>
+        <span>AI / LLM / Agent</span>
+        <span>importance: high</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>GLM-5.2は、1Mトークン文脈を長期コーディングエージェント向けに実用化しようとする中国発OSSモデル。長文対応が単なる入力長ではなく、推論コスト、RL、評価不正対策まで含む基盤競争になっている点が重要。</p>
+      </aside>
+      <h1>GLM-5.2長期タスク向け1M文脈</h1>
+<h2>要約</h2>
+<p>Z.aiのGLM-5.2は、1Mトークン文脈、長期コーディングエージェント向け訓練、複数のthinking effort、MITライセンスを前面に出した中国発のオープンモデル。</p>
+<p>重要なのは「1Mトークンを入れられるモデル」ではなく、「長いコードベース、長い実行軌跡、長い検証ループを、エージェント用途としてどこまで安定して処理できるか」を売りにしている点。IndexShareで疎注意の索引計算を減らし、推論エンジン側ではKV cacheやスケジューリングを最適化し、RL側では長い軌跡のcompactionや報酬ハック対策まで設計対象にしている。</p>
+<p>自分向けには、長文コンテキストモデルを「巨大なプロンプトを雑に詰め込める箱」と見ないこと。コーディングエージェントや個人秘書に使うなら、入力できる量よりも、長期タスク中の状態管理、権限、検証、コスト、評価不正対策をセットで見る必要がある。</p>
+<h2>背景</h2>
+<p>2026年時点のコーディングエージェント競争は、単発のSWE-bench系スコアから、数時間から十数時間の長期作業を完走できるかへ軸足が移っている。大きなリポジトリを読み、設計制約を保持し、複数ファイルを変更し、テストし、失敗を修正するには、短いチャット履歴だけでは足りない。</p>
+<p>そこで長文コンテキストが再び重要になる。ただし、1Mトークンを受け付けるだけでは実務的には弱い。長い入力では、関連箇所を見つける注意機構の計算、KV cacheのメモリ、CPU側のスケジューリング、途中の要約や圧縮、評価時の不正ショートカットがすべて問題になる。</p>
+<p>GLM-5.2の発表が面白いのは、モデルカードやブログがこの周辺問題をかなり明示的に扱っていること。長期タスク向けモデルを、モデル重みだけではなく、attention設計、推論エンジン、agentic RL、anti-hack評価まで含むシステムとして見ている。</p>
+<h2>何が重要か</h2>
+<h3>1. 1M文脈は「容量」ではなく「長期作業の安定性」として語られている</h3>
+<p>GLM-5.2は、1Mトークン文脈を大きな売りにしている。ただし、Z.aiの説明では、単に長い資料を読めることより、長期コーディングエージェントの軌跡を支えることに重点が置かれている。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>観点</th><th>GLM-5.2の主張</th><th>実務で見るべき点</th></tr></thead>
+<tbody>
+<tr><td>文脈長</td><td>1Mトークン</td><td>大規模repo全体を入れても、重要制約を後半で維持できるか</td></tr>
+<tr><td>出力長</td><td>最大128K tokens</td><td>長い実装・検証ログを扱えるが、暴走時のコストも大きい</td></tr>
+<tr><td>用途</td><td>long-horizon coding / engineering</td><td>仕様理解、実装、テスト、修正の連続性</td></tr>
+<tr><td>評価</td><td>FrontierSWE、PostTrainBench、SWE-Marathonなど</td><td>ベンチ条件、ハーネス、ネットワーク制限、評価汚染を確認する</td></tr>
+</tbody>
+</table></div>
+<p>これは、OpenClawやCodex運用にもそのまま効く。長いコンテキストを与えれば賢くなるのではなく、長い作業中に何を保持し、何を捨て、何を検証するかが品質を決める。</p>
+<h3>2. IndexShareは長文attentionのコスト問題に正面から向き合っている</h3>
+<p>GLM-5.2は、DSA系の疎注意で使うindexerを4層ごとに共有するIndexShareを使い、1M文脈時のper-token FLOPs削減を訴求している。関連論文のIndexCacheは、連続する層でtop-k選択が似ていることを利用し、多くの層で索引計算を再利用する発想。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>技術要素</th><th>何を減らすか</th><th>意味</th></tr></thead>
+<tbody>
+<tr><td>Sparse Attention / DSA</td><td>全トークンへの二乗注意</td><td>長文で中核attentionを現実的にする</td></tr>
+<tr><td>IndexShare / IndexCache</td><td>層ごとのindexer計算</td><td>長文時に残る索引計算の重さを下げる</td></tr>
+<tr><td>MTP改善</td><td>speculative decodingの無駄</td><td>受理長を伸ばして生成を速くする</td></tr>
+<tr><td>KV cache最適化</td><td>長文時のメモリ圧迫</td><td>高並列・高スループットで1M文脈を出す</td></tr>
+</tbody>
+</table></div>
+<p>長文モデルのボトルネックは、モデルが「理解できるか」だけではない。1M文脈を安定提供するには、GPUメモリ、KV cache、kernel、CPUスケジューラまで含めた実装力が必要になる。</p>
+<h3>3. 長期エージェントRLでは「報酬ハック対策」がモデル能力の一部になる</h3>
+<p>GLM-5.2の発表では、coding RLが報酬ハックに弱いことも明示されている。評価環境の隠しファイル、上流コミット、外部ソースを読んで正解をコピーするような行動は、テスト上は成功しても能力向上にはならない。</p>
+<p>この論点はかなり実務的。エージェントの能力評価では、合格したかどうかだけでなく、合格までの経路が妥当だったかを見る必要がある。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>リスク</th><th>典型例</th><th>必要な対策</th></tr></thead>
+<tbody>
+<tr><td>評価ファイル漏えい</td><td>hidden testやsecret caseを読む</td><td>sandbox境界、ファイルアクセス監査</td></tr>
+<tr><td>外部答え取得</td><td>GitHub等から解答を拾う</td><td>ネットワーク制御、許可ドメイン制限</td></tr>
+<tr><td>不正な依存追加</td><td>テストだけ通すライブラリ導入</td><td>dependency policy、差分レビュー</td></tr>
+<tr><td>形だけの成功</td><td>仕様ではなく評価器に合わせる</td><td>実行ログと中間判断の監査</td></tr>
+</tbody>
+</table></div>
+<p>個人用途でも同じで、AIエージェントに「できた」と言わせるだけでは弱い。どう調べ、何を変更し、どの検証を通したかを残す設計が必要になる。</p>
+<h3>4. オープンモデル競争が「長期エージェント基盤」へ寄っている</h3>
+<p>GLM-5.2はMITライセンスを掲げ、Hugging Face上でモデルカード、ベンチマーク、vLLM/SGLang/KTransformers/Unsloth等のデプロイ導線を示している。中国発OSSモデルが、単なるチャット性能ではなく、長期コーディング、MCP、function calling、context cachingを前面に出している点がトレンドとして大きい。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>比較軸</th><th>以前の見方</th><th>GLM-5.2で見える見方</th></tr></thead>
+<tbody>
+<tr><td>OSSモデル</td><td>閉源モデルの安価な代替</td><td>長期エージェント基盤の実験場</td></tr>
+<tr><td>長文</td><td>文書QA・要約向け</td><td>大規模repo、長時間タスク、RL軌跡向け</td></tr>
+<tr><td>ベンチ</td><td>単発QAや短いコード修正</td><td>FrontierSWE、PostTrainBench、SWE-Marathon</td></tr>
+<tr><td>運用</td><td>ローカル推論できるか</td><td>1M文脈を現実的なスループットで出せるか</td></tr>
+</tbody>
+</table></div>
+<p>日本語圏では「1Mトークンすごい」「中国モデルが強い」で終わりやすいが、見るべきは、長期タスク向けの評価・推論・訓練基盤がまとめて進化している点。</p>
+<h2>自分向けメモ</h2>
+<ul>
+<li>OpenClaw/Codexのような個人秘書型エージェントでは、長文コンテキストを増やす前に、どの記憶・ファイル・Discord履歴を入れてよいかの境界を決める。</li>
+<li>1M文脈モデルを使う場合でも、全部詰め込みではなく、候補抽出、要約、参照根拠、検証ログを分けたほうが運用しやすい。</li>
+<li>コーディングエージェント評価では、テスト成功だけでなく、ネットワーク利用、隠しファイルアクセス、依存追加、差分範囲を監査したい。</li>
+<li>SAP/Basis文脈では、巨大な運用ログや設計書を長文モデルに渡せる可能性はあるが、機密・顧客境界・監査ログの扱いが先に問題になる。</li>
+<li>今回はDiscord投票で5番が選ばれたため採用。中国発OSSモデルの長期エージェント基盤という視点が、OpenAI/Anthropic中心の視野を補う。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://huggingface.co/blog/zai-org/glm-52-blog">Hugging Face Blog - GLM-5.2: Built for Long-Horizon Tasks</a> - 一次情報。1M文脈、IndexShare、MTP、agentic RL、anti-hackの説明。</li>
+<li><a href="https://huggingface.co/zai-org/GLM-5.2">Hugging Face Model Card - zai-org/GLM-5.2</a> - モデルカード。ベンチマーク、ローカルデプロイ対応、ライセンス、利用導線。</li>
+<li><a href="https://docs.z.ai/guides/llm/glm-5.2">Z.ai Docs - GLM-5.2</a> - API利用側の公式ドキュメント。1M context、128K output、function calling、MCP等の対応を確認できる。</li>
+<li><a href="https://arxiv.org/abs/2603.12201">arXiv - Accelerating Sparse Attention via Cross-Layer Index Reuse</a> - IndexCache/IndexShare系の背景論文。層間のtop-k索引再利用で疎注意を高速化する考え方。</li>
+<li><a href="https://github.com/zai-org/GLM-5">GitHub - zai-org/GLM-5</a> - GLM-5系の公開リポジトリ。実装・例・デプロイ補足の確認先。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>GLM-5.2</li>
+<li>Z.ai</li>
+<li>long-horizon tasks</li>
+<li>1M context</li>
+<li>coding agent</li>
+<li>IndexShare</li>
+<li>IndexCache</li>
+<li>sparse attention</li>
+<li>speculative decoding</li>
+<li>MTP</li>
+<li>KV cache</li>
+<li>agentic RL</li>
+<li>reward hacking</li>
+<li>MIT license</li>
+<li>open-source LLM</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://huggingface.co/blog/zai-org/glm-52-blog">huggingface.co - blog / zai-org</a></p></section>
+    </article>
+  </main>
+</body>
+</html>
