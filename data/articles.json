@@ -1,5 +1,19 @@
 [
   {
+    "file": "SAP_ERP/2026-06-28_Joule_Studio_n8n業務フロー統合.md",
+    "slug": "2026-06-28_Joule_Studio_n8n業務フロー統合",
+    "title": "Joule Studio x n8nはERPエージェントを業務フローへ接続する動き",
+    "genre": "SAP_ERP",
+    "genreLabel": "SAP / ERP",
+    "created": "2026-06-28",
+    "source": "https://blog.n8n.io/n8n-partners-with-sap-to-bring-visual-ai-workflow-orchestration-to-enterprise/",
+    "importance": "high",
+    "confidence": "high",
+    "summary": "SAPがJoule Studioにn8nを組み込み、AIエージェントをSAP内外の業務フローへ接続する動き。ERPのAI化をチャットではなく、統制されたワークフロー実行基盤として見る材料になる。",
+    "excerpt": "SAPがJoule Studioにn8nを組み込み、AIエージェントをSAP内外の業務フローへ接続する動き。ERPのAI化をチャットではなく、統制されたワークフロー実行基盤として見る材料になる。",
+    "url": "articles/2026-06-28_Joule_Studio_n8n業務フロー統合.html"
+  },
+  {
     "file": "SAP_ERP/2026-06-27_AM_SAP発注確認AIエージェント化.md",
     "slug": "2026-06-27_AM_SAP発注確認AIエージェント化",
     "title": "SAP発注確認AIエージェント化はERP業務AIの実装例として読む",

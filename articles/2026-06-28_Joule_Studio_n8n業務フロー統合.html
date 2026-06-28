@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Joule Studio x n8nはERPエージェントを業務フローへ接続する動き | 海外技術情報アーカイブ</title>
+  <meta name="description" content="SAPがJoule Studioにn8nを組み込み、AIエージェントをSAP内外の業務フローへ接続する動き。ERPのAI化をチャットではなく、統制されたワークフロー実行基盤として見る材料になる。">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-28</span>
+        <span>SAP / ERP</span>
+        <span>importance: high</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>SAPがJoule Studioにn8nを組み込み、AIエージェントをSAP内外の業務フローへ接続する動き。ERPのAI化をチャットではなく、統制されたワークフロー実行基盤として見る材料になる。</p>
+      </aside>
+      <h1>Joule Studio x n8nはERPエージェントを業務フローへ接続する動き</h1>
+<h2>要約</h2>
+<p>2026年5月、SAPとn8nは、n8nをSAP Business AI Platform上のJoule Studioに組み込む提携を発表した。n8n公式ブログでは、Joule Studio内のフルマネージド環境としてn8nを提供し、SAP開発者がSAPと外部ツールをまたぐAIワークフローやエージェント連携を視覚的に作れるようにすると説明している。</p>
+<p>今回の夜枠Discordポールでは、7番「Joule Studio x n8n」が1票で最多だったため採用した。選定理由は、SAPのAI戦略が「Jouleと会話する」段階から、SAP内外のシステムにまたがる業務実行フローをどう作り、統制し、運用するかへ移っていることを示すため。</p>
+<p>結論として、これは単なるローコード自動化ツールの追加ではない。SAPはJoule Studioを、AIエージェント、アプリ、ワークフローを作成・実行・管理する開発面として位置づけ、そこにn8nの視覚的なワークフロー編成を入れる。ERP運用者目線では、AIの回答品質だけでなく、ID、権限、API、例外処理、監査ログ、変更管理を含めた「業務フロー実行基盤」として見る必要がある。</p>
+<h2>背景</h2>
+<p>Joule Studioは、SAP Sapphire 2026で発表されたSAP Business AI Platformの中核的な開発環境だ。SAP Newsでは、AIエージェント、アプリケーション、ワークフローのライフサイクルを管理するフルマネージドな提供形態として説明されている。</p>
+<p>SAPが強調しているのは、エージェントをSAPのライブ業務データ、エンドツーエンドのプロセス、業務セマンティクスに接地させること。SAP Knowledge Graph、SAP Business Data Cloud、SAP Domain Models、SAP Signavio、SAP LeanIXなどを使い、単なるLLMチャットではなく、業務文脈を持つ実行単位へ寄せる設計になっている。</p>
+<p>n8nは、外部SaaS、データベース、AIモデル、クラウドサービス、HTTP API、Webhookをつなぐワークフロー自動化基盤だ。今回の提携では、n8nのキャンバスをJoule Studio内で使えるようにし、SAPシステム、Joule Agent、外部ツールをまたぐフローを視覚的に構築できるようにする。n8n公式ブログでは、SAP向けノードの開発、SAP AI Core経由のモデル利用、Q3 2026の一般提供予定も示されている。</p>
+<h2>何が重要か</h2>
+<h3>エージェント単体ではなく、業務フロー単位で設計する流れ</h3>
+<p>Joule Studioとn8nの組み合わせで重要なのは、AIエージェントを単独の応答役ではなく、業務フローの一部として扱える点だ。たとえば、請求書の例外検知、未照合明細の通知、承認依頼、外部チケット起票、メール通知、Teams/Slack連携のような処理は、単発チャットよりもイベント、条件分岐、リトライ、エラー処理を持つワークフローで表す方が実務に近い。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>観点</th><th>チャット型AI中心</th><th>Joule Studio x n8n型</th></tr></thead>
+<tbody>
+<tr><td>実行単位</td><td>質問と回答</td><td>イベント、条件、アクションの業務フロー</td></tr>
+<tr><td>接続先</td><td>主にSAP内の情報や案内</td><td>SAP、外部SaaS、DB、AIモデル、Webhook</td></tr>
+<tr><td>統制</td><td>回答内容の確認が中心</td><td>権限、実行ログ、例外処理、承認点を設計</td></tr>
+<tr><td>実務価値</td><td>調査・要約・案内の時短</td><td>処理の自動化、例外集中、監査可能な実行</td></tr>
+</tbody>
+</table></div>
+<p>ERP業務では、AIが「何を答えたか」より、AIやワークフローが「どのデータを読み、どのシステムに、どの権限で、どの変更を加えたか」が重要になる。n8nのようなワークフロー層が入ると、この設計論が表に出てくる。</p>
+<h3>SAP外のシステムを含めた現実の業務に寄せられる</h3>
+<p>多くの業務プロセスはSAPだけで完結しない。実際には、Excel、メール、Slack、ServiceNow、Salesforce、外部DB、社内API、ファイル共有、BI、カスタムWebアプリが混ざる。Joule StudioがSAP業務文脈を持ち、n8nが外部システムとの接続面を持つなら、SAP内のデータを起点に外部ツールへアクションを出す構成が作りやすくなる。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>領域</th><th>例</th><th>設計上の注意</th></tr></thead>
+<tbody>
+<tr><td>SAPデータ</td><td>S/4HANAの受注、請求、在庫、未照合明細</td><td>API権限、データ最小化、業務セマンティクス</td></tr>
+<tr><td>外部ツール</td><td>チケット、チャット、メール、CRM、DB</td><td>認証情報、宛先制御、二重更新</td></tr>
+<tr><td>AI判断</td><td>分類、要約、例外判定、提案生成</td><td>根拠、しきい値、人間確認</td></tr>
+<tr><td>ワークフロー</td><td>分岐、リトライ、承認、通知</td><td>失敗時復旧、監査ログ、運用責任</td></tr>
+</tbody>
+</table></div>
+<p>n8n公式は、1,000以上の統合とHTTP request/Webhookノードに触れている。これは便利だが、ERP運用では同時に危険でもある。接続先が広がるほど、意図しないデータ共有、権限過多、重複更新、承認漏れを設計段階で潰す必要がある。</p>
+<h3>SAPの統制とn8nの柔軟性をどう両立するかが焦点</h3>
+<p>n8n公式ブログでは、SAPがID、アクセス制御、運用を担い、n8n環境がSAPのクラウドインフラ上で動くと説明している。SAP Newsでも、Joule Studio Runtime、SAP AI Agent Hub、SAP Cloud ALM、Signavio、LeanIXによるガバナンスや観測性が強調されている。</p>
+<p>つまりSAPは、n8nの柔軟な接続力をそのまま野放しにするのではなく、SAP管理のID、実行環境、監視、ライフサイクル管理の中に取り込もうとしている。ここが導入判断の要点になる。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>確認領域</th><th>見るべきこと</th></tr></thead>
+<tbody>
+<tr><td>ID/権限</td><td>Joule Studio利用者、n8n実行ユーザー、SAP API権限、外部SaaS権限</td></tr>
+<tr><td>接続</td><td>S/4HANA、BTP、外部API、Webhook、社内ネットワークへの到達範囲</td></tr>
+<tr><td>監査</td><td>どのフローが、誰の権限で、どのデータを読み、どの操作をしたか</td></tr>
+<tr><td>例外処理</td><td>失敗、タイムアウト、重複実行、途中停止時の復旧手順</td></tr>
+<tr><td>変更管理</td><td>フロー変更、ノード追加、プロンプト変更、モデル変更の承認と履歴</td></tr>
+</tbody>
+</table></div>
+<p>特にBasis/ERP運用では、従来のジョブ管理やインターフェース監視に、AIワークフロー固有の確認項目が加わる。プロンプト、モデル、ツール定義、外部接続、エージェント権限が、従来のカスタムプログラムやIF設計と同じくらい監査対象になる。</p>
+<h3>SAP Build Process AutomationやIntegration Suiteとの役割分担を見る</h3>
+<p>SAPには既にSAP Build Process Automation、SAP Integration Suite、Event Mesh、Cloud Integrationなどの自動化・連携基盤がある。そこにn8nが入るため、導入時には「全部n8nで作る」ではなく、既存SAP標準基盤との役割分担を決める必要がある。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>用途</th><th>向いている可能性が高いもの</th></tr></thead>
+<tbody>
+<tr><td>SAP標準プロセスの承認・タスク</td><td>SAP Build Process Automation、SAP Task Center</td></tr>
+<tr><td>企業間/API中心の堅牢な連携</td><td>SAP Integration Suite、Cloud Integration</td></tr>
+<tr><td>AIエージェントを含む柔軟な横断フロー</td><td>Joule Studio x n8n</td></tr>
+<tr><td>業務文脈付きのエージェント構築</td><td>Joule Studio、SAP Knowledge Graph、SAP Domain Models</td></tr>
+</tbody>
+</table></div>
+<p>n8nは、AIエージェント、外部SaaS、Webhook、条件分岐を素早く編成するには強い。一方で、基幹IFの保証、マッピング標準、監視運用、エラーハンドリングを長期運用する場合、既存のIntegration Suiteや標準自動化基盤との境界を曖昧にすると後で混乱する。</p>
+<h2>自分向けメモ</h2>
+<ul>
+<li>SAPのAI戦略は、Jouleの会話体験だけでなく、Joule Studioで業務フローを作り、n8nで外部システムへ実行を広げる方向に進んでいる。</li>
+<li>Basis/ERP目線では、n8nノードを「便利な連携部品」ではなく、権限付き実行部品として扱う。どのノードが何を読めるか、何を書けるかを棚卸ししたい。</li>
+<li>既存のSAP Build Process Automation、Integration Suite、Cloud Integrationと競合させず、AIエージェントが絡む柔軟な業務フロー領域に絞って使いどころを決める。</li>
+<li>本番導入前に、フロー変更承認、実行ログ保管、失敗時リトライ、重複実行防止、人間承認ポイントをテンプレート化する。</li>
+<li>SAP外部のSaaSや社内APIへ接続するほど、データ持ち出し、認証情報、監査説明が重くなる。最初は読み取り中心、通知中心、例外ルーティング中心で始めるのが現実的。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://blog.n8n.io/n8n-partners-with-sap-to-bring-visual-ai-workflow-orchestration-to-enterprise/">n8n Blog - n8n Partners with SAP to bring Visual AI Workflow Orchestration to Enterprise</a>: 主対象。n8nをJoule Studio内のフルマネージド環境として提供し、SAP内外をまたぐAIワークフローを作る構想、SAP向けノード、Q3 2026 GA予定を説明。</li>
+<li><a href="https://news.sap.com/2026/05/new-joule-studio-enterprise-scale-agentic-development/">SAP News Center - Announcing New Joule Studio for Enterprise Scale Agentic Development</a>: Joule Studioの公式発表。AIエージェント、アプリ、ワークフロー、n8n/Vercel提携、Joule Studio Runtime、ガバナンスの位置づけを確認できる。</li>
+<li><a href="https://architecture.learning.sap.com/docs/ref-arch/06ff6062dc/6">SAP Architecture Center - Joule Studio</a>: Joule Studioの設計原則。Intent Based Development、Business Context、Trusted Governance、n8n Workflowsの位置づけを整理している。</li>
+<li><a href="https://thenextweb.com/news/n8n-sap-joule-studio-workflow-automation">The Next Web - n8n embedded in SAP Joule Studio as AI orchestration layer</a>: 第三者媒体による補足。n8nがJoule Studio内のAI orchestration layerとして扱われ、Q3 2026 GA予定である点を確認。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>SAP Joule Studio</li>
+<li>n8n</li>
+<li>SAP Business AI Platform</li>
+<li>agentic workflow</li>
+<li>visual workflow orchestration</li>
+<li>SAP BTP</li>
+<li>SAP AI Core</li>
+<li>SAP Knowledge Graph</li>
+<li>SAP Domain Models</li>
+<li>SAP Build Process Automation</li>
+<li>SAP Integration Suite</li>
+<li>Joule Studio Runtime</li>
+<li>AI Agent Hub</li>
+<li>workflow governance</li>
+<li>ERP automation</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://blog.n8n.io/n8n-partners-with-sap-to-bring-visual-ai-workflow-orchestration-to-enterprise/">blog.n8n.io - n8n-partners-with-sap-to-bring-visual-ai-workflow-orchestration-to-enterprise</a></p></section>
+    </article>
+  </main>
+</body>
+</html>
