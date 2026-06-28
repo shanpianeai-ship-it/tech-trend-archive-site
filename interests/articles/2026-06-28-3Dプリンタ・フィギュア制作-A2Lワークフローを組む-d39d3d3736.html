@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FDMでレジン級フィギュアを狙う場合のBambu H2D/A2Lワークフローを組む | 興味レポート</title>
+  <meta name="description" content="Bambu H2D/A2L世代のFDMで、レジン級に近いフィギュア制作を狙う現実的な手順を整理します。機材選び、分割、サポート、表面処理、塗装までの詰まりどころが分かります。">
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../../interests/index.html">興味レポート</a>
+    <span class="site-subtitle">Public redacted interest reports</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 興味レポート一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-28T19:48:00+09:00</span>
+        <span>3Dプリンタ・フィギュア制作</span>
+        <span>interest_report</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>Bambu H2D/A2L世代のFDMで、レジン級に近いフィギュア制作を狙う現実的な手順を整理します。機材選び、分割、サポート、表面処理、塗装までの詰まりどころが分かります。</p>
+      </aside>
+      <h1>FDMでレジン級フィギュアを狙う場合のBambu H2D/A2Lワークフローを組む</h1>
+<h2>要約</h2>
+<p>Bambu LabのH2Dは、デュアルノズル、最大350度ノズル、65度の加熱チャンバー、350 x 320 x 325 mm級の大きな造形領域を持つ高機能機です。A2Lは、330 x 320 x 325 mmの大型ベッド、PMSM押出、振動補正、ブレードカット/ペンプロット拡張を備えた低価格寄りの大型機として発表されています。</p>
+<p>ただし、FDMで「レジン級フィギュア」を狙う場合、機材だけで解決する話ではありません。レジン機が得意な細密ディテールと滑らかな面に、FDMはノズル径、積層痕、サポート痕、熱だれ、パーツ向きの制約で不利です。現実的には、0.2 mmノズル、低レイヤー高、サポートレスまたは分割設計、下地処理、サフ、研磨、塗装を組み合わせて「遠目に満足できる展示品質」へ寄せるワークフローになります。</p>
+<p>結論として、人物の顔や小型ミニチュア単体ならレジン優位はまだ強いです。一方で、コスプレ小道具、台座、武器、衣装パーツ、大きめのデフォルメフィギュア、塗装練習用モデルなら、H2D/A2L世代のFDMはかなり現実的です。個人向けには、いきなり精密美少女フィギュアを狙うより、「大きめ・分割しやすい・塗装で情報量を足せる」題材から入るのが堅いです。</p>
+<h2>なぜ今見る価値があるか</h2>
+<p>2026年6月にBambu LabはA2Lを発表し、低価格帯でも大型造形、振動補正、検知系を重視する流れを示しました。A2Lは公式リリースで、コスプレイヤーが接着や継ぎ目埋めを減らして大型プロップを作る用途を明示しています。</p>
+<p>一方でH2Dは、単なる大型FDMではなく、デュアルノズルによる本体材とサポート材の使い分けができます。3D Printing Industryの仕様整理では、片側ノズルをサポート材専用にできるため、除去しやすい支持構造ときれいな接触面を狙える点が強調されています。フィギュア制作で一番つらいのはサポート痕なので、この差は大きいです。</p>
+<p>いま見る価値があるのは、「FDMかレジンか」の二択ではなく、家庭内で安全に扱いやすいFDMをどこまでフィギュア制作へ寄せられるかを、具体的な作業順に落とせるタイミングだからです。レジンは細部表現に強い一方で、洗浄、硬化、換気、廃液、手袋、臭気、保管の負担があります。FDMで妥協点を作れるなら、趣味制作の頻度は上げやすくなります。</p>
+<h2>調査メモ</h2>
+<ul>
+<li>H2DはBambu Labの大型・高機能機で、3D Printing Industryの仕様表では単一ノズル造形が325 x 320 x 325 mm、デュアルノズル造形が300 x 320 x 325 mm、対応ノズル径が0.2/0.4/0.6/0.8 mmと整理されています。</li>
+<li>H2Dの強みは、0.2 mmノズルだけではなく、デュアルノズルでPLA/PETGなどの接触しにくい組み合わせやサポート材を使い、サポート面をきれいに剥がす設計にあります。小型フィギュアでは、サポート痕が顔、髪、指、衣装のエッジに出ると一気に見栄えが落ちます。</li>
+<li>A2LはBambu Lab発表のPRで、330 x 320 x 325 mm、最大ノズル温度300度、最大ベッド温度80度、PLA/PETGなど非エンジニアリング材料向け、最大19色対応とされています。フィギュア本体の精密造形より、大型台座、プロップ、分割を減らしたパーツ制作に向く仕様です。</li>
+<li>A2Lはオープンフレームなので、公式リリースでもレーザーモジュール非対応とされています。ABS/ASAのような反りや臭気が出やすい材料より、PLA、PLAマット、PETG、サポート材を中心に考える方が家庭運用に合います。</li>
+<li>ミニチュア制作の一般論では、レジンは25ミクロン級の細部表現や滑らかな表面を得やすく、FDMは積層痕と後処理が弱点です。FDMで近づけるなら、モデル選びと後処理の工程を最初から織り込む必要があります。</li>
+<li>Bambu Labフォーラムの小型ミニチュア事例では、0.2 mmノズル、0.06 mm前後のレイヤー高、ツリーサポート、手動サポート指定がよく挙げられています。これは「標準設定で出す」より、細部用プロファイルを別に作る発想です。</li>
+</ul>
+<h2>個人向けの読みどころ</h2>
+<p>最初のワークフローは、次の順番がよさそうです。</p>
+<ol>
+<li>題材は「顔が小さすぎない」「髪や指が細すぎない」「分割線を衣装や装備で隠せる」モデルにする。</li>
+<li>0.2 mmノズル、PLAマットまたはグレー系PLA、0.06から0.08 mm程度の低レイヤー高で小型テストを出す。</li>
+<li>サポートは自動任せにせず、顔、胸元、髪の正面、指先、見える衣装面に接触させない向きを探す。</li>
+<li>大きいモデルは、頭、胴体、腕、装備、台座に分割し、接着面をピンやダボで合わせる。</li>
+<li>印刷後はニッパー、デザインナイフ、スポンジヤスリでサポート痕を処理し、サフで積層痕を確認する。</li>
+<li>表面が荒い箇所だけ瞬間接着剤、溶きパテ、フィラーサフで埋め、全体を均一にしすぎない。細部を潰すとFDMの不利が増えます。</li>
+<li>塗装は、肌や顔を無理にFDM表面だけで仕上げず、下地色、ウォッシュ、ドライブラシ、つや調整で情報量を足す。</li>
+</ol>
+<p>H2Dを選ぶ理由は「サポート材を別ノズルに逃がせること」と「大きめの分割パーツを安定して出せること」です。A2Lを選ぶ理由は「安く大型パーツを作れること」です。フィギュアの顔品質だけで選ぶなら、どちらもレジン機の代替にはなりません。けれど、コスプレ小道具、台座、武器、衣装パーツ、塗装練習用の大きめモデルまで含めるなら、A2Lでも十分に役割があります。</p>
+<p>個人が買う順番としては、まずA2L級の大型FDMで「大きめパーツを出して塗る」経験を積むのが低リスクです。サポート面の汚さが継続的な不満になる、または本体材とサポート材を分けたい制作が増えたらH2D級を検討する、という二段階が現実的です。</p>
+<h2>注意点</h2>
+<ul>
+<li>「レジン級」は目標品質の表現であって、同じモデルを同じサイズで比較すれば細部はレジンが有利です。特に顔、指、髪、細い装飾、布の薄いエッジはFDMの弱点が出ます。</li>
+<li>0.2 mmノズルと低レイヤー高は印刷時間が伸びます。小型ミニチュアを大量に作る用途では、FDMの安全性より時間コストが重くなる場合があります。</li>
+<li>A2Lはオープンフレームかつ非エンジニアリング材料中心の仕様です。室内運用では、PLA/PETG中心にして、臭気や換気が必要な材料を無理に使わない方が安全です。</li>
+<li>H2Dのレーザー/カッター機能はフィギュア本体より、台座、ネームプレート、型紙、薄物素材の加工に向きます。レーザー運用は安全カバー、排気、素材の可否を別枠で確認する必要があります。</li>
+<li>配布3Dモデルを使う場合は、キャラクター権利、商用利用可否、再配布可否を確認します。公開ページにはモデル本体や権利的に不安な画像を保存しない方針が安全です。</li>
+</ul>
+<h2>参考リンク</h2>
+<ul>
+<li><a href="https://bambulab.com/en-us/h2d">Bambu Lab - H2D</a></li>
+<li><a href="https://bambulab.com/en-us/a2l">Bambu Lab - A2L</a></li>
+<li>PR Newswire - Bambu Lab Launches A2L: Creative Playground. Extra Large.: <a href="https://www.prnewswire.com/news-releases/bambu-lab-launches-a2l-creative-playground-extra-large-302785582.html">prnewswire.com - news-releases / bambu-lab-launches-a2l-creative-playground-extra-large-302785582.html</a></li>
+<li>3D Printing Industry - Bambu Lab's New H2D 3D Printer: <a href="https://3dprintingindustry.com/news/bambu-labs-new-h2d-3d-printer-technical-specifications-and-pricing-237763/">Technical Specifications and Pricing</a></li>
+<li><a href="https://www.techradar.com/pro/bambu-labs-most-impressive-3d-printer-gets-a-big-price-cut-in-the-sales-and-it-smashed-all-expectations-in-our-workshop-tests">TechRadar - Bambu Lab H2D deal and workshop impressions</a></li>
+<li><a href="https://forum.bambulab.com/t/help-with-printing-miniature/131634">Bambu Lab Community Forum - Help with printing miniature</a></li>
+<li><a href="https://ameralabs.com/blog/3d-printing-miniatures/">AmeraLabs - 3D Printing Miniatures Guide</a></li>
+</ul>
+    </article>
+  </main>
+</body>
+</html>
