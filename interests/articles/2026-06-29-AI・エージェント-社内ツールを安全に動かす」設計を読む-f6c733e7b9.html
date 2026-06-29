@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Codex RemoteとSecure MCP Tunnelで「スマホから自宅/社内ツールを安全に動かす」設計を読む | 興味レポート</title>
+  <meta name="description" content="Codex RemoteとSecure MCP Tunnelを、個人エージェント運用の操作面と接続面から整理する。スマホ操作、権限承認、private MCP接続の境界設計を考える材料になる。">
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../../interests/index.html">興味レポート</a>
+    <span class="site-subtitle">Public redacted interest reports</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 興味レポート一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-29T19:44:00+09:00</span>
+        <span>AI・エージェント</span>
+        <span>interest_report</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>Codex RemoteとSecure MCP Tunnelを、個人エージェント運用の操作面と接続面から整理する。スマホ操作、権限承認、private MCP接続の境界設計を考える材料になる。</p>
+      </aside>
+      <h1>Codex RemoteとSecure MCP Tunnelで「スマホから自宅/社内ツールを安全に動かす」設計を読む</h1>
+<h2>要約</h2>
+<p>OpenAI Developersで、Codex Remoteの実践的な使い方と、Private MCP ServerをOpenAI製品へつなぐSecure MCP Tunnelの設計解説が続けて公開された。前者はスマホを小さなターミナルとして扱うのではなく、開発ホスト上の作業を指示・確認・承認する「操作盤」として見る考え方を示している。後者は、MCPサーバーを公開インターネットに出さず、顧客側で動く tunnel-client からOpenAIへアウトバウンドHTTPSで接続する設計を説明している。</p>
+<p>両方を合わせて読むと、個人エージェント運用の論点がかなり具体化する。スマホから作業を開始できる便利さは、ローカルファイル、Obsidian、Git、Discord、ブラウザ、MCPツールへの権限付与と表裏一体である。重要なのは「遠隔から何でもできる」ことではなく、実行ホスト、作業ディレクトリ、ブランチ、承認範囲、MCP接続先を狭く選び、あとから説明できる形にすることだ。</p>
+<h2>なぜ今見る価値があるか</h2>
+<p>個人用エージェントは、単なるチャットから「ローカル環境を使って作業する秘書」に近づいている。候補一覧の作成、Discord投票の読み取り、Markdown作成、GitHub Pages反映のような作業は、すでに複数のローカル権限と外部接続をまたいでいる。</p>
+<p>Codex Remoteは、この種の作業を机の前にいない時でも動かせる可能性を広げる。一方で、Secure MCP Tunnelは、MCPサーバーを公開せずにChatGPTやCodexから呼べる道を作る。つまり「操作の遠隔化」と「ツール接続の私有化」が同時に進んでいる。ここを早めに理解しておくと、OpenClawやObsidian運用を拡張する時に、便利さだけでなく境界線も設計しやすい。</p>
+<h2>調査メモ</h2>
+<h3>1. Codex Remoteはスマホを実行環境にしない</h3>
+<p>Codex Remoteの記事の核は、スマホを開発マシンの代替端末にするのではなく、開発ホストで動く作業の操作面にすることだ。作業そのものはMac、Windows、devboxなどの接続済みホストで行い、スマホ側ではワークスペース選択、ブランチやworktreeの指定、QueueとSteerの使い分け、差分レビュー、承認判断を行う。</p>
+<p>この設計は個人運用でも重要である。小さい画面で全部のログを読むより、「この作業はどのフォルダで動くか」「承認してよいコマンドか」「今の進行を止めて方向修正すべきか」を判断できる方が実用的だからだ。</p>
+<h3>2. QueueとSteerは遠隔作業の事故防止になる</h3>
+<p>Codex Remoteでは、作業中の追加指示を待機させるQueueと、進行中のターンへ介入するSteerが区別されている。Queueは安全な追加入力、Steerは誤った方向へ進み続ける前に止めるための入力、と考えると分かりやすい。</p>
+<p>個人エージェント運用では、Cronや長時間タスクにも同じ発想が使える。例えば「記事作成後にDiscord報告して」はQueueでよいが、「そのファイルは公開対象ではないので触らないで」はSteer相当の即時介入が必要になる。</p>
+<h3>3. Secure MCP Tunnelは公開エンドポイント化を避ける設計</h3>
+<p>Secure MCP Tunnelは、private MCP serverを公開インターネットに出す代わりに、private側で動く tunnel-client がOpenAIへアウトバウンドHTTPS接続を張る。OpenAI製品はOpenAI側のトンネルエンドポイントへMCPリクエストを送り、tunnel-clientがそれを受けてローカルのMCPサーバーへ転送し、応答を同じ経路で返す。</p>
+<p>ポイントは、MCPサーバーが公開リスナーを持たなくてよいことだ。VPNや広いネットワークピアリングではなく、設定済みのMCPサーバーに絞った経路を作る発想である。個人環境なら、Obsidian検索、ローカル台帳、画像処理補助、Git操作補助のようなMCPサーバーを、外向きに公開せずに接続する候補になる。</p>
+<h3>4. tunnel-clientは「見えるデーモン」として扱う</h3>
+<p>OpenAIのSecure MCP Tunnelガイドとopenai/tunnel-clientリポジトリは、tunnel-clientを単なる裏方プロセスではなく、状態を確認できる運用対象として説明している。healthz、readyz、metrics、ローカル管理UI、doctorコマンド、権限ロール、プロファイル設定が用意されている。</p>
+<p>これはOpenClaw運用にもそのまま効く。ローカルMCP接続が失敗した時に、モデルの問題なのか、MCPサーバーの問題なのか、tunnel-clientが未接続なのか、権限が足りないのかを切り分けられる状態にしておく必要がある。</p>
+<h3>5. MCPの安全論点は「接続できるか」より「誰の同意で何を呼ぶか」</h3>
+<p>MCP公式のセキュリティベストプラクティスは、OAuthやMCP proxy serverまわりの confused deputy 問題を詳しく扱っている。細部は実装者向けだが、個人運用でも読み替えられる。重要なのは、MCPクライアント、MCPサーバー、外部API、認可サーバーの間で、誰がどの権限を持っているのかを曖昧にしないことだ。</p>
+<p>ローカルMCPサーバーが「ファイルを読める」「Gitを操作できる」「Discordへ送れる」なら、それは単なる検索ツールではない。公開・送信・削除のような外部影響がある操作は、読み取り系ツールと別の承認段階に分けた方がよい。</p>
+<h2>個人向けの読みどころ</h2>
+<p>個人の運用では、Codex Remoteは「外出先から作業を始める機能」より、「作業の境界をスマホで確認して承認する機能」として読むのがよい。候補作成、記事化、Pages反映、Discord報告のようなCron作業は、途中で詰まった時にスマホからQueue/Steer的に介入できるとかなり楽になる。</p>
+<p>Secure MCP Tunnelは、自宅Macやローカルファイルをインターネットへ直接公開せず、必要なMCPサーバーだけをOpenAI製品に見せるための設計として読む価値がある。ただし、個人用途であっても「便利だから全部つなぐ」は危ない。まずは読み取り専用のObsidian検索、台帳の参照、公開済みレポート検索のような低リスク用途から始めるのが堅い。</p>
+<p>将来的にやるなら、権限を以下のように分けたい。</p>
+<ul>
+<li>読み取り専用: Obsidian検索、公開レポート検索、ローカル候補一覧の参照。</li>
+<li>ローカル編集可: Markdown作成、候補一覧frontmatter更新、CSV更新。</li>
+<li>外部反映可: Git push、Discord送信、公開URL確認。</li>
+<li>要明示承認: 削除、秘密情報を含むファイル参照、外部サービスへの投稿、広いディレクトリ権限。</li>
+</ul>
+<h2>注意点</h2>
+<p>Secure MCP Tunnelは、private MCP serverを公開しないための仕組みであって、接続先ツールの権限設計を不要にするものではない。tunnel-clientが到達できるMCPサーバーが強い権限を持っていれば、モデルや接続元に与える影響も大きくなる。</p>
+<p>また、OpenAI製品側の利用可否は、Platform組織、ChatGPTワークスペース、RBAC、Developer mode、プラン、管理者設定に依存する。記事時点の公開情報だけで、すべての個人アカウントや企業環境で同じように使えるとは限らない。</p>
+<p>MCPサーバーを作る場合は、認可、監査ログ、実行ディレクトリ、許可コマンド、読み取り範囲、送信先を小さく始めるべきである。特に、資産性のある台帳、個人的な嗜好情報、未公開ファイルを扱うMCPは、公開レポート用の作業権限とは分離した方がよい。</p>
+<h2>参考リンク</h2>
+<ul>
+<li><a href="https://developers.openai.com/blog/mastering-codex-remote-for-engineering">Mastering Codex Remote for engineering | OpenAI Developers</a></li>
+<li><a href="https://developers.openai.com/blog/connect-private-mcp-servers-to-openai-products">Making private MCP servers reachable without making them public | OpenAI Developers</a></li>
+<li><a href="https://developers.openai.com/api/docs/guides/secure-mcp-tunnels">Secure MCP Tunnel | OpenAI API</a></li>
+<li><a href="https://github.com/openai/tunnel-client">openai/tunnel-client | GitHub</a></li>
+<li><a href="https://modelcontextprotocol.io/docs/tutorials/security/security_best_practices">Security Best Practices | Model Context Protocol</a></li>
+</ul>
+    </article>
+  </main>
+</body>
+</html>

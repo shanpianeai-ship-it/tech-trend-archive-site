@@ -25,6 +25,18 @@
   },
   {
     "file": "[入力元伏せ]",
+    "slug": "2026-06-29-AI・エージェント-社内ツールを安全に動かす」設計を読む-f6c733e7b9",
+    "title": "Codex RemoteとSecure MCP Tunnelで「スマホから自宅/社内ツールを安全に動かす」設計を読む",
+    "category": "AI・エージェント",
+    "created": "2026-06-29T19:44:00+09:00",
+    "status": "",
+    "type": "interest_report",
+    "summary": "Codex RemoteとSecure MCP Tunnelを、個人エージェント運用の操作面と接続面から整理する。スマホ操作、権限承認、private MCP接続の境界設計を考える材料になる。",
+    "excerpt": "Codex RemoteとSecure MCP Tunnelを、個人エージェント運用の操作面と接続面から整理する。スマホ操作、権限承認、private MCP接続の境界設計を考える材料になる。",
+    "url": "interests/articles/2026-06-29-AI・エージェント-社内ツールを安全に動かす」設計を読む-f6c733e7b9.html"
+  },
+  {
+    "file": "[入力元伏せ]",
     "slug": "2026-06-26-AI・エージェント-OpenAIの非開発者Codex利用137倍は、個人秘書エージェント運用に何を示すか-90b309f5ac",
     "title": "OpenAIの非開発者Codex利用137倍は、個人秘書エージェント運用に何を示すか",
     "category": "AI・エージェント",
