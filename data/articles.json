@@ -1,5 +1,19 @@
 [
   {
+    "file": "Security/2026-06-29_AM_MosaicLeaks検索漏えい.md",
+    "slug": "2026-06-29_AM_MosaicLeaks検索漏えい",
+    "title": "MosaicLeaksと検索漏えい",
+    "genre": "Security",
+    "genreLabel": "Security",
+    "created": "2026-06-29",
+    "source": "https://huggingface.co/blog/ServiceNow/mosaicleaks",
+    "importance": "high",
+    "confidence": "high",
+    "summary": "MosaicLeaksは、研究エージェントの外部検索ログだけから社内文書の秘密が推測されるリスクを測る研究。RAGやDeep Research導入時の監査観点として重要。",
+    "excerpt": "MosaicLeaksは、研究エージェントの外部検索ログだけから社内文書の秘密が推測されるリスクを測る研究。RAGやDeep Research導入時の監査観点として重要。",
+    "url": "articles/2026-06-29_AM_MosaicLeaks検索漏えい.html"
+  },
+  {
     "file": "Security/2026-06-29_Amazon_Q_MCP自動実行リスク.md",
     "slug": "2026-06-29_Amazon_Q_MCP自動実行リスク",
     "title": "Amazon QのMCP自動実行リスク",

@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MosaicLeaksと検索漏えい | 海外技術情報アーカイブ</title>
+  <meta name="description" content="MosaicLeaksは、研究エージェントの外部検索ログだけから社内文書の秘密が推測されるリスクを測る研究。RAGやDeep Research導入時の監査観点として重要。">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-29</span>
+        <span>Security</span>
+        <span>importance: high</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>MosaicLeaksは、研究エージェントの外部検索ログだけから社内文書の秘密が推測されるリスクを測る研究。RAGやDeep Research導入時の監査観点として重要。</p>
+      </aside>
+      <h1>MosaicLeaksと検索漏えい</h1>
+<h2>要約</h2>
+<p>ServiceNow ResearchがHugging Face上で公開したMosaicLeaksは、Deep Research型エージェントがローカルの非公開文書と外部Web検索を組み合わせる時、検索クエリの履歴だけで秘密情報が推測される問題を扱う研究である。</p>
+<p>ポイントは、エージェントが非公開文書そのものを外部へ送らなくても、検索語の断片が積み重なると社内の数値、時期、取引先、調査目的が見えてしまうこと。個々のクエリは無害に見えても、時系列のログとして眺めると秘密の輪郭が復元される。論文はこれをmosaic effectとして扱っている。</p>
+<p>MosaicLeaksは、1,001件のマルチホップ調査タスクを作り、エージェントの外部検索ログだけを見る攻撃者LLMがどれだけ秘密を推測できるかを測る。さらに、単に「漏らすな」とプロンプトで指示するだけでは不十分で、検索クエリの作り方そのものを報酬設計で訓練する必要があると示している。</p>
+<p>自分向けには、RAG、社内ナレッジ検索、ブラウザ付きエージェント、MCP検索ツールを導入する時の監査観点として読むのがよい。漏えい経路は最終回答だけではなく、外部ツール呼び出し、検索クエリ、ログ保存、プロキシ、SaaS検索API側にもある。</p>
+<h2>背景</h2>
+<p>Deep Research型のエージェントは、次のような流れで調査を進める。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>段階</th><th>典型動作</th><th>漏えいしやすい情報</th></tr></thead>
+<tbody>
+<tr><td>ローカル検索</td><td>社内文書、チケット、議事録、ナレッジを読む</td><td>顧客名、案件名、障害内容、社内指標</td></tr>
+<tr><td>外部検索</td><td>Web、論文、脆弱性DB、製品ドキュメントを探す</td><td>ローカル情報から作られた検索語</td></tr>
+<tr><td>統合</td><td>ローカル事実と外部情報をつないで回答する</td><td>調査目的、比較対象、優先度</td></tr>
+<tr><td>ログ保存</td><td>クエリ、ツール呼び出し、検索結果を記録する</td><td>後から復元可能な断片情報</td></tr>
+</tbody>
+</table></div>
+<p>従来の情報漏えい対策は、プロンプトや最終回答に秘密を含めないことへ寄りがちだった。しかし研究エージェントでは、外部検索のために作るクエリそのものが秘密を含むことがある。</p>
+<p>たとえば「特定顧客の2025年1月クラウド移行率」「特定月に起きたベンダー障害」「社内コード名と公開脆弱性」のような組み合わせは、単発では曖昧でも、複数クエリを並べると内部事情が見えてくる。</p>
+<h2>何が重要か</h2>
+<h3>1. 漏えい対象は文書本文ではなく検索行動</h3>
+<p>MosaicLeaksの攻撃者は、非公開文書やエージェントの思考過程を見ない。見るのは外部検索クエリの累積ログだけである。</p>
+<p>この前提が実務に近い。企業では、検索API、プロキシ、EDR、SaaS監査ログ、MCPサーバーログ、ブラウザ自動化ログなど、ツール呼び出しの痕跡が複数箇所に残る。外部サービスを使えば、そのサービス側にもクエリが残る。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>従来の見方</th><th>MosaicLeaks的な見方</th></tr></thead>
+<tbody>
+<tr><td>秘密文書を外へ送らなければ安全</td><td>秘密から作った検索語でも漏れる</td></tr>
+<tr><td>最終回答をDLPで見ればよい</td><td>ツール呼び出しログもDLP対象</td></tr>
+<tr><td>1クエリ単位で安全性を見る</td><td>クエリ履歴全体で復元可能性を見る</td></tr>
+<tr><td>プロンプトで注意させる</td><td>検索方針を評価・訓練・監査する</td></tr>
+</tbody>
+</table></div>
+<h3>2. 漏えいレベルを3段階で測っている</h3>
+<p>研究では、検索ログから推測できる内容を大きく3段階に分けている。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>レベル</th><th>攻撃者が見るもの</th><th>何が漏れるか</th></tr></thead>
+<tbody>
+<tr><td>Intent leakage</td><td>検索ログのみ</td><td>エージェントが何を調べているか</td></tr>
+<tr><td>Answer leakage</td><td>検索ログと質問</td><td>非公開文書に基づく答え</td></tr>
+<tr><td>Full-information leakage</td><td>検索ログのみ</td><td>質問なしでも秘密の主張を復元</td></tr>
+</tbody>
+</table></div>
+<p>実務上は、Intent leakageだけでも十分に問題になる。調査対象の顧客名、買収候補、障害原因、脆弱性検証対象、法務論点が検索ログから見えるだけで、競争上・セキュリティ上のリスクになるため。</p>
+<h3>3. 性能だけを上げる訓練は漏えいを悪化させる</h3>
+<p>Hugging Faceの記事とarXiv論文では、Qwen3-4B-Instructを使った実験で、タスク成功だけを報酬にすると成功率は上がるが、漏えいも増えると説明している。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>方法</th><th style="text-align:right">厳密なチェーン成功率</th><th style="text-align:right">Answer / Full-information漏えい</th></tr></thead>
+<tbody>
+<tr><td>ベースモデル</td><td style="text-align:right">48.7%</td><td style="text-align:right">34.0%</td></tr>
+<tr><td>タスク報酬のみ</td><td style="text-align:right">59.3%</td><td style="text-align:right">51.7%</td></tr>
+<tr><td>Privacy-Aware Deep Research</td><td style="text-align:right">58.7%</td><td style="text-align:right">9.9%</td></tr>
+</tbody>
+</table></div>
+<p>これはかなり重要。より賢いエージェントほど、検索のために有用な文脈をクエリへ詰め込みやすい。検索性能とプライバシーは自然には両立しない。性能評価だけでエージェントを改善すると、よりうまく漏らす方向へ進む可能性がある。</p>
+<h3>4. 「漏らすな」というプロンプトは効くが足りない</h3>
+<p>研究では、検索クエリでローカル情報を漏らさないようプロンプトに書く方法も試している。ただし、効果は一貫せず、漏えいは残り、性能が落ちる場合もある。</p>
+<p>PA-DRでは、検索クエリが直接秘密を含むか、過去のクエリと合わせてmosaic leakになるかを分類器で評価し、検索計画の段階へ報酬として返す。つまり、最終回答ではなく「検索の作り方」を訓練対象にしている。</p>
+<p>現時点ですぐ同じ訓練を社内実装できるとは限らないが、運用設計としては次の示唆がある。</p>
+<ul>
+<li>外部検索クエリの事前レビューやマスキングを検討する。</li>
+<li>クエリ単体ではなく、セッション全体の累積ログで漏えい評価する。</li>
+<li>エージェント評価に「正答率」だけでなく「検索ログから秘密が推測できるか」を入れる。</li>
+<li>検索API、MCPツール、ブラウザ自動化のログ保存先と閲覧権限を棚卸しする。</li>
+<li>社内文書を読んだ後の外部検索では、顧客名、社内コード、数値、日付、固有の障害名を削る方針を作る。</li>
+</ul>
+<h2>自分向けメモ</h2>
+<ul>
+<li>OpenClawやCodex系の個人秘書運用でも、ローカルファイルを読んだ後にWeb検索する流れは同じ構造を持つ。外部検索語にファイル名、顧客名、Discord文脈、個人予定を混ぜない。</li>
+<li>RAGや社内ナレッジ検索を作る時は、最終回答の権限制御だけでなく、外部ツールに渡すクエリ生成を別レイヤーとして設計する。</li>
+<li>「検索ログはデバッグ用だから安全」という扱いは危ない。検索ログは、要約前の生データより少なくても、秘密復元には十分なことがある。</li>
+<li>セキュリティレビューでは、エージェントに与えるツールを「読める情報」と「外へ出す情報」に分けて見る。ブラウザ検索、Slack検索、GitHub検索、MCP、外部APIはすべて流出経路になる。</li>
+<li>自前実装では、外部検索前にクエリを一段抽象化する処理を入れたい。例: 固有名詞を一般化する、数値を範囲化する、社内コード名を消す、ローカル文書由来の語をタグ付けして警告する。</li>
+<li>今回は票なしフォールバックで選定。理由は、エージェント活用が「最終回答の安全性」から「行動ログの安全性」へ広がる兆しとして重要で、日本語圏でまだ実務チェックリスト化されていないため。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://huggingface.co/blog/ServiceNow/mosaicleaks">Hugging Face / ServiceNow - MosaicLeaks: Can your research agent keep a secret?</a> - 研究の概要、実験結果、PA-DRの考え方を説明する一次解説。</li>
+<li><a href="https://arxiv.org/abs/2605.30727">arXiv - MosaicLeaks: Privacy Risks in Querying-in-the-Open for Deep Research Agents</a> - 論文本文。ベンチマーク、漏えい評価、PA-DRの詳細確認用。</li>
+<li><a href="https://huggingface.co/blog/agentic-resource-discovery-launch">Hugging Face Blog - Agentic Resource Discovery launch</a> - エージェントがツールやリソースを探す方向性。検索漏えいリスクと合わせて追うとよい。</li>
+<li><a href="https://openai.com/index/daybreak-securing-the-world/">OpenAI - Daybreak: securing the world</a> - AIエージェントを防御側へ使う流れ。外部検索や脆弱性調査ログの扱いを考える材料。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>MosaicLeaks</li>
+<li>ServiceNow Research</li>
+<li>Deep Research</li>
+<li>agent privacy</li>
+<li>query leakage</li>
+<li>mosaic effect</li>
+<li>RAG security</li>
+<li>tool-use logs</li>
+<li>web retrieval</li>
+<li>PA-DR</li>
+<li>Privacy-Aware Deep Research</li>
+<li>MCP</li>
+<li>enterprise search</li>
+<li>prompt leakage</li>
+<li>agent evaluation</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://huggingface.co/blog/ServiceNow/mosaicleaks">huggingface.co - blog / ServiceNow</a></p></section>
+    </article>
+  </main>
+</body>
+</html>
