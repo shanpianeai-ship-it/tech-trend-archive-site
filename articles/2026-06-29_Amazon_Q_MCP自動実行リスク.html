@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Amazon QのMCP自動実行リスク | 海外技術情報アーカイブ</title>
+  <meta name="description" content="Amazon Q DeveloperのMCP設定自動実行問題は、AIコーディングツールがIDE拡張、ローカル実行、クラウド認証情報をまたぐ信頼境界になったことを示す事例。">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-29</span>
+        <span>Security</span>
+        <span>importance: high</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>Amazon Q DeveloperのMCP設定自動実行問題は、AIコーディングツールがIDE拡張、ローカル実行、クラウド認証情報をまたぐ信頼境界になったことを示す事例。</p>
+      </aside>
+      <h1>Amazon QのMCP自動実行リスク</h1>
+<h2>要約</h2>
+<p>Wiz Researchは、Amazon Q DeveloperのVS Code拡張で、ワークスペース内の<code>.amazonq/mcp.json</code>が明示的なMCP実行同意なしに読み込まれ、MCPサーバーとして指定されたコマンドが起動される問題を公開した。Wizの説明では、悪意あるリポジトリを開きAmazon Qを有効化するだけで、攻撃者が用意したコマンドが開発者端末上で実行され、AWS認証情報やAPIキーなどの環境変数へアクセスできる。</p>
+<p>AWSのSecurity Bulletinでは、この問題はCVE-2026-12957として扱われ、Language Servers for AWS 1.65.0未満の「trust boundary enforcement」問題と説明されている。AWSは関連するCVE-2026-12958も含め、Language Servers for AWS 1.69.0および対応するAmazon Q Developer IDEプラグインへの更新を推奨している。</p>
+<p>重要なのは、これはAmazon Qだけの個別不具合ではなく、AIコーディングツールが「リポジトリ設定を読む」「ローカルプロセスを起動する」「クラウド認証情報を持つ開発者環境で動く」という3点を同時に満たす時代の信頼境界問題だということ。MCP、IDE拡張、エージェント型開発支援を導入する時は、便利機能ではなく実行権限を持つ攻撃面として扱う必要がある。</p>
+<h2>背景</h2>
+<p>MCPは、AIアシスタントが外部ツールやローカルリソースへ接続するための標準化された仕組みとして普及している。実務上は、MCPサーバーを起動するということは、<code>npx</code>、<code>python</code>、<code>bash</code>などのローカルプロセスを実行することに近い。</p>
+<p>開発者端末には、次のような認証情報が残りやすい。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>種別</th><th>例</th><th>漏えい時の影響</th></tr></thead>
+<tbody>
+<tr><td>クラウド認証情報</td><td>AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_SESSION_TOKEN</td><td>クラウド資産の列挙、変更、永続化</td></tr>
+<tr><td>CLI認証情報</td><td>AWS CLI, gcloud, az, GitHub CLI</td><td>操作済みアカウントの権限でAPI実行</td></tr>
+<tr><td>APIキー</td><td>AI APIキー、SaaS APIキー</td><td>課金、データ取得、ツール連携悪用</td></tr>
+<tr><td>SSH/署名キー</td><td>SSH agent socket, signing key</td><td>リポジトリ、サーバー、署名経路への横展開</td></tr>
+<tr><td>VPN/社内接続</td><td>VPN接続中の端末</td><td>内部サービスへの到達可能性を攻撃者に渡す</td></tr>
+</tbody>
+</table></div>
+<p>従来も「未信頼リポジトリを開く」ことにはリスクがあった。ただし、VS CodeのWorkspace Trustなどにより、タスクや拡張の一部実行を抑える設計が入っている。今回の論点は、AI拡張がリポジトリ内のMCP設定をどう扱うか、そしてその実行にどの程度の同意と環境分離が必要かという点にある。</p>
+<h2>何が重要か</h2>
+<h3>1. MCP設定は設定ファイルではなく実行計画として見る</h3>
+<p><code>.amazonq/mcp.json</code>のようなファイルは、見た目は設定ファイルでも、内容は「どのコマンドを、どの引数と環境で起動するか」を指定する実行計画に近い。</p>
+<p>Wizが示したPoCでは、MCPサーバー設定から<code>shell</code>を起動し、AWSの呼び出し結果を外部へ送る流れが説明されている。細部の実装は製品ごとに違っても、MCPサーバーの起動権限がある時点で、リポジトリ所有者が開発者端末上のプロセス起動に影響できる。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>観点</th><th>安全寄りの扱い</th><th>危険な扱い</th></tr></thead>
+<tbody>
+<tr><td>MCP設定</td><td>ユーザーが内容を確認して許可</td><td>ワークスペースから自動ロード</td></tr>
+<tr><td>実行環境</td><td>必要最小限の環境変数だけ渡す</td><td>親プロセスの環境を丸ごと継承</td></tr>
+<tr><td>未信頼リポジトリ</td><td>Workspace Trustや隔離環境で扱う</td><td>通常の作業端末で即オープン</td></tr>
+<tr><td>監査</td><td>MCP設定差分をレビュー対象にする</td><td>コード以外の補助設定として見逃す</td></tr>
+</tbody>
+</table></div>
+<h3>2. 環境変数の継承がクラウド侵害に直結する</h3>
+<p>今回のリスクは、単に「ローカルで任意コマンドが動く」だけではない。開発者がAWSやSaaSへログインした状態で作業しているため、起動されたプロセスが認証情報にアクセスできる。</p>
+<p>AWSのbulletinでは、CVE-2026-12957はローカルユーザーが悪意あるワークスペースを開いた場合に、プロジェクト設定ファイル内のコマンドが自動実行され得る問題として整理されている。Wiz側は、MCPサーバーがフル環境を継承することで、クラウド認証情報窃取までつながる点を強調している。</p>
+<p>この差分は運用上かなり重要。脆弱性票では「ユーザー操作が必要」と見えても、実務では「PRレビュー、サンプルリポジトリ、採用課題、検証用OSS」を開く日常作業の延長で踏む可能性がある。</p>
+<h3>3. AIコーディングツール横断のパターンとして扱う</h3>
+<p>Wizは、類似のMCP自動実行やワークスペース設定実行の問題が、Claude Code、Cursor、Windsurfなどにも報告されていると整理している。個別製品名で終わらせず、次のパターンとして見る方が実用的。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>パターン</th><th>典型例</th><th>防御観点</th></tr></thead>
+<tbody>
+<tr><td>ワークスペース内設定の自動実行</td><td><code>.amazonq/</code>, <code>.vscode/</code>, AIツール用設定</td><td>未信頼リポジトリでは自動実行しない</td></tr>
+<tr><td>エージェント用ツール起動</td><td>MCP server, hooks, tasks</td><td>実行前同意、コマンド表示、許可リスト</td></tr>
+<tr><td>環境の過剰継承</td><td>shell環境、APIキー、SSH agent</td><td>最小環境、用途別キー、短期認証</td></tr>
+<tr><td>便利な常時適用ルール</td><td>AI rules, project instructions</td><td>リポジトリ由来ルールを信頼しない</td></tr>
+<tr><td>開発者端末からクラウドへ横展開</td><td>AWS CLI, GitHub CLI, VPN</td><td>権限分離、検証用プロファイル、隔離VM</td></tr>
+</tbody>
+</table></div>
+<h3>4. 「最新版へ更新」だけでは運用設計として足りない</h3>
+<p>AWSはLanguage Servers for AWS 1.69.0と対応プラグインへの更新を推奨している。これは直近対応として必須。ただし、今後も別のAI拡張やMCPクライアントで同じ種類の設計ミスが出る可能性は高い。</p>
+<p>自分の環境では、ツールごとに次を見たい。</p>
+<ul>
+<li>リポジトリ内MCP設定を自動で読むか。</li>
+<li>実行前にコマンド、引数、環境変数差分を表示するか。</li>
+<li>ワークスペース信頼状態と連動するか。</li>
+<li>MCPサーバーが親プロセス環境を丸ごと継承するか。</li>
+<li>拒否、単発許可、恒久許可、リポジトリ単位許可を分けられるか。</li>
+<li>ログとして「いつ、どの設定から、何を起動したか」が残るか。</li>
+</ul>
+<h2>自分向けメモ</h2>
+<ul>
+<li>未信頼リポジトリを開く時は、Amazon Q、Claude Code、Cursor、Windsurf、VS Code拡張、OpenClaw/Codex系のMCP自動起動をすべて疑う。</li>
+<li><code>.amazonq/</code>, <code>.vscode/</code>, <code>.cursor/</code>, <code>.claude/</code>, <code>.mcp.*</code>, <code>mcp.json</code>, <code>tasks.json</code> はソースコードと同じか、それ以上に強くレビューする。</li>
+<li>AIツールの設定ファイルは「モデルへの指示」だけでなく「ローカル実行権限」を持つ場合がある。リポジトリに入っているからといって信用しない。</li>
+<li>AWSやGitHubにログインしたメイン環境で、採用課題、謎のPoC、未確認OSSを開かない。必要なら一時VM、コンテナ、別OSユーザー、クラウド権限なしプロファイルで見る。</li>
+<li>MCPサーバーには、親shellの環境変数を丸ごと渡さない設計が望ましい。OpenClaw/Codex側でも、コネクタやMCPの許可は「実行前に見える」「後で監査できる」を基準にする。</li>
+<li>Amazon Q利用者は、VS Code拡張2.20以上、JetBrains 4.3以上、Eclipse 2.7.4以上、Visual Studio Toolkit 1.94.0.0以上を最低ラインとして確認する。Language Servers for AWSは1.69.0以上を目安にする。</li>
+<li>票なし時の自動選定としてこの候補を選んだ理由は、AIエージェント運用、MCP、IDE拡張、クラウド資格情報の境界が一つの具体事例になっており、日本語圏でまだ一般的な運用チェックリストに落ち切っていないため。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://www.wiz.io/blog/amazon-q-vulnerability">Wiz Research - MCP Auto-Execution: From Git Clone to Cloud Compromise in Amazon Q VS Code Extension</a> - 研究者側の詳細解説。<code>.amazonq/mcp.json</code>の自動ロード、環境変数継承、クラウド認証情報窃取の攻撃流れを説明。</li>
+<li><a href="https://aws.amazon.com/security/security-bulletins/2026-047-aws/">AWS Security Bulletin 2026-047-AWS</a> - AWS公式bulletin。CVE-2026-12957とCVE-2026-12958、影響バージョン、推奨アップデートを確認する一次情報。</li>
+<li><a href="https://www.cve.org/CVERecord?id=CVE-2026-12957">CVE-2026-12957 Record</a> - trust boundary enforcement問題としてのCVE記録。</li>
+<li><a href="https://github.com/advisories/GHSA-6v3r-4p5c-mrp5">GitHub Advisory GHSA-6v3r-4p5c-mrp5</a> - AWS bulletinが参照するGitHub Advisory。</li>
+<li><a href="https://thehackernews.com/2026/06/amazon-q-developer-flaw-could-let.html">The Hacker News - Amazon Q Developer Flaw Could Let Malicious Repos Run Code via MCP Configs</a> - WizとAWSの説明差分、修正バージョン、類似事例を短く確認できる外部報道。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>Amazon Q Developer</li>
+<li>Model Context Protocol</li>
+<li>MCP</li>
+<li>VS Code Extension</li>
+<li>Language Servers for AWS</li>
+<li>CVE-2026-12957</li>
+<li>CVE-2026-12958</li>
+<li>workspace trust</li>
+<li>trust boundary</li>
+<li>cloud credential theft</li>
+<li>AWS credentials</li>
+<li>IDE security</li>
+<li>AI coding assistant</li>
+<li>agentic coding</li>
+<li>supply chain security</li>
+<li>developer workstation security</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://www.wiz.io/blog/amazon-q-vulnerability">wiz.io - blog / amazon-q-vulnerability</a></p></section>
+    </article>
+  </main>
+</body>
+</html>

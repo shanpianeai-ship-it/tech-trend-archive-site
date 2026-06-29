@@ -1,5 +1,19 @@
 [
   {
+    "file": "Security/2026-06-29_Amazon_Q_MCP自動実行リスク.md",
+    "slug": "2026-06-29_Amazon_Q_MCP自動実行リスク",
+    "title": "Amazon QのMCP自動実行リスク",
+    "genre": "Security",
+    "genreLabel": "Security",
+    "created": "2026-06-29",
+    "source": "https://www.wiz.io/blog/amazon-q-vulnerability",
+    "importance": "high",
+    "confidence": "high",
+    "summary": "Amazon Q DeveloperのMCP設定自動実行問題は、AIコーディングツールがIDE拡張、ローカル実行、クラウド認証情報をまたぐ信頼境界になったことを示す事例。",
+    "excerpt": "Amazon Q DeveloperのMCP設定自動実行問題は、AIコーディングツールがIDE拡張、ローカル実行、クラウド認証情報をまたぐ信頼境界になったことを示す事例。",
+    "url": "articles/2026-06-29_Amazon_Q_MCP自動実行リスク.html"
+  },
+  {
     "file": "SAP_ERP/2026-06-28_Joule_Studio_n8n業務フロー統合.md",
     "slug": "2026-06-28_Joule_Studio_n8n業務フロー統合",
     "title": "Joule Studio x n8nはERPエージェントを業務フローへ接続する動き",
