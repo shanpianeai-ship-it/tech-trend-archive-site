@@ -25,6 +25,18 @@
   },
   {
     "file": "[入力元伏せ]",
+    "slug": "2026-06-29-AI・エージェント-GPT-4.5退役とChatGPTモデル選択簡素化を「個人秘書運用の棚卸し」に落とす-8b408368d7",
+    "title": "GPT-4.5退役とChatGPTモデル選択簡素化を「個人秘書運用の棚卸し」に落とす",
+    "category": "AI・エージェント",
+    "created": "2026-06-29T19:58:00+09:00",
+    "status": "",
+    "type": "interest_report",
+    "summary": "GPT-4.5退役とBusiness向けモデルピッカー簡素化を、OpenClawやChatGPT個人秘書運用のモデル棚卸しに落とし込む。API影響と用途別の選び直しを確認する。",
+    "excerpt": "GPT-4.5退役とBusiness向けモデルピッカー簡素化を、OpenClawやChatGPT個人秘書運用のモデル棚卸しに落とし込む。API影響と用途別の選び直しを確認する。",
+    "url": "interests/articles/2026-06-29-AI・エージェント-GPT-4.5退役とChatGPTモデル選択簡素化を「個人秘書運用の棚卸し」に落とす-8b408368d7.html"
+  },
+  {
+    "file": "[入力元伏せ]",
     "slug": "2026-06-29-AI・エージェント-社内ツールを安全に動かす」設計を読む-f6c733e7b9",
     "title": "Codex RemoteとSecure MCP Tunnelで「スマホから自宅/社内ツールを安全に動かす」設計を読む",
     "category": "AI・エージェント",

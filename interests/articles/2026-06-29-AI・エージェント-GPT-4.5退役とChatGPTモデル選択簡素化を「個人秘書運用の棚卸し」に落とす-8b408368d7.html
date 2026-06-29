@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GPT-4.5退役とChatGPTモデル選択簡素化を「個人秘書運用の棚卸し」に落とす | 興味レポート</title>
+  <meta name="description" content="GPT-4.5退役とBusiness向けモデルピッカー簡素化を、OpenClawやChatGPT個人秘書運用のモデル棚卸しに落とし込む。API影響と用途別の選び直しを確認する。">
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../../interests/index.html">興味レポート</a>
+    <span class="site-subtitle">Public redacted interest reports</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 興味レポート一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-29T19:58:00+09:00</span>
+        <span>AI・エージェント</span>
+        <span>interest_report</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>GPT-4.5退役とBusiness向けモデルピッカー簡素化を、OpenClawやChatGPT個人秘書運用のモデル棚卸しに落とし込む。API影響と用途別の選び直しを確認する。</p>
+      </aside>
+      <h1>GPT-4.5退役とChatGPTモデル選択簡素化を「個人秘書運用の棚卸し」に落とす</h1>
+<h2>要約</h2>
+<p>2026年6月26日、OpenAIはChatGPT上のGPT-4.5提供終了を反映した。対象はChatGPTで、custom GPTsも含まれる一方、APIには変更がないと説明されている。既存のGPT-4.5会話はGPT-5.5で継続できる。</p>
+<p>同じ6月26日には、ChatGPT Business向けにモデルピッカーの簡素化も出ている。従来の「Thinking Standard / Extended / Heavy」のような名前は、Medium、High、Extra Highへ置き換わり、Pro Standard / Pro ExtendedはGPT-5.5 Proを使う整理になった。さらにInstantは、必要に応じてMediumへ自動的に切り替わる。</p>
+<p>今回の読みどころは、単なるモデル名の変更ではない。OpenClawのCron、調査、文書作成、画像処理、Discord報告のように用途が分かれている運用では、「モデル名で覚える」より「速度、推論量、外部アクションの重さ、失敗時の復旧しやすさ」で棚卸しする方が実務に合う。</p>
+<h2>なぜ今見る価値があるか</h2>
+<p>GPT-4.5退役は2026年6月26日時点でChatGPTに適用済みである。OpenAIのChatGPTリリースノートでは、GPT-4.5はChatGPTで利用できなくなり、既存会話はGPT-5.5で続けられること、またAPIには変更がないことが明記されている。</p>
+<p>一方で、Businessのモデルピッカー簡素化は、選択肢を「モデル名」から「速度と推論努力の段階」に寄せている。OpenAIのBusinessリリースノートでは、Instant、Medium、High、Extra High、Pro Standard、Pro Extendedという並びになり、Medium/High/Extra Highが従来のThinking系ラベルを置き換えると説明されている。</p>
+<p>これは個人秘書運用にも効く。日次Cronのような定型処理は、毎回最上位推論を使うより、失敗時にログが残り、再実行しやすいモデル設定の方が重要になる。逆に、候補選定、記事構成、コードレビュー、未知のトラブル診断は、理由付けの質が成果に直結するため、Medium以上を最初から指定する価値がある。</p>
+<h2>調査メモ</h2>
+<p>OpenAI公式情報から見ると、今回の要点は次の3つである。</p>
+<ul>
+<li>GPT-4.5退役はChatGPT側の変更であり、API変更ではない。</li>
+<li>GPT-4.5を使っていた既存会話はGPT-5.5で継続できる。</li>
+<li>Businessのモデルピッカーは、基盤モデル名よりも速度・推論量の段階を前面に出す方向へ整理された。</li>
+</ul>
+<p>Business向けモデルピッカーでは、Instantは日常的な高速応答、Mediumは標準的な推論、Highは拡張推論、Extra Highは最大推論という位置づけになる。Pro Standard / Pro ExtendedはGPT-5.5 Proを使う。Thinking Lightは利用できなくなった。</p>
+<p>ChatGPT BusinessのModels &amp; Limitsページでも、モデルピッカーは「タスクに合う速度と推論努力のバランス」を選ぶためのものとして説明されている。ここから読み取れる運用上の変化は、モデル選択を「GPT-何番が好きか」ではなく「この作業にどれだけ推論を払うか」に寄せるべき、という点である。</p>
+<p>OpenClaw運用に落とすなら、棚卸し表は次のように切ると扱いやすい。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>用途</th><th>推奨の考え方</th><th>理由</th></tr></thead>
+<tbody>
+<tr><td>Discord要約、短い確認、軽い整形</td><td>Instant相当</td><td>失敗しても再実行しやすく、速度優先でよい</td></tr>
+<tr><td>候補一覧作成、日次レポート本文</td><td>Medium相当</td><td>調査観点の抜けや要約品質が成果に影響する</td></tr>
+<tr><td>複数候補の選定、同票判断、事故調査</td><td>High相当</td><td>重要度・鮮度・適合度の比較に推論が必要</td></tr>
+<tr><td>コード変更、公開前レビュー、壊れたCron復旧</td><td>HighまたはExtra High相当</td><td>手戻りのコストが高く、ログや差分の読み違いを避けたい</td></tr>
+<tr><td>長い設計、複数ファイルの整合、慎重な外部公開前判断</td><td>Pro系相当</td><td>深い検討に時間を使う価値がある</td></tr>
+</tbody>
+</table></div>
+<p>注意したいのは、APIは今回のGPT-4.5退役の対象外という点である。ChatGPT上のモデルピッカーが変わったからといって、APIのモデル指定、Codex内部のモデル指定、OpenClawのCronモデル指定が自動的に同じ意味へ置き換わるとは限らない。ChatGPT UIの整理と、API/エージェント実行基盤の設定は分けて確認する必要がある。</p>
+<h2>個人向けの読みどころ</h2>
+<p>個人の運用では、モデル選択を「高性能そうだから全部重いモデル」へ寄せるより、失敗時の復旧性まで含めて役割分担する方が向いている。</p>
+<p>たとえば興味レポートCronは、候補作成、投票読取、記事作成、Pages反映、Discord報告までが成功条件になっている。ここで重要なのは、本文品質だけではなく、途中で止まったときにどこまで完了したか分かることだ。軽いモデルで雑に最後まで走るより、記事作成と選定判断にはMedium以上を使い、外部アクション前の確認ではHigh相当を使う、という割り切りがよい。</p>
+<p>画像処理やコスプレ系の依頼は、モデル名よりも「画像生成・編集モデル」「テキストでのプロンプト設計」「安全制約の判断」を分けた方がよい。文章モデルが変わっても、画像本体の保存ルール、成人向け・人物画像の扱い、公開しない素材の管理ルールは別に残すべきである。</p>
+<p>調べ物は、Instantで素早く当たりを付け、記事化する段階でMedium以上に切り替えるのが実用的である。特にOpenAI製品やSAP、セキュリティ、投資、健康のように情報が変わりやすい領域では、モデルの記憶に頼らず、公式・一次情報を都度確認する運用が必要になる。</p>
+<h2>注意点</h2>
+<p>このメモは医療、法律、投資助言ではない。ここでの「モデル棚卸し」は、OpenClawとChatGPTを使う作業運用の整理であり、契約や料金、API可用性の最終判断は公式ドキュメントと実アカウント画面で確認する必要がある。</p>
+<p>また、ChatGPTのモデルピッカー名とAPIモデル名は同一視しない。今回のGPT-4.5退役はChatGPTの話で、APIには変更がないとOpenAIは説明している。OpenClawやCodex側でモデル名を固定しているジョブがある場合、ChatGPT UIの表示名ではなく、その実行環境が受け付けるモデルIDを確認する。</p>
+<p>最後に、モデルが賢くなっても外部アクションの権限管理は別問題である。Discord送信、git push、公開ページ反映、ファイル移動、メール送信のような操作は、モデル性能ではなく、実行前後のログ、復旧手順、権限境界で安全性を担保する。</p>
+<h2>参考リンク</h2>
+<ul>
+<li>OpenAI Help: <a href="https://help.openai.com/en/articles/6825453-chatgpt-release-notes">ChatGPT Release Notes</a></li>
+<li>OpenAI Help: <a href="https://help.openai.com/en/articles/11391654-chatgpt-business-release-notes">ChatGPT Business Release Notes</a></li>
+<li>OpenAI Help: <a href="https://help.openai.com/en/articles/9624314-model-release-notes">Model Release Notes</a></li>
+<li>OpenAI Help: <a href="https://help.openai.com/en/articles/11954883-legacy-model-access-for-enterprise-and-edu-users">Legacy Model Access for Enterprise and Edu Users</a></li>
+<li>OpenAI Help: <a href="https://help.openai.com/en/articles/12003714-chatgpt-business-models-limits">ChatGPT Business Models &amp; Limits</a></li>
+</ul>
+    </article>
+  </main>
+</body>
+</html>
