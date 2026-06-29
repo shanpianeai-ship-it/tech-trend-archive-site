@@ -481,6 +481,18 @@
   },
   {
     "file": "[入力元伏せ]",
+    "slug": "2026-06-29-セキュリティ-MCP接続AIコーディングエージェントの「Agentjacking」を、個人環境の脅-1f78f3d188",
+    "title": "MCP接続AIコーディングエージェントの「Agentjacking」を、個人環境の脅威モデルに落とす",
+    "category": "セキュリティ",
+    "created": "2026-06-29T19:58:00+09:00",
+    "status": "",
+    "type": "interest_report",
+    "summary": "MCP接続AIコーディングエージェントが、Sentryなど外部入力を含むデータ源から命令注入されるリスクを整理する。個人秘書エージェントの権限分離を見直す材料になる。",
+    "excerpt": "MCP接続AIコーディングエージェントが、Sentryなど外部入力を含むデータ源から命令注入されるリスクを整理する。個人秘書エージェントの権限分離を見直す材料になる。",
+    "url": "interests/articles/2026-06-29-セキュリティ-MCP接続AIコーディングエージェントの「Agentjacking」を、個人環境の脅-1f78f3d188.html"
+  },
+  {
+    "file": "[入力元伏せ]",
     "slug": "2026-06-26-セキュリティ-Mastra狙いのeasy-day-js-npm攻撃から、AIエージェント開発環境の-cfab475d1c",
     "title": "Mastra狙いのeasy-day-js npm攻撃から、AIエージェント開発環境の依存関係を守る",
     "category": "セキュリティ",

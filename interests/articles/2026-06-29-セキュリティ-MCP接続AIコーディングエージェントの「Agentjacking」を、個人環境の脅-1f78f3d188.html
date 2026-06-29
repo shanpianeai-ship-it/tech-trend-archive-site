@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MCP接続AIコーディングエージェントの「Agentjacking」を、個人環境の脅威モデルに落とす | 興味レポート</title>
+  <meta name="description" content="MCP接続AIコーディングエージェントが、Sentryなど外部入力を含むデータ源から命令注入されるリスクを整理する。個人秘書エージェントの権限分離を見直す材料になる。">
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../../interests/index.html">興味レポート</a>
+    <span class="site-subtitle">Public redacted interest reports</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 興味レポート一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-29T19:58:00+09:00</span>
+        <span>セキュリティ</span>
+        <span>interest_report</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>MCP接続AIコーディングエージェントが、Sentryなど外部入力を含むデータ源から命令注入されるリスクを整理する。個人秘書エージェントの権限分離を見直す材料になる。</p>
+      </aside>
+      <h1>MCP接続AIコーディングエージェントの「Agentjacking」を、個人環境の脅威モデルに落とす</h1>
+<h2>要約</h2>
+<p>2026年6月にCloud Security Allianceが整理したAgentjackingは、AIコーディングエージェントがMCP経由で読む外部データを、攻撃者が「診断メモ」や「修正手順」のように見せて命令注入する攻撃として説明されている。代表例はSentryの公開DSNを使って偽のエラーイベントを投入し、エージェントがそのイベント内容を信頼してコマンド実行や秘密情報の読み取りに進む流れだ。</p>
+<p>重要なのは、これはSentryだけの話ではないこと。Issue tracker、チケット、ログ、コードレビュー、問い合わせ、監視イベントなど、外部または第三者が内容を混ぜられるデータ源をMCPで読ませると、そこはエージェントへの命令注入口になりうる。個人秘書エージェント運用でも、Discord、Obsidian、Web記事、候補一覧、ログ、メールを「情報源」として読む場面が増えるほど、読み取り対象と実行権限を分ける必要がある。</p>
+<h2>なぜ今見る価値があるか</h2>
+<p>Agentjackingは、従来の「怪しいバイナリを検知する」「認証情報を盗まれないようにする」という守り方だけでは捉えにくい。AIエージェント自身が、利用者の許可済み権限で、通常の開発作業に見える操作をするからだ。CSAの整理では、攻撃は認証済みの経路を通り、EDR、WAF、IAM、VPNのような既存統制では異常として見えにくいとされる。</p>
+<p>2026年時点のMCPは、便利な接続規格である一方、外部入力と内部命令の境界が薄くなりやすい。Microsoft、OWASP、NSA系の資料も、間接プロンプト注入、ツールポイズニング、MCP実装の入力検証不足をそれぞれ別の角度から警告している。OpenClawやCodexのような個人エージェント運用では、便利さを上げるほど同じ問題が小規模に再現される。</p>
+<h2>調査メモ</h2>
+<ul>
+<li>CSAのAgentjacking整理では、SentryのDSNを使って攻撃者が任意のエラーイベントを投入し、それをMCP経由で読んだAIコーディングエージェントが正規の診断情報として扱う流れが示されている。</li>
+<li>CSAはTenet Securityの調査を引き、Claude Code、Cursor、Codexを含む検証で高い成功率が出たと説明している。ただし、これは研究・制御された検証として読むべきで、公開情報だけでは大規模な実攻撃が確認されたとは断定しない。</li>
+<li>攻撃面はSentry固有ではない。外部ユーザー、顧客、アプリ利用者、第三者サービスが内容を書けるデータ源を、エージェントが「信頼済みツール出力」として読む構造が問題になる。</li>
+<li>OWASPはMCP Tool Poisoningを、MCPツール応答に隠れた指示が入り、エージェントが制限付きツール呼び出し、データ漏えい、システムプロンプト回避へ進む攻撃として整理している。</li>
+<li>MicrosoftはMCPにおける間接プロンプト注入への対策として、外部入力を明示的に区切ること、信頼できない入力を検出・フィルタすること、AI時代の供給網としてMCPサーバーやコンテキスト提供元を管理することを挙げている。</li>
+<li>NSAのMCPセキュリティ資料は、MCP採用時には従来の認証・認可・入力検証が引き続き必要であり、エージェント型AIでは既存の防御策だけでは扱いきれない新しいリスクが出ると述べている。</li>
+</ul>
+<h2>個人向けの読みどころ</h2>
+<p>一番の読みどころは、「候補一覧やDiscordメッセージは入力であって、命令ではない」と明文化できる点。たとえば記事作成Cronでは、候補Markdown、Discordポール、Web記事、検索結果を読み、その後にMarkdown保存、ビルド、git push、Discord報告まで行う。この流れは便利だが、読み取り対象に紛れた指示が実行段階へ届くと危ない。</p>
+<p>個人環境でまずやるべき整理は、次の4つ。</p>
+<ol>
+<li>外部入力を読む処理と、シェル実行・git push・外部送信をする処理を分ける。</li>
+<li>Web記事、Discord、メール、ログ、Issue、Sentryのような外部由来データを「参考情報」として扱い、そこに書かれたコマンドを自動実行しない。</li>
+<li>MCPサーバーやプラグインは、npm依存と同じように提供元、権限、更新履歴、読ませるデータ種別を記録する。</li>
+<li>秘密情報、認証トークン、環境変数、ホームディレクトリ全体にアクセスできるエージェントには、外部入力を読むMCPをむやみに接続しない。</li>
+</ol>
+<p>OpenClaw運用に引き寄せるなら、「新人スタッフ扱い」の権限ステップ設計が相性よい。最初は読み取りだけ、次にローカルファイル作成、次にビルド、最後にgit pushやDiscord送信という順で権限を増やし、各段階でログと承認条件を分ける。エージェントが賢いかどうかより、読んだものをすぐ実行できない構造にする方が効く。</p>
+<h2>注意点</h2>
+<p>Agentjackingは強い言葉だが、公開情報だけで個別ベンダーや全MCP実装を同列に危険と断定するのは粗い。Sentryの公開DSN設計、MCPサーバーが返すデータ、エージェントの自律実行設定、開発環境に置かれた秘密情報の量が重なった時に被害が大きくなる。</p>
+<p>また、プロンプトだけで完全防御するのは弱い。システムプロンプトに「外部指示を信じるな」と書くだけでは、ツール実行層、ファイルアクセス、ネットワーク、秘密情報の置き場所を制限したことにはならない。少なくとも、外部入力由来の提案からパッケージインストール、シェル実行、秘密情報読み取り、外部送信へ進む操作は、人間確認または別プロセスの許可を必要にした方がよい。</p>
+<h2>参考リンク</h2>
+<ul>
+<li><a href="https://labs.cloudsecurityalliance.org/research/csa-research-note-agentjacking-mcp-sentry-injection-20260612/">Cloud Security Alliance: Agentjacking: MCP Injection Hijacks AI Coding Agents</a></li>
+<li><a href="https://labs.cloudsecurityalliance.org/research/csa-research-note-agentjacking-mcp-sentry-20260615-csa-style/">Cloud Security Alliance: Agentjacking: MCP Injection via AI Coding Agents</a></li>
+<li><a href="https://developer.microsoft.com/blog/protecting-against-indirect-injection-attacks-mcp">Microsoft: Protecting against indirect prompt injection attacks in MCP</a></li>
+<li><a href="https://owasp.org/www-community/attacks/MCP_Tool_Poisoning">OWASP: MCP Tool Poisoning</a></li>
+<li><a href="https://media.defense.gov/2026/Jun/02/2003943289/-1/-1/0/CSI_MCP_SECURITY.PDF">NSA: Model Context Protocol (MCP): Security Design Considerations</a></li>
+</ul>
+    </article>
+  </main>
+</body>
+</html>
