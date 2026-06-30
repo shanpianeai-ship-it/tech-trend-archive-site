@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OpenAI社内のエージェント利用データから見る「実務AI導入」の勝ち筋 | 興味レポート</title>
+  <meta name="description" content="OpenAI社内でCodexが全社的な主力AIツールへ移ったデータを整理する。個人秘書エージェント運用で何をKPI化し、どこに権限境界を置くべきかが見える。">
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../../interests/index.html">興味レポート</a>
+    <span class="site-subtitle">Public redacted interest reports</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 興味レポート一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-30T19:50:00+09:00</span>
+        <span>AI・エージェント</span>
+        <span>interest_report</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>OpenAI社内でCodexが全社的な主力AIツールへ移ったデータを整理する。個人秘書エージェント運用で何をKPI化し、どこに権限境界を置くべきかが見える。</p>
+      </aside>
+      <h1>OpenAI社内のエージェント利用データから見る「実務AI導入」の勝ち筋</h1>
+<h2>要約</h2>
+<p>OpenAIが2026年6月25日に公開したEconomic Research記事と論文は、Codexの利用が「チャットで相談する」段階から「複数の長時間タスクを任せる」段階へ移ったことを、社内・組織ユーザー・個人ユーザーの利用データで示している。OpenAI社内では、2025年8月時点で平均従業員のCodex利用はトークン比で10%未満だったが、2026年6月には全社的にCodexが主力ツールとなり、平均従業員の出力トークンの85%以上、社内全体の週次出力トークンの99.8%をCodexが占めると説明されている。</p>
+<p>重要なのは、これは単なる「エンジニアがコードを書く速度」の話ではない点だ。Legal、Finance、Recruitingのような非技術部門も2026年4月ごろにCodex中心へ移行し、非開発者の増加率は個人ユーザーで137倍、組織ユーザーで189倍とされる。OpenClawのような個人秘書運用に引き寄せるなら、勝ち筋は「高性能モデルを呼ぶ」ことではなく、候補作成、投票、記事化、公開、報告のような長い作業単位を、ログと権限境界つきで委任できる形に分解することにある。</p>
+<h2>なぜ今見る価値があるか</h2>
+<p>OpenAIの記事は、エージェント導入を「将来の予想」ではなく、実運用の変化として読める数少ない一次情報だ。2026年6月時点で、個人・組織・OpenAI社内の3集団を比較し、どの層で長時間タスクや非開発者利用が伸びているかを同じ軸で見ている。</p>
+<p>個人向けには、興味レポートCronそのものが良い比較対象になる。今日の処理も、候補一覧を読み、Discordポールを集計し、調査し、Markdownを書き、GitHub Pagesへ反映し、結果を報告するという長めの業務フローである。これは「1問1答のチャット」ではなく「成果物まで持っていく委任」に近い。OpenAI社内データは、この種の使い方が一部の開発者だけでなく、事務・調査・運用系にも広がる根拠として使える。</p>
+<h2>調査メモ</h2>
+<ul>
+<li>OpenAI記事は、エージェント型AIが知識労働の単位を「単発の対話」から「委任された長期タスク」へ変える、と位置づけている。Codexはツール呼び出し、環境操作、反復修正をしながら数分から数時間動けるため、チャットボットよりも作業単位を大きく取りやすい。</li>
+<li>個人ユーザーのサンプルでは、2026年5月までに80.6%が「人間なら30分超」と推定されるCodex依頼を少なくとも1回行い、70.2%が1時間超、25.6%が8時間超の依頼を行ったとされる。見積もりはLLM-as-judgeなので絶対値ではなく方向性として読むべきだが、短文補助から長い委任へ移っていることは明確だ。</li>
+<li>OpenAI社内では、Engineeringが先行し、Legal、Finance、Recruitingは2026年4月ごろにCodexが主力AIツールへ移った。研究部門の中央値利用は2025年11月比で56倍、Customer Supportは32倍、Engineeringは27倍、Legalも13倍に伸びた。</li>
+<li>非開発者利用の伸びが特に大きい。OpenAI記事では、2025年8月以降、非開発者の週間ユーザー数が個人ユーザーで137倍、組織ユーザーで189倍、OpenAI社内で12倍になったと説明している。</li>
+<li>論文要旨では、2026年前半にCodexのアクティブユーザーが5倍超に増えたこと、10%超のユーザーが週のどこかで3つ以上のCodexエージェントを並行管理したこと、26.6%が複雑なワークフロー指示を共有するskillsを使ったことが示されている。</li>
+<li>外部報道では、OpenAI社内の事例を「AI企業が自社業務にAIエージェントを入れた実例」として扱っている。ただし、OpenAI社内はツールアクセス、教育、心理的障壁、費用負担が一般企業や個人と違うため、そのまま再現可能とは見ないほうがよい。</li>
+</ul>
+<h2>個人向けの読みどころ</h2>
+<p>1つ目は、KPIを「何回AIに聞いたか」ではなく「どの成果物を最後まで委任できたか」に置くこと。興味レポートなら、候補作成数、投票取得成功率、Markdown作成成功率、Pages反映成功率、公開URL確認成功率が実務KPIになる。</p>
+<p>2つ目は、非開発者利用の伸びを「コードを書かない人でも使える」ではなく「コード・データ変換・公開処理を含む作業を、本人の専門外でも管理できる」と読むこと。Obsidian、Discord、GitHub Pages、cronをつなぐ運用は、まさに専門外の細かい接続作業をエージェントへ寄せる例になる。</p>
+<p>3つ目は、並列化の副作用を見ること。複数エージェントを回せるほど処理量は増えるが、レビュー、権限、失敗時の再実行、公開前の確認が追いつかないと事故が増える。OpenClaw運用では、外部送信、Git push、Discord報告、公開ページ反映のような境界を明示し、ログに残す設計が必要になる。</p>
+<h2>注意点</h2>
+<ul>
+<li>OpenAI社内データは、OpenAIという特殊な環境の観測値である。全社員が同じツール文化、モデルアクセス、業務理解を持つ会社の数字を、一般企業や個人運用へそのまま外挿するのは危険。</li>
+<li>記事内の「人間なら何時間かかるか」は推定値であり、実測作業時間ではない。長時間タスク化の傾向を見るには有用だが、ROI計算には別途、実作業ログと失敗率が必要。</li>
+<li>Codex利用が増えたことは、生産性向上を直接証明するものではない。出力量、並列数、部署横断利用が増えても、レビュー工数や修正工数、誤公開リスクが増えていれば実効価値は下がる。</li>
+<li>個人秘書エージェント運用では、内部パス、資産情報、個人情報、外部送信を扱うため、作業自動化と同じくらい権限分離と公開前検査が重要になる。</li>
+</ul>
+<h2>参考リンク</h2>
+<ul>
+<li>OpenAI: How agents are transforming work</li>
+</ul>
+<p><a href="https://openai.com/index/how-agents-are-transforming-work/">openai.com - index / how-agents-are-transforming-work</a></p>
+<ul>
+<li>arXiv: The Shift to Agentic AI: Evidence from Codex</li>
+</ul>
+<p><a href="https://arxiv.org/abs/2606.26959">arxiv.org - abs / 2606.26959</a></p>
+<ul>
+<li>Axios: AI agents are here for real this time</li>
+</ul>
+<p><a href="https://www.axios.com/2026/06/25/codex-agents-growth-openai">axios.com - 2026 / 06</a></p>
+    </article>
+  </main>
+</body>
+</html>
