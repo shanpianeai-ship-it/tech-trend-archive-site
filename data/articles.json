@@ -1,5 +1,19 @@
 [
   {
+    "file": "AI/2026-06-30_社内MCP安全トンネル.md",
+    "slug": "2026-06-30_社内MCP安全トンネル",
+    "title": "社内MCP安全トンネル",
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "created": "2026-06-30",
+    "source": "https://developers.openai.com/blog/connect-private-mcp-servers-to-openai-products",
+    "importance": "high",
+    "confidence": "high",
+    "summary": "OpenAI Secure MCP Tunnelは、社内やローカルのMCPサーバーを公開せずChatGPT/Codexへつなぐ設計。MCP普及後の企業内ツール接続、権限境界、監査の実務論点を整理できる。",
+    "excerpt": "OpenAI Secure MCP Tunnelは、社内やローカルのMCPサーバーを公開せずChatGPT/Codexへつなぐ設計。MCP普及後の企業内ツール接続、権限境界、監査の実務論点を整理できる。",
+    "url": "articles/2026-06-30_社内MCP安全トンネル.html"
+  },
+  {
     "file": "Security/2026-06-29_AM_MosaicLeaks検索漏えい.md",
     "slug": "2026-06-29_AM_MosaicLeaks検索漏えい",
     "title": "MosaicLeaksと検索漏えい",

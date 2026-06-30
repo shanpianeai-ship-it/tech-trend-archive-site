@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>社内MCP安全トンネル | 海外技術情報アーカイブ</title>
+  <meta name="description" content="OpenAI Secure MCP Tunnelは、社内やローカルのMCPサーバーを公開せずChatGPT/Codexへつなぐ設計。MCP普及後の企業内ツール接続、権限境界、監査の実務論点を整理できる。">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-30</span>
+        <span>AI / LLM / Agent</span>
+        <span>importance: high</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>OpenAI Secure MCP Tunnelは、社内やローカルのMCPサーバーを公開せずChatGPT/Codexへつなぐ設計。MCP普及後の企業内ツール接続、権限境界、監査の実務論点を整理できる。</p>
+      </aside>
+      <h1>社内MCP安全トンネル</h1>
+<h2>要約</h2>
+<p>OpenAIのSecure MCP Tunnelは、社内ネットワーク、開発者のローカル環境、Kubernetes、VMなどにあるMCPサーバーを、インターネットへ直接公開せずにChatGPTやCodexから利用できるようにする仕組み。</p>
+<p>発想は単純で、プライベート側に置いた小さなトンネルクライアントがOpenAI側へアウトバウンドHTTPS接続を張る。OpenAI製品からのMCPリクエストはOpenAIホストのトンネルエンドポイントに入り、プライベート環境内のクライアントがそれを拾って、許可されたローカルMCPサーバーへ転送し、応答を同じ経路で返す。</p>
+<p>重要なのは「MCPを便利につなげる機能」ではなく、「社内ツールをAIエージェントへ渡すとき、ネットワーク境界をどう崩さずに運用するか」という設計論になっている点。MCPが普及すると、ファイル、DB、社内API、運用ツールをAIに触らせる需要が増える。その時に、公開エンドポイント、VPN、汎用トンネルではなく、狭く、監査しやすく、明示的に許可された接続だけを作る発想が必要になる。</p>
+<p>自分向けには、OpenClawやCodexにローカル/社内ツールを増やす時の基準として読むのがよい。AIエージェントの能力を増やすほど、MCPサーバーそのものが新しい実行入口になる。便利さより先に、どのサーバーを、誰の権限で、どの経路から、どこまで到達可能にするかを決める必要がある。</p>
+<h2>背景</h2>
+<p>MCPは、AIアプリケーションが外部システムへ接続するための標準プロトコルとして広がっている。公式サイトでも、ローカルファイル、DB、検索、カレンダー、Notion、開発ツールなどをAIアプリへつなぐ標準ポートのような位置づけで説明されている。</p>
+<p>ただし、企業内で価値の高いMCPサーバーほど、外部公開したくない場所にある。業務DB、運用ツール、社内検索、チケット、ソースコード、管理APIなどは、インターネットから直接叩ける形にするべきではない。かといって、ChatGPTやCodexのようなホスト型AI製品から利用したい需要は強い。</p>
+<p>従来の選択肢は、公開エンドポイントを作る、サードパーティのトンネルを使う、VPN/ネットワークピアリングで広くつなぐ、といったものだった。どれもMCP用の細い接続としては重いか、境界が広すぎる。Secure MCP Tunnelは、この隙間を「プライベート側から始まるアウトバウンド接続」と「顧客が運用する検査可能なクライアント」で埋める。</p>
+<h2>何が重要か</h2>
+<h3>1. 到達性を逆向きに作る</h3>
+<p>Secure MCP Tunnelの中心は、プライベート側が先にOpenAIへ接続すること。MCPサーバーは外部からのインバウンド通信を受けず、クライアントがOpenAI側のトンネル制御面を長いポーリングで見に行く。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>方式</th><th>何を広げるか</th><th>問題</th></tr></thead>
+<tbody>
+<tr><td>公開エンドポイント</td><td>MCPサーバーをインターネットから到達可能にする</td><td>境界が弱くなり、WAF/認証/運用負荷が増える</td></tr>
+<tr><td>VPN/ピアリング</td><td>ネットワーク同士を広く接続する</td><td>MCP用途には権限範囲が大きすぎる</td></tr>
+<tr><td>汎用トンネル</td><td>第三者の中継経路を追加する</td><td>追加ベンダーの審査、ログ、契約、信頼境界が増える</td></tr>
+<tr><td>Secure MCP Tunnel</td><td>顧客側クライアントから狭いアウトバウンド経路を張る</td><td>MCP用途に絞った到達性を作れる</td></tr>
+</tbody>
+</table></div>
+<p>これは、AIエージェントに社内ツールを渡すときの基本形になり得る。外から開けるのではなく、中から許可された接続だけを作る。ネットワークの都合ではなく、権限設計の都合に合わせた接続にする。</p>
+<h3>2. MCPサーバーを「実行入口」として扱っている</h3>
+<p>MCPは、単なるデータ取得APIではない。ツール呼び出しを通じて、ファイル操作、検索、DB参照、クラウド操作、社内ワークフロー実行につながる。つまりMCPサーバーは、AIが使う実行入口になる。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>見方</th><th>軽く見た場合</th><th>実務上の見方</th></tr></thead>
+<tbody>
+<tr><td>MCPサーバー</td><td>LLMに便利なツールを足す部品</td><td>社内システムへの権限付き実行入口</td></tr>
+<tr><td>トンネル</td><td>接続できればよい通信路</td><td>監査・認可・境界を左右する基盤</td></tr>
+<tr><td>ローカル設定</td><td>開発者の便利設定</td><td>サプライチェーン/権限拡大の入口</td></tr>
+<tr><td>ツール一覧</td><td>機能カタログ</td><td>AIに実行させてよい操作範囲</td></tr>
+</tbody>
+</table></div>
+<p>Secure MCP Tunnelの設計が「明示的な宛先設定」「顧客運用クライアント」「検査可能性」を強調しているのは、この前提があるからだと思う。MCPが便利なほど、接続経路は雑に増やしてはいけない。</p>
+<h3>3. アウトバウンドHTTPSとlong-pollは地味だが運用しやすい</h3>
+<p>OpenAIの説明では、最初のトランスポートとしてlong-pollを選んだ理由も示されている。企業ファイアウォールやプロキシ環境で扱いやすく、クライアント側が処理できる量だけ仕事を拾うため、自然なバックプレッシャーになる。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>設計要素</th><th>意味</th></tr></thead>
+<tbody>
+<tr><td>アウトバウンドHTTPS</td><td>既存の企業ネットワーク制御に乗せやすい</td></tr>
+<tr><td>long-poll</td><td>常時双方向ソケットより運用が読みやすい</td></tr>
+<tr><td>SSE転送</td><td>MCPのストリーミング応答や途中イベントを扱える</td></tr>
+<tr><td>ローカルadmin/health UI</td><td>起動、到達性、設定、ログを運用者が確認できる</td></tr>
+</tbody>
+</table></div>
+<p>AI基盤は派手なモデル性能に目が行きがちだが、社内運用ではこういう「退屈な通信方式」のほうが通しやすい。特にBasis/情シス目線では、プロキシ、証明書、監査ログ、ヘルスチェック、障害時切り分けが説明できるかが重要になる。</p>
+<h3>4. オープンソースの顧客側クライアントが信頼境界を支える</h3>
+<p>Secure MCP Tunnelでは、顧客環境内で動くクライアントがオープンソースとして公開されている。GitHubのREADMEでは、<code>/healthz</code>、<code>/readyz</code>、<code>/metrics</code>、<code>/ui</code> を持つ運用者向けdaemonとして説明され、ローカルMCP、VM、Kubernetes、プライベートネットワークで使う前提が示されている。</p>
+<p>これは大事。OpenAI側のトンネルサービスはホストされていても、社内ネットワーク内で動くコードは顧客が確認し、設定し、監視できる。どのアウトバウンド接続を開くか、どのローカルMCPへ転送するか、どの証明書やプロキシ設定を使うかを見られる。</p>
+<p>エンタープライズ導入では「AI製品が社内に入ってくる」のではなく、「社内で検査可能なクライアントが、許可されたAI製品向けに細い出口を作る」と説明できるかが通しやすさを左右する。</p>
+<h3>5. HarpoonはREST APIにも同じ考え方を広げている</h3>
+<p>OpenAIの記事では、MCP以外の既存REST APIにも同じ狭い接続モデルを広げるHarpoonにも触れている。既存の社内APIがすべてMCP化されているわけではないため、ラベル付けされた許可済みRESTターゲットだけをトンネル経由で呼ぶ考え方。</p>
+<p>ただし、ここでも汎用ネットワークブリッジにはしない。許可済みターゲット、HTTPメソッド、レスポンスサイズ、タイムアウト、リダイレクト、アクセス制御で狭くする。これは、AIエージェントが社内APIへ触る時の現実的な移行路になる。</p>
+<h2>自分向けメモ</h2>
+<ul>
+<li>MCPサーバーを追加するときは「便利ツール」ではなく「権限付き実行入口」として棚卸しする。</li>
+<li>ローカルMCPでも、将来ホスト型AIや外部エージェントへつなぐ可能性があるなら、最初から宛先、権限、ログ、停止方法を明示する。</li>
+<li><code>localhost</code> や社内ネットワークを信用境界として雑に扱わない。エージェントがブラウザ、MCP、設定ファイルをまたぐと、ローカル境界は攻撃面になる。</li>
+<li>OpenClaw/Codex運用では、MCP設定ファイルの差分、起動中のMCPサーバー、外部公開の有無を定期チェック対象にするとよい。</li>
+<li>企業向けに説明するなら、「AIに社内ネットワークを開ける」のではなく、「顧客運用クライアントが許可済みMCP/RESTターゲットだけを外向きに中継する」と言い換えると通りやすい。</li>
+</ul>
+<h2>原文リンク/関連リンク</h2>
+<ul>
+<li><a href="https://developers.openai.com/blog/connect-private-mcp-servers-to-openai-products">OpenAI Developers Blog: Making private MCP servers reachable without making them public</a> - Secure MCP Tunnelの設計意図、アウトバウンドHTTPS、long-poll、顧客運用クライアント、Harpoonの説明。</li>
+<li><a href="https://github.com/openai/tunnel-client">openai/tunnel-client on GitHub</a> - 顧客側で動かすSecure MCP Tunnel clientのREADME、運用エンドポイント、セットアップ導線、権限メモ。</li>
+<li><a href="https://modelcontextprotocol.io/docs/getting-started/intro">Model Context Protocol: What is MCP?</a> - MCPの基本説明。AIアプリから外部データ、ツール、ワークフローへ接続する標準としての位置づけ。</li>
+</ul>
+<h2>関連キーワード</h2>
+<p>MCP, Secure MCP Tunnel, tunnel-client, outbound HTTPS, long-polling, ChatGPT connector, Codex, private MCP server, enterprise AI, agent security, local trust boundary, Harpoon</p>
+      <section class="source-box"><h2>Source</h2><p><a href="https://developers.openai.com/blog/connect-private-mcp-servers-to-openai-products">developers.openai.com - blog / connect-private-mcp-servers-to-openai-products</a></p></section>
+    </article>
+  </main>
+</body>
+</html>
