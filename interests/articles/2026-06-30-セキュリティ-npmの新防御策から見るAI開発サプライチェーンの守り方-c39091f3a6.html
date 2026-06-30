@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>npmの新防御策から見るAI開発サプライチェーンの守り方 | 興味レポート</title>
+  <meta name="description" content="npmのstaged publishing、install時の明示許可、重要アカウント保護を整理する。AI開発で依存関係が増えるほど、個人秘書エージェント環境の防御策として効く。">
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../../interests/index.html">興味レポート</a>
+    <span class="site-subtitle">Public redacted interest reports</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 興味レポート一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-30T19:55:00+09:00</span>
+        <span>セキュリティ</span>
+        <span>interest_report</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>npmのstaged publishing、install時の明示許可、重要アカウント保護を整理する。AI開発で依存関係が増えるほど、個人秘書エージェント環境の防御策として効く。</p>
+      </aside>
+      <h1>npmの新防御策から見るAI開発サプライチェーンの守り方</h1>
+<h2>要約</h2>
+<p>2026年5月から6月にかけて、GitHub/npmはnpmのサプライチェーン防御を大きく強めている。5月22日にはstaged publishingが一般提供となり、CI/CDが作ったパッケージをそのまま公開せず、メンテナの2FA承認を挟んでからregistryへ出す運用が使えるようになった。同時に、Git、remote URL、file、directoryなどregistry外の依存取得元を明示的に制御する<code>--allow-*</code>系の設定も広がっている。</p>
+<p>6月9日にはnpm v12の破壊的変更予定として、依存パッケージの<code>preinstall</code>、<code>install</code>、<code>postinstall</code>をデフォルトで実行しない方針が示された。6月25日には、広く使われるパッケージを管理する高影響アカウントについて、メール変更や2FAリカバリコード利用後に72時間のread-only保護を入れる施策も追加された。</p>
+<p>今回のDiscordポールは有効票がなかったため、候補一覧から重要度、鮮度、個人適合度が高いこのテーマを採用した。OpenClaw、Codex、MCP、GitHub Pages、Discord連携のようにNode製ツールや外部パッケージを使う個人環境では、npmの新デフォルトを「企業向けの大きな話」ではなく、日常のAI開発端末を守る具体策として読める。</p>
+<h2>なぜ今見る価値があるか</h2>
+<p>AIエージェント開発は、依存関係を増やしやすい。MCPサーバー、ブラウザ自動化、Discord連携、Markdown変換、画像処理、CLI補助、GitHub Pagesビルドなど、便利な部品を足すたびにnpmパッケージ、GitHub URL、remote tarball、postinstallスクリプトが入り込む余地ができる。</p>
+<p>ここで危ないのは、悪性コードがアプリ本体に入ることだけではない。<code>npm install</code>は開発端末やCIの権限で動くため、環境変数、<code>.npmrc</code>、GitHubトークン、npmトークン、SSH鍵、作業フォルダ、Obsidian vault、Desktop配下のファイルに近づける。AI秘書環境では、その端末がさらに外部送信、git push、Discord投稿、Web調査、ファイル整理まで担当するため、依存関係の汚染がそのまま自動化基盤全体の汚染になりうる。</p>
+<p>GitHub/npmの新施策は、この攻撃面を3方向から狭めている。公開時にはstaged publishingで人間承認を挟む。取得時にはGitやremote URLなど非registry依存を明示許可に寄せる。実行時にはinstall scriptをデフォルト停止へ寄せる。さらに、高影響アカウントの乗っ取り直後に悪性版を出される時間帯を、72時間のread-only状態で止めようとしている。</p>
+<h2>調査メモ</h2>
+<p>GitHubの2026年5月22日のChangelogでは、staged publishingが一般提供になったと説明されている。通常の<code>npm publish</code>はパッケージ版をすぐ利用可能にするが、staged publishingではprebuilt tarballをstage queueへ置き、メンテナが明示的に承認してから公開する。CI/CDやOIDCを使うtrusted publishingでも、人間の2FA承認を最後に挟める点が重要である。</p>
+<p>同じ発表では、npm CLI 11.15.0以降で<code>--allow-file</code>、<code>--allow-remote</code>、<code>--allow-directory</code>が追加された。既存の<code>--allow-git</code>と合わせ、local tarball、remote URL、local directory、Git依存のようなregistry外取得元を制御できる。2026年時点では一部のデフォルトはまだ緩いが、<code>.npmrc</code>や<code>package.json</code>で先に厳しくできる。</p>
+<p>6月9日のnpm v12予告では、依存パッケージのinstall script実行が明示許可制へ寄る。npm v12では、依存の<code>preinstall</code>、<code>install</code>、<code>postinstall</code>が、プロジェクトで許可されない限り実行されない予定である。native addonの暗黙の<code>node-gyp rebuild</code>も対象に含まれる。npm 11.16.0以降では警告として事前確認でき、<code>npm approve-scripts --allow-scripts-pending</code>で保留中のスクリプトを見て、信頼するものだけをallowlist化できる。</p>
+<p>6月25日の高影響アカウント保護は、アカウント乗っ取り後の典型的な流れを止める施策として読める。高影響アカウントがメールアドレスを変える、または2FAリカバリコードを使うと、72時間read-onlyになり、以前のメールアドレスへ通知される。この間、パッケージのinstallやdownloadは続くが、publish、token管理、package visibility変更、organization/team membership変更などregistryやセキュリティに影響する操作は止まる。</p>
+<p>Cloud Security Allianceの2026年6月11日のwhitepaperは、npmがAI/ML基盤や開発ツールの配布層にもなっていることを強調している。CSAは、TeamPCP、Miasma、TanStack侵害、Red Hat Cloud Servicesスコープの侵害などを背景に、install script、Git/remote依存、token窃取、CI/CD認証情報、AI/ML toolingを横断したリスクとして整理している。細部はベンダー評価や公開情報に依存するため個別事案の断定は避けるべきだが、npmをAI開発サプライチェーンの基盤として扱う視点は有用である。</p>
+<p>防御策を作業フローに落とすと、次のようになる。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>場面</th><th>これまでの危険</th><th>新しい読み方</th></tr></thead>
+<tbody>
+<tr><td>パッケージ公開</td><td>CIが奪われると即座に悪性版公開</td><td>staged publishingで人間の2FA承認を挟む</td></tr>
+<tr><td>依存取得</td><td>GitHub URLやremote tarballが自然に混ざる</td><td><code>--allow-git</code>や<code>--allow-remote</code>を明示許可に寄せる</td></tr>
+<tr><td>install時実行</td><td><code>postinstall</code>が端末権限で即実行</td><td>npm v12前に<code>approve-scripts</code>で棚卸しする</td></tr>
+<tr><td>メンテナ乗っ取り</td><td>メール変更後すぐtoken発行とpublish</td><td>高影響アカウントは72時間read-onlyで止める</td></tr>
+<tr><td>AI開発端末</td><td>依存追加が秘密情報と外部送信権限へ近い</td><td>依存検証環境と普段の作業環境を分ける</td></tr>
+</tbody>
+</table></div>
+<h2>個人向けの読みどころ</h2>
+<p>個人の環境では、興味レポートCronが候補Markdown、Discordポール、Web記事を読み、Markdown保存、<code>node scripts/build.mjs</code>、git push、Discord報告まで行う。これは便利だが、入力、ビルド、公開、外部送信が同じ流れにある。npmのサプライチェーン防御は、この流れのうち「ビルドやツール追加で外部コードを入れる瞬間」を厳しく見る材料になる。</p>
+<p>まず、既存のPagesビルドのように自分で管理している固定スクリプトは比較的扱いやすい。一方で、新しいMCPサーバー、CLI、ブラウザ自動化ツール、Markdownプラグイン、画像処理パッケージを追加する時は、<code>npm install</code>自体を外部コード実行の入口として扱うべきだ。</p>
+<p>実用ルールはこのくらいがよい。</p>
+<ol>
+<li>新しいnpm系ツールは、普段のホームディレクトリやObsidian vaultに近い場所でいきなり試さない。</li>
+<li>lockfileがあるプロジェクトでは<code>npm install</code>より<code>npm ci</code>を優先する。</li>
+<li>GitHub URL直指定、remote tarball、local file/directory依存は、通常のregistry依存より一段危険として扱う。</li>
+<li>npm 11.16.0以降を使える環境では、v12移行前にinstall scriptの警告と<code>approve-scripts</code>結果を確認する。</li>
+<li><code>.npmrc</code>、<code>.env</code>、GitHubトークン、Discordトークン、OpenAI系APIキーを、検証用プロジェクトやコンテナへ無条件に渡さない。</li>
+<li>自動化Cronで外部パッケージを更新した直後は、生成物だけでなくgit diff、公開対象JSON、Discord報告文も確認する。</li>
+</ol>
+<p>OpenClaw運用に引き寄せると、権限の境界は「AIが何を読めるか」だけでなく、「依存追加時に何が実行されるか」にも置くべきだ。候補一覧やWeb記事のプロンプトインジェクションを警戒するのと同じくらい、パッケージのinstall script、Git依存、remote URL依存、npmアカウント乗っ取りも現実的な入口になる。</p>
+<h2>注意点</h2>
+<p>npm v12の予定は強い改善だが、万能ではない。明示許可したスクリプトは実行されるし、Git依存やremote URL依存も許可すれば使える。攻撃者はinstall時ではなくimport時に動くコード、正規メンテナのアカウント侵害、CI/CDのsecret、レジストリ外配布、開発者をだますREADMEやissueコメントなど、別の経路へ移る可能性がある。</p>
+<p>また、staged publishingや高影響アカウント保護は、主にパッケージを公開する側の防御である。利用者側は、公開されたパッケージを無条件に信じない、lockfileを固定する、スクリプト実行を棚卸しする、検証環境を分ける、秘密情報を渡さない、という地味な運用が必要になる。</p>
+<p>この記事は公開情報をもとにした防御側の調査メモであり、悪性パッケージの再現や攻撃手順は扱わない。実際に不審なnpmパッケージを入れた疑いがある場合は、lockfile、install時刻、npm cache、temp配下、外向き通信、GitHub/npm/APIキーの利用履歴を確認し、必要なら認証情報をローテーションする。</p>
+<h2>参考リンク</h2>
+<ul>
+<li>GitHub Changelog: <a href="https://github.blog/changelog/2026-05-22-staged-publishing-and-new-install-time-controls-for-npm/">Staged publishing and new install-time controls for npm</a></li>
+<li>GitHub Changelog: <a href="https://github.blog/changelog/2026-06-09-upcoming-breaking-changes-for-npm-v12/">Upcoming breaking changes for npm v12</a></li>
+<li>GitHub Changelog: <a href="https://github.blog/changelog/2026-06-25-npm-adds-preventive-account-protection-for-high-impact-accounts/">npm adds preventive account protection for high-impact accounts</a></li>
+<li>Cloud Security Alliance: <a href="https://labs.cloudsecurityalliance.org/research/csa-whitepaper-npm-ai-toolchain-supply-chain-security-v1-0-c/">npm Supply Chain Under Siege: TeamPCP, Miasma, and npm v12</a></li>
+</ul>
+    </article>
+  </main>
+</body>
+</html>
