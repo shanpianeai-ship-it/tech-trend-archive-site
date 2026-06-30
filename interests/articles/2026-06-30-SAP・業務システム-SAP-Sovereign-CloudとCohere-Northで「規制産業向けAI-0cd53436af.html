@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SAP Sovereign CloudとCohere Northで「規制産業向けAI」はBasis運用に何を要求するか | 興味レポート</title>
+  <meta name="description" content="SAP Sovereign CloudとCohere Northの連携を、規制産業向けAIの運用境界として整理する。Basis担当が見るべきデータ所在、ID、監査ログ、AI実行統制が分かる。">
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../../interests/index.html">興味レポート</a>
+    <span class="site-subtitle">Public redacted interest reports</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 興味レポート一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-06-30T19:41:00+09:00</span>
+        <span>SAP・業務システム</span>
+        <span>interest_report</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>SAP Sovereign CloudとCohere Northの連携を、規制産業向けAIの運用境界として整理する。Basis担当が見るべきデータ所在、ID、監査ログ、AI実行統制が分かる。</p>
+      </aside>
+      <h1>SAP Sovereign CloudとCohere Northで「規制産業向けAI」はBasis運用に何を要求するか</h1>
+<h2>要約</h2>
+<p>SAPは2026年のSapphire文脈で、SAP Business AI Platform、Joule、AIエージェント群を「Autonomous Enterprise」の中核に置いている。同時に、EU AI Cloud、SAP Sovereign Cloud、Mistral、Cohere Northの組み合わせで、規制産業や公共領域でもAIを使える配置モデルを押し出している。</p>
+<p>ここでBasis運用者が見るべき点は、「AIモデルをどれにするか」だけではない。データ所在地、運用者の所在、法域、管理プレーン、プロンプトと実行ログ、エージェント権限、SAP Cloud ALMやIdentity Servicesとの接続までを、監査可能な運用境界として設計できるかが本題になる。</p>
+<h2>なぜ今見る価値があるか</h2>
+<p>2026年6月時点で、SAPはMistral on SAP Business AI Platformを提供済み、Cohere North on SAP Business AI Platformを2026年6月予定として説明している。つまり「SAPのAI機能は便利そう」から、「どの地域・どの運用主体・どの監査証跡で使うか」を詰める段階に入っている。</p>
+<p>規制産業向けAIは、通常のSaaS導入よりBasis運用に近い。ERP本体、BTP、Business AI Platform、Joule、Cloud ALM、Identity Services、データ基盤をまたぐため、Basis担当は単なるインフラ担当ではなく、AI実行境界の台帳管理者になる。</p>
+<h2>調査メモ</h2>
+<ul>
+<li>SAP Sovereign Cloudは、データ、運用、法的、技術的な主権を満たすためのクラウド提供形態として説明されている。公開クラウドの「リージョン選択」より広く、管理者、法域、インフラ統制、運用証跡まで含む。</li>
+<li>SAPとMicrosoftは、SAP Sovereign Cloud on Microsoft AzureでRISE with SAPの選択肢を広げるとしており、対象地域としてオーストラリア、ニュージーランド、カナダ、インド、欧州、英国が挙げられている。</li>
+<li>SAPは、SAP Business AI Platform上でMistralを提供し、Cohere Northを2026年6月に続ける構想を示している。顧客は地域内でSAPまたは信頼されたパートナーが運用するAI基盤を選び、AIアシスタント、エージェント、自社AIワークフローに使える。</li>
+<li>SAP Canadaの発表では、Cohere NorthをERP Sovereign Cloud環境に統合し、カナダ国内でデータ主権と運用統制を維持しながらAI機能を使う「Sovereign AI Layer」として位置づけている。</li>
+<li>SAPの2026年発表では、AI observability、評価・検証、Identity and Access Control、agent miningがSAPエージェント管理の重要機能として説明されている。これはBasis運用でいう監視、変更管理、ID管理、実行経路確認に相当する。</li>
+</ul>
+<h2>個人向けの読みどころ</h2>
+<p>Basis目線では、次の5項目を導入前チェックリストにするとよい。</p>
+<ol>
+<li>データ境界: ERP本体、BTP、Business Data Cloud、AI Core、外部モデルのどこに業務データ、プロンプト、応答、ログが残るか。</li>
+<li>運用主体: SAP、ハイパースケーラー、ローカル法人、委託先のうち、誰が管理者権限と保守アクセスを持つか。</li>
+<li>IDと権限: JouleやAIエージェントが人間ユーザーの権限を借りるのか、独自サービスIDで動くのか。緊急停止、権限剥奪、監査対象を明確にする。</li>
+<li>監査ログ: Cloud ALMなどでセッション、ツール呼び出し、根本原因、実行結果を追えるか。AIの回答ログだけでなく、実際にどのSAPオブジェクトへ作用したかを見る。</li>
+<li>本番投入判定: エージェント、LLM、MCPサーバごとにリスク評価、アーキテクチャ判断、コンプライアンス対応、検証済み記録を残す。</li>
+</ol>
+<p>特に重要なのは、Sovereign AIを「安全なAIモデル」と誤読しないこと。これはモデル性能ではなく、AIをどの法域、どの管理者、どの証跡、どの権限境界で動かすかの運用設計である。</p>
+<h2>注意点</h2>
+<ul>
+<li>公開情報からの整理であり、個別契約、対象国、利用可能リージョン、監査証跡の粒度はテナント条件や契約に依存する。</li>
+<li>「Cohere North on SAP Business AI Platform」は2026年6月予定として記載されているため、実際の利用可否はSAP公式ドキュメントと契約画面で確認が必要。</li>
+<li>Sovereign Cloudは全業種で過剰要件になり得る。一般企業では、通常のRISE/BTP運用に監査ログ、ID統制、データ分類を追加するだけで足りる場合もある。</li>
+<li>Basis運用者は、AIモデルの選定より先に、どの業務プロセスでAIが「読むだけ」なのか「書き込む」のかを分ける必要がある。</li>
+</ul>
+<h2>参考リンク</h2>
+<ul>
+<li><a href="https://www.sap.com/topics/events/sapphire/innovation-news-guide-2026">SAP Sapphire 2026 Innovation News Guide</a></li>
+<li><a href="https://www.sap.com/products/security-and-sovereignty.html">SAP Sovereign Cloud for Local Control and Compliance</a></li>
+<li><a href="https://news.sap.com/canada/2026/02/sap-and-cohere-expand-partnership-to-launch-sovereign-ai-solutions-globally-beginning-in-canada/">SAP and Cohere Expand Partnership to Launch Sovereign AI Solutions Globally, Beginning in Canada</a></li>
+<li><a href="https://cohere.com/blog/cohere-expands-partnership-with-sap">Cohere expands partnership with SAP to provide Europe sovereign AI solutions</a></li>
+<li><a href="https://www.sap.com/canada/resources/what-is-digital-sovereignty">What Is Digital Sovereignty? A Practical Guide - SAP Canada</a></li>
+</ul>
+    </article>
+  </main>
+</body>
+</html>

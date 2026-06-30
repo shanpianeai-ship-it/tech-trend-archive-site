@@ -325,6 +325,18 @@
   },
   {
     "file": "[入力元伏せ]",
+    "slug": "2026-06-30-SAP・業務システム-SAP-Sovereign-CloudとCohere-Northで「規制産業向けAI-0cd53436af",
+    "title": "SAP Sovereign CloudとCohere Northで「規制産業向けAI」はBasis運用に何を要求するか",
+    "category": "SAP・業務システム",
+    "created": "2026-06-30T19:41:00+09:00",
+    "status": "",
+    "type": "interest_report",
+    "summary": "SAP Sovereign CloudとCohere Northの連携を、規制産業向けAIの運用境界として整理する。Basis担当が見るべきデータ所在、ID、監査ログ、AI実行統制が分かる。",
+    "excerpt": "SAP Sovereign CloudとCohere Northの連携を、規制産業向けAIの運用境界として整理する。Basis担当が見るべきデータ所在、ID、監査ログ、AI実行統制が分かる。",
+    "url": "interests/articles/2026-06-30-SAP・業務システム-SAP-Sovereign-CloudとCohere-Northで「規制産業向けAI-0cd53436af.html"
+  },
+  {
+    "file": "[入力元伏せ]",
     "slug": "2026-06-27-SAP・業務システム-ERP運用をどう変えるか-2c05375187",
     "title": "SAP Joule Studioと200エージェントはBasis/ERP運用をどう変えるか",
     "category": "SAP・業務システム",
