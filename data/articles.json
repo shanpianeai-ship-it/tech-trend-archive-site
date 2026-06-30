@@ -14,6 +14,20 @@
     "url": "articles/2026-06-30_社内MCP安全トンネル.html"
   },
   {
+    "file": "AI/2026-06-30_AM_GBCエージェント失敗源.md",
+    "slug": "2026-06-30_AM_GBCエージェント失敗源",
+    "title": "GBCエージェント失敗源",
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "created": "2026-06-30",
+    "source": "https://arxiv.org/abs/2606.28187",
+    "importance": "high",
+    "confidence": "high",
+    "summary": "GBCはLLMマルチエージェントを計算グラフとして扱い、失敗原因をエージェントやトークン単位で帰属する研究。エージェント運用の観測性と改善ループを考える材料になる。",
+    "excerpt": "GBCはLLMマルチエージェントを計算グラフとして扱い、失敗原因をエージェントやトークン単位で帰属する研究。エージェント運用の観測性と改善ループを考える材料になる。",
+    "url": "articles/2026-06-30_AM_GBCエージェント失敗源.html"
+  },
+  {
     "file": "Security/2026-06-29_AM_MosaicLeaks検索漏えい.md",
     "slug": "2026-06-29_AM_MosaicLeaks検索漏えい",
     "title": "MosaicLeaksと検索漏えい",
