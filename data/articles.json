@@ -1,5 +1,19 @@
 [
   {
+    "file": "Security/2026-07-01_ローカルLLMエージェント実装層監査.md",
+    "slug": "2026-07-01_ローカルLLMエージェント実装層監査",
+    "title": "ローカルLLMエージェント実装層監査",
+    "genre": "Security",
+    "genreLabel": "Security",
+    "created": "2026-07-01",
+    "source": "https://arxiv.org/abs/2606.21071",
+    "importance": "high",
+    "confidence": "high",
+    "summary": "CLAWAUDIT論文は、ローカルLLMエージェントを便利なアプリではなく、ツール実行・記憶・権限を持つ特権ランタイムとして監査すべきだと示す。",
+    "excerpt": "CLAWAUDIT論文は、ローカルLLMエージェントを便利なアプリではなく、ツール実行・記憶・権限を持つ特権ランタイムとして監査すべきだと示す。",
+    "url": "articles/2026-07-01_ローカルLLMエージェント実装層監査.html"
+  },
+  {
     "file": "AI/2026-06-30_社内MCP安全トンネル.md",
     "slug": "2026-06-30_社内MCP安全トンネル",
     "title": "社内MCP安全トンネル",

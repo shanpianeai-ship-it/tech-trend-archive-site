@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ローカルLLMエージェント実装層監査 | 海外技術情報アーカイブ</title>
+  <meta name="description" content="CLAWAUDIT論文は、ローカルLLMエージェントを便利なアプリではなく、ツール実行・記憶・権限を持つ特権ランタイムとして監査すべきだと示す。">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-07-01</span>
+        <span>Security</span>
+        <span>importance: high</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>CLAWAUDIT論文は、ローカルLLMエージェントを便利なアプリではなく、ツール実行・記憶・権限を持つ特権ランタイムとして監査すべきだと示す。</p>
+      </aside>
+      <h1>ローカルLLMエージェント実装層監査</h1>
+<h2>要約</h2>
+<p>arXivに投稿された「Local LLM Agents as Vulnerable Runtimes」は、OpenClawやNanobotのようなローカルLLMエージェントを、単なるモデルラッパーやチャットアプリではなく、ユーザー端末上で動く特権ソフトウェアランタイムとして扱うべきだと主張している。</p>
+<p>論文の焦点は、プロンプトインジェクションや悪意あるスキルそのものではない。プロンプトビルダー、パーサー、ツールディスパッチャー、スキルローダー、メモリ書き込み、ネットワーククライアント、権限ゲートといった「モデル出力をホスト操作へ変換する実装層」が、これまで安全境界として十分に監査されていなかった点にある。</p>
+<p>提案されているCLAWAUDITは、STRIDEをもとに5カテゴリの脆弱性分類を作り、47個のSemgrepルールと30個のCodeQLクエリで静的監査する枠組み。OpenClawの公開アドバイザリ446件を使ったOPENCLAWBENCHでは、既存ルールセットに比べて再現率が大きく上がった一方、ライブコード監査では大量の手動トリアージが必要になるという限界も示されている。</p>
+<p>自分向けには、これは「エージェントを使う時の注意」ではなく、「エージェントを運用・拡張・自作する時の設計レビュー項目」として読むのがよい。AIエージェントの安全性は、モデルの拒否性能やツール許可UIだけでなく、内部パイプラインが約束した境界を壊さないかに依存する。</p>
+<h2>背景</h2>
+<p>ローカルLLMエージェントは、従来のLLM SDKと違い、完成したアプリケーションとしてユーザー端末上で動く。そこでは次のようなリソースに直接触れる。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>リソース</th><th>具体例</th><th>リスク</th></tr></thead>
+<tbody>
+<tr><td>シェル</td><td>コマンド実行、パッケージ導入、ビルド</td><td>任意コード実行、環境破壊</td></tr>
+<tr><td>ファイルシステム</td><td>読み書き、検索、整理</td><td>秘密情報漏えい、設定改ざん</td></tr>
+<tr><td>ブラウザ</td><td>ログイン済みWeb操作、フォーム入力</td><td>セッション悪用、誤操作</td></tr>
+<tr><td>認証情報</td><td>APIキー、CLI資格情報、Cookie</td><td>外部サービスへの横展開</td></tr>
+<tr><td>メッセージング</td><td>Discord、Slack、メール</td><td>私的情報漏えい、外部送信</td></tr>
+<tr><td>メモリ</td><td>長期記憶、日次ログ、ユーザー設定</td><td>汚染、越権共有、永続化</td></tr>
+</tbody>
+</table></div>
+<p>この性質のため、ローカルエージェントは「自然言語を受け取って、権限付きホスト操作へ変換するランタイム」と見た方が近い。モデルが安全に振る舞っても、モデル出力を処理するパーサーやディスパッチャーが危険なら、最終的な操作は危険になり得る。</p>
+<p>従来のエージェント安全性議論は、プロンプトインジェクション、悪意あるスキル、マーケットプレイス、ブラックボックス評価に寄りがちだった。この論文は、その間にある実装層そのものをソースコード監査の対象にしている点が新しい。</p>
+<h2>何が重要か</h2>
+<h3>1. エージェント安全性の境界が「実装パイプライン」に移る</h3>
+<p>論文が強調しているのは、エージェントの安全性は単一コンポーネントでは説明できないという点。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>層</th><th>よくある安全策</th><th>実装層で壊れる例</th></tr></thead>
+<tbody>
+<tr><td>モデル</td><td>危険要求を拒否する</td><td>パーサーが拒否文を別形式として解釈する</td></tr>
+<tr><td>ツール</td><td>許可制にする</td><td>ディスパッチ前に副作用が発生する</td></tr>
+<tr><td>スキル</td><td>審査済みだけ使う</td><td>ローダーが検証前に初期化コードを実行する</td></tr>
+<tr><td>サンドボックス</td><td>実行範囲を閉じる</td><td>パス解決や環境継承で外へ出る</td></tr>
+<tr><td>メモリ</td><td>ユーザー単位で分離する</td><td>書き込み経路が汚染や越権参照を許す</td></tr>
+</tbody>
+</table></div>
+<p>つまり、モデル、ツール、サンドボックスがそれぞれ正しく見えても、それらを接続するランタイムが保証を保てなければ安全とは言えない。これは業務システムでいう認証、認可、監査ログ、ジョブ実行基盤のつなぎ目に近い。</p>
+<h3>2. STRIDE由来の5カテゴリが実務レビューに使える</h3>
+<p>CLAWAUDITはSTRIDEをもとに、ローカルエージェント向けの実装リスクを5領域に整理している。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>カテゴリ</th><th>監査対象</th><th>見るべき観点</th></tr></thead>
+<tbody>
+<tr><td>Prompt Handling</td><td>prompt builder, parser</td><td>外部入力混入、構造化出力の検証、命令境界</td></tr>
+<tr><td>Tool/Skill Execution</td><td>dispatcher, skill loader</td><td>実行前検証、パス解決、引数検証、副作用順序</td></tr>
+<tr><td>Permission &amp; Isolation</td><td>permission gate, sandbox</td><td>許可前実行、権限昇格、隔離破れ</td></tr>
+<tr><td>Network &amp; Communication</td><td>HTTP client, messaging</td><td>外部送信、Webhook、リダイレクト、秘密情報混入</td></tr>
+<tr><td>Authentication &amp; Authorization</td><td>token, credential handling</td><td>資格情報のスコープ、保存、代理実行、横展開</td></tr>
+</tbody>
+</table></div>
+<p>この分類は、そのままOpenClawやCodex系のローカル運用チェックリストにできる。特に、ツール追加やスキル導入時に「どのカテゴリのリスクを増やしたか」を見るのに向いている。</p>
+<h3>3. 静的解析は再現率を上げるが、低ノイズ監視とは別物</h3>
+<p>論文では、OPENCLAWBENCHに対してCLAWAUDITを評価している。要点は次の通り。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>評価軸</th><th>結果</th><th>読み方</th></tr></thead>
+<tbody>
+<tr><td>Semgrep baseline</td><td>再現率21.7%</td><td>汎用ルールだけではエージェント固有パターンを拾いにくい</td></tr>
+<tr><td>Semgrep + CLAWAUDIT</td><td>再現率66.8%</td><td>ドメイン特化ルールで大きく改善</td></tr>
+<tr><td>CodeQL baseline</td><td>再現率13.8%</td><td>既存security-extendedでも不足</td></tr>
+<tr><td>CodeQL + CLAWAUDIT</td><td>再現率75.1%</td><td>データフロー寄りの表現でさらに拾える</td></tr>
+<tr><td>live HEAD監査</td><td>精度12%程度</td><td>本番導入には意味フィルタや人手トリアージが必要</td></tr>
+</tbody>
+</table></div>
+<p>ここで大事なのは、CLAWAUDITを「CIで赤くなれば即修正」の低ノイズスキャナとして読むと誤ること。現段階では、エージェントランタイムのレビュー観点を広く拾う監査ルール集に近い。重大な漏れを減らすための網であり、その後に文脈判断が必要になる。</p>
+<h3>4. 個人秘書エージェント運用にも直結する</h3>
+<p>自分のOpenClaw運用は、ファイル、Obsidian、Discord、Web、GitHub Pages、画像、cronにまたがっている。これはまさに論文がいう「ホスト資源とメッセージングアプリをまたぐローカルエージェント」そのもの。</p>
+<p>特に注意したい境界は次の通り。</p>
+<ul>
+<li>cron payloadが外部情報や過去メモリを読んで、シェル実行やgit pushまで行う境界。</li>
+<li>DiscordやWebから読んだ内容が、プロンプト経由でローカルファイル編集や外部送信へつながる境界。</li>
+<li>スキルやプラグインが、読み取り専用のつもりで導入されても、実際にはコマンド実行やメッセージ送信を持つ境界。</li>
+<li>Obsidianやmemoryへの書き込みが、次回以降の判断へ永続的に影響する境界。</li>
+</ul>
+<p>この観点では、エージェントの安全設計は「危険なコマンドを許可制にする」だけでは足りない。どの入力がどのツール実行へ流れるか、どのタイミングで許可を確認するか、結果がどこに永続化されるかを追えることが重要になる。</p>
+<h2>自分向けメモ</h2>
+<ul>
+<li>OpenClaw/Codexのスキル追加時は、README的な説明より先に、実際に呼べるツール、ローカル実行、外部送信、永続化先を確認する。</li>
+<li>cronは「自動化」ではなく、時間で起動する権限付きランタイムとして見る。外部情報を読んでgit pushやDiscord送信まで行うジョブは特に監査対象。</li>
+<li>Discord、Web、Obsidianからの入力は基本的に未信頼として扱う。候補一覧やポール結果の文字列が、ファイルパス、コマンド、URLとして解釈される箇所を分けて見る。</li>
+<li>permission gateは「呼び出し直前」にあるだけでなく、「副作用より前」にある必要がある。ログ送信、temp file作成、ネットワークfetchなどの前後関係も見る。</li>
+<li>memory writerは軽く見ない。汚染されたメモリは、次回以降の判断や権限行使を静かに変える。</li>
+<li>静的解析を入れるなら、Semgrep/CodeQLの汎用ルールに加えて、エージェント固有の「tool dispatch」「skill load」「memory write」「permission check order」を見るルールが必要。</li>
+<li>票なし時の自動選定としてこの候補を選んだ理由は、日本語圏でまだ本格解説が薄く、個人秘書エージェント運用、MCP、ローカルAIツールの安全設計にそのまま転用できるため。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://arxiv.org/abs/2606.21071">arXiv - Local LLM Agents as Vulnerable Runtimes: A Source-Code Audit of the Agent Runtime Layer</a> - 論文ページ。概要、著者、投稿日、PDFへの入口。</li>
+<li><a href="https://arxiv.org/pdf/2606.21071">arXiv PDF - Local LLM Agents as Vulnerable Runtimes</a> - 本文PDF。CLAWAUDITの分類、Semgrep/CodeQLルール、OPENCLAWBENCH評価、ライブコード監査結果を確認する一次情報。</li>
+<li><a href="https://arxiv.org/html/2606.21071v1">arXiv HTML - Local LLM Agents as Vulnerable Runtimes</a> - 表や節構造をブラウザで確認しやすいHTML版。</li>
+<li><a href="https://chatpaper.com/ja/paper/302408">ChatPaper日本語要約</a> - 日本語で概要を素早く確認できる二次情報。ただし本文判断はarXiv側を優先する。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>CLAWAUDIT</li>
+<li>local LLM agents</li>
+<li>agent runtime security</li>
+<li>OpenClaw</li>
+<li>Nanobot</li>
+<li>prompt builder</li>
+<li>tool dispatcher</li>
+<li>skill loader</li>
+<li>memory writer</li>
+<li>permission gate</li>
+<li>STRIDE</li>
+<li>Semgrep</li>
+<li>CodeQL</li>
+<li>static analysis</li>
+<li>OPENCLAWBENCH</li>
+<li>prompt injection</li>
+<li>MCP security</li>
+<li>AI agent governance</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://arxiv.org/abs/2606.21071">arxiv.org - abs / 2606.21071</a></p></section>
+    </article>
+  </main>
+</body>
+</html>
