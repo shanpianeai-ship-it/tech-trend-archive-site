@@ -14,6 +14,20 @@
     "url": "articles/2026-07-01_ローカルLLMエージェント実装層監査.html"
   },
   {
+    "file": "Security/2026-07-01_AM_Clean_GitHub_Repoエージェント侵害.md",
+    "slug": "2026-07-01_AM_Clean_GitHub_Repoエージェント侵害",
+    "title": "Clean GitHub RepoでAIエージェント侵害",
+    "genre": "Security",
+    "genreLabel": "Security",
+    "created": "2026-07-01",
+    "source": "https://0din.ai/blog/clone-this-repo-and-i-own-your-machine",
+    "importance": "high",
+    "confidence": "high",
+    "summary": "0DINのPoCは、悪性コードを含まないように見えるGitHub repoでも、AIコーディングエージェントの自動セットアップ復旧がDNS TXT経由の攻撃実行につながることを示す。開発端末とCIで「初回セットアップ」を隔離・監査する価値が高い。",
+    "excerpt": "0DINのPoCは、悪性コードを含まないように見えるGitHub repoでも、AIコーディングエージェントの自動セットアップ復旧がDNS TXT経由の攻撃実行につながることを示す。開発端末とCIで「初回セットアップ」を隔離・監査する価値が高い。",
+    "url": "articles/2026-07-01_AM_Clean_GitHub_Repoエージェント侵害.html"
+  },
+  {
     "file": "AI/2026-06-30_社内MCP安全トンネル.md",
     "slug": "2026-06-30_社内MCP安全トンネル",
     "title": "社内MCP安全トンネル",

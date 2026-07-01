@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clean GitHub RepoでAIエージェント侵害 | 海外技術情報アーカイブ</title>
+  <meta name="description" content="0DINのPoCは、悪性コードを含まないように見えるGitHub repoでも、AIコーディングエージェントの自動セットアップ復旧がDNS TXT経由の攻撃実行につながることを示す。開発端末とCIで「初回セットアップ」を隔離・監査する価値が高い。">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-07-01</span>
+        <span>Security</span>
+        <span>importance: high</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>0DINのPoCは、悪性コードを含まないように見えるGitHub repoでも、AIコーディングエージェントの自動セットアップ復旧がDNS TXT経由の攻撃実行につながることを示す。開発端末とCIで「初回セットアップ」を隔離・監査する価値が高い。</p>
+      </aside>
+      <h1>Clean GitHub RepoでAIエージェント侵害</h1>
+<h2>要約</h2>
+<p>Mozilla系の0DINが、Claude Codeのようなエージェント型コーディングツールに対するPoCを公開した。ポイントは、GitHub repository自体に露骨な悪性コードを置かなくても、README、初期化エラー、セットアップスクリプト、DNS TXTレコードを組み合わせると、エージェントが「環境を直そう」として攻撃者のコマンドを実行し得ることにある。</p>
+<p>流れは単純だ。エージェントが未知のrepoをセットアップし、Python packageの初期化エラーに従って <code>python3 -m axiom init</code> のような修復コマンドを実行する。そのコマンドがshell scriptを呼び、scriptがDNS TXTから設定値を取得し、それをコマンドとして実行する。0DINの例では、最終的に開発者権限のreverse shellが開く。</p>
+<p>これは「Claude Codeだけの脆弱性」というより、shell実行権限を持つAI coding agent全般の信頼境界問題として見るべきだ。静的スキャンやSBOMはrepo内のファイルを中心に見るため、実行時に外から引かれるDNS TXT、curl、npm lifecycle script、postinstall、Makefile、CI bootstrapのような経路を見落としやすい。</p>
+<h2>背景</h2>
+<p>AI coding agentは、単なる補完から「cloneする」「依存関係を入れる」「testを回す」「エラーを読んで直す」段階へ移っている。便利さの中心は、開発者が逐一指示しなくても失敗を解釈して次のコマンドを選ぶ点にある。</p>
+<p>ただし、その挙動は攻撃者にとっても都合がよい。プロジェクトのREADME、エラーメッセージ、package script、setup scriptは、エージェントが「信頼すべきプロジェクト文脈」として読む入力になる。人間なら一度止まって確認する場面でも、エージェントはタスク達成のために自然な復旧手順として進めてしまう。</p>
+<p>OWASPのLLM Top 10でも、過剰な権限・機能・自律性は「Excessive Agency」として整理されている。今回のPoCは、その抽象リスクが開発端末上でどう実行可能な攻撃手順になるかをかなり具体的に示している。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>観点</th><th>従来の見方</th><th>今回の含意</th></tr></thead>
+<tbody>
+<tr><td>repoレビュー</td><td>ファイルに悪性コードがあるかを見る</td><td>payloadがrepo外の実行時取得なら見えない</td></tr>
+<tr><td>エラー復旧</td><td>setup失敗時の自然な補助動作</td><td>攻撃者が次の実行を誘導できる</td></tr>
+<tr><td>DNS TXT</td><td>設定や検証に使う一般的な仕組み</td><td>command delivery channelになり得る</td></tr>
+<tr><td>Agent権限</td><td>ユーザーの補助なので広く許可しがち</td><td>ユーザー権限そのものの攻撃面になる</td></tr>
+<tr><td>CI/端末</td><td>開発効率優先で外向き通信が広い</td><td>初回bootstrapだけでも隔離が必要</td></tr>
+</tbody>
+</table></div>
+<h2>何が重要か</h2>
+<p>第一に、これは「悪いコードを見つける」問題だけではない。repo内に悪性payloadがない場合、静的解析、依存関係スキャン、人間の軽いレビューでは検出が難しい。見るべき対象は、実際に実行されるコマンド列と、そのコマンドが実行時に何を取得するかだ。</p>
+<p>第二に、エージェントの強みである自動エラー復旧が攻撃面になる。エラーメッセージに「このコマンドを実行せよ」と書かれていたとき、エージェントはタスク達成の文脈で従いやすい。これはprompt injectionというより、開発ワークフローの実行権限をLLMが握った時の運用設計問題に近い。</p>
+<p>第三に、DNS、package lifecycle、shell script、Makefile、devcontainer、GitHub Actionsなど、開発環境では「普通にある仕組み」が攻撃チェーンに使われる。単一の危険コマンドだけをdenylist化しても、別経路で同じ結果に到達できる可能性がある。</p>
+<p>実務上の対策は、少なくとも次の4層で考える必要がある。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>層</th><th>対策</th><th>目的</th></tr></thead>
+<tbody>
+<tr><td>実行環境</td><td>未知repoはcontainer/VM/sandboxで初回実行</td><td>端末本体のsecretsやbrowser sessionから切り離す</td></tr>
+<tr><td>ネットワーク</td><td>初回bootstrapの外向き通信を制限・記録</td><td>DNS TXTや任意download経由のpayload取得を見える化する</td></tr>
+<tr><td>Agent権限</td><td>shell自動承認を最小化し、setup系は明示承認</td><td>エラー復旧の自動実行を無制限にしない</td></tr>
+<tr><td>監査</td><td>実行前にscript chainと外部取得先を表示</td><td>repo内外をまたぐ実行経路を人間が判断できるようにする</td></tr>
+</tbody>
+</table></div>
+<h2>自分向けメモ</h2>
+<ul>
+<li>OpenClaw/Codex/Claude Code系のローカル作業では、未知repoの <code>npm install</code>、<code>pip install -r requirements.txt</code>、<code>make setup</code>、<code>docker compose up</code> を「ただの準備」と見ない。</li>
+<li>初回実行は、作業ディレクトリだけをmountしたsandboxで行い、HOME、SSH鍵、ブラウザprofile、Obsidian vault、API key入りenvから切り離す。</li>
+<li>DNS TXT、curl pipe shell、postinstall、preinstall、GitHub Actions、devcontainer featureは、AI agentに読ませるだけでなく実行時監査対象にする。</li>
+<li>「repoがclean」は安全判定として弱い。正しくは「このrepoのbootstrapが、どの外部入力を、どの権限で、どこまで実行するか」を見る。</li>
+<li>エージェントに任せる場合でも、setup失敗後の復旧コマンドは一段厳しく扱う。攻撃者が誘導文を置きやすいのは、最初から明示された手順よりも「失敗した時の直し方」。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://0din.ai/blog/clone-this-repo-and-i-own-your-machine">0DIN - Clone This Repo and I Own Your Machine</a>: PoCの一次情報。clean-looking repo、初期化エラー、DNS TXT経由payload、reverse shellまでの流れを説明。</li>
+<li><a href="https://www.developer-tech.com/news/claude-code-malware-github-repo/">Developer Tech - Mozilla shows Claude Code malware risk in clean GitHub repo</a>: 0DIN内容を報道として整理。現時点で実攻撃確認ではなくPoCとして扱っている点も確認できる。</li>
+<li><a href="https://genai.owasp.org/llmrisk/llm06-sensitive-information-disclosure/">OWASP GenAI Security Project - LLM06:2025 Excessive Agency</a>: 過剰な機能・権限・自律性が、予期しない有害アクションにつながるリスク整理。</li>
+<li><a href="https://www.anthropic.com/engineering/claude-code-sandboxing">Anthropic - Making Claude Code more secure and autonomous with sandboxing</a>: Claude Codeのsandboxed Bashの考え方。agent実行を隔離する設計の参考。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>AI coding agent</li>
+<li>Claude Code</li>
+<li>indirect prompt injection</li>
+<li>excessive agency</li>
+<li>clean GitHub repo</li>
+<li>DNS TXT payload</li>
+<li>reverse shell</li>
+<li>supply chain security</li>
+<li>developer workstation security</li>
+<li>sandboxed execution</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://0din.ai/blog/clone-this-repo-and-i-own-your-machine">0din.ai - blog / clone-this-repo-and-i-own-your-machine</a></p></section>
+    </article>
+  </main>
+</body>
+</html>
