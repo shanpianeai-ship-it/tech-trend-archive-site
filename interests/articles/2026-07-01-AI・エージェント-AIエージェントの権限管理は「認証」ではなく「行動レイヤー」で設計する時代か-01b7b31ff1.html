@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AIエージェントの権限管理は「認証」ではなく「行動レイヤー」で設計する時代か | 興味レポート</title>
+  <meta name="description" content="AIエージェントの実運用では、ログイン認証よりも「どの行動を、誰の権限で、いつ許すか」が焦点になる。Arcade.devの資金調達とMCP認可仕様から、OpenClaw型秘書エージェントの権限設計を読む。">
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../../interests/index.html">興味レポート</a>
+    <span class="site-subtitle">Public redacted interest reports</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 興味レポート一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-07-01</span>
+        <span>AI・エージェント</span>
+        <span>interest_report</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>AIエージェントの実運用では、ログイン認証よりも「どの行動を、誰の権限で、いつ許すか」が焦点になる。Arcade.devの資金調達とMCP認可仕様から、OpenClaw型秘書エージェントの権限設計を読む。</p>
+      </aside>
+      <h1>AIエージェントの権限管理は「認証」ではなく「行動レイヤー」で設計する時代か</h1>
+<h2>要約</h2>
+<p>AIエージェントの安全設計は、「誰がログインしたか」だけでは足りなくなっている。メール送信、カレンダー変更、GitHub操作、ファイル移動、決済、社内DB更新のような実行系ツールを持つと、問題は「このエージェントが、このユーザーの代理で、この対象に、この操作をしてよいか」に移る。</p>
+<p>Arcade.devは2026年6月に6000万ドルのSeries Aを発表し、自社を「production AI agents」のための secure action layer と位置付けた。公式ブログの主張はかなり明確で、モデルの推論力ではなく、エージェントが業務システムへ安全に手を伸ばす実行層が本番化の詰まりどころだというものだ。</p>
+<p>MCP側でも、HTTPベースのリモートMCPサーバーではOAuth 2.1、Protected Resource Metadata、Resource Indicators、スコープ、401/403の扱いなどが仕様化されている。つまり、個人秘書エージェントやOpenClaw運用でも、単に「Discordトークンを持たせる」「GitHub CLIを使えるようにする」ではなく、行動単位の許可、監査、取り消し、ステップアップ承認を設計対象にする必要がある。</p>
+<h2>なぜ今見る価値があるか</h2>
+<p>2025年から2026年にかけて、MCP、A2A、Agent Skills、各社のエージェントSDKが広がり、エージェントが外部ツールを呼ぶ前提は一気に普通になった。一方で、本番運用で怖いのは「モデルが答えを間違える」だけではない。間違った自信でメールを送る、不要なファイルを公開する、権限の強いトークンで社内データを読む、承認なしに変更を反映する、といった実行ミスのほうが被害に直結する。</p>
+<p>Arcade.devの調達ニュースが目立つのは、まさにこの焦点移動を市場が評価しているからだ。公式発表では、Series AはSYN Ventures主導、Morgan StanleyとWiproが戦略投資家として参加し、累計調達額は7200万ドルになったとされる。AIエージェントの「認可とガバナンス」を独立したインフラとして見る流れが強まっている。</p>
+<p>個人向けには、これはOpenClawの実務設計にかなり近い。Cron、Discord、ファイル、Git、Pages、Obsidian、ブラウザ、画像生成のように、個人秘書エージェントが持つ道具はすでに実行権限の集合体である。今後は「どのツールを入れるか」より、「どの行動にどんなゲートを置くか」を考えるほうが価値が高い。</p>
+<h2>調査メモ</h2>
+<p>Arcade.devの公式ブログは、企業エージェントの失敗理由を「モデルが弱い」ではなく、エージェントが本番システムへ安全に作用できることを証明できない点に置いている。そこで同社は、各アクションごとに enforce、execute、govern を行う層を掲げている。ここでいう enforce は、実行時点でポリシーとユーザー権限を確認すること、execute はエージェント向けに失敗しにくいツール実行を提供すること、govern は誰の代理で何をしたかを記録することに近い。</p>
+<p>ArcadeのDocsでは、ツールごとに必要なOAuthスコープを持ち、たとえばメール送信ツールなら送信スコープが必要になるという説明がある。エージェントがツールを呼ぶ時点で権限がなければ、Arcade Engineがユーザー認可フローを調整する。ここで重要なのは、権限がエージェント全体に一括で付くのではなく、ツールや操作に結びつく点である。</p>
+<p>MCPの認可仕様も同じ方向を向いている。保護されたMCPサーバーはOAuth 2.1のリソースサーバーとして振る舞い、MCPクライアントはリソースオーナーの代理で保護リソースへアクセスする。仕様上、MCPサーバーはOAuth 2.0 Protected Resource Metadataを実装し、クライアントはそれを使って認可サーバーを発見する。さらに、Resource Indicatorsで対象リソースを明示し、スコープ不足なら403、未認可や無効トークンなら401という扱いも整理されている。</p>
+<p>MCP公式チュートリアルは、ユーザー固有データ、監査、ユーザー同意、企業向けの厳格なアクセス制御、ユーザー単位のレート制限や利用追跡が必要な場合、認可を強く推奨している。一方で、STDIOのローカルMCPサーバーでは環境変数や埋め込み認証情報を使う選択肢もあると説明している。ここは個人運用で重要な分岐で、ローカルだから安全と決めつけるのではなく、ローカルに強い権限を置くなら、承認境界とログが別途必要になる。</p>
+<p>OpenClaw型の個人秘書エージェントへ落とすなら、権限は少なくとも次の4層に分けたい。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>層</th><th>例</th><th>ゲートの考え方</th></tr></thead>
+<tbody>
+<tr><td>読み取り</td><td>ファイル閲覧、候補一覧確認、Discord読み取り、Web調査</td><td>原則許可。ただし秘密や第三者情報の外部出力は別判定</td></tr>
+<tr><td>ローカル変更</td><td>Markdown作成、Obsidian整理、画像生成、ビルド</td><td>通常は許可。削除は <code>trash</code> 優先、既存変更の上書きに注意</td></tr>
+<tr><td>外部反映</td><td>Discord送信、git push、Pages公開、メール下書き</td><td>目的と送信先を限定。公開物は個人情報・内部パスを除く</td></tr>
+<tr><td>不可逆・高リスク</td><td>送金、購入、アカウント設定変更、公開投稿、破壊的削除</td><td>原則ユーザー確認。自動Cronでは扱わない</td></tr>
+</tbody>
+</table></div>
+<p>この分け方をすると、今回の興味レポートCronもよい教材になる。候補読み取り、ポール読み取り、Web調査、Markdown作成、ビルドまでは比較的低リスクだが、git pushとDiscord結果報告は外部反映である。成功条件に「公開URL確認」と「Discord報告」が含まれているため、行動レイヤーで見ると、単なる記事生成ではなく、公開まで含む権限付きワークフローになっている。</p>
+<h2>個人向けの読みどころ</h2>
+<p>個人向けには、OpenClawの権限設計を「ツール一覧」ではなく「行動一覧」で棚卸しするのがよい。</p>
+<p>まず、各ツールについて「読むだけ」「ローカルに書く」「外へ送る」「公開する」「取り消しにくい」のどれに当たるかを分類する。Discord読み取りとDiscord送信は同じDiscordツールでもリスクが違う。git statusとgit pushも同じGit操作ではない。ブラウザでページを見ることと、ログイン済み画面でボタンを押すことも別物である。</p>
+<p>次に、Cronは人間が見ていない時間に動くので、許可する行動をさらに絞る。今回のような記事化Cronでは、公開対象のMarkdown、ビルド生成物、git commit/push、結果報告までは仕様で明示されている。一方で、メール送信、購入、アカウント設定変更、任意サイトへの投稿は含めない。これは「エージェントが賢いか」ではなく、そもそも実行権限の設計問題である。</p>
+<p>最後に、監査ログを人間が読める形にする。少なくとも、選定理由、保存先、公開URL、コミットハッシュ、使用した外部ソースは残す。失敗時も、どの権限や操作が使えなかったのかを成功扱いにせず記録する。Arcadeが掲げる「誰の代理で、何を、どこへ行ったか」という発想は、個人秘書エージェントにもそのまま効く。</p>
+<h2>注意点</h2>
+<p>Arcade.devの主張は自社プロダクトのポジショニングを含むため、すべてを中立的な技術評価として読むべきではない。特に「action layer」という語は市場形成中のカテゴリ名に近く、既存のIAM、API Gateway、PAM、SIEM、SOAR、DLP、MCP Gatewayとの境界はまだ固まりきっていない。</p>
+<p>また、OAuthやMCP認可仕様を導入しても、プロンプトインジェクション、ツール説明の曖昧さ、過剰スコープ、ログに残る機密情報、ユーザーが不用意に承認する問題は残る。認可は必要条件であって、エージェント安全性の十分条件ではない。</p>
+<p>個人運用では、過剰に複雑な認可基盤を作るより、最初は「読み取り」「ローカル書き込み」「外部送信」「公開」「不可逆操作」を分け、外部送信以上はログと確認点を明確にするほうが現実的である。</p>
+<h2>参考リンク</h2>
+<ul>
+<li>Arcade.dev: We saw the action layer coming. Now we're going to own it.</li>
+</ul>
+<p><a href="https://www.arcade.dev/blog/arcade-series-a/">arcade.dev - blog / arcade-series-a</a></p>
+<ul>
+<li>Arcade Docs: About Arcade: the enterprise-ready actions runtime for AI agents</li>
+</ul>
+<p><a href="https://docs.arcade.dev/en/get-started/about-arcade">docs.arcade.dev - en / get-started</a></p>
+<ul>
+<li>Model Context Protocol: Authorization specification</li>
+</ul>
+<p><a href="https://modelcontextprotocol.io/specification/draft/basic/authorization">modelcontextprotocol.io - specification / draft</a></p>
+<ul>
+<li>Model Context Protocol: Understanding Authorization in MCP</li>
+</ul>
+<p><a href="https://modelcontextprotocol.io/docs/tutorials/security/authorization">modelcontextprotocol.io - docs / tutorials</a></p>
+<ul>
+<li>Business Wire: Arcade Raises $60M to Become the Secure Action Layer Behind Every Production AI Agent</li>
+</ul>
+<p><a href="https://www.businesswire.com/news/home/20260615229631/en/Arcade-Raises-%2460M-to-Become-the-Secure-Action-Layer-Behind-Every-Production-AI-Agent">businesswire.com - news / home</a></p>
+    </article>
+  </main>
+</body>
+</html>
