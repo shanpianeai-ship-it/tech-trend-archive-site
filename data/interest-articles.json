@@ -517,6 +517,18 @@
   },
   {
     "file": "[入力元伏せ]",
+    "slug": "2026-07-01-セキュリティ-MCP-Resource-Indicatorsで「別サービスへのトークン流用」をどこ-3a246dc892",
+    "title": "MCP Resource Indicatorsで「別サービスへのトークン流用」をどこまで防げるか",
+    "category": "セキュリティ",
+    "created": "2026-07-01T19:58:00+09:00",
+    "status": "",
+    "type": "interest_report",
+    "summary": "MCP Resource Indicatorsは、OAuthトークンを意図したMCPサーバーだけに縛る仕組み。個人エージェントで外部連携を増やす前に、トークン流用と権限境界を点検する材料になる。",
+    "excerpt": "MCP Resource Indicatorsは、OAuthトークンを意図したMCPサーバーだけに縛る仕組み。個人エージェントで外部連携を増やす前に、トークン流用と権限境界を点検する材料になる。",
+    "url": "interests/articles/2026-07-01-セキュリティ-MCP-Resource-Indicatorsで「別サービスへのトークン流用」をどこ-3a246dc892.html"
+  },
+  {
+    "file": "[入力元伏せ]",
     "slug": "2026-07-01-セキュリティ-MCPツール説明の毒入りプロンプトでAIエージェントはどこまで漏えいするか-f408077a08",
     "title": "MCPツール説明の毒入りプロンプトでAIエージェントはどこまで漏えいするか",
     "category": "セキュリティ",
