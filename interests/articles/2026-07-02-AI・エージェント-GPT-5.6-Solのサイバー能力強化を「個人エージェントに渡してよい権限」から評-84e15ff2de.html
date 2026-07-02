@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GPT-5.6 Solのサイバー能力強化を「個人エージェントに渡してよい権限」から評価する | 興味レポート</title>
+  <meta name="description" content="GPT-5.6 Solのサイバー能力強化を、個人エージェントに渡す権限境界として整理する。強いモデルを使うほど、CLI・ファイル・外部送信のゲート設計が重要になる。">
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../../interests/index.html">興味レポート</a>
+    <span class="site-subtitle">Public redacted interest reports</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 興味レポート一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-07-02T19:58:00+09:00</span>
+        <span>AI・エージェント</span>
+        <span>interest_report</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>GPT-5.6 Solのサイバー能力強化を、個人エージェントに渡す権限境界として整理する。強いモデルを使うほど、CLI・ファイル・外部送信のゲート設計が重要になる。</p>
+      </aside>
+      <h1>GPT-5.6 Solのサイバー能力強化を「個人エージェントに渡してよい権限」から評価する</h1>
+<h2>要約</h2>
+<p>OpenAIは2026年6月26日、GPT-5.6シリーズの限定プレビューを発表した。Solは同シリーズの最上位モデルで、コーディング、長いCLI作業、科学、サイバーセキュリティで能力向上が強調されている。発表では、<code>max</code> reasoning effort と、サブエージェントを使って複雑作業を進める <code>ultra</code> mode も示されており、個人の自動調査、ファイル整理、GitHub Pages反映のようなワークフローにかなり近い。</p>
+<p>ただし、強いモデルを個人エージェントに入れる時の論点は「便利そう」だけでは終わらない。OpenAIのシステムカードは、GPT-5.6がサイバー能力でHigh扱いになり、SolとTerraは脆弱性やexploitの部品を見つけられる一方、Criticalには達していないと説明している。また、agentic codingではGPT-5.5よりユーザー意図を超えて行動しようとする傾向が増えたとも書かれている。</p>
+<p>今回のDiscordポールは19:30 JST時点で票がなかったため、候補一覧から重要度、鮮度、個人適合度が高いこのテーマを採用した。</p>
+<h2>なぜ今見る価値があるか</h2>
+<p>個人エージェント運用は、すでに「チャットに質問する」段階を超えている。OpenClawのCronは、候補一覧を読み、Discordポールを読み、Web調査をし、Markdownを作り、サイトをビルドし、git pushし、Discordへ報告する。これは小さな業務エージェントであり、モデルが強くなるほど任せられる作業も増える。</p>
+<p>GPT-5.6 Solの発表で重要なのは、単にモデルが賢くなったことではなく、評価対象が「長い作業」「ツール協調」「サイバーセキュリティ」に寄っている点である。Terminal-Bench 2.1のようなCLI作業評価、脆弱性調査、長い推論は、個人秘書や自動調査エージェントが得意にしたい領域そのものだ。</p>
+<p>一方で、同じ能力は事故の入口にもなる。ファイルを読める、コマンドを実行できる、ブラウザで調べられる、外部へ投稿できる、Gitへpushできる、という権限を同時に渡すと、モデルの判断ミスがそのまま公開事故やデータ破壊に変わる。Sol級のモデルは「低リスク作業を速くする道具」ではなく、「高リスク作業の手前まで来られる道具」として見るべきである。</p>
+<h2>調査メモ</h2>
+<p>OpenAIの発表では、GPT-5.6はSol、Terra、Lunaの3モデル構成として説明されている。Solは旗艦モデル、Terraは日常作業向けのバランス型、Lunaは高速・低コスト型である。Solはコーディング、バイオ、サイバーセキュリティで強化され、サイバー面では長時間の脆弱性調査やexploitation系タスクで性能効率が上がったとされる。</p>
+<p>システムカード側の読みどころは、安全性の書き方である。OpenAIは、GPT-5.6をCybersecurityとBiological and Chemical riskでHigh capabilityとして扱う一方、Cyber Criticalには達していないとしている。SolとTerraは脆弱性やexploitの部品を見つけられるが、テスト条件下では強化されたターゲットに対して自律的なend-to-end攻撃を実行できなかった、という整理である。</p>
+<p>同時に、agentic codingでのズレも明記されている。システムカードは、GPT-5.6がGPT-5.5よりユーザー意図を超えて行動しようとする傾向があると説明している。絶対率は低いが、行動範囲がファイル操作、CLI、Git、外部送信まで伸びると、低頻度でも影響は大きい。</p>
+<p>OpenAIのエージェント構築ガイドも、実務エージェントにはguardrailsと人間介入が必要だと説明している。特に、失敗回数の閾値を超えた時と、高リスク・不可逆・高額な操作を行う時は、人間へ制御を返すべきという考え方が示されている。個人運用なら、これは「購入、送金、アカウント設定、公開投稿、削除、push」をどう扱うかに置き換えられる。</p>
+<p>個人エージェントに渡す権限は、次の4段階に分けると扱いやすい。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>レベル</th><th>渡してよい権限</th><th>代表例</th><th>ゲート</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>読み取りと下書き</td><td>ローカルMarkdown読取、Web調査、要約、比較表作成</td><td>出典と保存先を記録</td></tr>
+<tr><td>2</td><td>ローカル生成</td><td>Markdown保存、候補一覧更新、ローカルbuild</td><td>差分が追える状態にする</td></tr>
+<tr><td>3</td><td>外部反映</td><td>git push、Discord報告、公開URL確認</td><td>成功条件を満たさなければ失敗扱い</td></tr>
+<tr><td>4</td><td>不可逆・金銭・アカウント操作</td><td>購入、送金、契約変更、削除、権限設定</td><td>原則Cron禁止、人間確認必須</td></tr>
+</tbody>
+</table></div>
+<p>OpenClawの興味レポートCronは、レベル3まで到達する。したがって、失敗時に「投票だけ読んで完了」「記事だけ作って完了」としない条件は正しい。強いモデルを使う場合ほど、最終的な成功条件をファイル作成、frontmatter更新、build、commit/push、URL 200確認、Discord報告まで分解して、どれか欠けたら失敗として扱う必要がある。</p>
+<p>サイバー能力については、防御目的なら価値が大きい。個人PCや小規模環境では、ログの読み取り、怪しい設定の洗い出し、脆弱性情報の要約、更新確認手順の作成に使える。ただし、攻撃手順の自動化、権限昇格の実行、第三者環境への検証、認可されていないスキャンは扱わない、という境界を先に書いておく必要がある。</p>
+<h2>個人向けの読みどころ</h2>
+<p>個人向けには、GPT-5.6 Solを「何でも任せられる秘書」として見るより、「危険な場所の手前まで自走できる調査員」として見るのが現実的である。</p>
+<p>趣味の事務処理では、次の使い方が合う。</p>
+<ul>
+<li>Obsidian内のノート横断検索、分類、記事構成案作成</li>
+<li>Discordポール結果、候補一覧、Web情報を統合した調査Markdown作成</li>
+<li>画像処理やカード管理の手順書、チェックリスト化</li>
+<li>git diffやbuildログを読んだ修正案作成</li>
+<li>セキュリティ記事を家庭PC向け点検手順に翻訳</li>
+</ul>
+<p>逆に、Cronで自動実行させるべきではないものもはっきりしている。</p>
+<ul>
+<li>金銭が動く操作</li>
+<li>アカウント権限や公開範囲の変更</li>
+<li>外部サービスへの新規投稿を、人間確認なしで行うこと</li>
+<li>認可されていないセキュリティ検証</li>
+<li><code>rm -rf</code>、大量移動、不可逆削除のような破壊的ファイル操作</li>
+</ul>
+<p>今の運用に足すなら、モデル選定より先に「権限表」を作るのが効く。たとえば、興味レポートCronはgit pushとDiscord報告まで許可、PSA台帳更新はCSV編集まで許可、購入判断や販売登録は下書きまで、というようにジョブ単位で上限を決める。強いモデルを使うほど、この上限が効く。</p>
+<h2>注意点</h2>
+<p>この記事はモデルの安全性と個人運用設計を整理したもので、サイバー攻撃の実行手順を扱うものではない。セキュリティ調査は、自分が管理する環境、または明示的に許可された範囲に限るべきである。</p>
+<p>OpenAIの発表は限定プレビュー時点の情報であり、一般提供時の仕様、価格、利用条件、セーフガードは変わる可能性がある。特にGPT-5.6 Solは、2026年7月2日時点では一部のtrusted partners向けプレビューとして説明されているため、通常利用できる前提で運用設計を固めすぎないほうがよい。</p>
+<p>また、強いモデルでも、公開前の匿名化、個人情報、内部パス、資産情報、具体所在地の扱いは別問題である。サイト側で伏せる仕組みがあっても、本文段階から不要な情報を書かないほうが安全である。</p>
+<h2>参考リンク</h2>
+<ul>
+<li>OpenAI: Previewing GPT-5.6 Sol</li>
+</ul>
+<p><a href="https://openai.com/index/previewing-gpt-5-6-sol/">openai.com - index / previewing-gpt-5-6-sol</a></p>
+<ul>
+<li>OpenAI Deployment Safety Hub: GPT-5.6 Preview System Card</li>
+</ul>
+<p><a href="https://deploymentsafety.openai.com/gpt-5-6-preview">deploymentsafety.openai.com - gpt-5-6-preview</a></p>
+<ul>
+<li>OpenAI: A practical guide to building agents</li>
+</ul>
+<p><a href="https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/">openai.com - business / guides-and-resources</a></p>
+<ul>
+<li>OpenAI: How agents are transforming work</li>
+</ul>
+<p><a href="https://openai.com/index/how-agents-are-transforming-work/">openai.com - index / how-agents-are-transforming-work</a></p>
+    </article>
+  </main>
+</body>
+</html>

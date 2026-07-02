@@ -25,6 +25,18 @@
   },
   {
     "file": "[入力元伏せ]",
+    "slug": "2026-07-02-AI・エージェント-GPT-5.6-Solのサイバー能力強化を「個人エージェントに渡してよい権限」から評-84e15ff2de",
+    "title": "GPT-5.6 Solのサイバー能力強化を「個人エージェントに渡してよい権限」から評価する",
+    "category": "AI・エージェント",
+    "created": "2026-07-02T19:58:00+09:00",
+    "status": "",
+    "type": "interest_report",
+    "summary": "GPT-5.6 Solのサイバー能力強化を、個人エージェントに渡す権限境界として整理する。強いモデルを使うほど、CLI・ファイル・外部送信のゲート設計が重要になる。",
+    "excerpt": "GPT-5.6 Solのサイバー能力強化を、個人エージェントに渡す権限境界として整理する。強いモデルを使うほど、CLI・ファイル・外部送信のゲート設計が重要になる。",
+    "url": "interests/articles/2026-07-02-AI・エージェント-GPT-5.6-Solのサイバー能力強化を「個人エージェントに渡してよい権限」から評-84e15ff2de.html"
+  },
+  {
+    "file": "[入力元伏せ]",
     "slug": "2026-07-02-AI・エージェント-GPT-5.6-Sol、Claude-Sonnet-5、Google-Genkit--ca04696430",
     "title": "GPT-5.6 Sol、Claude Sonnet 5、Google Genkit Agentsを「実務エージェント」として比較する",
     "category": "AI・エージェント",
