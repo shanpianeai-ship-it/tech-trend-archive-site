@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cursorサンドボックス迂回RCE | 海外技術情報アーカイブ</title>
+  <meta name="description" content="CursorのDuneSlide脆弱性は、プロンプトインジェクションがAI IDEのサンドボックス実装バグを踏み抜き、開発端末のRCEへ進むことを示す。">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-07-02</span>
+        <span>Security</span>
+        <span>importance: high</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>CursorのDuneSlide脆弱性は、プロンプトインジェクションがAI IDEのサンドボックス実装バグを踏み抜き、開発端末のRCEへ進むことを示す。</p>
+      </aside>
+      <h1>Cursorサンドボックス迂回RCE</h1>
+<h2>要約</h2>
+<p>Cato AI Labsは、Cursor IDEのサンドボックスを迂回して非サンドボックスRCEへつながる2件の脆弱性をDuneSlideとして公開した。対象はCursor 3.0未満で、CVE-2026-50548とCVE-2026-50549として登録されている。NVDではCVE-2026-50548にCVSS 9.8、GitHub CNAではCVSS 4.0の9.3 criticalが付いている。</p>
+<p>重要なのは、攻撃経路が「ユーザーが悪性コマンドを明示的に実行する」形ではないこと。MCPサーバー、Web検索結果、外部ドキュメントなどに埋め込まれた間接プロンプトインジェクションをCursor Agentが取り込み、ツールパラメータやファイルパス処理を悪用することで、サンドボックス外への任意ファイル書き込みに進む。</p>
+<p>AIコーディングツールでは、モデル、プロンプト、承認UIだけでなく、サンドボックスのパス解決、作業ディレクトリ指定、symlink処理、環境変数継承までが攻撃面になる。自分向けには、Cursor単体の更新情報ではなく、OpenClaw/Codex/Claude Code系のローカル実行環境を点検するための具体例として読む価値が高い。</p>
+<h2>背景</h2>
+<p>AI IDEやコーディングエージェントは、補完だけでなく、ファイル編集、コマンド実行、依存導入、テスト実行、Web検索、MCP連携まで担当するようになっている。便利さの中心は、エージェントが外部情報を読み、必要な操作を自律的に選べる点にある。</p>
+<p>その一方で、外部情報は攻撃者が操作できる。README、Issue、検索結果、MCPサーバー応答、チケット本文、ドキュメント断片に「エージェント向けの隠れた指示」が混じると、ユーザーは普通の依頼をしただけでも、エージェントが攻撃者の意図した操作を選ぶ可能性がある。</p>
+<p>従来の防御策として、Cursor 2.xは自動ターミナル実行をサンドボックス内へ閉じ、原則としてプロジェクトディレクトリ内への書き込みに制限していた。DuneSlideは、そのサンドボックス境界を実装上のパラメータ処理とパス解決の穴から崩せることを示した。</p>
+<h2>何が重要か</h2>
+<h3>1. プロンプトインジェクションが実装バグのトリガーになる</h3>
+<p>今回のポイントは、LLMが「だまされた」だけでは終わらないこと。だまされたLLMが、AI IDEのツールAPIに対して危険な値を渡し、その値をホスト側実装が信頼した結果、古典的なサンドボックス破りに進む。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>CVE</th><th>主な弱点</th><th>攻撃の要点</th><th>修正</th></tr></thead>
+<tbody>
+<tr><td>CVE-2026-50548</td><td><code>working_directory</code>の扱い</td><td>Agentが作業ディレクトリを外部パスへ向けると、サンドボックスの書き込み許可範囲が広がる</td><td>Cursor 3.0</td></tr>
+<tr><td>CVE-2026-50549</td><td>symlink正規化失敗時のfallback</td><td>workspace内のsymlinkを外部パスへ向け、正規化失敗時に元パスを信じて書き込ませる</td><td>Cursor 3.0</td></tr>
+</tbody>
+</table></div>
+<p>Catoの説明では、どちらも最終的に<code>cursorsandbox</code>ヘルパー、shell設定、LaunchAgentsなどを書き換えることで、後続コマンドをサンドボックス外で実行させられる。NVDのCVE-2026-50548説明でも、悪意あるAgentが<code>working_directory</code>を敏感な場所に設定し、任意ファイルをユーザー権限で書けると整理されている。</p>
+<h3>2. 「サンドボックスあり」だけでは安全判定にならない</h3>
+<p>サンドボックスは必要だが、境界の作り方が弱いと、むしろ「自動実行しても大丈夫」という誤った安心感を生む。今回のようなAI IDEでは、次の実装細部がそのままセキュリティ境界になる。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>境界</th><th>見るべき点</th><th>壊れた時の影響</th></tr></thead>
+<tbody>
+<tr><td>作業ディレクトリ</td><td>LLM由来のパラメータで変更できるか</td><td>書き込み許可範囲が外へ広がる</td></tr>
+<tr><td>パス正規化</td><td>symlink、存在しないパス、権限不足時のfallback</td><td>workspace外への書き込み</td></tr>
+<tr><td>ヘルパー保護</td><td>sandbox実行ファイルを書き換えられるか</td><td>後続実行が無制限化</td></tr>
+<tr><td>shell設定</td><td><code>.zshrc</code>などへ書けるか</td><td>次回terminal起動時に永続化</td></tr>
+<tr><td>外部入力</td><td>MCP、検索、Issueを命令として扱わないか</td><td>zero-clickに近い誘導</td></tr>
+</tbody>
+</table></div>
+<p>実務上は「sandboxed modeをONにしたから完了」ではなく、sandboxがどの入力から境界を作るか、LLMがその入力を操作できるかを見る必要がある。</p>
+<h3>3. MCPとWeb検索が攻撃経路として自然すぎる</h3>
+<p>Catoは、攻撃入力の例としてMCPサーバー応答やpoisoned web resultを挙げている。これはAI開発環境ではかなり現実的な経路だ。</p>
+<p>MCPは、チケット、リポジトリ、社内ツール、検索、ファイル、ブラウザなどをAgentへ接続する。エージェントにとっては「タスク達成に必要な情報源」だが、セキュリティ上は未信頼データがツール実行経路へ入る口でもある。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>入力源</th><th>普通の使い方</th><th>攻撃時の意味</th></tr></thead>
+<tbody>
+<tr><td>MCPサーバー</td><td>Issueやチケットを読む</td><td>ツール応答に隠れた命令を混ぜる</td></tr>
+<tr><td>Web検索</td><td>エラーや仕様を調べる</td><td>SEOや検索結果汚染で誘導する</td></tr>
+<tr><td>リポジトリ</td><td>READMEやsetup手順を読む</td><td>初回setupを危険操作へ誘導する</td></tr>
+<tr><td>チャットログ</td><td>作業依頼を読む</td><td>過去ログ内の悪性指示を再利用させる</td></tr>
+</tbody>
+</table></div>
+<p>AI agentの安全性は、外部情報を「参考情報」として隔離できるか、そこから生成された操作を別レイヤーで検証できるかに依存する。</p>
+<h2>自分向けメモ</h2>
+<ul>
+<li>Cursorを使う場合は3.0以上へ更新済みか確認する。Cursor 3.0未満はDuneSlideの直接対象として扱う。</li>
+<li>未信頼リポジトリ、MCP接続、Web検索を使うエージェント作業では、shell自動承認とファイル書き込みを通常作業より厳しく見る。</li>
+<li>「sandboxed」「workspace内だけ」という表示を信じるだけでなく、HOME、shell設定、Git hooks、LaunchAgents、IDE helper、SSH/API keyへ触れない設計になっているかを確認する。</li>
+<li>OpenClaw/Codex系でも、作業ディレクトリ、パス正規化、symlink、環境変数継承、外部入力からのコマンド生成は重点監査対象にする。</li>
+<li>MCPサーバーは便利な接続先ではなく、エージェントの行動に影響する未信頼入力として扱う。検索結果やチケット本文をそのまま実行計画へ変換させない。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://www.catonetworks.com/blog/duneslide-two-critical-rce-vulnerabilities/">Cato Networks - DuneSlide: Two Critical RCE vulnerabilities via Zero-Click Prompt Injection in Cursor IDE</a>: 一次情報。2件の脆弱性、攻撃経路、責任ある開示の時系列を説明。</li>
+<li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-50548">NVD - CVE-2026-50548</a>: <code>working_directory</code>操作によるsandbox外書き込みとCursor 3.0での修正を確認できる。</li>
+<li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-50549">NVD - CVE-2026-50549</a>: symlink正規化失敗時のfallbackによるsandbox外書き込みを確認できる。</li>
+<li><a href="https://www.csoonline.com/article/4191923/sandbox-bypass-flaws-in-cursor-ide-highlight-prompt-injection-as-an-rce-vector.html">CSO Online - Sandbox bypass flaws in Cursor IDE highlight prompt injection as an RCE vector</a>: 企業向けセキュリティ文脈で、AI IDE全般の攻撃面として整理。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>Cursor IDE</li>
+<li>DuneSlide</li>
+<li>CVE-2026-50548</li>
+<li>CVE-2026-50549</li>
+<li>prompt injection</li>
+<li>AI coding agent</li>
+<li>sandbox escape</li>
+<li>MCP</li>
+<li>symlink canonicalization</li>
+<li>working_directory</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://www.catonetworks.com/blog/duneslide-two-critical-rce-vulnerabilities/">catonetworks.com - blog / duneslide-two-critical-rce-vulnerabilities</a></p></section>
+    </article>
+  </main>
+</body>
+</html>

@@ -14,6 +14,20 @@
     "url": "articles/2026-07-02_Red_Hat_npm_SLSA_provenanceの落とし穴.html"
   },
   {
+    "file": "Security/2026-07-02_AM_Cursorサンドボックス迂回RCE.md",
+    "slug": "2026-07-02_AM_Cursorサンドボックス迂回RCE",
+    "title": "Cursorサンドボックス迂回RCE",
+    "genre": "Security",
+    "genreLabel": "Security",
+    "created": "2026-07-02",
+    "source": "https://www.catonetworks.com/blog/duneslide-two-critical-rce-vulnerabilities/",
+    "importance": "high",
+    "confidence": "high",
+    "summary": "CursorのDuneSlide脆弱性は、プロンプトインジェクションがAI IDEのサンドボックス実装バグを踏み抜き、開発端末のRCEへ進むことを示す。",
+    "excerpt": "CursorのDuneSlide脆弱性は、プロンプトインジェクションがAI IDEのサンドボックス実装バグを踏み抜き、開発端末のRCEへ進むことを示す。",
+    "url": "articles/2026-07-02_AM_Cursorサンドボックス迂回RCE.html"
+  },
+  {
     "file": "Security/2026-07-01_ローカルLLMエージェント実装層監査.md",
     "slug": "2026-07-01_ローカルLLMエージェント実装層監査",
     "title": "ローカルLLMエージェント実装層監査",
