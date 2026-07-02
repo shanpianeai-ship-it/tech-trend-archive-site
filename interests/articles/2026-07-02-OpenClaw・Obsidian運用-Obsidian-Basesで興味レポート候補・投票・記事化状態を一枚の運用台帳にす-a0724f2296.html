@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Obsidian Basesで興味レポート候補・投票・記事化状態を一枚の運用台帳にする | 興味レポート</title>
+  <meta name="description" content="Obsidian Basesを、興味レポートの候補・投票・記事化・公開確認を横断する運用台帳として使う案。Cron失敗時の復旧判断を速くするための最小プロパティ設計を整理する。">
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../../interests/index.html">興味レポート</a>
+    <span class="site-subtitle">Public redacted interest reports</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 興味レポート一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-07-02T19:55:00+09:00</span>
+        <span>OpenClaw・Obsidian運用</span>
+        <span>interest_report</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>Obsidian Basesを、興味レポートの候補・投票・記事化・公開確認を横断する運用台帳として使う案。Cron失敗時の復旧判断を速くするための最小プロパティ設計を整理する。</p>
+      </aside>
+      <h1>Obsidian Basesで興味レポート候補・投票・記事化状態を一枚の運用台帳にする</h1>
+<h2>要約</h2>
+<p>Obsidian Basesは、Markdownノートのプロパティをもとに、ノート群をデータベースのように表示・編集・絞り込みするためのObsidianコア機能である。興味レポート自動化に当てはめると、候補一覧、Discordポール、選定結果、記事化、GitHub Pages公開確認を別々に追うのではなく、Obsidian上の一枚の台帳で現在地を確認できる。</p>
+<p>今回のポールは集計時点で票がなかったため、候補一覧から重要度と個人適合度が高いこのテーマを選んだ。すでに興味レポートCronは「候補作成」「投票」「記事作成」「ビルド」「push」「公開確認」「Discord報告」までをまたぐため、成功時よりも失敗時にどこで止まったかをすばやく見られる設計が効く。</p>
+<h2>なぜ今見る価値があるか</h2>
+<p>Obsidian公式ヘルプでは、Basesはノートのプロパティを表示、編集、ソート、フィルタできるコアプラグインとして説明されている。ビューはテーブル、リスト、カード、マップなどを持て、データ自体はローカルのMarkdownファイルとプロパティに保存される。つまり、今の候補一覧Markdownと調査Markdownを大きく変えず、frontmatterだけを少し整えれば運用台帳にできる。</p>
+<p>2025年8月のObsidian 1.9.10公開時点で、Basesは「任意のノート集合をデータベース化する」機能として導入された。さらに2026年のChangelogでは、Basesの検索ボタン、ドラッグ&amp;ドロップによるインポート、テーブル行のコンテキストメニュー、列幅調整などが追加されている。日次で増える候補一覧と記事ノートを探す用途では、単なる実験機能ではなく、日常運用に寄せた改善が続いていると見てよい。</p>
+<p>Roadmap上でも、BasesのKanbanビューはActive、Publish対応とCalendarビューはPlannedにある。現時点で公開サイト側の表示までBasesに任せる段階ではないが、ローカルObsidianでの運用監視台帳として使う価値は十分ある。</p>
+<h2>調査メモ</h2>
+<p>興味レポート自動化で追いたい対象は、実は2種類だけでよい。</p>
+<ul>
+<li><code>interest_candidates</code>: その枠の候補一覧。非公開の運用ログとして、ポールID、選定結果、失敗理由、記事保存先を持つ。</li>
+<li><code>interest_report</code>: 選ばれた具体テーマの調査ノート。公開対象として、ジャンル、要約、選定元、公開可否、枠を持つ。</li>
+</ul>
+<p>候補一覧側のfrontmatterは、以下の項目があれば復旧に足りる。</p>
+<p>``<code>yaml type: interest_candidates created: 2026-07-02T18:42:00+09:00 run_slot: afternoon status: selected poll_channel_id: &quot;1512739450919194725&quot; poll_message_id: &quot;1522176799583244329&quot; selected: 10 selected_answer: &quot;10. Obsidian Basesで興味台帳&quot; selected_note: &quot;投票なしのため候補一覧から選定。重要度・個人適合度が高く、Cron復旧性の改善に直結するため。&quot; report_path: &quot;興味/OpenClaw・Obsidian運用/2026-07-02_Obsidian_Basesで興味台帳.md&quot; </code>``</p>
+<p>記事側は、公開サイトのビルドに必要な項目を中心にする。DiscordメッセージIDや内部パスを記事frontmatterへ増やしすぎると、公開HTML側で伏せる対象が増えるため、公開ノートには読者にも意味がある情報だけを置く。</p>
+<p>``<code>yaml type: interest_report created: 2026-07-02T19:55:00+09:00 summary: &quot;一覧ページ用の短い要約&quot; genre: OpenClaw・Obsidian運用 source_count: 4 publish: true confidence: medium selected_from_poll: false selected_answer: &quot;10. Obsidian Basesで興味台帳&quot; run_slot: afternoon </code>``</p>
+<p>Basesのビューは、最初から凝りすぎない方がよい。おすすめは次の3つである。</p>
+<ul>
+<li>今日の枠: <code>created</code> が今日、またはファイル名が今日の日付で始まる候補一覧と調査ノートを表示する。</li>
+<li>要確認: <code>status</code> が <code>candidate</code>、<code>failed</code>、<code>built_not_verified</code>、または <code>report_path</code> が空の候補一覧を表示する。</li>
+<li>公開済み: <code>type</code> が <code>interest_report</code>、<code>publish</code> が <code>true</code>、<code>created</code> の新しい順で表示する。</li>
+</ul>
+<p>列は <code>created</code>、<code>run_slot</code>、<code>type</code>、<code>status</code>、<code>genre</code>、<code>selected_answer</code>、<code>publish</code>、<code>report_path</code>、<code>selected_note</code> 程度で足りる。コミットハッシュや公開URLは便利だが、まずは「どの枠が記事化済みか」「どの枠が止まったか」を見えるようにするのが先である。</p>
+<h2>個人向けの読みどころ</h2>
+<p>この台帳の役割は、Cronをさらに複雑にすることではない。むしろ、失敗したときに調べる場所を減らすことだ。</p>
+<p>今の運用では、候補一覧はObsidian、ポール結果はDiscord、公開結果はPages repo、成功報告はDiscord結果チャンネルに分かれている。通常時はこれで問題ないが、どこかで失敗すると「候補は作られたか」「ポールIDはあるか」「票は読めたか」「記事は保存されたか」「ビルド後にpushしたか」を順に掘ることになる。</p>
+<p>Basesで候補一覧と調査ノートを横断表示できれば、少なくともObsidian上で「候補だけ残って記事がない」「選定済みだがreport_pathがない」「記事はあるがpublishがfalse」「今日のafternoonだけ未完了」といった状態を拾える。これは人間が見る管理画面としても、将来の復旧Cronが読む入力としても使いやすい。</p>
+<p>特に今回のように投票がない枠では、<code>selected_note</code> に「投票なしのため候補一覧から選定」と残すだけで、あとからなぜそのテーマが選ばれたのかをDiscordまで戻らず確認できる。</p>
+<h2>注意点</h2>
+<p>BasesはローカルObsidianの表示・編集機能であり、Cronの成功判定そのものではない。記事作成Cronの成功条件は、Markdown作成、候補一覧更新、サイトビルド、git commit/push、公開URLのHTTP 200確認、Discord結果報告まで完了した状態である。Bases上で見やすくなっても、この成功条件は変えない。</p>
+<p>また、候補一覧は非公開の運用ログだが、調査ノートは公開対象になる。DiscordチャンネルID、メッセージID、内部パス、個人情報、資産額、年収、具体地名などを公開ノート本文へ不要に書かない。公開HTML側で伏せる仕組みがあっても、元Markdownをきれいに保つ方が安全である。</p>
+<p>BasesのPublish対応はRoadmap上ではPlannedであり、現時点ではGitHub Pages側の一覧生成を置き換える前提にしない方がよい。Obsidian内の運用台帳として使い、外向けサイトは既存の <code>node scripts/build.mjs</code> に任せる分担が現実的である。</p>
+<h2>参考リンク</h2>
+<ul>
+<li>Obsidian Help: <a href="https://obsidian.md/help/bases">Introduction to Bases</a></li>
+<li>Obsidian Changelog: Obsidian 1.9.10 <a href="https://obsidian.md/changelog/2025-08-18-desktop-v1.9.10/">Desktop</a></li>
+<li><a href="https://obsidian.md/changelog/">Obsidian Changelog</a></li>
+<li><a href="https://obsidian.md/roadmap/">Obsidian Roadmap</a></li>
+</ul>
+    </article>
+  </main>
+</body>
+</html>

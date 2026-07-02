@@ -325,6 +325,18 @@
   },
   {
     "file": "[入力元伏せ]",
+    "slug": "2026-07-02-OpenClaw・Obsidian運用-Obsidian-Basesで興味レポート候補・投票・記事化状態を一枚の運用台帳にす-a0724f2296",
+    "title": "Obsidian Basesで興味レポート候補・投票・記事化状態を一枚の運用台帳にする",
+    "category": "OpenClaw・Obsidian運用",
+    "created": "2026-07-02T19:55:00+09:00",
+    "status": "",
+    "type": "interest_report",
+    "summary": "Obsidian Basesを、興味レポートの候補・投票・記事化・公開確認を横断する運用台帳として使う案。Cron失敗時の復旧判断を速くするための最小プロパティ設計を整理する。",
+    "excerpt": "Obsidian Basesを、興味レポートの候補・投票・記事化・公開確認を横断する運用台帳として使う案。Cron失敗時の復旧判断を速くするための最小プロパティ設計を整理する。",
+    "url": "interests/articles/2026-07-02-OpenClaw・Obsidian運用-Obsidian-Basesで興味レポート候補・投票・記事化状態を一枚の運用台帳にす-a0724f2296.html"
+  },
+  {
+    "file": "[入力元伏せ]",
     "slug": "2026-06-22-OpenClaw・Obsidian運用-Obsidian-Basesで「候補・投票・記事化・公開」を1画面にする最小プロパテ-d1bb0c3679",
     "title": "Obsidian Basesで「候補・投票・記事化・公開」を1画面にする最小プロパティ設計",
     "category": "OpenClaw・Obsidian運用",
