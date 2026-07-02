@@ -25,6 +25,18 @@
   },
   {
     "file": "[入力元伏せ]",
+    "slug": "2026-07-02-AI・エージェント-GPT-5.6-Sol、Claude-Sonnet-5、Google-Genkit--ca04696430",
+    "title": "GPT-5.6 Sol、Claude Sonnet 5、Google Genkit Agentsを「実務エージェント」として比較する",
+    "category": "AI・エージェント",
+    "created": "2026-07-02T19:48:00+09:00",
+    "status": "",
+    "type": "interest_report",
+    "summary": "GPT-5.6 Sol、Claude Sonnet 5、Google Genkit Agentsを、実務エージェント運用の観点で比較する。強いモデル選びより、権限・監督・復旧設計を先に決める必要が見える。",
+    "excerpt": "GPT-5.6 Sol、Claude Sonnet 5、Google Genkit Agentsを、実務エージェント運用の観点で比較する。強いモデル選びより、権限・監督・復旧設計を先に決める必要が見える。",
+    "url": "interests/articles/2026-07-02-AI・エージェント-GPT-5.6-Sol、Claude-Sonnet-5、Google-Genkit--ca04696430.html"
+  },
+  {
+    "file": "[入力元伏せ]",
     "slug": "2026-07-01-AI・エージェント-AIエージェントの権限管理は「認証」ではなく「行動レイヤー」で設計する時代か-01b7b31ff1",
     "title": "AIエージェントの権限管理は「認証」ではなく「行動レイヤー」で設計する時代か",
     "category": "AI・エージェント",
