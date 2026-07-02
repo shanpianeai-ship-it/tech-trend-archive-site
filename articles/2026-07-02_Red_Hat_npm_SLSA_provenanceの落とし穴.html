@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Red Hat npm SLSA provenanceの落とし穴 | 海外技術情報アーカイブ</title>
+  <meta name="description" content="@redhat-cloud-services npm侵害は、正規CIで作られたSLSA provenance付き成果物でも、侵害済みパイプラインなら悪性になり得ることを示す。">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-07-02</span>
+        <span>Security</span>
+        <span>importance: high</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>@redhat-cloud-services npm侵害は、正規CIで作られたSLSA provenance付き成果物でも、侵害済みパイプラインなら悪性になり得ることを示す。</p>
+      </aside>
+      <h1>Red Hat npm SLSA provenanceの落とし穴</h1>
+<h2>要約</h2>
+<p>Unit 42は、2026-06-01に<code>@redhat-cloud-services</code> npm名前空間の少なくとも32パッケージが侵害され、Miasmaと呼ばれるペイロードが配布されたと整理している。攻撃者は侵害したRed Hat従業員のGitHubアカウントを使い、RedHatInsights配下のリポジトリへ不正コミットを入れ、GitHub Actions経由で悪性パッケージを公開した。</p>
+<p>この件で一番重要なのは、悪性パッケージに有効なSLSA provenanceが付いていた点。provenanceは「どのビルド基盤が、どの入力・ワークフローで成果物を作ったか」を検証する材料だが、「そのワークフローや入力が侵害されていなかった」ことまでは自動的に保証しない。</p>
+<p>自分向けには、署名、SLSA、trusted publishingを「安全判定の終点」ではなく、「調査を始めるための証跡」として扱うべき案件。CI/CDの権限、OIDC subject条件、install-time実行、公開直後の依存取り込みをセットで見ないと、正規経路のまま悪性コードを配れる。</p>
+<h2>背景</h2>
+<p>Red Hat公式bulletinでは、2026-06-01に<code>@redhat-cloud-services</code>配下の複数npmパッケージでサプライチェーン侵害が公表され、初期調査として侵害されたGitHubアカウントからRed Hat GitHub organization内のパッケージへ悪性コードが注入されたと説明している。</p>
+<p>Red Hatは、影響パッケージはHybrid Cloud ConsoleのWeb UIで使われるフロントエンドJavaScriptライブラリであり、侵害期間中にHybrid Cloud Consoleのリリースは行われておらず、console.redhat.comへのデプロイ前にinstall-time scriptsを取り除く保護もあるとしている。したがって、Red Hatの顧客向け本番サービス障害としてではなく、該当npmパッケージを開発端末やCIで取得した場合の開発・ビルド環境侵害として読むのが妥当。</p>
+<p>一方、Wiz、JFrog、Unit 42などの解析は、攻撃の技術的意味をより広く捉えている。MiasmaはMini Shai-Hulud系の手口を引き継ぎ、npm install時に実行されるコードでGitHub、npm、クラウド、Kubernetes、Vault、CI/CD関連の認証情報を狙う。さらに、正規のGitHub Actions OIDC経路を使ってnpmへ公開したため、成果物にvalid SLSA provenanceが付いた。</p>
+<h2>何が重要か</h2>
+<h3>provenanceは「経路の証明」であって「内容の善性」ではない</h3>
+<p>SLSA provenanceは、成果物がどのビルド定義、入力、ビルダー、実行情報から作られたかを記録する。これは改ざん検知や再現性、ポリシー検証に有効だが、信頼の前提はビルド基盤と入力が想定どおりであることに置かれる。</p>
+<p>今回のように、正規リポジトリや正規ワークフロー側が侵害されると、「確かにそのCIで作られた」という証明と、「作られたものが悪性である」という事実が両立する。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>観点</th><th>provenanceが言えること</th><th>provenanceだけでは言えないこと</th></tr></thead>
+<tbody>
+<tr><td>出所</td><td>どのビルダー、ワークフロー、入力から作られたか</td><td>入力やワークフローがレビュー済みだったか</td></tr>
+<tr><td>完全性</td><td>公開物と証跡の対応</td><td>build中のキャッシュ、依存、runner状態が健全だったか</td></tr>
+<tr><td>ポリシー</td><td>許可されたbuilderか</td><td>そのbuilderを起動できる人・branch・workflowが適切だったか</td></tr>
+<tr><td>監査</td><td>事故後に追跡しやすい</td><td>事故そのものを必ず防ぐ</td></tr>
+</tbody>
+</table></div>
+<p>この差分を誤ると、「SLSA付きだから安全」「trusted publisherだから安全」という雑な許可ルールになり、侵害済みCIから出た悪性パッケージを自動的に通してしまう。</p>
+<h3>OIDC trusted publishingは権限の細粒度設計が本体</h3>
+<p>npmのtrusted publishingやGitHub Actions OIDCは、長期npm tokenを減らせるので導入価値は高い。ただし、実務上の安全性は「どのworkflow、branch、environment、repository ownerから発行されたOIDCを信頼するか」に依存する。</p>
+<p>Wizの解析では、不正コミットに含まれた最小workflowが<code>id-token: write</code>を要求し、npm公開に使えるOIDCトークンを得ていた。ここで重要なのは、OIDC自体が壊れたのではなく、OIDCを発行できる条件と、それをnpm側が信頼する条件が攻撃者に利用されたこと。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>設計項目</th><th>弱い設定の例</th><th>強めたい設定</th></tr></thead>
+<tbody>
+<tr><td>branch条件</td><td>任意branchのpushで公開可能</td><td>protected branchやrelease tagだけ許可</td></tr>
+<tr><td>workflow条件</td><td>どのworkflowでもid-token発行</td><td>公開専用workflow名に限定</td></tr>
+<tr><td>environment</td><td>承認なしでpublish</td><td>protected environmentと手動承認</td></tr>
+<tr><td>repo権限</td><td>広い書き込み権限</td><td>release担当者とbotを分離</td></tr>
+<tr><td>npm側信頼</td><td>repository単位で広く信頼</td><td>workflow、branch、tag条件まで絞る</td></tr>
+</tbody>
+</table></div>
+<p>つまり、OIDCは「tokenを置かなくてよい」仕組みであって、「誰が何を公開できるか」を代わりに設計してくれる仕組みではない。</p>
+<h3>install-time実行は依存更新の最大リスク面になる</h3>
+<p>JFrogの解析では、影響パッケージは正規の<code>@redhat-cloud-services</code>名前空間にあり、悪性コードはアプリケーションがimportする前、npm lifecycle hookの段階で実行される。型定義やフロントエンド部品のように見えるパッケージでも、<code>preinstall</code>や<code>binding.gyp</code>経由でコード実行面になり得る。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>リスク面</th><th>なぜ危険か</th><th>実務対策</th></tr></thead>
+<tbody>
+<tr><td><code>preinstall</code></td><td>installだけでコードが動く</td><td>CIで<code>--ignore-scripts</code>を検討、例外制にする</td></tr>
+<tr><td>大きな難読化JS</td><td>型・小型パッケージでは異常</td><td>パッケージサイズ差分を監視</td></tr>
+<tr><td>公開直後の最新版</td><td>検出前にCIへ入る</td><td>registry proxyのcooldownを置く</td></tr>
+<tr><td>正規namespace</td><td>reputationで通りやすい</td><td>名前空間ではなく挙動で見る</td></tr>
+<tr><td>CI runner</td><td>secretsとクラウド権限が集まる</td><td>egress制御、短命runner、secret最小化</td></tr>
+</tbody>
+</table></div>
+<p>依存更新PRのレビューでは、ソース差分だけでなく、公開tarball、lifecycle scripts、package size、provenance、publish元workflowをまとめて見る必要がある。</p>
+<h3>「署名済み悪性物」を前提に検知を組む</h3>
+<p>今回の教訓は、署名やprovenanceを捨てることではない。むしろ、署名やprovenanceを使って「どの正規経路が悪用されたか」を素早く絞るべき。ただし、自動許可の唯一条件にしてはいけない。</p>
+<p>実務では次の組み合わせが必要になる。</p>
+<ul>
+<li>provenance検証: 許可されたbuilder、workflow、branch、tagかを見る。</li>
+<li>パッケージ挙動検査: lifecycle scripts、<code>binding.gyp</code>、難読化、大幅なサイズ増加を見る。</li>
+<li>runner監視: npm install中の<code>node</code>、<code>bun</code>、<code>curl</code>、<code>unzip</code>、外部通信を追う。</li>
+<li>secret管理: npm、GitHub、cloud、Vault、CI tokenを短命化し、利用ログを取る。</li>
+<li>取り込み遅延: 公開直後のバージョンを即時に本番CIへ入れない。</li>
+</ul>
+<h2>自分向けメモ</h2>
+<ul>
+<li>SLSA provenanceは「信頼してよいか」の答えではなく、「どのビルド経路を検証すべきか」の索引として扱う。</li>
+<li>GitHub Actions OIDCは、<code>sub</code>条件をrepositoryだけでなくbranch、tag、workflow、environmentまで絞る。任意branchから<code>id-token: write</code>を出せる構成は危険。</li>
+<li>npm依存更新では、GitHubのソースだけでなくnpm tarball側を見る。公開物にだけ混入する攻撃がある。</li>
+<li>CIでは<code>npm ci --ignore-scripts</code>を標準にできる領域を分け、必要なinstall scriptだけ例外許可する。</li>
+<li>開発端末も侵害面に含める。ローカル<code>npm install</code>でGitHub CLI token、cloud CLI設定、SSH key、<code>.env</code>が抜かれ得る。</li>
+<li>SAP/BTPや企業向けフロントエンド運用では、UI部品やAPI clientのnpm依存がBasis運用の外に置かれがち。S/4やBTP本体だけでなく、管理画面・拡張アプリ・CIテンプレートの依存も棚卸し対象にする。</li>
+<li>票なし時の自動選定としてこの候補を選んだ理由は、6/9の初報から一歩進めて、provenance/署名/CI信頼境界の運用判断に落とせるため。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://unit42.paloaltonetworks.com/monitoring-npm-supply-chain-attacks/">Unit 42 - The npm Threat Landscape: Attack Surface and Mitigations</a> - 2026年のnpm攻撃全体とRed Hat namespace侵害、valid SLSA provenance付き公開の整理。</li>
+<li><a href="https://access.redhat.com/security/vulnerabilities/RHSB-2026-006">Red Hat - RHSB-2026-006 Supply chain compromise of @redhat-cloud-services npm packages</a> - Red Hat公式bulletin。影響範囲、顧客向け見解、調査状況。</li>
+<li><a href="https://www.wiz.io/blog/miasma-supply-chain-attack-targeting-redhat-npm-packages">Wiz - Miasma: Supply Chain Attack Targeting RedHat npm Packages</a> - root cause、GitHub Actions OIDC、valid SLSA provenance attestationsの技術解析。</li>
+<li><a href="https://research.jfrog.com/post/shai-hulud-miasma-redhat-cloud-services/">JFrog - Shai-Hulud / Miasma hits Red Hat npm packages</a> - install-time loader、<code>binding.gyp</code>悪用、影響パッケージ一覧、検知観点。</li>
+<li><a href="https://slsa.dev/spec/v1.0/provenance">SLSA - Provenance specification</a> - provenanceが何を記録するか、builderやbuild definitionの考え方。</li>
+<li><a href="https://docs.npmjs.com/generating-provenance-statements/">npm Docs - Generating provenance statements</a> - npmでprovenance statementを生成する公式手順。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>npm</li>
+<li>Red Hat</li>
+<li>@redhat-cloud-services</li>
+<li>Miasma</li>
+<li>Mini Shai-Hulud</li>
+<li>SLSA provenance</li>
+<li>trusted publishing</li>
+<li>GitHub Actions</li>
+<li>OIDC</li>
+<li>supply chain security</li>
+<li>preinstall hook</li>
+<li>binding.gyp</li>
+<li>CI/CD</li>
+<li>credential harvesting</li>
+<li>developer endpoint security</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://unit42.paloaltonetworks.com/monitoring-npm-supply-chain-attacks/">unit42.paloaltonetworks.com - monitoring-npm-supply-chain-attacks</a></p></section>
+    </article>
+  </main>
+</body>
+</html>

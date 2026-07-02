@@ -1,5 +1,19 @@
 [
   {
+    "file": "Security/2026-07-02_Red_Hat_npm_SLSA_provenanceの落とし穴.md",
+    "slug": "2026-07-02_Red_Hat_npm_SLSA_provenanceの落とし穴",
+    "title": "Red Hat npm SLSA provenanceの落とし穴",
+    "genre": "Security",
+    "genreLabel": "Security",
+    "created": "2026-07-02",
+    "source": "https://unit42.paloaltonetworks.com/monitoring-npm-supply-chain-attacks/",
+    "importance": "high",
+    "confidence": "high",
+    "summary": "@redhat-cloud-services npm侵害は、正規CIで作られたSLSA provenance付き成果物でも、侵害済みパイプラインなら悪性になり得ることを示す。",
+    "excerpt": "@redhat-cloud-services npm侵害は、正規CIで作られたSLSA provenance付き成果物でも、侵害済みパイプラインなら悪性になり得ることを示す。",
+    "url": "articles/2026-07-02_Red_Hat_npm_SLSA_provenanceの落とし穴.html"
+  },
+  {
     "file": "Security/2026-07-01_ローカルLLMエージェント実装層監査.md",
     "slug": "2026-07-01_ローカルLLMエージェント実装層監査",
     "title": "ローカルLLMエージェント実装層監査",
