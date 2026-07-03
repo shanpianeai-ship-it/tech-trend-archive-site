@@ -1,5 +1,19 @@
 [
   {
+    "file": "SAP_ERP/2026-07-03_SAP_Agentic_AI参照アーキテクチャ.md",
+    "slug": "2026-07-03_SAP_Agentic_AI参照アーキテクチャ",
+    "title": "SAP Agentic AI参照アーキテクチャはERPエージェントの接続境界を示している",
+    "genre": "SAP_ERP",
+    "genreLabel": "SAP / ERP",
+    "created": "2026-07-03",
+    "source": "https://architecture.learning.sap.com/docs/ref-arch/ca1d2a3e",
+    "importance": "high",
+    "confidence": "high",
+    "summary": "SAP公式のAgentic AI参照アーキテクチャを、Joule、Agent Gateway、A2A、MCP Gatewayの役割分担から読む。ERPエージェントを本番運用へ載せる際の接続・統制・監査ポイントが見える。",
+    "excerpt": "SAP公式のAgentic AI参照アーキテクチャを、Joule、Agent Gateway、A2A、MCP Gatewayの役割分担から読む。ERPエージェントを本番運用へ載せる際の接続・統制・監査ポイントが見える。",
+    "url": "articles/2026-07-03_SAP_Agentic_AI参照アーキテクチャ.html"
+  },
+  {
     "file": "Security/2026-07-02_Red_Hat_npm_SLSA_provenanceの落とし穴.md",
     "slug": "2026-07-02_Red_Hat_npm_SLSA_provenanceの落とし穴",
     "title": "Red Hat npm SLSA provenanceの落とし穴",

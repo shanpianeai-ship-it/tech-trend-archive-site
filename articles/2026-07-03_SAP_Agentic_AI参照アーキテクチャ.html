@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SAP Agentic AI参照アーキテクチャはERPエージェントの接続境界を示している | 海外技術情報アーカイブ</title>
+  <meta name="description" content="SAP公式のAgentic AI参照アーキテクチャを、Joule、Agent Gateway、A2A、MCP Gatewayの役割分担から読む。ERPエージェントを本番運用へ載せる際の接続・統制・監査ポイントが見える。">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-07-03</span>
+        <span>SAP / ERP</span>
+        <span>importance: high</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>SAP公式のAgentic AI参照アーキテクチャを、Joule、Agent Gateway、A2A、MCP Gatewayの役割分担から読む。ERPエージェントを本番運用へ載せる際の接続・統制・監査ポイントが見える。</p>
+      </aside>
+      <h1>SAP Agentic AI参照アーキテクチャはERPエージェントの接続境界を示している</h1>
+<h2>要約</h2>
+<p>2026年5月更新のSAP Architecture Center「Agentic AI &amp; AI Agents」は、SAP BTP上でJoule、Joule Studio、SAP Cloud SDK for AI、Generative AI Hub、SAP Cloud Identity Services、A2A、MCPを組み合わせる参照アーキテクチャを示している。Jouleをユーザー接点兼オーケストレータとして置き、ローコードのJoule StudioとプロコードのSAP Cloud SDK for AIを分け、SAP内外のエージェントやツールを接続する設計だ。</p>
+<p>今回の夜枠Discordポールでは、対象ポールの <code>poll.results.answer_counts</code> が空で投票がなかったため、候補一覧から選定基準に沿って6番「SAP Agentic AI参照アーキテクチャ」を採用した。理由は、日本語圏ではJouleやSAP Business AIの紹介は多い一方で、A2A、MCP Gateway、Agent Gateway、片方向通信の制約まで含めたアーキテクチャ解説はまだ薄いからだ。</p>
+<p>結論として、これは「SAPもAIエージェントをやる」という一般論ではなく、ERPエージェントを本番業務へ接続する時の境界設計資料として読むべきものだ。SAPはA2Aをエージェント間連携、MCPをツール接続に使い分け、ID・権限・監視・ガバナンスをSAP Cloud Identity ServicesやIntegration Suite側に寄せようとしている。ただしAgent GatewayはまだGAではなく、現時点の参照アーキテクチャは片方向通信の過渡期である点を前提に置く必要がある。</p>
+<h2>背景</h2>
+<p>SAPは2026年に入って、Jouleを単なるCopilotではなく、業務プロセスへ接続するエージェント実行面として押し出している。Joule Studio、SAP Business AI Platform、SAP Knowledge Graph、SAP Business Data Cloud、SAP Cloud SDK for AIといった部品は、いずれも「ERPの業務文脈をAIエージェントが使えるようにする」方向の構成要素だ。</p>
+<p>今回の参照アーキテクチャでは、Jouleが中心に置かれる。Jouleはユーザーインターフェースであり、会話管理とオーケストレーションの役割も持つ。カスタムエージェントはSAP BTP上に作られ、SAP S/4HANA、SuccessFactors、Business Data Cloud、Concur、Customer Experience、Business NetworksなどのSAP Cloud Solutionsや、外部クラウド・外部エージェント・外部APIと接続する。</p>
+<p>開発経路は大きく2つある。ローコード側はJoule Studioで、視覚的な設定や自動登録、管理されたランタイムを使う。プロコード側はSAP Cloud SDK for AIで、PythonやTypeScriptからLangGraph、AG2、CrewAI、Smolagentsなどを使い、A2AプロトコルでJouleへ接続する。</p>
+<h2>何が重要か</h2>
+<h3>A2AとMCPを同じものとして扱わない設計になっている</h3>
+<p>SAP Architecture Centerの「A2A and MCP for Interoperability」は、A2AとMCPの役割を明確に分けている。A2Aは自律エージェント同士の委譲や協調、MCPはエージェントが外部ツールやAPIを発見・実行するための接続規格として扱われる。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>観点</th><th>A2A</th><th>MCP</th></tr></thead>
+<tbody>
+<tr><td>主な対象</td><td>エージェント同士の通信</td><td>ツール、API、データソース</td></tr>
+<tr><td>SAP内の位置づけ</td><td>Jouleと外部/カスタムエージェントの連携</td><td>Joule Agentsや外部エージェントのツール利用</td></tr>
+<tr><td>典型用途</td><td>タスク委譲、能力照会、複数エージェント協調</td><td>OData、REST API、Integration Flow、外部MCP Serverの利用</td></tr>
+<tr><td>統制ポイント</td><td>Agent Gateway、IAS App2App、A2A endpoint</td><td>Integration Suite MCP Gateway、認証、レート制限、監視</td></tr>
+</tbody>
+</table></div>
+<p>この分離はかなり重要だ。ERP運用では、エージェントを増やすことよりも、誰がどのツールを呼べるか、どのシステムに書き込めるか、結果をどう監査できるかが問題になる。A2AとMCPを分けて設計すれば、「エージェントの委譲」と「業務APIの実行権限」を別々に統制できる。</p>
+<h3>Agent Gatewayは有望だが、まだ過渡期である</h3>
+<p>参照アーキテクチャは、Agent Gatewayがまだ一般提供ではなく、現在の構成では片方向のアウトバウンド通信のみをサポートすると明記している。つまり、外部システムからSAP管理のJoule Agentsを本格的に双方向利用する構成は、ロードマップ込みで読む必要がある。</p>
+<p>一方で、設計思想ははっきりしている。Agent Gatewayは、外部クライアントや外部エージェントがA2AでJoule Agentsを利用する入口になる。SAP管理ドメイン上の外部到達可能なエンドポイント、A2A 0.3.0、HTTP+JSON transport、SAP Cloud Identity ServicesのIAS App2App tokens、named user context、長時間実行向けのcallback型応答が構成要素として示されている。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>領域</th><th>現時点で見るべきこと</th></tr></thead>
+<tbody>
+<tr><td>可用性</td><td>Agent Gatewayは未GA。導入計画では正式提供時期と制約確認が必要</td></tr>
+<tr><td>通信方向</td><td>参照アーキテクチャ上は過渡期。双方向A2Aを前提にしすぎない</td></tr>
+<tr><td>認証</td><td>IAS App2App、named user context、外部エージェントの信頼関係</td></tr>
+<tr><td>実行方式</td><td>同期応答だけでなく、長時間タスクのcallback設計が必要</td></tr>
+<tr><td>監査</td><td>外部からどのJoule scenarioが呼ばれ、誰の文脈で実行されたか</td></tr>
+</tbody>
+</table></div>
+<p>Basis/アーキテクト目線では、ここを「便利なAI連携入口」と見るだけでは足りない。外部からERP文脈のエージェントへ入る境界なので、API Gateway、Cloud Connector、Integration Suite、BTP Destination、監査ログと同じ重さで設計する必要がある。</p>
+<h3>MCP GatewayはIntegration Suiteの役割をAIツール統制へ広げる</h3>
+<p>SAPはMCP GatewayをSAP Integration Suiteの中に位置づけている。これは、SAP API、非SAP API、外部MCP Server、Integration Flow、データソースを、AIエージェントが利用できるMCP準拠ツールとして公開・管理する構想だ。</p>
+<p>重要なのは、MCP Gatewayが単なる接続アダプタではなく、顧客管理の統制面として説明されている点だ。認証・認可、OIDC、レート制限、ペイロード保護、トラフィック管理、監視、トレーシング、分析が並んでいる。これは、従来のIntegration Suite運用を「AIエージェントがツールを呼ぶ世界」に拡張する話に近い。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>従来のIntegration Suite観点</th><th>MCP Gatewayで追加される観点</th></tr></thead>
+<tbody>
+<tr><td>システム間IF、API公開、変換、ルーティング</td><td>AIエージェントに公開するツール定義</td></tr>
+<tr><td>API利用者や連携先システムの認証</td><td>エージェント単位、利用者文脈、ツール権限</td></tr>
+<tr><td>メッセージ監視、エラー再処理</td><td>エージェントがどの理由でどのツールを呼んだか</td></tr>
+<tr><td>IF仕様書、マッピング、SLA</td><td>tool manifest、入出力schema、プロンプト依存の実行条件</td></tr>
+</tbody>
+</table></div>
+<p>ERP側の実務では、MCP Gatewayに公開してよいAPIと、公開してはいけないAPIを分ける棚卸しが必要になる。読み取り専用、通知、照会、チケット起票のような低リスク操作から始め、伝票登録、マスタ変更、支払、購買承認のような高リスク操作は、人間承認や追加検証を挟む設計が現実的だ。</p>
+<h3>ローコードとプロコードの二層運用になる</h3>
+<p>Joule Studioは、SAP Buildの中でローコードにエージェントを作る導線として説明されている。一方でSAP Cloud SDK for AIは、Python/TypeScriptや外部エージェントフレームワークを使うプロコード導線だ。SAPはこの2つを競合ではなく補完関係として置いている。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>開発経路</th><th>向いている用途</th><th>運用上の注意</th></tr></thead>
+<tbody>
+<tr><td>Joule Studio</td><td>定型的な業務エージェント、RAG、SAP標準寄りの業務支援</td><td>設定変更、利用権限、業務部門による作成範囲</td></tr>
+<tr><td>SAP Cloud SDK for AI</td><td>独自推論、外部フレームワーク、複雑なマルチエージェント処理</td><td>コード管理、CI/CD、脆弱性管理、実行環境</td></tr>
+<tr><td>MCP Gateway</td><td>APIやIntegration Flowのツール化</td><td>ツール公開範囲、監視、レート制限、schema管理</td></tr>
+<tr><td>Agent Gateway/A2A</td><td>外部エージェント連携、Joule Agentsの外部利用</td><td>未GA制約、IAS trust、callback、監査</td></tr>
+</tbody>
+</table></div>
+<p>この二層化は、ERP組織の役割分担にも影響する。業務部門やCoEがJoule Studioでエージェントを作り、IT/Basis/開発チームがSDK、A2A、MCP Gateway、Integration Suiteを管理する形になりやすい。結果として、エージェントの棚卸し、所有者、権限、変更履歴、実行ログ、廃止判断を管理する台帳が必要になる。</p>
+<h2>自分向けメモ</h2>
+<ul>
+<li>SAPのエージェント戦略は、Jouleを入口にしてA2Aでエージェントをつなぎ、MCP Gatewayでツール/APIを統制する方向に整理されつつある。</li>
+<li>「MCPを入れればSAP連携できる」ではなく、Integration Suite側でどのAPIをMCP toolとして公開するかが本番設計の焦点になる。</li>
+<li>Agent Gatewayは未GAで片方向制約もあるため、今すぐ本番計画に組み込む場合はPoC前提で制約確認が必要。</li>
+<li>SAP Basis/ERP運用では、従来のジョブ監視、IF監視、API管理に加えて、エージェント、ツール、プロンプト、モデル、実行ユーザー、callback URLを監査対象にする必要がある。</li>
+<li>最初の導入対象は、読み取り、要約、例外分類、通知、チケット起票までに絞るのが現実的。更新系・承認系は人間確認と二重実行防止を先に設計する。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://architecture.learning.sap.com/docs/ref-arch/ca1d2a3e">SAP Architecture Center - Agentic AI &amp; AI Agents</a>: 主対象。Joule、Custom Agents on SAP BTP、Generative AI Hub、SAP Cloud Solutions、3rd Party Integration、Securityの全体構成を整理している。</li>
+<li><a href="https://architecture.learning.sap.com/docs/ref-arch/ca1d2a3e/1">SAP Architecture Center - A2A and MCP for Interoperability</a>: A2AとMCPの役割分担、Agent Gateway、Integration Suite MCP Gateway、BYOAの設計を確認できる。</li>
+<li><a href="https://architecture.learning.sap.com/docs/ref-arch/ca1d2a3e/4">SAP Architecture Center - Integrating AI Agents with Joule</a>: Jouleから外部コードベースエージェントを呼び出すBring Your Own Agent側の参照情報。</li>
+<li><a href="https://architecture.learning.sap.com/docs/ref-arch/ca1d2a3e/5">SAP Architecture Center - Integrating Joule Agents into Your Ecosystem</a>: 外部システムからJoule Agentsを利用する側の参照情報。</li>
+<li><a href="https://github.com/SAP-samples/btp-joule-a2a-pro-code-agent">SAP-samples - btp-joule-a2a-pro-code-agent</a>: A2A準拠のプロコードエージェントをSAP BTPで実装する公式サンプル。</li>
+<li><a href="https://github.com/SAP-samples/joule-a2a-agent-toolkit/">SAP-samples - joule-a2a-agent-toolkit</a>: A2AエージェントをBTP Cloud Foundryへ作成・接続するツールキット。TypeScript、CAP、Python、LangGraph、SAP GenAI Hubに触れている。</li>
+<li><a href="https://news.sap.com/2026/07/ibm-technology-sap-cloud-erp-private-client-momentum-ai-innovation/">SAP News Center - SAP and IBM Announce Client Momentum Across IBM Technology and SAP Cloud ERP Private to Drive AI Innovation</a>: SAP/IBMのERPモダナイズ文脈。A2AやJoule AgentsとIBM watsonx Orchestrate agentsの連携にも触れている。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>SAP BTP</li>
+<li>Joule</li>
+<li>Joule Studio</li>
+<li>Agent Gateway</li>
+<li>Agent2Agent</li>
+<li>A2A</li>
+<li>Model Context Protocol</li>
+<li>MCP Gateway</li>
+<li>SAP Integration Suite</li>
+<li>SAP Cloud SDK for AI</li>
+<li>Generative AI Hub</li>
+<li>SAP Cloud Identity Services</li>
+<li>IAS App2App</li>
+<li>SAP Business AI</li>
+<li>ERP agent governance</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://architecture.learning.sap.com/docs/ref-arch/ca1d2a3e">architecture.learning.sap.com - docs / ref-arch</a></p></section>
+    </article>
+  </main>
+</body>
+</html>
