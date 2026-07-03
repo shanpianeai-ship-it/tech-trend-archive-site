@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Microsoft式AIエージェント隔離実行を個人環境に応用できるか | 興味レポート</title>
+  <meta name="description" content="MicrosoftのAgent 365、Windows 365 for Agents、MXCを手がかりに、個人エージェント環境で真似できる隔離・監査・権限分離を整理する。">
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../../interests/index.html">興味レポート</a>
+    <span class="site-subtitle">Public redacted interest reports</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 興味レポート一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-07-03T20:00:00+09:00</span>
+        <span>AI・エージェント</span>
+        <span>interest_report</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>MicrosoftのAgent 365、Windows 365 for Agents、MXCを手がかりに、個人エージェント環境で真似できる隔離・監査・権限分離を整理する。</p>
+      </aside>
+      <h1>Microsoft式AIエージェント隔離実行を個人環境に応用できるか</h1>
+<h2>要約</h2>
+<p>MicrosoftはBuild 2026前後で、AIエージェントを「アプリ」ではなく、OS・ID・端末管理・DLP・監査の対象になる実行主体として扱う方向をかなり明確にした。中心にあるのは、Agent 365によるエージェント登録・可視化、Windows 365 for AgentsによるCloud PC上の隔離実行、Microsoft Execution Containers（MXC）によるローカル実行のポリシー制御である。</p>
+<p>個人のOpenClaw運用にそのままMicrosoft製品を導入する話ではない。見るべきポイントは、エージェントに人間ユーザーと同じ権限を渡しっぱなしにしないこと、実行単位ごとにファイル・ネットワーク・UI・資格情報へのアクセスを分けること、MCPツールの説明文や更新もサプライチェーンとして扱うことだ。</p>
+<h2>なぜ今見る価値があるか</h2>
+<p>AIエージェントは、読むだけのチャットから、ファイル操作、Web操作、コード実行、外部サービス連携を行う実行環境へ移っている。Microsoftの2026年6月の記事は、この変化を前提に「エージェントをどこで動かし、何を見せ、何を禁止し、どう記録するか」をOSと管理基盤の問題として扱っている。</p>
+<p>特に個人環境では、便利さを優先してローカルPC上の広い権限を渡しがちになる。cronで毎日動くエージェント、MCP経由で外部ツールを呼ぶエージェント、ブラウザを操作するエージェントが増えるほど、「失敗したときの被害範囲」を先に決めておく価値が上がる。</p>
+<h2>調査メモ</h2>
+<h3>Microsoftが提示している実行分離の層</h3>
+<p>MicrosoftのBuild 2026発表では、AIエージェント向けのセキュリティを、開発時の安全性、実行時の隔離、組織横断の可視化に分けている。Agent 365 SDKはエージェントに観測性、アクセス制御、コンプライアンス enforcement を組み込み、Agent 365側ではローカルエージェントやMCPサーバーの登録・把握を進める構想が示されている。</p>
+<p>Windows側では、Microsoft Execution Containers（MXC） SDKが重要な部品として出てくる。Windows開発者ブログでは、MXCをポリシー駆動の実行レイヤーとして説明し、プロセス分離、セッション分離、将来のmicro-VM、WSL/Linuxコンテナ、Windows 365 for Agentsとの連携を並べている。狙いは、エージェントのリスクに応じて軽い隔離から強い隔離まで選べるようにすることだ。</p>
+<p>Windows 365 for Agentsは、Cloud PCをエージェント用の実行先として払い出し、タスクのたびにチェックアウト・チェックインする考え方を採る。IntuneとEntra IDで管理されるCloud PCを使うため、実行環境を人間の端末から分けやすい。個人環境に置き換えるなら、「普段使いのデスクトップで何でも実行する」のではなく、「作業用ユーザー、仮想環境、コンテナ、別ブラウザプロファイルを用意する」という発想に近い。</p>
+<h3>MCPツールは「道具」ではなく供給網</h3>
+<p>Microsoft Incident Responseの記事は、MCP tool poisoningをかなり実務的に扱っている。問題は、MCPツールの説明文がエージェントの判断材料になる点だ。ツール名や表面上の機能が変わらなくても、説明文に隠れた指示が追加されると、エージェントはその指示を正規の作業手順のように解釈しうる。</p>
+<p>この観点では、MCPサーバーは単なる便利ツールではなく、プロンプトと同じ強さを持つ供給網の一部になる。Microsoftは、承認済みMCPサーバーの allowlist、ツール説明文の変更レビュー、Prompt Shields、DLP、人間承認、Sentinel等での異常検知を組み合わせる方針を示している。</p>
+<p>個人運用では、ここまで大規模な統制製品は使わないとしても、次のような軽量版は真似できる。</p>
+<ul>
+<li>MCPサーバーを「信頼済み」「試験中」「読み取り専用」「危険操作あり」に分ける。</li>
+<li>ツール説明文やschemaの差分を更新時に見る。</li>
+<li>cronや自動実行では、書き込み・送信・削除系ツールを最小限にする。</li>
+<li>外部送信、git push、Discord投稿などは、ログに残る実行単位として扱う。</li>
+<li>重要フォルダは読み取り専用、作業フォルダは書き込み可、秘密情報は原則渡さない。</li>
+</ul>
+<h3>MXCは思想として参考になるが、現時点では過信しない</h3>
+<p>GitHub上のmicrosoft/mxcリポジトリは、MXCをWindows、Linux、macOSで未信頼コードやモデル出力を隔離実行するための仕組みとして説明している。ただし、リポジトリ自体にearly previewであること、現在のプロファイルには過度に許可的なケースがあること、現時点ではセキュリティ境界として扱うべきではないことが明記されている。</p>
+<p>これはむしろ重要な注意点である。エージェント隔離では「サンドボックスを入れたから安全」と考えるより、サンドボックス、権限分離、バックアップ、監査ログ、外部送信制限、手動承認を重ねるほうが現実的だ。</p>
+<h2>個人向けの読みどころ</h2>
+<p>OpenClaw個人環境に引き寄せるなら、Microsoft式の肝は「エージェントごとに実行人格を分ける」ことにある。人間のログインセッション、秘書エージェント、画像処理エージェント、調査cron、GitHub Pages反映cronを、同じ権限の塊として扱わないほうがよい。</p>
+<p>まず効きそうなのは、次の整理である。</p>
+<ul>
+<li>調査・要約だけのジョブは、ネットワークあり、ファイル書き込みなしに寄せる。</li>
+<li>Markdown生成ジョブは、対象フォルダだけ書き込み可にする。</li>
+<li>git pushやDiscord投稿を行うジョブは、実行後に成果物、commit hash、投稿先を必ず記録する。</li>
+<li>画像処理やブラウザ操作は、専用プロファイル・専用作業フォルダ・期限付き中間ファイルで扱う。</li>
+<li>MCPサーバーやOpenClawプラグインは、更新時に「何を読めるか」「何を書けるか」「外部へ送れるか」を確認する。</li>
+</ul>
+<p>この設計にすると、失敗やプロンプト注入をゼロにするのではなく、失敗時の被害範囲を小さくしやすい。特にcron自動化は、人間が画面を見ていない時間に動くため、実行ログと権限境界の価値が高い。</p>
+<h2>注意点</h2>
+<p>Microsoftの記事群は企業向け管理基盤を前提にしており、個人Mac環境へそのまま移植できるものではない。Agent 365、Intune、Entra ID、Purview、Defender、Sentinelのような製品群を個人用途で再現するのは過剰である。</p>
+<p>また、MXCは早期プレビュー段階の説明を含む。少なくとも現時点では、MXCそのものを強固な境界として扱うより、「Microsoftがどの分離粒度を重視しているか」を読む材料にするのが安全だ。</p>
+<p>MCP tool poisoningのような攻撃は、特定ベンダーだけの問題ではない。ツール説明文、README、設定ファイル、外部ページ、メール本文など、エージェントが「手順」として読めるものはすべて影響源になりうる。外部情報は常に未信頼として扱い、実行権限とは分けて考える必要がある。</p>
+<h2>参考リンク</h2>
+<ul>
+<li>Microsoft Security Blog: <a href="https://www.microsoft.com/en-us/security/blog/2026/06/02/microsoft-build-2026-securing-code-agents-and-models-across-the-development-lifecycle/">Microsoft Build 2026: Securing code, agents, and models across the development lifecycle</a></li>
+<li>Windows Developer Blog: <a href="https://blogs.windows.com/windowsdeveloper/2026/06/02/windows-platform-security-for-ai-agents/">Windows platform security for AI agents</a></li>
+<li>Microsoft Security Blog: <a href="https://www.microsoft.com/en-us/security/blog/2026/06/30/securing-ai-agents-ai-tools-move-from-reading-acting/">Securing AI agents: When AI tools move from reading to acting</a></li>
+<li>Microsoft Learn: <a href="https://learn.microsoft.com/en-us/windows-365/agents/introduction-windows-365-for-agents">What is Windows 365 for Agents?</a></li>
+<li>GitHub: <a href="https://github.com/microsoft/mxc">microsoft/mxc</a></li>
+</ul>
+    </article>
+  </main>
+</body>
+</html>
