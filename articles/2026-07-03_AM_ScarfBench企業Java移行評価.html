@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ScarfBench企業Java移行評価 | 海外技術情報アーカイブ</title>
+  <meta name="description" content="ScarfBenchは、AIエージェントがSpring、Jakarta EE、Quarkus間の企業Java移行をどこまで実行できるか測るベンチマーク。ビルド成功だけでは移行品質を判断できない点が実務上重要。">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-07-03</span>
+        <span>AI / LLM / Agent</span>
+        <span>importance: high</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>ScarfBenchは、AIエージェントがSpring、Jakarta EE、Quarkus間の企業Java移行をどこまで実行できるか測るベンチマーク。ビルド成功だけでは移行品質を判断できない点が実務上重要。</p>
+      </aside>
+      <h1>ScarfBench企業Java移行評価</h1>
+<h2>要約</h2>
+<p>IBM Researchが公開したScarfBenchは、AI coding agentに企業Javaのフレームワーク移行を任せたとき、単にコードが生成できるかではなく、ビルド、デプロイ、振る舞い維持まで通るかを評価するベンチマークである。</p>
+<p>対象はSpring、Jakarta EE、Quarkusの3系統。34個のアプリケーションファミリから102個のフレームワーク別実装を作り、204個の移行タスクとして評価する。評価には1,331件の専門家作成テストとコンテナ化された実行ハーネスが使われる。</p>
+<p>重要なのは、現在の強いAIエージェントでも結果がかなり厳しいこと。論文要旨では、最良のエージェントでもfocused-layer移行の集計テスト通過率は15.3%、whole-application移行は12.2%にとどまり、204タスク中で完全に振る舞い等価な移行は1件だけだったとされている。</p>
+<h2>背景</h2>
+<p>企業Javaのモダナイズは、Javaバージョン更新よりも難しいことが多い。SpringからJakarta EE、Jakarta EEからQuarkusのような移行では、アノテーション置換だけでなく、依存性注入、永続化設定、クエリ、HTTP層、ビルド設定、デプロイ記述子まで同時に変わる。</p>
+<p>AI coding agentは、こうした横断的な修正を高速に試行できるため、移行案件で期待されやすい。一方で、生成コードがコンパイルできても、アプリケーションが起動しない、起動しても振る舞いが違う、テスト観点が抜ける、という問題は残る。</p>
+<p>ScarfBenchはこのズレを測るために、以下のような実務寄りの評価にしている。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>観点</th><th>ScarfBenchでの扱い</th><th>実務上の意味</th></tr></thead>
+<tbody>
+<tr><td>対象</td><td>Spring / Jakarta EE / Quarkus</td><td>企業Javaで実際に出やすい移行先</td></tr>
+<tr><td>規模</td><td>34アプリ、102実装、204移行タスク</td><td>小さな関数変換ではなくアプリ単位</td></tr>
+<tr><td>判定</td><td>build / deploy / behavioral tests</td><td>コンパイル成功だけで合格にしない</td></tr>
+<tr><td>テスト</td><td>1,331件の専門家作成テスト</td><td>仕様保持をテストで確認する</td></tr>
+<tr><td>出力</td><td>ベンチマーク、ハーネス、トレース</td><td>ツール比較と失敗分析に使える</td></tr>
+</tbody>
+</table></div>
+<h2>何が重要か</h2>
+<h3>1. 「移行できた」の定義を厳しくしている</h3>
+<p>多くのコード生成評価は、正解コードとの類似度、単体テスト通過、ビルド成功に寄りがちである。ScarfBenchは、移行後アプリが対象ランタイムでデプロイでき、外部から見える振る舞いを保つかまで見る。</p>
+<p>これはSAP周辺や基幹系Javaの移行判断にも近い。実務では「ビルドが通った」は中間地点であり、業務機能、運用設定、性能、監視、障害時挙動が保たれて初めて移行候補になる。</p>
+<h3>2. 現時点のエージェント性能に冷静な線を引いている</h3>
+<p>論文要旨では、最良のエージェントでも集計テスト通過率は限定的で、完全成功は204タスク中1件だけとされる。これは「AIでJava移行を丸投げできる」という話ではなく、「AIに任せられる部分と、人間が設計・検証すべき部分を分ける必要がある」という結果に見える。</p>
+<p>特にJakarta EEを移行先にするタスクは難度が高いとされており、アプリケーションサーバ、仕様準拠、設定ファイル、ランタイム差分を含む移行は、一般的なコード補完能力だけでは足りない。</p>
+<h3>3. AIエージェント導入時の評価軸として使いやすい</h3>
+<p>企業がAI coding agentを採用する場合、通常のLeetCode型ベンチや小規模バグ修正ベンチだけでは、基幹システム保守への適性を測りにくい。ScarfBenchのような評価は、次のような調達・PoC観点に落とし込める。</p>
+<ul>
+<li>自社の移行対象に近い技術スタックで評価する</li>
+<li>ビルド成功率ではなく、業務テスト通過率を見る</li>
+<li>失敗トレースを残し、どの層で壊れたか分類する</li>
+<li>AIにコード変更だけでなく、検証計画とロールバック案も出させる</li>
+<li>人間レビューの重点を、設定、永続化、トランザクション境界、起動時挙動に置く</li>
+</ul>
+<h2>自分向けメモ</h2>
+<ul>
+<li>SAP/Basis視点では、これは「AIがABAPやJava移行を全部やる」話ではなく、「移行作業をテスト可能な小単位に分け、AIの失敗を測るための型」として読むのがよい。</li>
+<li>Java基幹システムのモダナイズでは、AI agentにいきなり全体移行を任せるより、DI層、永続化層、REST層、設定ファイルなどに分けた評価ハーネスを先に作るべき。</li>
+<li>「コンパイル成功」「デプロイ成功」「振る舞い維持」を別メトリクスにする考え方は、SAP移行や周辺Javaアプリの更改にも使える。</li>
+<li>将来、社内移行PoCを作るなら、ScarfBench型に近い最小アプリ群とテストを作り、複数エージェントを同じ条件で比較するのが現実的。</li>
+<li>エージェントの価値は、完全自動化よりも、移行差分の初稿作成、失敗ログの分類、テスト不足箇所の指摘、移行プレイブック作成に出やすい。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://huggingface.co/blog/ibm-research/scarfbench">Hugging Face Blog - ScarfBench: Benchmarking AI Agents for Enterprise Java Framework Migration</a>: IBM Researchによる紹介記事。対象フレームワーク、評価設計、ベンチマーク規模の確認に使った。</li>
+<li><a href="https://arxiv.org/abs/2605.06754">arXiv - ScarfBench: A Benchmark for Cross-Framework Application Migration in Enterprise Java</a>: 論文要旨。204移行タスク、テスト通過率、失敗傾向などの根拠。</li>
+<li><a href="https://huggingface.co/datasets/ibm-research/ScarfBench">Hugging Face Dataset - ibm-research/ScarfBench</a>: データセット、Quickstart、Leaderboard、Submit Resultsへの入口。</li>
+<li><a href="https://www.ibm.com/new/announcements/scarfbench-a-public-benchmark-for-java-framework-migration">IBM - ScarfBench: A public benchmark for Java framework migration</a>: IBM側の発表。企業Javaモダナイズ文脈での位置づけ確認に使える。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>ScarfBench</li>
+<li>Enterprise Java</li>
+<li>Spring</li>
+<li>Jakarta EE</li>
+<li>Quarkus</li>
+<li>AI coding agents</li>
+<li>framework migration</li>
+<li>behavior-preserving refactoring</li>
+<li>software modernization</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://huggingface.co/blog/ibm-research/scarfbench">huggingface.co - blog / ibm-research</a></p></section>
+    </article>
+  </main>
+</body>
+</html>

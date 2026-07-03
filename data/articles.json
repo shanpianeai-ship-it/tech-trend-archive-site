@@ -1,5 +1,19 @@
 [
   {
+    "file": "AI/2026-07-03_AM_ScarfBench企業Java移行評価.md",
+    "slug": "2026-07-03_AM_ScarfBench企業Java移行評価",
+    "title": "ScarfBench企業Java移行評価",
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "created": "2026-07-03",
+    "source": "https://huggingface.co/blog/ibm-research/scarfbench",
+    "importance": "high",
+    "confidence": "high",
+    "summary": "ScarfBenchは、AIエージェントがSpring、Jakarta EE、Quarkus間の企業Java移行をどこまで実行できるか測るベンチマーク。ビルド成功だけでは移行品質を判断できない点が実務上重要。",
+    "excerpt": "ScarfBenchは、AIエージェントがSpring、Jakarta EE、Quarkus間の企業Java移行をどこまで実行できるか測るベンチマーク。ビルド成功だけでは移行品質を判断できない点が実務上重要。",
+    "url": "articles/2026-07-03_AM_ScarfBench企業Java移行評価.html"
+  },
+  {
     "file": "SAP_ERP/2026-07-03_SAP_Agentic_AI参照アーキテクチャ.md",
     "slug": "2026-07-03_SAP_Agentic_AI参照アーキテクチャ",
     "title": "SAP Agentic AI参照アーキテクチャはERPエージェントの接続境界を示している",
