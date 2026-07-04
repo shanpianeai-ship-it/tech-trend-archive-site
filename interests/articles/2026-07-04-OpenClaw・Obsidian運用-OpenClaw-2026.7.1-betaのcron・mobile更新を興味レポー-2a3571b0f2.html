@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OpenClaw 2026.7.1 betaのcron・mobile更新を興味レポート自動化に反映する | 興味レポート</title>
+  <meta name="description" content="OpenClaw 2026.7.1 betaのcron・モバイル・メッセージング更新を、興味レポート自動化の復旧性と確認導線へどう反映するか整理する。">
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../../interests/index.html">興味レポート</a>
+    <span class="site-subtitle">Public redacted interest reports</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 興味レポート一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-07-04T19:54:00+09:00</span>
+        <span>OpenClaw・Obsidian運用</span>
+        <span>interest_report</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>OpenClaw 2026.7.1 betaのcron・モバイル・メッセージング更新を、興味レポート自動化の復旧性と確認導線へどう反映するか整理する。</p>
+      </aside>
+      <h1>OpenClaw 2026.7.1 betaのcron・mobile更新を興味レポート自動化に反映する</h1>
+<h2>要約</h2>
+<p>OpenClaw 2026.7.1-beta.1 は、GPT-5.6対応のようなモデル面だけでなく、cron、セッション、モバイル、メッセージングの運用品質に関わる更新が多い。興味レポート自動化に直結するのは、イベント駆動cron、session-targeted runのdetach、cron実行中警告、配信診断、Telegram/Codexの復旧性、iOS/Androidの確認導線改善である。</p>
+<p>今回の afternoon 枠ではDiscord投票に票がなかったため、候補一覧から個人適合度と現在の運用改善インパクトを優先し、このテーマを選んだ。結論としては、すぐ本番ルールへ大改造するより、まず「失敗時にどこで止まったかを残す」「Discord投票IDと候補一覧frontmatterを必ず同期する」「cronの実行結果をPages反映まで成功条件にする」方向で取り込むのがよい。</p>
+<h2>なぜ今見る価値があるか</h2>
+<p>興味レポート自動化は、候補作成、Discordポール、投票集計、Markdown作成、Pagesビルド、git push、公開URL確認、Discord報告までを一連の成功条件にしている。OpenClaw側のcronやメッセージングが改善されるほど、この一連のどこで止まったのかを機械的に切り分けやすくなる。</p>
+<p>特に 2026.7.1 beta のリリースノートでは、<code>on-exit</code> schedule kind、session-targeted runのdetach、cron実行中のdoctor警告、run history上のdelivery diagnostics、構造化された実行拒否の扱いが並んでいる。これは「記事を書いたがpushしていない」「投票を読んだだけで成功扱いにした」「Discord報告だけ失敗した」といった半端な成功を潰す材料になる。</p>
+<h2>調査メモ</h2>
+<ul>
+<li>GitHub公式リリースでは、cron関連のハイライトとして <code>on-exit</code> schedule kind と session-targeted run のdetachが挙げられている。通常の時刻起動だけでなく、前段コマンド完了を契機にする運用が視野に入る。</li>
+<li>同リリースのfix項目には、cronのprovider/model選択保持、startup catch-up deferral、action-required出力保持、thinking overrideの空指定処理などが含まれる。興味レポートCronのように長めの自動実行では、モデル切替や再実行時の状態保持が地味に効く。</li>
+<li>OpenClaw cron docs は、run historyにdelivery diagnosticsを含め、意図したcron target、解決後target、message-tool送信、fallback、delivered状態を見られるとしている。Discord報告失敗を「記事作成失敗」と混ぜずに診断するための根拠になる。</li>
+<li>同docsでは、cron listやrun historyが実行拒否理由を表示すると説明している。ローカルファイル操作、git、Discord読み取りのどれかが使えない場合に成功扱いしない、という現行ルールと相性がよい。</li>
+<li>message docs ではDiscordのtarget形式、read/send/pollの共通CLIが整理されている。今回のように動的toolが露出しない場合でも、<code>openclaw message read --channel discord --target channel:&lt;id&gt; --message-id &lt;id&gt; --json</code> で投票JSONを読めることを運用手順に残す価値がある。</li>
+<li>OpenClaw Chroniclesの記事は二次情報だが、今回のbetaを「mobile and cron updates」としてまとめ、GPT-5.6、external harness attachment、event-driven cron、native app refreshを主要点としている。公式リリースの長い変更一覧を読む入口としては使える。</li>
+</ul>
+<h2>個人向けの読みどころ</h2>
+<p>一番実用的なのは、興味レポート自動化の成功条件を「投票読み取り」ではなく「公開確認と結果報告」までに固定する点である。これは今回のCron指示にも明記されており、OpenClaw側のdelivery diagnosticsやrun historyを使うと、どの段階で止まったかを後から追える。</p>
+<p>次に、候補一覧frontmatterの <code>poll_message_id</code> はかなり重要である。直近メッセージ検索だけに頼ると、同じ時間帯にmorning/eveningのポールや古いpoll_resultが混ざる。今回もDiscord readの戻りには複数ポールが含まれていたため、frontmatter優先が正しい。</p>
+<p>モバイル更新は直接記事生成品質を上げるものではないが、外出中に「候補だけ出ている」「投票が未集計」「Pages反映まで終わった」を確認する導線として効く。記事生成の自動化では、生成能力よりも確認と復旧の導線がボトルネックになりやすい。</p>
+<h2>注意点</h2>
+<ul>
+<li>beta版なので、既存Cronをすぐ全置換するより、まず検証用ジョブでrun history、delivery diagnostics、失敗時のDiscord報告を確認するのがよい。</li>
+<li><code>on-exit</code> は便利だが、興味レポートの通常運用では時刻起動の方が意図を追いやすい。前段候補作成の完了をトリガーにしたい場合だけ検討する。</li>
+<li>Discordポールの <code>answer_counts</code> は、票がない場合に空配列または全候補0票の形で返ることがある。選定ロジックは「countが正の票があるか」で見る必要がある。</li>
+<li>OpenClaw Chroniclesは公式リリースの補助として扱い、最終判断はGitHub releaseとdocsを優先する。</li>
+</ul>
+<h2>参考リンク</h2>
+<ul>
+<li><a href="https://github.com/openclaw/openclaw/releases/tag/v2026.7.1-beta.1">OpenClaw GitHub Releases</a></li>
+<li>OpenClaw npm package 2026.7.1-beta.1: <a href="https://www.npmjs.com/package/openclaw/v/2026.7.1-beta.1">npmjs.com - package / openclaw</a></li>
+<li><a href="https://docs.openclaw.ai/cli/cron">OpenClaw cron CLI docs</a></li>
+<li><a href="https://docs.openclaw.ai/cli/message">OpenClaw message CLI docs</a></li>
+<li><a href="https://openclawchronicles.com/posts/openclaw-2026-7-2-v2026-7-1-beta1-release/">OpenClaw Chronicles</a></li>
+</ul>
+    </article>
+  </main>
+</body>
+</html>

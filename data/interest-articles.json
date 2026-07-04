@@ -361,6 +361,18 @@
   },
   {
     "file": "[入力元伏せ]",
+    "slug": "2026-07-04-OpenClaw・Obsidian運用-OpenClaw-2026.7.1-betaのcron・mobile更新を興味レポー-2a3571b0f2",
+    "title": "OpenClaw 2026.7.1 betaのcron・mobile更新を興味レポート自動化に反映する",
+    "category": "OpenClaw・Obsidian運用",
+    "created": "2026-07-04T19:54:00+09:00",
+    "status": "",
+    "type": "interest_report",
+    "summary": "OpenClaw 2026.7.1 betaのcron・モバイル・メッセージング更新を、興味レポート自動化の復旧性と確認導線へどう反映するか整理する。",
+    "excerpt": "OpenClaw 2026.7.1 betaのcron・モバイル・メッセージング更新を、興味レポート自動化の復旧性と確認導線へどう反映するか整理する。",
+    "url": "interests/articles/2026-07-04-OpenClaw・Obsidian運用-OpenClaw-2026.7.1-betaのcron・mobile更新を興味レポー-2a3571b0f2.html"
+  },
+  {
+    "file": "[入力元伏せ]",
     "slug": "2026-07-02-OpenClaw・Obsidian運用-Obsidian-Basesで興味レポート候補・投票・記事化状態を一枚の運用台帳にす-a0724f2296",
     "title": "Obsidian Basesで興味レポート候補・投票・記事化状態を一枚の運用台帳にする",
     "category": "OpenClaw・Obsidian運用",
