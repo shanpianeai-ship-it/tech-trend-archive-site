@@ -1,5 +1,19 @@
 [
   {
+    "file": "AI/2026-07-04_DeepMindのAI制御ロードマップ.md",
+    "slug": "2026-07-04_DeepMindのAI制御ロードマップ",
+    "title": "DeepMindのAI制御ロードマップ",
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "created": "2026-07-04",
+    "source": "https://deepmind.google/blog/securing-the-future-of-ai-agents/",
+    "importance": "high",
+    "confidence": "high",
+    "summary": "Google DeepMindのAI Control Roadmapは、AIエージェントを内部脅威として扱い、監視・権限制御・即時停止を設計するための実務的な枠組み。",
+    "excerpt": "Google DeepMindのAI Control Roadmapは、AIエージェントを内部脅威として扱い、監視・権限制御・即時停止を設計するための実務的な枠組み。",
+    "url": "articles/2026-07-04_DeepMindのAI制御ロードマップ.html"
+  },
+  {
     "file": "AI/2026-07-03_AM_ScarfBench企業Java移行評価.md",
     "slug": "2026-07-03_AM_ScarfBench企業Java移行評価",
     "title": "ScarfBench企業Java移行評価",
