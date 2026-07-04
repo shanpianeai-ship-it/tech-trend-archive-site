@@ -589,6 +589,18 @@
   },
   {
     "file": "[入力元伏せ]",
+    "slug": "2026-07-04-セキュリティ-Ubiquiti-UniFi-OSのKEV入りを自宅ネットワーク管理の棚卸し手順にす-d8a107474f",
+    "title": "Ubiquiti UniFi OSのKEV入りを自宅ネットワーク管理の棚卸し手順にする",
+    "category": "セキュリティ",
+    "created": "2026-07-04T20:05:00+09:00",
+    "status": "",
+    "type": "interest_report",
+    "summary": "CISA KEV入りしたUbiquiti UniFi OS脆弱性を、自宅ネットワーク管理の棚卸し手順として読む。管理画面の露出、更新、バックアップ、ログ確認を短時間で点検する材料になる。",
+    "excerpt": "CISA KEV入りしたUbiquiti UniFi OS脆弱性を、自宅ネットワーク管理の棚卸し手順として読む。管理画面の露出、更新、バックアップ、ログ確認を短時間で点検する材料になる。",
+    "url": "interests/articles/2026-07-04-セキュリティ-Ubiquiti-UniFi-OSのKEV入りを自宅ネットワーク管理の棚卸し手順にす-d8a107474f.html"
+  },
+  {
+    "file": "[入力元伏せ]",
     "slug": "2026-07-01-セキュリティ-MCP-Resource-Indicatorsで「別サービスへのトークン流用」をどこ-3a246dc892",
     "title": "MCP Resource Indicatorsで「別サービスへのトークン流用」をどこまで防げるか",
     "category": "セキュリティ",
