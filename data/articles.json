@@ -14,6 +14,20 @@
     "url": "articles/2026-07-04_DeepMindのAI制御ロードマップ.html"
   },
   {
+    "file": "AI/2026-07-04_AM_DeepMind_AI_Control_Roadmap.md",
+    "slug": "2026-07-04_AM_DeepMind_AI_Control_Roadmap",
+    "title": "DeepMind AI Control Roadmap",
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "created": "2026-07-04",
+    "source": "https://deepmind.google/blog/securing-the-future-of-ai-agents/",
+    "importance": "high",
+    "confidence": "high",
+    "summary": "Google DeepMindのAI Control Roadmapは、AIエージェントを完全には信頼せず、監視・権限・遮断を重ねる設計論。社内エージェント運用の安全基準を考える材料になる。",
+    "excerpt": "Google DeepMindのAI Control Roadmapは、AIエージェントを完全には信頼せず、監視・権限・遮断を重ねる設計論。社内エージェント運用の安全基準を考える材料になる。",
+    "url": "articles/2026-07-04_AM_DeepMind_AI_Control_Roadmap.html"
+  },
+  {
     "file": "AI/2026-07-03_AM_ScarfBench企業Java移行評価.md",
     "slug": "2026-07-03_AM_ScarfBench企業Java移行評価",
     "title": "ScarfBench企業Java移行評価",
