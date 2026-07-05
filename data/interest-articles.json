@@ -589,6 +589,18 @@
   },
   {
     "file": "[入力元伏せ]",
+    "slug": "2026-07-05-セキュリティ-GitHub-Actionsセルフホストランナーを個人Macで動かすリスク棚卸し-292d692db6",
+    "title": "GitHub Actionsセルフホストランナーを個人Macで動かすリスク棚卸し",
+    "category": "セキュリティ",
+    "created": "2026-07-05T19:34:00+09:00",
+    "status": "",
+    "type": "interest_report",
+    "summary": "GitHub Actionsのセルフホストランナーを個人Macで動かす時の危険点を、PR実行、秘密情報、永続化、ラベル分離の観点で整理する。自宅自動化に載せてよい範囲を決める材料になる。",
+    "excerpt": "GitHub Actionsのセルフホストランナーを個人Macで動かす時の危険点を、PR実行、秘密情報、永続化、ラベル分離の観点で整理する。自宅自動化に載せてよい範囲を決める材料になる。",
+    "url": "interests/articles/2026-07-05-セキュリティ-GitHub-Actionsセルフホストランナーを個人Macで動かすリスク棚卸し-292d692db6.html"
+  },
+  {
+    "file": "[入力元伏せ]",
     "slug": "2026-07-04-セキュリティ-Ubiquiti-UniFi-OSのKEV入りを自宅ネットワーク管理の棚卸し手順にす-d8a107474f",
     "title": "Ubiquiti UniFi OSのKEV入りを自宅ネットワーク管理の棚卸し手順にする",
     "category": "セキュリティ",
