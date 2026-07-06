@@ -17,6 +17,9 @@ const interestsRoot = path.resolve(
 const knowledgeRoot = path.resolve(
   process.env.KNOWLEDGE_BLOG_NOTES || path.join(process.env.HOME, "Desktop/Report/Claude公開ナレッジブログ/公開済み"),
 );
+const scratchRoot = path.resolve(
+  process.env.SCRATCH_RESEARCH_NOTES || path.join(process.env.HOME, "Desktop/Report/スクラッチ調査レポート"),
+);
 const outInterests = path.join(repoRoot, "interests");
 const outInterestArticles = path.join(outInterests, "articles");
 const outInterestCategories = path.join(outInterests, "categories");
@@ -188,6 +191,7 @@ function inlineMarkdown(value) {
       links.push(`<a href="${url}">${linkLabelFromUrl(url)}</a>`);
       return token;
     })
+    .replace(/\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g, (_, target, label) => escapeHtml(label || target))
     .replace(/(^|[\s(])((?:https?:\/\/)[^\s<)]+[^\s<).,!?;:])/g, (_, prefix, url) => {
       const token = `@@LINK_${links.length}@@`;
       links.push(`<a href="${url}">${linkLabelFromUrl(url)}</a>`);
@@ -484,7 +488,7 @@ function categoryFromKnowledgeFile(file, meta) {
   return firstDir && firstDir !== path.basename(file) ? redactSensitive(firstDir) : "ERP運用";
 }
 
-const notes = walkMarkdown(notesRoot).map((file) => {
+const archiveNotes = walkMarkdown(notesRoot).map((file) => {
   const raw = redactSensitive(fs.readFileSync(file, "utf8"));
   const [meta, body] = parseFrontMatter(raw);
   const title = titleFromMarkdown(body, path.basename(file, ".md"));
@@ -504,8 +508,38 @@ const notes = walkMarkdown(notesRoot).map((file) => {
     summary,
     excerpt: summary,
     html: markdownToHtml(body),
+    root: notesRoot,
   };
-}).filter((note) => !isHiddenArticle("articles", note, notesRoot, `articles/${note.slug}.html`));
+});
+
+const scratchNotes = walkMarkdown(scratchRoot).flatMap((file) => {
+  const raw = redactSensitive(fs.readFileSync(file, "utf8"));
+  const [meta, body] = parseFrontMatter(raw);
+  if (!isTrue(meta.publish)) return [];
+  const title = titleFromMarkdown(body, path.basename(file, ".md"));
+  const slug = slugify(file);
+  const genre = meta.genre || path.basename(path.dirname(file));
+  const summary = summaryFrom(meta, body);
+  return [{
+    file,
+    slug,
+    title,
+    genre,
+    genreLabel: genreLabels[genre] || genre,
+    created: meta.created || "",
+    source: meta.source || "",
+    importance: meta.importance || "",
+    confidence: meta.confidence || "",
+    summary,
+    excerpt: summary,
+    html: markdownToHtml(body),
+    root: scratchRoot,
+  }];
+});
+
+const notes = [...archiveNotes, ...scratchNotes].filter((note) =>
+  !isHiddenArticle("articles", note, note.root || notesRoot, `articles/${note.slug}.html`),
+);
 
 notes.sort((a, b) => `${b.created}${b.title}`.localeCompare(`${a.created}${a.title}`, "ja"));
 
@@ -577,9 +611,9 @@ fs.writeFileSync(
 fs.writeFileSync(
   path.join(outData, "articles.json"),
   JSON.stringify(
-    notes.map(({ html, ...note }) => ({
+    notes.map(({ html, root, ...note }) => ({
       ...note,
-      file: path.relative(notesRoot, note.file),
+      file: path.relative(root || notesRoot, note.file),
       url: `articles/${note.slug}.html`,
     })),
     null,

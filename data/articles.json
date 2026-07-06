@@ -1,5 +1,19 @@
 [
   {
+    "file": "AI/2026-07-06_GLM-5.2理解のためのQ&A.md",
+    "slug": "2026-07-06_GLM-5.2理解のためのQ-A",
+    "title": "GLM-5.2理解のためのQ&A",
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "created": "2026-07-06",
+    "source": "",
+    "importance": "high",
+    "confidence": "high",
+    "summary": "GLM-5.2について、Claude OpusやGPT系との比較、量子化の意味、ローカル実行時の遅さと長時間タスク適性を質問と回答の形で整理する。",
+    "excerpt": "GLM-5.2について、Claude OpusやGPT系との比較、量子化の意味、ローカル実行時の遅さと長時間タスク適性を質問と回答の形で整理する。",
+    "url": "articles/2026-07-06_GLM-5.2理解のためのQ-A.html"
+  },
+  {
     "file": "AI/2026-07-06_GLM-5.2ローカルLLM調査.md",
     "slug": "2026-07-06_GLM-5.2ローカルLLM調査",
     "title": "GLM-5.2 ローカルLLM性能・必要マシン調査レポート",
