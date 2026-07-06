@@ -42,6 +42,20 @@
     "url": "articles/2026-07-06_GLM-5.2ローカルLLM調査.html"
   },
   {
+    "file": "AI/2026-07-06_AM_CAR動的ツール合成エージェント.md",
+    "slug": "2026-07-06_AM_CAR動的ツール合成エージェント",
+    "title": "CAR動的ツール合成エージェント",
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "created": "2026-07-06",
+    "source": "https://aclanthology.org/2026.findings-acl.869/",
+    "importance": "high",
+    "confidence": "high",
+    "summary": "CARは、LLMエージェントが不足したツールをその場で合成し、失敗した実行計画を大局的に立て直すACL 2026研究。固定ツール前提の限界を考える材料になる。",
+    "excerpt": "CARは、LLMエージェントが不足したツールをその場で合成し、失敗した実行計画を大局的に立て直すACL 2026研究。固定ツール前提の限界を考える材料になる。",
+    "url": "articles/2026-07-06_AM_CAR動的ツール合成エージェント.html"
+  },
+  {
     "file": "AI/2026-07-04_DeepMindのAI制御ロードマップ.md",
     "slug": "2026-07-04_DeepMindのAI制御ロードマップ",
     "title": "DeepMindのAI制御ロードマップ",

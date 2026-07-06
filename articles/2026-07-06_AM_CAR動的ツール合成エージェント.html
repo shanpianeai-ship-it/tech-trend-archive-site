@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CAR動的ツール合成エージェント | 海外技術情報アーカイブ</title>
+  <meta name="description" content="CARは、LLMエージェントが不足したツールをその場で合成し、失敗した実行計画を大局的に立て直すACL 2026研究。固定ツール前提の限界を考える材料になる。">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-07-06</span>
+        <span>AI / LLM / Agent</span>
+        <span>importance: high</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>CARは、LLMエージェントが不足したツールをその場で合成し、失敗した実行計画を大局的に立て直すACL 2026研究。固定ツール前提の限界を考える材料になる。</p>
+      </aside>
+      <h1>CAR動的ツール合成エージェント</h1>
+<h2>要約</h2>
+<p>CAR（Create And Replan）は、LLMエージェントが固定されたツールセットだけに頼ると、必要な道具が欠けた場面や失敗からの回復で脆くなる、という問題を扱うACL 2026 Findings論文である。著者らは、ReActやPlan-and-Solveのような段階的推論の枠組みは強い基盤になる一方、オープンエンドな環境では「閉じた行動空間」と「局所的な再試行」によって詰まりやすいと整理している。</p>
+<p>提案手法のCARは、エージェントにメタツール合成器を持たせ、必要なツールがない場合に行動空間を動的に拡張する。また、失敗時には直前の操作だけをやり直すのではなく、反省的な再計画で高レベル戦略そのものを修正する。評価用には、ツール不足を意図的に再現するToolHop-Proという診断ベンチマークも公開している。</p>
+<p>自分向けには、OpenClawやCodexのようなツール接続型エージェントを考えるとき、「最初に許可したツールだけで完結するか」だけではなく、「足りないツールを作らせるべきか」「失敗時にどこまで計画を巻き戻すか」を分けて見るための材料になる。便利さと安全性がぶつかる論点でもある。</p>
+<h2>背景</h2>
+<p>LLMエージェントは、検索、ファイル操作、コード実行、API呼び出しなどのツールを使ってタスクを進める。現在の多くの実装では、エージェントが使えるツールは事前に定義されており、プロンプトやシステム側の設定で「この中から選ぶ」形になっている。</p>
+<p>この設計は安全で管理しやすいが、現実のタスクでは足りないツールが頻繁に出る。データ形式の変換、局所的な検証、特殊な検索、簡単なスクリプト生成のように、人間ならその場で小さな道具を作って進める場面がある。固定ツール前提のエージェントは、ここで遠回りな操作を繰り返したり、使えないツールを無理に使ったりする。</p>
+<p>もう一つの問題は、失敗からの回復が局所的になりやすいことだ。直前のコマンドや検索語だけを変えても、そもそもの計画や前提が間違っていれば解けない。CARは、この2つを「動的ツール合成」と「グローバルな軌道修正」として同時に扱う。</p>
+<h2>何が重要か</h2>
+<h3>1. 固定ツールセットの限界を正面から扱っている</h3>
+<p>エージェント基盤では、ツールを増やすほど能力は上がるが、権限・誤用・監査の問題も増える。CARは、最初から巨大なツール群を渡すのではなく、必要になった時点でメタツール合成器が行動空間を増やす発想を取る。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>観点</th><th>固定ツール型エージェント</th><th>CARの方向性</th></tr></thead>
+<tbody>
+<tr><td>行動空間</td><td>事前定義のツールに限定</td><td>必要に応じてツールを合成</td></tr>
+<tr><td>失敗時の対応</td><td>直前操作の再試行に寄りがち</td><td>高レベル計画を反省して再計画</td></tr>
+<tr><td>強い場面</td><td>定型業務、管理されたAPI操作</td><td>ツール不足が起きる探索的タスク</td></tr>
+<tr><td>リスク</td><td>ツール不足による停滞</td><td>合成ツールの安全性と監査</td></tr>
+<tr><td>評価の焦点</td><td>タスク成功率、ツール選択精度</td><td>ツール不足下での頑健性</td></tr>
+</tbody>
+</table></div>
+<p>この観点は、個人運用のエージェントにもそのまま効く。たとえば「CSVを整形する小さなスクリプトをその場で作る」のは実用的だが、「外部送信や認証情報に触れるツールを勝手に作る」のは危険になる。動的合成は便利さだけでなく、境界設計が本題になる。</p>
+<h3>2. 失敗の原因を局所ではなく軌道全体で見る</h3>
+<p>CARのもう一つの軸は、Global Trajectory Rectification、つまり実行軌道全体の修正である。エージェントが失敗したとき、同じ方向で何度も検索語を変える、同じコマンドを少し変える、同じ前提で再試行する、という振る舞いはよく起きる。</p>
+<p>論文の問題意識は、こうした局所的リトライでは根本原因を直せないことにある。高レベルの計画、使うべき中間成果物、必要なツール、前提条件の置き方を見直すことで、失敗した軌道から抜ける。</p>
+<p>実務的には、エージェントに「もう一度やって」だけを指示するより、「どの前提が間違っていたか」「必要な道具が欠けていたか」「計画をどの段階まで戻すべきか」を判断させる設計に近い。</p>
+<h3>3. ToolHop-Proはツール不足を測るためのベンチマーク</h3>
+<p>CARの評価では、ToolHop-Proという診断ベンチマークが使われる。これは、ツールセットを体系的に削ることで、エージェントがツール不足にどう対応するかを調べるものだ。単に「全部の道具が揃った理想環境」で評価するのではなく、現実に近い欠落状態を作っている点がよい。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>評価観点</th><th>なぜ重要か</th></tr></thead>
+<tbody>
+<tr><td>ツール不足への対応</td><td>実運用では必要なAPIや関数が最初から揃っていない</td></tr>
+<tr><td>代替手段の構成</td><td>既存ツールの組み合わせだけで解けるか、合成が必要かを見られる</td></tr>
+<tr><td>失敗後の再計画</td><td>同じ失敗を繰り返すエージェントを見分けられる</td></tr>
+<tr><td>頑健性</td><td>静的ツール前提のベースラインとの差が出やすい</td></tr>
+</tbody>
+</table></div>
+<p>エージェント評価は、正答率だけを見ると過度に楽観的になりやすい。ToolHop-Proのように、あえて不足や破損を入れる評価は、現場運用に近い。</p>
+<h3>4. 安全設計は論文の外側で補う必要がある</h3>
+<p>CARの方向性はかなり重要だが、動的ツール合成は安全面で重い論点を持つ。エージェントがツールを作れるなら、作ってよいツールの範囲、実行環境、ファイル・ネットワーク・認証情報へのアクセス、ログ保存、レビュー方法を決める必要がある。</p>
+<p>特に、メタツール合成を本番運用に入れる場合は、次の区分が必要になる。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>合成してよいもの</th><th>慎重に扱うもの</th><th>原則禁止に近いもの</th></tr></thead>
+<tbody>
+<tr><td>ローカル変換、検証、集計スクリプト</td><td>ファイル書き換え、依存追加、外部API呼び出し</td><td>認証情報操作、本番変更、外部投稿、広範な削除</td></tr>
+</tbody>
+</table></div>
+<p>これはDeepMindのAI Control Roadmapで出てくる「エージェントを潜在的な内部者として扱う」考え方ともつながる。能力を上げるほど、権限境界と監査が重要になる。</p>
+<h2>自分向けメモ</h2>
+<ul>
+<li>OpenClawのcron運用では、候補収集、ノート作成、ビルド、git push、Discord報告のように複数のツール段階がある。CAR的には、失敗時に「どの段階の道具が足りないか」を分けて見ると復旧しやすい。</li>
+<li>動的ツール合成を許すなら、作成物は一時ディレクトリ、読み取り専用入力、明示的な出力先、ネットワーク制限を基本にしたい。</li>
+<li>「ツールを増やす」は能力向上だが、同時に攻撃面の拡大でもある。個人環境でも、Discord送信、git push、ブラウザ操作、認証済みAPIは別格に扱う。</li>
+<li>失敗したときは、同じコマンドの再試行ではなく、計画、前提、ツール不足、権限不足、外部状態のどれが原因かに分ける。</li>
+<li>エージェントの評価では、理想状態だけでなく、あえてツールを抜く、APIを失敗させる、情報を古くするようなテストが有効。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://aclanthology.org/2026.findings-acl.869/">ACL Anthology - CAR: Empowering Agents with Dynamic Tool Synthesis and Global Trajectory Rectification</a>: 一次情報。論文の要旨、著者、DOI、PDF、引用情報を確認できる。</li>
+<li><a href="https://aclanthology.org/2026.findings-acl.869.pdf">PDF - CAR: Empowering Agents with Dynamic Tool Synthesis and Global Trajectory Rectification</a>: 論文本体。Create And Replan、メタツール合成、反省的再計画、ToolHop-Proの詳細を確認するための資料。</li>
+<li><a href="https://github.com/Lancetwang/car">GitHub - Lancetwang/car</a>: 著者側のコード・データ公開リポジトリ。ACLページの要旨では <code>Zaiz-77/car</code> と記載されているが、GitHub APIでは <code>Lancetwang/car</code> にリダイレクトされている。</li>
+<li><a href="https://deepmind.google/blog/securing-the-future-of-ai-agents/">DeepMind - Securing the future of AI agents</a>: 関連文脈。動的に能力を増すエージェントを運用する際の権限・監視・遮断設計を考える材料。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>CAR</li>
+<li>Create And Replan</li>
+<li>LLM Agent</li>
+<li>dynamic tool synthesis</li>
+<li>meta-tool synthesizer</li>
+<li>global trajectory rectification</li>
+<li>reflective replanning</li>
+<li>ReAct</li>
+<li>Plan-and-Solve</li>
+<li>ToolHop-Pro</li>
+<li>agent robustness</li>
+<li>tool scarcity</li>
+<li>agent safety</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://aclanthology.org/2026.findings-acl.869/">aclanthology.org - 2026.findings-acl.869</a></p></section>
+    </article>
+  </main>
+</body>
+</html>
