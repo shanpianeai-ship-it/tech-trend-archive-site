@@ -1,5 +1,19 @@
 [
   {
+    "file": "Security/2026-07-06_ブラウザだけで動くランサム.md",
+    "slug": "2026-07-06_ブラウザだけで動くランサム",
+    "title": "ブラウザだけで動くランサム",
+    "genre": "Security",
+    "genreLabel": "Security",
+    "created": "2026-07-06",
+    "source": "https://research.checkpoint.com/2026/browser-only-ransomware-from-llm-hallucinations-to-a-practical-attack-technique/",
+    "importance": "high",
+    "confidence": "high",
+    "summary": "Check Point Researchのブラウザ単体ランサムPoCは、File System Access APIとAI生成コードが結びつく攻撃面を示す。Android Chromeの写真フォルダ権限をどう扱うべきかを考える材料になる。",
+    "excerpt": "Check Point Researchのブラウザ単体ランサムPoCは、File System Access APIとAI生成コードが結びつく攻撃面を示す。Android Chromeの写真フォルダ権限をどう扱うべきかを考える材料になる。",
+    "url": "articles/2026-07-06_ブラウザだけで動くランサム.html"
+  },
+  {
     "file": "AI/2026-07-06_GLM-5.2理解のためのQ&A.md",
     "slug": "2026-07-06_GLM-5.2理解のためのQ-A",
     "title": "GLM-5.2理解のためのQ&A",

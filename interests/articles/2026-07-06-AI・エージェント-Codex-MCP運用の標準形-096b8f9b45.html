@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Codex MCP運用の標準形 | 興味レポート</title>
+  <meta name="description" content="CodexをMCPサーバとしてAgents SDKや他クライアントから呼ぶ時の設計を、権限境界、再現性、監査ログ、OpenClaw cron運用への落とし込みで整理する。">
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../../interests/index.html">興味レポート</a>
+    <span class="site-subtitle">Public redacted interest reports</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 興味レポート一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-07-06T19:30:00+09:00</span>
+        <span>AI・エージェント</span>
+        <span>interest_report</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>CodexをMCPサーバとしてAgents SDKや他クライアントから呼ぶ時の設計を、権限境界、再現性、監査ログ、OpenClaw cron運用への落とし込みで整理する。</p>
+      </aside>
+      <h1>Codex MCP運用の標準形</h1>
+<h2>要約</h2>
+<p>CodexはCLIやIDEの対話ツールとして使うだけでなく、<code>codex mcp-server</code>でMCPサーバとして起動し、Agents SDKなどの外側のエージェントから呼び出せる。公式マニュアルでは、MCPサーバが<code>codex</code>と<code>codex-reply</code>の2つのツールを公開し、呼び出し側が<code>cwd</code>、<code>sandbox</code>、<code>approval-policy</code>、<code>model</code>、<code>base-instructions</code>などを指定できる構成になっている。</p>
+<p>この形の価値は、Codexを「万能の自動実行者」ではなく、スコープを絞った作業者としてワークフローに組み込める点にある。OpenClawのcron、skill、Pages反映、Discord報告のような自動化では、どのフォルダを書けるか、ネットワークを使うか、承認を求めるか、失敗時にどこまで戻せるかを実行単位で決めることが重要になる。</p>
+<h2>なぜ今見る価値があるか</h2>
+<p>OpenClaw運用では、すでに候補作成、投票、記事化、GitHub Pages反映、Discord報告のような複数段のcronが動いている。これを単一の巨大プロンプトで続けるより、外側のオーケストレータが「候補を読む」「1本選ぶ」「Markdownを書く」「ビルドする」「報告する」といった段階を管理し、必要な段階だけCodexへ渡すほうが事故範囲を小さくしやすい。</p>
+<p>OpenAI CookbookのCodex CLIとAgents SDKの例も、Codex CLIを長時間動くMCPサーバとして公開し、専門エージェントがスコープ付きタスクとして呼ぶ構成を示している。狙いは一貫性、再現性、オーケストレーション、トレース可能性であり、これは個人の自動化でもそのまま効く。</p>
+<h2>調査メモ</h2>
+<h3>CodexをMCPサーバとして呼ぶ時の最小単位</h3>
+<p>公式マニュアルでは、Codex MCPサーバは<code>codex mcp-server</code>で起動する。MCPクライアントから<code>tools/list</code>を見ると、主に次の2つのツールが使える。</p>
+<ul>
+<li><code>codex</code>: 新しいCodexセッションを開始する。</li>
+<li><code>codex-reply</code>: 既存セッションの<code>threadId</code>へ追加入力する。</li>
+</ul>
+<p><code>codex</code>ツールには、必須の<code>prompt</code>に加え、作業ディレクトリの<code>cwd</code>、サンドボックスの<code>sandbox</code>、承認方針の<code>approval-policy</code>、設定上書きの<code>config</code>、モデル指定の<code>model</code>などを渡せる。つまり外側のエージェントは、同じCodexでも「このタスクは読み取り専用」「このタスクはワークスペースだけ書き込み可」「このタスクは承認なしで進めるがネットワークなし」といった実行人格を分けられる。</p>
+<p>ここで重要なのは、MCP化してもCodexの権限設計が消えるわけではないことだ。むしろ外側から自動で呼ばれるぶん、<code>sandbox</code>と<code>approval-policy</code>を明示しない運用は危ない。人間が対話画面で見ている時よりも、cronやエージェント間ハンドオフでは、実行前の境界設定が大きく効く。</p>
+<h3>MCPは「道具を足す」と「Codexを部品化する」の両方向がある</h3>
+<p>CodexのMCP設定には2つの向きがある。ひとつは、Codexが外部MCPサーバを使ってドキュメント、ブラウザ、Figma、Sentry、GitHubなどへアクセスする向き。もうひとつは、Codex自身をMCPサーバとして外側のAgents SDKや他クライアントから呼ぶ向きである。</p>
+<p>前者では、Codexの能力が増えるかわりに、MCPサーバの説明文、ツールschema、認証、書き込み権限がリスクになる。後者では、Codexをワークフローの一部にできるかわりに、外側のオーケストレータがどの権限でCodexを呼ぶかがリスクになる。</p>
+<p>OpenClawの運用に近いのは後者だ。候補一覧Markdown、Discordポール、Pages repo、Obsidian vaultのように、対象ごとに入出力が決まっている処理では、Codexを直接常駐秘書として動かすより、限定されたプロンプトと<code>cwd</code>で呼ぶほうが再現性を作りやすい。</p>
+<h3>cron運用での標準形</h3>
+<p>個人運用の標準形は、次のように分けるのがよい。</p>
+<ol>
+<li>外側のcronが、日付、対象ファイル、実行スロット、Discordチャンネル、保存先を決める。</li>
+<li>調査や記事生成だけをCodex MCPへ渡す。</li>
+<li>Codex呼び出しごとに<code>cwd</code>、<code>sandbox</code>、<code>approval-policy</code>を固定する。</li>
+<li>成果物、ビルド結果、commit hash、Discord報告内容を外側で記録する。</li>
+<li>失敗時は、どの段階で止まったかを構造化して返す。</li>
+</ol>
+<p>この形にすると、同じ「記事作成」でも、調査段階、Markdown作成段階、ビルド段階、push段階を分けて扱える。たとえばMarkdown作成は対象vaultだけ書き込み可、ビルドはPages repoだけ、Discord送信は最後の報告だけ、というように分離できる。</p>
+<h3>OpenClawに落とす時の判断軸</h3>
+<p>OpenClawのskillやcronと組み合わせる場合、Codex MCP呼び出しは次の4点を毎回固定したい。</p>
+<ul>
+<li>入力: 候補一覧、選定理由、参照URL、禁止事項を明示する。</li>
+<li>出力: Markdown、frontmatter更新、ビルド結果、報告文のどれを期待するかを分ける。</li>
+<li>権限: 読み取り、書き込み、ネットワーク、外部送信、git pushを段階別に分ける。</li>
+<li>監査: poll message ID、selected answer、保存先、commit hashを残す。</li>
+</ul>
+<p>特に<code>approval-policy: never</code>は、自動化では便利だが、広い<code>cwd</code>や<code>danger-full-access</code>と組み合わせると被害範囲が広がる。Cookbookの例でも、開発エージェントには<code>workspace-write</code>と<code>approval-policy: never</code>を組み合わせるが、これは小さな作業ディレクトリを前提にした例として読むべきだ。個人の常用環境全体をそのまま渡す設計ではない。</p>
+<h2>個人向けの読みどころ</h2>
+<p>興味レポート自動化では、Codex MCP化は「もっと自動で何でもやる」方向ではなく、「自動実行を小さく分けて説明可能にする」方向で使うのが合っている。</p>
+<p>たとえば現在の統合記事作成Cronなら、候補一覧読取、Discordポール集計、テーマ選定、記事生成、frontmatter更新、Pagesビルド、commit/push、Discord報告が1本の長い流れになっている。これを将来分けるなら、Codex MCPへ渡すのは「テーマXについて公開用Markdownを作る」部分だけにして、投票集計やpushは外側の決定的なスクリプトに寄せるほうが安定しそうだ。</p>
+<p>また、skillは「どう判断するか」、MCPは「何にアクセスできるか」、cronは「いつ実行するか」、Codex MCPは「限定された作業者を呼ぶか」と役割を分けて考えると整理しやすい。全部をプロンプトに詰め込むより、役割の違いを設定とログに出すほうが、後から直しやすい。</p>
+<h2>注意点</h2>
+<p>CodexをMCPサーバとして外部から呼べることは、権限を委譲できるという意味でもある。外側のエージェントが暴走したり、未信頼の外部テキストをそのままプロンプトに混ぜたりすると、Codexは正規の依頼としてファイル操作やコマンド実行を進める可能性がある。</p>
+<p>したがって、MCP化したCodexは「信頼済みの中核部品」として置くより、「権限を絞って呼ぶ専門作業者」として置くほうがよい。ネットワーク、外部送信、git push、秘密情報、広いホームディレクトリへの読み取りは、同じ呼び出しにまとめないほうが安全である。</p>
+<h2>参考リンク</h2>
+<ul>
+<li>OpenAI Developers: <a href="https://developers.openai.com/codex/guides/agents-sdk">Use Codex with the Agents SDK</a></li>
+<li>OpenAI Developers: <a href="https://developers.openai.com/codex/mcp">Model Context Protocol</a></li>
+<li>OpenAI Developers: <a href="https://developers.openai.com/codex/agent-approvals-security">Agent approvals &amp; security</a></li>
+<li>OpenAI Cookbook: <a href="https://github.com/openai/openai-cookbook/blob/main/examples/codex/codex_mcp_agents_sdk/building_consistent_workflows_codex_cli_agents_sdk.ipynb">Building Consistent Workflows with Codex CLI &amp; Agents SDK</a></li>
+</ul>
+    </article>
+  </main>
+</body>
+</html>

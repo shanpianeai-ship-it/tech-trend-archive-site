@@ -37,6 +37,18 @@
   },
   {
     "file": "[入力元伏せ]",
+    "slug": "2026-07-06-AI・エージェント-Codex-MCP運用の標準形-096b8f9b45",
+    "title": "Codex MCP運用の標準形",
+    "category": "AI・エージェント",
+    "created": "2026-07-06T19:30:00+09:00",
+    "status": "",
+    "type": "interest_report",
+    "summary": "CodexをMCPサーバとしてAgents SDKや他クライアントから呼ぶ時の設計を、権限境界、再現性、監査ログ、OpenClaw cron運用への落とし込みで整理する。",
+    "excerpt": "CodexをMCPサーバとしてAgents SDKや他クライアントから呼ぶ時の設計を、権限境界、再現性、監査ログ、OpenClaw cron運用への落とし込みで整理する。",
+    "url": "interests/articles/2026-07-06-AI・エージェント-Codex-MCP運用の標準形-096b8f9b45.html"
+  },
+  {
+    "file": "[入力元伏せ]",
     "slug": "2026-07-03-AI・エージェント-Microsoft式AIエージェント隔離実行を個人環境に応用できるか-cd2f5a81ad",
     "title": "Microsoft式AIエージェント隔離実行を個人環境に応用できるか",
     "category": "AI・エージェント",

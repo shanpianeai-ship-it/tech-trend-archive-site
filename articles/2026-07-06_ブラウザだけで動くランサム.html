@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ブラウザだけで動くランサム | 海外技術情報アーカイブ</title>
+  <meta name="description" content="Check Point Researchのブラウザ単体ランサムPoCは、File System Access APIとAI生成コードが結びつく攻撃面を示す。Android Chromeの写真フォルダ権限をどう扱うべきかを考える材料になる。">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-07-06</span>
+        <span>Security</span>
+        <span>importance: high</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>Check Point Researchのブラウザ単体ランサムPoCは、File System Access APIとAI生成コードが結びつく攻撃面を示す。Android Chromeの写真フォルダ権限をどう扱うべきかを考える材料になる。</p>
+      </aside>
+      <h1>ブラウザだけで動くランサム</h1>
+<h2>要約</h2>
+<p>Check Point Researchは、LLMが生成した不完全な悪性サンプルを起点に、ブラウザだけで成立し得るランサムウェア手法を分析した。中心にあるのはFile System Access APIで、ユーザーがWebページへフォルダアクセスを許可すると、ページ側が選択フォルダ内のファイルを列挙、読み取り、書き換えできる。</p>
+<p>今回の重要点は、ブラウザの脆弱性を突く話ではないこと。APKのインストール、ネイティブペイロード、root権限、ブラウザエクスプロイトなしに、正規の権限プロンプトとソーシャルエンジニアリングだけで攻撃フローが組める。特にAndroid Chromeでは写真ディレクトリが自然な誘導先になり、AI画像補正やアバター高画質化のような画面なら、ユーザーがフォルダ編集権限を合理化しやすい。</p>
+<p>もう一つの論点は、LLMの「幻覚」が防御側にとっても無視できないこと。不完全なマルウェア風コードでも、モデルが悪意ある目的を既存APIに接続すると、理論上のリスクが実装可能なPoCへ近づく。AI悪用対策は、既知マルウェアの再生成だけでなく、正規APIの危険な組み合わせをどう早く検出するかに寄っていく。</p>
+<h2>背景</h2>
+<p>File System Access APIは、Web版エディタ、IDE、画像処理ツールのようなアプリが、ユーザーの許可を得てローカルファイルを扱うための正規機能。MDNも、File System APIとFile System Access API拡張により、端末上のファイルに対する読み取り、書き込み、管理機能が提供されると説明している。</p>
+<p>便利な一方で、このAPIはブラウザのサンドボックスとローカルファイルの境界をユーザー許可でまたぐ。Check Point Researchが見つけたDeepSeek由来とされるサンプルは、DiscordアバターAIアップスケーラーを装い、ブラウザ内でファイルアクセス、情報収集、ランサム風表示を組み合わせようとしていた。</p>
+<p>多くの機能はブラウザ制約で破綻していた。通常のWebページはOS全体のスクリーンショット、任意のキーログ、他オリジンのトークン窃取、永続化を自由には実行できない。ただし、ファイルアクセス部分だけは実在するAPIに接続されており、攻撃として具体性があった。</p>
+<h2>何が重要か</h2>
+<h3>1. ブラウザが実行環境になる</h3>
+<p>従来のランサムウェア防御は、実行ファイル、スクリプト、アプリインストール、権限昇格、脆弱性悪用を主な観測点にする。今回のPoCは、その前提をずらす。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>観点</th><th>従来の見方</th><th>今回の見方</th></tr></thead>
+<tbody>
+<tr><td>実行場所</td><td>端末上のバイナリやスクリプト</td><td>ブラウザ内のWebページ</td></tr>
+<tr><td>権限取得</td><td>脆弱性、マルウェア実行、OS権限</td><td>正規のフォルダアクセス許可</td></tr>
+<tr><td>誘導</td><td>添付ファイル、偽アプリ、更新通知</td><td>AI画像補正、アバター加工、Webツール</td></tr>
+<tr><td>防御の盲点</td><td>未知バイナリ、難読化</td><td>正規APIと自然な許可プロンプト</td></tr>
+</tbody>
+</table></div>
+<p>ブラウザフォルダアクセスの許可は、ユーザーにとって「アプリを実行する」ほど重く見えない。ここが攻撃側の余地になる。</p>
+<h3>2. Androidでは写真フォルダの価値が高い</h3>
+<p>Check Point Researchは、Android ChromeでFile System Access APIを使い、写真ディレクトリを対象にしたPoCを検証している。Chrome 132でAndroidとWebViewにFile System Accessのサポートが広がり、同社の検証時点ではChrome 148でもDCIMフォルダのルート選択が可能だったという。</p>
+<p>写真フォルダは単なる画像置き場ではない。スマホでは、身分証、銀行画面、医療情報、復旧コード、旅行書類、業務写真、家族写真などが混ざる。暗号化だけでなく、読み取りと持ち出しが組み合わさると、恐喝、公開脅迫、なりすまし、業務情報漏えいに発展し得る。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>環境</th><th>攻撃面</th><th>リスクの質</th></tr></thead>
+<tbody>
+<tr><td>Android Chrome</td><td>写真・動画ディレクトリへのWebページ権限</td><td>個人情報、復旧情報、業務写真の暗号化や流出</td></tr>
+<tr><td>Windows Chrome</td><td>Picturesなど選択可能フォルダ</td><td>個人ファイルの破壊、Webツール経由の持ち出し</td></tr>
+<tr><td>iOS Safari / Chrome on iOS</td><td>同等のFile System Access APIは未実装</td><td>現時点では同じPoCの成立性は低い</td></tr>
+</tbody>
+</table></div>
+<p>全ディスクを自由に暗号化できるわけではないが、スマホの写真ライブラリだけでも十分に高価値な標的になる。</p>
+<h3>3. LLMは既存APIを攻撃目的へ接続する</h3>
+<p>Check Point Researchの観察で面白いのは、最初のサンプルが「完成度の高いマルウェア」ではなかった点。不完全でノイズの多いコードだったが、モデルは不可能なWebマルウェア要求を満たそうとする過程で、File System Access APIという実在の機能へ到達していた。</p>
+<p>これはAI悪用の見方を少し変える。問題は、LLMが既存マルウェアを再実装することだけではない。攻撃者が知らないAPIや設計上の注意点を、モデルが自然言語の目的から探索し、攻撃フローに組み込む可能性がある。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>LLM悪用の段階</th><th>防御側の見方</th></tr></thead>
+<tbody>
+<tr><td>既存コードの生成</td><td>既知TTP、既知マルウェア分類で追いやすい</td></tr>
+<tr><td>部品ごとの生成</td><td>UI、ファイル処理、暗号化、通知を別々に生成される</td></tr>
+<tr><td>API接続の発見</td><td>正規機能が悪用フローへ組み込まれる</td></tr>
+<tr><td>使い捨て化</td><td>サンプルごとの特徴がばらけ、シグネチャ依存が弱くなる</td></tr>
+</tbody>
+</table></div>
+<p>モデルの出力が技術的に間違っていても、その間違いが「どの正規機能を悪用し得るか」を示すことがある。</p>
+<h2>自分向けメモ</h2>
+<ul>
+<li>ブラウザの「フォルダ内のファイルを編集できます」系プロンプトは、アプリインストールに近い重さのセキュリティ判断として扱う。</li>
+<li>AI画像補正、PDF変換、音声変換、開発支援など、ローカルファイル処理が自然に見えるWebツールほど警戒する。</li>
+<li>AndroidではDCIM、Pictures、VideosをWebページへ渡さない。試す場合は空の一時フォルダを作る。</li>
+<li>企業端末では、Chromium系ブラウザのFile System Access API制御、DLP、ブラウザ権限ログ、拡張管理ポリシーを確認する。</li>
+<li>AI安全評価では「マルウェアを作れるか」だけでなく、「正規APIを危険な組み合わせへ接続するか」をテスト観点に入れる。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://research.checkpoint.com/2026/browser-only-ransomware-from-llm-hallucinations-to-a-practical-attack-technique/">Check Point Research - Browser-Only Ransomware: From LLM Hallucinations to a Practical Attack Technique</a>: 一次情報。DeepSeek由来サンプル、File System Access API悪用、Android PoC、推奨事項を説明。</li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/File_System_API">MDN - File System API</a>: File System APIとFile System Access API拡張の概要。ローカルファイルへの読み書き能力の前提確認に使う。</li>
+<li><a href="https://wicg.github.io/file-system-access/">WICG - File System Access API</a>: 仕様ドラフト。ブラウザがローカルファイルアクセスをどう扱うかの設計文脈を確認できる。</li>
+<li><a href="https://www.usenix.org/conference/usenixsecurity23/presentation/palmer">USENIX Security 2023 - RoB: Ransomware over Modern Web Browsers</a>: Check Point記事でも参照される先行研究。ブラウザ経由ランサムウェアの理論的背景。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>browser-only ransomware</li>
+<li>File System Access API</li>
+<li>Android Chrome</li>
+<li>Chrome 132</li>
+<li>DCIM</li>
+<li>LLM misuse</li>
+<li>AI-generated malware</li>
+<li>DeepSeek</li>
+<li>browser permission prompt</li>
+<li>social engineering</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://research.checkpoint.com/2026/browser-only-ransomware-from-llm-hallucinations-to-a-practical-attack-technique/">research.checkpoint.com - 2026 / browser-only-ransomware-from-llm-hallucinations-to-a-practical-attack-technique</a></p></section>
+    </article>
+  </main>
+</body>
+</html>
