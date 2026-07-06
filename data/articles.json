@@ -1,5 +1,19 @@
 [
   {
+    "file": "AI/2026-07-06_GLM-5.2ローカルLLM調査.md",
+    "slug": "2026-07-06_GLM-5.2ローカルLLM調査",
+    "title": "GLM-5.2 ローカルLLM性能・必要マシン調査レポート",
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "created": "2026-07-06",
+    "source": "https://huggingface.co/zai-org/GLM-5.2",
+    "importance": "high",
+    "confidence": "high",
+    "summary": "GLM-5.2をローカルLLMとして使う場合の性能、量子化別メモリ要件、個人用PCとサーバーGPU構成の現実ラインを整理する。",
+    "excerpt": "GLM-5.2をローカルLLMとして使う場合の性能、量子化別メモリ要件、個人用PCとサーバーGPU構成の現実ラインを整理する。",
+    "url": "articles/2026-07-06_GLM-5.2ローカルLLM調査.html"
+  },
+  {
     "file": "AI/2026-07-04_DeepMindのAI制御ロードマップ.md",
     "slug": "2026-07-04_DeepMindのAI制御ロードマップ",
     "title": "DeepMindのAI制御ロードマップ",
