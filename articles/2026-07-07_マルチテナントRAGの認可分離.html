@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>マルチテナントRAGの認可分離 | 海外技術情報アーカイブ</title>
+  <meta name="description" content="企業RAGで検索関連度と認可を混同すると、別テナントの情報が上位取得され得る。OGX実装を題材に、取り込み・検索・オーケストレーションで分離する設計を整理する。">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-07-07</span>
+        <span>AI / LLM / Agent</span>
+        <span>importance: high</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>企業RAGで検索関連度と認可を混同すると、別テナントの情報が上位取得され得る。OGX実装を題材に、取り込み・検索・オーケストレーションで分離する設計を整理する。</p>
+      </aside>
+      <h1>マルチテナントRAGの認可分離</h1>
+<h2>要約</h2>
+<p>「Securing the Agent」は、企業向けRAGやエージェント基盤で、検索の関連度と認可を混同する危険を整理したACM CAIS 2026論文である。著者らは、通常のベクトル検索、キーワード検索、ハイブリッド検索は「質問にどれだけ近いか」を最適化するが、「そのユーザーやテナントが読んでよいか」は別問題だと指摘する。</p>
+<p>特にマルチテナント環境では、別テナントの文書が意味的に近ければ上位に出る。これを後段のプロンプトやモデルの善意で止めようとすると、ツール呼び出し、会話履歴、キャッシュ、クライアント側オーケストレーションを通じて漏えい面が残る。</p>
+<p>提案は、ポリシー認識型の取り込み、検索時のABACゲート、共有推論基盤、サーバー側オーケストレーションを組み合わせる層状アーキテクチャである。OGXというOpenAI互換APIを持つOSS実装で評価し、認可ゲートがクロステナント漏えいを防ぎつつ、追加レイテンシは小さいと報告している。</p>
+<p>自分向けには、RAGを「検索精度の問題」としてだけ見るのをやめるための良い材料になる。エージェントが社内文書、業務API、ツール実行をまたぐなら、関連度ランキングの前後に認可境界を明示的に置く必要がある。</p>
+<h2>背景</h2>
+<p>RAGは、質問に関連する文書を検索し、その内容をLLMのコンテキストに入れて回答させる。単一ユーザーや単一チームの小さなナレッジベースなら、検索精度、チャンク分割、埋め込み、再ランキングが主な論点になりやすい。</p>
+<p>企業環境では前提が変わる。複数の顧客、部門、プロジェクト、機密区分が同じ基盤に載り、閲覧権限や監査要件も混ざる。このとき、ベクトルDBを共有したまま「似ている文書」を返すだけでは、認可された文書だけが返る保証にならない。</p>
+<p>さらに、エージェント型のシステムでは検索だけで終わらない。ツールを呼ぶ、会話状態を持つ、複数ターンで結果を蓄積する、クライアント側が推論とツール呼び出しのループを管理する。これらはすべて、認可境界を曖昧にすると漏えい経路になる。</p>
+<h2>何が重要か</h2>
+<h3>1. 「関連度」と「認可」は別の軸である</h3>
+<p>論文の中心は、relevance-authorization gapである。検索システムは、質問と文書の意味的近さ、キーワード一致、ハイブリッドスコアを使って順位付けする。しかし、その文書が現在のユーザーに許可されているかは、ランキングとは別の判定になる。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>観点</th><th>関連度ランキング</th><th>認可判定</th></tr></thead>
+<tbody>
+<tr><td>主な問い</td><td>質問にどれだけ近いか</td><td>誰が読んでよいか</td></tr>
+<tr><td>代表技術</td><td>埋め込み検索、BM25、再ランキング</td><td>RBAC、ABAC、テナントID、ポリシー</td></tr>
+<tr><td>失敗時の問題</td><td>回答品質が落ちる</td><td>機密情報が漏れる</td></tr>
+<tr><td>実装位置</td><td>検索・再ランキング層</td><td>取り込み、検索、ツール実行、状態管理</td></tr>
+</tbody>
+</table></div>
+<p>検索結果をプロンプトに入れた時点で、モデルはそれを読める。したがって「あとでモデルに出力しないよう指示する」では遅い。LLMに見せる前に、認可された候補だけへ絞る必要がある。</p>
+<h3>2. マルチテナントRAGはベクトルDB分離だけでは設計が重い</h3>
+<p>素朴な対策は、テナントごとにベクトルストア、推論エンドポイント、ツール構成を丸ごと分けること。これは分かりやすいが、テナント数に比例してコストと運用が増える。企業内の部門単位、顧客単位、プロジェクト単位まで細かくすると、現実的に重くなりやすい。</p>
+<p>論文は、共有基盤を使いながら分離を保つ方向を取る。ポイントは、共有そのものを禁止するのではなく、共有される層とポリシー適用点を分けること。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>層</th><th>役割</th><th>認可上の注意</th></tr></thead>
+<tbody>
+<tr><td>取り込み</td><td>文書にテナント、分類、属性を付与</td><td>ポリシー評価に必要なメタデータを欠かさない</td></tr>
+<tr><td>検索</td><td>関連候補を取得</td><td>ABACゲートで許可外を落とす</td></tr>
+<tr><td>推論</td><td>LLMで回答生成</td><td>許可済みコンテキストだけを渡す</td></tr>
+<tr><td>オーケストレーション</td><td>ツール、状態、会話履歴を管理</td><td>サーバー側で強制し、クライアント任せにしない</td></tr>
+</tbody>
+</table></div>
+<p>この整理は、個人用の小さなRAGにも使える。たとえば「公開情報」「自分のメモ」「顧客別資料」「認証情報に近い運用メモ」を同じ検索基盤に入れるなら、検索前後で境界を設けるべきだ。</p>
+<h3>3. エージェントではツールと状態も漏えい面になる</h3>
+<p>RAG単体なら、主な漏えい面は取得文書である。エージェントになると、ツール出力、会話履歴、キャッシュ、複数ステップの中間結果が追加される。</p>
+<p>たとえば、最初のターンで別テナントの文書が混入し、次のターンで要約やツール入力として使われると、出力検査だけでは追いにくい。ツールが業務APIを読める場合、ツール呼び出しそのものにもユーザー・テナント・目的に応じた認可が必要になる。</p>
+<p>論文がサーバー側オーケストレーションを重視するのはここにある。クライアント側アプリが推論、検索、ツール実行のループを自由に組むと、ポリシー適用が分散し、監査もしにくい。サーバー側に強制点を置けば、状態分離、ツール認可、検索ゲート、ログを一箇所で扱いやすくなる。</p>
+<h3>4. OGX実装は「OpenAI互換APIの裏側」に分離層を置く発想</h3>
+<p>著者らは、OGXというOpenAI互換のResponses APIを持つOSSスタックでアーキテクチャを検証している。クライアントから見ると標準的なAPIに近いが、裏側ではサーバー側のマルチターンオーケストレーション、検索ゲート、ツール制御を実装する。</p>
+<p>この発想は、ベンダーロックイン回避にもつながる。企業は、フロントのエージェント開発体験を保ちながら、推論プロバイダ、ベクトルストア、Kubernetes上の運用、ポリシー層を差し替えたい。OpenAI互換APIは便利だが、互換インターフェースだけではセキュリティ境界にならない。互換APIの背後に、認可を強制する実装が必要になる。</p>
+<h2>自分向けメモ</h2>
+<ul>
+<li>RAGの評価では、正答率や検索精度だけでなく「許可外文書が候補に入ったか」を必ず見る。</li>
+<li>ベクトルDBに入れる段階で、tenant、owner、classification、source、retention、allowed_rolesのような属性を付ける。</li>
+<li>検索クエリにフィルタを足すだけでなく、検索結果をLLMへ渡す直前にもサーバー側で認可を再確認する。</li>
+<li>エージェントのツール出力は文書検索と同じくコンテキスト汚染源になる。ツール実行前とツール結果格納時の両方で認可を考える。</li>
+<li>クライアント側のエージェントSDKだけでセキュリティを完結させない。重要な権限判断はサーバー側に寄せる。</li>
+<li>「共有推論基盤を使うか」と「データ境界を共有するか」は別問題。共有してよい層と分ける層を明示する。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://arxiv.org/html/2605.05287">arXiv - Securing the Agent: Vendor-Neutral, Multitenant Enterprise Retrieval and Tool Use</a>: 一次情報。relevance-authorization gap、層状分離、OGX評価の詳細。</li>
+<li><a href="https://github.com/ogx-ai/ogx">GitHub - ogx-ai/ogx</a>: 論文で参照されるOGX実装。OpenAI互換APIとサーバー側オーケストレーションの文脈確認に使う。</li>
+<li><a href="https://github.com/ogx-ai/ogx-k8s-operator">GitHub - ogx-ai/ogx-k8s-operator</a>: Kubernetes Operator。企業向け運用・デプロイ面の裏取り。</li>
+<li><a href="https://platform.openai.com/docs/api-reference/responses">OpenAI Docs - Responses API</a>: 関連文脈。推論、ツール、状態を統合するAPI形態を理解するための参照。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>multitenant RAG</li>
+<li>relevance-authorization gap</li>
+<li>ABAC</li>
+<li>agent security</li>
+<li>server-side orchestration</li>
+<li>OGX</li>
+<li>OpenAI-compatible API</li>
+<li>retrieval gating</li>
+<li>policy-aware ingestion</li>
+<li>tool-mediated disclosure</li>
+<li>state isolation</li>
+<li>enterprise AI</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://arxiv.org/html/2605.05287">arxiv.org - html / 2605.05287</a></p></section>
+    </article>
+  </main>
+</body>
+</html>
