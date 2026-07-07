@@ -1,5 +1,19 @@
 [
   {
+    "file": "Security/2026-07-07_AM_AI監査への間接プロンプト注入.md",
+    "slug": "2026-07-07_AM_AI監査への間接プロンプト注入",
+    "title": "AI監査への間接プロンプト注入",
+    "genre": "Security",
+    "genreLabel": "Security",
+    "created": "2026-07-07",
+    "source": "https://www.cloudflare.com/cloudforce-one/research/adversarial-deception-a-study-of-indirect-prompt-code-injection/",
+    "importance": "medium-high",
+    "confidence": "high",
+    "summary": "Cloudflare Cloudforce Oneが、AIコード監査をだます間接プロンプト注入を実験した。防御側AIを導入する時に、監査対象コード自体を敵対入力として扱う必要が分かる。",
+    "excerpt": "Cloudflare Cloudforce Oneが、AIコード監査をだます間接プロンプト注入を実験した。防御側AIを導入する時に、監査対象コード自体を敵対入力として扱う必要が分かる。",
+    "url": "articles/2026-07-07_AM_AI監査への間接プロンプト注入.html"
+  },
+  {
     "file": "Security/2026-07-06_ブラウザだけで動くランサム.md",
     "slug": "2026-07-06_ブラウザだけで動くランサム",
     "title": "ブラウザだけで動くランサム",
