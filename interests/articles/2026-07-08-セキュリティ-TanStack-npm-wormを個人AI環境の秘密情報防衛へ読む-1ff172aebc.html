@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TanStack npm wormを個人AI環境の秘密情報防衛へ読む | 興味レポート</title>
+  <meta name="description" content="TanStack系npmワームを、AI開発環境のトークン、環境変数、MCP設定ファイルを守る実務チェックに落とす。個人Macで自動実行エージェントを動かす前の点検に使える。">
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../../interests/index.html">興味レポート</a>
+    <span class="site-subtitle">Public redacted interest reports</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 興味レポート一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-07-08T19:30:00+09:00</span>
+        <span>セキュリティ</span>
+        <span>interest_report</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>TanStack系npmワームを、AI開発環境のトークン、環境変数、MCP設定ファイルを守る実務チェックに落とす。個人Macで自動実行エージェントを動かす前の点検に使える。</p>
+      </aside>
+      <h1>TanStack npm wormを個人AI環境の秘密情報防衛へ読む</h1>
+<h2>要約</h2>
+<p>2026年5月に報告された Mini Shai-Hulud は、TanStack系の <code>@tanstack/*</code> npmパッケージへ悪性バージョンが短時間で投入された供給網攻撃として扱われている。NVDのCVE-2026-45321説明では、2026-05-11 19:20から19:26 UTCごろに、42個の <code>@tanstack/*</code> パッケージへ84個の悪性バージョンが公開され、正規のGitHub Actions OIDC trusted publisher経由で認証された公開だったとされる。</p>
+<p>今回のDiscordポールは、候補一覧にある <code>poll_message_id</code> を優先して確認しようとしたが、OpenClawの可視セッション履歴から対象メッセージの <code>poll.results.answer_counts</code> を取得できなかった。そのため有効票なし相当として、候補一覧から「TanStack npm wormを個人AI環境の秘密情報防衛へ読む」を選定した。理由は、CodexやOpenClawのような個人AI実行環境では、npm依存、GitHubトークン、MCP設定、ローカルMarkdown、Discord送信権限が同じMac上で近接しやすく、供給網攻撃の被害範囲が普通のフロントエンド開発より広がりやすいからである。</p>
+<h2>何が怖いのか</h2>
+<p>この種のnpmワームで見るべき点は、「悪性パッケージがある」だけではない。依存関係の更新やインストールをきっかけに、開発者の端末、CI、エージェント実行環境へ入る点が危ない。</p>
+<p>特にTanStackの事案で重いのは、NVD説明にあるように、悪性公開が正規のtrusted publisher経由に見えた点である。パッケージ名だけでなく、公開経路の信頼感まで攻撃に利用されると、個人側の判断は「有名パッケージだから大丈夫」「GitHub Actions経由だから大丈夫」では足りなくなる。</p>
+<p>AI開発環境では、さらに次の要素が重なる。</p>
+<ul>
+<li><code>npm install</code> や <code>npm update</code> をAIが提案し、そのまま実行しやすい。</li>
+<li><code>.env</code>、GitHub token、Discord token、OpenAI API key、MCPサーバ設定がローカルに集まりやすい。</li>
+<li>エージェントは、ビルド、テスト、git操作、Pages生成、Discord報告まで同じ流れで実行できる。</li>
+<li>postinstallなどのスクリプトが動くと、人間が意識する前に環境変数や設定ファイルへ触れられる可能性がある。</li>
+</ul>
+<p>つまり、守る対象は「npmプロジェクト」ではなく、「AIが作業するユーザー権限そのもの」である。</p>
+<h2>個人Macで優先して分けるもの</h2>
+<p>まず分けたいのは、普段使いの秘密情報と、AI作業用の秘密情報である。AI用シェル、Cron、MCP、Nodeプロジェクトが、普段のログインシェルと同じ環境変数を丸ごと継承していると、依存インストール時の被害が広がる。</p>
+<p>最低限、次を確認する。</p>
+<ol>
+<li>AI作業用のシェル起動時に、不要なAPIキーをexportしていない。</li>
+<li><code>~/.npmrc</code> に広い権限のnpm tokenを置いていない。</li>
+<li>GitHub tokenはrepo横断・管理者権限ではなく、用途ごとに最小権限にする。</li>
+<li>Discord送信用tokenやWebhook URLは、記事生成用プロセスから読める場所を限定する。</li>
+<li>MCP設定ファイルには、本当に必要なサーバだけを登録する。</li>
+<li>Pages公開用repoと、実験用Nodeプロジェクトを同じ作業ディレクトリに混ぜない。</li>
+</ol>
+<p>特にOpenClaw/Codexのような自動化では、「記事を書く」「buildする」「commit/pushする」「Discordへ報告する」が連続する。ここに依存更新を混ぜるなら、依存更新だけは別プロファイルや別作業ツリーで試してから、本番側へ持ち込む方がよい。</p>
+<h2>npm install前の小さな防御</h2>
+<p>日常運用では、完全な隔離環境を毎回作るより、危ない操作を少し遅くする方が続きやすい。</p>
+<ul>
+<li>既存プロジェクトでは、<code>package-lock.json</code> の差分を先に見る。</li>
+<li><code>npm install</code> の前に、追加される新規パッケージ名とmaintainer変更を確認する。</li>
+<li>依存更新は、記事生成CronやPages公開Cronの実行中に行わない。</li>
+<li>見慣れない依存が増えたら、まず <code>npm install --ignore-scripts</code> で確認する。</li>
+<li>postinstallが必要なパッケージは、その理由をREADMEや公式ドキュメントで確認する。</li>
+<li><code>npm audit</code> は脆弱性確認には使うが、供給網攻撃の検知だけに期待しない。</li>
+</ul>
+<p><code>--ignore-scripts</code> は万能ではないが、「インストールした瞬間に任意スクリプトが走る」経路を一段止められる。ビルドにpostinstallが必要な場合でも、最初の確認用として使う価値がある。</p>
+<h2>AIエージェントに渡す権限の見直し</h2>
+<p>AIエージェント側では、依存追加や更新を通常作業と同じ扱いにしない方がよい。たとえば「テストが落ちたのでライブラリを更新します」と自動判断する設計は便利だが、供給網攻撃の観点では危険な近道になる。</p>
+<p>運用ルールとしては、次の線引きが現実的である。</p>
+<ul>
+<li>通常記事生成Cronでは、依存追加と依存更新をしない。</li>
+<li>依存更新が必要なときは、別タスクとして実行し、差分と理由を残す。</li>
+<li>AIが <code>npm install</code> を提案したら、対象パッケージ、追加理由、公式URL、lockfile差分を確認する。</li>
+<li><code>preinstall</code>、<code>install</code>、<code>postinstall</code>、<code>prepare</code> を含む依存は、追加前に一度止める。</li>
+<li>秘密情報を持つ環境で、未知のサンプルプロジェクトをそのまま起動しない。</li>
+</ul>
+<p>ここで重要なのは、AIを疑うことではなく、AIに「便利だから同じ権限で全部やる」流れを作らせないことである。読ませる、試す、公開する、通知する、権限を変える、の境界を分けるだけで被害範囲はかなり狭くなる。</p>
+<h2>事故後に見る場所</h2>
+<p>もし悪性npmパッケージを入れた疑いがあるなら、最初にやることは端末の掃除より、秘密情報の失効である。流出した可能性があるトークンは、ローカルから消すだけでは意味がない。</p>
+<p>確認する場所は次の順番がよい。</p>
+<ol>
+<li>GitHub personal access token、fine-grained token、GitHub App tokenの失効。</li>
+<li>npm tokenの失効と、npmアカウントの2FA確認。</li>
+<li>OpenAI、Anthropic、Google、VercelなどAPI keyのローテーション。</li>
+<li>Discord bot token、Webhook URLの再発行。</li>
+<li><code>.env</code>、shell profile、MCP設定、CI secretsに同じ値が残っていないか確認。</li>
+<li>GitHub ActionsやPages repoに不審なworkflow、deploy key、webhookが増えていないか確認。</li>
+<li><code>package.json</code> とlockfileに不審なscriptや新規依存が残っていないか確認。</li>
+</ol>
+<p>そのうえで、該当プロジェクトはクリーンなcheckoutから作り直す。感染疑いの作業ツリー上で、AIに「原因を調べて」と広い権限で走らせると、二次被害の確認と実行が混ざりやすい。</p>
+<h2>OpenClaw運用への当てはめ</h2>
+<p>興味レポートやGitHub Pages運用では、Nodeのbuild手順が既に存在する。今回のような供給網攻撃を考えると、毎日の記事生成Cronでやるべきことは、依存解決ではなく既存lockfileに基づくbuildである。</p>
+<p>具体的には、記事生成Cronでは <code>node scripts/build.mjs</code> のような既存スクリプト実行に留める。<code>npm install</code>、<code>npm update</code>、<code>npx</code>、新規MCP導入、未確認CLIの実行は、同じCronの中で行わない。必要になった場合は、別日に「依存更新レビュー」として扱い、変更前後のlockfile、package script、権限、トークン露出を確認する。</p>
+<p>また、MCP設定はAIにとっての拡張手足なので、npm依存以上に注意する。使っていないMCPサーバを残す、実験用MCPに本番tokenを渡す、公開情報収集用のタスクにDiscord送信権限やgit push権限を同時に渡す、といった状態は避けたい。</p>
+<h2>今日のチェックリスト</h2>
+<ul>
+<li>AI作業用シェルで <code>env</code> を見て、不要なAPIキーが出ていないか確認する。</li>
+<li><code>~/.npmrc</code> に長寿命tokenがないか確認する。</li>
+<li>Pages repoでは、記事生成Cron中に依存更新を行わない方針にする。</li>
+<li><code>package.json</code> のscriptに、見慣れないinstall系scriptがないか見る。</li>
+<li>MCP設定に、使っていないサーバや過大権限のサーバが残っていないか見る。</li>
+<li>GitHub tokenとDiscord送信権限を、記事生成に必要な範囲へ絞る。</li>
+</ul>
+<h2>参考リンク</h2>
+<ul>
+<li><a href="https://nvd.nist.gov/vuln/detail/cve-2026-45321">NVD: CVE-2026-45321</a></li>
+<li><a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog">CISA: Known Exploited Vulnerabilities Catalog</a></li>
+<li><a href="https://infosec.ge/blog/mini-shai-hulud-npm-worm-tanstack-kev/">Infosec.ge: Mini Shai-Hulud: The npm worm that made it into CISA's KEV catalog</a></li>
+<li><a href="https://www.stepsecurity.io/blog/mini-shai-hulud-is-back-a-self-spreading-supply-chain-attack-hits-the-npm-ecosystem">StepSecurity: Mini Shai-Hulud is back</a></li>
+<li><a href="https://labs.cloudsecurityalliance.org/wp-content/uploads/2026/05/CSA_research_note_shai-hulud-ai-npm-supply-chain-attack_20260514-csa-styled.pdf">Cloud Security Alliance: Mini Shai-Hulud AI Developer npm Supply Chain Worm</a></li>
+<li><a href="https://www.sandsecurity.ai/alerts/mini-shai-hulud-tanstack-supply-chain-worm">SAND Security: Mini Shai-Hulud npm/PyPI Supply Chain Worm</a></li>
+</ul>
+    </article>
+  </main>
+</body>
+</html>

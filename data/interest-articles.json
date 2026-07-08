@@ -601,6 +601,18 @@
   },
   {
     "file": "[入力元伏せ]",
+    "slug": "2026-07-08-セキュリティ-TanStack-npm-wormを個人AI環境の秘密情報防衛へ読む-1ff172aebc",
+    "title": "TanStack npm wormを個人AI環境の秘密情報防衛へ読む",
+    "category": "セキュリティ",
+    "created": "2026-07-08T19:30:00+09:00",
+    "status": "",
+    "type": "interest_report",
+    "summary": "TanStack系npmワームを、AI開発環境のトークン、環境変数、MCP設定ファイルを守る実務チェックに落とす。個人Macで自動実行エージェントを動かす前の点検に使える。",
+    "excerpt": "TanStack系npmワームを、AI開発環境のトークン、環境変数、MCP設定ファイルを守る実務チェックに落とす。個人Macで自動実行エージェントを動かす前の点検に使える。",
+    "url": "interests/articles/2026-07-08-セキュリティ-TanStack-npm-wormを個人AI環境の秘密情報防衛へ読む-1ff172aebc.html"
+  },
+  {
+    "file": "[入力元伏せ]",
     "slug": "2026-07-07-セキュリティ-AIブラウザ操作の社内リスク棚卸し-33b8b1bb0e",
     "title": "AIブラウザ操作の社内リスク棚卸し",
     "category": "セキュリティ",
