@@ -1,5 +1,19 @@
 [
   {
+    "file": "AI/2026-07-08_AM_SwarmResearchエージェント探索.md",
+    "slug": "2026-07-08_AM_SwarmResearchエージェント探索",
+    "title": "SwarmResearchエージェント探索",
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "created": "2026-07-08",
+    "source": "https://arxiv.org/abs/2607.02807",
+    "importance": "high",
+    "confidence": "high",
+    "summary": "SwarmResearchは、複数のコーディングエージェントをgitブランチ単位で並走させ、探索の偏りを抑える研究。長期タスクを任せるAI運用設計の参考になる。",
+    "excerpt": "SwarmResearchは、複数のコーディングエージェントをgitブランチ単位で並走させ、探索の偏りを抑える研究。長期タスクを任せるAI運用設計の参考になる。",
+    "url": "articles/2026-07-08_AM_SwarmResearchエージェント探索.html"
+  },
+  {
     "file": "Security/2026-07-08_Januscape_KVM_VMエスケープ.md",
     "slug": "2026-07-08_Januscape_KVM_VMエスケープ",
     "title": "Januscape KVM VMエスケープ",

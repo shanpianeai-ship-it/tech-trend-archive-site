@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SwarmResearchエージェント探索 | 海外技術情報アーカイブ</title>
+  <meta name="description" content="SwarmResearchは、複数のコーディングエージェントをgitブランチ単位で並走させ、探索の偏りを抑える研究。長期タスクを任せるAI運用設計の参考になる。">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-07-08</span>
+        <span>AI / LLM / Agent</span>
+        <span>importance: high</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>SwarmResearchは、複数のコーディングエージェントをgitブランチ単位で並走させ、探索の偏りを抑える研究。長期タスクを任せるAI運用設計の参考になる。</p>
+      </aside>
+      <h1>SwarmResearchエージェント探索</h1>
+<h2>要約</h2>
+<p>SwarmResearchは、長時間走るコーディングエージェントが一つの高レベル方針へ早く収束し、その後は低レベルな修正を続けてしまう問題を扱うarXiv論文である。著者らは、この偏りの原因として、単一エージェントに文脈を蓄積し続けることと、編集対象のプログラム状態が一つだけであることを挙げている。</p>
+<p>提案手法では、Shepherd Agentが全体の探索状況を見ながら複数のSearch Agentを誘導する。各Search Agentはそれぞれローカル文脈を持ち、別々のgitブランチ上で実装や最適化を試す。これにより、同じ問題に対して複数の高レベル方針を並行して探索し、よい枝を深掘りし、弱い枝は打ち切る形を取れる。</p>
+<p>評価では、open-endedな最適化タスクに対して、既存のLLM誘導進化やマルチエージェント手法と比較し、15タスク中13タスクで同等以上の解を見つけたと報告している。ポイントは、単にエージェント数を増やすのではなく、探索深度や分岐をオーケストレータが動的に調整するところにある。</p>
+<p>自分向けには、Codex、Claude Code、OpenClawのような実作業エージェントを長時間運用するとき、「一体の賢いエージェントに任せる」だけではなく、「並行する仮説をbranchとして管理し、統括役が評価・合流する」設計を考える材料になる。</p>
+<h2>背景</h2>
+<p>AIコーディングエージェントは、単発の修正だけでなく、ベンチマーク最適化、性能改善、研究コード探索のような開いた問題にも使われ始めている。こうしたタスクでは、正解の手順が最初から決まっていないため、最初に選んだ方針が外れると、その後の努力が狭い範囲に閉じやすい。</p>
+<p>人間の研究や開発では、複数の仮説を並行して試す。ある実装案を残したまま別案をブランチで試す、途中結果を見て有望な案へ人員を寄せる、似た案を統合する、という動きがある。SwarmResearchは、この研究開発の動きをエージェントハーネスとして実装したものに近い。</p>
+<p>論文で重要なのは、モデルそのものを変える話ではなく、エージェントをどう走らせるかというハーネス設計の話である。同じLLMでも、単一の長い実行軌道に閉じ込めるのか、複数の短い探索軌道に分けて統括するのかで、見つかる解の質が変わる。</p>
+<h2>何が重要か</h2>
+<h3>1. 「長く考えさせる」だけでは探索が広がらない</h3>
+<p>長時間のエージェント実行は、一見すると探索力を上げるように見える。しかし、単一エージェントは初期の仮説、既に作ったコード、会話履歴に引っ張られる。結果として、別の強い方針を検討せず、今の方針の小修正に時間を使いやすい。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>観点</th><th>単一長時間エージェント</th><th>SwarmResearchの方向性</th></tr></thead>
+<tbody>
+<tr><td>文脈</td><td>一つの履歴に蓄積</td><td>Search Agentごとに局所文脈</td></tr>
+<tr><td>状態</td><td>一つの作業ツリー</td><td>gitブランチ単位で分岐</td></tr>
+<tr><td>探索</td><td>初期方針へ寄りやすい</td><td>複数方針を並行探索</td></tr>
+<tr><td>統括</td><td>エージェント自身が継続判断</td><td>Shepherd Agentが全体を誘導</td></tr>
+<tr><td>実務上の利点</td><td>実装が単純</td><td>失敗方針から離れやすい</td></tr>
+</tbody>
+</table></div>
+<p>これは個人エージェント運用にも当てはまる。長い調査やコード修正では、同じ会話の中で何度も試すより、探索ブランチを分け、最後に統合判断する方が健全な場面がある。</p>
+<h3>2. gitブランチを探索単位にするのが実務的</h3>
+<p>SwarmResearchでは、Search Agentがそれぞれ別のgitブランチで作業する。これは研究用の抽象概念ではなく、実際の開発運用にそのまま接続できる設計である。</p>
+<p>ブランチ単位なら、各エージェントが試した変更を差分として比較できる。性能測定、テスト結果、コードの複雑さ、既存設計との相性を見ながら、有望なブランチを残し、弱いブランチを捨てられる。エージェントの探索結果を、人間のレビュー可能な単位に落とし込める点が大きい。</p>
+<p>一方で、マージ競合、重複実装、評価コストは増える。実運用で真似するなら、全タスクで使うというより、設計探索、性能改善、原因不明バグの仮説検証など、複数方針を試す価値がある場面に限定するのがよさそうだ。</p>
+<h3>3. 並列数を固定せず、深さと幅を調整する</h3>
+<p>単に10体のエージェントを並列に走らせるだけでは、同じ方向の似た試行が増える可能性がある。SwarmResearchの肝は、Shepherd Agentが探索の深さと幅を調整する点にある。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>判断</th><th>意味</th></tr></thead>
+<tbody>
+<tr><td>幅を広げる</td><td>高レベル方針がまだ絞れていない段階で、別案を増やす</td></tr>
+<tr><td>深く掘る</td><td>有望なブランチに追加試行を割り当てる</td></tr>
+<tr><td>打ち切る</td><td>成果が弱い枝、重複した枝、袋小路の枝を止める</td></tr>
+<tr><td>統合する</td><td>別ブランチのよいアイデアを取り込む</td></tr>
+</tbody>
+</table></div>
+<p>これは、AIに長期作業を任せるときの「予算配分」の話でもある。時間、トークン、APIコスト、実行環境をどの仮説へ配るかを、固定ではなく状況に応じて変える必要がある。</p>
+<h3>4. 評価結果はハーネス設計の価値を示している</h3>
+<p>論文は、SwarmResearchがopen-ended optimization tasksで、既存のLLM-guided evolutionやmulti-agent techniquesと比べて15タスク中13タスクで同等以上だったと報告している。これは、モデル能力だけでなく、実行の組み方が成果を左右するという示唆になる。</p>
+<p>もちろん、特定の評価タスクでの結果なので、あらゆる開発作業にそのまま一般化はできない。だが「単一エージェントを長く回す」ことと「オーケストレータが複数ブランチを管理する」ことの差分を測ろうとしている点は、実務エージェント基盤の評価にも使いやすい。</p>
+<h2>自分向けメモ</h2>
+<ul>
+<li>OpenClaw/Codexで難しい実装を任せるとき、最初から一つの方針で進め続けるのではなく、探索用ブランチを2〜3本作らせる運用を検討したい。</li>
+<li>「調査」「実装」「評価」「統合」を同じエージェントに全部持たせると、文脈が重くなりすぎる。統括役と作業役を分ける設計はかなり実用的。</li>
+<li>Cronのような定型処理には過剰だが、未知のエラー解析、性能改善、設計案比較ではSwarmResearch型の分岐管理が効きそう。</li>
+<li>ブランチを増やすなら、評価指標を先に決める必要がある。テストが通る、性能が上がる、差分が小さい、運用リスクが低い、などを明示しないと、統括役が選べない。</li>
+<li>実務では「何本まで並列にするか」「いつ打ち切るか」「どの成果を人間レビューに出すか」をルール化するのが重要。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://arxiv.org/abs/2607.02807">arXiv - SwarmResearch: Orchestrating Coding Agents for Open-Ended Discovery</a>: 一次情報。要旨、著者、提出日、DOI、PDF/HTMLリンクを確認できる。</li>
+<li><a href="https://arxiv.org/html/2607.02807">arXiv HTML - SwarmResearch</a>: 論文本体。Approach、Architecture、Context Management、Git Management、Evaluationの詳細を確認するための資料。</li>
+<li><a href="https://doi.org/10.48550/arXiv.2607.02807">arXiv DOI - 10.48550/arXiv.2607.02807</a>: arXiv発行DOI。引用用の永続リンク。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>SwarmResearch</li>
+<li>coding agent</li>
+<li>multi-agent</li>
+<li>open-ended discovery</li>
+<li>agent orchestration</li>
+<li>Shepherd Agent</li>
+<li>Search Agent</li>
+<li>git branch</li>
+<li>context management</li>
+<li>LLM-guided evolution</li>
+<li>parallel search</li>
+<li>autoresearch</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://arxiv.org/abs/2607.02807">arxiv.org - abs / 2607.02807</a></p></section>
+    </article>
+  </main>
+</body>
+</html>
