@@ -1,5 +1,19 @@
 [
   {
+    "file": "Security/2026-07-08_Januscape_KVM_VMエスケープ.md",
+    "slug": "2026-07-08_Januscape_KVM_VMエスケープ",
+    "title": "Januscape KVM VMエスケープ",
+    "genre": "Security",
+    "genreLabel": "Security",
+    "created": "2026-07-08",
+    "source": "https://www.openwall.com/lists/oss-security/2026/07/06/7",
+    "importance": "high",
+    "confidence": "high",
+    "summary": "JanuscapeはKVM/x86のshadow MMUに潜んでいたゲストからホストへのエスケープ脆弱性。クラウドVM分離とnested virtualizationの運用判断に直結する。",
+    "excerpt": "JanuscapeはKVM/x86のshadow MMUに潜んでいたゲストからホストへのエスケープ脆弱性。クラウドVM分離とnested virtualizationの運用判断に直結する。",
+    "url": "articles/2026-07-08_Januscape_KVM_VMエスケープ.html"
+  },
+  {
     "file": "AI/2026-07-07_マルチテナントRAGの認可分離.md",
     "slug": "2026-07-07_マルチテナントRAGの認可分離",
     "title": "マルチテナントRAGの認可分離",

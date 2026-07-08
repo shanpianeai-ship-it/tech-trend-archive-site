@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Januscape KVM VMエスケープ | 海外技術情報アーカイブ</title>
+  <meta name="description" content="JanuscapeはKVM/x86のshadow MMUに潜んでいたゲストからホストへのエスケープ脆弱性。クラウドVM分離とnested virtualizationの運用判断に直結する。">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-07-08</span>
+        <span>Security</span>
+        <span>importance: high</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>JanuscapeはKVM/x86のshadow MMUに潜んでいたゲストからホストへのエスケープ脆弱性。クラウドVM分離とnested virtualizationの運用判断に直結する。</p>
+      </aside>
+      <h1>Januscape KVM VMエスケープ</h1>
+<h2>要約</h2>
+<p>Januscapeは、Linux KVM/x86のshadow MMUにあったuse-after-free脆弱性として公開されたCVE-2026-53359の通称。ゲスト側の操作だけでホストカーネルのshadow pageを壊し、条件次第でゲストからホストへ抜けるVM escapeにつながると説明されている。</p>
+<p>公開報告では、IntelとAMDの両方のx86 KVMホストが対象になり得る。特に危ないのは、不特定または半信頼のゲストを受け入れ、nested virtualizationを露出しているマルチテナントの仮想化基盤。Google kvmCTFで0-day exploitとして成功したことも明記されており、単なる理論上の欠陥ではない。</p>
+<p>主な一次情報はoss-securityへの投稿、Januscape公式ページ、Linux mainlineの修正コミット。詳細な完全exploitではなくDoS PoCが公開されている段階だが、影響範囲はクラウドVMの分離境界そのものにかかわる。自分向けには、KVMを使う開発環境、検証基盤、クラウド利用時のnested virtualization許可、パッチ適用状況を見直す材料として読む。</p>
+<h2>背景</h2>
+<p>KVMはLinuxカーネルに組み込まれた仮想化基盤で、多くのクラウド、社内仮想化基盤、開発用VM、CI環境で使われている。通常、ゲストOSはホストカーネルから隔離され、ゲスト内でrootを取られてもホスト側へ直接抜けられないことが前提になる。</p>
+<p>Januscapeが問題にしているのは、その境界を支えるKVM/x86のMMU処理。報告では、shadow MMU emulation内のuse-after-freeにより、ゲスト側からホストカーネルのshadow page corruptionを引き起こせるとされている。修正コミットの説明でも、<code>kvm_mmu_get_child_sp()</code>で再利用するshadow pageのrole不一致を検査する必要があることが読み取れる。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>観点</th><th>内容</th></tr></thead>
+<tbody>
+<tr><td>CVE</td><td>CVE-2026-53359</td></tr>
+<tr><td>通称</td><td>Januscape</td></tr>
+<tr><td>対象</td><td>Linux KVM/x86、Intel/AMDホスト</td></tr>
+<tr><td>主な弱点</td><td>shadow MMU emulationのuse-after-free / shadow page再利用ミス</td></tr>
+<tr><td>影響</td><td>guest-to-host escape、host DoS、条件次第でLPE</td></tr>
+<tr><td>特に危険な環境</td><td>untrusted guest、nested virtualization、multi-tenant x86 public cloud</td></tr>
+</tbody>
+</table></div>
+<h2>何が重要か</h2>
+<h3>1. VM分離そのものへの攻撃である</h3>
+<p>この種の脆弱性は、単一アプリの権限昇格より影響が重い。ゲスト内の攻撃者がホストへ到達できるなら、同じホスト上の他VM、管理ネットワーク、クラウド基盤側の秘密情報に被害が広がり得る。</p>
+<p>もちろん、実際の成立条件はカーネル版、KVM設定、CPU仮想化機能、nested virtualizationの公開有無に左右される。ただし、報告者は「untrusted guests and expose nested virtualization」を明確な高リスク条件として挙げている。クラウドや社内基盤では、nested virtualizationを便利機能として有効にしている場所ほど優先確認が必要になる。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>利用形態</th><th>優先して見ること</th></tr></thead>
+<tbody>
+<tr><td>パブリッククラウド利用</td><td>provider側のadvisory、対象インスタンス、live migrationや再起動要否</td></tr>
+<tr><td>自社KVM基盤</td><td>kernel patch、nested virtualization公開、ゲスト信頼境界</td></tr>
+<tr><td>CI/開発VM</td><td>untrusted buildや検証コードをVM内で動かしていないか</td></tr>
+<tr><td>ローカル検証環境</td><td><code>/dev/kvm</code>権限、KVM module更新、不要なnested設定</td></tr>
+</tbody>
+</table></div>
+<h3>2. 16年級の潜伏期間が示す監査の難しさ</h3>
+<p>oss-security投稿では、CVE-2026-53359は約16年間潜んでいたと説明されている。MMU、shadow page、nested virtualizationのような低レイヤーは、コードが古く安定して見えても、条件の組み合わせで長期間見逃される。</p>
+<p>この点は、仮想化基盤を「枯れたインフラ」として扱う危うさを示す。特にクラウドネイティブ運用では、コンテナやアプリ脆弱性には敏感でも、KVMホストカーネルやハイパーバイザ設定はクラウド事業者任せになりやすい。自社でKVMホストを持つ場合は、OSパッケージ更新だけでなく、仮想化機能の露出範囲も棚卸しする必要がある。</p>
+<h3>3. LPEとしての側面もある</h3>
+<p>報告では、RHELなど一部ディストリビューションで<code>/dev/kvm</code>がworld-writable、つまり0666になっているため、非特権ユーザーがrootを得るローカル権限昇格にも使える可能性があるとされている。報告者はホストエスケープに比べれば副次的影響と位置づけているが、共有Linuxサーバーや研究環境では無視できない。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>攻撃面</th><th>説明</th><th>自分向け判断</th></tr></thead>
+<tbody>
+<tr><td>VM escape</td><td>ゲストからホストへ越境</td><td>最優先でパッチとprovider情報確認</td></tr>
+<tr><td>Host DoS</td><td>公開PoCが示す影響</td><td>検証基盤でもサービス停止リスクあり</td></tr>
+<tr><td>Local privilege escalation</td><td><code>/dev/kvm</code>を使えるローカルユーザーからrootへ</td><td>共有端末、CI runner、踏み台で確認</td></tr>
+</tbody>
+</table></div>
+<h3>4. exploit公開状況を過小評価しない</h3>
+<p>公開投稿に添付されているのはDoS PoCで、完全なhost escape exploitではない。一方で、Google kvmCTFで0-day exploitとして成功したと明記されている。この組み合わせは、「今はPoCがDoSだから低優先」と見るより、「exploit可能性は実証済みで、詳細公開が限定されている」と読む方がよい。</p>
+<p>セキュリティ運用では、公開PoCの種類だけで優先度を下げない。VM escape系は、影響範囲が広く、攻撃者がクラウドやホスティング環境で検証しやすい。パッチ済みmainline commitが出ているなら、ディストリビューションやクラウド事業者のバックポート状況を追うのが先になる。</p>
+<h2>自分向けメモ</h2>
+<ul>
+<li>KVMを直接運用している環境では、CVE-2026-53359のkernel patch適用状況を確認する。特にUbuntu/RHEL系のbackport advisoryを追う。</li>
+<li>nested virtualizationは必要なVMだけに限定する。開発者向けに広く有効化している場合は、用途と信頼境界を見直す。</li>
+<li><code>/dev/kvm</code>の権限を確認する。共有サーバーやCI runnerでは、誰がKVMを使えるかをユーザー/グループ単位で把握する。</li>
+<li>クラウド利用時は、providerの「対応済み」表明だけでなく、影響するインスタンスタイプ、再起動要否、live migration状況を見る。</li>
+<li>VM内で未信頼コードを動かしているから安全、という前提を置きすぎない。VM escapeは頻度こそ低いが、成立した時の境界破壊が大きい。</li>
+<li>票なし時の自動選定としてこの候補を選んだ理由は、一次情報が明確で、クラウドVM分離、nested virtualization、CI runner運用の判断に直結するため。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://www.openwall.com/lists/oss-security/2026/07/06/7">Openwall oss-security - Januscape: Guest-to-Host Escape in KVM/x86 (CVE-2026-53359)</a> - 公開報告。影響、kvmCTFでの0-day exploit成功、DoS PoC、修正コミットへのリンクを確認できる。</li>
+<li><a href="https://januscape.io">Januscape official site</a> - 脆弱性の詳細とフォローアップ更新の入口として報告者が案内しているサイト。</li>
+<li><a href="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=81ccda30b4e83d8f5cc4fd50503c44e3a33abfeb">Linux mainline commit - KVM: x86/mmu fix shadow page role reuse</a> - mainlineの修正コミット。shadow page再利用時のrole検査に関する一次情報。</li>
+<li><a href="https://google.github.io/security-research/kernelctf/rules.html">Google kvmCTF</a> - KVM/カーネル脆弱性の実証環境。報告にある0-day exploit成功の文脈確認に使う。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>Januscape</li>
+<li>CVE-2026-53359</li>
+<li>KVM</li>
+<li>KVM x86</li>
+<li>VM escape</li>
+<li>guest-to-host escape</li>
+<li>shadow MMU</li>
+<li>shadow page</li>
+<li>use-after-free</li>
+<li>nested virtualization</li>
+<li>multi-tenant cloud</li>
+<li>kvmCTF</li>
+<li>Linux kernel</li>
+<li><code>/dev/kvm</code></li>
+<li>local privilege escalation</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://www.openwall.com/lists/oss-security/2026/07/06/7">openwall.com - lists / oss-security</a></p></section>
+    </article>
+  </main>
+</body>
+</html>
