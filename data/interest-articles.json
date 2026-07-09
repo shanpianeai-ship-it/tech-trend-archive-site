@@ -37,6 +37,18 @@
   },
   {
     "file": "[入力元伏せ]",
+    "slug": "2026-07-09-AI・エージェント-ChatGPT-Connectorsで個人秘書AIの情報境界を設計する-dda76c2992",
+    "title": "ChatGPT Connectorsで個人秘書AIの情報境界を設計する",
+    "category": "AI・エージェント",
+    "created": "2026-07-09",
+    "status": "",
+    "type": "interest_report",
+    "summary": "ChatGPTのConnectors/App連携を、便利な横断検索ではなく「どの情報を読ませ、どの操作を許すか」の境界設計として整理する。OpenClawやObsidian運用にも転用しやすい点検表に落とす。",
+    "excerpt": "ChatGPTのConnectors/App連携を、便利な横断検索ではなく「どの情報を読ませ、どの操作を許すか」の境界設計として整理する。OpenClawやObsidian運用にも転用しやすい点検表に落とす。",
+    "url": "interests/articles/2026-07-09-AI・エージェント-ChatGPT-Connectorsで個人秘書AIの情報境界を設計する-dda76c2992.html"
+  },
+  {
+    "file": "[入力元伏せ]",
     "slug": "2026-07-06-AI・エージェント-Codex-MCP運用の標準形-096b8f9b45",
     "title": "Codex MCP運用の標準形",
     "category": "AI・エージェント",

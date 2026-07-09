@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ChatGPT Connectorsで個人秘書AIの情報境界を設計する | 興味レポート</title>
+  <meta name="description" content="ChatGPTのConnectors/App連携を、便利な横断検索ではなく「どの情報を読ませ、どの操作を許すか」の境界設計として整理する。OpenClawやObsidian運用にも転用しやすい点検表に落とす。">
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../../interests/index.html">興味レポート</a>
+    <span class="site-subtitle">Public redacted interest reports</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 興味レポート一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-07-09</span>
+        <span>AI・エージェント</span>
+        <span>interest_report</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>ChatGPTのConnectors/App連携を、便利な横断検索ではなく「どの情報を読ませ、どの操作を許すか」の境界設計として整理する。OpenClawやObsidian運用にも転用しやすい点検表に落とす。</p>
+      </aside>
+      <h1>ChatGPT Connectorsで個人秘書AIの情報境界を設計する</h1>
+<h2>要約</h2>
+<p>ChatGPTの「Connectors」は、2025年末以降のOpenAI表記では「Apps」に統合され、ファイル検索、Deep Research、同期、書き込み、MCPベースのカスタム連携までを含む言葉になっている。単なる外部サービス連携ではなく、AIがGoogle Drive、Slack、SharePoint、Notion、GitHubなどの情報を会話内で横断参照し、条件次第で操作も行う入口だと見るべき。</p>
+<p>個人秘書AIとしては強力だが、設計の焦点は「便利そうなコネクタを全部つなぐ」ではない。読むだけの情報、検索させる情報、要確認で変更させる情報、そもそもAIに見せない情報を分ける必要がある。OpenClawやObsidianでも同じで、ローカルvault、GitHub repo、Google Drive、Discordログを一つの知能に見せるほど、成果物の質は上がる一方、混線した時の被害範囲も広がる。</p>
+<h2>何が変わっているか</h2>
+<p>OpenAI Helpでは、従来のConnectorsをAppsへ名称統合し、既存の接続やCompany Knowledgeはそのまま動くと説明している。Appsの能力は、対話UI、検索、Deep Research、同期、書き込み、Custom MCPに分かれる。つまり、同じ「接続」でも、単にファイルを探すものと、外部サービスへ変更を書き込むものではリスクが違う。</p>
+<p>Apps SDK側の説明では、ChatGPT内のMCP appはユーザーまたは管理者の権限設定に従い、確認を求めるタイミングを決める。個人アカウントでは「常に確認」「変更前に確認」「重要な変更前だけ確認」などの選択肢があり、Business/Enterpriseでは管理者が既定値やアプリごとの上書きを管理する。ここは個人秘書AI運用の現実的な制御点になる。</p>
+<p>管理者向けHelpでは、Google Docs/Sheets/Slidesの操作がGoogle Drive appに統合され、Enterprise/Eduでは新しいGoogle Drive actionsが管理者有効化までオフ、Businessでは既定オンとされている。サービス名が同じでも、検索だけか、Docs/Sheets/Slides操作まで含むかで許可すべき範囲は変わる。</p>
+<h2>個人運用での境界線</h2>
+<h3>1. 「検索」と「書き込み」を同じ接続として扱わない</h3>
+<p>個人秘書AIにとって、外部情報の検索は作業品質を上げる。一方で、削除、投稿、送信、購入、ファイル更新は取り返しがつきにくい。Apps SDKの確認レベルもこの差を前提にしているため、自分の運用でもまず接続を次の4段階に分ける。</p>
+<ul>
+<li>参照禁止: 資産額、税務、医療、身分証、住所、家族情報、未公開の契約情報</li>
+<li>手動貼り付けのみ: 必要な時だけ抜粋して渡す情報</li>
+<li>検索可: 公開予定のメモ、技術資料、趣味ログ、一般的なタスク情報</li>
+<li>操作可: 失敗しても復元できる下書き、テスト用DB、限定されたタスク管理</li>
+</ul>
+<p>この分類を作らずにDriveやNotionを丸ごと接続すると、AIが回答に必要な情報と、回答に含めてはいけない情報を同じ探索空間で扱うことになる。</p>
+<h3>2. Obsidian vaultはフォルダ単位で公開度を分ける</h3>
+<p>Obsidian運用では、vault全体を「自分の知識」と見なしがちだが、AI連携では危ない。たとえば興味レポート、公開済みアーカイブ、技術メモは検索可にしやすい。一方、家計、契約、健康、個人の連絡先、内部運用トークンは同じvault内でも検索対象から外すべき。</p>
+<p>実務的には、公開前提のMarkdownを <code>publish: true</code> で分け、AIに読ませる候補はそのサブセットにするのがよい。OpenClaw cronが記事を作る時も、元Markdownは保持しつつ、Pages側で内部パスや個人情報を伏せる今の方針は妥当だ。</p>
+<h3>3. GitHub連携は「読むrepo」と「操作するrepo」を分ける</h3>
+<p>GitHub appやMCP連携では、コード検索だけでも十分価値がある。だが、issue作成、branch作成、PR作成、file updateまで許すと、誤操作の影響が大きくなる。個人用には、まず読み取り専用で十分なrepo、PRまでは許すrepo、直接pushを許すrepoを分けたい。</p>
+<p>特にPages公開repoは、ビルド結果が外部公開される。AIがMarkdownを生成し、buildしてpushする現在の運用では、生成元のMarkdownに内部パスが残っても、公開変換で伏せる処理が効くかをビルド後に確認する必要がある。</p>
+<h3>4. Discordやチャットログは「会話の文脈」ではなく「第三者情報」と見る</h3>
+<p>Discordの要アクションや結果報告は運用ログとして便利だが、チャットには第三者名、URL、投票行動、内部の試行錯誤が混ざる可能性がある。AIに読ませる範囲は、ポール結果やCron結果など必要最小限にした方がよい。チャンネル単位で「AIが読んでよい運用ログ」と「通常会話」を分けている今の設計は維持価値がある。</p>
+<h2>OpenClaw運用への落とし込み</h2>
+<p>OpenClawでは、Cron、ローカルファイル、GitHub Pages、Discordがすでにつながっている。ここにChatGPT AppsやMCP appを追加するなら、接続の便利さより先に台帳を作る。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>接続先</th><th>主用途</th><th>許可する操作</th><th>禁止する情報・操作</th></tr></thead>
+<tbody>
+<tr><td>Obsidian / Report</td><td>記事生成、候補管理</td><td>指定フォルダの読み書き</td><td>個人資産、健康、住所、トークン類</td></tr>
+<tr><td>GitHub Pages repo</td><td>公開反映</td><td>build、差分確認、commit/push</td><td>未確認の大量削除、秘密情報の公開</td></tr>
+<tr><td>Discord action/results</td><td>投票確認、完了報告</td><td>指定チャンネルの読取/送信</td><td>通常会話の横断検索</td></tr>
+<tr><td>Google Drive / Notion</td><td>参照資料</td><td>検索のみから開始</td><td>書き込み、共有変更、削除</td></tr>
+<tr><td>Custom MCP</td><td>専用作業</td><td>ツール単位で確認</td><td>広すぎるfilesystem権限</td></tr>
+</tbody>
+</table></div>
+<p>最初の基準は「自動化に必要な最小範囲だけを接続し、書き込みは復元可能な場所から始める」こと。便利になったら広げるのではなく、失敗ログを見てから広げる。</p>
+<h2>点検チェックリスト</h2>
+<ul>
+<li>接続ごとに「検索」「同期」「書き込み」「削除/送信/購入」を分けて記録したか。</li>
+<li>AIに読ませないフォルダ、repo、チャンネルを明示したか。</li>
+<li>管理者設定または個人設定で、重要な変更前の確認が有効か。</li>
+<li>Google Driveのように機能統合で操作範囲が変わったappを再確認したか。</li>
+<li>MCP serverの説明文とtool annotationが、モデルに過剰な自動実行を誘導していないか。</li>
+<li>Pages公開前に内部パス、個人情報、非公開URLが除去されるか。</li>
+<li>使っていない接続を定期的に無効化する日を決めたか。</li>
+</ul>
+<h2>結論</h2>
+<p>ChatGPT Connectors/App連携は、個人秘書AIを「記憶しているチャット」から「外部の作業場を読みに行ける存在」へ進める。ただし、本質はコネクタ数ではなく境界設計にある。検索できる範囲、操作できる範囲、公開してよい範囲を分けておけば、OpenClawやObsidianの自動化にもかなり自然に接続できる。</p>
+<p>今日の運用では、まず公開前提の興味レポート、候補一覧、Pages repo、Discordの専用チャンネルだけをAIの作業面に置くのがよい。家計、健康、個人連絡、契約、秘密鍵は、同じ便利さの誘惑があっても接続しない領域として残す。</p>
+<h2>参考</h2>
+<ul>
+<li>OpenAI Help Center, &quot;Apps in ChatGPT&quot;</li>
+</ul>
+<p><a href="https://help.openai.com/en/articles/11487775-connectors-in-chatgpt/">help.openai.com - en / articles</a></p>
+<ul>
+<li>OpenAI Help Center, &quot;Admin Controls, Security, and Compliance in apps (Enterprise, Edu, and Business)&quot;</li>
+</ul>
+<p><a href="https://help.openai.com/en/articles/11509118-admin-controls-security-and-compliance-in-apps-enterprise-edu-and-business">help.openai.com - en / articles</a></p>
+<ul>
+<li>OpenAI Developers, &quot;Connect from ChatGPT - Apps SDK&quot;</li>
+</ul>
+<p><a href="https://developers.openai.com/apps-sdk/deploy/connect-chatgpt">developers.openai.com - apps-sdk / deploy</a></p>
+<ul>
+<li>OpenAI ChatGPT Apps directory</li>
+</ul>
+<p><a href="https://chatgpt.com/apps">chatgpt.com - apps</a></p>
+    </article>
+  </main>
+</body>
+</html>
