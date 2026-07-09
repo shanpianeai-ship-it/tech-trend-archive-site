@@ -1,5 +1,19 @@
 [
   {
+    "file": "Security/2026-07-09_Kubernetes_MCPトークン漏えい.md",
+    "slug": "2026-07-09_Kubernetes_MCPトークン漏えい",
+    "title": "Kubernetes MCPトークン漏えい",
+    "genre": "Security",
+    "genreLabel": "Security",
+    "created": "2026-07-09",
+    "source": "https://nvd.nist.gov/vuln/detail/cve-2026-47250",
+    "importance": "high",
+    "confidence": "high",
+    "summary": "Kubernetes操作用MCPサーバーのCVE-2026-47250は、ログ経由の間接プロンプト注入がkubectlフラグ注入と結びつき、運用者のBearer tokenを外部へ送らせる問題。AIエージェントに本番権限を渡す時の境界設計を見直す材料になる。",
+    "excerpt": "Kubernetes操作用MCPサーバーのCVE-2026-47250は、ログ経由の間接プロンプト注入がkubectlフラグ注入と結びつき、運用者のBearer tokenを外部へ送らせる問題。AIエージェントに本番権限を渡す時の境界設計を見直す材料になる。",
+    "url": "articles/2026-07-09_Kubernetes_MCPトークン漏えい.html"
+  },
+  {
     "file": "AI/2026-07-08_AM_SwarmResearchエージェント探索.md",
     "slug": "2026-07-08_AM_SwarmResearchエージェント探索",
     "title": "SwarmResearchエージェント探索",

