@@ -14,6 +14,20 @@
     "url": "articles/2026-07-09_Kubernetes_MCPトークン漏えい.html"
   },
   {
+    "file": "Security/2026-07-09_AM_GhostApproval_AIコーディング境界問題.md",
+    "slug": "2026-07-09_AM_GhostApproval_AIコーディング境界問題",
+    "title": "GhostApproval: AIコーディング境界問題",
+    "genre": "Security",
+    "genreLabel": "Security",
+    "created": "2026-07-09",
+    "source": "https://www.wiz.io/blog/ghostapproval-a-trust-boundary-gap-in-ai-coding-assistants",
+    "importance": "high",
+    "confidence": "high",
+    "summary": "GhostApprovalは、AIコーディング支援の承認UIがsymlink先の実パスを隠すと、HITLが安全制御ではなく形式的な確認に落ちることを示す。",
+    "excerpt": "GhostApprovalは、AIコーディング支援の承認UIがsymlink先の実パスを隠すと、HITLが安全制御ではなく形式的な確認に落ちることを示す。",
+    "url": "articles/2026-07-09_AM_GhostApproval_AIコーディング境界問題.html"
+  },
+  {
     "file": "AI/2026-07-08_AM_SwarmResearchエージェント探索.md",
     "slug": "2026-07-08_AM_SwarmResearchエージェント探索",
     "title": "SwarmResearchエージェント探索",

@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GhostApproval: AIコーディング境界問題 | 海外技術情報アーカイブ</title>
+  <meta name="description" content="GhostApprovalは、AIコーディング支援の承認UIがsymlink先の実パスを隠すと、HITLが安全制御ではなく形式的な確認に落ちることを示す。">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-07-09</span>
+        <span>Security</span>
+        <span>importance: high</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>GhostApprovalは、AIコーディング支援の承認UIがsymlink先の実パスを隠すと、HITLが安全制御ではなく形式的な確認に落ちることを示す。</p>
+      </aside>
+      <h1>GhostApproval: AIコーディング境界問題</h1>
+<h2>要約</h2>
+<p>Wiz Researchは、主要AIコーディングアシスタント6製品にまたがる「GhostApproval」を公開した。対象として挙げられているのはAmazon Q Developer、Anthropic Claude Code、Augment、Cursor、Google Antigravity、Windsurfで、共通する核はシンボリックリンクを介したワークスペース外ファイルへの読み書きと、承認UIの情報不足だ。</p>
+<p>攻撃の形は古典的だ。悪意あるリポジトリ内に、<code>~/.ssh/authorized_keys</code> やクラウド認証情報などワークスペース外の敏感なファイルを指すsymlinkを置く。AIエージェントが「プロジェクト内の普通のファイル」を編集しているように見せかけると、バックエンドはsymlinkをたどって実ファイルへ書き込む。ユーザーにはワークスペース内パスだけが見えるため、本当に承認している操作を判断できない。</p>
+<p>重要なのは、これは単なるsymlink処理バグではなく、Human-in-the-Loopの失敗だという点。人間の承認があっても、UIが解決後の実パス、ワークスペース外書き込み、事前書き込みの有無を表示しないなら、その承認は安全境界として機能しない。</p>
+<h2>背景</h2>
+<p>AIコーディングツールは、単なるコード補完から、ファイル編集、コマンド実行、依存導入、テスト実行、リポジトリ探索まで行う開発エージェントへ変わっている。多くの製品は、危険操作の前にユーザーへ承認ダイアログを出すことで、安全性を担保する設計を採っている。</p>
+<p>一方で、開発対象のリポジトリそのものは未信頼入力になり得る。README、設定ファイル、スクリプト、symlink、Git hooks、MCP応答、Issue本文などは、エージェントの判断材料であると同時に攻撃面でもある。</p>
+<p>symlinkはUnix系OSで昔からある攻撃プリミティブだ。ツールがユーザー制御下のパスへ書き込む際、実際の解決先を確認しないと、見かけのパスと実際の変更先がずれる。AIエージェントでは、この古典的問題が「承認UIは何を表示すべきか」という新しい設計問題として再浮上している。</p>
+<h2>何が重要か</h2>
+<h3>1. HITLは「人がクリックすること」ではなく「正しい情報で判断できること」</h3>
+<p>WizはGhostApprovalを、CWE-61のsymlink followingと、CWE-451の重要情報のUI誤表示が重なった問題として整理している。エージェント内部では危険な実パスを認識していても、ユーザーに見える承認画面がワークスペース内の見かけのパスしか出さないなら、判断材料が抜け落ちる。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>観点</th><th>表面上の安全策</th><th>失敗した時の実態</th></tr></thead>
+<tbody>
+<tr><td>承認UI</td><td>ユーザーがAccept/Approveを押す</td><td>実パスが隠れ、危険操作を理解できない</td></tr>
+<tr><td>ワークスペース制限</td><td>プロジェクト内ファイルだけ編集するように見える</td><td>symlink解決後はHOMEやSSH設定へ届く</td></tr>
+<tr><td>サンドボックス</td><td>書き込み前に確認する</td><td>確認対象と実際の書き込み先がずれる</td></tr>
+<tr><td>事前書き込み</td><td>UndoやAccept/Rejectを出す</td><td>UI表示時点で既に変更済みの製品もある</td></tr>
+</tbody>
+</table></div>
+<p>自分向けには、承認ボタンの有無ではなく「承認画面が解決後パス、差分、ワークスペース外判定、権限昇格に相当する意味を表示しているか」を見るべき、という教訓になる。</p>
+<h3>2. 製品ごとに失敗モードが違う</h3>
+<p>Wizの記事では、同じsymlink問題でも製品ごとに挙動が違うとされている。AWS、Cursor、Googleは修正したとされ、AugmentとWindsurfは受領後の更新待ち、Anthropicは既に別経路でsymlink警告を入れていたという立場を示している。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>製品</th><th>Wizが示した主な問題</th><th>実務上の見方</th></tr></thead>
+<tbody>
+<tr><td>Amazon Q Developer</td><td>承認前に書き込みが起きる挙動</td><td>確認ダイアログがゲートかUndoかを確認する</td></tr>
+<tr><td>Claude Code</td><td>エージェントは危険性を認識してもUIに十分出ない例</td><td>thinkingとユーザー表示の情報差を疑う</td></tr>
+<tr><td>Augment</td><td>symlink経由の読み書きが確認なしに行われた例</td><td>読み取りも外部秘密情報漏えいになる</td></tr>
+<tr><td>Cursor</td><td>diff UIはsymlinkパスを示し、バックエンドは実先へ書き込み</td><td>diff表示と実ファイル解決の対応を見る</td></tr>
+<tr><td>Google Antigravity</td><td>resolved canonical pathでなくsymlinkパスを表示</td><td>ワークスペース外判定の表示が必要</td></tr>
+<tr><td>Windsurf</td><td>承認前にディスクへ書く危険な変種</td><td>pre-authorization writeはHITLを壊す</td></tr>
+</tbody>
+</table></div>
+<p>この差分は、AI開発ツール選定にも使える。ベンダーが「悪性リポジトリはユーザー責任」とみなすのか、「欺瞞的ワークスペースからユーザーを守るのも製品責任」とみなすのかで、安全設計の思想が分かれる。</p>
+<h3>3. AIエージェント時代のパス解決はセキュリティ境界そのもの</h3>
+<p>従来の開発ツールでもsymlink問題はあったが、AIエージェントでは被害の流れが自然になりやすい。ユーザーは「このリポジトリを直して」と依頼するだけで、エージェントがファイル探索、編集、実行まで進める。悪意あるリポジトリがその流れにsymlinkを混ぜれば、ユーザーは危険な手順を読まずに承認してしまう。</p>
+<p>最低限、AIコーディングツールには次の防御が必要になる。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>防御</th><th>目的</th></tr></thead>
+<tbody>
+<tr><td>symlinkを常に解決してcanonical pathを表示</td><td>見かけのパスと実パスのずれをなくす</td></tr>
+<tr><td>ワークスペース外の読み書きを明示警告</td><td>HOME、SSH、認証情報、shell設定を守る</td></tr>
+<tr><td>書き込み前に承認をゲート化</td><td>Undo型ではなく、実行前停止にする</td></tr>
+<tr><td>差分と実ファイルを対応付ける</td><td>diffだけ見て安全だと誤認しない</td></tr>
+<tr><td>未信頼リポジトリ向け隔離モード</td><td>clone直後の自動作業を低権限に閉じる</td></tr>
+</tbody>
+</table></div>
+<p>OpenClaw/Codex/Claude Codeを自分用に使う時も、リポジトリを信頼しすぎない方がよい。特に、初見リポジトリ、CTF、検証用PoC、npmパッケージ、外部から受け取ったZIPでは、エージェントに書き込みやコマンド実行を任せる前にsymlinkと隠しファイルをざっと確認したい。</p>
+<h2>自分向けメモ</h2>
+<ul>
+<li>AIコーディング支援の承認画面では、表示パスだけでなく実パス、ワークスペース外判定、対象ファイル種別を見る。</li>
+<li><code>~/.ssh/authorized_keys</code>、<code>~/.zshrc</code>、<code>~/.gitconfig</code>、LaunchAgents、API key、クラウド認証情報に触る変更は、AIが提案しても原則止めて読む。</li>
+<li>初見リポジトリでは <code>find . -type l -ls</code> でsymlinkを確認してからエージェント作業を始めるとよい。</li>
+<li>「承認あり」は安全の十分条件ではない。承認前にディスクへ書く設計、Undo前提の設計、実パスを隠す設計は避ける。</li>
+<li>OpenClawやCodexのワークスペース運用でも、作業ディレクトリ外へ出るsymlink、MCP経由のファイル操作、外部入力からの自動編集は重点監査対象にする。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://www.wiz.io/blog/ghostapproval-a-trust-boundary-gap-in-ai-coding-assistants">Wiz Blog - GhostApproval: A Trust Boundary Gap in AI Coding Assistants</a>: 一次情報。対象製品、symlink経由の攻撃、CWE-61/CWE-451、ベンダー対応状況を説明。</li>
+<li><a href="https://cwe.mitre.org/data/definitions/61.html">MITRE CWE-61 - UNIX Symbolic Link Following</a>: symlink追従に関する古典的な弱点分類。</li>
+<li><a href="https://cwe.mitre.org/data/definitions/451.html">MITRE CWE-451 - User Interface Misrepresentation of Critical Information</a>: 重要情報のUI表示不足が安全判断を壊す弱点分類。</li>
+<li><a href="https://www.wiz.io/blog/introducing-wiz-mcp">Wiz Blog - Build AI Security Agents with Wiz MCP</a>: Wiz側のAI/セキュリティ文脈。防御側エージェントの設計背景を読む補助リンク。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>GhostApproval</li>
+<li>AI coding assistant</li>
+<li>Human-in-the-Loop</li>
+<li>symlink</li>
+<li>symbolic link</li>
+<li>CWE-61</li>
+<li>CWE-451</li>
+<li>sandbox</li>
+<li>trust boundary</li>
+<li>workspace escape</li>
+<li>Claude Code</li>
+<li>Cursor</li>
+<li>Amazon Q Developer</li>
+<li>Windsurf</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://www.wiz.io/blog/ghostapproval-a-trust-boundary-gap-in-ai-coding-assistants">wiz.io - blog / ghostapproval-a-trust-boundary-gap-in-ai-coding-assistants</a></p></section>
+    </article>
+  </main>
+</body>
+</html>
