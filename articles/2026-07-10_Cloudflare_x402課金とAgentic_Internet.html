@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cloudflare x402課金とAgentic Internet | 海外技術情報アーカイブ</title>
+  <meta name="description" content="Cloudflare Monetization Gatewayは、Webページ、API、データセット、MCPツールをx402でリクエスト単位課金できる構想。AIエージェントがWeb資源を使う時代の支払い・権利処理インフラとして読む価値がある。">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-07-10</span>
+        <span>AI / LLM / Agent</span>
+        <span>importance: high</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>Cloudflare Monetization Gatewayは、Webページ、API、データセット、MCPツールをx402でリクエスト単位課金できる構想。AIエージェントがWeb資源を使う時代の支払い・権利処理インフラとして読む価値がある。</p>
+      </aside>
+      <h1>Cloudflare x402課金とAgentic Internet</h1>
+<h2>要約</h2>
+<p>Cloudflareが発表した Monetization Gateway は、Cloudflare配下のWebページ、データセット、API、MCPツールに対して、x402プロトコルを使った支払いゲートを置けるようにする構想。現時点ではwaitlist段階だが、「AIエージェントがWeb上の資源を呼び出すたびに、HTTPレベルで支払いとアクセス制御を処理する」という方向性がはっきりしている。</p>
+<p>x402はHTTPの <code>402 Payment Required</code> を実際に使うオープンプロトコルとして設計されている。クライアントが有料リソースへアクセスすると、サーバーは価格、受け付ける資産、支払先を含む402応答を返す。クライアントは支払い証明を付けて再リクエストし、facilitatorが検証したうえでリソースが返る。Cloudflareはこの検証・適用をエッジ側で担い、販売者が独自の課金基盤を作らずに済む形を狙っている。</p>
+<p>読みどころは、単なる暗号資産決済ニュースではなく、AIエージェント時代のWebの商流が「広告を見る人間」から「必要な情報やツールを呼ぶソフトウェア」へ移るという整理にある。MCPツールまで課金対象に入っているため、将来の社内外エージェント連携、API公開、データ販売、コンテンツ権利処理の設計に影響する可能性がある。</p>
+<h2>背景</h2>
+<p>これまでのWeb収益化は、人間の注意を広告、サブスクリプション、ECへ変換するモデルが中心だった。ところがAIエージェントは広告を見ず、すべてのサイトに月額契約するわけでもない。必要なページ、データ、API、ツールだけを読み、結果をユーザーや別システムへ持ち帰る。</p>
+<p>Cloudflareは、AI crawlerが人間の訪問者よりはるかに多くコンテンツへアクセスする一方で、サイト側へ戻す価値が小さい問題を以前から扱ってきた。Pay Per Crawlはクローラーへの課金だったが、Monetization Gatewayはより広く、任意のWeb資源やMCP tool callをリクエスト単位で課金する方向へ広げている。</p>
+<p>この発表は、Cloudflare、Coinbase、Linux Foundation側のx402 Foundationの動きともつながっている。プロトコル自体はHTTPに支払い情報を載せる薄い仕組みで、実装や決済レールは複数事業者が担える形を目指している。</p>
+<h2>何が重要か</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>観点</th><th>従来のWeb/API</th><th>x402 + Monetization Gatewayで変わる点</th></tr></thead>
+<tbody>
+<tr><td>買い手</td><td>人間、契約済み企業、APIキー保有者</td><td>未契約のAIエージェントやソフトウェアも想定</td></tr>
+<tr><td>課金単位</td><td>月額、席数、APIキー単位の従量</td><td>リクエスト、MB、成果、MCP tool call単位</td></tr>
+<tr><td>支払い導線</td><td>checkout、請求書、カード、契約</td><td>HTTP 402応答と支払い証明を通常リクエスト内で処理</td></tr>
+<tr><td>売り手の実装</td><td>認証、メータリング、請求、決済を自前構築</td><td>Cloudflareエッジで支払い検証とアクセス制御を肩代わり</td></tr>
+<tr><td>エージェント設計</td><td>無料Webか事前契約APIを呼ぶ</td><td>その場で小額支払いして有料資源を使う余地が出る</td></tr>
+</tbody>
+</table></div>
+<p>特にMCPツールが対象に含まれている点は大きい。MCPはAIエージェントから外部機能を呼ぶ標準的な接続面になりつつあるが、公開ツールをどう収益化するか、誰がどの呼び出しに支払うか、支払い済みリクエストをどう監査するかはまだ定まっていない。</p>
+<p>Monetization Gatewayが広がると、ツール提供者は「無料で公開するか、API契約を結ぶか」の二択ではなく、低額の一回利用をエージェントに直接売る選択肢を持てる。逆にエージェント運用者側は、支払い権限、上限額、承認条件、失敗時の再試行、悪意ある402応答への対策を設計する必要が出てくる。</p>
+<h2>自分向けメモ</h2>
+<ul>
+<li>個人秘書エージェントの将来像では、検索、翻訳、専門DB、MCPツールを「必要な時だけ小額で買う」場面が増えそう。月額SaaSを増やすより自然な場合がある。</li>
+<li>エージェントにウォレットや支払い権限を渡す場合、認証情報よりさらに行動制約が重要になる。1回あたり、1日あたり、ドメイン別、用途別の上限が必要。</li>
+<li>MCPツールを公開する側では、料金表だけでなく、ツール説明、入力スキーマ、返却品質、監査ログをセットで商品化する発想になる。</li>
+<li>社内利用では、外部MCPや有料APIをエージェントが勝手に呼ぶと購買・法務・情報管理と衝突する。支払いより先に、利用許可カタログと承認フローを作る必要がある。</li>
+<li>安定コイン決済が前提になっているため、日本企業での実装は法務・会計・税務の壁が高い。ただしHTTP 402で支払い証明を扱う設計思想は、社内ポイントや請求書決済にも応用されそう。</li>
+</ul>
+<h2>原文リンク/関連リンク</h2>
+<ul>
+<li><a href="https://blog.cloudflare.com/monetization-gateway/">Cloudflare Blog: Announcing the Monetization Gateway</a> - Webページ、データセット、API、MCPツールをx402で課金する発表本文。</li>
+<li><a href="https://www.x402.org/">x402公式サイト</a> - HTTP 402を使った支払いプロトコルの概要。</li>
+<li><a href="https://blog.cloudflare.com/x402/">Cloudflare Blog: x402</a> - Cloudflareがx402に取り組む背景。</li>
+<li><a href="https://www.linuxfoundation.org/press/linux-foundation-is-launching-the-x402-foundation-and-welcoming-the-contribution-of-the-x402-protocol">Linux Foundation: x402 Foundation発表</a> - x402 Foundationとプロトコル移管の一次情報。</li>
+<li><a href="https://github.com/coinbase/x402">Coinbase x402 GitHub</a> - typical x402 flowや実装リファレンス。</li>
+</ul>
+<h2>関連キーワード</h2>
+<p>x402, Cloudflare Monetization Gateway, Agentic Internet, MCP, AI agents, micropayments, stablecoins, HTTP 402, API monetization, Pay Per Crawl</p>
+      <section class="source-box"><h2>Source</h2><p><a href="https://blog.cloudflare.com/monetization-gateway/">blog.cloudflare.com - monetization-gateway</a></p></section>
+    </article>
+  </main>
+</body>
+</html>

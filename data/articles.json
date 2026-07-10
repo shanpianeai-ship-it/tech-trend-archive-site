@@ -1,5 +1,19 @@
 [
   {
+    "file": "AI/2026-07-10_Cloudflare_x402課金とAgentic_Internet.md",
+    "slug": "2026-07-10_Cloudflare_x402課金とAgentic_Internet",
+    "title": "Cloudflare x402課金とAgentic Internet",
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "created": "2026-07-10",
+    "source": "https://blog.cloudflare.com/monetization-gateway/",
+    "importance": "high",
+    "confidence": "high",
+    "summary": "Cloudflare Monetization Gatewayは、Webページ、API、データセット、MCPツールをx402でリクエスト単位課金できる構想。AIエージェントがWeb資源を使う時代の支払い・権利処理インフラとして読む価値がある。",
+    "excerpt": "Cloudflare Monetization Gatewayは、Webページ、API、データセット、MCPツールをx402でリクエスト単位課金できる構想。AIエージェントがWeb資源を使う時代の支払い・権利処理インフラとして読む価値がある。",
+    "url": "articles/2026-07-10_Cloudflare_x402課金とAgentic_Internet.html"
+  },
+  {
     "file": "Security/2026-07-09_Kubernetes_MCPトークン漏えい.md",
     "slug": "2026-07-09_Kubernetes_MCPトークン漏えい",
     "title": "Kubernetes MCPトークン漏えい",
