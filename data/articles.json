@@ -14,6 +14,20 @@
     "url": "articles/2026-07-10_Cloudflare_x402課金とAgentic_Internet.html"
   },
   {
+    "file": "Security/2026-07-10_AM_AI監査がCIRCL暗号バグ発見.md",
+    "slug": "2026-07-10_AM_AI監査がCIRCL暗号バグ発見",
+    "title": "AI監査がCIRCL暗号バグ発見",
+    "genre": "Security",
+    "genreLabel": "Security",
+    "created": "2026-07-10",
+    "source": "https://blog.zksecurity.xyz/posts/circl-bugs/",
+    "importance": "high",
+    "confidence": "high",
+    "summary": "zkSecurityがAI監査パイプラインをCloudflare CIRCLへ適用し、暗号実装の実バグ7件を確認した事例。AI監査の実用性と、人間検証がまだ必要な境界が分かる。",
+    "excerpt": "zkSecurityがAI監査パイプラインをCloudflare CIRCLへ適用し、暗号実装の実バグ7件を確認した事例。AI監査の実用性と、人間検証がまだ必要な境界が分かる。",
+    "url": "articles/2026-07-10_AM_AI監査がCIRCL暗号バグ発見.html"
+  },
+  {
     "file": "Security/2026-07-09_Kubernetes_MCPトークン漏えい.md",
     "slug": "2026-07-09_Kubernetes_MCPトークン漏えい",
     "title": "Kubernetes MCPトークン漏えい",

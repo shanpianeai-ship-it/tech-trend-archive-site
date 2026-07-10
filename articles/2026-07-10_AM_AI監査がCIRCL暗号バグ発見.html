@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI監査がCIRCL暗号バグ発見 | 海外技術情報アーカイブ</title>
+  <meta name="description" content="zkSecurityがAI監査パイプラインをCloudflare CIRCLへ適用し、暗号実装の実バグ7件を確認した事例。AI監査の実用性と、人間検証がまだ必要な境界が分かる。">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-07-10</span>
+        <span>Security</span>
+        <span>importance: high</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>zkSecurityがAI監査パイプラインをCloudflare CIRCLへ適用し、暗号実装の実バグ7件を確認した事例。AI監査の実用性と、人間検証がまだ必要な境界が分かる。</p>
+      </aside>
+      <h1>AI監査がCIRCL暗号バグ発見</h1>
+<h2>要約</h2>
+<p>zkSecurityは、同社のAI監査パイプラインをCloudflareのCIRCL暗号ライブラリに適用し、7件の実バグを確認したと報告した。対象は、しきい値RSA、DLEQ証明、BLS集約署名、HPKE、CP-ABEなど、単純なWebアプリ脆弱性よりも推論が難しい暗号実装領域に及ぶ。</p>
+<p>重要なのは、AIが最終報告まで自動で完結したわけではない点。AIは候補を出し、人間の研究者が再現性、攻撃可能性、PoC最小化、開示を検証している。一方で、候補の中にはCloudflare側がHighやCriticalと評価したものもあり、「AIは暗号実装レビューではまだ無理」と切り捨てる段階ではなくなっている。</p>
+<p>また、AIが付けたseverityとCloudflareの確定severityには大きなズレがあった。AI監査を運用に入れるなら、発見能力だけでなく、重要度評価、重複判定、攻撃条件の現実性、人間の承認フローを含めて設計する必要がある。</p>
+<h2>背景</h2>
+<p>CIRCLはCloudflare Interoperable Reusable Cryptographic Libraryの略で、Goで書かれた実験的・先進的な暗号プリミティブ集。ポスト量子暗号、楕円曲線、HPKE、BLS、しきい値RSA、CP-ABEなどを含み、Cloudflare自身も「as-isで提供され、プロダクション利用前には注意が必要」と説明している。</p>
+<p>zkSecurityは、AI監査エージェント <code>zkao</code> を開発しており、その実験としてオープンソース暗号コードを継続的に調べている。今回の記事は「AI meets Cryptography」シリーズの第1回で、CIRCLに対してLLM単体、専門家が保守するskillsつきLLM、さらにzkaoを組み合わせた結果を整理している。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>観点</th><th>内容</th></tr></thead>
+<tbody>
+<tr><td>対象</td><td>Cloudflare CIRCL</td></tr>
+<tr><td>分野</td><td>Go実装の暗号プリミティブ、ポスト量子暗号、ECC、ZK系部品</td></tr>
+<tr><td>報告者</td><td>zkSecurity</td></tr>
+<tr><td>発見件数</td><td>7件</td></tr>
+<tr><td>状態</td><td>7件とも上流で修正済み</td></tr>
+<tr><td>検証</td><td>AI候補を人間が再現・PoC化・開示</td></tr>
+</tbody>
+</table></div>
+<h2>何が重要か</h2>
+<h3>1. AI監査が暗号実装にも届き始めている</h3>
+<p>今回の7件は、単純な入力検証漏れだけではない。浮動小数点によるしきい値RSAの誤計算、DLEQ証明のsoundness破壊、BLS aggregate verificationのメッセージdistinctness欠落、CP-ABEのAND share実装ミスなど、暗号プロトコルの前提知識とコード読みの両方が必要なものが含まれる。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>バグ</th><th>分野</th><th>読みどころ</th></tr></thead>
+<tbody>
+<tr><td>float64精度落ち</td><td>しきい値RSA</td><td>大整数計算に浮動小数点を混ぜた実装ミス</td></tr>
+<tr><td>prover-controlled SecParam</td><td>DLEQ</td><td>verifierが決めるべき安全パラメータを証明側が持つ</td></tr>
+<tr><td>BLS message distinctness欠落</td><td>BLS署名</td><td>rogue key attack対策の前提が実装に入っていない</td></tr>
+<tr><td>FillBytes sign collision</td><td>DLEQ</td><td>符号を落とす直列化と代数的性質の組み合わせ</td></tr>
+<tr><td>HPKE PSK validation bypass</td><td>HPKE</td><td>Goのswitchで `</td></tr>
+<tr><td>int64 Lagrange係数</td><td>しきい値RSA</td><td>補間係数のoverflowと整数除算</td></tr>
+<tr><td>CP-ABE AND-share bug</td><td>属性ベース暗号</td><td>1行の共有計算ミスがアクセス制御破壊に直結</td></tr>
+</tbody>
+</table></div>
+<p>暗号レビューは「モデルには難しすぎる」と見られがちだが、コード、数学、既知攻撃パターン、言語仕様の境界をまたぐ候補をAIが出している点は大きい。特に、専門家が保守するskillsを加えた時に発見力が上がるという構図は、今後のAIセキュリティ監査の現実的な形に近い。</p>
+<h3>2. severity評価はまだ信用しすぎない</h3>
+<p>記事で面白いのは、AIのseverity評価がCloudflareの確定評価とかなりズレていること。たとえば、AIがCriticalと見たしきい値RSAのfloat64精度落ちはCloudflareではLow、逆にAIがMediumと見たBLS aggregateの問題はCloudflareではHighだった。</p>
+<p>これはAIが「バグの種類」や「理論上の危険性」を見つけられても、実際の利用条件、攻撃成立条件、API契約、影響範囲を評価する部分ではまだ揺れることを示している。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>AI監査でできていること</th><th>まだ人間側で見るべきこと</th></tr></thead>
+<tbody>
+<tr><td>怪しい実装パターンを大量に拾う</td><td>実際に攻撃が成立する条件</td></tr>
+<tr><td>既知攻撃名や暗号前提と照合する</td><td>ライブラリ利用者への実影響</td></tr>
+<tr><td>PoCのたたき台を出す</td><td>最小再現と誤検知除去</td></tr>
+<tr><td>修正候補を示す</td><td>開示、優先度、互換性判断</td></tr>
+</tbody>
+</table></div>
+<p>AI監査を導入するなら、severityをそのままチケット優先度にしてはいけない。候補生成と重要度確定を分け、検証者が判断したseverityを最終記録にする設計が必要になる。</p>
+<h3>3. 人間検証込みのパイプラインとして見る</h3>
+<p>zkSecurityは、AIが最終報告者ではなく「候補発見者」だったと明記している。人間の研究者が、候補の再現、exploitability確認、PoC縮小、HackerOne等での開示を担当した。</p>
+<p>この分担が実務的だ。AI監査の価値は、人間を不要にすることではなく、人間が見に行くべき候補を増やし、退屈な探索範囲を広げることにある。特に暗号や低レイヤーのように、1件の本物のバグの価値が高い領域では、候補数が増えるだけでも意味がある。</p>
+<p>一方で、候補が安いほど誤検知やseverityノイズも増える。検証ログ、再現テスト、修正コミット、ベンダー評価を紐づけて残さないと、AI監査は「それっぽい報告の山」になりやすい。</p>
+<h3>4. 自動監査は継続運用の方向へ向かう</h3>
+<p>zkSecurityの狙いは、一度きりのAIコードレビューではなく、AIが継続的にコードを見続ける監査エージェントだという。これはCloudflareが以前公開した脆弱性ハーネスの方向とも近い。</p>
+<p>単発レビューでは、モデル、プロンプト、入力範囲、偶然性に結果が左右される。継続運用では、skills、ベンチマーク、過去発見、重複判定、回帰テスト、修正確認が蓄積される。AIセキュリティ監査の本命は、チャットで「このコード安全？」と聞く形ではなく、監査対象・発見・検証・修正を状態管理するパイプラインになりそうだ。</p>
+<h2>自分向けメモ</h2>
+<ul>
+<li>AI監査は「候補生成」としてはかなり強くなっている。特に専門skillsと過去知見を持たせると、一般的な静的解析では拾いにくい論理バグにも届く。</li>
+<li>ただしseverityは別物。AIのHigh/Criticalをそのまま信じず、攻撃条件、利用条件、既存API契約、修正コストで再評価する。</li>
+<li>暗号・認証・権限まわりでは、AIが出した低severity候補でも見逃さない。BLSの例のように、既知攻撃パターンを軽く見積もることがある。</li>
+<li>OpenClawやCodexでセキュリティレビューを回すなら、発見ログ、検証ログ、修正コミット、再現コマンドを分けて保存する。会話だけに残すと再利用できない。</li>
+<li>「人間検証込みのAI監査」はすぐ実務に使えるが、「人間なしの自動修正・自動開示」はまだ危うい。</li>
+<li>今回は投票がなかったため、既存ノートと重複するGhostApprovalを避け、AIセキュリティ監査の将来トレンドとして強いこの候補を選んだ。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://blog.zksecurity.xyz/posts/circl-bugs/">zkSecurity - AI meets Cryptography 1: What AI Found in Cloudflare's CIRCL</a>: 一次情報。CIRCLで確認された7件のバグ、AIと人間検証の分担、severity差分を説明。</li>
+<li><a href="https://github.com/cloudflare/circl">Cloudflare CIRCL GitHub repository</a>: 対象ライブラリ。ポスト量子暗号、ECC、HPKE、BLS、しきい値RSA、CP-ABEなどを含む。</li>
+<li><a href="https://github.com/cloudflare/circl/security/policy">Cloudflare CIRCL security policy</a>: セキュリティ報告経路の確認用。</li>
+<li><a href="https://blog.cloudflare.com/build-your-own-vulnerability-harness/">Cloudflare Blog - Build your own vulnerability harness</a>: AI脆弱性探索を継続的なハーネスとして運用する考え方の関連資料。</li>
+<li><a href="https://hackerone.com/cloudflare">HackerOne - Cloudflare program</a>: 記事で言及されるバウンティ報告先。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>AI audit</li>
+<li>zkao</li>
+<li>zkSecurity</li>
+<li>Cloudflare CIRCL</li>
+<li>cryptography</li>
+<li>BLS aggregate signature</li>
+<li>DLEQ</li>
+<li>HPKE</li>
+<li>threshold RSA</li>
+<li>CP-ABE</li>
+<li>severity triage</li>
+<li>human-in-the-loop</li>
+<li>vulnerability validation</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://blog.zksecurity.xyz/posts/circl-bugs/">blog.zksecurity.xyz - posts / circl-bugs</a></p></section>
+    </article>
+  </main>
+</body>
+</html>
