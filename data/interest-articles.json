@@ -37,6 +37,18 @@
   },
   {
     "file": "[入力元伏せ]",
+    "slug": "2026-07-10-AI・エージェント-Codex安全運用を個人Macの自動化ルールに落とし込む-44cc48af58",
+    "title": "Codex安全運用を個人Macの自動化ルールに落とし込む",
+    "category": "AI・エージェント",
+    "created": "2026-07-10",
+    "status": "",
+    "type": "interest_report",
+    "summary": "Codexの便利さを、個人Macの自動実行で壊れにくい運用へ落とし込む。サンドボックス、ネットワーク、秘密情報、承認点、失敗通知を日次Cron向けの点検表にする。",
+    "excerpt": "Codexの便利さを、個人Macの自動実行で壊れにくい運用へ落とし込む。サンドボックス、ネットワーク、秘密情報、承認点、失敗通知を日次Cron向けの点検表にする。",
+    "url": "interests/articles/2026-07-10-AI・エージェント-Codex安全運用を個人Macの自動化ルールに落とし込む-44cc48af58.html"
+  },
+  {
+    "file": "[入力元伏せ]",
     "slug": "2026-07-09-AI・エージェント-ChatGPT-Connectorsで個人秘書AIの情報境界を設計する-dda76c2992",
     "title": "ChatGPT Connectorsで個人秘書AIの情報境界を設計する",
     "category": "AI・エージェント",

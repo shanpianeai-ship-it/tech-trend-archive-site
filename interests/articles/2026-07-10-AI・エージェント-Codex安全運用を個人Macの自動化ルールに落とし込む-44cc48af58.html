@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Codex安全運用を個人Macの自動化ルールに落とし込む | 興味レポート</title>
+  <meta name="description" content="Codexの便利さを、個人Macの自動実行で壊れにくい運用へ落とし込む。サンドボックス、ネットワーク、秘密情報、承認点、失敗通知を日次Cron向けの点検表にする。">
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../../interests/index.html">興味レポート</a>
+    <span class="site-subtitle">Public redacted interest reports</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 興味レポート一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-07-10</span>
+        <span>AI・エージェント</span>
+        <span>interest_report</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>Codexの便利さを、個人Macの自動実行で壊れにくい運用へ落とし込む。サンドボックス、ネットワーク、秘密情報、承認点、失敗通知を日次Cron向けの点検表にする。</p>
+      </aside>
+      <h1>Codex安全運用を個人Macの自動化ルールに落とし込む</h1>
+<h2>要約</h2>
+<p>Codexは、ローカルリポジトリを読み、ファイルを編集し、テストやビルドを実行し、必要ならGit操作まで進められる。OpenAIのCodex CLI説明でも、作業対象はローカルリポジトリであり、利用者がモデル、推論量、権限、コマンド境界を選べることが前提になっている。</p>
+<p>個人MacでOpenClawのCronと組み合わせる場合、便利さの中心は「毎日同じ作業を人間の代わりに進める」ことだが、リスクの中心も同じ場所にある。ブラウザ、Discord、Obsidian、GitHub Pages、ローカルファイル、ネットワーク調査がつながるほど、1回の判断ミスが公開、削除、誤送信、秘密情報露出につながりやすい。</p>
+<p>したがって、Codex安全運用は抽象論ではなく、個人Mac上の具体ルールに落とすのがよい。読む場所、書く場所、ネットワークを使う条件、承認が必要な操作、ログと通知、秘密情報の扱いを分けておく。</p>
+<h2>なぜ今見る価値があるか</h2>
+<p>この環境では、すでに興味レポートや技術アーカイブの候補作成、Discordポール、Markdown生成、Pagesビルド、commit/pushまでが自動化されている。つまりCodexは「質問に答えるチャット」ではなく、公開物を作って外部へ反映する実行者になっている。</p>
+<p>この段階で必要なのは、より強いモデルや多いツールを足すことではなく、失敗しても被害が限定される運用境界だ。特にCronは人間が画面を見ていない時間に動くため、対話中よりも保守的にする価値がある。</p>
+<h2>調査メモ</h2>
+<p>OpenAIのCodex CLIページでは、Codexはターミナル上でコード調査、編集、コマンド実行、レビュー、反復作業の自動化に使えると説明されている。同時に「モデル、reasoning effort、permissions、commandsを選ぶ」ことが利用者側の制御点として示されている。これは、AI側に全部任せる設計ではなく、実行境界を利用者が決める設計だと読める。</p>
+<p>Codexの運用では、次の4つを分けて考えると実務にしやすい。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>項目</th><th>低リスク運用</th><th>高リスク運用</th></tr></thead>
+<tbody>
+<tr><td>ファイル読取</td><td>指定リポジトリ、公開予定Markdown、候補一覧</td><td>ホーム全体、資格情報、個人契約、家計、健康記録</td></tr>
+<tr><td>ファイル書込</td><td>作業対象フォルダ、生成物、ビルド出力</td><td>既存重要ファイルの大量更新、設定ファイル横断更新</td></tr>
+<tr><td>ネットワーク</td><td>公式ドキュメント、一次情報、公開媒体の取得</td><td>未検証サイト、ログイン済みブラウザ操作、決済系サイト</td></tr>
+<tr><td>外部反映</td><td>build後の差分確認、限定repoへのpush</td><td>Discord大量送信、公開repoへの未確認push、削除系API</td></tr>
+</tbody>
+</table></div>
+<p>OpenClaw運用では、すでにDiscordチャンネルが「要アクション」と「結果報告」に分かれている。この分離は安全上かなり有効で、AIが通常会話を広く読みに行かず、ポール結果と完了報告だけを扱える。GitHub Pagesも、元Markdownには内部パスが残り得る一方、公開ビルドで伏せ字処理を通す構造になっているため、build後の差分確認をルール化すれば継続しやすい。</p>
+<h2>個人Mac向けルール案</h2>
+<h3>1. 読み取り範囲を「作業対象」と「参考情報」に分ける</h3>
+<p>作業対象は、Codexが直接編集してよい場所に限る。たとえば <code>[内部パス]</code>、候補一覧、Pages repoなど。参考情報は、読んでもよいが編集しない場所にする。運用ルール、過去記事、公式ドキュメントの抜粋などが該当する。</p>
+<p>家計、個人契約、身分証、医療、秘密鍵、ブラウザプロファイル、認証Cookieは、同じMac内にあっても作業対象にしない。必要な場合は、人間が抜粋して渡す。</p>
+<h3>2. 書き込みは「生成物」「設定変更」「外部反映」に分ける</h3>
+<p>Markdown記事の作成やビルド出力は、比較的復元しやすい。運用ルールやCron定義の変更は、次回以降の挙動を変えるため、記事生成より重い。Git commit/push、Discord送信、外部サービス操作は、さらに一段重い。</p>
+<p>Cronには、通常時に許す操作を明記しておく。たとえば「候補一覧を読む」「選ばれた1本の記事を作る」「候補一覧frontmatterを更新する」「buildする」「変更があればcommit/pushする」までは許可し、それ以外の既存記事削除やCron再設定は別依頼扱いにする。</p>
+<h3>3. ネットワーク調査は公式・一次情報を優先し、ログイン操作を分離する</h3>
+<p>記事作成の調査では、公式ドキュメント、Help、Blog、開発者ページ、信頼できる媒体を優先する。検索結果が不安定な時は、既知の公式URLを直接読むか、候補一覧にある情報源候補へ限定する。</p>
+<p>ログイン済みブラウザ操作は別枠にする。Cookieやセッションを持ったブラウザは、単なるWeb取得より強い権限を持つ。Codexに任せる場合も、検証用プロファイル、決済・金融・個人メール禁止、送信前確認を基本にする。</p>
+<h3>4. 秘密情報は「読ませない」前提で設計する</h3>
+<p>秘密情報は、モデルに渡してから「出さないで」と頼むより、最初から読ませない方がよい。環境変数、API key、token、認証JSON、ブラウザCookie、SSH秘密鍵は、記事生成やPagesビルドの作業面に置かない。</p>
+<p>どうしても必要な認証は、ツールやConnector側の権限で包み、Codexには値そのものではなく、限定操作だけを渡す。ログにも値を出さない。</p>
+<h3>5. Cronは失敗通知と重複防止を必須にする</h3>
+<p>Cronは、同じ日に複数本作らない、候補一覧がない時はフォールバックする、変更がない時はcommitしない、といった小さなルールが効く。失敗時は、成功扱いにせず「どこで止まったか」を結果チャンネルへ短く出す。</p>
+<p>今回の統合記事作成Cronのように、旧morning/afternoon/eveningを1本へ統合した場合は、古いCronが残っていないか、同日記事がすでにないかを確認する。自動化の事故は、単発の判断ミスよりも二重実行で起きやすい。</p>
+<h2>個人向けの読みどころ</h2>
+<p>今の運用で最も効果が高いのは、次の点検表をそのままCron作成・更新時のテンプレートにすること。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>点検項目</th><th>ルール</th></tr></thead>
+<tbody>
+<tr><td>対象日</td><td>Asia/Tokyoで確認する</td></tr>
+<tr><td>入力</td><td>候補一覧、指定チャンネルのポール結果、公式・一次情報</td></tr>
+<tr><td>出力</td><td>選ばれた1本のMarkdown、候補一覧frontmatter更新、Pages build結果</td></tr>
+<tr><td>禁止</td><td>同日複数記事、関係ないファイル削除、秘密情報読取、通常会話ログ横断</td></tr>
+<tr><td>外部反映</td><td>変更がある時だけcommit/push、結果チャンネルへ短く報告</td></tr>
+<tr><td>失敗時</td><td>成功扱いにしない。候補不在、投票取得不可、build失敗、push失敗を分けて書く</td></tr>
+</tbody>
+</table></div>
+<p>この表は、興味レポートだけでなく、海外技術情報アーカイブ、Claude公開ナレッジブログ、将来のObsidian整理Cronにも流用できる。</p>
+<h2>注意点</h2>
+<p>これは個人MacでのAIエージェント運用メモであり、企業のセキュリティ基準そのものではない。業務端末、顧客データ、会社アカウント、管理者権限を扱う場合は、組織のポリシー、監査ログ、端末管理、秘密情報管理に合わせる必要がある。</p>
+<p>また、CodexやOpenClawの機能名・設定名は更新される可能性がある。固定のツール名より、「読む範囲」「書く範囲」「ネットワーク」「外部反映」「秘密情報」「失敗通知」という分類を維持する方が長持ちする。</p>
+<h2>参考リンク</h2>
+<ul>
+<li>OpenAI, Codex CLI</li>
+</ul>
+<p><a href="https://learn.chatgpt.com/docs/codex/cli">learn.chatgpt.com - docs / codex</a></p>
+<ul>
+<li>OpenAI, Developer commands / permissions related documentation</li>
+</ul>
+<p><a href="https://learn.chatgpt.com/docs/codex/developer-commands">learn.chatgpt.com - docs / codex</a></p>
+<ul>
+<li>OpenAI, Agent approvals and security</li>
+</ul>
+<p><a href="https://learn.chatgpt.com/docs/codex/agent-approvals-security">learn.chatgpt.com - docs / codex</a></p>
+<ul>
+<li>OpenAI, MCP and connectors documentation</li>
+</ul>
+<p><a href="https://learn.chatgpt.com/docs/codex/extend/mcp">learn.chatgpt.com - docs / codex</a></p>
+    </article>
+  </main>
+</body>
+</html>
