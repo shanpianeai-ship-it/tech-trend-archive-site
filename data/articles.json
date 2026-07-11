@@ -1,5 +1,19 @@
 [
   {
+    "file": "Security/2026-07-11_AM_GitHubエージェント漏えいリスク.md",
+    "slug": "2026-07-11_AM_GitHubエージェント漏えいリスク",
+    "title": "GitHubエージェント漏えいリスク",
+    "genre": "Security",
+    "genreLabel": "Security",
+    "created": "2026-07-11",
+    "source": "https://thehackernews.com/2026/07/public-github-issue-could-trick-github.html",
+    "importance": "high",
+    "confidence": "high",
+    "summary": "公開GitHub IssueからAgentic Workflowsを誘導し、私有リポジトリ内容を公開コメントへ漏えいさせ得る事例。AIエージェントの権限スコープと出力経路を分ける重要性が分かる。",
+    "excerpt": "公開GitHub IssueからAgentic Workflowsを誘導し、私有リポジトリ内容を公開コメントへ漏えいさせ得る事例。AIエージェントの権限スコープと出力経路を分ける重要性が分かる。",
+    "url": "articles/2026-07-11_AM_GitHubエージェント漏えいリスク.html"
+  },
+  {
     "file": "AI/2026-07-10_Cloudflare_x402課金とAgentic_Internet.md",
     "slug": "2026-07-10_Cloudflare_x402課金とAgentic_Internet",
     "title": "Cloudflare x402課金とAgentic Internet",
