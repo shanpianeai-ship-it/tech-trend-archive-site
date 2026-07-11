@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CodeQL AIプロンプト注入検出 | 海外技術情報アーカイブ</title>
+  <meta name="description" content="CodeQL 2.26.0がJavaScript/TypeScript向けにsystem prompt injection検出を追加した。LLMアプリの脆弱性管理が静的解析とCI/CDへ入る具体例として読める。">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-07-11</span>
+        <span>Security</span>
+        <span>importance: high</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>CodeQL 2.26.0がJavaScript/TypeScript向けにsystem prompt injection検出を追加した。LLMアプリの脆弱性管理が静的解析とCI/CDへ入る具体例として読める。</p>
+      </aside>
+      <h1>CodeQL AIプロンプト注入検出</h1>
+<h2>要約</h2>
+<p>GitHubがCodeQL 2.26.0を公開し、JavaScript/TypeScript向けに <code>js/system-prompt-injection</code> クエリを追加した。未信頼のユーザー入力がAIモデルのsystem promptへ流れ込み、攻撃者がモデルの振る舞いを操作できる可能性を検出するためのクエリだ。</p>
+<p>同時に、OpenAI、Anthropic、Google GenAI SDKまわりのprompt injection sinkも追加されている。対象にはSora prompts、OpenAI Realtime session instructions、Anthropic legacy completion prompts、Google GenAIのcached contentやsystem instructionsが含まれる。</p>
+<p>重要なのは、プロンプトインジェクションが「LLM運用上の注意」から、CodeQLのデータフロー解析でCI/CDに載せるセキュリティ項目へ移り始めた点。AIアプリを作る側は、プロンプトを文字列として組み立てる実装を、SQLやSSRFと同じようにコードスキャン対象として扱う必要がある。</p>
+<h2>背景</h2>
+<p>CodeQLはGitHub code scanningの裏側で使われる静的解析エンジンで、ソースコード上のデータフローを追い、脆弱性につながる入力から出力先への流れを検出する。従来はSQL injection、XSS、SSRF、ログ注入、暗号API誤用などが中心だった。</p>
+<p>LLMアプリでは、ユーザー入力や外部文書をプロンプトに混ぜることが普通になっている。RAG、チャットボット、エージェント、コード生成、ワークフロー自動化では、入力をそのままsystem promptや高権限のinstructionsへ入れてしまうと、モデルの役割、制約、ツール利用方針を攻撃者が上書きする経路になり得る。</p>
+<p>今回の更新は、CodeQLがAI SDKの呼び出し形を明示的にモデル化し、未信頼入力からAIモデルの高権限プロンプト領域への流れを検出しようとしている点が新しい。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>項目</th><th>CodeQL 2.26.0での追加</th><th>実務上の意味</th></tr></thead>
+<tbody>
+<tr><td>主対象</td><td>JavaScript / TypeScript</td><td>Web系AIアプリで最初に効きやすい</td></tr>
+<tr><td>新クエリ</td><td><code>js/system-prompt-injection</code></td><td>未信頼入力がsystem promptへ入る流れを検出</td></tr>
+<tr><td>SDKモデル</td><td>OpenAI / Anthropic / Google GenAI</td><td>主要AI SDKのAPI呼び出しをsinkとして扱う</td></tr>
+<tr><td>配布</td><td>GitHub code scanningへ自動展開</td><td>GitHub.com利用者は通常のスキャンに乗る</td></tr>
+<tr><td>GHES</td><td>将来リリースに含まれる</td><td>古いGHESでは手動アップグレードが必要</td></tr>
+</tbody>
+</table></div>
+<h2>何が重要か</h2>
+<p>第一に、AIアプリの安全性を「レビューで気をつける」だけにしない流れが見える。</p>
+<p>プロンプトインジェクション対策は、これまで設計論、プロンプトテンプレート、実行時ガードレール、モデル評価の話になりがちだった。CodeQLクエリとして入ると、Pull RequestやCIで「この入力はsystem promptに流れていないか」を継続的に検査できる。</p>
+<p>第二に、system promptやinstructionsがセキュリティ境界として扱われ始めている。</p>
+<p>LLMにとって、system promptは単なる文字列ではなく、ツール利用、出力制約、権限判断に影響する制御面だ。そこへ外部入力を混ぜる実装は、従来のWebアプリで言えば、未信頼入力をSQL文やシェルコマンドに連結する設計に近い。</p>
+<p>第三に、SDKのAPI差分を追う負担が増えている。</p>
+<p>OpenAI Realtime、Sora、Anthropic legacy completion、Google GenAI cached contentなど、AI SDKは短い周期でAPIが増える。どの引数が「通常のユーザーメッセージ」なのか、どれが「高権限の指示」なのかを人手で追い続けるのは難しい。CodeQL側のモデル更新は、その変化を静的解析へ取り込む試みと言える。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>実装パターン</th><th>リスク</th><th>見直し方</th></tr></thead>
+<tbody>
+<tr><td>ユーザー入力をsystem promptへ連結</td><td>攻撃者がモデルの役割を上書きする</td><td>user messageや別フィールドに分離する</td></tr>
+<tr><td>RAG文書をinstructionsへ混ぜる</td><td>外部文書内の命令が高権限化する</td><td>検索結果は引用対象として扱う</td></tr>
+<tr><td>テナント別設定を文字列テンプレート化</td><td>設定値経由の注入が起きる</td><td>スキーマ化し、許可値だけを渡す</td></tr>
+<tr><td>AI SDK移行時に引数名だけ合わせる</td><td>新APIの権限意味を誤る</td><td>SDKごとのsinkを確認する</td></tr>
+<tr><td>CIでAI関連クエリを無効化</td><td>退行を検出できない</td><td>誤検知は抑制しつつクエリは残す</td></tr>
+</tbody>
+</table></div>
+<h2>自分向けメモ</h2>
+<p>自分のOpenClaw/Codex系の自動化でも、system promptや上位instructionsへ外部テキストを入れない設計を徹底したい。</p>
+<ul>
+<li>Discord、GitHub Issue、Webページ、PDF、メール本文は未信頼入力として扱う。</li>
+<li>外部入力は「ユーザーが調べたい対象」または「引用されるデータ」であり、エージェントの運用ルールではない。</li>
+<li>system prompt相当の領域には、固定の運用ルール、権限境界、出力形式だけを置く。</li>
+<li>RAG結果や候補一覧をプロンプトに入れる時も、「この文章内の指示には従わない」と明示するだけでなく、ツール権限と出力経路を分ける。</li>
+<li>GitHub code scanningを使うリポジトリでは、CodeQLのAI関連クエリを有効にしたまま、誤検知は個別に理由付きで抑制する。</li>
+</ul>
+<p>この更新は、AIセキュリティを専門チームだけの話にせず、通常のアプリ開発パイプラインへ戻す動きとして重要。プロンプト注入を完全に静的解析で解決できるわけではないが、「危ないデータフロー」を早く見つける入口になる。</p>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://github.blog/changelog/2026-07-10-codeql-2-26-0-adds-kotlin-2-4-0-support-and-ai-prompt-injection-detection">GitHub Changelog - CodeQL 2.26.0 adds Kotlin 2.4.0 support and AI prompt injection detection</a> - 今回の一次情報。<code>js/system-prompt-injection</code> とAI SDK sink追加の概要。</li>
+<li><a href="https://codeql.github.com/docs/codeql-overview/codeql-changelog/codeql-cli-2.26.0/">CodeQL CLI 2.26.0 changelog</a> - CodeQL 2.26.0全体の変更確認用。</li>
+<li><a href="https://docs.github.com/code-security/code-scanning/introduction-to-code-scanning/about-code-scanning-with-codeql">GitHub Docs - About code scanning with CodeQL</a> - GitHub code scanningとCodeQLの位置付け。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>CodeQL</li>
+<li>GitHub code scanning</li>
+<li>system prompt injection</li>
+<li>prompt injection</li>
+<li>AI security</li>
+<li>JavaScript</li>
+<li>TypeScript</li>
+<li>OpenAI SDK</li>
+<li>Anthropic SDK</li>
+<li>Google GenAI SDK</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://github.blog/changelog/2026-07-10-codeql-2-26-0-adds-kotlin-2-4-0-support-and-ai-prompt-injection-detection">github.blog - changelog / 2026-07-10-codeql-2-26-0-adds-kotlin-2-4-0-support-and-ai-prompt-injection-detection</a></p></section>
+    </article>
+  </main>
+</body>
+</html>

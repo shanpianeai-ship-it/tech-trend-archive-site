@@ -14,6 +14,20 @@
     "url": "articles/2026-07-11_AM_GitHubエージェント漏えいリスク.html"
   },
   {
+    "file": "Security/2026-07-11_CodeQL_AIプロンプト注入検出.md",
+    "slug": "2026-07-11_CodeQL_AIプロンプト注入検出",
+    "title": "CodeQL AIプロンプト注入検出",
+    "genre": "Security",
+    "genreLabel": "Security",
+    "created": "2026-07-11",
+    "source": "https://github.blog/changelog/2026-07-10-codeql-2-26-0-adds-kotlin-2-4-0-support-and-ai-prompt-injection-detection",
+    "importance": "high",
+    "confidence": "high",
+    "summary": "CodeQL 2.26.0がJavaScript/TypeScript向けにsystem prompt injection検出を追加した。LLMアプリの脆弱性管理が静的解析とCI/CDへ入る具体例として読める。",
+    "excerpt": "CodeQL 2.26.0がJavaScript/TypeScript向けにsystem prompt injection検出を追加した。LLMアプリの脆弱性管理が静的解析とCI/CDへ入る具体例として読める。",
+    "url": "articles/2026-07-11_CodeQL_AIプロンプト注入検出.html"
+  },
+  {
     "file": "AI/2026-07-10_Cloudflare_x402課金とAgentic_Internet.md",
     "slug": "2026-07-10_Cloudflare_x402課金とAgentic_Internet",
     "title": "Cloudflare x402課金とAgentic Internet",
