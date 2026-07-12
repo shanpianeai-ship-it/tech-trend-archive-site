@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>npm防御をCodex環境へ落とす | 興味レポート</title>
+  <meta name="description" content="npmの長期トークン、install script、依存更新を、Codex/OpenClawのローカル実行環境でどう閉じ込めるかを整理する。AIコーディング環境の点検表として使える。">
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../../interests/index.html">興味レポート</a>
+    <span class="site-subtitle">Public redacted interest reports</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 興味レポート一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-07-12T19:30:00+09:00</span>
+        <span>セキュリティ</span>
+        <span>interest_report</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>npmの長期トークン、install script、依存更新を、Codex/OpenClawのローカル実行環境でどう閉じ込めるかを整理する。AIコーディング環境の点検表として使える。</p>
+      </aside>
+      <h1>npm防御をCodex環境へ落とす</h1>
+<h2>要約</h2>
+<p>今回のDiscordポールは、指定された <code>poll_message_id</code> の <code>poll.results.answer_counts</code> が空で、有効票なしだった。そのため候補一覧から、ローカルのAIコーディング環境に直接効く「npm防御をCodex環境へ」を選定した。</p>
+<p>npmのサプライチェーン防御は、公開パッケージ作者だけの話ではない。CodexやOpenClawがローカルで <code>npm install</code>、<code>npm run build</code>、<code>node scripts/build.mjs</code> を実行する環境では、依存パッケージのinstall script、漏れたnpm token、広すぎる環境変数、無造作な更新がそのまま作業端末のリスクになる。対策は「npmを使わない」ではなく、トークンを短命化し、publish権限をCIへ寄せ、インストール時の実行を疑い、AIエージェントに渡す作業ディレクトリと秘密情報を小さくすることだ。</p>
+<h2>なぜ今見る価値があるか</h2>
+<p>npm公式ドキュメントでは、2025年11月以降はgranular access tokenのみがサポートされ、legacy access tokenは削除済みと説明されている。granular tokenは、対象パッケージやスコープ、組織、期限、IP範囲、read-only/read-writeを絞れる。つまり、まだ古い感覚で「npm tokenをCIやローカルに長く置く」運用をしているなら、現行のnpm側の設計思想とずれている。</p>
+<p>さらにnpmは、trusted publishingでOIDCを使い、GitHub Actions、GitLab CI/CD、CircleCIなどのワークフローから長期npm tokenなしでpublishできるようにしている。npm docsは、trusted publishingを「長期write tokenのリスクをなくす」仕組みとして説明している。GitHubもnpm package provenanceを、パッケージをソースリポジトリとビルド手順へ検証可能に結びつける仕組みとして紹介している。</p>
+<p>Codex環境で重要なのは、この流れを「自分がpublishするパッケージ」だけでなく、「日々AIに触らせるローカル開発環境」へ翻訳することだ。AIエージェントは便利だが、コマンドを代行する以上、悪意あるinstall scriptや過大な環境変数に対しては普通の開発者端末より事故が速く進む。</p>
+<h2>Codex環境でのリスク</h2>
+<p>第一に、長期npm tokenの露出である。<code>.npmrc</code>、CIのsecrets、シェルの環境変数、過去ログ、スクリーンショット、プロンプト添付にwrite tokenが残っていると、AIが直接使わなくても作業中に読み取れる範囲へ入る。特にpublish権限と2FA bypassを持つtokenは、流出時の影響が大きい。</p>
+<p>第二に、install scriptである。npmパッケージは、<code>preinstall</code>、<code>install</code>、<code>postinstall</code> などで任意の処理を走らせられる。依存追加やクリーンインストールをAIに任せると、ユーザーがpackage.jsonを読む前にローカルコマンドが動く可能性がある。</p>
+<p>第三に、AIエージェントの作業範囲が広すぎる問題である。<code>npm install</code> 自体の危険だけでなく、同じプロセスがGitHub token、Discord token、Pages repo、Obsidian vault、SSH agent、クラウド認証情報を見られる状態だと、依存パッケージのスクリプトが触れる範囲も広がる。</p>
+<h2>まずやる設定</h2>
+<p>個人のnpm publish運用では、可能ならtrusted publishingへ寄せる。GitHub Actionsなどの対応CIでpublishできるパッケージは、長期npm write tokenを置かず、OIDCで短命な認証へ移す。provenanceを付けられるパッケージは、ビルド元と手順を追えるようにする。</p>
+<p>tokenが必要な場合も、granular tokenを使い、read-onlyを基本にする。write tokenは対象パッケージ、期限、IP範囲を絞り、2FA bypassは本当に必要なpublish経路だけにする。ローカルMacの普段使いシェルにwrite tokenを常駐させない。</p>
+<p>Codex/OpenClawでnpmを触る時は、環境変数の棚卸しを先に行う。<code>NPM_TOKEN</code>、GitHub PAT、クラウド鍵、Discord bot token、OpenAI API keyなどを、不要な作業ディレクトリやサブプロセスに渡さない。AIがnpm installを実行する作業では、publish用の秘密情報を同じ環境に置かないのが基本になる。</p>
+<h2>依存追加時のチェック</h2>
+<p>依存を追加する時は、パッケージ名だけで判断しない。少なくとも、公式リポジトリ、npm上のprovenance表示、公開元、最近のpublish履歴、install scriptの有無、依存数、メンテナ変更の有無を見る。小さなユーティリティほど代替が簡単なので、依存を増やす価値があるかも確認する。</p>
+<p>既存プロジェクトでは、lockfile差分を見る。AIが <code>package-lock.json</code> を大きく更新した場合、直接追加した1パッケージ以外に何が増えたかを確認する。ビルドが通ることと、依存更新が安全であることは別の話だ。</p>
+<p><code>npm install --ignore-scripts</code> は万能ではないが、未知の依存を調べる最初の段階では有効なブレーキになる。必要なnative buildやpostinstallがある場合は、なぜ必要かを確認してから通常installへ戻す。CIや本番ビルドで必要なscriptまで壊さないよう、恒久設定にする前にプロジェクト単位で判断する。</p>
+<h2>AIエージェント向けの運用線引き</h2>
+<p>Codexにnpm作業を任せる時は、次の線引きが現実的だ。</p>
+<ol>
+<li>依存追加前に、目的と候補パッケージを短く説明させる。</li>
+<li>初回調査では公式docsや既存コードを読み、すぐinstallしない。</li>
+<li>installが必要な場合、不要な秘密情報を外した環境で実行する。</li>
+<li>lockfile差分、install script、増えた依存の数を確認する。</li>
+<li>publish、npm login、token作成、2FA bypass変更はAIに実行させない。</li>
+<li>Pages生成やローカルbuildのような低リスク作業と、npm publishのような高リスク作業を同じ自動化に混ぜない。</li>
+</ol>
+<p>このレポートを書いている興味レポート運用も、<code>node scripts/build.mjs</code> とgit pushを日次で実行する。ここに依存追加やnpm updateを混ぜると、記事公開Cronがパッケージ更新経路にもなってしまう。公開ビルドCronは、既存依存で生成するだけに留め、依存更新は別作業として扱う方がよい。</p>
+<h2>自分用チェックリスト</h2>
+<ul>
+<li>npm publishはtrusted publishingへ寄せられるか。</li>
+<li>ローカル <code>.npmrc</code> にwrite tokenが残っていないか。</li>
+<li>tokenはgranular、期限付き、対象限定、read-only基本になっているか。</li>
+<li>2FA bypass付きtokenを普段のCodex環境に置いていないか。</li>
+<li>AIに渡すシェル環境から不要な秘密情報を外しているか。</li>
+<li>新規依存のinstall scriptを確認したか。</li>
+<li>lockfile差分をレビューしたか。</li>
+<li>Cronや自動ビルドの中で依存更新をしない設計になっているか。</li>
+</ul>
+<h2>参考リンク</h2>
+<ul>
+<li><a href="https://docs.npmjs.com/about-access-tokens/">npm Docs: About access tokens</a></li>
+<li><a href="https://docs.npmjs.com/trusted-publishers/">npm Docs: Trusted publishing for npm packages</a></li>
+<li><a href="https://docs.npmjs.com/generating-provenance-statements/">npm Docs: Generating provenance statements</a></li>
+<li><a href="https://github.blog/security/supply-chain-security/introducing-npm-package-provenance/">GitHub Blog: Introducing npm package provenance</a></li>
+</ul>
+    </article>
+  </main>
+</body>
+</html>

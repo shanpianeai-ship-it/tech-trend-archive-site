@@ -625,6 +625,18 @@
   },
   {
     "file": "[入力元伏せ]",
+    "slug": "2026-07-12-セキュリティ-npm防御をCodex環境へ落とす-9e3e67640d",
+    "title": "npm防御をCodex環境へ落とす",
+    "category": "セキュリティ",
+    "created": "2026-07-12T19:30:00+09:00",
+    "status": "",
+    "type": "interest_report",
+    "summary": "npmの長期トークン、install script、依存更新を、Codex/OpenClawのローカル実行環境でどう閉じ込めるかを整理する。AIコーディング環境の点検表として使える。",
+    "excerpt": "npmの長期トークン、install script、依存更新を、Codex/OpenClawのローカル実行環境でどう閉じ込めるかを整理する。AIコーディング環境の点検表として使える。",
+    "url": "interests/articles/2026-07-12-セキュリティ-npm防御をCodex環境へ落とす-9e3e67640d.html"
+  },
+  {
+    "file": "[入力元伏せ]",
     "slug": "2026-07-11-セキュリティ-パスキー普及後の「端末紛失時リカバリ」を個人運用として点検する-fef7615e36",
     "title": "パスキー普及後の「端末紛失時リカバリ」を個人運用として点検する",
     "category": "セキュリティ",
