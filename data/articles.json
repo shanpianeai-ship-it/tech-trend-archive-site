@@ -1,5 +1,19 @@
 [
   {
+    "file": "Security/2026-07-12_AM_Cloudflareポスト量子署名移行.md",
+    "slug": "2026-07-12_AM_Cloudflareポスト量子署名移行",
+    "title": "Cloudflareポスト量子署名移行",
+    "genre": "Security",
+    "genreLabel": "Security",
+    "created": "2026-07-12",
+    "source": "https://blog.cloudflare.com/ml-dsa-will-have-to-do/",
+    "importance": "high",
+    "confidence": "high",
+    "summary": "Cloudflareはポスト量子署名で、より良い候補を待たず標準化済みML-DSAへまず移行すべきと論じた。TLSや証明書運用の移行期限を考える材料になる。",
+    "excerpt": "Cloudflareはポスト量子署名で、より良い候補を待たず標準化済みML-DSAへまず移行すべきと論じた。TLSや証明書運用の移行期限を考える材料になる。",
+    "url": "articles/2026-07-12_AM_Cloudflareポスト量子署名移行.html"
+  },
+  {
     "file": "Security/2026-07-12_Cloudflareポスト量子署名移行.md",
     "slug": "2026-07-12_Cloudflareポスト量子署名移行",
     "title": "Cloudflareポスト量子署名移行",
