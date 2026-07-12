@@ -1,5 +1,19 @@
 [
   {
+    "file": "Security/2026-07-12_Cloudflareポスト量子署名移行.md",
+    "slug": "2026-07-12_Cloudflareポスト量子署名移行",
+    "title": "Cloudflareポスト量子署名移行",
+    "genre": "Security",
+    "genreLabel": "Security",
+    "created": "2026-07-12",
+    "source": "https://blog.cloudflare.com/ml-dsa-will-have-to-do/",
+    "importance": "high",
+    "confidence": "high",
+    "summary": "Cloudflareがポスト量子署名について、新候補を待たずML-DSAで初回移行を進めるべきと整理した。TLSや認証基盤の移行計画を考える材料になる。",
+    "excerpt": "Cloudflareがポスト量子署名について、新候補を待たずML-DSAで初回移行を進めるべきと整理した。TLSや認証基盤の移行計画を考える材料になる。",
+    "url": "articles/2026-07-12_Cloudflareポスト量子署名移行.html"
+  },
+  {
     "file": "Security/2026-07-11_AM_GitHubエージェント漏えいリスク.md",
     "slug": "2026-07-11_AM_GitHubエージェント漏えいリスク",
     "title": "GitHubエージェント漏えいリスク",

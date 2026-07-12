@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cloudflareポスト量子署名移行 | 海外技術情報アーカイブ</title>
+  <meta name="description" content="Cloudflareがポスト量子署名について、新候補を待たずML-DSAで初回移行を進めるべきと整理した。TLSや認証基盤の移行計画を考える材料になる。">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-07-12</span>
+        <span>Security</span>
+        <span>importance: high</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>Cloudflareがポスト量子署名について、新候補を待たずML-DSAで初回移行を進めるべきと整理した。TLSや認証基盤の移行計画を考える材料になる。</p>
+      </aside>
+      <h1>Cloudflareポスト量子署名移行</h1>
+<h2>要約</h2>
+<p>Cloudflareが、ポスト量子暗号のうち「署名」アルゴリズム移行について、より良い候補を待たずに現行標準のML-DSAで進めるべきだと論じている。RSAやECCは十分に強い量子コンピュータが登場すると破られる可能性があり、NISTは2024年にML-KEMとML-DSAを標準化した。</p>
+<p>Cloudflareでは、暗号化側のML-KEMはすでにトラフィックの大部分で使われており、harvest-now-decrypt-later型のリスクに対する移行が進んでいる。一方で、認証を守る署名側は、サイズ、CPU、実装難度、TLSや証明書チェーンへの影響が大きく、移行判断が難しい。</p>
+<p>記事の核心は、NISTの署名on-rampやFN-DSAなど有望候補はあるが、標準化、実装、ライブラリ対応、プロトコル対応、運用展開には時間がかかり、初回のポスト量子移行には間に合わないという現実認識にある。Cloudflareは2029年までに完全なポスト量子対応を目指すとしており、今あるML-DSAを基準に計画を組む必要がある。</p>
+<h2>背景</h2>
+<p>ポスト量子暗号の移行では、暗号化と署名を分けて見る必要がある。</p>
+<p>暗号化では、将来の量子コンピュータで過去の通信が復号される「harvest now, decrypt later」が問題になる。そのため、通信内容を守る鍵交換は早く移行する価値がある。NIST標準のML-KEMはこの領域で使われる。</p>
+<p>署名では、サーバ証明書、コード署名、ファームウェア署名、ID基盤、DNSSEC、CAの証明書発行など、本人性や改ざん検知の根拠が対象になる。こちらは通信内容の秘匿とは別に、認証の信頼連鎖そのものを量子耐性にする話だ。</p>
+<p>NISTは2024年にML-DSAを標準化済みだが、ML-DSAは従来のEd25519やECDSAのように小さく軽い署名ではない。Cloudflareの記事では、ML-DSA 44の公開鍵は1,312バイト、署名は2,420バイトで、Ed25519の公開鍵32バイト、署名64バイトと比べてかなり大きい。TLSや証明書チェーンでは、この「バイト数」がそのままレイテンシや帯域、実装制約に効いてくる。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>項目</th><th>暗号化側</th><th>署名側</th></tr></thead>
+<tbody>
+<tr><td>主な目的</td><td>通信内容の秘匿</td><td>認証、改ざん検知、信頼連鎖</td></tr>
+<tr><td>代表標準</td><td>ML-KEM</td><td>ML-DSA</td></tr>
+<tr><td>主なリスク</td><td>過去通信の将来復号</td><td>証明書、コード、IDのなりすまし</td></tr>
+<tr><td>移行の難所</td><td>プロトコル実装と互換性</td><td>サイズ、検証性能、CA/証明書運用</td></tr>
+<tr><td>実務影響</td><td>TLS鍵交換、VPNなど</td><td>TLS証明書、コード署名、DNSSEC、PKI</td></tr>
+</tbody>
+</table></div>
+<h2>何が重要か</h2>
+<p>第一に、「もっと良い署名を待つ」という判断が、ポスト量子移行ではリスクになり得る。</p>
+<p>NISTは新しい署名候補を評価しており、SQIsign、UOV、MAYO、HAWKなど、用途によってML-DSAより魅力的な特性を持つ候補がある。ただし、候補が標準化されても、暗号ライブラリ、HSM、ブラウザ、OS、TLSスタック、CA/B Forum、監査要件まで落ちるにはさらに時間がかかる。</p>
+<p>第二に、ポスト量子署名は「万能な後継アルゴリズム」ではなく、用途別の妥協になる。</p>
+<p>従来のEd25519は公開鍵、署名、署名速度の多くで非常に優秀だった。ポスト量子側では、署名が小さいが公開鍵が巨大、検証は速いが署名が遅い、実装が複雑、状態管理が必要、といったトレードオフが前面に出る。TLS、DNSSEC、コード署名、ルートCAでは最適解が変わる可能性がある。</p>
+<p>第三に、2029年級の移行計画は今から資産棚卸しを始めないと間に合わない。</p>
+<p>「どのシステムがRSA/ECC署名に依存しているか」「証明書チェーンのサイズ増加に耐えられるか」「HSMやロードバランサがML-DSAを扱えるか」「古い組み込み機器やJavaランタイムが検証できるか」を把握するには時間がかかる。アルゴリズム選定より前に、署名利用箇所の可視化が必要になる。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>観点</th><th>ML-DSAで進む意味</th><th>注意点</th></tr></thead>
+<tbody>
+<tr><td>標準化</td><td>NIST標準として利用可能</td><td>サイズ増加は避けにくい</td></tr>
+<tr><td>TLS</td><td>初回移行の現実解になりやすい</td><td>証明書チェーン肥大化を測る必要</td></tr>
+<tr><td>CA/PKI</td><td>早めに検証環境を作れる</td><td>ルート、中間、クロス署名で影響が違う</td></tr>
+<tr><td>コード署名</td><td>長期検証の前提を見直せる</td><td>ツールチェーンとHSM対応が要確認</td></tr>
+<tr><td>将来候補</td><td>用途別に置き換え余地あり</td><td>初回移行を先送りする理由にはしにくい</td></tr>
+</tbody>
+</table></div>
+<h2>自分向けメモ</h2>
+<p>この話は、セキュリティ担当だけでなく、基盤運用、ID管理、証明書管理、SaaS連携を持つチームの棚卸しテーマとして扱いたい。</p>
+<ul>
+<li>TLSだけでなく、社内PKI、コード署名、CI/CD成果物署名、SAML/OIDCまわりの署名依存も洗う。</li>
+<li>「暗号化はPQC対応済み」というベンダー説明が、署名や証明書まで含むのか確認する。</li>
+<li>証明書サイズ増加は、古いロードバランサ、WAF、組み込みクライアント、プロキシで問題になりやすい。</li>
+<li>SAP/ERPまわりでは、SNC、Web Dispatcher、Fiori、BTP連携、IDプロバイダ、電子署名基盤など、暗号ライブラリの更新タイミングを確認したい。</li>
+<li>2029年を目標にするなら、2026年時点では「影響箇所一覧」と「検証環境」の準備が主タスクになる。</li>
+</ul>
+<p>Cloudflareの記事は、ML-DSAが理想的だから採用するという話ではない。理想候補を待てるほど移行時間が残っていないため、初回移行は現行標準で進め、その後に用途別のより良い署名を取り込むという現実的なロードマップとして読むのがよい。</p>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://blog.cloudflare.com/ml-dsa-will-have-to-do/">Cloudflare Blog - Why we cannot wait for better post-quantum signature algorithms</a> - 今回の主情報。ML-DSAで初回移行を進めるべき理由、候補署名の比較、2029年目標を整理。</li>
+<li><a href="https://csrc.nist.gov/projects/post-quantum-cryptography">NIST - Post-Quantum Cryptography Standardization</a> - NISTのポスト量子暗号標準化プロジェクト。</li>
+<li><a href="https://csrc.nist.gov/pubs/fips/204/final">NIST FIPS 204 - Module-Lattice-Based Digital Signature Standard</a> - ML-DSAの標準仕様。</li>
+<li><a href="https://www.cloudflare.com/learning/ssl/post-quantum-cryptography/">Cloudflare - Post-Quantum Cryptography</a> - CloudflareのPQC概説。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>post-quantum cryptography</li>
+<li>ML-DSA</li>
+<li>ML-KEM</li>
+<li>NIST</li>
+<li>TLS</li>
+<li>PKI</li>
+<li>quantum-safe</li>
+<li>certificate chain</li>
+<li>code signing</li>
+<li>DNSSEC</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://blog.cloudflare.com/ml-dsa-will-have-to-do/">blog.cloudflare.com - ml-dsa-will-have-to-do</a></p></section>
+    </article>
+  </main>
+</body>
+</html>
