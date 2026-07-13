@@ -1,5 +1,19 @@
 [
   {
+    "file": "AI/2026-07-13_AM_MCP_RC仕様ステートレス化.md",
+    "slug": "2026-07-13_AM_MCP_RC仕様ステートレス化",
+    "title": "MCP RC仕様ステートレス化",
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "created": "2026-07-13",
+    "source": "https://blog.modelcontextprotocol.io/posts/2026-07-28-release-candidate/",
+    "importance": "high",
+    "confidence": "high",
+    "summary": "Model Context ProtocolのRCは、セッション固定型の運用からHTTPステートレス設計へ移行し、認可強化と拡張ガバナンスを一本化する。AI接続基盤の運用負荷や移行戦略を見直す価値が高い。",
+    "excerpt": "Model Context ProtocolのRCは、セッション固定型の運用からHTTPステートレス設計へ移行し、認可強化と拡張ガバナンスを一本化する。AI接続基盤の運用負荷や移行戦略を見直す価値が高い。",
+    "url": "articles/2026-07-13_AM_MCP_RC仕様ステートレス化.html"
+  },
+  {
     "file": "Security/2026-07-12_AM_Cloudflareポスト量子署名移行.md",
     "slug": "2026-07-12_AM_Cloudflareポスト量子署名移行",
     "title": "Cloudflareポスト量子署名移行",
