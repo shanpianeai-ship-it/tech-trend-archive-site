@@ -14,6 +14,20 @@
     "url": "articles/2026-07-13_AM_MCP_RC仕様ステートレス化.html"
   },
   {
+    "file": "Security/2026-07-13_GHSA-84rm_Coder_AI_Bridge_TLS検証不備.md",
+    "slug": "2026-07-13_GHSA-84rm_Coder_AI_Bridge_TLS検証不備",
+    "title": "GHSA-84rm: Coder AI Bridge TLS検証不備",
+    "genre": "Security",
+    "genreLabel": "Security",
+    "created": "2026-07-13",
+    "source": "https://github.com/advisories/GHSA-84rm-42xw-mx52",
+    "importance": "high",
+    "confidence": "high",
+    "summary": "Coder AI Bridge Proxyが既定設定でTLS検証を無効化し、AIエージェント連携経路のトラフィックが中間者攻撃に晒されると、トークンやプロンプト・レスポンスが窃取され得る脆弱性。",
+    "excerpt": "Coder AI Bridge Proxyが既定設定でTLS検証を無効化し、AIエージェント連携経路のトラフィックが中間者攻撃に晒されると、トークンやプロンプト・レスポンスが窃取され得る脆弱性。",
+    "url": "articles/2026-07-13_GHSA-84rm_Coder_AI_Bridge_TLS検証不備.html"
+  },
+  {
     "file": "Security/2026-07-12_AM_Cloudflareポスト量子署名移行.md",
     "slug": "2026-07-12_AM_Cloudflareポスト量子署名移行",
     "title": "Cloudflareポスト量子署名移行",

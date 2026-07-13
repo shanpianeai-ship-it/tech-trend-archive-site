@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GHSA-84rm: Coder AI Bridge TLS検証不備 | 海外技術情報アーカイブ</title>
+  <meta name="description" content="Coder AI Bridge Proxyが既定設定でTLS検証を無効化し、AIエージェント連携経路のトラフィックが中間者攻撃に晒されると、トークンやプロンプト・レスポンスが窃取され得る脆弱性。">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-07-13</span>
+        <span>Security</span>
+        <span>importance: high</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>Coder AI Bridge Proxyが既定設定でTLS検証を無効化し、AIエージェント連携経路のトラフィックが中間者攻撃に晒されると、トークンやプロンプト・レスポンスが窃取され得る脆弱性。</p>
+      </aside>
+      <h1>GHSA-84rm: Coder AI Bridge TLS検証不備</h1>
+<h2>要約</h2>
+<p>Coder の AI Bridge Proxy（<code>aibridgeproxyd</code>）は、v2.30.0 以降のデフォルト設定で TLS 検証用トランスポートの初期化が不十分で、特定条件下ではサーバ証明書を厳密に検証しません。結果として、AI Bridge と Coder 本体間の HTTPS 通信が、同一ネットワーク上の中間者により盗聴・改ざんされるリスクが生じます。</p>
+<p>脅威成立時には Coder のセッション情報やユーザー提供の API キー（BYOK）に加え、プロンプト/レスポンス本文まで取得可能で、AI連携基盤の秘密情報が一気に露出します。GitHub Advisory の公開情報では、リリース v2.32.7, 2.33.8, 2.34.2 で修正済みであり、現状は運用環境のバージョン確認とネットワーク境界見直しが優先です。</p>
+<h2>背景</h2>
+<p>AI Bridge Proxy は Coder のエンタープライズ向けAI連携を単純化する反面、運用上の初期設定がセキュリティ境界に直結します。公開情報では、デフォルトの transport 設定で <code>InsecureSkipVerify: true</code> が使われ、上流プロキシ設定の有無によって secure transport の適用挙動が分岐していたことが指摘されています。</p>
+<p>重要なポイントは「デフォルト構成そのもの」が危険で、管理者が意図的に緩く設定しなくても、環境変数 <code>HTTP_PROXY / HTTPS_PROXY</code> や誤設定経路の影響で通信誘導が可能という点です。さらに、同じネットワーク内でAI BridgeとCoderが loopback 接続される構成では影響が小さい一方、社内ネットワーク越しで分離された導線だと MITM 成立条件が現実的になります。</p>
+<h2>何が重要か</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>観点</th><th>脆弱性で起きる事</th><th>想定される影響</th></tr></thead>
+<tbody>
+<tr><td>通信安全</td><td>TLS 検証無効化</td><td>機密情報の傍受・改ざん</td></tr>
+<tr><td>情報漏えい</td><td>セッションID・トークン・BYOK</td><td>不正利用、外部データ取得</td></tr>
+<tr><td>操作リスク</td><td>プロンプト/実行結果窃取</td><td>実行内容推定、攻撃面拡大</td></tr>
+<tr><td>運用工数</td><td>リモート接続での再設定</td><td>パッチ適用 + 設定監査が必須</td></tr>
+</tbody>
+</table></div>
+<p>この脆弱性は直接RCE等を即起こすものではありませんが、<strong>AI エコシステムの中核となる認証情報を経路上で奪取される</strong>という点で、実務インパクトは大きいです。特に複数AIツールが同じ実行基盤を共有する環境では、一本の脆弱なプロキシが横断的な情報流出導線になります。</p>
+<h2>自分向けメモ</h2>
+<ul>
+<li>Coder 導入環境は <code>github.com/coder/coder</code> の該当バージョンを確認し、少なくとも 2.34.2 / 2.33.8 / 2.32.7 以降へ更新。</li>
+<li><code>aibridgeproxyd</code> を公開ネットワーク越しで使う場合、必ず経路を再評価し、可能なら loopback / mTLS / 通信経路監視を前提にする。</li>
+<li>環境変数由来の Proxy 設定 (<code>HTTP_PROXY</code>, <code>HTTPS_PROXY</code>) をインベントリ化し、意図しない再送先を許可しない。</li>
+<li>AI Bridge が扱うプロンプト・レスポンスは社外情報資産扱いとして、ログ保全と token/権限ローテーション計画を明文化する。</li>
+<li>既存運用の「AIツール用APIキーを使う前提」を前提として、ネットワーク制御（DNS, ARP 保護, VLAN 分離）を優先順位に加える。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://github.com/advisories/GHSA-84rm-42xw-mx52">GitHub Advisory: GHSA-84rm-42xw-mx52</a> - CVE-2026-55436 の公式要約・詳細（影響範囲・修正バージョン・Workaround）。</li>
+<li><a href="https://api.github.com/advisories/GHSA-84rm-42xw-mx52">GitHub Advisory API</a> - 脆弱性レンジ、CVSS、パッチ情報など。</li>
+<li><a href="https://github.com/coder/coder/security/advisories/GHSA-84rm-42xw-mx52">Coder security advisory</a> - 公式のセキュリティ開示ページ。</li>
+<li><a href="https://github.com/coder/coder/pull/26131">Patch PR #26131</a> - 修正導入の技術的根拠。</li>
+<li><a href="https://github.com/coder/coder/releases/tag/v2.34.2">v2.34.2 release</a> - パッチ適用済み版。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>TLS certificate validation</li>
+<li>InsecureSkipVerify</li>
+<li>Coder AI Bridge Proxy</li>
+<li>MITM</li>
+<li>CWE-295</li>
+<li>BYOK</li>
+<li>CVSS 7.4</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://github.com/advisories/GHSA-84rm-42xw-mx52">github.com - advisories / GHSA-84rm-42xw-mx52</a></p></section>
+    </article>
+  </main>
+</body>
+</html>
