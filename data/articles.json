@@ -14,6 +14,20 @@
     "url": "articles/2026-07-14_SAP_Business_AI_Platform方針.html"
   },
   {
+    "file": "AI/2026-07-14_AM_MCP_RCステートレス化.md",
+    "slug": "2026-07-14_AM_MCP_RCステートレス化",
+    "title": "MCP RC 2026-07-28 (Release Candidate): ステートレス化での運用転換",
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "created": "2026-07-14",
+    "source": "https://blog.modelcontextprotocol.io/posts/2026-07-28-release-candidate/",
+    "importance": "high",
+    "confidence": "high",
+    "summary": "MCP RC（2026-07-28）候補は、セッションID固定前提のMCPをステートレス化し、通常HTTPインフラでの水平分散と監査設計を同時に進める改訂版。導入設計判断を先行しておきたい実務者向けの価値が高い。",
+    "excerpt": "MCP RC（2026-07-28）候補は、セッションID固定前提のMCPをステートレス化し、通常HTTPインフラでの水平分散と監査設計を同時に進める改訂版。導入設計判断を先行しておきたい実務者向けの価値が高い。",
+    "url": "articles/2026-07-14_AM_MCP_RCステートレス化.html"
+  },
+  {
     "file": "AI/2026-07-13_AM_MCP_RC仕様ステートレス化.md",
     "slug": "2026-07-13_AM_MCP_RC仕様ステートレス化",
     "title": "MCP RC仕様ステートレス化",
