@@ -1,5 +1,19 @@
 [
   {
+    "file": "SAP_ERP/2026-07-14_SAP_Business_AI_Platform方針.md",
+    "slug": "2026-07-14_SAP_Business_AI_Platform方針",
+    "title": "SAP Business AI Platform方針",
+    "genre": "SAP_ERP",
+    "genreLabel": "SAP / ERP",
+    "created": "2026-07-14",
+    "source": "https://news.sap.com/2026/05/sap-sapphire-keynote-business-ai-platform-power-autonomous-enterprise/",
+    "importance": "high",
+    "confidence": "high",
+    "summary": "SAPがSapphireで示したBusiness AI Platform方針は、業務データ基盤を起点にエージェント導入を全社設計する方向を明確化した公式情報であり、監査・ガバナンス・実装設計まで含む実務価値が高い。",
+    "excerpt": "SAPがSapphireで示したBusiness AI Platform方針は、業務データ基盤を起点にエージェント導入を全社設計する方向を明確化した公式情報であり、監査・ガバナンス・実装設計まで含む実務価値が高い。",
+    "url": "articles/2026-07-14_SAP_Business_AI_Platform方針.html"
+  },
+  {
     "file": "AI/2026-07-13_AM_MCP_RC仕様ステートレス化.md",
     "slug": "2026-07-13_AM_MCP_RC仕様ステートレス化",
     "title": "MCP RC仕様ステートレス化",

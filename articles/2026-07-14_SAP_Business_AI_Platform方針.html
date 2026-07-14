@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SAP Business AI Platform方針 | 海外技術情報アーカイブ</title>
+  <meta name="description" content="SAPがSapphireで示したBusiness AI Platform方針は、業務データ基盤を起点にエージェント導入を全社設計する方向を明確化した公式情報であり、監査・ガバナンス・実装設計まで含む実務価値が高い。">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-07-14</span>
+        <span>SAP / ERP</span>
+        <span>importance: high</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>SAPがSapphireで示したBusiness AI Platform方針は、業務データ基盤を起点にエージェント導入を全社設計する方向を明確化した公式情報であり、監査・ガバナンス・実装設計まで含む実務価値が高い。</p>
+      </aside>
+      <h1>SAP Business AI Platform方針</h1>
+<h2>要約</h2>
+<p>SAP Sapphire 2026にて公開されたBusiness AI Platformは、個別AI機能を点在させる設計から、業務データ、ガバナンス、監査、統制、業務実行の実装基盤までを一体化した「自律型エンタープライズ」方向へ再設計するシグナルを示している。</p>
+<p>SAP側の一次情報では、単なるチャット活用ではなく、業務プロセス全体でAIエージェントを安全に運用する前提（権限制御、監査証跡、S/4HANA/BDC連携）を強調しており、運用設計の観点で日本語圏の解説がまだ薄い領域だ。</p>
+<h2>背景</h2>
+<p>記事内では、SAPのBusiness AI Platformを中核に、従来の業務アプリと生成AIを接続し、AIガバナンスを前提とした運用構造を示している。特にJoule Studioなど実装寄りのエージェント環境が想定されており、モデル選定・権限・実行ログ・監査性を設計に織り込む必要がある。</p>
+<p>同時期の発表でも「Autonomous Enterprise」の全体像が示されており、今回の記事はその実装論をより具体化した位置づけとして理解できる。SAP環境を持つ開発・運用チームなら、情報収集だけでなく次のPoC設計までつなげられる意味が大きい。</p>
+<h2>何が重要か</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>観点</th><th>重要性</th><th>実務的な意味</th></tr></thead>
+<tbody>
+<tr><td>統治設計</td><td>高</td><td>AI利用の監査性・権限境界が明確化される前提。エージェントが「自動化」だけでなく「説明可能な自動化」に寄る。</td></tr>
+<tr><td>業務データ基盤</td><td>高</td><td>SAP Business Data CloudやS/4HANA連携を軸に、作業ごとの文脈管理を一貫化しやすい。</td></tr>
+<tr><td>導入順序</td><td>中</td><td>SaaS連携や既存RPA/自動化基盤と比較し、ガバナンスコストを先に見積もる必要がある。</td></tr>
+<tr><td>運用リスク</td><td>高</td><td>認証・権限・監査ログ設計が不十分だと、業務AIは現場で逆にオペレーション負債を増やす。</td></tr>
+</tbody>
+</table></div>
+<h2>自分向けメモ</h2>
+<ul>
+<li>まず社内SAPランドスケープで「AIが触れる業務」候補を棚卸しし、<code>業務データ入力/更新/承認</code> の3領域に分解する。</li>
+<li>AIエージェント導入候補のうち、監査証跡が追えないフローは後回しとする。まずはログ取得が簡単な非本番境界からPoCを開始する。</li>
+<li>権限は人単位ではなく職務・役割単位で切る。AI実行アカウントにも最小権限を当て、監査ログの保存期間を明示する。</li>
+<li>SAP Newsで示された方向性を、自チームの運用テンプレ（事前審査、再実行条件、障害時ロールバック）に落とし込む。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://news.sap.com/2026/05/sap-sapphire-keynote-business-ai-platform-power-autonomous-enterprise/">SAP News: SAP Unveils Business AI Platform to Power the Autonomous Enterprise</a> - 公式発表。SAPHireのエージェント実装前提を示す一次情報。</li>
+<li><a href="https://news.sap.com/2026/05/sap-sapphire-sap-unveils-autonomous-enterprise/">SAP News: SAP Unveils the Autonomous Enterprise</a> - 「Autonomous Enterprise」全体像の別記事。今回選定テーマの前後関係を確認できる。</li>
+<li><a href="https://aws.amazon.com/blogs/awsforsap/aws-agentic-standard-operating-procedures-sops-for-erp-automation/">AWS for SAP: Agentic SOPs for ERP Automation</a> - SAP業務での運用SOP観点を補完する比較ソース。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>SAP Business AI Platform</li>
+<li>Autonomous Enterprise</li>
+<li>SAP BTP</li>
+<li>SAP Business Data Cloud</li>
+<li>SAP ERP automation</li>
+<li>監査ログ</li>
+<li>AI ガバナンス</li>
+<li>Agentic SOP</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://news.sap.com/2026/05/sap-sapphire-keynote-business-ai-platform-power-autonomous-enterprise/">news.sap.com - 2026 / 05</a></p></section>
+    </article>
+  </main>
+</body>
+</html>
