@@ -37,6 +37,18 @@
   },
   {
     "file": "[入力元伏せ]",
+    "slug": "2026-07-14-AI・エージェント-モデル別で分岐する調査運用-da846e6f48",
+    "title": "モデル別で分岐する調査運用",
+    "category": "AI・エージェント",
+    "created": "2026-07-14",
+    "status": "",
+    "type": "interest_report",
+    "summary": "Responses APIの即答向けモデルと調査向けモデルを役割分離すると、同一cronでも短尺応答の誤誘導と長尺調査のノイズが減る。",
+    "excerpt": "Responses APIの即答向けモデルと調査向けモデルを役割分離すると、同一cronでも短尺応答の誤誘導と長尺調査のノイズが減る。",
+    "url": "interests/articles/2026-07-14-AI・エージェント-モデル別で分岐する調査運用-da846e6f48.html"
+  },
+  {
+    "file": "[入力元伏せ]",
     "slug": "2026-07-13-AI・エージェント-Responses-APIでコネクタ境界を分ける-e0c857da6a",
     "title": "Responses APIでコネクタ境界を分ける",
     "category": "AI・エージェント",

@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>モデル別で分岐する調査運用 | 興味レポート</title>
+  <meta name="description" content="Responses APIの即答向けモデルと調査向けモデルを役割分離すると、同一cronでも短尺応答の誤誘導と長尺調査のノイズが減る。">
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../../interests/index.html">興味レポート</a>
+    <span class="site-subtitle">Public redacted interest reports</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 興味レポート一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-07-14</span>
+        <span>AI・エージェント</span>
+        <span>interest_report</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>Responses APIの即答向けモデルと調査向けモデルを役割分離すると、同一cronでも短尺応答の誤誘導と長尺調査のノイズが減る。</p>
+      </aside>
+      <h1>モデル別で分岐する調査運用</h1>
+<h2>要約</h2>
+<p>Responses API前提で、短尺回答と長尺調査を別モデルに分けると、出力品質と安全制御の両方が上がる。 同一プロンプトでもモデル役割を固定化することで、調査ノート生成時の不要な生成や判断の揺れを抑えられる。</p>
+<h2>なぜ今見る価値があるか</h2>
+<p>近年、1回の問い合わせで「即時回答」と「根拠付き調査メモ」を同時に求める運用が増える一方、長文調査時だけでなく即答でも 誤情報や過剰な外部参照が増えることがある。運用上は以下が重要になる。</p>
+<ul>
+<li>1本の質問で使うモデルが異なるなら、期待する責務も変わる。</li>
+<li>調査モデルは検証向けの観点（一次情報参照・引用・要約分割）を優先し、即答モデルは速さと簡潔性を優先する。</li>
+<li>失敗時、どちらの流れが詰まったかを識別しやすくする。</li>
+</ul>
+<h2>調査メモ</h2>
+<p>今回確認した実装ポイントは次の3階層。</p>
+<h3>1) 役割分離（モデルフェンス）</h3>
+<ul>
+<li>即答用モデル: 短い確認回答、意思決定補助、要点圧縮。</li>
+<li>調査用モデル: リサーチ、比較、一次情報の照合、長文要約。</li>
+<li>両者を固定することで、投票未確定時の候補選定など運用的に決め打ちしやすくなる。</li>
+</ul>
+<h3>2) プロンプトとツールの境界</h3>
+<ul>
+<li>システム命令と実行可能ツールは最小集合のみ持つ。</li>
+<li>ツールは「読み取り」「生成」「副作用あり操作」で分離し、調査時のみ許容領域を広げる。</li>
+<li>回答時に使う文脈と調査メモ保存時の文脈を意識的に切り分ける。</li>
+</ul>
+<h3>3) 回答ログの監査性</h3>
+<ul>
+<li>モデルID、選定経路、参照したpollをログに残す。</li>
+<li>調査ノートと候補一覧を同じ日付キーで接続する。</li>
+<li>Pages反映は記事保存成功後、buildと公開状態確認までを1セットで扱う。</li>
+</ul>
+<h2>個人向けの読みどころ</h2>
+<ul>
+<li>自動化cronにおける「早く答える」処理と「きちんと調査する」処理が衝突しにくくなる。</li>
+<li>1日1本の運用でも、候補選定・保存・build・報告の成功条件が明確になり、監査不能な運用を減らせる。</li>
+<li>事故リスクは「権限」「停止条件」「見え方」の3点で増えるが、ここを固定することで再実行時の予測可能性が上がる。</li>
+</ul>
+<h2>注意点</h2>
+<ul>
+<li>回答モデルの速度を優先しすぎると、情報元の検証が甘くなる。</li>
+<li>調査モデルを使う場面でも、公開情報・一次情報優先のルールは維持する。</li>
+<li>依存する公開サービスの仕様変更（ポーリングや出力形式変更）により、同一設定でも挙動がズレるため、日次運用ログを残す。</li>
+</ul>
+<h2>参考リンク</h2>
+<ul>
+<li>OpenAI Docs: Responses API</li>
+<li>OpenAI Docs: Tools</li>
+<li>OpenAI Docs: Safety best practices for tool use</li>
+<li>OpenAI Help Center: Agents and tool permissions</li>
+<li>OpenAI Help Center: MCP and API integration guidelines</li>
+</ul>
+    </article>
+  </main>
+</body>
+</html>
