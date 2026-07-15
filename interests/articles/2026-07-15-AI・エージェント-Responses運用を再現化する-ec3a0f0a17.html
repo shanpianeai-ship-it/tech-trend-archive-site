@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Responses運用を再現化する | 興味レポート</title>
+  <meta name="description" content="Responses APIで短尺回答と調査ノート作成を分離すると、同日1本選定でも再現性と監査性が上がる。">
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../../interests/index.html">興味レポート</a>
+    <span class="site-subtitle">Public redacted interest reports</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 興味レポート一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-07-15</span>
+        <span>AI・エージェント</span>
+        <span>interest_report</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>Responses APIで短尺回答と調査ノート作成を分離すると、同日1本選定でも再現性と監査性が上がる。</p>
+      </aside>
+      <h1>Responses運用を再現化する</h1>
+<h2>要約</h2>
+<p>短尺の即時回答は <code>Responses API</code> で低コスト・低待機時間のモデルを使い、調査・レポート生成は長文に強く再現性を優先するモデルへ分岐させると、Cron運用が安定する。 同じテーマで毎日記事を1本生成する運用では、失敗時の再実行条件が曖昧になるとノイズが増えやすく、役割を明確化する価値が高い。</p>
+<h2>なぜ今見る価値があるか</h2>
+<p>この自動化では「毎日1本」「同日重複なし」「選定は投票または運用ロジック」といった条件で走るため、生成の経路がぶれやすい。 Responses APIの運用を分離しておくと、次の点で価値がある。</p>
+<ul>
+<li>運用ログが明確になる: どちらの目的でどのモデルを呼んだかを記録できる。</li>
+<li>回復が速い: 1段階が失敗しても他方を切り出して再実行しやすい。</li>
+<li>監査しやすい: 参照元・採点ロジック・最終保存ファイルを1本の責務に閉じられる。</li>
+</ul>
+<p>今回、当日のDiscord投票は有効票が集まらなかったため、候補1を採用し、実装コストが低い分離設計を検証対象にした。</p>
+<h2>調査メモ</h2>
+<h3>1. 回答責務と調査責務の境界を固定する</h3>
+<ul>
+<li>回答レイヤー: 既知の既存知識ベース＋最短回答。</li>
+<li>調査レイヤー: 公式情報の確認、リンク根拠の確認、要約→保存の一連を厳密化。</li>
+<li>乱数・温度・tool許可の制約を同じにしない。</li>
+</ul>
+<h3>2. Responses の入力制御で再現性を上げる</h3>
+<ul>
+<li>入力は「命令」「参照方針」「フォーマット制約」「失敗時の代替パス」を分離する。</li>
+<li>調査モデルには <code>tool</code> 実行を絞る。<code>read-only</code> 前提で収集・要約する方針を初期化時に固定。</li>
+<li>調査時に <code>publish: true</code> の保存判断と <code>source_count</code> を必ず埋め、記事が1件化した時に追跡できるようにする。</li>
+</ul>
+<h3>3. 監査ログの最小セットを毎回更新</h3>
+<ul>
+<li>選定根拠（poll ID / 選定番号）を候補一覧の frontmatter に残す。</li>
+<li>保存先は <code>興味/&lt;カテゴリ&gt;/YYYY-MM-DD_タイトル.md</code> に固定。</li>
+<li>build後の出力URLとコミット有無を結果チャネルへ返却。</li>
+</ul>
+<h3>4. 過剰調査を避けるための収束条件</h3>
+<ul>
+<li>3つの一次情報観点だけを採る。</li>
+<li>公式Docsの運用方針</li>
+<li>tool呼び出しの境界管理</li>
+<li>安全設定の既定値</li>
+<li>ここを逸脱しないことで1本記事の範囲を過不足なく保つ。</li>
+</ul>
+<h2>個人向けの読みどころ</h2>
+<ul>
+<li>Cron運用は「回答品質」より「再現可能性」を上げる設計が効く。</li>
+<li>Responses APIの役割分離は、1日の意思決定を速くするだけでなく、次回失敗時の切戻し基準を作る。</li>
+<li>同じ選定ロジックでも <code>selected_answer</code> を残すと、後で選定履歴を比較しやすく、<code>build</code> 失敗時の原因切り分けが早くなる。</li>
+</ul>
+<h2>注意点</h2>
+<ul>
+<li>tool呼び出し結果は公開前に伏せ字ルールに通す。記事公開側では金額・住所・個人識別情報を残さない。</li>
+<li>「実行速度」だけを評価軸にすると、参照元の一次性が落ちる。</li>
+<li>pollを参照するcronは、投票ゼロ時でも候補ルールが必ず成立する形にしておく。</li>
+</ul>
+<h2>参考リンク</h2>
+<ul>
+<li>OpenAI Docs: Responses API</li>
+<li>OpenAI Docs: Tools and function calling</li>
+<li>OpenAI Help Center: Agent operations and permissions</li>
+<li>OpenAI Docs: Safety best practices</li>
+</ul>
+    </article>
+  </main>
+</body>
+</html>
