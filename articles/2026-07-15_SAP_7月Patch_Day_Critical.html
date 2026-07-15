@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SAP July 2026 Security Patch Day: まず先に見るべきライン | 海外技術情報アーカイブ</title>
+  <meta name="description" content="2026年7月のSAP Security Patch Dayは16件の新規ノートと既存更新を含み、公開経路や権限境界をまたぐ脆弱性の優先対応が重要。SAP基盤の優先順位付けを先に決める価値が高い情報です。">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-07-15</span>
+        <span>SAP / ERP</span>
+        <span>importance: high</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>2026年7月のSAP Security Patch Dayは16件の新規ノートと既存更新を含み、公開経路や権限境界をまたぐ脆弱性の優先対応が重要。SAP基盤の優先順位付けを先に決める価値が高い情報です。</p>
+      </aside>
+      <h1>SAP July 2026 Security Patch Day: まず先に見るべきライン</h1>
+<h2>要約</h2>
+<p>7月のSAP Security Patch Dayは、ABAP/Approuter/Commerce Cloud/HANA関連を含む複数製品で、RCE・権限判定・設定周りの脆弱性に関するSecurity Noteを集中的に公開しています。</p>
+<p>記事冒頭で言及されているように、月例として公開されたノートには優先度の高い項目が混在しているため、<strong>外部到達性・認証境界への影響</strong>を軸に棚卸しを先に行い、CMDB上で適用順を決めることが有効です。</p>
+<h2>背景</h2>
+<p><code>SAP Security Patch Day - July 2026</code>では16件の新規Security Noteと1件のGithub security advisoryが公開され、各Noteに対してCVE参照が付与されています。SAPからは「優先的に反映する」ことが繰り返し強調されており、特に次の3軸が実務上重要です。</p>
+<ul>
+<li>SAP NetWeaver AS ABAP/APJrouter/AS Java/Web Container</li>
+<li>SAP Commerce Cloud / SAP HANA系サービス</li>
+<li>SAP S/4HANA関連の権限チェック系脆弱性</li>
+</ul>
+<p>本日は夜枠ポールの1時間後時点で有効票がなく、選定ルールにより候補6を採用しました。</p>
+<h2>何が重要か</h2>
+<h3>優先順を決める評価軸</h3>
+<div class="table-wrap"><table>
+<thead><tr><th>観点</th><th>まず確認する理由</th><th>具体的な候補群</th></tr></thead>
+<tbody>
+<tr><td>外部到達性</td><td>外部ネットワークから到達可能な境界は初動被害が大きい</td><td>SAP Approuter, SAP S/4HANA Payment, SAP Fiori Launchpad</td></tr>
+<tr><td>認証・認可</td><td>身元検証の不備は影響が広がりやすい</td><td>SAP NetWeaver ABAP, SAP Approuter, S/4HANA Draft/支払い系</td></tr>
+<tr><td>配下基盤依存</td><td>サービス横断で使用される基盤の更新漏れを防ぐ</td><td>SAP Integration Suite, SAP Commerce Cloud, SAP NetWeaver AS Java</td></tr>
+</tbody>
+</table></div>
+<h3>今回の候補から読み取る実務ポイント</h3>
+<ul>
+<li><strong>SAP NetWeaver AS ABAP (CVE-2026-44747)</strong>: メモリ破壊系脆弱性は長時間運用中の基盤不安定化を起こす可能性があり、対象コンポーネント検出と適用可否が最優先。</li>
+<li><strong>SAP Approuter (CVE-2026-27690 / 44745)</strong>: リクエスト処理の脆弱性は認可判定経路に直結するため、外向け認証ゲートの監査と到達制御の確認が必要。</li>
+<li><strong>SAP S/4HANA権限処理 (CVE-2026-44768 / 44770 ほか)</strong>: 権限チェック系は侵害時の二次被害が大きいため、重要トランザクションの監査ログ整備と暫定制限を先に検討。</li>
+<li><strong>SAP Commerce Cloud / SAP Integration Suite / HANA XSA</strong>: 改修範囲が広く、運用管理者が実施箇所を見落としやすい。利用しているかの有無だけでなく、実際の到達経路を照合する。</li>
+</ul>
+<h3>参考となる初期アクション（自分向け）</h3>
+<ol>
+<li>CMDBで対象システムを抽出し、<code>SAP NetWeaver AS ABAP/Java</code>, <code>S/4HANA</code>, <code>Approuter</code>, <code>Commerce Cloud</code>, <code>Integration Suite</code> の有無を確認。</li>
+<li>14日版/7月版のSecurity Note番号で対象システムを突合し、<strong>外部公開経路があるものを先行実施</strong>。</li>
+<li>権限処理関連CVEは業務停止リスクを考慮しつつ、監査ログ・暫定制御（アクセス制限/トークンローテーション）をセットで準備。</li>
+<li>適用後は脆弱性修正前後で不正応答やログ異常が増えていないか、監視ルールを1～2日追加して確認。</li>
+</ol>
+<h2>自分向けメモ</h2>
+<ul>
+<li>月例パッチでも「外部到達性」が高い領域は緊急対応級に扱う。</li>
+<li>SAPでは同時適用対象に <code>S/4HANA</code> と <code>Approuter</code> が混ざると、業務影響より先に監査対応が必要になることがある。</li>
+<li>CTF/開発テストと本番のカーネル・基盤バージョンを統一し、Patch Day対応漏れを最小化する。</li>
+<li><code>選定: 同票なし</code> であった分、今夜は「実務影響が大きく、一次情報が明確」なSAP公式パッチ情報を優先して読み切る。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://support.sap.com/en/my-support/knowledge-base/security-notes-news/july-2026.html">SAP Security Patch Day - July 2026</a>: 今回の一次情報元。ノート一覧と対象のCVE・対象製品を確認。</li>
+<li><a href="https://support.sap.com/en/my-support/knowledge-base/security-notes-news.html">SAP Security Notes &amp; News</a>: SAPセキュリティノート運用全体の参照先。</li>
+<li><a href="https://me.sap.com/notes/3747367">SAP Support: Security Note 3747367 (CVE-2026-44747)</a>: ABAP側のメモリ破壊系への一次参照。</li>
+<li><a href="https://www.cve.org/CVERecord?id=CVE-2026-44747">CVE-2026-44747</a>: SAP NetWeaver AS ABAP側の脆弱性公開。</li>
+<li><a href="https://www.cve.org/CVERecord?id=CVE-2026-27690">CVE-2026-27690</a>: SAP ApprouterのHTTP Request Smuggling。</li>
+<li><a href="https://www.cve.org/CVERecord?id=CVE-2026-44768">CVE-2026-44768</a>: SAP CRM WebClient UIのセキュリティ設定不備。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>SAP Security Patch Day</li>
+<li>SAP Security Notes</li>
+<li>SAP NetWeaver AS ABAP</li>
+<li>SAP Approuter</li>
+<li>SAP S/4HANA Security</li>
+<li>SAP Commerce Cloud</li>
+<li>Authorization Bypass</li>
+<li>CVE</li>
+<li>Security Note</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://support.sap.com/en/my-support/knowledge-base/security-notes-news/july-2026.html">support.sap.com - en / my-support</a></p></section>
+    </article>
+  </main>
+</body>
+</html>

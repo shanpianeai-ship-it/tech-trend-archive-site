@@ -1,5 +1,19 @@
 [
   {
+    "file": "SAP_ERP/2026-07-15_SAP_7月Patch_Day_Critical.md",
+    "slug": "2026-07-15_SAP_7月Patch_Day_Critical",
+    "title": "SAP July 2026 Security Patch Day: まず先に見るべきライン",
+    "genre": "SAP_ERP",
+    "genreLabel": "SAP / ERP",
+    "created": "2026-07-15",
+    "source": "https://support.sap.com/en/my-support/knowledge-base/security-notes-news/july-2026.html",
+    "importance": "high",
+    "confidence": "high",
+    "summary": "2026年7月のSAP Security Patch Dayは16件の新規ノートと既存更新を含み、公開経路や権限境界をまたぐ脆弱性の優先対応が重要。SAP基盤の優先順位付けを先に決める価値が高い情報です。",
+    "excerpt": "2026年7月のSAP Security Patch Dayは16件の新規ノートと既存更新を含み、公開経路や権限境界をまたぐ脆弱性の優先対応が重要。SAP基盤の優先順位付けを先に決める価値が高い情報です。",
+    "url": "articles/2026-07-15_SAP_7月Patch_Day_Critical.html"
+  },
+  {
     "file": "SAP_ERP/2026-07-14_SAP_Business_AI_Platform方針.md",
     "slug": "2026-07-14_SAP_Business_AI_Platform方針",
     "title": "SAP Business AI Platform方針",
