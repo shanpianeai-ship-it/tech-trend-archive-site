@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Do AI Agents Know When a Task Is Simple? | 海外技術情報アーカイブ</title>
+  <meta name="description" content="arXiv掲載の新規研究は、LLMエージェントがタスク難易度を見積もり、最小必要範囲で進めることで、成功率を保ちながら実行コストと再読込みを大幅に削減する設計を示す。国内には実装比較事例が少なく、作業効率改善の型を先回りして理解しやすい。">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-07-15</span>
+        <span>AI / LLM / Agent</span>
+        <span>importance: high</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>arXiv掲載の新規研究は、LLMエージェントがタスク難易度を見積もり、最小必要範囲で進めることで、成功率を保ちながら実行コストと再読込みを大幅に削減する設計を示す。国内には実装比較事例が少なく、作業効率改善の型を先回りして理解しやすい。</p>
+      </aside>
+      <h1>Do AI Agents Know When a Task Is Simple?</h1>
+<h2>要約</h2>
+<p>この論文は、LLMエージェントが「必要な努力を見積もる」能力の不足を問題として、<code>E3</code>（Estimate, Execute, Expand）という3段構えを提案する。 まずタスク難易度の初期見積りを行い、最小限の実行経路だけを進め、検証で不足が出た場合のみ範囲を拡張する。 <code>MSE-Bench</code>上では 121 件の編集タスクで成功率 100% を保ったまま、平均コストとトークン使用量、参照ファイル数を大幅削減し、リソース浪費の主要因となる「再読込み過多」を抑える実験結果を示している。</p>
+<h2>背景</h2>
+<p>arXiv の論文（<code>2607.13034v1</code>）と公開コード（GitHub）から読み取れる流れは次の3点。</p>
+<ol>
+<li>従来のエージェントは最初から広い文脈を読み込み、同一作業でも同じ失敗コストを繰り返しやすい。</li>
+<li>最適性の評価として最小必要実行コスト <code>C_min</code> を定義し、<code>ACRR</code>（認知過剰コスト率）で冗長性を定量化する。</li>
+<li>Max-Context-First / Adaptive Retrieval と比較して、E3は成功を維持しつつ実行効率が最優位。</li>
+</ol>
+<p>論文は <code>MSE-Bench</code>（レベル1〜3のコード編集タスク）に加え、実APIを使う <code>LLM-Case</code> でも <code>gpt-4o</code> を対象に検証しているため、純粋なシミュレーション比較に留まらず実装実務寄りの示唆が得られる。</p>
+<h2>何が重要か</h2>
+<h3>1. コスト削減の主軸は「最小実行」の設計</h3>
+<div class="table-wrap"><table>
+<thead><tr><th>観点</th><th>E3以前（最大文脈優先）</th><th>E3</th></tr></thead>
+<tbody>
+<tr><td>実行方針</td><td>先に広く情報収集</td><td>初期推定 → 必要最小だけ実行</td></tr>
+<tr><td>成功率（MSE-Bench）</td><td>100%</td><td>100%</td></tr>
+<tr><td>平均コスト（論文報告）</td><td>参照ベースで高止まり</td><td>大幅低下</td></tr>
+<tr><td>トークン使用</td><td>多め</td><td>大幅低下</td></tr>
+<tr><td>読み込むファイル数</td><td>多い</td><td>大幅低下</td></tr>
+</tbody>
+</table></div>
+<h3>2. 成功率を落とさない効率化が可能な条件</h3>
+<p><code>C_min</code> を基準化しているため、「早いが失敗する」極端な貪欲化ではなく、検証で不足を検知して拡張するフェーズ制御が成立する。 特に、固定コンテキスト長に依存しがちな自動修正ワークフローでは、失敗時だけ追加取得する設計が運用しやすい。</p>
+<h3>3. 運用視点での価値</h3>
+<ul>
+<li>低コスト化の効果は、実験環境だけでなく、API単価や実行待ち時間が支配的な本番エージェントにも転用しやすい。</li>
+<li>タスク難易度推定の誤差を前提とした段階的拡張は、エラーが起きても破綻しにくく、監査可能なコストメトリクス設計がしやすい。</li>
+<li>「どの時点で追加調査を許可するか」を明示できるため、社内でのエージェント利用ガイドラインに落としやすい。</li>
+</ul>
+<h2>自分向けメモ</h2>
+<ul>
+<li>自動化フローを組む際は、まず「最大読込」型ポリシーを外し、<code>Estimate/Execute/Expand</code>の順序を明文化する。</li>
+<li><code>ACRR</code> を品質KPIに追加し、成功率だけでなく冗長実行率をレビュー対象にする。</li>
+<li>gpt-4o等の高額モデルでは、特に「最小有効パス」の採用率を上げるチューニングを優先し、必要時のみ展開するガードを実装する。</li>
+<li>例外ログに「展開理由（検証失敗の種類）」を残すと、後でポリシーパラメータを調整しやすい。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://arxiv.org/abs/2607.13034v1">Do AI Agents Know When a Task Is Simple?</a>: 論文本文（アブストラクト/更新情報）。</li>
+<li><a href="https://github.com/eejyin/Do-AI-Agents-Know-When-a-Task-Is-Simple-Toward-Complexity-Aware-Reasoning-and-Execution">E3 + MSE-Bench GitHub</a>: 参照コード・ベンチマーク実装・再現用手順。</li>
+<li><a href="https://github.com/eejyin/Do-AI-Agents-Know-When-a-Task-Is-Simple-Toward-Complexity-Aware-Reasoning-and-Execution/blob/main/README.md">E3 README（コスト指標/主要結果）</a>: <code>ACRR</code> や <code>MSE-Bench</code> の実装定義を確認できる。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>AI agent</li>
+<li>task complexity</li>
+<li>E3</li>
+<li>MSE-Bench</li>
+<li>ACRR</li>
+<li>execution redundancy</li>
+<li>cost-aware inference</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://arxiv.org/abs/2607.13034v1">arxiv.org - abs / 2607.13034v1</a></p></section>
+    </article>
+  </main>
+</body>
+</html>
