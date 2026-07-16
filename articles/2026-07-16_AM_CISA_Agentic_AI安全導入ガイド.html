@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CISAが示すAgentic AI安全導入ガイド | 海外技術情報アーカイブ</title>
+  <meta name="description" content="CISAと海外パートナーが提示したAgentic AI導入ガイドを要約。権限設計・監査・監視を前提化し、低リスクから段階導入する運用設計が事故防止の要点となる。">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-07-16</span>
+        <span>Security</span>
+        <span>importance: high</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>CISAと海外パートナーが提示したAgentic AI導入ガイドを要約。権限設計・監査・監視を前提化し、低リスクから段階導入する運用設計が事故防止の要点となる。</p>
+      </aside>
+      <h1>CISAが示すAgentic AI安全導入ガイド</h1>
+<h2>要約</h2>
+<p>CISA は米国政府と国際機関（ASD ACSCなど）と共同で、Agentic AI 導入時の実務リスクと対策を示すガイドを公開した。 本記事では、Agentic AI がもつ「自律的に判断・実行し、かつ監査性が取りにくい」という特性に対して、アクセス権最小化、ユースケース選定順、セキュリティ統合の考え方を提示している。</p>
+<p>要するに、まず「どの権限を誰が何を実行できるか」を明文化し、続けて「その実行がどう記録されるか」を前提に実装する運用が重要。</p>
+<h2>背景</h2>
+<p>記事本体のポイントは以下の通り。</p>
+<ol>
+<li>Agentic AI は利用価値が高い一方、拡張された攻撃面（attack surface）を作る。</li>
+<li>脱線しやすいポイントとして、広範権限の付与、低コストで誤動作を起こす自動化、監査ログの空白が挙げられる。</li>
+<li>CISA は防御側の基本設計として、以下を推奨している。</li>
+</ol>
+<ul>
+<li>不要な広域権限の付与回避</li>
+<li>低リスク・非機密領域からの段階導入</li>
+<li>組織のセキュリティモデルに組み込む形での運用統合</li>
+</ul>
+<h2>何が重要か</h2>
+<p>AIエージェント導入を考えるとき、通常の「アプリ利用」を超える監督軸が必要になる。候補8を選んだ理由は、単発情報というより<strong>運用品質が高い統治方針</strong>を示しているため。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>観点</th><th>従来の実務（よくある失敗）</th><th>ガイド型導入（今回の提言）</th></tr></thead>
+<tbody>
+<tr><td>権限設計</td><td>機能要件優先で広い権限を付与しがち</td><td>機能ごとに最小権限化し、横展開しにくい構成に分割</td></tr>
+<tr><td>利用開始順</td><td>いきなり重要業務に使う</td><td>低リスク/非機密ユースケースから段階導入</td></tr>
+<tr><td>記録性</td><td>実行ログが個別実装に依存し追跡漏れが起きる</td><td>監査・監視の設計を実装前提として定義</td></tr>
+<tr><td>運用</td><td>インシデント後に対策を追加</td><td>リリース前にリスク受容と抑止策をセット化</td></tr>
+</tbody>
+</table></div>
+<h3>実務で効く理由</h3>
+<ul>
+<li>Agentic AI は「実行主体が増える」ため、既存の認証・権限・監査フローより設計の難易度が高い。</li>
+<li>重要なのは、どのタスクが自動化対象かより、<strong>誰がそのタスクを監督するか</strong>の整理。</li>
+<li>CISA のガイドは規制文言ではなく、実装者が読みやすい順番で項目を並べているため、運用移行時に即戦力として使える。</li>
+</ul>
+<h2>自分向けメモ</h2>
+<ul>
+<li>OpenClaw や GitHub Pages の自動化に使う AI ワークフローでも、</li>
+<li><code>実行権限の最小化</code></li>
+<li><code>実行結果の残存ログ</code></li>
+<li><code>監査用の意思決定記録</code></li>
+</ul>
+<p>を最低限セットで運用しないと、事故時に原因を追えない。</p>
+<ul>
+<li>今回のCron選定は投票結果が空だったため、公式一次情報優先で有効性が高い候補を採用。</li>
+<li>技術検証メモでは、候補記事を「導入ガイド」として読むのではなく、</li>
+</ul>
+<p>「次回運用ポリシーに入れるべき項目」リストに翻訳する形で消化すると定着しやすい。</p>
+<ul>
+<li>実装時チェックとして、</li>
+</ul>
+<p>1) APIキー/トークン管理の分離 2) 監査ログ保存先の固定 3) 例外時のロールバック手順 の3点は必ずノートしておく。</p>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://www.cisa.gov/news-events/news/cisa-us-and-international-partners-release-guide-secure-adoption-agentic-ai">CISA - Agentic AI導入ガイド（公式ニュース）</a>: 主要ガイドの公式公開情報。</li>
+<li><a href="https://www.cisa.gov/resources-tools/resources/careful-adoption-agentic-ai-services">CISA - Careful Adoption of Agentic AI Services（本編ガイド）</a>: ガイド本文。</li>
+<li><a href="https://www.cisa.gov/ai">CISA AIページ（関連資料）</a>: CISAのAI周辺資料の一覧。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>CISA</li>
+<li>Agentic AI</li>
+<li>secure adoption</li>
+<li>least privilege</li>
+<li>zero trust</li>
+<li>auditability</li>
+<li>security governance</li>
+<li>operational risk</li>
+<li>AI service safety</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://www.cisa.gov/news-events/news/cisa-us-and-international-partners-release-guide-secure-adoption-agentic-ai">cisa.gov - news-events / news</a></p></section>
+    </article>
+  </main>
+</body>
+</html>

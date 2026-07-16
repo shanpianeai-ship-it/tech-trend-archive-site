@@ -14,6 +14,20 @@
     "url": "articles/2026-07-16_SAP_AI価値急上昇とガバナンス.html"
   },
   {
+    "file": "Security/2026-07-16_AM_CISA_Agentic_AI安全導入ガイド.md",
+    "slug": "2026-07-16_AM_CISA_Agentic_AI安全導入ガイド",
+    "title": "CISAが示すAgentic AI安全導入ガイド",
+    "genre": "Security",
+    "genreLabel": "Security",
+    "created": "2026-07-16",
+    "source": "https://www.cisa.gov/news-events/news/cisa-us-and-international-partners-release-guide-secure-adoption-agentic-ai",
+    "importance": "high",
+    "confidence": "high",
+    "summary": "CISAと海外パートナーが提示したAgentic AI導入ガイドを要約。権限設計・監査・監視を前提化し、低リスクから段階導入する運用設計が事故防止の要点となる。",
+    "excerpt": "CISAと海外パートナーが提示したAgentic AI導入ガイドを要約。権限設計・監査・監視を前提化し、低リスクから段階導入する運用設計が事故防止の要点となる。",
+    "url": "articles/2026-07-16_AM_CISA_Agentic_AI安全導入ガイド.html"
+  },
+  {
     "file": "SAP_ERP/2026-07-15_SAP_7月Patch_Day_Critical.md",
     "slug": "2026-07-15_SAP_7月Patch_Day_Critical",
     "title": "SAP July 2026 Security Patch Day: まず先に見るべきライン",
