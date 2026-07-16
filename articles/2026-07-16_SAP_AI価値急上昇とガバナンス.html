@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SAP AI価値急上昇とガバナンスの課題 | 海外技術情報アーカイブ</title>
+  <meta name="description" content="SAP公式調査はAI投資ROI上昇を示しつつ、agentic AIではガバナンス未成熟が主要リスクと示した。ERP運用では導入前に権限制御と監査設計を優先的に見直す価値が高い。">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-07-16</span>
+        <span>SAP / ERP</span>
+        <span>importance: high</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>SAP公式調査はAI投資ROI上昇を示しつつ、agentic AIではガバナンス未成熟が主要リスクと示した。ERP運用では導入前に権限制御と監査設計を優先的に見直す価値が高い。</p>
+      </aside>
+      <h1>SAP AI価値急上昇とガバナンスの課題</h1>
+<h2>要約</h2>
+<p>SAPとOxford Economicsの共同調査は、企業のAI投資に対するROI（投資対効果）が継続的に上昇していることを示している。特にagentic AIの期待値は高く、2年後にROIが大きく伸長する見通しも示された。</p>
+<p>一方で、同調査は同時に、データ品質・ガバナンス・人材適応の未整備を明確に示している。つまり「導入して価値が出る」かどうかは、技術実装以前に、業務コンテキストに沿った統制の整備で決まるという示唆が強い。</p>
+<h2>背景</h2>
+<p>本記事は、SAP公式の研究発表として、世界2,600社の調査結果を元に次の実態を示している。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>論点</th><th>数値</th></tr></thead>
+<tbody>
+<tr><td>グローバル平均AI投資</td><td>2800万ドル</td></tr>
+<tr><td>今期ROI予測</td><td>21%</td></tr>
+<tr><td>2年後のROI予測</td><td>38%</td></tr>
+<tr><td>Agentic AIの2年後期待ROI</td><td>1760万ドル（前年4倍超）</td></tr>
+<tr><td>実務的にagenticへ準備が整っている企業</td><td>3%</td></tr>
+</tbody>
+</table></div>
+<p>この差が示すのは、<strong>AIは伸びるが、agenticを実戦運用に移す企業基盤はまだ追いついていない</strong>という構造である。データ品質が最も大きなボトルネックであること、AIガバナンスがまだ12%程度しか十分に成熟していないことも同時に確認された。</p>
+<h2>何が重要か</h2>
+<h3>1. ROIが上がっているのは「導入規模」だけでなく、実務設計の問題でもある</h3>
+<p>投資額の増加に対しROI上昇が見える局面は、業務に合わせた評価基準を持てる企業が恩恵を受ける。特にERP領域では、AI導入の効果が会計・営業・調達・請求のどの指標にどう反映するかを、PoC以前に定義しておく必要がある。</p>
+<h3>2. Agentic AIは「高リスク高インパクト」の境界線で読む</h3>
+<p>候補記事の要旨どおり、agenticは3%しか準備完了企業が少ない。これは、</p>
+<ul>
+<li>実行権限の分離</li>
+<li>agent registry（運用中エージェント管理）</li>
+<li>permission/access controls</li>
+</ul>
+<p>が不十分なまま自動化を広げた場合の事故リスクが高いことを意味する。 SAP周辺での運用は、SAP内蔵機能導入以前に「どのエージェントが何をできるか」を可視化・制約する設計が前提になる。</p>
+<h3>3. 将来はKPI連動のガバナンス設計が中核になる</h3>
+<p>同調査では、shadow AIや業務での再実行工数増加への懸念、データ成熟不足も示されている。ERP側で見るなら、以下の3点が短期の実務タスクになる。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>視点</th><th>現状課題</th><th>運用アクション</th></tr></thead>
+<tbody>
+<tr><td>投資評価</td><td>効果測定が部門間でばらつく</td><td>部門ごとのKPI（リードタイム、再作業率、誤請求率）をagentic施策と紐付け</td></tr>
+<tr><td>権限制御</td><td>権限境界の整理不足</td><td>agentごとのアクセス範囲を最小権限で定義し、実行ログとジョブ種別を一元化</td></tr>
+<tr><td>監査</td><td>人的確認フローと自動化が分断</td><td>人間の最終承認を必要とするシナリオと自動実行許可シナリオを分離</td></tr>
+</tbody>
+</table></div>
+<h2>自分向けメモ</h2>
+<ul>
+<li>SAP周辺でagenticを議論するときは、まず「ROIだけでなく失敗コスト（再実行・監査負荷）」を同時に見積もる。</li>
+<li>自部署では、agent実装前に最小限の監査設計（権限、ログ、例外停止）を必須化し、PoCはこの制約下で回す。</li>
+<li>調査レポートを読む際は、ベンダーの数値をそのまま受け取らず、実務の既存業務フローに当てて「使うのか使わないのか」を切る。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://news.sap.com/2026/07/business-value-ai-spiking-increased-adoption-agentic-expectations/">SAP News: Business Value of AI Is Spiking</a>: 今回の一次情報。投資規模、ROI、agentic期待値、ガバナンス課題を確認。</li>
+<li><a href="https://www.sap.com/documents/2026/07/92b94d7d-5a7f-0010-bca6-c68f7e60039b.html">SAP, Oxford Economics - Value of AI Report 2026</a>: 同調査のベース資料。業務KPIと評価方法の背景確認に使用。</li>
+<li><a href="https://www.sap.com/">SAP: AI governance and control reference</a>: SAP公式ポータル。運用基準の実装時に都度参照する出発点。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>SAP</li>
+<li>AI ROI</li>
+<li>Agentic AI</li>
+<li>AI governance</li>
+<li>Autonomous Enterprise</li>
+<li>ERP</li>
+<li>data quality</li>
+<li>permission control</li>
+<li>AI registry</li>
+<li>SAP News Center</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://news.sap.com/2026/07/business-value-ai-spiking-increased-adoption-agentic-expectations/">news.sap.com - 2026 / 07</a></p></section>
+    </article>
+  </main>
+</body>
+</html>

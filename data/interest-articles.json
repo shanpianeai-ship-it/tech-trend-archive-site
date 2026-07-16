@@ -37,6 +37,18 @@
   },
   {
     "file": "[入力元伏せ]",
+    "slug": "2026-07-16-AI・エージェント-Responses-APIの再実行ポリシー化で失敗時復旧を短縮する-e767a095b4",
+    "title": "Responses APIの再実行ポリシー化で失敗時復旧を短縮する",
+    "category": "AI・エージェント",
+    "created": "2026-07-16",
+    "status": "",
+    "type": "interest_report",
+    "summary": "Responses APIの再実行方針を固定化し、リトライ回数・待機時間・失敗時分岐を揃えることで、当日の1本記事運用を速く回復できる。",
+    "excerpt": "Responses APIの再実行方針を固定化し、リトライ回数・待機時間・失敗時分岐を揃えることで、当日の1本記事運用を速く回復できる。",
+    "url": "interests/articles/2026-07-16-AI・エージェント-Responses-APIの再実行ポリシー化で失敗時復旧を短縮する-e767a095b4.html"
+  },
+  {
+    "file": "[入力元伏せ]",
     "slug": "2026-07-15-AI・エージェント-Responses運用を再現化する-ec3a0f0a17",
     "title": "Responses運用を再現化する",
     "category": "AI・エージェント",

@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Responses APIの再実行ポリシー化で失敗時復旧を短縮する | 興味レポート</title>
+  <meta name="description" content="Responses APIの再実行方針を固定化し、リトライ回数・待機時間・失敗時分岐を揃えることで、当日の1本記事運用を速く回復できる。">
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../../interests/index.html">興味レポート</a>
+    <span class="site-subtitle">Public redacted interest reports</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 興味レポート一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-07-16</span>
+        <span>AI・エージェント</span>
+        <span>interest_report</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>Responses APIの再実行方針を固定化し、リトライ回数・待機時間・失敗時分岐を揃えることで、当日の1本記事運用を速く回復できる。</p>
+      </aside>
+      <h1>Responses APIの再実行ポリシー化で失敗時復旧を短縮する</h1>
+<h2>要約</h2>
+<p>Cron実行で毎日1本だけ公開する運用では、Responses APIの失敗が続くと全体のタイムラインが止まる。 再実行上限、指数バックオフ、再試行対象の分離を固定化し、1回目と2回目以降でモデル/挙動を変えることで、ノイズの多い失敗を速やかに収束できる。</p>
+<h2>なぜ今見る価値があるか</h2>
+<p>このテーマは「実行の再現性」と「監査可能性」に直結する。 OpenAIのResponsesは実行呼び出しが増える構成の中核なので、以下を決めておくと日次での復旧判断が素早くなる。</p>
+<ul>
+<li>再実行可能か（同一リクエストの<code>idempotency</code>準備）</li>
+<li>いつ諦めるか（<code>max_retries</code>上限・総遅延予算）</li>
+<li>失敗時に誰を呼ぶか（短尺モデルへフォールバック）</li>
+</ul>
+<p>特に「投票なしや再調査の選定待ち」は通常運用で発生しやすいため、再実行ポリシーを前倒しで固定しておく価値は高い。</p>
+<h2>追加調査メモ（公式・一次情報ベース）</h2>
+<h3>1. 再試行は「全件一律で再送」ではなく、失敗種別で分ける</h3>
+<p>公式ドキュメント上、API呼び出しは失敗要因（ネットワーク・レート制限・検証エラー）が混在しやすい。 <code>timeout</code>や<code>rate_limit</code>関連は再試行で回復しやすい一方、入力不備は即時修正が必要になる。</p>
+<h3>2. 再試行回数と待機間隔を固定値で管理する</h3>
+<p>運用で迷いやすいのは「何回まで回すか」「いつ諦めるか」の境界。 以下のような基本形を採ると安定する。</p>
+<ul>
+<li>1回目: そのまま再試行（短い待機）</li>
+<li>2回目: 指数バックオフ開始（2倍/4倍）</li>
+<li>3回目: 代替モデル/代替パスへ切替</li>
+<li>4回目: 記録してフォールバック結果に明示し、手動確認キューへ</li>
+</ul>
+<h3>3. 監査ログに最低限残す項目</h3>
+<ul>
+<li>pollに関係なく、選定テーマ（<code>selected_answer</code>）と保存先</li>
+<li>呼び出しの試行回数、最終ステータス、最終選択</li>
+<li><code>publish</code>対象化時の最終報告文</li>
+</ul>
+<h3>4. 公式・信頼情報を確認したいポイント</h3>
+<ul>
+<li>Responses APIの基礎仕様（リクエスト/レスポンス、tool実行方針）</li>
+<li>Tool use（関数呼び出し）時の実行境界</li>
+<li>レート制限と安全ガイドライン</li>
+<li>モデル切替時の失敗ハンドリング方針</li>
+</ul>
+<h2>参考リンク</h2>
+<ul>
+<li>OpenAI Docs: Responses API <a href="https://platform.openai.com/docs/guides/responses">platform.openai.com - docs / guides</a></li>
+<li>OpenAI Docs: Tool use in Responses <a href="https://platform.openai.com/docs/guides/tools">platform.openai.com - docs / guides</a></li>
+<li>OpenAI API Reference: Responses endpoint <a href="https://platform.openai.com/docs/api-reference/responses">platform.openai.com - docs / api-reference</a></li>
+<li>OpenAI Docs: Safety best practices <a href="https://platform.openai.com/docs/guides/safety-best-practices">platform.openai.com - docs / guides</a></li>
+</ul>
+<h2>実装に向けた次アクション（要点）</h2>
+<ol>
+<li>poll結果が空でも同一基準で選定できるよう、候補1を固定で選ぶ運用を維持する。</li>
+<li>再試行ルールを設定ファイル化し、<code>tool</code>実行時と本文生成時で共通化する。</li>
+<li>cron後報告では「票数」「選定根拠」「build結果」を明示し、ページ更新履歴を追えるようにする。</li>
+</ol>
+    </article>
+  </main>
+</body>
+</html>
