@@ -1,5 +1,19 @@
 [
   {
+    "file": "SAP_ERP/2026-07-17_SAP_PriorLabs買収とAI基盤.md",
+    "slug": "2026-07-17_SAP_PriorLabs買収とAI基盤",
+    "title": "SAPがPrior Labsを買収：ERP AI基盤の実務インパクトを読む",
+    "genre": "SAP_ERP",
+    "genreLabel": "SAP / ERP",
+    "created": "2026-07-17",
+    "source": "https://news.sap.com/2026/07/sap-completes-acquisition-of-prior-labs/",
+    "importance": "high",
+    "confidence": "high",
+    "summary": "SAP公式発表のPrior Labs買収は、構造化データ処理を強化し、ERP領域のAI基盤を実業務の意思決定に接続できる拡張ポイントを増やす。SAP導入判断に向けた評価観点が明確化される。",
+    "excerpt": "SAP公式発表のPrior Labs買収は、構造化データ処理を強化し、ERP領域のAI基盤を実業務の意思決定に接続できる拡張ポイントを増やす。SAP導入判断に向けた評価観点が明確化される。",
+    "url": "articles/2026-07-17_SAP_PriorLabs買収とAI基盤.html"
+  },
+  {
     "file": "SAP_ERP/2026-07-16_SAP_AI価値急上昇とガバナンス.md",
     "slug": "2026-07-16_SAP_AI価値急上昇とガバナンス",
     "title": "SAP AI価値急上昇とガバナンスの課題",
