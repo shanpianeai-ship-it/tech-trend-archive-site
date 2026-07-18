@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gemini APIのManaged Agents拡張：対話の外側に伸びる実務実行基盤 | 海外技術情報アーカイブ</title>
+  <meta name="description" content="GoogleのGemini APIはManaged Agentsへ背景タスクとremote MCP接続を追加し、対話中心から長時間実行へ接続できる実務的な設計転換を示した。">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-07-18</span>
+        <span>AI / LLM / Agent</span>
+        <span>importance: high</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>GoogleのGemini APIはManaged Agentsへ背景タスクとremote MCP接続を追加し、対話中心から長時間実行へ接続できる実務的な設計転換を示した。</p>
+      </aside>
+      <h1>Gemini APIのManaged Agents拡張：対話の外側に伸びる実務実行基盤</h1>
+<h2>要約</h2>
+<p>GoogleはManaged Agentsに「背景タスク（background tasks）」と「remote MCP接続」を追加することで、単発の会話応答だけでなく、継続実行や外部ツール連携を前提としたエージェント実行設計を強化した。 この発表は、PoC寄りのAI活用から本番運用を見据えた「実行の持続性」「権限分離」「監査可能性」を同時に扱うための土台整備として重要で、エージェント基盤を評価する際の判断軸を更新する価値がある。</p>
+<h2>背景</h2>
+<p>近年、エージェントは「1回の問い合わせに対する応答」から「状態を持つ継続処理」へ変わりつつある。今回の更新は、その流れを受けて:</p>
+<ul>
+<li>実行を継続できるバックグラウンド処理の公式化</li>
+<li>外部サービスやデータ基盤と接続するためのリモートMCP利用拡張</li>
+<li>実務運用を想定した実装ガイドライン整備</li>
+</ul>
+<p>が進む方向を示している。特に、<code>background tasks</code> は、単発タスクでは測りにくいSLAや復旧要件がある運用でも扱いやすく、MCP経由の外部接続は既存業務システムとの接続点設計に直結する。</p>
+<h2>何が重要か</h2>
+<h3>1. エージェントの「実行性」を前提にした評価が必要</h3>
+<p>これまで候補記事評価は機能説明（精度・新機能）に寄りやすかったが、導入判断では次の問いが増える。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>観点</th><th>旧来の問い</th><th>追加で見るべき問い</th></tr></thead>
+<tbody>
+<tr><td>対話設計</td><td>何を言えるか</td><td>何をいつまで継続実行できるか</td></tr>
+<tr><td>接続</td><td>何のAPIを呼べるか</td><td>接続失敗時にどこまで安全に停止できるか</td></tr>
+<tr><td>運用</td><td>コストはどの程度か</td><td>再試行、監査、権限監査が回るか</td></tr>
+</tbody>
+</table></div>
+<h3>2. MCP連携は開発便宜だけでなくガバナンス設計の起点</h3>
+<p>remote MCPは、業務データ・RPA・社内システム接続を増やす一方、以下を突きつける。</p>
+<ul>
+<li>トークンや認証情報のスコープ制御</li>
+<li>実行ログと意思決定根拠の記録</li>
+<li>失敗時のロールバック/再試行経路</li>
+</ul>
+<p>実装側の価値は、単に「接続できるか」ではなく、接続後の破綻時に回復可能な設計があるかで決まる。</p>
+<h3>3. 本番投入を見据えた記事としての価値</h3>
+<p>1回の技術ニュースとして読むだけでは、記事価値は薄い。今回の更新は、既存のRAGやエージェント実験を「日次運用に載せる前提」に引き上げるため、PoC→運用への橋渡しとして評価が高い。</p>
+<h2>自分向けメモ</h2>
+<ul>
+<li>まず社内PoC候補が複数ある場合は、今回のような「実行持続」「外部接続」「再試行挙動」を評価軸の先頭に置く。</li>
+<li>MCP/ツール接続を検討する際は、権限分離の最小構成（読み取り・書き込み・管理）を先に定義し、必要最小のスコープで作る。</li>
+<li>長時間実行ワークフローでは、失敗通知の受け口（通知先、再実行手順、監査ログ）を最初から設計しておく。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://blog.google/innovation-and-ai/technology/developers-tools/expanding-managed-agents-gemini-api/">Google Blog - Expanding Managed Agents in Gemini API</a>: managed agents の公式アナウンス。背景タスクとremote MCPの追加が公開情報。</li>
+<li><a href="https://ai.google.dev/gemini-api/docs/managed-agents-quickstart">Google AI for Developers - Managed Agents Quickstart</a>: managed agents の実装ガイド。設定・呼び出し周辺での実装観点を補う。</li>
+<li><a href="https://ai.google.dev/gemini-api/docs/agents">Google AI for Developers - Agents Overview</a>: Gemini API上のエージェント全体像。実務接続時の全体構成把握に利用。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>Gemini API</li>
+<li>Managed Agents</li>
+<li>Remote MCP</li>
+<li>background tasks</li>
+<li>agent orchestration</li>
+<li>実行基盤</li>
+<li>権限制御</li>
+<li>監査設計</li>
+<li>AI運用</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://blog.google/innovation-and-ai/technology/developers-tools/expanding-managed-agents-gemini-api/">blog.google - innovation-and-ai / technology</a></p></section>
+    </article>
+  </main>
+</body>
+</html>

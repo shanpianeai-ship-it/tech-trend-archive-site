@@ -1,5 +1,33 @@
 [
   {
+    "file": "SAP_ERP/2026-07-18_AM_SAP_PriorLabs買収とTFM統合.md",
+    "slug": "2026-07-18_AM_SAP_PriorLabs買収とTFM統合",
+    "title": "SAPがPrior Labsを買収：Tabular Foundation Modelsで業務AIの実装条件が変わる",
+    "genre": "SAP_ERP",
+    "genreLabel": "SAP / ERP",
+    "created": "2026-07-18",
+    "source": "https://news.sap.com/2026/07/sap-completes-prior-labs-acquisition/",
+    "importance": "high",
+    "confidence": "high",
+    "summary": "SAPがPrior Labs買収を完了し、構造化データを前提にしたAI基盤を強化する方針が示された。ERP実務でのAI実装は、提案精度よりもデータガバナンス・監査設計の再構築が先行する価値がある。",
+    "excerpt": "SAPがPrior Labs買収を完了し、構造化データを前提にしたAI基盤を強化する方針が示された。ERP実務でのAI実装は、提案精度よりもデータガバナンス・監査設計の再構築が先行する価値がある。",
+    "url": "articles/2026-07-18_AM_SAP_PriorLabs買収とTFM統合.html"
+  },
+  {
+    "file": "AI/2026-07-18_Gemini_Managed_Agents拡張.md",
+    "slug": "2026-07-18_Gemini_Managed_Agents拡張",
+    "title": "Gemini APIのManaged Agents拡張：対話の外側に伸びる実務実行基盤",
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "created": "2026-07-18",
+    "source": "https://blog.google/innovation-and-ai/technology/developers-tools/expanding-managed-agents-gemini-api/",
+    "importance": "high",
+    "confidence": "high",
+    "summary": "GoogleのGemini APIはManaged Agentsへ背景タスクとremote MCP接続を追加し、対話中心から長時間実行へ接続できる実務的な設計転換を示した。",
+    "excerpt": "GoogleのGemini APIはManaged Agentsへ背景タスクとremote MCP接続を追加し、対話中心から長時間実行へ接続できる実務的な設計転換を示した。",
+    "url": "articles/2026-07-18_Gemini_Managed_Agents拡張.html"
+  },
+  {
     "file": "SAP_ERP/2026-07-17_SAP_PriorLabs買収とAI基盤.md",
     "slug": "2026-07-17_SAP_PriorLabs買収とAI基盤",
     "title": "SAPがPrior Labsを買収：ERP AI基盤の実務インパクトを読む",
