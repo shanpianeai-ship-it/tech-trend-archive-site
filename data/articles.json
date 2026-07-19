@@ -1,5 +1,19 @@
 [
   {
+    "file": "SAP_ERP/2026-07-19_SAP_PriorLabs買収とTFM統合.md",
+    "slug": "2026-07-19_SAP_PriorLabs買収とTFM統合",
+    "title": "SAPがPrior Labsを買収した意図：TFMで業務AI運用設計の優先順位が変わる",
+    "genre": "SAP_ERP",
+    "genreLabel": "SAP / ERP",
+    "created": "2026-07-19",
+    "source": "https://news.sap.com/2026/07/sap-completes-prior-labs-acquisition/",
+    "importance": "high",
+    "confidence": "high",
+    "summary": "SAPがPrior Labs買収を完了し、表データ向けモデルをSAP業務基盤へ統合する方針を示した。実務価値を出すには、提案精度より先に権限・監査・データ統制設計を更新する視点が重要だ。",
+    "excerpt": "SAPがPrior Labs買収を完了し、表データ向けモデルをSAP業務基盤へ統合する方針を示した。実務価値を出すには、提案精度より先に権限・監査・データ統制設計を更新する視点が重要だ。",
+    "url": "articles/2026-07-19_SAP_PriorLabs買収とTFM統合.html"
+  },
+  {
     "file": "SAP_ERP/2026-07-18_AM_SAP_PriorLabs買収とTFM統合.md",
     "slug": "2026-07-18_AM_SAP_PriorLabs買収とTFM統合",
     "title": "SAPがPrior Labsを買収：Tabular Foundation Modelsで業務AIの実装条件が変わる",
