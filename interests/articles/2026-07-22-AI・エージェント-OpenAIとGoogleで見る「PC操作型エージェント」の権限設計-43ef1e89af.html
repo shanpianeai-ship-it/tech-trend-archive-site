@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OpenAIとGoogleで見る「PC操作型エージェント」の権限設計 | 興味レポート</title>
+  <meta name="description" content="OpenAIとGoogleのComputer Use系エージェントを、個人PCで使う前提で確認ゲート・外部送信制限・ログを軸に比較した。">
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../../interests/index.html">興味レポート</a>
+    <span class="site-subtitle">Public redacted interest reports</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 興味レポート一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-07-22</span>
+        <span>AI・エージェント</span>
+        <span>interest_report</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>OpenAIとGoogleのComputer Use系エージェントを、個人PCで使う前提で確認ゲート・外部送信制限・ログを軸に比較した。</p>
+      </aside>
+      <h1>OpenAIとGoogleで見る「PC操作型エージェント」の権限設計</h1>
+<h2>要約</h2>
+<p>PCを触るエージェントは、性能より「事故を起きにくくする境界設計」が先決で、 比較対象はモデルやUI操作の差分よりも、<strong>確認ゲート・外部送信制限・実行ログ</strong>の3点で見ると実務効率が高い。</p>
+<p>OpenAI系は「関数呼び出し」「ガードレール」「ヒト介入」中心、Google系は「Computer Use（画面制御）」中心で、 どちらも本質的には<strong>権限を分離して承認を入れる</strong>方向だ。 個人運用では、ブラウザ自動化を常用権限と同じ文脈で動かさないのが先に有効。</p>
+<h2>公式ソースから見た違い</h2>
+<h3>1) 実行基盤の定義</h3>
+<ul>
+<li>OpenAI: ツール利用は「関数（function）/ツール呼び出し」でAPIに明示。モデルが必要だと判断した際に tool call を返し、結果を再入力して最終応答を作る前提。</li>
+<li>Google: Computer Use はスクリーンショットを伴い、<code>computer_use</code> でブラウザ/モバイル/デスクトップへUI操作を指示。</li>
+</ul>
+<p>1ステップごとに <code>function_call</code> 相当の行動提案を受け、スクリーンショットと結果を再送して反復ループする。</p>
+<ul>
+<li>意味: OpenAIは「APIで呼べる行動」を前提に組む傾向、Googleは「画面操作を状態遷移で回す」モデルが明確。</li>
+</ul>
+<h3>2) 安全制御の位置</h3>
+<ul>
+<li>OpenAI: ガードレールを入力/出力/ツールへ分け、サイドエフェクト時は人の承認（human review）で停止させる設計が明示されている。</li>
+</ul>
+<p>（承認が必要な tool を持たせ、run を一旦中断→判断→再開する流れ）</p>
+<ul>
+<li>Google: Computer Use は <code>safety_decision</code> を返し、<code>require_confirmation</code> や <code>blocked</code> を扱える。</li>
+</ul>
+<p>さらにプロンプトインジェクション検出を有効化でき、危険な画面誘導への対応を前提にしている。</p>
+<ul>
+<li>意味: OpenAIは<strong>実行前の承認フロー</strong>寄り、Googleは<strong>実行時の安全判定ループ</strong>寄り。実務では両方必要。</li>
+</ul>
+<h3>3) 権限境界の発想</h3>
+<ul>
+<li>OpenAI: MCP/Connector は <code>require_approval</code> を使った制御が前提で、信頼できるサーバに対してだけ使うことを強調。</li>
+</ul>
+<p>また、sandbox Agent 構成で「制御面（harness）」と「実行面（compute）」を分離する設計を説明している。</p>
+<ul>
+<li>Google: 管理エージェントやEnvironmentは sandboxed 環境を前提に、ネットワーク許可リスト（allowlist）で外部送信先を制限。</li>
+</ul>
+<p>機密情報は必要最小範囲で注入し、権限の範囲を明示する方針を取っている。</p>
+<ul>
+<li>意味: OpenAI/Geminiともに、PC権限を直接広げるのではなく、<strong>実行環境を分断して危険を局所化</strong>する思想が共通している。</li>
+</ul>
+<h2>個人PCで使うなら「共通の最低制御」を先に作る</h2>
+<h3>A. 承認ゲート</h3>
+<p>Googleの <code>require_confirmation</code>、OpenAIの approvals を参考に、次を一律停止対象にする。</p>
+<ul>
+<li>送信（POST/PUT/DELETE）を伴う操作</li>
+<li>資格情報入力・保存・更新</li>
+<li>ファイル破壊的操作（削除・上書き）</li>
+<li>送金/決済/認証の代替トランザクション</li>
+</ul>
+<h3>B. 外部送信制限（出力先）</h3>
+<p>Googleの allowlist 構文を採用した最小制限をベースにする。</p>
+<ul>
+<li><code>localhost</code> 系や開発系ドメインのみ許可</li>
+<li>金融・個人情報領域は明示的許可外を禁止</li>
+<li>認証付き外部APIは短命トークンを使い、再利用不可で更新</li>
+</ul>
+<h3>C. ログを先に仕様化</h3>
+<p>自分用に最低4点を残すだけで、事故時にかなり復旧が早い。</p>
+<ol>
+<li>開始時のプロンプト（要件 + 許可境界）</li>
+<li>実行前の意図（承認対象なら誰が許可したか）</li>
+<li>実行結果の要約（成功/失敗/停止理由）</li>
+<li>例外・拒否・中断時の復旧手順</li>
+</ol>
+<h2>実装順（過剰調査を避けた1本構成）</h2>
+<ol>
+<li>OpenAI側は Function Calling + Tool/Guardrails を使い、まずは「API実行」「DB更新」等の副作用ワークロードを定義。</li>
+<li>Google側は Computer Use では最初から <code>browser</code> 環境＋<code>enable_prompt_injection_detection</code> を有効化し、<code>safety_decision</code> を監視。</li>
+<li>両者を同じ「承認エンジン」で統一し、停止したアクションだけをヒト判断で再開する。</li>
+<li>まずは <code>編集系</code> と <code>送信系</code> のみを許可し、検索・閲覧・ドラフト生成は無承認で許可、という段階導入を実施。</li>
+</ol>
+<h2>今回の結論</h2>
+<p>OpenAIもGoogleも、PC操作エージェント単体の「速さ」より、 <strong>どの行為を自動化し、どの行為で必ず止めるか</strong>を明文化した運用が重要。 個人のPC運用では、権限の中心を <code>確認ゲート（approval） &gt; 外部送信制限（allowlist） &gt; 実行ログ（audit）</code> の順で固めると、事故時の影響を小さく保てる。</p>
+<h2>参考リンク</h2>
+<ul>
+<li>OpenAI Docs: Function calling</li>
+</ul>
+<p><a href="https://developers.openai.com/api/docs/guides/function-calling">developers.openai.com - api / docs</a></p>
+<ul>
+<li>OpenAI Docs: Guardrails and human review</li>
+</ul>
+<p><a href="https://developers.openai.com/api/docs/guides/agents/guardrails-approvals">developers.openai.com - api / docs</a></p>
+<ul>
+<li>OpenAI Docs: Tools and MCP（remote MCP/connector）</li>
+</ul>
+<p><a href="https://developers.openai.com/api/docs/guides/tools-connectors-mcp">developers.openai.com - api / docs</a></p>
+<ul>
+<li>OpenAI Docs: Sandboxes for Agents</li>
+</ul>
+<p><a href="https://developers.openai.com/api/docs/guides/agents/sandboxes">developers.openai.com - api / docs</a></p>
+<ul>
+<li>Google AI Studio / Gemini Docs: Computer Use</li>
+</ul>
+<p><a href="https://ai.google.dev/gemini-api/docs/computer-use">ai.google.dev - gemini-api / docs</a></p>
+<ul>
+<li>Google AI Studio / Gemini Docs: Agents overview</li>
+</ul>
+<p><a href="https://ai.google.dev/gemini-api/docs/agents?hl=en">ai.google.dev - gemini-api / docs</a></p>
+<ul>
+<li>Google AI Studio / Gemini Docs: Network allowlist and credentials</li>
+</ul>
+<p><a href="https://ai.google.dev/gemini-api/docs/custom-agents?hl=en">ai.google.dev - gemini-api / docs</a></p>
+    </article>
+  </main>
+</body>
+</html>

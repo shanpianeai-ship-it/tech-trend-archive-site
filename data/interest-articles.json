@@ -37,6 +37,18 @@
   },
   {
     "file": "[入力元伏せ]",
+    "slug": "2026-07-22-AI・エージェント-OpenAIとGoogleで見る「PC操作型エージェント」の権限設計-43ef1e89af",
+    "title": "OpenAIとGoogleで見る「PC操作型エージェント」の権限設計",
+    "category": "AI・エージェント",
+    "created": "2026-07-22",
+    "status": "",
+    "type": "interest_report",
+    "summary": "OpenAIとGoogleのComputer Use系エージェントを、個人PCで使う前提で確認ゲート・外部送信制限・ログを軸に比較した。",
+    "excerpt": "OpenAIとGoogleのComputer Use系エージェントを、個人PCで使う前提で確認ゲート・外部送信制限・ログを軸に比較した。",
+    "url": "interests/articles/2026-07-22-AI・エージェント-OpenAIとGoogleで見る「PC操作型エージェント」の権限設計-43ef1e89af.html"
+  },
+  {
+    "file": "[入力元伏せ]",
     "slug": "2026-07-18-AI・エージェント-Responses再試行ポリシー化でTool障害を収束させる-7ad2c828d7",
     "title": "Responses再試行ポリシー化でTool障害を収束させる",
     "category": "AI・エージェント",
