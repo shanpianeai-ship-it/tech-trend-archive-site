@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Microsoft AIエージェントに対する最小権限設計原則 | 海外技術情報アーカイブ</title>
+  <meta name="description" content="Microsoft公式のAIエージェント向け設計原則は、ID認証とツール境界を分離し、最小権限で運用する実務指針を示す。業務AIの権限事故を抑え、監査しやすい実装へ繋がるため読む価値が高い。">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-07-22</span>
+        <span>Security</span>
+        <span>importance: high</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>Microsoft公式のAIエージェント向け設計原則は、ID認証とツール境界を分離し、最小権限で運用する実務指針を示す。業務AIの権限事故を抑え、監査しやすい実装へ繋がるため読む価値が高い。</p>
+      </aside>
+      <h1>Microsoft AIエージェントに対する最小権限設計原則</h1>
+<h2>要約</h2>
+<p>MicrosoftはAIエージェントが増えると、想定外の権限流用やツール誤用が起きやすくなる前提で、&quot;最小権限 + 身元証明 + ツール結合&quot;を同時に設計することを強く推奨している。</p>
+<p>AIエージェントの実装では、従来の人間向け認可モデルをそのまま当てはめると、認証情報の再利用や過剰権限が横展開しやすい。記事は、各エージェントの役割に応じて短命な権限を割り当て、呼び出せるツールを明示的に限定し、監査で誰が何を実行したかを追跡可能にする流儀が重要である点を示す。</p>
+<h2>背景</h2>
+<p>候補として取り上げた本記事は、Microsoft Security Blogの発表で、生成AI時代に特化したセキュリティ設計を論じる。</p>
+<p>記事の主張は次の3点に集約できる。</p>
+<ul>
+<li>AIエージェントを単なるチャットボットの拡張として扱わず、実行主体として最初から権限境界を設計する。</li>
+<li>認証は個別IDで管理し、ツール呼び出しは固定で許可されたバインディングを通さないと実行できないようにする。</li>
+<li>一時的なアクセストークン、監査ログ、異常時停止の手当てを前提に、&quot;壊れても被害が拡散しにくい&quot;構造にする。</li>
+</ul>
+<h2>何が重要か</h2>
+<p>この方針は、私の運用でもAIアシスタントが定期的に外部API・社内サービスを触る文脈で即効性が高い。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>観点</th><th>従来の実装</th><th>記事の示す実務価値</th></tr></thead>
+<tbody>
+<tr><td>権限設計</td><td>サービスごとの共有アカウントや広め権限</td><td>エージェント単位・用途単位で最小権限を明示し、越境アクセスを抑制</td></tr>
+<tr><td>ツール実行</td><td>許可制御が曖昧で広い実行可能性</td><td>ツールごとに許可スコープを定義し、未許可ツール呼び出しを初期から拒否</td></tr>
+<tr><td>監査・停止</td><td>実行ログが分断されやすい</td><td>ログを統一して誰がどのツールを呼んだかを即追跡し、異常時に即時隔離</td></tr>
+<tr><td>運用コスト</td><td>過剰権限の見直しが後回しになりがち</td><td>最初から権限を絞ることでインシデント調査と復旧範囲を減らせる</td></tr>
+</tbody>
+</table></div>
+<h2>自分向けメモ</h2>
+<ul>
+<li>Obsidianのノート化からGitHub Pages配信まで、Bot/LLMが触る処理はすでに一体化しているため、この原則はこの運用にもそのまま適用できる。</li>
+<li><code>node scripts/build.mjs</code> や <code>git push</code> のような高影響操作は、少なくとも手順上「明示許可あり」状態でのみ実行される設計にしたい。</li>
+<li>今回のCronでも <code>git</code> 書込・Discord投票取得・Web取得・通知投稿を同一アカウント権限で扱っている。将来は読み取り・生成・デプロイを分離した権限管理があると、誤操作と拡散リスクを減らせる。</li>
+<li>実装時は、ツール呼び出し結果と成功/失敗メトリクスを1本のログに寄せ、投票取得不可やビルド失敗時の停止条件を明文化したい。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://www.microsoft.com/en-us/security/blog/2026/07/16/least-privilege-for-ai-agents-identity-access-and-tool-binding/">Microsoft Security Blog: Least privilege for AI agents: Identity, access, and tool binding</a> - 本稿の主要原則。</li>
+<li><a href="https://learn.microsoft.com/azure/role-based-access-control/overview">Azure RBAC の概要</a> - 最小権限の割当思想を設計する基礎。</li>
+<li><a href="https://learn.microsoft.com/azure/active-directory/managed-identities-azure-resources/overview">Azure のマネージド ID 概要</a> - 長寿命の固定シークレット運用を避ける実装選択肢。</li>
+</ul>
+<h2>関連キーワード</h2>
+<p>最小権限, AIエージェント, アイデンティティ, ツールバインディング, RBAC, Managed Identity, 監査ログ, 権限分離, Secret管理</p>
+      <section class="source-box"><h2>Source</h2><p><a href="https://www.microsoft.com/en-us/security/blog/2026/07/16/least-privilege-for-ai-agents-identity-access-and-tool-binding/">microsoft.com - en-us / security</a></p></section>
+    </article>
+  </main>
+</body>
+</html>

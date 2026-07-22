@@ -1,5 +1,19 @@
 [
   {
+    "file": "Security/2026-07-22_Microsoft_AIエージェント_最小権限設計.md",
+    "slug": "2026-07-22_Microsoft_AIエージェント_最小権限設計",
+    "title": "Microsoft AIエージェントに対する最小権限設計原則",
+    "genre": "Security",
+    "genreLabel": "Security",
+    "created": "2026-07-22",
+    "source": "https://www.microsoft.com/en-us/security/blog/2026/07/16/least-privilege-for-ai-agents-identity-access-and-tool-binding/",
+    "importance": "high",
+    "confidence": "high",
+    "summary": "Microsoft公式のAIエージェント向け設計原則は、ID認証とツール境界を分離し、最小権限で運用する実務指針を示す。業務AIの権限事故を抑え、監査しやすい実装へ繋がるため読む価値が高い。",
+    "excerpt": "Microsoft公式のAIエージェント向け設計原則は、ID認証とツール境界を分離し、最小権限で運用する実務指針を示す。業務AIの権限事故を抑え、監査しやすい実装へ繋がるため読む価値が高い。",
+    "url": "articles/2026-07-22_Microsoft_AIエージェント_最小権限設計.html"
+  },
+  {
     "file": "SAP_ERP/2026-07-19_SAP_PriorLabs買収とTFM統合.md",
     "slug": "2026-07-19_SAP_PriorLabs買収とTFM統合",
     "title": "SAPがPrior Labsを買収した意図：TFMで業務AI運用設計の優先順位が変わる",
