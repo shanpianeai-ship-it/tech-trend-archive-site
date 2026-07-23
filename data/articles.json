@@ -1,5 +1,19 @@
 [
   {
+    "file": "AI/2026-07-23_AM_OpenAI_Presence_実運用エージェント基盤.md",
+    "slug": "2026-07-23_AM_OpenAI_Presence_実運用エージェント基盤",
+    "title": "OpenAI Presence（エージェント実運用基盤）",
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "created": "2026-07-23",
+    "source": "https://openai.com/index/introducing-openai-presence/",
+    "importance": "high",
+    "confidence": "high",
+    "summary": "OpenAIが公開したPresenceは、エージェントの実行権限・監査・エスカレーションを運用前提で結びつける設計を示し、社内AI活用のガバナンス設計を見直す際の起点として価値が高い。",
+    "excerpt": "OpenAIが公開したPresenceは、エージェントの実行権限・監査・エスカレーションを運用前提で結びつける設計を示し、社内AI活用のガバナンス設計を見直す際の起点として価値が高い。",
+    "url": "articles/2026-07-23_AM_OpenAI_Presence_実運用エージェント基盤.html"
+  },
+  {
     "file": "Security/2026-07-22_Microsoft_AIエージェント_最小権限設計.md",
     "slug": "2026-07-22_Microsoft_AIエージェント_最小権限設計",
     "title": "Microsoft AIエージェントに対する最小権限設計原則",

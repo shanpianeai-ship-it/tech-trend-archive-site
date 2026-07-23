@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OpenAI Presence（エージェント実運用基盤） | 海外技術情報アーカイブ</title>
+  <meta name="description" content="OpenAIが公開したPresenceは、エージェントの実行権限・監査・エスカレーションを運用前提で結びつける設計を示し、社内AI活用のガバナンス設計を見直す際の起点として価値が高い。">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-07-23</span>
+        <span>AI / LLM / Agent</span>
+        <span>importance: high</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>OpenAIが公開したPresenceは、エージェントの実行権限・監査・エスカレーションを運用前提で結びつける設計を示し、社内AI活用のガバナンス設計を見直す際の起点として価値が高い。</p>
+      </aside>
+      <h1>OpenAI Presence（エージェント実運用基盤）</h1>
+<h2>要約</h2>
+<p>OpenAIが提唱する<code>Presence</code>は、実務でエージェントを社内運用する際に必要な3点――権限境界、監査可観測性、エスカレーション経路――を揃える方向性を示す。</p>
+<p>記事の主眼は、エージェントが単なる対話機能ではなく、業務フローへ介入する実行主体として扱うこと。回答精度だけでなく、実行後の追跡性・停止条件・権限分離が設計の前提になる点が重要だ。</p>
+<p>要約すると、Presenceはエージェントの「どこまでできるか」だけでなく「いつ・なぜ・誰が・どう監査するか」を同時に規定し、実行事故時のリカバリも運用設計に組み込む枠組みだ。</p>
+<h2>背景</h2>
+<p>この分野の注目記事は、AIエージェント普及初期の2つの失敗パターンに対する反省に近い。</p>
+<ol>
+<li>機能実装は進んでも、権限境界と監査ログが整っていないまま本番導入される。</li>
+<li>実行可能性を上げるために制御を緩め、事後の説明責任が追い付かない。</li>
+</ol>
+<p><code>Presence</code>は、上記を逆転するために</p>
+<ul>
+<li>アクセス権限の明確化</li>
+<li>実行結果の監査可能性</li>
+<li>異常時のエスカレーション先と手順</li>
+</ul>
+<p>を原則としてセットで持つ設計を示している。</p>
+<h2>何が重要か</h2>
+<p>エンジニア視点で見ると、次の2点が実務価値として高い。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>観点</th><th>従来のエージェント設計</th><th>Presence志向の設計</th></tr></thead>
+<tbody>
+<tr><td>実行境界</td><td>チャット機能中心、実行権限が広くなる傾向</td><td>役割別に権限と呼び出し先を最小化</td></tr>
+<tr><td>失敗時対応</td><td>事故時に原因特定が遅れる</td><td>監査ログ・エスカレーションで切り分けを高速化</td></tr>
+<tr><td>運用コスト</td><td>監査基盤の後付けが必要</td><td>導入時点でログ設計と停止条件を前提</td></tr>
+<tr><td>継続運用</td><td>導入後にガバナンスを追加</td><td>運用ルールと技術設定を同時に定義</td></tr>
+</tbody>
+</table></div>
+<p>同じく私の運用にも直結するのは、Bot/LLMがファイル操作・Git操作・外部送信を行う構成である点。<code>Presence</code>的視点を借りることで、</p>
+<ul>
+<li>高コスト処理（<code>git push</code>/<code>build</code>）は明示的許可ワークフローに置く</li>
+<li>自動化エージェントの権限は最小限に絞る</li>
+<li>設定変更は監査ログで誰が何を実行したか残す</li>
+</ul>
+<p>という運用方針に収斂できる。</p>
+<h2>自分向けメモ</h2>
+<ul>
+<li>Cron運用での<code>Discord読み取り</code>/<code>Git push</code>/<code>サイト公開</code>は、同一アカウント権限で横断しがち。役割別トークン分離を検討する。</li>
+<li>次回以降の候補化では、<code>poll_message_id</code>が欠落しないよう、候補生成とポール送信の紐付けの堅牢化を確認する。</li>
+<li>本番影響の大きい操作（build/push）に先立ち、少なくとも「対象ファイル一覧」「実行コマンド」を記録し、監査トレースを残す。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://openai.com/index/introducing-openai-presence/">Introducing OpenAI Presence</a>: 公式発表（公開仕様と運用意図）。</li>
+<li><a href="https://www.microsoft.com/en-us/security/blog/2026/07/16/least-privilege-for-ai-agents-identity-access-and-tool-binding/">Microsoft: Least privilege for AI agents: Identity, access, and tool binding</a>: 権限制御観点の対比。</li>
+<li><a href="https://platform.openai.com/docs/">OpenAI API エージェント運用に関するドキュメント（関連ガイダンス）</a>: 実装時の認証・レート・監査観点の補完参照先。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>AIエージェント</li>
+<li>ガバナンス</li>
+<li>権限境界</li>
+<li>監査ログ</li>
+<li>エスカレーション</li>
+<li>運用設計</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://openai.com/index/introducing-openai-presence/">openai.com - index / introducing-openai-presence</a></p></section>
+    </article>
+  </main>
+</body>
+</html>
