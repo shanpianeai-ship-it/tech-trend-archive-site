@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CISAによるKEV追加2件の実務インパクト | 海外技術情報アーカイブ</title>
+  <meta name="description" content="CISAが公開資産向けの高リスク脆弱性2件をKEVに追加。SmartConsoleとSharePointの認証・実行系不備は、放置すれば運用停止や権限制御崩れを起こしうるため、優先対策対象として再確認しやすい。">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-07-23</span>
+        <span>Security</span>
+        <span>importance: high</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>CISAが公開資産向けの高リスク脆弱性2件をKEVに追加。SmartConsoleとSharePointの認証・実行系不備は、放置すれば運用停止や権限制御崩れを起こしうるため、優先対策対象として再確認しやすい。</p>
+      </aside>
+      <h1>CISAによるKEV追加2件の実務インパクト</h1>
+<h2>要約</h2>
+<p>CISAは「実際の悪用が確認された」2件の脆弱性を、KEV（Known Exploited Vulnerabilities Catalog）に追加した。対象はCheck Point SmartConsoleの認証バイパス（CVE-2026-16232）とMicrosoft SharePointの安全でないデータ逆シリアライズ（CVE-2026-50522）で、どちらも公開サービス上でリモートからの侵害リスクが高く、運用現場では「すぐに対処順を上げる」対象に入れるべき情報である。CISA本文自体が、BOD 26-04のリスクベース管理方針と合わせ、KEV優先修正の意図を明示している点が重要だ。</p>
+<h2>背景</h2>
+<p>CISAは本件で、アクティブな悪用が確認された2つの脆弱性を「高リスクの実績があるもの」としてKEVへ追加した。KEVは、脆弱性管理優先度を決めるための公的参照先であり、同梱のCVE情報は一次情報として扱える。</p>
+<ul>
+<li><a href="https://www.cve.org/CVERecord?id=CVE-2026-16232">CVE-2026-16232</a>: Check Point SmartConsoleの認証バイパス、認証トークン取得後に管理者権限での操作が可能。</li>
+<li><a href="https://www.cve.org/CVERecord?id=CVE-2026-50522">CVE-2026-50522</a>: Microsoft SharePointの非信頼データ逆シリアライズ不備、ネットワーク越しに未認可実行が成立。</li>
+</ul>
+<h2>何が重要か</h2>
+<p>KEV追加は「被害可能性が高い脆弱性」を示す運用シグナルなので、単発の記事ではなく、次回の脆弱性優先順位と監視条件の見直しに直結する。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>観点</th><th>CISA通報前の一般的対応</th><th>CISA追加後に実施すべき対応</th></tr></thead>
+<tbody>
+<tr><td>対応優先順位</td><td>重要度だけで暫定判断</td><td>KEV登録分を短期SLAで監査対象に昇格</td></tr>
+<tr><td>監視方針</td><td>NVD情報の追従を中心に断片運用</td><td>KEVとBOD 26-04指針に基づく公開面優先監視</td></tr>
+<tr><td>影響範囲</td><td>個別システム単位の点検</td><td>SmartConsole/SharePointの公開資産を横断で再評価</td></tr>
+<tr><td>認証・権限</td><td>パッチ適用を最優先しない場合がある</td><td>管理者権限移譲やネットワーク制約条件を同時に再点検</td></tr>
+</tbody>
+</table></div>
+<h2>自分向けメモ</h2>
+<ul>
+<li>社内実務では、KEV登録された脆弱性は「未対応でも許容」しにくいため、CISAページ更新時に自組織資産台帳と紐付けして自動で警告が上がる仕組みを作るべき。</li>
+<li>SmartConsole/SharePointは、認証フロー・公開設定・外部アクセス制御が混在しやすい。<code>Trusted Clients</code>制御やネットワーク到達経路をまず確認する。</li>
+<li>今回は2件ともCVSS 3.1でCRITICAL。公開エンドポイントの監査ログや脆弱性通知と連携し、実害検知（悪用の兆候）を補助的に監視する。</li>
+<li>次回同様のノート化では、CISA原文とNVDのCVSSの両方を横並びで残すと、実務で説得しやすい。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://www.cisa.gov/news-events/alerts/2026/07/22/cisa-adds-two-known-exploited-vulnerabilities-catalog">CISA: CISA Adds Two Known Exploited Vulnerabilities to Catalog</a> - KEVに追加された2脆弱性の一次情報。</li>
+<li><a href="https://www.cisa.gov/kev">CISA KEV Catalog</a> - 優先度運用の参照基準。</li>
+<li><a href="https://www.cisa.gov/news-events/directives/bod-26-04-implementation-guidance-prioritizing-security-updates-based-risk">CISA BOD 26-04 概要</a> - KEV優先運用の公式ガイド。</li>
+<li><a href="https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-16232">CVE-2026-16232 (NVD)</a> - 重要度・概要の一次参照。</li>
+<li><a href="https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-50522">CVE-2026-50522 (NVD)</a> - 重要度・概要の一次参照。</li>
+</ul>
+<h2>関連キーワード</h2>
+<p>CISA KEV, CVE-2026-16232, CVE-2026-50522, SmartConsole, Microsoft SharePoint, 認証バイパス, 逆シリアライゼーション, 脆弱性管理, BOD 26-04, 優先修正</p>
+      <section class="source-box"><h2>Source</h2><p><a href="https://www.cisa.gov/news-events/alerts/2026/07/22/cisa-adds-two-known-exploited-vulnerabilities-catalog">cisa.gov - news-events / alerts</a></p></section>
+    </article>
+  </main>
+</body>
+</html>

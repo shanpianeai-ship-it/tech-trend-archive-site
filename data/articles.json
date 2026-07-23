@@ -14,6 +14,20 @@
     "url": "articles/2026-07-23_AM_OpenAI_Presence_実運用エージェント基盤.html"
   },
   {
+    "file": "Security/2026-07-23_CISA_KEV追加.md",
+    "slug": "2026-07-23_CISA_KEV追加",
+    "title": "CISAによるKEV追加2件の実務インパクト",
+    "genre": "Security",
+    "genreLabel": "Security",
+    "created": "2026-07-23",
+    "source": "https://www.cisa.gov/news-events/alerts/2026/07/22/cisa-adds-two-known-exploited-vulnerabilities-catalog",
+    "importance": "high",
+    "confidence": "high",
+    "summary": "CISAが公開資産向けの高リスク脆弱性2件をKEVに追加。SmartConsoleとSharePointの認証・実行系不備は、放置すれば運用停止や権限制御崩れを起こしうるため、優先対策対象として再確認しやすい。",
+    "excerpt": "CISAが公開資産向けの高リスク脆弱性2件をKEVに追加。SmartConsoleとSharePointの認証・実行系不備は、放置すれば運用停止や権限制御崩れを起こしうるため、優先対策対象として再確認しやすい。",
+    "url": "articles/2026-07-23_CISA_KEV追加.html"
+  },
+  {
     "file": "Security/2026-07-22_Microsoft_AIエージェント_最小権限設計.md",
     "slug": "2026-07-22_Microsoft_AIエージェント_最小権限設計",
     "title": "Microsoft AIエージェントに対する最小権限設計原則",
