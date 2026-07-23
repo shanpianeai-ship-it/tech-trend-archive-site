@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ワークプロセス分散とRFC設計で崩れないSAP運用 | 公開ナレッジブログ</title>
+  <meta name="description" content="ワークプロセスの偏りとRFC実行の待機を分解して見ることで、見かけの遅延原因を正確に切り分ける実務手順を整理する。">
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../../knowledge/index.html">公開ナレッジブログ</a>
+    <span class="site-subtitle">Public ERP operations notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 公開ナレッジ一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-07-23</span>
+        <span>ERP運用</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>ワークプロセスの偏りとRFC実行の待機を分解して見ることで、見かけの遅延原因を正確に切り分ける実務手順を整理する。</p>
+      </aside>
+      <h1>ワークプロセス分散とRFC設計で崩れないSAP運用</h1>
+<p>運用現場で「システムは遅い」が起きたとき、最初に失敗しがちなのは、体感遅延そのものを原因と決めつけることです。実際には、負荷は「処理待ち時間」「実処理時間」「通信準備時間」に分解されており、切り分け次第で対策が変わります。</p>
+<p>まずワークプロセスの見直しです。ディスプレイ応答を速くしたいだけなら Dialog WP を増やす、という単純化は危険です。最小構成を満たしたうえで、背景処理・更新処理・キュー処理のバランスを再設計します。特に更新系を専有的に使うインスタンスに偏らせると、業務画面だけ見れば空いていても更新完了が追いつかず、全体体感は劣化します。ログオングループで業務領域ごとに分けると、重い領域が他領域を圧迫するリスクが下がります。</p>
+<p>次にRFC設計です。RFCは同期待ちか非同期か、そして順序保証が必要かで選びを分けます。応答時間の改善を最優先する場面では、呼び出し元の待ち時間に含まれる要素が何かを把握する必要があります。接続確立やデータ転送の遅れは、実行時間と分離して監視すれば原因が早く定着します。<code>Call time</code> が長く <code>Execution time</code> が短いなら、ネットワークや送受信量を疑うのが自然です。</p>
+<p>RFC処理が滞る現場では、tRFCの再送量増加が連鎖することが多いです。エラー通知を見て対処するだけでなく、未成功エントリの清掃周期を定着させ、監視の周期と再スケジューリング方針を整備すると、ピーク時にも急落しにくい状態を保てます。併せて aRFC/BgRFCの割当を見直すと、不要な並列化によるリソース枯渇を避けられます。</p>
+<p>要点はシンプルです。対策は「WPを増やす」ではなく、負荷の種類を分解し、優先度と配分を設計すること。見えた数字を施策に変えれば、夜間バッチ直前の急上昇でも運用は落ちません。</p>
+    </article>
+  </main>
+</body>
+</html>
