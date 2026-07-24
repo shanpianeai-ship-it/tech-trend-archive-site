@@ -1,5 +1,19 @@
 [
   {
+    "file": "Security/2026-07-24_CISA_KEV追加.md",
+    "slug": "2026-07-24_CISA_KEV追加",
+    "title": "CISA KEV追加2件の実務的優先度",
+    "genre": "Security",
+    "genreLabel": "Security",
+    "created": "2026-07-24",
+    "source": "https://www.cisa.gov/news-events/alerts/2026/07/22/cisa-adds-two-known-exploited-vulnerabilities-catalog",
+    "importance": "high",
+    "confidence": "high",
+    "summary": "CISAが公開資産向け高リスク脆弱性2件をKEVへ追加。SmartConsoleとSharePointの認証・実行系不備は公開資産の中断リスクが高く、優先対策の再確認対象として価値が高い。",
+    "excerpt": "CISAが公開資産向け高リスク脆弱性2件をKEVへ追加。SmartConsoleとSharePointの認証・実行系不備は公開資産の中断リスクが高く、優先対策の再確認対象として価値が高い。",
+    "url": "articles/2026-07-24_CISA_KEV追加.html"
+  },
+  {
     "file": "AI/2026-07-23_AM_OpenAI_Presence_実運用エージェント基盤.md",
     "slug": "2026-07-23_AM_OpenAI_Presence_実運用エージェント基盤",
     "title": "OpenAI Presence（エージェント実運用基盤）",
