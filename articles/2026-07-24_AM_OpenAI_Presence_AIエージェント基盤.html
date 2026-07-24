@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OpenAI Presence: 信頼性を前提にしたエージェント基盤 | 海外技術情報アーカイブ</title>
+  <meta name="description" content="OpenAIが企業実装を想定したAIエージェント基盤「Presence」を公開。ガードレール・エスカレーション・継続改善を前提化し、運用設計を比較検討する価値が高い。">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-07-24</span>
+        <span>AI / LLM / Agent</span>
+        <span>importance: high</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>OpenAIが企業実装を想定したAIエージェント基盤「Presence」を公開。ガードレール・エスカレーション・継続改善を前提化し、運用設計を比較検討する価値が高い。</p>
+      </aside>
+      <h1>OpenAI Presence: 信頼性を前提にしたエージェント基盤</h1>
+<h2>要約</h2>
+<p>OpenAIは、単発のLLM活用ではなく、実運用での信頼性を前提にしたAIエージェント基盤「Presence」を公開した。 ポリシー、ガードレール、エスカレーション、評価、そして本番運用後の改善ループをセットで整える前提で、企業は導入毎に権限範囲と運用手順を明示しながら実業務ワークフローに接続できる設計だ。</p>
+<h2>背景</h2>
+<p>エンタープライズでAIエージェントを本格運用する際のボトルネックは、モデル性能そのものよりも「信頼して運用できる状態」にすることだった。 OpenAIの説明では、Presenceは次の前提に着目している。</p>
+<ul>
+<li>業務ごとに対象タスクを限定し、必要最小限の知識・システムアクセスだけを与える</li>
+<li>ポリシー違反や不確実な処理時には人へのエスカレーションを明確化</li>
+<li>テスト/シミュレーションや品質評価を通じて、運用中に改善提案を回す</li>
+</ul>
+<p>同社は導入先事例として、電話サポートでの請求問合せ対応などを挙げ、短期間で人手対応率を下げる運用改善を実績として示している。</p>
+<h2>何が重要か</h2>
+<p>Presenceの価値は、機能追加というより「運用の型」を標準化できる点にある。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>観点</th><th>従来のPoC寄り運用</th><th>Presenceの考え方</th></tr></thead>
+<tbody>
+<tr><td>信頼性の設計</td><td>モデルとルールを個別実装しがち</td><td>ポリシー、ガードレール、エスカレーションを1コンポーネントとして設計</td></tr>
+<tr><td>デプロイ後の改善</td><td>ログを見て都度手作業対応</td><td>例外/エスカレーション/評価データをもとに改善案を提案し検証</td></tr>
+<tr><td>権限設計</td><td>「このエージェントは何ができるか」が曖昧化しやすい</td><td>ワークフロー別に許可範囲と承認条件を明示</td></tr>
+<tr><td>運用比較軸</td><td>品質指標が断片的になりやすい</td><td>共通評価軸でシミュレーション→本番監視→改善までを繋ぐ</td></tr>
+</tbody>
+</table></div>
+<p>国内ではエージェントの「使えるデモ」中心になりがちだが、日本語向けには「導入後の統制」比較が重要。 今回はポールが0票だったため、公式一次情報の厚み・運用設計の即戦力性を優先して本記事を選定した。</p>
+<h2>自分向けメモ</h2>
+<ul>
+<li>社内PoCを設計する際は、まず「エージェント権限」「人介在ルール」「監査ログ」の3点を先に確定すること。</li>
+<li>本番移行前に、<code>シミュレーション成功率・正答率・ポリシー逸脱率・Escalation率</code>を評価軸としてテンプレ化する。</li>
+<li>高リスク業務は、最初から人介在を必須条件にし、初期はアクション権限を段階的に拡張する。</li>
+<li>改善ループ設計では、変更提案を「本番A/B比較」できる運用にし、ロールバック条件を明文化する。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://openai.com/index/introducing-openai-presence/">Introducing OpenAI Presence</a>: OpenAI公式発表。Presenceの目的、実運用想定、評価/改善プロセスを記載。</li>
+<li><a href="https://platform.openai.com/docs/">OpenAI Docs</a>: エージェント実装に関する基礎API/運用背景の参照点（製品仕様は本記事と合わせて把握）。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>OpenAI Presence</li>
+<li>AI Agent</li>
+<li>guardrails</li>
+<li>escalation policy</li>
+<li>Codex improvement loop</li>
+<li>production monitoring</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://openai.com/index/introducing-openai-presence/">openai.com - index / introducing-openai-presence</a></p></section>
+    </article>
+  </main>
+</body>
+</html>

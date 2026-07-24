@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>コネクタ権限は「読むだけ」と「外へ出す」で分ける | 興味レポート</title>
+  <meta name="description" content="コネクタ権限を読むだけと外部送信に分離すると、Codex運用での誤作動や鍵露出時の被害範囲を小さくし、公開反映リスクを減らせる。">
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../../interests/index.html">興味レポート</a>
+    <span class="site-subtitle">Public redacted interest reports</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 興味レポート一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-07-24</span>
+        <span>AI・エージェント</span>
+        <span>interest_report</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>コネクタ権限を読むだけと外部送信に分離すると、Codex運用での誤作動や鍵露出時の被害範囲を小さくし、公開反映リスクを減らせる。</p>
+      </aside>
+      <h1>コネクタ権限は「読むだけ」と「外へ出す」で分ける</h1>
+<h2>要約</h2>
+<p>同じエージェントが「情報収集」「ファイル編集」「投稿」をまとめて持つと、1回の権限逸脱で影響範囲が広がる。今日は、ChatGPT/Codex運用で現実的に効く、コネクタを最小権限で2層化する設計をまとめる。</p>
+<h2>なぜ今見る価値があるか</h2>
+<p>このCronでは候補作成→ポール読み取り→記事化→Pages公開までを自動で1本実行しているため、単純な権限ミス1件でも公開物に直結する。特に統合版は1枠化したため、1日の失敗許容幅は小さい。読取専用と外部送信を分離することで、同一のAI基盤を使いながら「事故が起こっても止血しやすい」状態を作れる。</p>
+<h2>調査メモ</h2>
+<ul>
+<li>調査対象は実務向け運用を想定し、以下を最小設計とする。</li>
+<li>参照/収集系（Notion・GitHub・Discordの読み取り）</li>
+<li>書込/送信系（Discord送信・GitHub編集・外部Webhook投稿）</li>
+<li>OpenAI系のエージェント設計は、実行可能ツールを明示的に限定する方針が基本方針に合致する。</li>
+<li>GitHub側は、アクセス先と権限をできるだけアプリ権限定にし、Personal Tokenの範囲肥大化を避ける。</li>
+<li>DiscordのBot権限でも、投稿と閲覧でスコープを分けた方針が監査しやすく、誤送信・誤読の再現性が下がる。</li>
+<li>実装時は、Cronで参照するチャンネル、通知先チャンネル、ページ公開用リポジトリ更新対象を明示し、境界外のAPI呼び出しは不可とする。</li>
+</ul>
+<h3>具体的な境界ルール</h3>
+<ol>
+<li>プロファイル分離</li>
+</ol>
+<ul>
+<li><code>agent_readonly</code>: 公式情報収集、候補一覧読み取り</li>
+<li><code>agent_writer</code>: 記事作成対象フォルダへの生成・保存</li>
+<li><code>agent_pub</code>: Discord結果報告、必要時のみ<code>git</code>系</li>
+<li>3つが重なるケースは原則禁止。運用中に統合する場合は承認フローを挟む。</li>
+</ul>
+<ol>
+<li>トークン管理</li>
+</ol>
+<ul>
+<li>送信系トークンは期限・ローテーション管理、読み取り系とは別保管を前提にする。</li>
+<li>使わないコネクタは切り、毎回コマンド実行前に「このジョブで必要か」を点検。</li>
+</ul>
+<ol>
+<li>失敗時停止</li>
+</ol>
+<ul>
+<li>候補一覧更新できない/取得不能・build失敗時は外部反映を行わず終了。</li>
+<li>投票結果取得不能時はfallback選定しても、<code>selected_note</code>に明示。</li>
+</ul>
+<h2>個人向けの読みどころ</h2>
+<p>今日の運用で効く優先順は次の3点。</p>
+<ul>
+<li>まずは <code>readonly</code> と <code>external</code> を別アカウント（または別権限）に寄せる。</li>
+<li>監査ログは「何を読んだか」「どのコネクタを通したか」「どのファイルを変更したか」を残す。</li>
+<li>Cronでは <code>同日1記事</code> を守ったうえで、変更があればcommit/push、なければ実行終了とする。</li>
+</ul>
+<h2>注意点</h2>
+<ul>
+<li>秘密情報は「モデルに読ませない前提」で管理する。</li>
+<li>OAuthスコープを広げると、将来別cron追加時の被害波及が拡大する。</li>
+<li>Discord・GitHub投稿の自動化は、実行前に対象チャネルと対象パスを制限する。</li>
+<li>ここで扱う分離は個人運用向け。法人・顧客データを扱う場合は追加監査要件を付与する。</li>
+</ul>
+<h2>参考リンク</h2>
+<ul>
+<li>OpenAI Docs: Tools / Agents related guidance</li>
+</ul>
+<p><a href="https://platform.openai.com/docs/guides/tools">platform.openai.com - docs / guides</a></p>
+<ul>
+<li>GitHub Docs: About permissions for GitHub Apps</li>
+</ul>
+<p><a href="https://docs.github.com/en/apps/creating-github-apps/writing-a-github-app/about-permissions-for-github-apps">docs.github.com - en / apps</a></p>
+<ul>
+<li>GitHub Docs: GitHub token and secret best practices</li>
+</ul>
+<p><a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token">docs.github.com - en / authentication</a></p>
+<ul>
+<li>Discord Docs: Permissions</li>
+</ul>
+<p><a href="https://discord.com/developers/docs/topics/permissions">discord.com - developers / docs</a></p>
+    </article>
+  </main>
+</body>
+</html>
