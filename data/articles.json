@@ -14,6 +14,20 @@
     "url": "articles/2026-07-28_企業AIエージェント動的権限スコープ.html"
   },
   {
+    "file": "AI/2026-07-28_AM_Lomekwi_ツール発見能力.md",
+    "slug": "2026-07-28_AM_Lomekwi_ツール発見能力",
+    "title": "Lomekwi: エージェントのツール発見能力を分解して測る",
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "created": "2026-07-28",
+    "source": "https://arxiv.org/html/2607.16961",
+    "importance": "high",
+    "confidence": "high",
+    "summary": "LomekwiはLLMエージェントが道具を「使う」だけでなく、自力で発見・発明できるかを測る研究。大きいモデルほど発見機会を見逃す逆スケーリングが示され、評価設計の見直しに効く。",
+    "excerpt": "LomekwiはLLMエージェントが道具を「使う」だけでなく、自力で発見・発明できるかを測る研究。大きいモデルほど発見機会を見逃す逆スケーリングが示され、評価設計の見直しに効く。",
+    "url": "articles/2026-07-28_AM_Lomekwi_ツール発見能力.html"
+  },
+  {
     "file": "AI/2026-07-24_AM_OpenAI_Presence_AIエージェント基盤.md",
     "slug": "2026-07-24_AM_OpenAI_Presence_AIエージェント基盤",
     "title": "OpenAI Presence: 信頼性を前提にしたエージェント基盤",

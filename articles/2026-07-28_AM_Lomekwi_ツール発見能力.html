@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lomekwi: エージェントのツール発見能力を分解して測る | 海外技術情報アーカイブ</title>
+  <meta name="description" content="LomekwiはLLMエージェントが道具を「使う」だけでなく、自力で発見・発明できるかを測る研究。大きいモデルほど発見機会を見逃す逆スケーリングが示され、評価設計の見直しに効く。">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-07-28</span>
+        <span>AI / LLM / Agent</span>
+        <span>importance: high</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>LomekwiはLLMエージェントが道具を「使う」だけでなく、自力で発見・発明できるかを測る研究。大きいモデルほど発見機会を見逃す逆スケーリングが示され、評価設計の見直しに効く。</p>
+      </aside>
+      <h1>Lomekwi: エージェントのツール発見能力を分解して測る</h1>
+<h2>要約</h2>
+<p>Lomekwiは、LLMエージェント評価でよく使われる「ツールを与えたら使えるか」ではなく、「必要なツールを自分で発見し、作る判断ができるか」を測ろうとする研究。著者らはtool discoveryを、材料を探す力であるcuriosity、ツール化の機会に気づくrecognition、作成後に効率よく使うefficiencyに分解している。</p>
+<p>重要なのは、モデルが大きくなれば全部の軸で単調に良くなるわけではない点だ。論文では、recognitionがモデルサイズと逆方向にスケールする観察が示され、より大きいモデルほど「ここは道具を作るべきだ」と気づかないケースがあると報告している。</p>
+<h2>背景</h2>
+<p>最近のエージェント評価では、API、検索、コード実行、MCPサーバーなどのツールをあらかじめ与え、複雑なタスクをどれだけ解けるかを見るものが多い。ただしその設定では、モデルは「ツールがある」ことを最初から知っている。これは実運用で起きる「いまの環境に足りない道具を作るべきか」「繰り返し作業を抽象化すべきか」という判断とは少し違う。</p>
+<p>Lomekwiはこの隙間を埋めるため、ツール作成を必須にしない環境を用意し、エージェントが限られた行動予算の中でツール作成の機会を見つけるかを観察する。名前は、現存する最古級の石器遺跡Lomekwiに由来している。</p>
+<h2>何が重要か</h2>
+<p>この研究の面白さは、エージェント評価を「最終的に成功したか」だけでなく、途中でどの能力が足りなかったかに分けられる点にある。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>観点</th><th>何を見るか</th><th>実運用での意味</th></tr></thead>
+<tbody>
+<tr><td>curiosity</td><td>ツールを作る材料や構成要素を探索できるか</td><td>不明な環境で必要情報を集められるか</td></tr>
+<tr><td>recognition</td><td>ツール化すべき状況に気づけるか</td><td>繰り返し作業や抽象化機会を見逃さないか</td></tr>
+<tr><td>efficiency</td><td>作ったツールを効果的に使えるか</td><td>作成後にコスト削減・成功率改善へつなげられるか</td></tr>
+<tr><td>grind</td><td>ツールを作らず力押しで進めるか</td><td>長時間実行や無駄な試行で予算を溶かさないか</td></tr>
+</tbody>
+</table></div>
+<p>特にrecognitionの逆スケーリングは、エージェント製品を見るときの注意点になる。モデル性能表で上位だからといって、長期タスクで自律的に良い補助ツールを作るとは限らない。むしろ、プロンプト、環境設計、評価ハーネス側で「ツール化の機会を発見する余地」を測る必要がある。</p>
+<p>論文は既存タスクとしてVoyagerにもこの分解を適用できると説明しており、さらにMCPに近い実世界風の環境でもrecognition inversionを観察している。MCPや社内ツール連携が増えるほど、この評価軸は実務に近づく。</p>
+<h2>自分向けメモ</h2>
+<ul>
+<li>エージェント評価では、成功率だけでなく「ツールを作るべき場面で作ったか」をログから見る。</li>
+<li>社内業務エージェントのPoCでは、最初から全ツールを与える評価だけだと過大評価になりやすい。</li>
+<li>大型モデル採用時も、抽象化や補助スクリプト作成の判断をプロンプト/システム設計で補助する価値がある。</li>
+<li>Codex系の長時間作業でも、手順を毎回手で進めるのではなく、再利用可能な検査・変換・集計ツールを作れるかを評価項目に入れたい。</li>
+<li>「ツール発見」はモデル単体能力だけでなく、観察可能な環境、失敗ログ、行動予算、ユーザーからの明示指示の有無に強く依存する。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://arxiv.org/html/2607.16961">arXiv: Lomekwi: Resource-Bounded Tool Discovery in LLM Agents</a>: 論文本文。tool discoveryの分解、Lomekwi環境、recognitionの逆スケーリングを説明。</li>
+<li><a href="https://arxiv.org/abs/2607.16961">arXiv abstract page</a>: 著者、提出日、分野、DOIなどのメタ情報。</li>
+<li><a href="https://github.com/DragonWrangler25/lomekwi-tool-discovery">GitHub: lomekwi-tool-discovery</a>: 論文のコード、環境、raw episode logs、再現用スクリプト。</li>
+<li><a href="https://voyager.minedojo.org/">Voyager: An Open-Ended Embodied Agent with Large Language Models</a>: 論文中で既存の発見タスク例として触れられる、スキルライブラリを作るLLMエージェント研究。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>Lomekwi</li>
+<li>tool discovery</li>
+<li>LLM agents</li>
+<li>recognition inversion</li>
+<li>inverse scaling</li>
+<li>agent evaluation</li>
+<li>MCP</li>
+<li>Voyager</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://arxiv.org/html/2607.16961">arxiv.org - html / 2607.16961</a></p></section>
+    </article>
+  </main>
+</body>
+</html>
