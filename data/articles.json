@@ -1,5 +1,19 @@
 [
   {
+    "file": "AI/2026-07-28_企業AIエージェント動的権限スコープ.md",
+    "slug": "2026-07-28_企業AIエージェント動的権限スコープ",
+    "title": "企業AIエージェント動的権限スコープ",
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "created": "2026-07-28",
+    "source": "https://arxiv.org/abs/2607.22445",
+    "importance": "high",
+    "confidence": "high",
+    "summary": "企業AIエージェントの権限を役割・タスク文脈・禁止組み合わせで動的に絞る論文。検知より前に「使える権限を存在させない」設計として読む価値がある。",
+    "excerpt": "企業AIエージェントの権限を役割・タスク文脈・禁止組み合わせで動的に絞る論文。検知より前に「使える権限を存在させない」設計として読む価値がある。",
+    "url": "articles/2026-07-28_企業AIエージェント動的権限スコープ.html"
+  },
+  {
     "file": "AI/2026-07-24_AM_OpenAI_Presence_AIエージェント基盤.md",
     "slug": "2026-07-24_AM_OpenAI_Presence_AIエージェント基盤",
     "title": "OpenAI Presence: 信頼性を前提にしたエージェント基盤",
