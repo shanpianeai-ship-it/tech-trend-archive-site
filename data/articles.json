@@ -1,5 +1,19 @@
 [
   {
+    "file": "SAP_ERP/2026-07-29_AM_SAP_AI成果課金モデル.md",
+    "slug": "2026-07-29_AM_SAP_AI成果課金モデル",
+    "title": "SAP AI成果課金モデル",
+    "genre": "SAP_ERP",
+    "genreLabel": "SAP / ERP",
+    "created": "2026-07-29",
+    "source": "https://erp.today/sap-ai-pricing-outcome-based-erp-economics/",
+    "importance": "high",
+    "confidence": "high",
+    "summary": "SAPのQ2決算を手がかりに、AIエージェントがERPの価格モデルをユーザー数課金から成果・価値ベースへ動かす兆しを整理する。",
+    "excerpt": "SAPのQ2決算を手がかりに、AIエージェントがERPの価格モデルをユーザー数課金から成果・価値ベースへ動かす兆しを整理する。",
+    "url": "articles/2026-07-29_AM_SAP_AI成果課金モデル.html"
+  },
+  {
     "file": "AI/2026-07-28_企業AIエージェント動的権限スコープ.md",
     "slug": "2026-07-28_企業AIエージェント動的権限スコープ",
     "title": "企業AIエージェント動的権限スコープ",
