@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GitHub Personal Access TokenをAI作業端末で使う時の「期限・権限・保存場所」棚卸し | 興味レポート</title>
+  <meta name="description" content="AIコーディング端末に残るGitHub PATを、fine-grained化、期限、権限、保存場所、失効手順で棚卸しする。個人開発の事故範囲を小さくする実用チェック。">
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../../interests/index.html">興味レポート</a>
+    <span class="site-subtitle">Public redacted interest reports</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 興味レポート一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-07-29T19:30:00+09:00</span>
+        <span>セキュリティ</span>
+        <span>interest_report</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>AIコーディング端末に残るGitHub PATを、fine-grained化、期限、権限、保存場所、失効手順で棚卸しする。個人開発の事故範囲を小さくする実用チェック。</p>
+      </aside>
+      <h1>GitHub Personal Access TokenをAI作業端末で使う時の「期限・権限・保存場所」棚卸し</h1>
+<h2>要約</h2>
+<p>AIコーディング端末では、GitHub Personal Access Token（PAT）が「一度だけ使った認証情報」ではなく、エージェントがgit操作、API呼び出し、CI連携、リポジトリ調査を進めるための実行権限になりやすい。特にclassic PATは、GitHub Docsでもfine-grained PATより広いアクセスになりうると説明されており、個人アカウントや所属Organizationの複数リポジトリへ届く場合がある。</p>
+<p>今回のDiscordポールは、指定された <code>poll_message_id</code> の <code>poll.results.answer_counts</code> が空で有効票なしだった。そのため候補一覧から、AI作業端末の実害リスクに直結し、すぐ棚卸しへ移せる「PAT期限権限棚卸し」を選定した。</p>
+<h2>なぜ今見る価値があるか</h2>
+<p>AIエージェントが開発端末で自然に <code>git pull</code>、<code>git push</code>、issue参照、GitHub API、Pages公開、CIログ確認まで触るようになると、PATは単なるログイン補助ではなく「自動実行主体の鍵」になる。人間が目で確認して使う前提のトークンを、エージェント、シェル、ビルドスクリプト、MCPサーバー、ブラウザ自動化が同じ端末で参照できるなら、漏えい時の影響範囲は広がる。</p>
+<p>GitHub Docsは、可能ならPATを作る前にGitHub CLIやGit Credential Manager、GitHub Actionsの <code>GITHUB_TOKEN</code> など、より管理しやすい認証方法を検討するよう案内している。どうしてもPATを使う場合でも、fine-grained PAT、期限、対象リポジトリ、権限、保存先を明確にするのが基本線になる。</p>
+<h2>PATでまず分けるべき3種類</h2>
+<p>第一に、日常のgit操作用である。ローカル端末からpush/pullするためだけなら、GitHub CLIやGit Credential Managerで管理し、平文の環境変数やメモにPATを置かない方がよい。AIエージェントに渡す場合も、対象リポジトリと操作範囲を限定する。</p>
+<p>第二に、自動化用である。GitHub Actions内で使うなら、まず組み込みの <code>GITHUB_TOKEN</code> で足りるかを見る。外部サービスやローカルCronから使うなら、fine-grained PATかGitHub Appを検討し、個人アカウントの広いclassic PATを長期利用しない。</p>
+<p>第三に、一時作業用である。移行、調査、API検証、Pages公開の修正など、短期間だけ必要なPATは、名前に用途と期限を入れ、作業後に失効する。AI作業では「あとで消す」が残りやすいので、発行時点で短い有効期限を設定する方が強い。</p>
+<h2>棚卸しで見る項目</h2>
+<p>PAT棚卸しは、トークン名だけを見ると失敗する。最低限、次の項目を一覧にする。</p>
+<ol>
+<li>用途: git操作、API、Pages公開、CI、外部サービス連携のどれか。</li>
+<li>種類: fine-grained PATかclassic PATか。</li>
+<li>対象: 個人リポジトリ、特定Organization、特定リポジトリ、全リポジトリのどれに届くか。</li>
+<li>権限: readだけか、contents write、issues write、workflow、admin系まで含むか。</li>
+<li>期限: 期限ありか、期限なしに近い長期運用か。</li>
+<li>保存場所: Git Credential Manager、GitHub CLI、1Password、環境変数、<code>.env</code>、シェル履歴、CI secrets、エディタ設定のどこか。</li>
+<li>利用主体: 人間、ローカルCron、AIエージェント、CI、外部SaaSのどれが使うか。</li>
+<li>失効手順: 漏えい時にどの画面から revoke し、どの自動化を更新するか。</li>
+</ol>
+<p>この一覧で「classic PAT、期限長め、複数repo write、保存場所が曖昧、AI端末で利用」の組み合わせが見つかったら、最優先で置き換える。</p>
+<h2>AI作業端末での実務ルール</h2>
+<p>AI作業端末では、PATを「エージェントに読ませる秘密」ではなく「作業ごとに境界を持つ権限」として扱う。まず、リポジトリごとに必要最小限のfine-grained PATへ寄せる。複数リポジトリを横断する必要があるなら、PATを増やす前にGitHub AppやGitHub CLIの運用で代替できないか検討する。</p>
+<p>保存場所は、平文ファイルよりOSのcredential store、Git Credential Manager、GitHub CLI、パスワードマネージャを優先する。<code>.env</code> に置く場合は、そのファイルをAIに読ませる対象から外し、git管理外であることを確認する。シェル履歴、作業ログ、Markdownメモ、チャットログに貼ったPATは、貼った時点で失効候補にする。</p>
+<p>権限変更やpushを伴う作業では、AIに「必要ならpushして」と広く任せるより、対象リポジトリ、ブランチ、操作、commit内容を絞る。特に <code>workflow</code>、organization管理、repository administration、packages write、secret管理に届く権限は、通常の調査記事作成やPages公開には不要なことが多い。</p>
+<h2>漏えいを前提にした防御</h2>
+<p>PATは漏えいしない前提だけで運用しない。GitHubのsecret scanningは、公開リポジトリや対象環境でシークレット検出を支援する機能であり、push protectionやアラートと組み合わせて初動を早められる。個人開発でも、公開リポジトリへ誤ってPATを入れた場合は、削除コミットだけでは不十分で、該当PATを失効する必要がある。</p>
+<p>漏えい時の手順は短く決めておく。</p>
+<ol>
+<li>該当PATをGitHub設定画面で即時revokeする。</li>
+<li>そのPATを使っていたローカルCron、CI、外部サービスを止める。</li>
+<li>代替トークンはfine-grained、短期限、対象repo限定で作り直す。</li>
+<li>直近のGitHub audit log、commit、release、workflow実行、Pages反映を確認する。</li>
+<li>誤って公開した履歴は、必要なら履歴削除やリポジトリ側の追加対応を検討する。</li>
+</ol>
+<p>重要なのは、漏えい後に「どこで使っていたか」を探し始めないことだ。棚卸し台帳があれば、止める場所と作り直す場所がすぐ分かる。</p>
+<h2>OpenClaw運用への当てはめ</h2>
+<p>興味レポートCronでは、候補一覧の読み取り、Markdown作成、Pagesビルド、git commit/push、Discord報告が一連の流れになっている。このうちGitHubに影響するのは、Pages repoへのcommit/pushである。必要なのは対象repoへのcontents writeであり、Organization横断、workflow変更、管理者権限、他repo writeまで届くPATは過剰である。</p>
+<p>OpenClawやCodexの作業端末では、AIがローカルファイルやログを読む可能性がある。だから、PATそのものをMarkdown、候補一覧、記事本文、作業ログへ貼らない。必要ならcredential storeやGitHub CLIに寄せ、記事作成Cronが扱うのは「git pushできたか」という結果だけにする。これは、AIに秘密を読ませず、権限の効果だけを限定的に使う設計である。</p>
+<h2>今日のチェックリスト</h2>
+<ul>
+<li>GitHubのDeveloper settingsで、classic PATが残っていないか見る。</li>
+<li>fine-grained PATの対象repoと権限を確認する。</li>
+<li>期限なし、または長期のPATを短期限へ作り直す。</li>
+<li><code>.env</code>、シェル履歴、Obsidianメモ、作業ログにPATが残っていないか検索する。</li>
+<li>Pages公開やCron用の認証情報が、対象repo以外へ届かないことを確認する。</li>
+<li>漏えい時にrevokeする順番と、更新が必要な自動化を1行でメモする。</li>
+</ul>
+<h2>参考リンク</h2>
+<ul>
+<li><a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens">GitHub Docs: Managing your personal access tokens</a></li>
+<li><a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token">GitHub Docs: Creating a personal access token</a></li>
+<li><a href="https://docs.github.com/en/rest/authentication/keeping-your-api-credentials-secure">GitHub Docs: Keeping your API credentials secure</a></li>
+<li><a href="https://docs.github.com/en/code-security/concepts/secret-security/secret-scanning">GitHub Docs: Secret scanning</a></li>
+<li><a href="https://github.com/git-ecosystem/git-credential-manager">Git Credential Manager</a></li>
+</ul>
+    </article>
+  </main>
+</body>
+</html>
