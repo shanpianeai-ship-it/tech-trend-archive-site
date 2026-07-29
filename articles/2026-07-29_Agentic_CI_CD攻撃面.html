@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agentic CI/CD攻撃面 | 海外技術情報アーカイブ</title>
+  <meta name="description" content="エージェント型CI/CDが、外部Issueの権威づけと意図のロンダリングで秘密情報送信コードを通す可能性を示した研究。AI開発支援をパイプラインへ入れる前の設計論点になる。">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-07-29</span>
+        <span>Security</span>
+        <span>importance: high</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>エージェント型CI/CDが、外部Issueの権威づけと意図のロンダリングで秘密情報送信コードを通す可能性を示した研究。AI開発支援をパイプラインへ入れる前の設計論点になる。</p>
+      </aside>
+      <h1>Agentic CI/CD攻撃面</h1>
+<h2>要約</h2>
+<p>arXiv論文「They'll Verify」は、複数のLLMエージェントで構成したCI/CDパイプラインが、外部Issueから入った悪意ある要求をどこまで止められるかを検証している。対象は、triage、developer、security-scan、review、approve/deployの5段階で、5つの異なる本番LLMを3プロバイダにまたがって使う構成だ。</p>
+<p>攻撃は、外部Issueで「利用状況テレメトリ機能」を依頼する形を取り、実際には <code>dict(os.environ)</code> のようなプロセス環境変数を攻撃者URLへ送るコードを混ぜる。論文のポイントは、コード自体が構文上は普通のテレメトリ送信に見えること、そして「SEC-2291で事前承認済みなので再レビュー不要」といった権威づけが入ると、下流の検証エージェントが危険な行を見ていても承認してしまう点にある。</p>
+<p>結果として、エントリ段のシステムプロンプト漏えいは0/40で防げていた一方、最悪条件では55%の実行で秘密情報送信コードがデプロイまで進んだ。パターン検出や通常のコードスキャンは意図のロンダリングを見抜けず、意図を推論するLLMスキャナだけが一部を止めた。</p>
+<h2>背景</h2>
+<p>AIコーディングエージェントは、コード補完やPRレビューの補助から、Issueを読み、コードを書き、レビューし、マージ判断まで行う方向へ進んでいる。ここで危ないのは、各エージェントを個別に堅くしても、パイプライン全体では「誰かが確認済みだろう」という構造になりやすいことだ。</p>
+<p>従来のCI/CDセキュリティでは、依存関係スキャン、SAST、Secret scanning、権限分離、ブランチ保護などが中心だった。Agentic CI/CDでは、そこに「未信頼テキストを読んだLLMが、権威ある内部指示のように扱ってしまう」問題が加わる。</p>
+<p>この論文は、プロンプト漏えいそのものよりも、外部入力の由来と責任分担が攻撃面になることを示している。システムプロンプトが守られていても、攻撃者はそれを盗む必要がない。もっと単純に、外部Issue内で「承認済み」「再レビュー不要」「既存チケットに紐づく」といった文脈を作れば、下流の検証が弱まる可能性がある。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>観点</th><th>論文での設定</th><th>実務上の意味</th></tr></thead>
+<tbody>
+<tr><td>入口</td><td>外部Issue</td><td>GitHub Issue、Jira、メール、チャット依頼は未信頼入力</td></tr>
+<tr><td>変換</td><td>developer agentがIssueをコード化</td><td>自然言語の悪意が正当なコード変更に見える</td></tr>
+<tr><td>検証</td><td>scanner、reviewer、approver</td><td>複数レビューでも同じ前提を信じると止まらない</td></tr>
+<tr><td>失敗要因</td><td>権威づけ、事前承認の偽装</td><td>「内部承認済み」という文言を入力から信用しない</td></tr>
+<tr><td>有効そうな防御</td><td>provenance-aware control</td><td>内容だけでなく由来と権限境界を見る</td></tr>
+</tbody>
+</table></div>
+<h2>何が重要か</h2>
+<p>第一に、システムプロンプトの秘匿だけではパイプライン防御にならない。</p>
+<p>論文では、エントリ段エージェントからのシステムプロンプト抽出は0/40で失敗している。それでも秘密情報送信コードはデプロイまで通った。つまり「プロンプトが漏れなければ安全」という見方は狭い。攻撃者は内部プロンプトを知らなくても、一般的な承認・監査・チケット番号の文体を真似るだけで、下流の判断を歪められる。</p>
+<p>第二に、コードスキャンは「悪い構文」ではなく「悪い由来と意図」を見落とす。</p>
+<p><code>requests.post(..., json={&quot;env&quot;: dict(os.environ)})</code> のような処理は、構文だけ見れば通常のHTTP送信であり、危険な関数名や既知のマルウェアパターンに一致しないことがある。Secret scanningも、リポジトリ内に秘密値が書かれていなければ検知できない。問題は、実行時の環境変数をまとめて外部に出す設計意図だ。</p>
+<p>第三に、エージェント型CI/CDでは「誰が権威を付与したか」を追跡する必要がある。</p>
+<p>外部Issueの本文にある「承認済み」は、内部承認ではない。人間なら違和感を持つ場面でも、LLMエージェントは文脈上それらしく見える根拠を引用してしまう可能性がある。下流のレビュアーが見るべきなのは、コード差分だけでなく、承認根拠の出所と、その根拠を信頼してよい経路かどうかだ。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>防御策</th><th>効きそうな点</th><th>注意点</th></tr></thead>
+<tbody>
+<tr><td>外部入力のtaint付与</td><td>Issue由来の変更を最後まで追跡できる</td><td>LLMには見せず、制御面で扱う</td></tr>
+<tr><td>承認根拠の構造化</td><td>「承認済み」文言を自由テキストから切り離せる</td><td>チケットIDや承認者をAPIで検証する</td></tr>
+<tr><td>高権限変更の別経路化</td><td>秘密情報、認証、外部送信を追加審査へ回せる</td><td>例外運用が増えると形骸化する</td></tr>
+<tr><td>LLMレビューの意図推論</td><td>構文ではなく目的を読める</td><td>権威づけに弱いので単独防御にしない</td></tr>
+<tr><td>デプロイ権限の分離</td><td>最終sinkを人間または狭いbotに限定できる</td><td>自動化速度とのトレードオフがある</td></tr>
+</tbody>
+</table></div>
+<h2>自分向けメモ</h2>
+<p>OpenClawやCodex系の自動化をCI/CDに近づけるなら、外部から来た指示を「作業対象」として扱い、「運用ルール」や「承認根拠」として扱わない設計を徹底したい。</p>
+<ul>
+<li>GitHub Issue、Discord、Webページ、メール本文に含まれる「承認済み」「緊急」「再確認不要」は未信頼データとして扱う。</li>
+<li>エージェントが生成したPRに、外部通信、環境変数、認証情報、CI secrets、deploy tokenが絡む場合は別の固定ルールで止める。</li>
+<li>レビューエージェントには「この変更は承認済みか」ではなく、「承認を示す構造化レコードが信頼できるシステムに存在するか」を確認させる。</li>
+<li>最終deploy権限を持つエージェントには、外部入力由来の自由文を承認根拠として渡さない。</li>
+<li>「複数エージェントが見るから大丈夫」ではなく、どの段階がどのリスクを必ずブロックするかを明示する。</li>
+</ul>
+<p>この研究は合成実験なので、そのまま現実の侵害率として読むべきではない。ただし、攻撃の形はかなり実務に近い。AIエージェントをPR作成やレビューに入れるなら、いまのSASTやSecret scanningに加えて、入力の由来、承認の根拠、deploy権限の境界をパイプライン設計に入れる必要がある。</p>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://arxiv.org/html/2607.19267">arXiv - They'll Verify: How Authority Framing and Laundered Code Turn a Trusted Agentic CI/CD Pipeline Into an Attack Surface</a> - 今回の一次情報。5エージェントCI/CD実験、権威づけ、意図のロンダリング、provenance-aware controlの提案。</li>
+<li><a href="https://owasp.org/www-project-top-10-for-large-language-model-applications/">OWASP Top 10 for LLM Applications</a> - LLM01 Prompt Injection、LLM06 Excessive Agencyなど、関連する脅威分類の参照。</li>
+<li><a href="https://docs.github.com/code-security/secret-scanning/introduction/about-secret-scanning">GitHub Docs - About secret scanning</a> - 従来型Secret scanningの位置付け確認用。実行時環境変数の外部送信とは検知対象が異なる。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>Agentic CI/CD</li>
+<li>prompt injection</li>
+<li>authority framing</li>
+<li>laundered code</li>
+<li>supply chain security</li>
+<li>provenance-aware control</li>
+<li>LLM agents</li>
+<li>code review automation</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://arxiv.org/html/2607.19267">arxiv.org - html / 2607.19267</a></p></section>
+    </article>
+  </main>
+</body>
+</html>

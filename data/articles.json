@@ -14,6 +14,20 @@
     "url": "articles/2026-07-29_AM_SAP_AI成果課金モデル.html"
   },
   {
+    "file": "Security/2026-07-29_Agentic_CI_CD攻撃面.md",
+    "slug": "2026-07-29_Agentic_CI_CD攻撃面",
+    "title": "Agentic CI/CD攻撃面",
+    "genre": "Security",
+    "genreLabel": "Security",
+    "created": "2026-07-29",
+    "source": "https://arxiv.org/html/2607.19267",
+    "importance": "high",
+    "confidence": "high",
+    "summary": "エージェント型CI/CDが、外部Issueの権威づけと意図のロンダリングで秘密情報送信コードを通す可能性を示した研究。AI開発支援をパイプラインへ入れる前の設計論点になる。",
+    "excerpt": "エージェント型CI/CDが、外部Issueの権威づけと意図のロンダリングで秘密情報送信コードを通す可能性を示した研究。AI開発支援をパイプラインへ入れる前の設計論点になる。",
+    "url": "articles/2026-07-29_Agentic_CI_CD攻撃面.html"
+  },
+  {
     "file": "AI/2026-07-28_企業AIエージェント動的権限スコープ.md",
     "slug": "2026-07-28_企業AIエージェント動的権限スコープ",
     "title": "企業AIエージェント動的権限スコープ",
