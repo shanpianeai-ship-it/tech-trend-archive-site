@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Prismata: Webエージェント注入隔離 | 海外技術情報アーカイブ</title>
+  <meta name="description" content="Webエージェントのクロスサイト・プロンプトインジェクションを、DOM由来の信頼ラベルと機械的な行動制限で隔離する研究。ブラウザ操作型エージェントを安全に使うための実装寄りの防御案として読める。">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-07-30</span>
+        <span>Security</span>
+        <span>importance: high</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>Webエージェントのクロスサイト・プロンプトインジェクションを、DOM由来の信頼ラベルと機械的な行動制限で隔離する研究。ブラウザ操作型エージェントを安全に使うための実装寄りの防御案として読める。</p>
+      </aside>
+      <h1>Prismata: Webエージェント注入隔離</h1>
+<h2>要約</h2>
+<p>arXiv論文「Prismata: Confining Cross-Site Prompt Injection in Web Agents」は、ブラウザ操作型Webエージェントが、レビュー、広告、ユーザー投稿などに埋め込まれた間接プロンプトインジェクションに乗っ取られる問題を扱っている。論文ではこれを、WebにおけるXSSになぞらえてCross-Site Prompting、略してXSPと呼んでいる。</p>
+<p>Prismataの考え方は、モデルに「悪意ある指示を無視せよ」と頼むだけではなく、エージェントに見せる情報と実行できる操作を、ユーザーのタスクに必要な範囲へ機械的に絞ることにある。ページ内の各インタラクティブ要素についてDOM上のcritical pathをたどり、開発者由来、ユーザー由来、第三者由来、外部由来といった信頼ラベルを付ける。そのうえで、不要なコンテンツは観測から削除し、読めても操作してはいけない要素はクリックや入力の対象から外す。</p>
+<p>評価では、既存のWebエージェント攻撃テンプレートと適応的な変種に対して、攻撃成功率を平均85.5%から0.7%まで下げたと報告している。一方で、通常タスクの成功率はPrismataなしの29.9%から26.6%へ下がる程度に抑えたとしている。数値そのものは実験環境依存だが、重要なのは「Webページを読む前に、どの部分を信頼してよいかを構造から制限する」という設計思想だ。</p>
+<h2>背景</h2>
+<p>Webエージェントは、買い物、予約、申請、社内管理画面の操作などを自動化できる一方で、普通のWebページが持つ混在コンテンツの問題をそのまま引き継ぐ。商品レビューやコメント欄は、ページの一部として表示されるが、サイト運営者の信頼済み指示ではない。人間なら「これはレビュー欄の文章」と見分けられる場面でも、LLMエージェントは観測に含まれた自然言語をタスク遂行の文脈として扱ってしまう可能性がある。</p>
+<p>従来のXSS対策は、スクリプト実行、オリジン、サンドボックス、CSPなど、ブラウザの実行境界に注目していた。XSPでは悪意あるJavaScriptがなくても、表示テキストやalt text、ポップアップ風のUIがエージェントの判断を変える。つまり、ブラウザとしては正常なページでも、エージェントにとっては命令注入面になる。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>観点</th><th>XSS</th><th>XSP</th></tr></thead>
+<tbody>
+<tr><td>悪用対象</td><td>ブラウザのスクリプト実行</td><td>Webエージェントの言語理解と行動選択</td></tr>
+<tr><td>入口</td><td>注入されたJavaScript</td><td>レビュー、広告、投稿、alt text、偽UI</td></tr>
+<tr><td>被害</td><td>セッション窃取、任意操作</td><td>誤クリック、情報送信、タスク逸脱</td></tr>
+<tr><td>防御の軸</td><td>オリジン、CSP、サンドボックス</td><td>観測制限、操作制限、信頼ラベル</td></tr>
+</tbody>
+</table></div>
+<h2>何が重要か</h2>
+<p>第一に、Webエージェント防御はプロンプトだけでは足りない。</p>
+<p>「レビュー欄の指示を無視する」とシステムプロンプトに書いても、攻撃者は表現を変えたり、正規UIに見える文面を作ったりできる。Prismataは、モデルに判断を丸投げせず、そもそも不要な未信頼コンテンツを観測から消し、対象外のボタンや入力欄を操作できないようにする。これは、AI安全策というよりブラウザ自動化の権限制御に近い。</p>
+<p>第二に、タスクごとの最小権限が必要になる。</p>
+<p>「商品を購入する」タスクでは、商品詳細、カート、購入ボタンは必要かもしれない。しかし、同じページにあるDM送信、パスワード変更、外部リンク、広告クリックは不要なはずだ。Prismataは、各要素のDOM上の祖先構造と由来を使い、タスクに必要な操作だけを残そうとする。Webエージェントに全ページ全操作を渡す設計は、便利だが攻撃面が広すぎる。</p>
+<p>第三に、信頼ラベル付けの失敗を局所化する発想が実務的だ。</p>
+<p>論文は、ラベル付けにLLMを使う部分があることを認めたうえで、攻撃者コンテンツがラベル決定に影響できる範囲をDOM構造で狭める。完全に誤判定ゼロを目指すより、誤判定が起きても、その影響が同じcritical path上の要素に閉じるように設計する。この「失敗しても全ページの権限へ波及させない」考え方は、個人エージェントや業務エージェントの実装にも応用しやすい。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>防御要素</th><th>役割</th><th>実装上の示唆</th></tr></thead>
+<tbody>
+<tr><td>動的信頼導出</td><td>DOM構造から要素の信頼度と操作範囲を推定</td><td>スクリーンショットだけでなくDOM/AX treeを使う</td></tr>
+<tr><td>観測の削除</td><td>不要な未信頼コンテンツをエージェントに見せない</td><td>「読ませて無視させる」より前段で落とす</td></tr>
+<tr><td>操作の格下げ</td><td>読み取りのみ、クリック不可、入力不可を分ける</td><td>click/fillなどのツール呼び出し前に検査する</td></tr>
+<tr><td>タスク別ポリシー</td><td>目的に必要な要素だけ許可</td><td>汎用ブラウザ権限をそのまま渡さない</td></tr>
+</tbody>
+</table></div>
+<h2>自分向けメモ</h2>
+<p>OpenClawやCodex系のブラウザ操作を日常運用に入れるなら、ページ本文を「全部コンテキスト」として渡す設計は危ない。特に、Discord、GitHub Issue、Web検索結果、ECサイト、管理画面をまたいで読む場合、表示された自然言語と自分の運用ルールを混ぜないことが重要になる。</p>
+<ul>
+<li>ブラウザエージェントには、ページ全体ではなく、タスクに必要なDOM/アクセシビリティツリーの部分だけを渡したい。</li>
+<li><code>click</code>、<code>fill</code>、<code>submit</code>、<code>download</code>、<code>send</code> のような副作用の強い操作は、要素IDごとの許可表を通してから実行する。</li>
+<li>レビュー、コメント、広告、外部埋め込みは未信頼入力として扱い、指示文としてではなくデータとして読む。</li>
+<li>購入、送信、削除、権限変更、認証情報表示のような操作は、Webページ内の文言ではなく外部の固定ポリシーで止める。</li>
+<li>スクリーンショットベースのエージェントでも、可能ならDOM由来、URL由来、iframe由来、ユーザー投稿由来のラベルを別に持つ。</li>
+</ul>
+<p>Prismataは研究実装なので、そのまま日常のブラウザ自動化へ入るものではない。ただし、エージェントに「ブラウザを使わせる」段階から、「どのページ部分を見せ、どの要素を操作させるか」を制御する段階へ進む必要があることをかなり明確に示している。</p>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://arxiv.org/html/2607.08147">arXiv - Prismata: Confining Cross-Site Prompt Injection in Web Agents</a> - 今回の一次情報。XSPの脅威モデル、DOM critical pathに基づく信頼導出、攻撃評価を説明している。</li>
+<li><a href="https://github.com/ServiceNow/BrowserGym">BrowserGym</a> - 論文の前提にあるWebエージェント評価環境。アクセシビリティツリーと有限のブラウザ操作を使う設計の参照。</li>
+<li><a href="https://owasp.org/www-project-top-10-for-large-language-model-applications/">OWASP Top 10 for LLM Applications</a> - 間接プロンプトインジェクションや過剰なエージェンシーを整理するための関連分類。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>Web agent</li>
+<li>prompt injection</li>
+<li>Cross-Site Prompting</li>
+<li>XSP</li>
+<li>browser automation</li>
+<li>least privilege</li>
+<li>DOM trust labeling</li>
+<li>BrowserGym</li>
+<li>agent security</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://arxiv.org/html/2607.08147">arxiv.org - html / 2607.08147</a></p></section>
+    </article>
+  </main>
+</body>
+</html>
