@@ -721,6 +721,18 @@
   },
   {
     "file": "[入力元伏せ]",
+    "slug": "2026-07-30-セキュリティ-Discord-Botトークンを個人自動化で使う時の漏えい影響を棚卸しする-ab0f9a0ed8",
+    "title": "Discord Botトークンを個人自動化で使う時の漏えい影響を棚卸しする",
+    "category": "セキュリティ",
+    "created": "2026-07-30T19:30:00+09:00",
+    "status": "",
+    "type": "interest_report",
+    "summary": "Discord Botトークンを個人自動化で使う時の漏えい影響を、権限、保存場所、ローテーション、Bot招待範囲で棚卸しする。OpenClaw通知運用の事故範囲を小さくする実用メモ。",
+    "excerpt": "Discord Botトークンを個人自動化で使う時の漏えい影響を、権限、保存場所、ローテーション、Bot招待範囲で棚卸しする。OpenClaw通知運用の事故範囲を小さくする実用メモ。",
+    "url": "interests/articles/2026-07-30-セキュリティ-Discord-Botトークンを個人自動化で使う時の漏えい影響を棚卸しする-ab0f9a0ed8.html"
+  },
+  {
+    "file": "[入力元伏せ]",
     "slug": "2026-07-29-セキュリティ-GitHub-Personal-Access-TokenをAI作業端末で使う時の「期-ef36d94e7d",
     "title": "GitHub Personal Access TokenをAI作業端末で使う時の「期限・権限・保存場所」棚卸し",
     "category": "セキュリティ",

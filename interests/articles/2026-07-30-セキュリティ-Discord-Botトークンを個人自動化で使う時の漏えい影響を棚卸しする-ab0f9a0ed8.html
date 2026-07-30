@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Discord Botトークンを個人自動化で使う時の漏えい影響を棚卸しする | 興味レポート</title>
+  <meta name="description" content="Discord Botトークンを個人自動化で使う時の漏えい影響を、権限、保存場所、ローテーション、Bot招待範囲で棚卸しする。OpenClaw通知運用の事故範囲を小さくする実用メモ。">
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../../interests/index.html">興味レポート</a>
+    <span class="site-subtitle">Public redacted interest reports</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 興味レポート一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-07-30T19:30:00+09:00</span>
+        <span>セキュリティ</span>
+        <span>interest_report</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>Discord Botトークンを個人自動化で使う時の漏えい影響を、権限、保存場所、ローテーション、Bot招待範囲で棚卸しする。OpenClaw通知運用の事故範囲を小さくする実用メモ。</p>
+      </aside>
+      <h1>Discord Botトークンを個人自動化で使う時の漏えい影響を棚卸しする</h1>
+<h2>要約</h2>
+<p>Discord Botトークンは、単なる通知用の文字列ではなく、BotとしてDiscord APIを実行するための認証情報である。個人の自動化では「指定チャンネルにメッセージを送るだけ」のつもりでも、Botに付いている権限、参加しているサーバー、読めるチャンネル、実装しているコマンド次第で、漏えい時の影響範囲は広がる。</p>
+<p>今回のDiscordポールは、候補一覧frontmatterの <code>poll_message_id</code> に一致する対象ポールで <code>poll.results.answer_counts</code> が空だったため、有効票なしとして扱った。候補一覧から、OpenClawの通知・ポール運用に直結し、すぐ点検へ移せる「Discord Botトークン防衛」を選定した。</p>
+<h2>なぜ今見る価値があるか</h2>
+<p>OpenClawのような個人自動化では、Discordが「人間への確認画面」になりやすい。候補一覧の提示、ポール作成、結果報告、異常通知がDiscord Bot経由で流れるなら、Botトークンは日次運用の実行鍵である。漏えいした場合、攻撃者はBotとしてメッセージ送信、チャンネル閲覧、リアクション、スレッド操作、場合によっては管理系操作まで試せる。</p>
+<p>Discordの権限モデルは、ギルド単位の基本権限とチャンネル単位の上書きで決まる。さらに、<code>ADMINISTRATOR</code> はチャンネル権限上書きをバイパスする強い権限として定義されている。つまり「Botトークンが漏れた時に何ができるか」は、コードだけでなく、Botに付けた権限と配置先チャンネルで決まる。</p>
+<h2>まず分けるべき3つの範囲</h2>
+<p>第一に、Botが参加しているサーバーの範囲である。個人用の1サーバーだけか、複数サーバーに入っているかで漏えい時の横展開リスクが変わる。通知専用Botなら、用途別にBotを分け、参加先を最小化する方が事故範囲を狭めやすい。</p>
+<p>第二に、Botが見えるチャンネルの範囲である。候補提示と結果報告だけなら、要アクション用チャンネルと結果報告用チャンネルへ送れれば足りることが多い。過去ログ、個人メモ、管理チャンネル、秘密情報を含むチャンネルを読める必要はない。</p>
+<p>第三に、Botに付けた権限の範囲である。Discord Docsは権限をビットフラグとして扱い、<code>SEND_MESSAGES</code>、<code>ADD_REACTIONS</code>、<code>MANAGE_CHANNELS</code>、<code>ADMINISTRATOR</code> などを個別に定義している。通知・ポール用途なら、管理者権限を付けっぱなしにする必要は薄い。メッセージ送信、スレッド利用、必要ならリアクションや埋め込み程度に寄せる。</p>
+<h2>漏えい時に起きること</h2>
+<p>Botトークンが漏れると、攻撃者は人間ユーザーとしてではなく、BotとしてAPIを呼び出す。影響は主に次の4つに分かれる。</p>
+<ol>
+<li>なりすまし投稿: Bot名で偽の候補、偽の完了報告、危険なURL、誤った手順を投稿される。</li>
+<li>情報読み取り: Botが読めるチャンネルの履歴、メンション、添付、運用ログが参照される。</li>
+<li>運用妨害: メッセージ削除、スレッド作成、ロールやチャンネル操作など、付与権限に応じた妨害が起きる。</li>
+<li>二次漏えい: Discordに貼られたGitHub PAT、Webhook URL、内部パス、Cronログ、障害時のスタックトレースが拾われる。</li>
+</ol>
+<p>重要なのは、Botトークン単体よりも「Botが読める場所に何を置いているか」である。Discordを自動化のログ置き場にすると、秘密情報を貼っていないつもりでも、内部パス、リポジトリ名、ジョブ名、失敗ログが攻撃の足場になる。</p>
+<h2>個人自動化での防御線</h2>
+<p>まず、Botを用途別に分ける。候補作成・ポール作成・完了報告だけのBotは、その用途に必要なチャンネルだけへ入れる。管理操作、開発検証、外部公開サーバー対応を同じBotに混ぜない。</p>
+<p>次に、権限を招待URLとサーバー設定の両方で点検する。OAuth2のBot招待では、必要なscopeと権限を指定できる。過去に開発中の便宜で <code>ADMINISTRATOR</code> を付けたBotは、通知運用に戻す時点で外す。チャンネル上書きで「結果報告チャンネルには送れるが、他のチャンネルは見えない」状態を作る。</p>
+<p>保存場所は、Markdown、候補一覧、記事本文、チャットログ、<code>.env.example</code>、シェル履歴を避ける。ローカル運用なら、OSの秘密情報ストア、パスワードマネージャ、OpenClaw側の安全な設定管理、GitHub Actionsならrepository secretsなどに寄せる。AIが読む可能性のある作業ディレクトリへ平文で置かない。</p>
+<h2>ローテーション手順を短くする</h2>
+<p>Discord Developer PortalではBotトークンを再生成できる。漏えい時は、原因調査より先に再生成して古いトークンを無効化する。再生成後は、自動化側の秘密情報を更新し、Botが意図したチャンネルでだけ動くことを確認する。</p>
+<p>実務手順は短く固定しておく。</p>
+<ol>
+<li>Discord Developer Portalで該当Botのトークンを再生成する。</li>
+<li>OpenClaw、Cron、CI、ローカル環境変数など、利用箇所のトークンを更新する。</li>
+<li>Botの権限から <code>ADMINISTRATOR</code> と不要な管理権限を外す。</li>
+<li>Botが参加しているサーバーと見えるチャンネルを確認する。</li>
+<li>漏えいした可能性があるDiscordログ、GitHubリポジトリ、作業ログから二次秘密情報を点検する。</li>
+<li>偽投稿や不審な操作がないか、直近のBot投稿を確認する。</li>
+</ol>
+<p>この手順で一番大事なのは、トークンを「差し替える場所」が分かっていることだ。どのCron、どの環境変数、どの設定ファイルがBotトークンを使っているかを1行で台帳化しておくと、漏えい時に迷わない。</p>
+<h2>OpenClaw運用への当てはめ</h2>
+<p>興味レポート自動化で必要なのは、要アクションチャンネルへの候補・ポール投稿、結果報告チャンネルへの完了通知、必要に応じた直近メッセージの読み取りである。Botが全サーバーを見渡せる必要はない。少なくとも、記事作成Cronが扱うBotは、対象2チャンネルに限定した読み書き権限へ寄せるのがよい。</p>
+<p>また、Discord報告には内部パスやcommit有無を出す必要があるが、秘密情報は出さない。公開URL、保存先、選定理由まではよい。一方で、トークン、Webhook URL、PAT、環境変数名と値、詳細なスタックトレースはDiscordに貼らない。Botトークンが漏れた時にDiscord履歴も読まれる前提で、履歴に残す情報を選ぶ。</p>
+<h2>今日のチェックリスト</h2>
+<ul>
+<li>Discord Developer Portalで、通知用Botの参加サーバーと用途を確認する。</li>
+<li>Bot招待時のpermissionsに <code>ADMINISTRATOR</code> が残っていないか見る。</li>
+<li>要アクション、結果報告以外のチャンネルを読めない設定にできるか確認する。</li>
+<li>Botトークンの保存場所を1行で台帳化する。</li>
+<li><code>.env</code>、Markdown、候補一覧、シェル履歴、GitHubリポジトリにBotトークンが残っていないか検索する。</li>
+<li>漏えい時の再生成手順と、自動化側の更新箇所をメモする。</li>
+</ul>
+<h2>参考リンク</h2>
+<ul>
+<li><a href="https://docs.discord.com/developers/topics/oauth2">Discord Developer Docs: OAuth2</a></li>
+<li><a href="https://docs.discord.com/developers/topics/permissions">Discord Developer Docs: Permissions</a></li>
+<li><a href="https://support-dev.discord.com/hc/en-us/articles/6470840524311-Why-can-t-I-copy-my-bot-s-token">Discord Developer Support: Why can't I copy my bot's token?</a></li>
+<li><a href="https://docs.github.com/en/code-security/concepts/secret-security/secret-scanning">GitHub Docs: Secret scanning</a></li>
+</ul>
+    </article>
+  </main>
+</body>
+</html>
