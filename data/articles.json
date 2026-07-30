@@ -1,5 +1,19 @@
 [
   {
+    "file": "Security/2026-07-30_AM_Word文書Copilotワーム.md",
+    "slug": "2026-07-30_AM_Word文書Copilotワーム",
+    "title": "Word文書経由Copilotワーム",
+    "genre": "Security",
+    "genreLabel": "Security",
+    "created": "2026-07-30",
+    "source": "https://enklypesalt.com/posts/context-collapse-part3-ai-worming-through-word/",
+    "importance": "high",
+    "confidence": "high",
+    "summary": "Copilot for Wordが外部文書内の隠し指示を読み、生成文書へ自己複製する文書型AIワームの実証。Office文書をAI文脈に入れる時の信頼境界と検査設計を見直す材料になる。",
+    "excerpt": "Copilot for Wordが外部文書内の隠し指示を読み、生成文書へ自己複製する文書型AIワームの実証。Office文書をAI文脈に入れる時の信頼境界と検査設計を見直す材料になる。",
+    "url": "articles/2026-07-30_AM_Word文書Copilotワーム.html"
+  },
+  {
     "file": "Security/2026-07-30_Prismata_Webエージェント注入隔離.md",
     "slug": "2026-07-30_Prismata_Webエージェント注入隔離",
     "title": "Prismata: Webエージェント注入隔離",

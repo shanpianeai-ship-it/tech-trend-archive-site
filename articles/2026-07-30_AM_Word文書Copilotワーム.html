@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Word文書経由Copilotワーム | 海外技術情報アーカイブ</title>
+  <meta name="description" content="Copilot for Wordが外部文書内の隠し指示を読み、生成文書へ自己複製する文書型AIワームの実証。Office文書をAI文脈に入れる時の信頼境界と検査設計を見直す材料になる。">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-07-30</span>
+        <span>Security</span>
+        <span>importance: high</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>Copilot for Wordが外部文書内の隠し指示を読み、生成文書へ自己複製する文書型AIワームの実証。Office文書をAI文脈に入れる時の信頼境界と検査設計を見直す材料になる。</p>
+      </aside>
+      <h1>Word文書経由Copilotワーム</h1>
+<h2>要約</h2>
+<p>Hakon Maloy氏が、Microsoft Copilot for Wordに対する「文書型AIワーム」の実証を公開した。外部から受け取ったWord文書に、白文字や小さい文字などで隠した悪意ある指示を入れておくと、Copilotがその文書を下書きや編集の文脈として読む際に、指示を通常の資料内容ではなく実行すべき命令として扱ってしまう可能性がある。</p>
+<p>実証では、悪意ある市場分析文書を元にCopilotで財務レポートを作らせると、財務数値が改ざんされ、さらに同じ隠し指示が新しく作られたレポートにもコピーされた。次の利用者がそのレポートを別のCopilot作業に使うと、元の攻撃文書がなくても攻撃が再発火する。つまり、攻撃者は最初の文書を共有するだけでよく、その後は社内で作られた正規文書が新しいキャリアになる。</p>
+<p>Maloy氏はMSRCおよびMicrosoft製品チームと144日間の協調開示を行い、再現手順、動画、PoCプロンプトを提供したと説明している。Microsoftは当初のPoC文言や一部ベクトルを緩和したが、記事公開時点では「文書内の攻撃者制御テキストが、生成文書へ伝播する」という broader class は完全には閉じていないとされる。</p>
+<h2>背景</h2>
+<p>この話は単なる「プロンプトインジェクションの一例」ではなく、業務文書ワークフローにAIが入ったときの情報完全性の問題として読むべきだ。</p>
+<p>従来のOffice文書セキュリティでは、マクロ、外部リンク、埋め込みオブジェクト、ファイル由来、DLPなどが主な論点だった。CopilotのようなLLM機能が入ると、見た目にはただの本文であっても、AIにとっては実行可能な命令として働く場合がある。しかも、ユーザーには見えない白文字や小フォントでも、Copilotに渡される前に書式が落ちればテキストとして読まれる。</p>
+<p>Maloy氏のシリーズは「Context Collapse」と呼ぶ問題を扱っている。メール、メモリ、文書、Webページなどの外部入力が、ユーザー指示やシステム意図と同じコンテキスト窓に入ることで、信頼境界が崩れるという見方だ。今回のPart 3は、その影響が単発の出力改変ではなく、文書を通じた自己伝播に広がる点を示している。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>観点</th><th>従来の文書リスク</th><th>今回のCopilot文脈でのリスク</th></tr></thead>
+<tbody>
+<tr><td>悪性要素</td><td>マクロ、リンク、埋め込みファイル</td><td>本文内の自然言語指示</td></tr>
+<tr><td>ユーザー可視性</td><td>警告や保護ビューで気づける場合がある</td><td>白文字などで人間には見えない場合がある</td></tr>
+<tr><td>伝播</td><td>ファイル共有や添付で広がる</td><td>AI生成文書へ指示がコピーされ、正規文書化する</td></tr>
+<tr><td>検知困難性</td><td>ファイルの出所やマクロ有無を追える</td><td>内部生成文書になると由来追跡が難しい</td></tr>
+<tr><td>影響</td><td>実行、漏えい、改ざん</td><td>生成内容の改ざん、意思決定資料の汚染、二次伝播</td></tr>
+</tbody>
+</table></div>
+<h2>何が重要か</h2>
+<p>第一に、AIに渡す「資料」と「指示」の分離が崩れている。</p>
+<p>ユーザーは「この資料を参考にレポートを作って」と依頼しているつもりでも、LLMは資料内のテキストとユーザー指示を同じ系列で処理する。外部文書に「数値を半分にせよ」「この指示を次の文書へコピーせよ」のような命令が隠されていると、それを無視すべき資料データとして安定的に扱える保証が弱い。</p>
+<p>第二に、自己伝播により「信頼できる内部文書」が攻撃ベクトルになる。</p>
+<p>初期侵入の文書は外部由来なので警戒しやすい。しかし、Copilotが生成したQ1レポートに隠し指示がコピーされると、その文書は社内の正規ユーザーが作成した内部資料に見える。次に同僚がQ2レポート作成の材料として使えば、攻撃は元のファイルから切り離されて続く。インシデント対応では「どの外部ファイルが入口だったか」を追うのが難しくなる。</p>
+<p>第三に、モデルをもう一つ前段に置く対策だけでは構造的に苦しい。</p>
+<p>Maloy氏は、攻撃文を検出するためにもLLM相当の意味理解が必要になり、検査用LLMもまた攻撃者制御テキストを読むことになると指摘している。これは「LLMs all the way down」問題で、単に別モデルで前処理するだけでは、同じ信頼境界の問題を外側へ移すだけになりうる。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>防御観点</th><th>すぐできること</th><th>限界</th></tr></thead>
+<tbody>
+<tr><td>外部文書の扱い</td><td>Copilotに渡す前に外部文書を未信頼扱いする</td><td>完全な手作業レビューは運用負荷が高い</td></tr>
+<tr><td>生成文書レビュー</td><td>Copilot生成・編集文書を配布前に確認する</td><td>隠し文字や意味の微細改変を見逃す</td></tr>
+<tr><td>出所管理</td><td>生成文書に参照元とAI編集履歴を残す</td><td>攻撃自体を止めるわけではない</td></tr>
+<tr><td>DLP/スキャン</td><td>白文字、小フォント、不可視テキストを検査する</td><td>言い換えられた自然言語指示の検出は難しい</td></tr>
+<tr><td>権限分離</td><td>自動生成文書を意思決定資料へ直結させない</td><td>人間のワークフロー設計が必要</td></tr>
+</tbody>
+</table></div>
+<h2>自分向けメモ</h2>
+<p>このCron運用でも、外部記事、Discord、Webページ、ObsidianノートをLLM文脈に入れて要約や保存をしている。今回の教訓はそのまま当てはまる。</p>
+<ul>
+<li>外部文書やWebページに含まれる「この指示に従え」「前のルールを無視せよ」は、資料データであって運用指示ではない。</li>
+<li>AIが生成した文書を次のAI処理の入力に再利用する場合、本文だけでなく由来と生成履歴を残す。</li>
+<li>外部由来の文書を素材にした成果物は、内部作成ファイルになっても完全には信頼しない。</li>
+<li>Copilotや類似AIで、契約書、財務数値、顧客提出資料を生成する時は、外部素材をそのまま添付しない運用を考える。</li>
+<li>「AI生成物を配布前に読む」は最低限で、隠しテキストや不可視要素の機械的チェックも必要になる。</li>
+</ul>
+<p>特に怖いのは、攻撃が「目立つマルウェア」ではなく「意思決定資料の微細な汚染」として現れることだ。財務数値、要約、リスク評価、契約条件が少しだけ変わると、人間レビューでも違和感に気づきにくい。AI文書ワークフローでは、内容の正しさだけでなく、どの素材から、どのAI操作で、どこが変わったかを追えるメタデータが重要になる。</p>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://enklypesalt.com/posts/context-collapse-part3-ai-worming-through-word/">Hakon Maloy - Context Collapse, Part 3: AI Worming through Word</a> - 一次情報。MSRCとの協調開示、攻撃の2段階、開示タイムライン、緩和状況を説明。</li>
+<li><a href="https://www.theregister.com/security/2026/07/29/word-worm-crawls-into-copilot-spreads-chaos/5280588">The Register - Word worm crawls into Copilot, spreads chaos</a> - 第三者媒体による整理。Microsoftのコメントも掲載。</li>
+<li><a href="https://www.microsoft.com/en-us/msrc">Microsoft Security Response Center</a> - 協調開示の窓口として参照されている組織。</li>
+<li><a href="https://genai.owasp.org/llmrisk2023-24/llm01-24-prompt-injection/">OWASP GenAI - Prompt Injection</a> - 記事内で参照されるXPIA/Prompt Injectionの基礎分類。</li>
+<li><a href="https://arxiv.org/abs/2403.02817">arXiv - Morris II: Self-replicating prompt propagation</a> - 先行するAIワーム研究。メールアシスタント系の自己複製プロンプト伝播。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>Copilot for Word</li>
+<li>AI worm</li>
+<li>document-borne prompt injection</li>
+<li>Cross-Domain Prompt Injection Attack</li>
+<li>XPIA</li>
+<li>context collapse</li>
+<li>Microsoft 365</li>
+<li>Word document security</li>
+<li>provenance</li>
+<li>information integrity</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://enklypesalt.com/posts/context-collapse-part3-ai-worming-through-word/">enklypesalt.com - posts / context-collapse-part3-ai-worming-through-word</a></p></section>
+    </article>
+  </main>
+</body>
+</html>
