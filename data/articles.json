@@ -1,5 +1,19 @@
 [
   {
+    "file": "Security/2026-07-31_mcp-mermaid悪性npm.md",
+    "slug": "2026-07-31_mcp-mermaid悪性npm",
+    "title": "mcp-mermaid悪性npm",
+    "genre": "Security",
+    "genreLabel": "Security",
+    "created": "2026-07-31",
+    "source": "https://github.com/advisories/GHSA-2f6m-69ww-37wv",
+    "importance": "high",
+    "confidence": "high",
+    "summary": "npmのmcp-mermaidに悪性preinstallが混入したGitHub Advisory。MCPツールを便利さだけで導入せず、依存・CI・秘密情報を同時に守る必要が分かる。",
+    "excerpt": "npmのmcp-mermaidに悪性preinstallが混入したGitHub Advisory。MCPツールを便利さだけで導入せず、依存・CI・秘密情報を同時に守る必要が分かる。",
+    "url": "articles/2026-07-31_mcp-mermaid悪性npm.html"
+  },
+  {
     "file": "Security/2026-07-30_AM_Word文書Copilotワーム.md",
     "slug": "2026-07-30_AM_Word文書Copilotワーム",
     "title": "Word文書経由Copilotワーム",

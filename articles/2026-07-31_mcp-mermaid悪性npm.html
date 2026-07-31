@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>mcp-mermaid悪性npm | 海外技術情報アーカイブ</title>
+  <meta name="description" content="npmのmcp-mermaidに悪性preinstallが混入したGitHub Advisory。MCPツールを便利さだけで導入せず、依存・CI・秘密情報を同時に守る必要が分かる。">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-07-31</span>
+        <span>Security</span>
+        <span>importance: high</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>npmのmcp-mermaidに悪性preinstallが混入したGitHub Advisory。MCPツールを便利さだけで導入せず、依存・CI・秘密情報を同時に守る必要が分かる。</p>
+      </aside>
+      <h1>mcp-mermaid悪性npm</h1>
+<h2>要約</h2>
+<p>GitHub Advisory Databaseは、npmパッケージ <code>mcp-mermaid</code> の <code>0.5.1</code> と <code>0.6.1</code> に悪性コードが含まれていたと報告している。内容は、Mini Shai-Hulud系のサプライチェーン攻撃キャンペーンの一部で、<code>preinstall</code> hookから難読化されたBunスクリプトを実行し、クラウド鍵、GitHub PAT、npm token、Kubernetes service account token、SSH鍵、Docker認証情報などを盗むものとされる。</p>
+<p>この件が重要なのは、MCP関連ツールが「LLMエージェントに便利な小物」ではなく、開発端末、CI/CD、クラウド認証情報に触れる通常のnpm依存として攻撃対象になっている点。MCPサーバーや周辺パッケージを試す速度が上がるほど、パッケージ導入時の権限、実行hook、秘密情報の露出範囲を見直す必要がある。</p>
+<h2>背景</h2>
+<p><code>mcp-mermaid</code> はMermaid図を扱うMCP関連パッケージとして見えるが、GitHub Advisoryではこのパッケージが大規模なnpm侵害キャンペーンの一部として改ざんされたと説明されている。</p>
+<p>Advisoryによると、攻撃者はnpmアカウントを侵害し、短時間に多数のパッケージへ悪性バージョンを公開した。悪性版はインストール時に実行される <code>preinstall</code> hookを使い、GitHub APIを秘密情報の流出経路として利用したとされる。さらにGitHub Actions workflowの注入、AI agent session hooks、システムdaemonによる永続化にも触れられている。</p>
+<p>npmレジストリ上では、<code>0.5.1</code> と <code>0.6.1</code> はversions一覧から外れており、<code>latest</code> は <code>0.4.1</code> に戻っている。ただしGitHub Advisory上のpatched versionsはNoneで、悪性コード扱いのため単純な「修正版へ上げれば完了」とは読まない方がよい。</p>
+<h2>何が重要か</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>観点</th><th>今回の事実</th><th>実務上の意味</th></tr></thead>
+<tbody>
+<tr><td>侵入点</td><td>npmの <code>preinstall</code> hook</td><td><code>npm install</code> だけで端末やCI上の秘密情報に触れ得る</td></tr>
+<tr><td>対象領域</td><td>MCP関連パッケージ</td><td>AIエージェント周辺の実験用ツールもサプライチェーン管理対象</td></tr>
+<tr><td>影響情報</td><td>クラウド鍵、PAT、npm token、Kubernetes tokenなど</td><td>開発者端末とCIの権限分離がないと被害範囲が広がる</td></tr>
+<tr><td>継続性</td><td>workflow注入、agent hooks、daemonへの言及</td><td>一度消すだけでなく永続化痕跡の確認が必要</td></tr>
+<tr><td>対応</td><td>patched versionsなし</td><td>影響版を避け、導入履歴と秘密情報ローテーションを確認する</td></tr>
+</tbody>
+</table></div>
+<p>MCPは「外部ツールをLLMに渡すための接続面」なので、ユーザー視点ではプロンプトやツール権限に目が行きやすい。しかし実装上はnpm、Python、Docker、CI、クラウド認証の普通のサプライチェーン問題でもある。</p>
+<p>特に個人や小規模チームでは、MCPサーバーをローカルで試す時にGitHub token、クラウドCLI認証、Obsidianやローカルファイルへのアクセス権限が同じ環境に置かれやすい。ここにインストール時実行の悪性コードが入ると、LLMが悪用される前に通常の開発環境として突破される。</p>
+<h2>自分向けメモ</h2>
+<ul>
+<li>MCPサーバーは「エージェント用プラグイン」ではなく「実行権限を持つ依存」として扱う。</li>
+<li>試用するMCP関連npmは、<code>package.json</code> の <code>scripts</code>、公開履歴、maintainer、急なバージョン増減を確認する。</li>
+<li>AI実験用のNode環境は、普段のGitHub PATやクラウド管理者権限を持つ端末環境から分ける。</li>
+<li>CIでMCPツールやAI補助ツールを入れる場合、install scriptの実行可否、secretのスコープ、pull requestからの実行条件を確認する。</li>
+<li>影響版を入れた可能性がある場合は、単なるアンインストールではなく、npm/GitHub/クラウド/Kubernetes/SSH/Docker/Slackなどの秘密情報ローテーションを検討する。</li>
+<li><code>npm install --ignore-scripts</code> は万能ではないが、未知のCLI/MCPツールを調査する初回観察では選択肢になる。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://github.com/advisories/GHSA-2f6m-69ww-37wv">GitHub Advisory Database: Malicious code in mcp-mermaid</a> - 影響版、攻撃内容、盗難対象、patched versionsなしの一次情報。</li>
+<li><a href="https://registry.npmjs.org/mcp-mermaid">npm registry: mcp-mermaid</a> - レジストリ上の公開バージョンと <code>latest</code> の確認。</li>
+<li><a href="https://github.com/ossf/malicious-packages/blob/f2ec98fd01307d7a32018f82e6784efa98aef451/osv/malicious/npm/mcp-mermaid/MAL-2026-4147.json">OpenSSF malicious-packages: MAL-2026-4147</a> - 悪性パッケージ記録。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>MCP</li>
+<li>npm malware</li>
+<li>supply chain security</li>
+<li>preinstall hook</li>
+<li>GitHub Actions secrets</li>
+<li>developer workstation security</li>
+<li>AI agent security</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://github.com/advisories/GHSA-2f6m-69ww-37wv">github.com - advisories / GHSA-2f6m-69ww-37wv</a></p></section>
+    </article>
+  </main>
+</body>
+</html>
