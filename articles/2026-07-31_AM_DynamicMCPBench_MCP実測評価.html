@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DynamicMCPBench: MCPエージェントを実行効果で測る | 海外技術情報アーカイブ</title>
+  <meta name="description" content="DynamicMCPBenchは、ライブMCPサーバー上のエージェントを最終回答ではなく実行効果で測るベンチマーク。社内MCPや業務エージェントの評価設計にそのまま使える観点が多い。">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-07-31</span>
+        <span>AI / LLM / Agent</span>
+        <span>importance: high</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>DynamicMCPBenchは、ライブMCPサーバー上のエージェントを最終回答ではなく実行効果で測るベンチマーク。社内MCPや業務エージェントの評価設計にそのまま使える観点が多い。</p>
+      </aside>
+      <h1>DynamicMCPBench: MCPエージェントを実行効果で測る</h1>
+<h2>要約</h2>
+<p>DynamicMCPBenchは、MCPサーバーを使うLLMエージェントの評価を、最終回答や固定ツールリストではなく「実行によって環境に起きた効果」で測るためのフレームワーク。論文は固定データセットではなく、自社や自分のMCPサーバー群に対して再実行できる評価パイプラインとして設計している。</p>
+<p>仕組みは、まず探索用エージェントがライブMCPサーバー上でタスクを実際に解き、成功した実行トレースを記録する。そのトレースから、特定のツール名や経路に依存しない effect checkpoints、避けるべき forbidden-action minefields、順序制約を抽出する。評価対象エージェントは、最終回答が合っているかではなく、同じ効果を再現できたかで採点される。</p>
+<p>大規模実験では、121のMCPサーバー、750タスク、24モデルで評価している。各タスクは3回独立実行し、3回とも成功した場合だけ成功とする pass^3 で採点された。結果はかなり厳しく、最強クラスのエージェントでも解けるのは約半分、31%のタスクはどのモデルも解けず、長いツールチェーンでは成功率が39%から13%へ落ちた。</p>
+<h2>背景</h2>
+<p>MCPは、ファイル、DB、Webサービス、開発者ツールなどをLLMエージェントへ統一インターフェースで渡す標準として広がっている。ただし本番で知りたいのは「ツール呼び出しJSONを書けるか」ではなく、「状態を持つ複数サービスをまたいで、ユーザーの目的を壊さず達成できるか」だ。</p>
+<p>従来の評価には大きく2つの弱点がある。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>評価方法</th><th>弱点</th><th>MCP本番運用で困る理由</th></tr></thead>
+<tbody>
+<tr><td>最終回答一致</td><td>ライブデータでは正解文字列がすぐ古くなる</td><td>DB、Issue、カレンダー、ファイル状態が日々変わる</td></tr>
+<tr><td>固定ツールリスト一致</td><td>同じ結果へ行く別経路を不正解にしやすい</td><td>MCPでは同等の効果を持つツールや順序が複数ありうる</td></tr>
+<tr><td>単発タスク成功率</td><td>再実行安定性が見えない</td><td>業務エージェントは一度だけ成功しても足りない</td></tr>
+<tr><td>静的ベンチマーク</td><td>自社ツールの癖を反映しにくい</td><td>社内MCPサーバーの説明文、権限、状態依存が評価対象になる</td></tr>
+</tbody>
+</table></div>
+<p>DynamicMCPBenchは、この隙間を「成功した実行トレースを基準に、効果を再現したかを見る」という形で埋めようとしている。</p>
+<h2>何が重要か</h2>
+<p>一番重要なのは、ベンチマークを「公開ランキング」ではなく「自分のMCP環境を測る診断器」として捉えている点だ。</p>
+<p>論文のパイプラインは次の流れになる。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>段階</th><th>何をするか</th><th>評価上の意味</th></tr></thead>
+<tbody>
+<tr><td>Goal生成</td><td>MCPサーバーのツール面から現実的な目標を作る</td><td>実際に存在するツール能力からタスクを作れる</td></tr>
+<tr><td>Forward generation</td><td>探索エージェントがライブ環境で目標を解く</td><td>架空の正解手順ではなく、成功済みトレースを得る</td></tr>
+<tr><td>Distillation</td><td>トレースから効果チェックポイントを抽出する</td><td>ツール名ではなく、達成すべき状態変化を基準化する</td></tr>
+<tr><td>Effect scoring</td><td>候補エージェントの実行を効果で採点する</td><td>別ルートの正解を許容し、最終回答依存を避ける</td></tr>
+<tr><td>Refresh</td><td>参照実行を再確認し、環境変化を分類する</td><td>ライブサービスの変化でベンチが腐る問題を抑える</td></tr>
+</tbody>
+</table></div>
+<p>結果も実務的に重い。長いツールチェーンで成功率が落ちるという観察は、MCPサーバーを増やせばエージェントが勝手に賢くなるわけではないことを示す。ツール数、説明品質、状態依存、順序制約、失敗時の復旧設計が、そのまま成功率に効く。</p>
+<p>特に pass^3 は良い指標だと思う。一回だけ通るデモは作りやすいが、業務で使うなら同じ目的を何度実行しても壊れないことが大事になる。3回中1回の成功ではなく、3回とも成功を要求すると、エージェントの「運用できる安定性」が見えやすい。</p>
+<h2>自分向けメモ</h2>
+<ul>
+<li>OpenClawやCodexのMCP連携を見る時、最終応答ではなくファイル、Git、Discord、Obsidianなどに起きた効果で評価する。</li>
+<li>社内MCPサーバーを作るなら、ツール説明の読みやすさ、冪等性、エラー時の戻し方、確認用read APIをセットで設計する。</li>
+<li>長いチェーンは成功率が落ちる前提で、途中チェックポイント、承認、再実行、ロールバックを入れる。</li>
+<li>ベンチマークは「どのモデルが強いか」だけでなく「どのサーバー、どのタスク種別、どの長さで壊れるか」を見る。</li>
+<li>この海外技術情報アーカイブCron自体も、候補作成、Discordポール、Obsidian保存、静的サイトビルド、git push、公開URL確認という長いツールチェーンなので、DynamicMCPBench的に効果チェックを分けると改善しやすい。</li>
+</ul>
+<p>実運用で使うなら、たとえば次のようなチェックポイントを作るとよさそうだ。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>ワークフロー</th><th>効果チェックポイント例</th></tr></thead>
+<tbody>
+<tr><td>Obsidian記事作成</td><td>frontmatterが必須項目を持つ、保存先ジャンルが正しい、候補一覧にselected_noteが入る</td></tr>
+<tr><td>GitHub Pages更新</td><td>buildが成功する、articles.jsonに新記事が入る、commit hashが取得できる</td></tr>
+<tr><td>Discord報告</td><td>指定チャンネルへファイルパス、URL、コミットが含まれる</td></tr>
+<tr><td>ファイル整理</td><td>移動先にファイルが存在し、元の場所に未処理ファイルが残らない</td></tr>
+</tbody>
+</table></div>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://arxiv.org/abs/2607.20531">arXiv abstract: DynamicMCPBench</a> - 論文のメタ情報、要旨、提出日、著者情報。</li>
+<li><a href="https://arxiv.org/html/2607.20531v1">arXiv HTML: DynamicMCPBench</a> - 論文本文。設計原則、effect scoring、121サーバー・750タスク・24モデルの実験結果を確認できる。</li>
+<li><a href="https://modelcontextprotocol.io/">Model Context Protocol</a> - MCPの公式サイト。LLMアプリケーションと外部ツール/データソースを接続する標準としての背景確認用。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>DynamicMCPBench</li>
+<li>MCP</li>
+<li>Model Context Protocol</li>
+<li>LLM agents</li>
+<li>agent benchmark</li>
+<li>effect scoring</li>
+<li>trace-grounded evaluation</li>
+<li>live MCP servers</li>
+<li>pass^3</li>
+<li>tool-use evaluation</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://arxiv.org/abs/2607.20531">arxiv.org - abs / 2607.20531</a></p></section>
+    </article>
+  </main>
+</body>
+</html>

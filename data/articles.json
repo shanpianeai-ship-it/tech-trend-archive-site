@@ -14,6 +14,20 @@
     "url": "articles/2026-07-31_mcp-mermaid悪性npm.html"
   },
   {
+    "file": "AI/2026-07-31_AM_DynamicMCPBench_MCP実測評価.md",
+    "slug": "2026-07-31_AM_DynamicMCPBench_MCP実測評価",
+    "title": "DynamicMCPBench: MCPエージェントを実行効果で測る",
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "created": "2026-07-31",
+    "source": "https://arxiv.org/abs/2607.20531",
+    "importance": "high",
+    "confidence": "high",
+    "summary": "DynamicMCPBenchは、ライブMCPサーバー上のエージェントを最終回答ではなく実行効果で測るベンチマーク。社内MCPや業務エージェントの評価設計にそのまま使える観点が多い。",
+    "excerpt": "DynamicMCPBenchは、ライブMCPサーバー上のエージェントを最終回答ではなく実行効果で測るベンチマーク。社内MCPや業務エージェントの評価設計にそのまま使える観点が多い。",
+    "url": "articles/2026-07-31_AM_DynamicMCPBench_MCP実測評価.html"
+  },
+  {
     "file": "Security/2026-07-30_AM_Word文書Copilotワーム.md",
     "slug": "2026-07-30_AM_Word文書Copilotワーム",
     "title": "Word文書経由Copilotワーム",
