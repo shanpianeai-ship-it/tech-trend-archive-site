@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GhostApprovalをCSAのガバナンス視点で読む | 海外技術情報アーカイブ</title>
+  <meta name="description" content="CSAのGhostApproval解説は、AIコーディング支援のsymlink問題を単なる実装バグではなく、承認UIとエージェント権限設計のガバナンス問題として整理している。">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-08-01</span>
+        <span>Security</span>
+        <span>importance: high</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>CSAのGhostApproval解説は、AIコーディング支援のsymlink問題を単なる実装バグではなく、承認UIとエージェント権限設計のガバナンス問題として整理している。</p>
+      </aside>
+      <h1>GhostApprovalをCSAのガバナンス視点で読む</h1>
+<h2>要約</h2>
+<p>Cloud Security AllianceのAI Safety Initiativeが、Wiz ResearchのGhostApprovalを題材に、AIコーディングアシスタントのsymlink境界問題を整理した。7月のWiz一次情報が「悪意あるリポジトリ内のsymlinkでワークスペース外ファイルを書き換える」攻撃の実証を中心にしていたのに対し、CSAのノートは、これをエージェント権限、承認UI、ベンダー責任分界の問題として読ませる点が重要だ。</p>
+<p>攻撃自体は古典的なCWE-61、つまりUnix symbolic link followingに近い。悪意あるリポジトリが <code>project_settings.json</code> のような無害に見えるsymlinkを置き、実体は <code>~/.ssh/authorized_keys</code> や <code>~/.zshrc</code> を指す。AIアシスタントが「設定ファイルを更新する」と判断して書き込むと、実際にはSSH鍵追加やシェル起動時の永続実行につながる。</p>
+<p>CSAが強調するのは、ここで人間の承認が安全策になりきらないことだ。承認ダイアログが見かけのパスだけを表示し、解決後の実パスを表示しないなら、ユーザーは何を許可しているのか判断できない。つまり「Human-in-the-Loopがある」では不十分で、「人間が正しい結果を見て判断できる」ことが安全条件になる。</p>
+<h2>背景</h2>
+<p>AIコーディング支援は、補完やチャットから、ローカルファイル編集、依存導入、テスト実行、シェル操作まで含む開発エージェントへ移っている。多くの製品は、危険な操作の前にユーザー承認を挟むことで安全性を説明している。</p>
+<p>ただし、エージェントが読むリポジトリそのものは未信頼入力になり得る。README、設定ファイル、symlink、スクリプト、Issue本文、MCP応答などは、エージェントにとって作業文脈であると同時に攻撃面でもある。従来なら開発者が手順を読んで気づいたかもしれない違和感も、エージェントが「セットアップして」と言われて半自動で進めると、承認画面の表示品質に依存する。</p>
+<p>CSAはこの問題を、AIエージェントのshadow accessやidentity/access gapの文脈に接続している。エージェントは独立した低権限IDで動くのではなく、起動した開発者アカウントのファイル権限をそのまま継承する。だから、ワークスペース内の作業に見えても、symlinkを経由すれば開発者のHOME、SSH設定、シェル設定、クラウド資格情報に届き得る。</p>
+<h2>何が重要か</h2>
+<h3>承認UIは安全境界の一部になった</h3>
+<p>GhostApprovalで一番大事なのは、UIが攻撃面になっている点だ。CSAは、複数ツールで承認ダイアログが「リポジトリ内の見かけのファイル名」を表示し、「実際に書き込む解決後パス」を表示していなかったことを重く見ている。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>観点</th><th>不十分な状態</th><th>必要な状態</th></tr></thead>
+<tbody>
+<tr><td>表示パス</td><td>symlinkの見かけのパスだけを出す</td><td>canonical pathとワークスペース外判定を出す</td></tr>
+<tr><td>承認</td><td>ユーザーがApproveを押した事実だけを見る</td><td>ユーザーが正確な結果を見たかを見る</td></tr>
+<tr><td>差分</td><td>無害な設定ファイルの編集に見える</td><td>実際の書き込み先と差分を紐づける</td></tr>
+<tr><td>責任分界</td><td>信頼済みディレクトリなのでユーザー責任とする</td><td>悪性リポジトリを前提に防御する</td></tr>
+</tbody>
+</table></div>
+<p>これはCWE-451、つまり重要情報のUI誤表示にも近い。承認ボタンは存在しても、表示が実態とずれていれば、Human-in-the-Loopは形式だけになる。</p>
+<h3>ベンダーごとの判断差が調達・利用判断に効く</h3>
+<p>CSAノートは、各ベンダーの対応差もガバナンス上のシグナルとして扱っている。AWS、Google、Cursorは脆弱性として修正し、CursorとAmazon Q DeveloperにはCVEも付いた。一方でAugmentとWindsurfは公開時点で未修正、Anthropicは「ユーザーがディレクトリを信頼し、操作を承認したなら脅威モデル外」という立場を取ったとされる。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>ツール</th><th>CSAノートでの扱い</th><th>実務上の読み方</th></tr></thead>
+<tbody>
+<tr><td>Amazon Q Developer</td><td>High、修正済み、CVE-2026-12958</td><td>バージョン確認とLanguage Server更新が必要</td></tr>
+<tr><td>Google Antigravity</td><td>Critical、修正済み</td><td>canonical path表示と境界確認が修正観点</td></tr>
+<tr><td>Cursor</td><td>Critical、修正済み、CVE-2026-50549</td><td>v3.0以降への更新が最低ライン</td></tr>
+<tr><td>Augment</td><td>Critical、公開時点で未修正</td><td>未信頼リポジトリでは隔離前提</td></tr>
+<tr><td>Windsurf</td><td>Critical、公開時点で未修正</td><td>auto-approveや無人実行は避ける</td></tr>
+<tr><td>Claude Code</td><td>脆弱性扱いは争点</td><td>ベンダーの脅威モデルとUI表示内容を別々に見る</td></tr>
+</tbody>
+</table></div>
+<p>ここでの論点は、「特定製品が危ない」というより、ベンダーが悪意あるリポジトリを製品側の防御対象と見るか、ユーザーのリスク受容と見るかだ。エージェントが開発者権限を継承する以上、利用企業はこの思想差を調達・標準ツール選定の質問に入れるべきだ。</p>
+<h3>エージェントには開発者権限をそのまま渡さない発想が必要</h3>
+<p>CSAは、GhostApprovalをshadow accessの具体例として見ている。ユーザーは「プロジェクト内の設定更新」を承認したつもりでも、エージェントは開発者アカウントの広い権限を使って、意図しないファイルへ到達する。この見えない経路がshadow accessになる。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>防御レイヤー</th><th>具体策</th></tr></thead>
+<tbody>
+<tr><td>実行環境</td><td>未信頼リポジトリはコンテナ、使い捨てVM、専用低権限ユーザーで開く</td></tr>
+<tr><td>ファイル権限</td><td>ワークスペース外の読み書きをデフォルト拒否し、例外だけ明示承認する</td></tr>
+<tr><td>UI</td><td>解決後パス、symlink、ワークスペース外、機密ファイル種別を承認画面に出す</td></tr>
+<tr><td>監視</td><td><code>~/.ssh/authorized_keys</code>、<code>.zshrc</code>、<code>.bashrc</code>、クラウド資格情報の変更を検知する</td></tr>
+<tr><td>運用</td><td>auto-approveや無人実行は、信頼済み・隔離済み環境に限定する</td></tr>
+</tbody>
+</table></div>
+<p>個人利用でも同じだ。外部から受け取ったリポジトリやPoCをAIに触らせる前に、<code>find . -type l -ls</code> でsymlinkを確認するだけでも事故の入口はかなり減る。</p>
+<h2>自分向けメモ</h2>
+<ul>
+<li>既存の7/9ノートはWiz一次情報の攻撃構造整理。今回のCSAノートは、承認UIとベンダー責任分界を見直す材料として扱う。</li>
+<li>「承認あり」は安全を意味しない。承認画面が実パス、ワークスペース外判定、差分、書き込み前ゲートを出しているかを見る。</li>
+<li>Codex/OpenClaw/Claude Code系の作業でも、初見リポジトリはHOMEやDesktopに直結した状態で無人実行させない。</li>
+<li>ベンダー評価では「symlinkを解決してから操作・表示しているか」「ワークスペース外書き込みを拒否できるか」「未信頼リポジトリを脅威モデルに入れているか」を質問項目にする。</li>
+<li>エージェントの権限は開発者アカウントそのものではなく、できれば作業単位の低権限・短命環境へ閉じる。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://labs.cloudsecurityalliance.org/research/csa-research-note-ghostapproval-ai-coding-assistant-symlink/">Cloud Security Alliance - GhostApproval: A Shared Symlink Trust-Boundary Flaw in AI Coding Assistants</a>: 今回の主ソース。Wiz研究をCSAのAI安全・shadow access・Zero Trust文脈で整理している。</li>
+<li><a href="https://www.wiz.io/blog/ghostapproval-a-trust-boundary-gap-in-ai-coding-assistants">Wiz Research - GhostApproval: A Trust Boundary Gap in AI Coding Assistants</a>: 一次情報。6製品にまたがるsymlink攻撃、承認UIの問題、ベンダー対応を説明。</li>
+<li><a href="https://cwe.mitre.org/data/definitions/61.html">MITRE CWE-61 - UNIX Symbolic Link Following</a>: symlink追従の古典的弱点分類。</li>
+<li><a href="https://cwe.mitre.org/data/definitions/451.html">MITRE CWE-451 - User Interface Misrepresentation of Critical Information</a>: 重要情報のUI表示不足がユーザー判断を誤らせる弱点分類。</li>
+<li><a href="https://cloudsecurityalliance.org/artifacts/ai-controls-matrix">Cloud Security Alliance - AI Controls Matrix</a>: AI利用組織の統制観点を整理する補助資料。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>GhostApproval</li>
+<li>AI coding assistant</li>
+<li>symlink</li>
+<li>symbolic link</li>
+<li>CWE-61</li>
+<li>CWE-451</li>
+<li>Human-in-the-Loop</li>
+<li>shadow access</li>
+<li>Zero Trust</li>
+<li>workspace boundary</li>
+<li>developer security</li>
+<li>Cursor</li>
+<li>Claude Code</li>
+<li>Amazon Q Developer</li>
+<li>Windsurf</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://labs.cloudsecurityalliance.org/research/csa-research-note-ghostapproval-ai-coding-assistant-symlink/">labs.cloudsecurityalliance.org - research / csa-research-note-ghostapproval-ai-coding-assistant-symlink</a></p></section>
+    </article>
+  </main>
+</body>
+</html>

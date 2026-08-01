@@ -14,6 +14,20 @@
     "url": "articles/2026-08-01_Traefik_CONNECT汚染.html"
   },
   {
+    "file": "Security/2026-08-01_AM_GhostApproval_CSAガバナンス.md",
+    "slug": "2026-08-01_AM_GhostApproval_CSAガバナンス",
+    "title": "GhostApprovalをCSAのガバナンス視点で読む",
+    "genre": "Security",
+    "genreLabel": "Security",
+    "created": "2026-08-01",
+    "source": "https://labs.cloudsecurityalliance.org/research/csa-research-note-ghostapproval-ai-coding-assistant-symlink/",
+    "importance": "high",
+    "confidence": "high",
+    "summary": "CSAのGhostApproval解説は、AIコーディング支援のsymlink問題を単なる実装バグではなく、承認UIとエージェント権限設計のガバナンス問題として整理している。",
+    "excerpt": "CSAのGhostApproval解説は、AIコーディング支援のsymlink問題を単なる実装バグではなく、承認UIとエージェント権限設計のガバナンス問題として整理している。",
+    "url": "articles/2026-08-01_AM_GhostApproval_CSAガバナンス.html"
+  },
+  {
     "file": "Security/2026-07-31_mcp-mermaid悪性npm.md",
     "slug": "2026-07-31_mcp-mermaid悪性npm",
     "title": "mcp-mermaid悪性npm",
