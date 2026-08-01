@@ -1,5 +1,19 @@
 [
   {
+    "file": "Security/2026-08-01_Traefik_CONNECT汚染.md",
+    "slug": "2026-08-01_Traefik_CONNECT汚染",
+    "title": "Traefik CONNECT汚染",
+    "genre": "Security",
+    "genreLabel": "Security",
+    "created": "2026-08-01",
+    "source": "https://github.com/traefik/traefik/security/advisories/GHSA-3ccp-42pg-hgv6",
+    "importance": "high",
+    "confidence": "high",
+    "summary": "Traefikの共有keep-aliveプールで、HTTP/2/3のCONNECTが別ユーザーのレスポンスを読ませ得る脆弱性。プロキシの接続再利用境界を見直す材料になる。",
+    "excerpt": "Traefikの共有keep-aliveプールで、HTTP/2/3のCONNECTが別ユーザーのレスポンスを読ませ得る脆弱性。プロキシの接続再利用境界を見直す材料になる。",
+    "url": "articles/2026-08-01_Traefik_CONNECT汚染.html"
+  },
+  {
     "file": "Security/2026-07-31_mcp-mermaid悪性npm.md",
     "slug": "2026-07-31_mcp-mermaid悪性npm",
     "title": "mcp-mermaid悪性npm",

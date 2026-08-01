@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Traefik CONNECT汚染 | 海外技術情報アーカイブ</title>
+  <meta name="description" content="Traefikの共有keep-aliveプールで、HTTP/2/3のCONNECTが別ユーザーのレスポンスを読ませ得る脆弱性。プロキシの接続再利用境界を見直す材料になる。">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-08-01</span>
+        <span>Security</span>
+        <span>importance: high</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>Traefikの共有keep-aliveプールで、HTTP/2/3のCONNECTが別ユーザーのレスポンスを読ませ得る脆弱性。プロキシの接続再利用境界を見直す材料になる。</p>
+      </aside>
+      <h1>Traefik CONNECT汚染</h1>
+<h2>要約</h2>
+<p>TraefikのGitHub Security Advisory <code>GHSA-3ccp-42pg-hgv6</code> は、標準のHTTPリバースプロキシで、認証なしのクロスユーザーHTTPレスポンス汚染が起きる可能性を報告している。条件は、フロント側がHTTP/2またはHTTP/3の <code>CONNECT</code> を受け、TraefikがHTTP/1.1 upstreamへ共有 <code>net/http.Transport</code> で転送し、upstreamがkeep-aliveの非2xx応答を返しつつリクエストボディをdrainしない場合。</p>
+<p>攻撃者は <code>CONNECT</code> のbodyに別のHTTP/1.1リクエストを忍ばせる。upstream側でそのリクエストへの応答が残ったままバックエンドソケットがTraefikの共有idle poolへ戻ると、別クライアントの通常リクエストが同じソケットを再利用し、攻撃者の用意した応答や他ユーザー向け応答を自分の応答として読んでしまう。</p>
+<p>修正版は <code>v2.11.53</code>、<code>v3.6.24</code>、<code>v3.7.9</code>。実験的なFastProxyは影響を受けないとされる。</p>
+<h2>背景</h2>
+<p>HTTPプロキシでは、クライアント接続とバックエンド接続が常に1対1で閉じるわけではない。性能のためにバックエンド接続をkeep-alive poolで再利用する。この再利用境界が、HTTP/2/3のstream終端、HTTP/1.1 upstreamへの変換、<code>CONNECT</code> bodyの扱い、upstreamのkeep-alive応答と組み合わさると、リクエストとレスポンスの対応関係がずれる。</p>
+<p>Advisoryは、Traefikの標準proxyがGoの <code>net/http/httputil.ReverseProxy</code> と共有 <code>http.Transport</code> を使うため、<code>CONNECT</code> を通常のproxied requestとして扱う経路で問題が起きると説明している。<code>sanitizePath</code> はデフォルトで有効だが、防御としては不十分。<code>CONNECT /</code> をkeep-alive非2xxで返すGo <code>net/http</code> やgunicorn/Flask系backendでは成立し得る。</p>
+<h2>何が重要か</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>観点</th><th>内容</th><th>見るべきポイント</th></tr></thead>
+<tbody>
+<tr><td>影響</td><td>別ユーザーのレスポンス、または攻撃者のsmuggled responseを読ませる</td><td>認証済み/private contentが混線する可能性</td></tr>
+<tr><td>条件</td><td>HTTP/2/3 frontend、HTTP/1.1 upstream、共有keep-alive pool、body未drainの非2xx</td><td>入口プロトコルとbackend実装の組み合わせで判断する</td></tr>
+<tr><td>対象版</td><td><code>&lt;= v2.11.52</code>, <code>&lt;= v3.6.23</code>, <code>&lt;= v3.7.8</code></td><td><code>v2.11.53</code>, <code>v3.6.24</code>, <code>v3.7.9</code> へ更新</td></tr>
+<tr><td>弱点分類</td><td>CWE-444</td><td>リクエスト/レスポンス解釈差分、smuggling系として扱う</td></tr>
+<tr><td>暫定策</td><td>backend reuse無効化やkeep-alive無効化でPoC上はNO_CROSS</td><td>恒久策は修正版への更新を優先</td></tr>
+</tbody>
+</table></div>
+<p>この脆弱性は、単純な「Traefikのバグ」だけではなく、リバースプロキシが複数のHTTPバージョンをまたいで接続を再利用する時の設計教訓として読める。HTTP/2/3ではstream単位で終端できても、HTTP/1.1 upstreamでは同じTCPソケット上に次のリクエスト/レスポンスが残り得る。</p>
+<p>運用面で怖いのは、アプリケーションログ上は被害者が通常のリクエストを投げているように見え、返った内容だけが別物になる点。認可チェックそのものを突破していなくても、共有proxy層の混線でprivate responseが漏れる。</p>
+<h2>自分向けメモ</h2>
+<ul>
+<li>Traefikを外部入口に置く環境では、まずバージョンが <code>v2.11.53</code> / <code>v3.6.24</code> / <code>v3.7.9</code> 以上か確認する。</li>
+<li>HTTP/2/3を有効にしていて、backendがGo、Python gunicorn/Flask、Caddyなどkeep-alive非2xxを返し得る場合は優先度を上げる。</li>
+<li><code>sanitizePath: true</code> を「対策済み」と扱わない。advisoryは、backend依存で突破されると明記している。</li>
+<li>暫定的にbackend keep-aliveを切る、接続再利用を弱める、該当entrypointのHTTP/2/3露出を見直すなどは選択肢。ただし性能影響と副作用を確認する。</li>
+<li>WAFやアプリ側認可だけでは防ぎにくい。プロキシ層のHTTP変換、接続プール、<code>CONNECT</code> 許可の棚卸しが必要。</li>
+<li>類似のCaddy <code>reverse_proxy</code> CONNECT pool poisoningと同じ根に近く、Go <code>net/http</code> ベースのproxy実装では同系統の設計確認が必要。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://github.com/traefik/traefik/security/advisories/GHSA-3ccp-42pg-hgv6">GitHub Security Advisory: GHSA-3ccp-42pg-hgv6</a> - 影響、条件、PoC、修正版、FastProxy非影響の一次情報。</li>
+<li><a href="https://github.com/traefik/traefik/releases/tag/v2.11.53">Traefik v2.11.53 release</a> - v2系の修正版。</li>
+<li><a href="https://github.com/traefik/traefik/releases/tag/v3.6.24">Traefik v3.6.24 release</a> - v3.6系の修正版。</li>
+<li><a href="https://github.com/traefik/traefik/releases/tag/v3.7.9">Traefik v3.7.9 release</a> - v3.7系の修正版。</li>
+<li><a href="https://cwe.mitre.org/data/definitions/444.html">MITRE CWE-444</a> - HTTP request/response smuggling系の弱点分類。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>Traefik</li>
+<li>CONNECT</li>
+<li>HTTP/2</li>
+<li>HTTP/3</li>
+<li>response poisoning</li>
+<li>keep-alive pool</li>
+<li>HTTP request smuggling</li>
+<li>CWE-444</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://github.com/traefik/traefik/security/advisories/GHSA-3ccp-42pg-hgv6">github.com - traefik / traefik</a></p></section>
+    </article>
+  </main>
+</body>
+</html>
