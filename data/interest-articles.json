@@ -733,6 +733,18 @@
   },
   {
     "file": "[入力元伏せ]",
+    "slug": "2026-08-02-セキュリティ-個人MacのAI開発環境でnpm-postinstallをどこまで止めるべきか-6ed033fe99",
+    "title": "個人MacのAI開発環境でnpm postinstallをどこまで止めるべきか",
+    "category": "セキュリティ",
+    "created": "2026-08-02T19:30:00+09:00",
+    "status": "",
+    "type": "interest_report",
+    "summary": "AIエージェントがnpm installを実行する個人Macで、postinstall、prepare、環境変数、トークン露出をどこまで止めるべきかを実務ルールに落とす。",
+    "excerpt": "AIエージェントがnpm installを実行する個人Macで、postinstall、prepare、環境変数、トークン露出をどこまで止めるべきかを実務ルールに落とす。",
+    "url": "interests/articles/2026-08-02-セキュリティ-個人MacのAI開発環境でnpm-postinstallをどこまで止めるべきか-6ed033fe99.html"
+  },
+  {
+    "file": "[入力元伏せ]",
     "slug": "2026-07-31-セキュリティ-Claudeのサイバー評価事故を個人エージェント安全設計に落とす-e39bc11655",
     "title": "Claudeのサイバー評価事故を個人エージェント安全設計に落とす",
     "category": "セキュリティ",

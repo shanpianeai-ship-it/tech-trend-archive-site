@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>個人MacのAI開発環境でnpm postinstallをどこまで止めるべきか | 興味レポート</title>
+  <meta name="description" content="AIエージェントがnpm installを実行する個人Macで、postinstall、prepare、環境変数、トークン露出をどこまで止めるべきかを実務ルールに落とす。">
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../../interests/index.html">興味レポート</a>
+    <span class="site-subtitle">Public redacted interest reports</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 興味レポート一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-08-02T19:30:00+09:00</span>
+        <span>セキュリティ</span>
+        <span>interest_report</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>AIエージェントがnpm installを実行する個人Macで、postinstall、prepare、環境変数、トークン露出をどこまで止めるべきかを実務ルールに落とす。</p>
+      </aside>
+      <h1>個人MacのAI開発環境でnpm postinstallをどこまで止めるべきか</h1>
+<h2>要約</h2>
+<p>CodexやOpenClawのようなエージェントに開発作業を任せると、依存追加や <code>npm install</code> は日常操作になる。npmのライフサイクルスクリプトは便利だが、依存パッケージ側の <code>preinstall</code>、<code>install</code>、<code>postinstall</code>、<code>prepare</code> が自動実行されるため、ログイン済み端末、GitHub token、npm token、クラウド認証情報、ローカルメモを持つ個人Macでは攻撃面が大きい。</p>
+<p>今回のDiscordポールは候補一覧frontmatterの <code>poll_message_id</code> を優先して確認した。対象ポールの <code>poll.results.answer_counts</code> は空で、有効票はなかったため、候補一覧から、AI開発環境の実運用に直結する「npm postinstall防衛」を採用した。</p>
+<h2>npm installで何が動くか</h2>
+<p>npm公式ドキュメントでは、<code>scripts</code> フィールドに定義されたスクリプトには通常の <code>npm run</code> だけでなく、ライフサイクルイベントがある。<code>prepare</code> は <code>npm publish</code> や <code>npm pack</code> の前だけでなく、引数なしのローカル <code>npm install</code> でも実行される。git依存に <code>prepare</code> が含まれる場合は、その依存の <code>dependencies</code> と <code>devDependencies</code> を入れたうえでスクリプトが実行される。</p>
+<p>つまり、危険なのは名前が <code>postinstall</code> のものだけではない。<code>preinstall</code>、<code>install</code>、<code>postinstall</code>、<code>prepare</code>、<code>prepack</code> など、インストールやパッケージ取得の途中で動くコード全体が対象になる。AIエージェントが「ビルドに必要そうだから入れる」と判断してパッケージを追加すると、ユーザーが中身を読む前に依存側の任意コードが走る可能性がある。</p>
+<p><code>ignore-scripts</code> はこの自動実行を止めるためのnpm設定である。ただし、ネイティブアドオン、Playwrightのブラウザインストール、sharpのバイナリ取得など、正当なセットアップも止まる。したがって「常に全部止める」だけでは開発体験が壊れやすい。実務的には、デフォルト停止、必要時だけ明示実行、実行前に差分確認、という段階化が扱いやすい。</p>
+<h2>個人Macで守るべきもの</h2>
+<p>個人のAI開発端末は、CIランナーよりも情報が濃い。ホームディレクトリにはSSH鍵、Git認証、クラウドCLIの認証キャッシュ、<code>.npmrc</code>、<code>.env</code>、Obsidian vault、ブラウザセッション、Discord bot token、各種APIキーが混ざりやすい。npmスクリプトは通常のプロセスとして動くため、環境変数、作業ディレクトリ、ネットワーク、ファイルシステムへ到達できる範囲が広い。</p>
+<p>GitHubのActionsセキュリティ資料でも、<code>GITHUB_TOKEN</code> は最小権限にし、秘密情報は平文で置かず、ログに出た場合は削除とローテーションが必要だとされている。これはCIだけの話ではない。ローカルでも、エージェントが <code>npm install</code> を実行するシェルに強いトークンが入っていれば、依存側スクリプトに渡る。</p>
+<p>特に危ないのは、長寿命のGitHub PAT、npm publish token、クラウド管理者権限、Discord bot token、1Passwordやキーチェーンから取り出した値を同じターミナルに残す運用である。エージェントが外部ページや依存のREADMEを読みながら作業する場合、パッケージ選定ミスとプロンプトインジェクションが組み合わさる可能性もある。</p>
+<h2>止める範囲の現実解</h2>
+<p>日常の個人Macでは、グローバルに <code>ignore-scripts=true</code> を置くより、エージェント用の作業プロファイルを分けるのが現実的である。普段使いのシェルでは既存プロジェクトの開発体験を保ち、エージェントに渡す作業ディレクトリでは、npmスクリプトをデフォルト停止にする。</p>
+<p>新規プロジェクトや未知の依存を触る時は、まず <code>npm install --ignore-scripts</code> でロックファイルと依存ツリーだけを確定する。その後、<code>package.json</code> とロックファイルで新しく入ったパッケージを確認し、必要なものだけ手動で <code>npm rebuild &lt;package&gt;</code> や公式ドキュメントに沿ったセットアップを実行する。ネイティブビルドやブラウザダウンロードが必要な場合も、どのパッケージのどのスクリプトを許可したかをメモに残す。</p>
+<p>既知の社内・個人プロジェクトで、依存が固定され、ロックファイルが信頼できる場合は、毎回止めなくてもよい。ただし、エージェントが依存追加を提案した時だけは、追加直後のインストールを分離する。<code>npm ci</code> を使うCIでも、外部PRや未信頼ブランチでは秘密情報を渡さない、権限を読み取りに落とす、ログを確認する、という考え方は同じである。</p>
+<h2>エージェント運用ルール</h2>
+<p>エージェントにnpm操作を任せるなら、以下を標準ルールにする。</p>
+<ol>
+<li>未知の依存追加では、最初のインストールを <code>--ignore-scripts</code> で行う。</li>
+<li><code>postinstall</code> だけでなく、<code>preinstall</code>、<code>install</code>、<code>prepare</code>、<code>prepack</code> を確認対象にする。</li>
+<li>GitHub PAT、npm token、クラウド認証情報を、npmを実行する環境変数に置かない。</li>
+<li><code>.npmrc</code> にpublish可能なトークンを平文で置いた作業ディレクトリを、エージェントに渡さない。</li>
+<li>ローカルの秘密情報やObsidian vaultを含む親ディレクトリで、未知パッケージのスクリプトを走らせない。</li>
+<li>依存追加後は、ロックファイル差分と新規パッケージのメンテナ、用途、ダウンロード後処理を確認する。</li>
+<li>スクリプトを許可した場合は、許可したパッケージ名と理由を作業ログに残す。</li>
+<li>失敗時に安易に <code>sudo npm install</code> へ進まない。</li>
+</ol>
+<p>このルールの中心は、npmを全面禁止することではない。AIエージェントが便利に依存を試せる環境と、秘密情報を持つ本人環境を分けることである。</p>
+<h2>今日の結論</h2>
+<p>個人MacのAI開発環境では、npmのライフサイクルスクリプトを「開発に必要な普通の処理」と「未信頼依存の任意コード実行」の両方として扱う必要がある。AIエージェントが依存追加を高速化するほど、最初の <code>npm install</code> は人間が見ていないコード実行になりやすい。</p>
+<p>実用ラインは、未知依存では <code>--ignore-scripts</code> を標準にし、必要なスクリプトだけを後から明示許可することだ。あわせて、エージェント用シェルから強いトークンと秘密情報を抜く。これだけで、postinstall系のサプライチェーン事故が起きた時の被害範囲を、プロジェクト作業ディレクトリの中へかなり閉じ込められる。</p>
+<h2>参考リンク</h2>
+<ul>
+<li><a href="https://docs.npmjs.com/cli/v10/using-npm/scripts/">npm Docs: scripts</a></li>
+<li><a href="https://docs.npmjs.com/cli/v10/using-npm/config/#ignore-scripts">npm Docs: config / ignore-scripts</a></li>
+<li><a href="https://docs.github.com/en/actions/reference/security/secure-use">GitHub Docs: Secure use reference</a></li>
+</ul>
+    </article>
+  </main>
+</body>
+</html>
