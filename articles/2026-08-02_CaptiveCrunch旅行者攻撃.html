@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CaptiveCrunch旅行者攻撃 | 海外技術情報アーカイブ</title>
+  <meta name="description" content="Midnight Blizzard系Storm-2945がホテル等のcaptive portal経由でDNS/HTTPを操作し、AiTMフィッシングやマルウェア配布を行う攻撃。">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="../index.html">海外技術情報アーカイブ</a>
+    <span class="site-subtitle">AI / SAP / Security trend notes</span>
+  </header>
+  <main>
+    <article class="article">
+      <nav class="back"><a href="../index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row">
+        <span>2026-08-02</span>
+        <span>Security</span>
+        <span>importance: high</span>
+      </div>
+            <aside class="summary-box">
+        <span>Summary</span>
+        <p>Midnight Blizzard系Storm-2945がホテル等のcaptive portal経由でDNS/HTTPを操作し、AiTMフィッシングやマルウェア配布を行う攻撃。</p>
+      </aside>
+      <h1>CaptiveCrunch旅行者攻撃</h1>
+<h2>要約</h2>
+<p>Microsoft Threat Intelligenceは、Midnight Blizzardのサブクラスターと評価するStorm-2945が、ホテル、会議施設、空港などのcaptive portalを持つネットワークを悪用し、旅行者の通信を攻撃者管理インフラへ誘導するキャンペーンを報告した。Microsoftはこの活動をCaptiveCrunchと呼んでいる。</p>
+<p>攻撃は、単なる偽Wi-Fiやフィッシングページではない。侵害された、または管理系が悪用された可能性のあるcaptive portal環境でDNS/HTTPトラフィックを操作し、Microsoft 365を模したAiTMフィッシング、Entra IDのdevice code phishing、偽ブラウザ/OS更新を装ったマルウェア配布へつなげる。Windows向けRATや情報窃取、Android APK誘導の兆候も報告されている。</p>
+<p>出張者やイベント参加者は「ホテルWi-Fiに出る認証画面だから安全」と見なしやすい。そこにMicrosoftログイン、接続確認、更新案内、ClickFix風の手順が混ざることで、通常の社外アクセス対策では見落としやすい初期侵害経路になる。</p>
+<h2>背景</h2>
+<p>Captive portalは、公共・宿泊・会議施設Wi-Fiで最初に表示される認証、同意、部屋番号入力などの画面を指す。利用者はOSやブラウザの接続確認によって自動的にこの画面へ誘導されるため、通信経路やDNS応答が通常よりも柔らかい状態になる。</p>
+<p>Microsoftの報告では、Storm-2945は2026年5月初旬以降、複数国のホスピタリティ関連ネットワークやcaptive portal機器に関係するネットワークで、DNS/HTTPを操作してユーザーを攻撃者管理基盤へ転送していた。Microsoftは初期侵害ベクトルの調査中としつつ、複数の被害ネットワークで使われる機器や管理システムに共通点があるため、個別施設の単発侵害に限られない可能性を示している。</p>
+<p>Storm-2945は、2026年2月以降にAI支援を含むdevice code/OAuth code phishingを行い、Entra device registrationやMicrosoft 365データ収集につなげていたとされる。今回の特徴は、その手口を旅行者が使うゲストネットワークの文脈へ接続した点にある。</p>
+<h2>何が重要か</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>観点</th><th>内容</th><th>見るべきポイント</th></tr></thead>
+<tbody>
+<tr><td>初期接点</td><td>ホテル、会議施設、空港などのcaptive portal付きネットワーク</td><td>出張者・イベント参加者の社外アクセス経路</td></tr>
+<tr><td>認証攻撃</td><td>Microsoft 365を模したAiTM、Entra ID device code phishing</td><td>device code flowの許可範囲、条件付きアクセス、異常OAuth検知</td></tr>
+<tr><td>端末侵害</td><td>偽ブラウザ/OS更新、ClickFix風手順、Windows RAT、Android APK誘導</td><td>「接続確認」「更新」「証明書」「修復ツール」のWeb誘導を禁止する</td></tr>
+<tr><td>情報窃取</td><td>ブラウザCookie、認証情報、Microsoft 365/Azure ADトークン、キー入力、ファイル</td><td>端末EDRとIDログを同じ事件として相関する</td></tr>
+<tr><td>攻撃者像</td><td>Midnight Blizzard系Storm-2945</td><td>政府、外交、NGO、ITサービス、企業出張者を高リスクとして扱う</td></tr>
+</tbody>
+</table></div>
+<p>一番の論点は、信頼境界が「社内ネットワークかどうか」だけでは決まらないこと。管理された端末とMFAがあっても、利用者が正規のMicrosoft device code入力ページで攻撃者のコードを承認すれば、攻撃者セッションにトークンを渡してしまう。</p>
+<p>また、攻撃者はcaptive portalの自然なユーザー体験を利用する。Wi-Fi接続直後にブラウザが自動で開き、何かを入力したり、更新や接続修復を促されたりする流れは、多くの人にとって違和感が小さい。そこにClickFix的な「このコマンドを実行してください」「このAPKを入れてください」が混ざると、技術者でも疲れている移動中には判断を誤りやすい。</p>
+<h2>自分向けメモ</h2>
+<ul>
+<li>出張中の機密作業は、ホテルWi-Fiよりモバイル回線、eSIM、企業管理ホットスポット、信頼済みVPN経路を優先する。</li>
+<li>captive portalから提示される更新、証明書、ブラウザ修復、セキュリティツール、APKはインストールしない。OS標準の更新経路だけを使う。</li>
+<li>Entra IDのdevice code flowは、必要な業務がなければブロックを検討する。必要な場合も条件付きアクセスで場所、端末準拠、リスク、アプリを絞る。</li>
+<li>出張者向けの教育は「怪しいWi-Fiに入るな」だけでは弱い。「正規Microsoftページに見えるdevice code入力でも、誰がコードを発行したか分からなければ拒否する」と具体化する。</li>
+<li>EDRではWi-Fi接続直後のNCSI/captive portal確認後にファイル作成やPowerShell実行が起きていないかを見る。ID側では異常なOAuth device code authentication activityを確認する。</li>
+<li>企業イベントや会議で会場Wi-Fiを使わせる場合、SSID、captive portal、参加者属性情報の入力項目、代替回線を事前に確認する。</li>
+</ul>
+<h2>原文リンク / 関連リンク</h2>
+<ul>
+<li><a href="https://www.microsoft.com/en-us/security/blog/2026/07/31/captivecrunch-midnight-blizzard-targets-travelers-worldwide-for-malware-delivery-and-credential-theft/">Microsoft Security Blog: CaptiveCrunch</a> - キャンペーン概要、Storm-2945/Midnight Blizzard評価、マルウェア、device code abuse、検知・緩和策の一次情報。</li>
+<li><a href="https://www.microsoft.com/en-us/security/blog/2025/02/13/storm-2372-conducts-device-code-phishing-campaign/">Microsoft Security Blog: Storm-2372 conducts device code phishing campaign</a> - Midnight Blizzard関連のdevice code phishing文脈。</li>
+<li><a href="https://learn.microsoft.com/entra/identity/conditional-access/concept-authentication-flows">Microsoft Learn: Conditional Access authentication flows</a> - device code flowなどの認証フロー制御。</li>
+<li><a href="https://learn.microsoft.com/windows/client-management/mdm/policy-csp-wifi#allowmanualwificonfiguration">Microsoft Learn: Wi-Fi Policy CSP</a> - MDMで未管理Wi-Fi接続を制御する際の参照。</li>
+</ul>
+<h2>関連キーワード</h2>
+<ul>
+<li>CaptiveCrunch</li>
+<li>Midnight Blizzard</li>
+<li>Storm-2945</li>
+<li>captive portal</li>
+<li>AiTM</li>
+<li>device code phishing</li>
+<li>Microsoft Entra ID</li>
+<li>ClickFix</li>
+<li>CornFlake</li>
+<li>ChocoShell</li>
+<li>travel security</li>
+</ul>
+      <section class="source-box"><h2>Source</h2><p><a href="https://www.microsoft.com/en-us/security/blog/2026/07/31/captivecrunch-midnight-blizzard-targets-travelers-worldwide-for-malware-delivery-and-credential-theft/">microsoft.com - en-us / security</a></p></section>
+    </article>
+  </main>
+</body>
+</html>

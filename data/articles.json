@@ -1,5 +1,33 @@
 [
   {
+    "file": "Security/2026-08-02_CaptiveCrunch旅行者攻撃.md",
+    "slug": "2026-08-02_CaptiveCrunch旅行者攻撃",
+    "title": "CaptiveCrunch旅行者攻撃",
+    "genre": "Security",
+    "genreLabel": "Security",
+    "created": "2026-08-02",
+    "source": "https://www.microsoft.com/en-us/security/blog/2026/07/31/captivecrunch-midnight-blizzard-targets-travelers-worldwide-for-malware-delivery-and-credential-theft/",
+    "importance": "high",
+    "confidence": "high",
+    "summary": "Midnight Blizzard系Storm-2945がホテル等のcaptive portal経由でDNS/HTTPを操作し、AiTMフィッシングやマルウェア配布を行う攻撃。",
+    "excerpt": "Midnight Blizzard系Storm-2945がホテル等のcaptive portal経由でDNS/HTTPを操作し、AiTMフィッシングやマルウェア配布を行う攻撃。",
+    "url": "articles/2026-08-02_CaptiveCrunch旅行者攻撃.html"
+  },
+  {
+    "file": "AI/2026-08-02_AM_AISPAシステムプロンプト監査.md",
+    "slug": "2026-08-02_AM_AISPAシステムプロンプト監査",
+    "title": "AISPAシステムプロンプト監査",
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "created": "2026-08-02",
+    "source": "https://arxiv.org/abs/2607.28617",
+    "importance": "high",
+    "confidence": "high",
+    "summary": "AISPAは商用AI製品のシステムプロンプトを、ユーザー保護と問題指示の両面から監査する枠組み。AIアプリの透明性、監査、調達評価を考える材料になる。",
+    "excerpt": "AISPAは商用AI製品のシステムプロンプトを、ユーザー保護と問題指示の両面から監査する枠組み。AIアプリの透明性、監査、調達評価を考える材料になる。",
+    "url": "articles/2026-08-02_AM_AISPAシステムプロンプト監査.html"
+  },
+  {
     "file": "Security/2026-08-01_Traefik_CONNECT汚染.md",
     "slug": "2026-08-01_Traefik_CONNECT汚染",
     "title": "Traefik CONNECT汚染",
