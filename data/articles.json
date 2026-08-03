@@ -1,5 +1,19 @@
 [
   {
+    "file": "Security/2026-08-03_AM_Hugging_Face自律AI侵入.md",
+    "slug": "2026-08-03_AM_Hugging_Face自律AI侵入",
+    "title": "Hugging Face自律AI侵入",
+    "genre": "Security",
+    "genreLabel": "Security",
+    "created": "2026-08-03T19:36:00+09:00",
+    "source": "https://huggingface.co/blog/security-incident-july-2026",
+    "importance": "high",
+    "confidence": "high",
+    "summary": "Hugging Faceが公表した、自律AIエージェント主導の侵入事例。AI基盤ではデータ処理、評価環境、IR用モデル準備まで防御面に入ることが分かる。",
+    "excerpt": "Hugging Faceが公表した、自律AIエージェント主導の侵入事例。AI基盤ではデータ処理、評価環境、IR用モデル準備まで防御面に入ることが分かる。",
+    "url": "articles/2026-08-03_AM_Hugging_Face自律AI侵入.html"
+  },
+  {
     "file": "Security/2026-08-03_N-able_N-central悪用.md",
     "slug": "2026-08-03_N-able_N-central悪用",
     "title": "N-able N-central悪用",
