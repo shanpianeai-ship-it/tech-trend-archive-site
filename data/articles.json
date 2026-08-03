@@ -1,5 +1,19 @@
 [
   {
+    "file": "Security/2026-08-03_N-able_N-central悪用.md",
+    "slug": "2026-08-03_N-able_N-central悪用",
+    "title": "N-able N-central悪用",
+    "genre": "Security",
+    "genreLabel": "Security",
+    "created": "2026-08-03",
+    "source": "https://www.huntress.com/blog/n-able-vulnerability-exploitation",
+    "importance": "high",
+    "confidence": "high",
+    "summary": "N-able N-centralの脆弱性悪用は、MSP/RMM管理基盤の侵害が顧客環境へ横展開し得る問題。露出確認、更新、監査ログ確認を急ぐ判断材料になる。",
+    "excerpt": "N-able N-centralの脆弱性悪用は、MSP/RMM管理基盤の侵害が顧客環境へ横展開し得る問題。露出確認、更新、監査ログ確認を急ぐ判断材料になる。",
+    "url": "articles/2026-08-03_N-able_N-central悪用.html"
+  },
+  {
     "file": "Security/2026-08-02_CaptiveCrunch旅行者攻撃.md",
     "slug": "2026-08-02_CaptiveCrunch旅行者攻撃",
     "title": "CaptiveCrunch旅行者攻撃",
