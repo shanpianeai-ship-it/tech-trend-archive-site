@@ -1,904 +1,117 @@
 <!doctype html>
-<html lang="ja">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>記事一覧 | 海外技術情報アーカイブ</title>
-  <meta name="description" content="海外技術情報アーカイブの記事一覧">
-  <link rel="stylesheet" href="assets/style.css">
-</head>
-<body>
-  <header class="site-header">
-    <a class="site-title" href="index.html">海外技術情報アーカイブ</a>
-    <span class="site-subtitle">AI / SAP / Security trend notes</span>
-  </header>
-  <main>
-    <section class="hero">
-      <h1>海外技術情報アーカイブ</h1>
-      <p>海外のAI、SAP/ERP、セキュリティ動向を日本語で読み返すための個人用アーカイブ。</p>
-    </section>
-    <section class="toolbar">
-      <span><a href="interests/index.html">興味レポートも読む</a> / <a href="knowledge/index.html">公開ナレッジブログも読む</a></span>
-      <span>Redacted public reports</span>
-    </section>
-    <section class="toolbar">
-      <span>109 notes</span>
-      <span>Updated 2026/8/3 19:37:53</span>
-    </section>
-    <section class="cards">
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-08-03T19:36:00+09:00</span>
-          <span>Security</span>
-        </div>
-        <h2><a href="articles/2026-08-03_AM_Hugging_Face自律AI侵入.html">Hugging Face自律AI侵入</a></h2>
-        <p>Hugging Faceが公表した、自律AIエージェント主導の侵入事例。AI基盤ではデータ処理、評価環境、IR用モデル準備まで防御面に入ることが分かる。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-08-03</span>
-          <span>Security</span>
-        </div>
-        <h2><a href="articles/2026-08-03_N-able_N-central悪用.html">N-able N-central悪用</a></h2>
-        <p>N-able N-centralの脆弱性悪用は、MSP/RMM管理基盤の侵害が顧客環境へ横展開し得る問題。露出確認、更新、監査ログ確認を急ぐ判断材料になる。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-08-02</span>
-          <span>Security</span>
-        </div>
-        <h2><a href="articles/2026-08-02_CaptiveCrunch旅行者攻撃.html">CaptiveCrunch旅行者攻撃</a></h2>
-        <p>Midnight Blizzard系Storm-2945がホテル等のcaptive portal経由でDNS/HTTPを操作し、AiTMフィッシングやマルウェア配布を行う攻撃。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-08-02</span>
-          <span>AI / LLM / Agent</span>
-        </div>
-        <h2><a href="articles/2026-08-02_AM_AISPAシステムプロンプト監査.html">AISPAシステムプロンプト監査</a></h2>
-        <p>AISPAは商用AI製品のシステムプロンプトを、ユーザー保護と問題指示の両面から監査する枠組み。AIアプリの透明性、監査、調達評価を考える材料になる。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-08-01</span>
-          <span>Security</span>
-        </div>
-        <h2><a href="articles/2026-08-01_Traefik_CONNECT汚染.html">Traefik CONNECT汚染</a></h2>
-        <p>Traefikの共有keep-aliveプールで、HTTP/2/3のCONNECTが別ユーザーのレスポンスを読ませ得る脆弱性。プロキシの接続再利用境界を見直す材料になる。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-08-01</span>
-          <span>Security</span>
-        </div>
-        <h2><a href="articles/2026-08-01_AM_GhostApproval_CSAガバナンス.html">GhostApprovalをCSAのガバナンス視点で読む</a></h2>
-        <p>CSAのGhostApproval解説は、AIコーディング支援のsymlink問題を単なる実装バグではなく、承認UIとエージェント権限設計のガバナンス問題として整理している。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-31</span>
-          <span>Security</span>
-        </div>
-        <h2><a href="articles/2026-07-31_mcp-mermaid悪性npm.html">mcp-mermaid悪性npm</a></h2>
-        <p>npmのmcp-mermaidに悪性preinstallが混入したGitHub Advisory。MCPツールを便利さだけで導入せず、依存・CI・秘密情報を同時に守る必要が分かる。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-31</span>
-          <span>AI / LLM / Agent</span>
-        </div>
-        <h2><a href="articles/2026-07-31_AM_DynamicMCPBench_MCP実測評価.html">DynamicMCPBench: MCPエージェントを実行効果で測る</a></h2>
-        <p>DynamicMCPBenchは、ライブMCPサーバー上のエージェントを最終回答ではなく実行効果で測るベンチマーク。社内MCPや業務エージェントの評価設計にそのまま使える観点が多い。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-30</span>
-          <span>Security</span>
-        </div>
-        <h2><a href="articles/2026-07-30_AM_Word文書Copilotワーム.html">Word文書経由Copilotワーム</a></h2>
-        <p>Copilot for Wordが外部文書内の隠し指示を読み、生成文書へ自己複製する文書型AIワームの実証。Office文書をAI文脈に入れる時の信頼境界と検査設計を見直す材料になる。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-30</span>
-          <span>Security</span>
-        </div>
-        <h2><a href="articles/2026-07-30_Prismata_Webエージェント注入隔離.html">Prismata: Webエージェント注入隔離</a></h2>
-        <p>Webエージェントのクロスサイト・プロンプトインジェクションを、DOM由来の信頼ラベルと機械的な行動制限で隔離する研究。ブラウザ操作型エージェントを安全に使うための実装寄りの防御案として読める。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-29</span>
-          <span>SAP / ERP</span>
-        </div>
-        <h2><a href="articles/2026-07-29_AM_SAP_AI成果課金モデル.html">SAP AI成果課金モデル</a></h2>
-        <p>SAPのQ2決算を手がかりに、AIエージェントがERPの価格モデルをユーザー数課金から成果・価値ベースへ動かす兆しを整理する。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-29</span>
-          <span>Security</span>
-        </div>
-        <h2><a href="articles/2026-07-29_Agentic_CI_CD攻撃面.html">Agentic CI/CD攻撃面</a></h2>
-        <p>エージェント型CI/CDが、外部Issueの権威づけと意図のロンダリングで秘密情報送信コードを通す可能性を示した研究。AI開発支援をパイプラインへ入れる前の設計論点になる。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-28</span>
-          <span>AI / LLM / Agent</span>
-        </div>
-        <h2><a href="articles/2026-07-28_企業AIエージェント動的権限スコープ.html">企業AIエージェント動的権限スコープ</a></h2>
-        <p>企業AIエージェントの権限を役割・タスク文脈・禁止組み合わせで動的に絞る論文。検知より前に「使える権限を存在させない」設計として読む価値がある。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-28</span>
-          <span>AI / LLM / Agent</span>
-        </div>
-        <h2><a href="articles/2026-07-28_AM_Lomekwi_ツール発見能力.html">Lomekwi: エージェントのツール発見能力を分解して測る</a></h2>
-        <p>LomekwiはLLMエージェントが道具を「使う」だけでなく、自力で発見・発明できるかを測る研究。大きいモデルほど発見機会を見逃す逆スケーリングが示され、評価設計の見直しに効く。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-24</span>
-          <span>AI / LLM / Agent</span>
-        </div>
-        <h2><a href="articles/2026-07-24_AM_OpenAI_Presence_AIエージェント基盤.html">OpenAI Presence: 信頼性を前提にしたエージェント基盤</a></h2>
-        <p>OpenAIが企業実装を想定したAIエージェント基盤「Presence」を公開。ガードレール・エスカレーション・継続改善を前提化し、運用設計を比較検討する価値が高い。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-24</span>
-          <span>Security</span>
-        </div>
-        <h2><a href="articles/2026-07-24_CISA_KEV追加.html">CISA KEV追加2件の実務的優先度</a></h2>
-        <p>CISAが公開資産向け高リスク脆弱性2件をKEVへ追加。SmartConsoleとSharePointの認証・実行系不備は公開資産の中断リスクが高く、優先対策の再確認対象として価値が高い。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-23</span>
-          <span>AI / LLM / Agent</span>
-        </div>
-        <h2><a href="articles/2026-07-23_AM_OpenAI_Presence_実運用エージェント基盤.html">OpenAI Presence（エージェント実運用基盤）</a></h2>
-        <p>OpenAIが公開したPresenceは、エージェントの実行権限・監査・エスカレーションを運用前提で結びつける設計を示し、社内AI活用のガバナンス設計を見直す際の起点として価値が高い。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-23</span>
-          <span>Security</span>
-        </div>
-        <h2><a href="articles/2026-07-23_CISA_KEV追加.html">CISAによるKEV追加2件の実務インパクト</a></h2>
-        <p>CISAが公開資産向けの高リスク脆弱性2件をKEVに追加。SmartConsoleとSharePointの認証・実行系不備は、放置すれば運用停止や権限制御崩れを起こしうるため、優先対策対象として再確認しやすい。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-22</span>
-          <span>Security</span>
-        </div>
-        <h2><a href="articles/2026-07-22_Microsoft_AIエージェント_最小権限設計.html">Microsoft AIエージェントに対する最小権限設計原則</a></h2>
-        <p>Microsoft公式のAIエージェント向け設計原則は、ID認証とツール境界を分離し、最小権限で運用する実務指針を示す。業務AIの権限事故を抑え、監査しやすい実装へ繋がるため読む価値が高い。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-19</span>
-          <span>SAP / ERP</span>
-        </div>
-        <h2><a href="articles/2026-07-19_SAP_PriorLabs買収とTFM統合.html">SAPがPrior Labsを買収した意図：TFMで業務AI運用設計の優先順位が変わる</a></h2>
-        <p>SAPがPrior Labs買収を完了し、表データ向けモデルをSAP業務基盤へ統合する方針を示した。実務価値を出すには、提案精度より先に権限・監査・データ統制設計を更新する視点が重要だ。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-18</span>
-          <span>SAP / ERP</span>
-        </div>
-        <h2><a href="articles/2026-07-18_AM_SAP_PriorLabs買収とTFM統合.html">SAPがPrior Labsを買収：Tabular Foundation Modelsで業務AIの実装条件が変わる</a></h2>
-        <p>SAPがPrior Labs買収を完了し、構造化データを前提にしたAI基盤を強化する方針が示された。ERP実務でのAI実装は、提案精度よりもデータガバナンス・監査設計の再構築が先行する価値がある。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-18</span>
-          <span>AI / LLM / Agent</span>
-        </div>
-        <h2><a href="articles/2026-07-18_Gemini_Managed_Agents拡張.html">Gemini APIのManaged Agents拡張：対話の外側に伸びる実務実行基盤</a></h2>
-        <p>GoogleのGemini APIはManaged Agentsへ背景タスクとremote MCP接続を追加し、対話中心から長時間実行へ接続できる実務的な設計転換を示した。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-17</span>
-          <span>SAP / ERP</span>
-        </div>
-        <h2><a href="articles/2026-07-17_SAP_PriorLabs買収とAI基盤.html">SAPがPrior Labsを買収：ERP AI基盤の実務インパクトを読む</a></h2>
-        <p>SAP公式発表のPrior Labs買収は、構造化データ処理を強化し、ERP領域のAI基盤を実業務の意思決定に接続できる拡張ポイントを増やす。SAP導入判断に向けた評価観点が明確化される。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-17</span>
-          <span>SAP / ERP</span>
-        </div>
-        <h2><a href="articles/2026-07-17_AM_SAP_PriorLabs_買収でTFM加速.html">SAP Prior Labs買収でTFM基盤が加速</a></h2>
-        <p>SAPが構造化データ向け先端基盤Prior Labsを買収完了し、SAP-RPT-1系TFMを拡大する方針を公式発表。独立体制を維持しつつ4年で10億ユーロ超を投資する構えは、業務データAI戦略を長期で設計する上で価値が高い。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-16</span>
-          <span>SAP / ERP</span>
-        </div>
-        <h2><a href="articles/2026-07-16_SAP_AI価値急上昇とガバナンス.html">SAP AI価値急上昇とガバナンスの課題</a></h2>
-        <p>SAP公式調査はAI投資ROI上昇を示しつつ、agentic AIではガバナンス未成熟が主要リスクと示した。ERP運用では導入前に権限制御と監査設計を優先的に見直す価値が高い。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-16</span>
-          <span>Security</span>
-        </div>
-        <h2><a href="articles/2026-07-16_AM_CISA_Agentic_AI安全導入ガイド.html">CISAが示すAgentic AI安全導入ガイド</a></h2>
-        <p>CISAと海外パートナーが提示したAgentic AI導入ガイドを要約。権限設計・監査・監視を前提化し、低リスクから段階導入する運用設計が事故防止の要点となる。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-15</span>
-          <span>SAP / ERP</span>
-        </div>
-        <h2><a href="articles/2026-07-15_SAP_7月Patch_Day_Critical.html">SAP July 2026 Security Patch Day: まず先に見るべきライン</a></h2>
-        <p>2026年7月のSAP Security Patch Dayは16件の新規ノートと既存更新を含み、公開経路や権限境界をまたぐ脆弱性の優先対応が重要。SAP基盤の優先順位付けを先に決める価値が高い情報です。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-15</span>
-          <span>AI / LLM / Agent</span>
-        </div>
-        <h2><a href="articles/2026-07-15_AM_タスク難易度推定でコスト最適化.html">Do AI Agents Know When a Task Is Simple?</a></h2>
-        <p>arXivのE3は、LLMエージェントのタスク難易度見積りを先に行い、必要最小経路で実行を進める枠組み。成功率を落とさず再読込みを抑え、トークンやファイル参照量を下げる実務設計指針になる。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-14</span>
-          <span>SAP / ERP</span>
-        </div>
-        <h2><a href="articles/2026-07-14_SAP_Business_AI_Platform方針.html">SAP Business AI Platform方針</a></h2>
-        <p>SAPがSapphireで示したBusiness AI Platform方針は、業務データ基盤を起点にエージェント導入を全社設計する方向を明確化した公式情報であり、監査・ガバナンス・実装設計まで含む実務価値が高い。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-14</span>
-          <span>AI / LLM / Agent</span>
-        </div>
-        <h2><a href="articles/2026-07-14_AM_MCP_RCステートレス化.html">MCP RC 2026-07-28 (Release Candidate): ステートレス化での運用転換</a></h2>
-        <p>MCP RC（2026-07-28）候補は、セッションID固定前提のMCPをステートレス化し、通常HTTPインフラでの水平分散と監査設計を同時に進める改訂版。導入設計判断を先行しておきたい実務者向けの価値が高い。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-13</span>
-          <span>AI / LLM / Agent</span>
-        </div>
-        <h2><a href="articles/2026-07-13_AM_MCP_RC仕様ステートレス化.html">MCP RC仕様ステートレス化</a></h2>
-        <p>Model Context ProtocolのRCは、セッション固定型の運用からHTTPステートレス設計へ移行し、認可強化と拡張ガバナンスを一本化する。AI接続基盤の運用負荷や移行戦略を見直す価値が高い。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-13</span>
-          <span>Security</span>
-        </div>
-        <h2><a href="articles/2026-07-13_GHSA-84rm_Coder_AI_Bridge_TLS検証不備.html">GHSA-84rm: Coder AI Bridge TLS検証不備</a></h2>
-        <p>Coder AI Bridge Proxyが既定設定でTLS検証を無効化し、AIエージェント連携経路のトラフィックが中間者攻撃に晒されると、トークンやプロンプト・レスポンスが窃取され得る脆弱性。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-12</span>
-          <span>Security</span>
-        </div>
-        <h2><a href="articles/2026-07-12_AM_Cloudflareポスト量子署名移行.html">Cloudflareポスト量子署名移行</a></h2>
-        <p>Cloudflareはポスト量子署名で、より良い候補を待たず標準化済みML-DSAへまず移行すべきと論じた。TLSや証明書運用の移行期限を考える材料になる。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-12</span>
-          <span>Security</span>
-        </div>
-        <h2><a href="articles/2026-07-12_Cloudflareポスト量子署名移行.html">Cloudflareポスト量子署名移行</a></h2>
-        <p>Cloudflareがポスト量子署名について、新候補を待たずML-DSAで初回移行を進めるべきと整理した。TLSや認証基盤の移行計画を考える材料になる。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-11</span>
-          <span>Security</span>
-        </div>
-        <h2><a href="articles/2026-07-11_AM_GitHubエージェント漏えいリスク.html">GitHubエージェント漏えいリスク</a></h2>
-        <p>公開GitHub IssueからAgentic Workflowsを誘導し、私有リポジトリ内容を公開コメントへ漏えいさせ得る事例。AIエージェントの権限スコープと出力経路を分ける重要性が分かる。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-11</span>
-          <span>Security</span>
-        </div>
-        <h2><a href="articles/2026-07-11_CodeQL_AIプロンプト注入検出.html">CodeQL AIプロンプト注入検出</a></h2>
-        <p>CodeQL 2.26.0がJavaScript/TypeScript向けにsystem prompt injection検出を追加した。LLMアプリの脆弱性管理が静的解析とCI/CDへ入る具体例として読める。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-10</span>
-          <span>AI / LLM / Agent</span>
-        </div>
-        <h2><a href="articles/2026-07-10_Cloudflare_x402課金とAgentic_Internet.html">Cloudflare x402課金とAgentic Internet</a></h2>
-        <p>Cloudflare Monetization Gatewayは、Webページ、API、データセット、MCPツールをx402でリクエスト単位課金できる構想。AIエージェントがWeb資源を使う時代の支払い・権利処理インフラとして読む価値がある。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-10</span>
-          <span>Security</span>
-        </div>
-        <h2><a href="articles/2026-07-10_AM_AI監査がCIRCL暗号バグ発見.html">AI監査がCIRCL暗号バグ発見</a></h2>
-        <p>zkSecurityがAI監査パイプラインをCloudflare CIRCLへ適用し、暗号実装の実バグ7件を確認した事例。AI監査の実用性と、人間検証がまだ必要な境界が分かる。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-09</span>
-          <span>Security</span>
-        </div>
-        <h2><a href="articles/2026-07-09_Kubernetes_MCPトークン漏えい.html">Kubernetes MCPトークン漏えい</a></h2>
-        <p>Kubernetes操作用MCPサーバーのCVE-2026-47250は、ログ経由の間接プロンプト注入がkubectlフラグ注入と結びつき、運用者のBearer tokenを外部へ送らせる問題。AIエージェントに本番権限を渡す時の境界設計を見直す材料になる。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-09</span>
-          <span>Security</span>
-        </div>
-        <h2><a href="articles/2026-07-09_AM_GhostApproval_AIコーディング境界問題.html">GhostApproval: AIコーディング境界問題</a></h2>
-        <p>GhostApprovalは、AIコーディング支援の承認UIがsymlink先の実パスを隠すと、HITLが安全制御ではなく形式的な確認に落ちることを示す。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-08</span>
-          <span>AI / LLM / Agent</span>
-        </div>
-        <h2><a href="articles/2026-07-08_AM_SwarmResearchエージェント探索.html">SwarmResearchエージェント探索</a></h2>
-        <p>SwarmResearchは、複数のコーディングエージェントをgitブランチ単位で並走させ、探索の偏りを抑える研究。長期タスクを任せるAI運用設計の参考になる。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-08</span>
-          <span>Security</span>
-        </div>
-        <h2><a href="articles/2026-07-08_Januscape_KVM_VMエスケープ.html">Januscape KVM VMエスケープ</a></h2>
-        <p>JanuscapeはKVM/x86のshadow MMUに潜んでいたゲストからホストへのエスケープ脆弱性。クラウドVM分離とnested virtualizationの運用判断に直結する。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-07</span>
-          <span>AI / LLM / Agent</span>
-        </div>
-        <h2><a href="articles/2026-07-07_マルチテナントRAGの認可分離.html">マルチテナントRAGの認可分離</a></h2>
-        <p>企業RAGで検索関連度と認可を混同すると、別テナントの情報が上位取得され得る。OGX実装を題材に、取り込み・検索・オーケストレーションで分離する設計を整理する。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-07</span>
-          <span>Security</span>
-        </div>
-        <h2><a href="articles/2026-07-07_AM_AI監査への間接プロンプト注入.html">AI監査への間接プロンプト注入</a></h2>
-        <p>Cloudflare Cloudforce Oneが、AIコード監査をだます間接プロンプト注入を実験した。防御側AIを導入する時に、監査対象コード自体を敵対入力として扱う必要が分かる。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-06</span>
-          <span>Security</span>
-        </div>
-        <h2><a href="articles/2026-07-06_ブラウザだけで動くランサム.html">ブラウザだけで動くランサム</a></h2>
-        <p>Check Point Researchのブラウザ単体ランサムPoCは、File System Access APIとAI生成コードが結びつく攻撃面を示す。Android Chromeの写真フォルダ権限をどう扱うべきかを考える材料になる。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-06</span>
-          <span>AI / LLM / Agent</span>
-        </div>
-        <h2><a href="articles/2026-07-06_GLM-5.2理解のためのQ-A.html">GLM-5.2理解のためのQ&amp;A</a></h2>
-        <p>GLM-5.2について、Claude OpusやGPT系との比較、量子化の意味、ローカル実行時の遅さと長時間タスク適性を質問と回答の形で整理する。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-06</span>
-          <span>AI / LLM / Agent</span>
-        </div>
-        <h2><a href="articles/2026-07-06_GLM-5.2ローカルLLM調査.html">GLM-5.2 ローカルLLM性能・必要マシン調査レポート</a></h2>
-        <p>GLM-5.2をローカルLLMとして使う場合の性能、量子化別メモリ要件、個人用PCとサーバーGPU構成の現実ラインを整理する。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-06</span>
-          <span>AI / LLM / Agent</span>
-        </div>
-        <h2><a href="articles/2026-07-06_AM_CAR動的ツール合成エージェント.html">CAR動的ツール合成エージェント</a></h2>
-        <p>CARは、LLMエージェントが不足したツールをその場で合成し、失敗した実行計画を大局的に立て直すACL 2026研究。固定ツール前提の限界を考える材料になる。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-04</span>
-          <span>AI / LLM / Agent</span>
-        </div>
-        <h2><a href="articles/2026-07-04_DeepMindのAI制御ロードマップ.html">DeepMindのAI制御ロードマップ</a></h2>
-        <p>Google DeepMindのAI Control Roadmapは、AIエージェントを内部脅威として扱い、監視・権限制御・即時停止を設計するための実務的な枠組み。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-04</span>
-          <span>AI / LLM / Agent</span>
-        </div>
-        <h2><a href="articles/2026-07-04_AM_DeepMind_AI_Control_Roadmap.html">DeepMind AI Control Roadmap</a></h2>
-        <p>Google DeepMindのAI Control Roadmapは、AIエージェントを完全には信頼せず、監視・権限・遮断を重ねる設計論。社内エージェント運用の安全基準を考える材料になる。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-03</span>
-          <span>AI / LLM / Agent</span>
-        </div>
-        <h2><a href="articles/2026-07-03_AM_ScarfBench企業Java移行評価.html">ScarfBench企業Java移行評価</a></h2>
-        <p>ScarfBenchは、AIエージェントがSpring、Jakarta EE、Quarkus間の企業Java移行をどこまで実行できるか測るベンチマーク。ビルド成功だけでは移行品質を判断できない点が実務上重要。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-03</span>
-          <span>SAP / ERP</span>
-        </div>
-        <h2><a href="articles/2026-07-03_SAP_Agentic_AI参照アーキテクチャ.html">SAP Agentic AI参照アーキテクチャはERPエージェントの接続境界を示している</a></h2>
-        <p>SAP公式のAgentic AI参照アーキテクチャを、Joule、Agent Gateway、A2A、MCP Gatewayの役割分担から読む。ERPエージェントを本番運用へ載せる際の接続・統制・監査ポイントが見える。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-02</span>
-          <span>Security</span>
-        </div>
-        <h2><a href="articles/2026-07-02_Red_Hat_npm_SLSA_provenanceの落とし穴.html">Red Hat npm SLSA provenanceの落とし穴</a></h2>
-        <p>@redhat-cloud-services npm侵害は、正規CIで作られたSLSA provenance付き成果物でも、侵害済みパイプラインなら悪性になり得ることを示す。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-02</span>
-          <span>Security</span>
-        </div>
-        <h2><a href="articles/2026-07-02_AM_Cursorサンドボックス迂回RCE.html">Cursorサンドボックス迂回RCE</a></h2>
-        <p>CursorのDuneSlide脆弱性は、プロンプトインジェクションがAI IDEのサンドボックス実装バグを踏み抜き、開発端末のRCEへ進むことを示す。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-01</span>
-          <span>Security</span>
-        </div>
-        <h2><a href="articles/2026-07-01_ローカルLLMエージェント実装層監査.html">ローカルLLMエージェント実装層監査</a></h2>
-        <p>CLAWAUDIT論文は、ローカルLLMエージェントを便利なアプリではなく、ツール実行・記憶・権限を持つ特権ランタイムとして監査すべきだと示す。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-01</span>
-          <span>Security</span>
-        </div>
-        <h2><a href="articles/2026-07-01_AM_Clean_GitHub_Repoエージェント侵害.html">Clean GitHub RepoでAIエージェント侵害</a></h2>
-        <p>0DINのPoCは、悪性コードを含まないように見えるGitHub repoでも、AIコーディングエージェントの自動セットアップ復旧がDNS TXT経由の攻撃実行につながることを示す。開発端末とCIで「初回セットアップ」を隔離・監査する価値が高い。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-30</span>
-          <span>AI / LLM / Agent</span>
-        </div>
-        <h2><a href="articles/2026-06-30_社内MCP安全トンネル.html">社内MCP安全トンネル</a></h2>
-        <p>OpenAI Secure MCP Tunnelは、社内やローカルのMCPサーバーを公開せずChatGPT/Codexへつなぐ設計。MCP普及後の企業内ツール接続、権限境界、監査の実務論点を整理できる。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-30</span>
-          <span>AI / LLM / Agent</span>
-        </div>
-        <h2><a href="articles/2026-06-30_AM_GBCエージェント失敗源.html">GBCエージェント失敗源</a></h2>
-        <p>GBCはLLMマルチエージェントを計算グラフとして扱い、失敗原因をエージェントやトークン単位で帰属する研究。エージェント運用の観測性と改善ループを考える材料になる。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-29</span>
-          <span>Security</span>
-        </div>
-        <h2><a href="articles/2026-06-29_AM_MosaicLeaks検索漏えい.html">MosaicLeaksと検索漏えい</a></h2>
-        <p>MosaicLeaksは、研究エージェントの外部検索ログだけから社内文書の秘密が推測されるリスクを測る研究。RAGやDeep Research導入時の監査観点として重要。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-29</span>
-          <span>Security</span>
-        </div>
-        <h2><a href="articles/2026-06-29_Amazon_Q_MCP自動実行リスク.html">Amazon QのMCP自動実行リスク</a></h2>
-        <p>Amazon Q DeveloperのMCP設定自動実行問題は、AIコーディングツールがIDE拡張、ローカル実行、クラウド認証情報をまたぐ信頼境界になったことを示す事例。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-28</span>
-          <span>SAP / ERP</span>
-        </div>
-        <h2><a href="articles/2026-06-28_Joule_Studio_n8n業務フロー統合.html">Joule Studio x n8nはERPエージェントを業務フローへ接続する動き</a></h2>
-        <p>SAPがJoule Studioにn8nを組み込み、AIエージェントをSAP内外の業務フローへ接続する動き。ERPのAI化をチャットではなく、統制されたワークフロー実行基盤として見る材料になる。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-28</span>
-          <span>AI / LLM / Agent</span>
-        </div>
-        <h2><a href="articles/2026-06-28_AM_GLM-5.2長期タスク向け1M文脈.html">GLM-5.2長期タスク向け1M文脈</a></h2>
-        <p>GLM-5.2は、1Mトークン文脈を長期コーディングエージェント向けに実用化しようとする中国発OSSモデル。長文対応が単なる入力長ではなく、推論コスト、RL、評価不正対策まで含む基盤競争になっている点が重要。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-27</span>
-          <span>SAP / ERP</span>
-        </div>
-        <h2><a href="articles/2026-06-27_AM_SAP発注確認AIエージェント化.html">SAP発注確認AIエージェント化はERP業務AIの実装例として読む</a></h2>
-        <p>Lemvigh-MuellerがSAP基盤上で発注確認PDF処理をAIエージェント化した事例。PoCではなく本番運用、10週間導入、90%超のタッチレス処理という具体値があり、ERP業務AIの現実的な設計材料になる。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-27</span>
-          <span>SAP / ERP</span>
-        </div>
-        <h2><a href="articles/2026-06-27_Joule_in_SAP_for_Me運用導線.html">Joule in SAP for Meはサポート運用の入口を変える</a></h2>
-        <p>SAP for MeへのJoule統合は、サポート検索やケース起票を会話型・エージェント型の導線へ移す動き。Basis運用では便利機能としてだけでなく、権限、根拠確認、ケース品質、変更管理を見直す材料になる。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-26</span>
-          <span>Security</span>
-        </div>
-        <h2><a href="articles/2026-06-26_Cloudflare脆弱性ハーネス.html">Cloudflare脆弱性ハーネス</a></h2>
-        <p>Cloudflare が、AI を使った脆弱性探索を「単発のコードレビュー」ではなく、永続状態を持つハーネスとして運用する設計を公開した。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-26</span>
-          <span>Security</span>
-        </div>
-        <h2><a href="articles/2026-06-26_AM_AI開発環境サプライチェーン攻撃.html">AI開発環境サプライチェーン攻撃</a></h2>
-        <p>Cordyceps、Miasma、IronWorm は、AI開発環境がサプライチェーン攻撃の主戦場になりつつあることを示す一連の事例。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-25</span>
-          <span>Security</span>
-        </div>
-        <h2><a href="articles/2026-06-25_AM_LLMエージェント安全性サーベイ.html">LLMエージェント安全性サーベイ</a></h2>
-        <p>「Toward Secure LLM Agents: Threat Surfaces, Attacks, Defenses, and Evaluation」は、LLMエージェントのセキュリティ研究247本を、脅威面、攻撃、防御、評価の観点で整理したサーベイ論文。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-25</span>
-          <span>AI / LLM / Agent</span>
-        </div>
-        <h2><a href="articles/2026-06-25_fail-plausible運用障害分類.html">fail-plausible運用障害分類</a></h2>
-        <p>arXiv論文「When Errors Become Narratives」は、長期間動き続けるLLMエージェントランタイムで起きたサイレント障害を、8週間・22件のポストモーテムから分類した事例研究。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-24</span>
-          <span>AI / LLM / Agent</span>
-        </div>
-        <h2><a href="articles/2026-06-24_AM_GateMem共有メモリ統制.html">GateMem共有メモリ統制</a></h2>
-        <p>GateMemは、複数の利用者や役割が同じメモリを共有するLLMエージェントで、記憶の有用性だけでなく、アクセス制御と削除後の忘却まで同時に測るベンチマーク。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-24</span>
-          <span>AI / LLM / Agent</span>
-        </div>
-        <h2><a href="articles/2026-06-24_agentgateway運用ゲートウェイ.html">agentgateway運用ゲートウェイ</a></h2>
-        <p>agentgateway v1.3.0 は、LLM、MCP、A2A、通常のAPIトラフィックを同じゲートウェイで扱う方向をかなり明確にしたリリース。新しいLLM向けUI、コスト分析、仮想モデル、再利用可能なプロバイダとガードレール、MCP向けポリシー表示などが入っている。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-23</span>
-          <span>Security</span>
-        </div>
-        <h2><a href="articles/2026-06-23_AM_NSAのMCP安全設計.html">NSAのMCP安全設計</a></h2>
-        <p>NSAのAI Security Centerは、MCPを使うAI自動化システム向けに、権限分離、監査、ツール接続の安全設計を整理している。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-23</span>
-          <span>SAP / ERP</span>
-        </div>
-        <h2><a href="articles/2026-06-23_Agentic_ABAP_AI_GA.html">Agentic ABAP AI GAはABAP保守とS/4移行の作業単位を変える</a></h2>
-        <p>SAP CommunityのSapphire 2026 recapは、ABAP開発向けAI機能が、MCP、ADT、S/4HANA拡張開発へ広がる方向を示している。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-22</span>
-          <span>Security</span>
-        </div>
-        <h2><a href="articles/2026-06-22_AM_Vertex_AI_SDKアップロード乗っ取り.html">Vertex AI SDKアップロード乗っ取り</a></h2>
-        <p>Unit 42 は 2026-06-16 に、Google Cloud Vertex AI SDK for Python の Model.upload() に関する bucket squatting 型の脆弱性を公開した。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-22</span>
-          <span>Security</span>
-        </div>
-        <h2><a href="articles/2026-06-22_AutoJackエージェントRCE.html">AutoJackエージェントRCE</a></h2>
-        <p>Microsoft Defender Security Research Teamが、AutoGen Studioの開発系コードを題材に「AutoJack」という攻撃連鎖を公開した。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-21</span>
-          <span>SAP / ERP</span>
-        </div>
-        <h2><a href="articles/2026-06-21_AM_Sapphire_2026発表総覧.html">SAP Sapphire 2026発表総覧はERP AIの実装地図</a></h2>
-        <p>SAP Communityの「SAP Sapphire 2026 Announcements only」は、Sapphire 2026で出た主要なプロダクト発表、プラットフォーム発表、パートナーシップを一覧化したまとめ。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-21</span>
-          <span>Security</span>
-        </div>
-        <h2><a href="articles/2026-06-21_CISA最短3日パッチ指令.html">CISA最短3日パッチ指令</a></h2>
-        <p>CISAのBinding Operational Directive 26-04は、米連邦文民機関向けの脆弱性修正ルールを「CVSSの重大度に応じた一律期限」から、実際の攻撃リスクに応じた期限へ寄せる指令。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-20</span>
-          <span>SAP / ERP</span>
-        </div>
-        <h2><a href="articles/2026-06-20_AM_製造領域Joule_Agent実装.html">製造領域Joule Agent実装はERP内AIの現実的な入口</a></h2>
-        <p>SAP S/4HANA Cloud Public Editionの製造領域アップデートで、Manage Production OrdersアプリにJouleベースのProduction Planning and Operations Agentが組み込まれる。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-20</span>
-          <span>AI / LLM / Agent</span>
-        </div>
-        <h2><a href="articles/2026-06-20_バイオエージェント決定論的データ基盤.html">バイオエージェント決定論的データ基盤</a></h2>
-        <p>Anthropic が、バイオ領域で AI エージェントを実用化するには、モデル能力だけでなく「決定論的で再現可能なデータ取得レイヤー」が必要だと整理している。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-19</span>
-          <span>AI / LLM / Agent</span>
-        </div>
-        <h2><a href="articles/2026-06-19_DeepMind_AI_Control_Roadmap.html">DeepMind AI Control Roadmap</a></h2>
-        <p>Google DeepMind が、社内で使う高度な AI agent を「潜在的な insider threat」として扱う AI Control Roadmap を公開した。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-19</span>
-          <span>AI / LLM / Agent</span>
-        </div>
-        <h2><a href="articles/2026-06-19_AM_Bayesian-Agentスキル進化.html">Bayesian-Agentスキル進化</a></h2>
-        <p>Bayesian-Agentは、LLMエージェントのプロンプト、ツール、メモリ、SOP、スキルを「モデル外にある運用資産」として扱い、その成功・失敗を検証済み軌跡からベイズ的に更新する研究・OSSである。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-18</span>
-          <span>SAP / ERP</span>
-        </div>
-        <h2><a href="articles/2026-06-18_SAP_Knowledge_Graph業務文脈層.html">SAP Knowledge Graphが業務AIの文脈層に</a></h2>
-        <p>SAP Knowledge Graphは、JouleやSAP上のAIエージェントに対して、SAPシステム内の業務データ、メタデータ、プロセス、エンティティ間の関係を文脈として渡すためのレイヤー。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-18</span>
-          <span>SAP / ERP</span>
-        </div>
-        <h2><a href="articles/2026-06-18_AM_SAP_for_Me_Joule統合.html">SAP for MeのJoule統合はサポートポータルのエージェント化</a></h2>
-        <p>SAPは2026年6月11日、SAP for MeにJouleを統合したと発表した。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-17</span>
-          <span>AI / LLM / Agent</span>
-        </div>
-        <h2><a href="articles/2026-06-17_AM_OpenAI本番分布型モデル評価.html">OpenAI本番分布型モデル評価</a></h2>
-        <p>OpenAIは2026-06-16に、新モデルの公開前リスク評価手法として「Deployment Simulation」を公開した。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-17</span>
-          <span>SAP / ERP</span>
-        </div>
-        <h2><a href="articles/2026-06-17_ERPがAIの業務コンテキスト層へ.html">ERPがAIの業務コンテキスト層へ</a></h2>
-        <p>ERP Todayの記事は、SAP Sapphire 2026でSAP幹部が語った「AI時代にERPが再び事業戦略の中心へ戻る」という見立てを整理している。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-16</span>
-          <span>AI / LLM / Agent</span>
-        </div>
-        <h2><a href="articles/2026-06-16_MCP_Python_SDK_v2_alpha.html">MCP Python SDK v2 alpha</a></h2>
-        <p>MCP Python SDKのv2.0.0a1は、2026-07-28予定のMCP仕様変更に向けた最初のalpha。現行のv1系利用者がすぐ自動更新されるものではないが、stable v2が出る前に依存上限と移行方針を決めておく必要がある。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-16</span>
-          <span>Security</span>
-        </div>
-        <h2><a href="articles/2026-06-16_AM_AI_Agent_Skill供給網リスク.html">AI Agent Skill供給網リスク</a></h2>
-        <p>Unit 42の「Trust No Skill」は、AIエージェント用の第三者Skillを、モバイルアプリやブラウザ拡張と同じ供給網リスクとして扱うべきだと整理している。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-15</span>
-          <span>AI / LLM / Agent</span>
-        </div>
-        <h2><a href="articles/2026-06-15_AM_企業AIエージェント事前保証.html">企業AIエージェント事前保証</a></h2>
-        <p>arXiv論文「Toward Pre-Deployment Assurance for Enterprise AI Agents」は、企業AIエージェントを本番投入する前に、権限、業務制約、安全性、ガバナンス、自治レベルをまとめて検証するための枠組みを提案している。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-15</span>
-          <span>SAP / ERP</span>
-        </div>
-        <h2><a href="articles/2026-06-15_SAP_AI_Native_North_Star_運用境界.html">SAP AI-Native North Starの運用境界</a></h2>
-        <p>SAPの「AI-Native North Star Architecture」は、Autonomous Enterpriseを支える将来アーキテクチャとして、ERPを単なる記録システムから、業務コンテキストをAIが扱える基盤へ広げる構想を示している。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-14</span>
-          <span>SAP / ERP</span>
-        </div>
-        <h2><a href="articles/2026-06-14_AM_SAP_APIポリシーとAIエージェント統制.html">SAP APIポリシーとAIエージェント統制</a></h2>
-        <p>SAPのAPI Policy更新は、単なるAPI利用制限ではなく、agentic AI時代のERPアクセス制御を整える動きとして見るべき内容。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-14</span>
-          <span>SAP / ERP</span>
-        </div>
-        <h2><a href="articles/2026-06-14_SAP_6月Patch_Day_Critical.html">SAP 6月Patch Day Critical</a></h2>
-        <p>SAPの2026年6月Security Patch Dayでは、NetWeaver AS ABAP / ABAP Platform、SAP Commerce Cloud、SAP Data Hub、NetWeaver AS Javaなどに関する重要なSecurity Noteが公開された。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-13</span>
-          <span>AI / LLM / Agent</span>
-        </div>
-        <h2><a href="articles/2026-06-13_AM_安全なLLMエージェント設計.html">安全なLLMエージェント設計</a></h2>
-        <p>arXivのサーベイ「Toward Secure LLM Agents」は、LLMエージェントのセキュリティを247本の研究から整理した論文。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-13</span>
-          <span>AI / LLM / Agent</span>
-        </div>
-        <h2><a href="articles/2026-06-13_Agent_Memoryシステム特性評価.html">Agent Memoryをシステム特性として評価する</a></h2>
-        <p>Agent Memory論文は、長期タスクを行うLLMエージェントのメモリを、RAGや便利機能ではなく実行基盤の中核として評価している。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-12</span>
-          <span>SAP / ERP</span>
-        </div>
-        <h2><a href="articles/2026-06-12_SAP_AI_Native_North_Star_Architecture.html">SAP AI-Native North Star Architecture</a></h2>
-        <p>SAPが「AI-Native North Star Architecture」を公開し、Autonomous Enterpriseを支える技術的な目標像として位置づけた。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-12</span>
-          <span>AI / LLM / Agent</span>
-        </div>
-        <h2><a href="articles/2026-06-12_AM_Claude_Fable透明セーフガード.html">Claude Fable 5の透明なセーフガード運用</a></h2>
-        <p>Anthropic は 2026年6月9日、Claude Fable 5 と Claude Mythos 5 を発表した。Fable 5 は一般提供される Mythos-class モデル、Mythos 5 は同じ基盤モデルから一部セーフガードを外した限定提供版という構成。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-11</span>
-          <span>Security</span>
-        </div>
-        <h2><a href="articles/2026-06-11_本番AIエージェント五層統治.html">本番AIエージェント五層統治</a></h2>
-        <p>Five-Plane Reference Architecture論文は、本番AIエージェントを単なるモデル出力ではなく、企業システムに対する委任実行主体として統治する枠組みを示す。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-11</span>
-          <span>AI / LLM / Agent</span>
-        </div>
-        <h2><a href="articles/2026-06-11_AM_Claude_FableとMythosの運用設計.html">Claude FableとMythosの運用設計</a></h2>
-        <p>Anthropic は 2026年6月9日、Claude Fable 5 と Claude Mythos 5 を発表した。Fable 5 は一般提供される Mythos-class モデルで、Mythos 5 は同じ基盤モデルから一部セーフガードを外した限定提供版という位置づけ。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-10</span>
-          <span>AI / LLM / Agent</span>
-        </div>
-        <h2><a href="articles/2026-06-10_AM_企業AIに必要なAgent_Logic.html">企業AIに必要なAgent Logic</a></h2>
-        <p>IBM Research は Hugging Face Blog で、企業AIの本格導入には LLM 単体の性能向上だけでは足りず、Agent Logic が必要だと整理している。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-10</span>
-          <span>SAP / ERP</span>
-        </div>
-        <h2><a href="articles/2026-06-10_SAP_APIポリシーと組織記憶.html">SAP APIポリシーと組織記憶</a></h2>
-        <p>SAP Sapphire 2026後の論点として、SAP API Policyの更新と「organizational memory」が同じ文脈で語られている。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-09</span>
-          <span>Security</span>
-        </div>
-        <h2><a href="articles/2026-06-09_AM_Red_Hat_npm侵害とCI認証情報防衛.html">Red Hat npm侵害とCI認証情報防衛</a></h2>
-        <p>Red Hat は 2026-06-01 に、@redhat-cloud-services npm 名前空間の複数パッケージでサプライチェーン侵害が公表されたと説明した。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-09</span>
-          <span>AI / LLM / Agent</span>
-        </div>
-        <h2><a href="articles/2026-06-09_Gemini_Agentic_RAGと十分性判定.html">Gemini Agentic RAGと十分性判定</a></h2>
-        <p>Google Research / Google Cloud が、Gemini Enterprise Agent Platform 上の Cross-Corpus Retrieval powered by Agentic RAG を紹介した。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-08</span>
-          <span>SAP / ERP</span>
-        </div>
-        <h2><a href="articles/2026-06-08_AM_SAP_Cloud_ERP横断セキュリティ設計.html">SAP Cloud ERP横断セキュリティ設計</a></h2>
-        <p>SAP Communityの公式ブログは、Cloud ERPセキュリティを、BTP、SaaS、Integration Suite、AI、クラウド基盤まで含む多層統制として整理している。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-08</span>
-          <span>SAP / ERP</span>
-        </div>
-        <h2><a href="articles/2026-06-08_SAP_Autonomous_SCMとJoule_Assistants.html">SAP Autonomous SCMとJoule Assistants</a></h2>
-        <p>SAPはSapphire 2026で、サプライチェーン領域にJoule Assistantsと目的別AI agentsを埋め込む「Autonomous Supply Chain Management」を発表した。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-08</span>
-          <span>AI / LLM / Agent</span>
-        </div>
-        <h2><a href="articles/2026-06-08_AM_GitHub_Agentic_Workflows_v0.77.4.html">GitHub Agentic Workflows v0.77.4</a></h2>
-        <p>GitHub Agentic Workflows v0.77.4は、GitHub Actions上で動くAIエージェント自動化を、単発の実験からリポジトリ運用部品へ寄せる更新。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-07</span>
-          <span>SAP / ERP</span>
-        </div>
-        <h2><a href="articles/2026-06-07_Joule_Studioの統制アーキテクチャ.html">Joule Studioの統制アーキテクチャ</a></h2>
-        <p>SAP Architecture Centerは、Joule Studioを「企業向けの本番グレードなエージェント開発・実行基盤」として整理している。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-07</span>
-          <span>AI / LLM / Agent</span>
-        </div>
-        <h2><a href="articles/2026-06-07_AM_APBでAgent計画力を診断.html">APBでAgent計画力を診断</a></h2>
-        <p>Agent Planning Benchmark（APB）は、LLMエージェントの「実行結果」ではなく、実行前の計画能力を切り出して診断するベンチマーク。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-06</span>
-          <span>SAP / ERP</span>
-        </div>
-        <h2><a href="articles/2026-06-06_SAPとPalantirのAI支援データ移行.html">SAPとPalantirのAI支援データ移行</a></h2>
-        <p>SAPとPalantirは、SAP Cloud ERPへの移行で最も重い論点の一つであるデータ移行に、Palantir AIPを組み込む提携強化を発表した。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-06</span>
-          <span>SAP / ERP</span>
-        </div>
-        <h2><a href="articles/2026-06-06_AM_SAPとAnthropic連携_ClaudeがJouleエージェントへ.html">SAPとAnthropic連携: ClaudeがJouleエージェントへ</a></h2>
-        <p>SAPとAnthropicは、ClaudeをSAP Business AI Platform上の主要な推論・エージェント能力として組み込み、JouleとJoule agentsを強化する計画を発表した。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-06</span>
-          <span>SAP / ERP</span>
-        </div>
-        <h2><a href="articles/2026-06-06_SAP_Business_AI_PlatformとAutonomous_Enterprise.html">SAP Business AI PlatformとAutonomous Enterprise構想</a></h2>
-        <p>SAP Sapphire 2026で、SAPは「SAP Business AI Platform」と「Autonomous Enterprise」構想を前面に出した。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-06</span>
-          <span>AI / LLM / Agent</span>
-        </div>
-        <h2><a href="articles/2026-06-06_GitHub_Copilotのクラウド_ローカルサンドボックス.html">GitHub Copilotのクラウド/ローカルサンドボックス</a></h2>
-        <p>GitHub Copilotで、クラウドサンドボックスとローカルサンドボックスがPublic Previewになった。</p>
-      </article>
-    </section>
-  </main>
-</body>
-</html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="海外技術情報アーカイブの記事一覧"><title>海外技術情報アーカイブ</title><link rel="stylesheet" href="assets/style.css"></head>
+<body><header class="site-header"><a class="site-title" href="index.html">海外技術情報アーカイブ</a><span class="site-subtitle">AI / SAP / Security trend notes</span></header><main>
+<section class="hero"><p><a href="interests/index.html">興味レポート</a> / <a href="knowledge/index.html">公開ナレッジブログ</a></p><h1>海外技術情報アーカイブ</h1><p>公開前検査を通過した記事だけを掲載しています。</p></section>
+
+<section class="toolbar"><span>110 articles</span><span>Generated by fail-closed pipeline</span></section>
+<section class="cards"><article class="card"><div class="meta-row"><span>2026-08-13</span><span>Security</span></div><h2><a href="articles/2026-08-13-Security-MCP連携で認可境界を崩さないための確認点-922dd79c1f.html">MCP連携で認可境界を崩さないための確認点</a></h2><p>MCP連携では、便利さより先に認可の境界を確認する必要がある。Confused Deputy、token passthrough、SSRFを小規模運用でも点検できる順序に整理する。</p></article>
+<article class="card"><div class="meta-row"><span>2026-08-03T19:36:00+09:00</span><span>Security</span></div><h2><a href="articles/2026-08-03_AM_Hugging_Face自律AI侵入.html">Hugging Face自律AI侵入</a></h2><p>Hugging Faceが公表した、自律AIエージェント主導の侵入事例。AI基盤ではデータ処理、評価環境、IR用モデル準備まで防御面に入ることが分かる。</p></article>
+<article class="card"><div class="meta-row"><span>2026-08-03</span><span>Security</span></div><h2><a href="articles/2026-08-03_N-able_N-central悪用.html">N-able N-central悪用</a></h2><p>N-able N-centralの脆弱性悪用は、MSP/RMM管理基盤の侵害が顧客環境へ横展開し得る問題。露出確認、更新、監査ログ確認を急ぐ判断材料になる。</p></article>
+<article class="card"><div class="meta-row"><span>2026-08-02</span><span>Security</span></div><h2><a href="articles/2026-08-02_CaptiveCrunch旅行者攻撃.html">CaptiveCrunch旅行者攻撃</a></h2><p>Midnight Blizzard系Storm-2945がホテル等のcaptive portal経由でDNS/HTTPを操作し、AiTMフィッシングやマルウェア配布を行う攻撃。</p></article>
+<article class="card"><div class="meta-row"><span>2026-08-02</span><span>AI / LLM / Agent</span></div><h2><a href="articles/2026-08-02_AM_AISPAシステムプロンプト監査.html">AISPAシステムプロンプト監査</a></h2><p>AISPAは商用AI製品のシステムプロンプトを、ユーザー保護と問題指示の両面から監査する枠組み。AIアプリの透明性、監査、調達評価を考える材料になる。</p></article>
+<article class="card"><div class="meta-row"><span>2026-08-01</span><span>Security</span></div><h2><a href="articles/2026-08-01_Traefik_CONNECT汚染.html">Traefik CONNECT汚染</a></h2><p>Traefikの共有keep-aliveプールで、HTTP/2/3のCONNECTが別ユーザーのレスポンスを読ませ得る脆弱性。プロキシの接続再利用境界を見直す材料になる。</p></article>
+<article class="card"><div class="meta-row"><span>2026-08-01</span><span>Security</span></div><h2><a href="articles/2026-08-01_AM_GhostApproval_CSAガバナンス.html">GhostApprovalをCSAのガバナンス視点で読む</a></h2><p>CSAのGhostApproval解説は、AIコーディング支援のsymlink問題を単なる実装バグではなく、承認UIとエージェント権限設計のガバナンス問題として整理している。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-31</span><span>Security</span></div><h2><a href="articles/2026-07-31_mcp-mermaid悪性npm.html">mcp-mermaid悪性npm</a></h2><p>npmのmcp-mermaidに悪性preinstallが混入したGitHub Advisory。MCPツールを便利さだけで導入せず、依存・CI・秘密情報を同時に守る必要が分かる。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-31</span><span>AI / LLM / Agent</span></div><h2><a href="articles/2026-07-31_AM_DynamicMCPBench_MCP実測評価.html">DynamicMCPBench: MCPエージェントを実行効果で測る</a></h2><p>DynamicMCPBenchは、ライブMCPサーバー上のエージェントを最終回答ではなく実行効果で測るベンチマーク。社内MCPや業務エージェントの評価設計にそのまま使える観点が多い。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-30</span><span>Security</span></div><h2><a href="articles/2026-07-30_AM_Word文書Copilotワーム.html">Word文書経由Copilotワーム</a></h2><p>Copilot for Wordが外部文書内の隠し指示を読み、生成文書へ自己複製する文書型AIワームの実証。Office文書をAI文脈に入れる時の信頼境界と検査設計を見直す材料になる。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-30</span><span>Security</span></div><h2><a href="articles/2026-07-30_Prismata_Webエージェント注入隔離.html">Prismata: Webエージェント注入隔離</a></h2><p>Webエージェントのクロスサイト・プロンプトインジェクションを、DOM由来の信頼ラベルと機械的な行動制限で隔離する研究。ブラウザ操作型エージェントを安全に使うための実装寄りの防御案として読める。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-29</span><span>SAP / ERP</span></div><h2><a href="articles/2026-07-29_AM_SAP_AI成果課金モデル.html">SAP AI成果課金モデル</a></h2><p>SAPのQ2決算を手がかりに、AIエージェントがERPの価格モデルをユーザー数課金から成果・価値ベースへ動かす兆しを整理する。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-29</span><span>Security</span></div><h2><a href="articles/2026-07-29_Agentic_CI_CD攻撃面.html">Agentic CI/CD攻撃面</a></h2><p>エージェント型CI/CDが、外部Issueの権威づけと意図のロンダリングで秘密情報送信コードを通す可能性を示した研究。AI開発支援をパイプラインへ入れる前の設計論点になる。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-28</span><span>AI / LLM / Agent</span></div><h2><a href="articles/2026-07-28_企業AIエージェント動的権限スコープ.html">企業AIエージェント動的権限スコープ</a></h2><p>企業AIエージェントの権限を役割・タスク文脈・禁止組み合わせで動的に絞る論文。検知より前に「使える権限を存在させない」設計として読む価値がある。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-28</span><span>AI / LLM / Agent</span></div><h2><a href="articles/2026-07-28_AM_Lomekwi_ツール発見能力.html">Lomekwi: エージェントのツール発見能力を分解して測る</a></h2><p>LomekwiはLLMエージェントが道具を「使う」だけでなく、自力で発見・発明できるかを測る研究。大きいモデルほど発見機会を見逃す逆スケーリングが示され、評価設計の見直しに効く。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-24</span><span>AI / LLM / Agent</span></div><h2><a href="articles/2026-07-24_AM_OpenAI_Presence_AIエージェント基盤.html">OpenAI Presence: 信頼性を前提にしたエージェント基盤</a></h2><p>OpenAIが企業実装を想定したAIエージェント基盤「Presence」を公開。ガードレール・エスカレーション・継続改善を前提化し、運用設計を比較検討する価値が高い。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-24</span><span>Security</span></div><h2><a href="articles/2026-07-24_CISA_KEV追加.html">CISA KEV追加2件の実務的優先度</a></h2><p>CISAが公開資産向け高リスク脆弱性2件をKEVへ追加。SmartConsoleとSharePointの認証・実行系不備は公開資産の中断リスクが高く、優先対策の再確認対象として価値が高い。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-23</span><span>AI / LLM / Agent</span></div><h2><a href="articles/2026-07-23_AM_OpenAI_Presence_実運用エージェント基盤.html">OpenAI Presence（エージェント実運用基盤）</a></h2><p>OpenAIが公開したPresenceは、エージェントの実行権限・監査・エスカレーションを運用前提で結びつける設計を示し、社内AI活用のガバナンス設計を見直す際の起点として価値が高い。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-23</span><span>Security</span></div><h2><a href="articles/2026-07-23_CISA_KEV追加.html">CISAによるKEV追加2件の実務インパクト</a></h2><p>CISAが公開資産向けの高リスク脆弱性2件をKEVに追加。SmartConsoleとSharePointの認証・実行系不備は、放置すれば運用停止や権限制御崩れを起こしうるため、優先対策対象として再確認しやすい。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-22</span><span>Security</span></div><h2><a href="articles/2026-07-22_Microsoft_AIエージェント_最小権限設計.html">Microsoft AIエージェントに対する最小権限設計原則</a></h2><p>Microsoft公式のAIエージェント向け設計原則は、ID認証とツール境界を分離し、最小権限で運用する実務指針を示す。業務AIの権限事故を抑え、監査しやすい実装へ繋がるため読む価値が高い。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-19</span><span>SAP / ERP</span></div><h2><a href="articles/2026-07-19_SAP_PriorLabs買収とTFM統合.html">SAPがPrior Labsを買収した意図：TFMで業務AI運用設計の優先順位が変わる</a></h2><p>SAPがPrior Labs買収を完了し、表データ向けモデルをSAP業務基盤へ統合する方針を示した。実務価値を出すには、提案精度より先に権限・監査・データ統制設計を更新する視点が重要だ。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-18</span><span>SAP / ERP</span></div><h2><a href="articles/2026-07-18_AM_SAP_PriorLabs買収とTFM統合.html">SAPがPrior Labsを買収：Tabular Foundation Modelsで業務AIの実装条件が変わる</a></h2><p>SAPがPrior Labs買収を完了し、構造化データを前提にしたAI基盤を強化する方針が示された。ERP実務でのAI実装は、提案精度よりもデータガバナンス・監査設計の再構築が先行する価値がある。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-18</span><span>AI / LLM / Agent</span></div><h2><a href="articles/2026-07-18_Gemini_Managed_Agents拡張.html">Gemini APIのManaged Agents拡張：対話の外側に伸びる実務実行基盤</a></h2><p>GoogleのGemini APIはManaged Agentsへ背景タスクとremote MCP接続を追加し、対話中心から長時間実行へ接続できる実務的な設計転換を示した。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-17</span><span>SAP / ERP</span></div><h2><a href="articles/2026-07-17_SAP_PriorLabs買収とAI基盤.html">SAPがPrior Labsを買収：ERP AI基盤の実務インパクトを読む</a></h2><p>SAP公式発表のPrior Labs買収は、構造化データ処理を強化し、ERP領域のAI基盤を実業務の意思決定に接続できる拡張ポイントを増やす。SAP導入判断に向けた評価観点が明確化される。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-17</span><span>SAP / ERP</span></div><h2><a href="articles/2026-07-17_AM_SAP_PriorLabs_買収でTFM加速.html">SAP Prior Labs買収でTFM基盤が加速</a></h2><p>SAPが構造化データ向け先端基盤Prior Labsを買収完了し、SAP-RPT-1系TFMを拡大する方針を公式発表。独立体制を維持しつつ4年で10億ユーロ超を投資する構えは、業務データAI戦略を長期で設計する上で価値が高い。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-16</span><span>SAP / ERP</span></div><h2><a href="articles/2026-07-16_SAP_AI価値急上昇とガバナンス.html">SAP AI価値急上昇とガバナンスの課題</a></h2><p>SAP公式調査はAI投資ROI上昇を示しつつ、agentic AIではガバナンス未成熟が主要リスクと示した。ERP運用では導入前に権限制御と監査設計を優先的に見直す価値が高い。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-16</span><span>Security</span></div><h2><a href="articles/2026-07-16_AM_CISA_Agentic_AI安全導入ガイド.html">CISAが示すAgentic AI安全導入ガイド</a></h2><p>CISAと海外パートナーが提示したAgentic AI導入ガイドを要約。権限設計・監査・監視を前提化し、低リスクから段階導入する運用設計が事故防止の要点となる。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-15</span><span>SAP / ERP</span></div><h2><a href="articles/2026-07-15_SAP_7月Patch_Day_Critical.html">SAP July 2026 Security Patch Day: まず先に見るべきライン</a></h2><p>2026年7月のSAP Security Patch Dayは16件の新規ノートと既存更新を含み、公開経路や権限境界をまたぐ脆弱性の優先対応が重要。SAP基盤の優先順位付けを先に決める価値が高い情報です。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-15</span><span>AI / LLM / Agent</span></div><h2><a href="articles/2026-07-15_AM_タスク難易度推定でコスト最適化.html">Do AI Agents Know When a Task Is Simple?</a></h2><p>arXivのE3は、LLMエージェントのタスク難易度見積りを先に行い、必要最小経路で実行を進める枠組み。成功率を落とさず再読込みを抑え、トークンやファイル参照量を下げる実務設計指針になる。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-14</span><span>SAP / ERP</span></div><h2><a href="articles/2026-07-14_SAP_Business_AI_Platform方針.html">SAP Business AI Platform方針</a></h2><p>SAPがSapphireで示したBusiness AI Platform方針は、業務データ基盤を起点にエージェント導入を全社設計する方向を明確化した公式情報であり、監査・ガバナンス・実装設計まで含む実務価値が高い。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-14</span><span>AI / LLM / Agent</span></div><h2><a href="articles/2026-07-14_AM_MCP_RCステートレス化.html">MCP RC 2026-07-28 (Release Candidate): ステートレス化での運用転換</a></h2><p>MCP RC（2026-07-28）候補は、セッションID固定前提のMCPをステートレス化し、通常HTTPインフラでの水平分散と監査設計を同時に進める改訂版。導入設計判断を先行しておきたい実務者向けの価値が高い。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-13</span><span>AI / LLM / Agent</span></div><h2><a href="articles/2026-07-13_AM_MCP_RC仕様ステートレス化.html">MCP RC仕様ステートレス化</a></h2><p>Model Context ProtocolのRCは、セッション固定型の運用からHTTPステートレス設計へ移行し、認可強化と拡張ガバナンスを一本化する。AI接続基盤の運用負荷や移行戦略を見直す価値が高い。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-13</span><span>Security</span></div><h2><a href="articles/2026-07-13_GHSA-84rm_Coder_AI_Bridge_TLS検証不備.html">GHSA-84rm: Coder AI Bridge TLS検証不備</a></h2><p>Coder AI Bridge Proxyが既定設定でTLS検証を無効化し、AIエージェント連携経路のトラフィックが中間者攻撃に晒されると、トークンやプロンプト・レスポンスが窃取され得る脆弱性。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-12</span><span>Security</span></div><h2><a href="articles/2026-07-12_AM_Cloudflareポスト量子署名移行.html">Cloudflareポスト量子署名移行</a></h2><p>Cloudflareはポスト量子署名で、より良い候補を待たず標準化済みML-DSAへまず移行すべきと論じた。TLSや証明書運用の移行期限を考える材料になる。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-12</span><span>Security</span></div><h2><a href="articles/2026-07-12_Cloudflareポスト量子署名移行.html">Cloudflareポスト量子署名移行</a></h2><p>Cloudflareがポスト量子署名について、新候補を待たずML-DSAで初回移行を進めるべきと整理した。TLSや認証基盤の移行計画を考える材料になる。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-11</span><span>Security</span></div><h2><a href="articles/2026-07-11_AM_GitHubエージェント漏えいリスク.html">GitHubエージェント漏えいリスク</a></h2><p>公開GitHub IssueからAgentic Workflowsを誘導し、私有リポジトリ内容を公開コメントへ漏えいさせ得る事例。AIエージェントの権限スコープと出力経路を分ける重要性が分かる。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-11</span><span>Security</span></div><h2><a href="articles/2026-07-11_CodeQL_AIプロンプト注入検出.html">CodeQL AIプロンプト注入検出</a></h2><p>CodeQL 2.26.0がJavaScript/TypeScript向けにsystem prompt injection検出を追加した。LLMアプリの脆弱性管理が静的解析とCI/CDへ入る具体例として読める。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-10</span><span>AI / LLM / Agent</span></div><h2><a href="articles/2026-07-10_Cloudflare_x402課金とAgentic_Internet.html">Cloudflare x402課金とAgentic Internet</a></h2><p>Cloudflare Monetization Gatewayは、Webページ、API、データセット、MCPツールをx402でリクエスト単位課金できる構想。AIエージェントがWeb資源を使う時代の支払い・権利処理インフラとして読む価値がある。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-10</span><span>Security</span></div><h2><a href="articles/2026-07-10_AM_AI監査がCIRCL暗号バグ発見.html">AI監査がCIRCL暗号バグ発見</a></h2><p>zkSecurityがAI監査パイプラインをCloudflare CIRCLへ適用し、暗号実装の実バグ7件を確認した事例。AI監査の実用性と、人間検証がまだ必要な境界が分かる。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-09</span><span>Security</span></div><h2><a href="articles/2026-07-09_Kubernetes_MCPトークン漏えい.html">Kubernetes MCPトークン漏えい</a></h2><p>Kubernetes操作用MCPサーバーのCVE-2026-47250は、ログ経由の間接プロンプト注入がkubectlフラグ注入と結びつき、運用者のBearer tokenを外部へ送らせる問題。AIエージェントに本番権限を渡す時の境界設計を見直す材料になる。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-09</span><span>Security</span></div><h2><a href="articles/2026-07-09_AM_GhostApproval_AIコーディング境界問題.html">GhostApproval: AIコーディング境界問題</a></h2><p>GhostApprovalは、AIコーディング支援の承認UIがsymlink先の実パスを隠すと、HITLが安全制御ではなく形式的な確認に落ちることを示す。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-08</span><span>AI / LLM / Agent</span></div><h2><a href="articles/2026-07-08_AM_SwarmResearchエージェント探索.html">SwarmResearchエージェント探索</a></h2><p>SwarmResearchは、複数のコーディングエージェントをgitブランチ単位で並走させ、探索の偏りを抑える研究。長期タスクを任せるAI運用設計の参考になる。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-08</span><span>Security</span></div><h2><a href="articles/2026-07-08_Januscape_KVM_VMエスケープ.html">Januscape KVM VMエスケープ</a></h2><p>JanuscapeはKVM/x86のshadow MMUに潜んでいたゲストからホストへのエスケープ脆弱性。クラウドVM分離とnested virtualizationの運用判断に直結する。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-07</span><span>AI / LLM / Agent</span></div><h2><a href="articles/2026-07-07_マルチテナントRAGの認可分離.html">マルチテナントRAGの認可分離</a></h2><p>企業RAGで検索関連度と認可を混同すると、別テナントの情報が上位取得され得る。OGX実装を題材に、取り込み・検索・オーケストレーションで分離する設計を整理する。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-07</span><span>Security</span></div><h2><a href="articles/2026-07-07_AM_AI監査への間接プロンプト注入.html">AI監査への間接プロンプト注入</a></h2><p>Cloudflare Cloudforce Oneが、AIコード監査をだます間接プロンプト注入を実験した。防御側AIを導入する時に、監査対象コード自体を敵対入力として扱う必要が分かる。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-06</span><span>Security</span></div><h2><a href="articles/2026-07-06_ブラウザだけで動くランサム.html">ブラウザだけで動くランサム</a></h2><p>Check Point Researchのブラウザ単体ランサムPoCは、File System Access APIとAI生成コードが結びつく攻撃面を示す。Android Chromeの写真フォルダ権限をどう扱うべきかを考える材料になる。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-06</span><span>AI / LLM / Agent</span></div><h2><a href="articles/2026-07-06_GLM-5.2理解のためのQ-A.html">GLM-5.2理解のためのQ&amp;A</a></h2><p>GLM-5.2について、Claude OpusやGPT系との比較、量子化の意味、ローカル実行時の遅さと長時間タスク適性を質問と回答の形で整理する。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-06</span><span>AI / LLM / Agent</span></div><h2><a href="articles/2026-07-06_GLM-5.2ローカルLLM調査.html">GLM-5.2 ローカルLLM性能・必要マシン調査レポート</a></h2><p>GLM-5.2をローカルLLMとして使う場合の性能、量子化別メモリ要件、個人用PCとサーバーGPU構成の現実ラインを整理する。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-06</span><span>AI / LLM / Agent</span></div><h2><a href="articles/2026-07-06_AM_CAR動的ツール合成エージェント.html">CAR動的ツール合成エージェント</a></h2><p>CARは、LLMエージェントが不足したツールをその場で合成し、失敗した実行計画を大局的に立て直すACL 2026研究。固定ツール前提の限界を考える材料になる。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-04</span><span>AI / LLM / Agent</span></div><h2><a href="articles/2026-07-04_DeepMindのAI制御ロードマップ.html">DeepMindのAI制御ロードマップ</a></h2><p>Google DeepMindのAI Control Roadmapは、AIエージェントを内部脅威として扱い、監視・権限制御・即時停止を設計するための実務的な枠組み。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-04</span><span>AI / LLM / Agent</span></div><h2><a href="articles/2026-07-04_AM_DeepMind_AI_Control_Roadmap.html">DeepMind AI Control Roadmap</a></h2><p>Google DeepMindのAI Control Roadmapは、AIエージェントを完全には信頼せず、監視・権限・遮断を重ねる設計論。社内エージェント運用の安全基準を考える材料になる。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-03</span><span>AI / LLM / Agent</span></div><h2><a href="articles/2026-07-03_AM_ScarfBench企業Java移行評価.html">ScarfBench企業Java移行評価</a></h2><p>ScarfBenchは、AIエージェントがSpring、Jakarta EE、Quarkus間の企業Java移行をどこまで実行できるか測るベンチマーク。ビルド成功だけでは移行品質を判断できない点が実務上重要。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-03</span><span>SAP / ERP</span></div><h2><a href="articles/2026-07-03_SAP_Agentic_AI参照アーキテクチャ.html">SAP Agentic AI参照アーキテクチャはERPエージェントの接続境界を示している</a></h2><p>SAP公式のAgentic AI参照アーキテクチャを、Joule、Agent Gateway、A2A、MCP Gatewayの役割分担から読む。ERPエージェントを本番運用へ載せる際の接続・統制・監査ポイントが見える。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-02</span><span>Security</span></div><h2><a href="articles/2026-07-02_Red_Hat_npm_SLSA_provenanceの落とし穴.html">Red Hat npm SLSA provenanceの落とし穴</a></h2><p>@redhat-cloud-services npm侵害は、正規CIで作られたSLSA provenance付き成果物でも、侵害済みパイプラインなら悪性になり得ることを示す。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-02</span><span>Security</span></div><h2><a href="articles/2026-07-02_AM_Cursorサンドボックス迂回RCE.html">Cursorサンドボックス迂回RCE</a></h2><p>CursorのDuneSlide脆弱性は、プロンプトインジェクションがAI IDEのサンドボックス実装バグを踏み抜き、開発端末のRCEへ進むことを示す。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-01</span><span>Security</span></div><h2><a href="articles/2026-07-01_ローカルLLMエージェント実装層監査.html">ローカルLLMエージェント実装層監査</a></h2><p>CLAWAUDIT論文は、ローカルLLMエージェントを便利なアプリではなく、ツール実行・記憶・権限を持つ特権ランタイムとして監査すべきだと示す。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-01</span><span>Security</span></div><h2><a href="articles/2026-07-01_AM_Clean_GitHub_Repoエージェント侵害.html">Clean GitHub RepoでAIエージェント侵害</a></h2><p>0DINのPoCは、悪性コードを含まないように見えるGitHub repoでも、AIコーディングエージェントの自動セットアップ復旧がDNS TXT経由の攻撃実行につながることを示す。開発端末とCIで「初回セットアップ」を隔離・監査する価値が高い。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-30</span><span>AI / LLM / Agent</span></div><h2><a href="articles/2026-06-30_社内MCP安全トンネル.html">社内MCP安全トンネル</a></h2><p>OpenAI Secure MCP Tunnelは、社内やローカルのMCPサーバーを公開せずChatGPT/Codexへつなぐ設計。MCP普及後の企業内ツール接続、権限境界、監査の実務論点を整理できる。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-30</span><span>AI / LLM / Agent</span></div><h2><a href="articles/2026-06-30_AM_GBCエージェント失敗源.html">GBCエージェント失敗源</a></h2><p>GBCはLLMマルチエージェントを計算グラフとして扱い、失敗原因をエージェントやトークン単位で帰属する研究。エージェント運用の観測性と改善ループを考える材料になる。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-29</span><span>Security</span></div><h2><a href="articles/2026-06-29_AM_MosaicLeaks検索漏えい.html">MosaicLeaksと検索漏えい</a></h2><p>MosaicLeaksは、研究エージェントの外部検索ログだけから社内文書の秘密が推測されるリスクを測る研究。RAGやDeep Research導入時の監査観点として重要。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-29</span><span>Security</span></div><h2><a href="articles/2026-06-29_Amazon_Q_MCP自動実行リスク.html">Amazon QのMCP自動実行リスク</a></h2><p>Amazon Q DeveloperのMCP設定自動実行問題は、AIコーディングツールがIDE拡張、ローカル実行、クラウド認証情報をまたぐ信頼境界になったことを示す事例。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-28</span><span>SAP / ERP</span></div><h2><a href="articles/2026-06-28_Joule_Studio_n8n業務フロー統合.html">Joule Studio x n8nはERPエージェントを業務フローへ接続する動き</a></h2><p>SAPがJoule Studioにn8nを組み込み、AIエージェントをSAP内外の業務フローへ接続する動き。ERPのAI化をチャットではなく、統制されたワークフロー実行基盤として見る材料になる。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-28</span><span>AI / LLM / Agent</span></div><h2><a href="articles/2026-06-28_AM_GLM-5.2長期タスク向け1M文脈.html">GLM-5.2長期タスク向け1M文脈</a></h2><p>GLM-5.2は、1Mトークン文脈を長期コーディングエージェント向けに実用化しようとする中国発OSSモデル。長文対応が単なる入力長ではなく、推論コスト、RL、評価不正対策まで含む基盤競争になっている点が重要。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-27</span><span>SAP / ERP</span></div><h2><a href="articles/2026-06-27_AM_SAP発注確認AIエージェント化.html">SAP発注確認AIエージェント化はERP業務AIの実装例として読む</a></h2><p>Lemvigh-MuellerがSAP基盤上で発注確認PDF処理をAIエージェント化した事例。PoCではなく本番運用、10週間導入、90%超のタッチレス処理という具体値があり、ERP業務AIの現実的な設計材料になる。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-27</span><span>SAP / ERP</span></div><h2><a href="articles/2026-06-27_Joule_in_SAP_for_Me運用導線.html">Joule in SAP for Meはサポート運用の入口を変える</a></h2><p>SAP for MeへのJoule統合は、サポート検索やケース起票を会話型・エージェント型の導線へ移す動き。Basis運用では便利機能としてだけでなく、権限、根拠確認、ケース品質、変更管理を見直す材料になる。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-26</span><span>Security</span></div><h2><a href="articles/2026-06-26_Cloudflare脆弱性ハーネス.html">Cloudflare脆弱性ハーネス</a></h2><p>Cloudflare が、AI を使った脆弱性探索を「単発のコードレビュー」ではなく、永続状態を持つハーネスとして運用する設計を公開した。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-26</span><span>Security</span></div><h2><a href="articles/2026-06-26_AM_AI開発環境サプライチェーン攻撃.html">AI開発環境サプライチェーン攻撃</a></h2><p>Cordyceps、Miasma、IronWorm は、AI開発環境がサプライチェーン攻撃の主戦場になりつつあることを示す一連の事例。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-25</span><span>Security</span></div><h2><a href="articles/2026-06-25_AM_LLMエージェント安全性サーベイ.html">LLMエージェント安全性サーベイ</a></h2><p>「Toward Secure LLM Agents: Threat Surfaces, Attacks, Defenses, and Evaluation」は、LLMエージェントのセキュリティ研究247本を、脅威面、攻撃、防御、評価の観点で整理したサーベイ論文。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-25</span><span>AI / LLM / Agent</span></div><h2><a href="articles/2026-06-25_fail-plausible運用障害分類.html">fail-plausible運用障害分類</a></h2><p>arXiv論文「When Errors Become Narratives」は、長期間動き続けるLLMエージェントランタイムで起きたサイレント障害を、8週間・22件のポストモーテムから分類した事例研究。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-24</span><span>AI / LLM / Agent</span></div><h2><a href="articles/2026-06-24_AM_GateMem共有メモリ統制.html">GateMem共有メモリ統制</a></h2><p>GateMemは、複数の利用者や役割が同じメモリを共有するLLMエージェントで、記憶の有用性だけでなく、アクセス制御と削除後の忘却まで同時に測るベンチマーク。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-24</span><span>AI / LLM / Agent</span></div><h2><a href="articles/2026-06-24_agentgateway運用ゲートウェイ.html">agentgateway運用ゲートウェイ</a></h2><p>agentgateway v1.3.0 は、LLM、MCP、A2A、通常のAPIトラフィックを同じゲートウェイで扱う方向をかなり明確にしたリリース。新しいLLM向けUI、コスト分析、仮想モデル、再利用可能なプロバイダとガードレール、MCP向けポリシー表示などが入っている。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-23</span><span>Security</span></div><h2><a href="articles/2026-06-23_AM_NSAのMCP安全設計.html">NSAのMCP安全設計</a></h2><p>NSAのAI Security Centerは、MCPを使うAI自動化システム向けに、権限分離、監査、ツール接続の安全設計を整理している。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-23</span><span>SAP / ERP</span></div><h2><a href="articles/2026-06-23_Agentic_ABAP_AI_GA.html">Agentic ABAP AI GAはABAP保守とS/4移行の作業単位を変える</a></h2><p>SAP CommunityのSapphire 2026 recapは、ABAP開発向けAI機能が、MCP、ADT、S/4HANA拡張開発へ広がる方向を示している。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-22</span><span>Security</span></div><h2><a href="articles/2026-06-22_AM_Vertex_AI_SDKアップロード乗っ取り.html">Vertex AI SDKアップロード乗っ取り</a></h2><p>Unit 42 は 2026-06-16 に、Google Cloud Vertex AI SDK for Python の Model.upload() に関する bucket squatting 型の脆弱性を公開した。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-22</span><span>Security</span></div><h2><a href="articles/2026-06-22_AutoJackエージェントRCE.html">AutoJackエージェントRCE</a></h2><p>Microsoft Defender Security Research Teamが、AutoGen Studioの開発系コードを題材に「AutoJack」という攻撃連鎖を公開した。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-21</span><span>SAP / ERP</span></div><h2><a href="articles/2026-06-21_AM_Sapphire_2026発表総覧.html">SAP Sapphire 2026発表総覧はERP AIの実装地図</a></h2><p>SAP Communityの「SAP Sapphire 2026 Announcements only」は、Sapphire 2026で出た主要なプロダクト発表、プラットフォーム発表、パートナーシップを一覧化したまとめ。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-21</span><span>Security</span></div><h2><a href="articles/2026-06-21_CISA最短3日パッチ指令.html">CISA最短3日パッチ指令</a></h2><p>CISAのBinding Operational Directive 26-04は、米連邦文民機関向けの脆弱性修正ルールを「CVSSの重大度に応じた一律期限」から、実際の攻撃リスクに応じた期限へ寄せる指令。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-20</span><span>SAP / ERP</span></div><h2><a href="articles/2026-06-20_AM_製造領域Joule_Agent実装.html">製造領域Joule Agent実装はERP内AIの現実的な入口</a></h2><p>SAP S/4HANA Cloud Public Editionの製造領域アップデートで、Manage Production OrdersアプリにJouleベースのProduction Planning and Operations Agentが組み込まれる。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-20</span><span>AI / LLM / Agent</span></div><h2><a href="articles/2026-06-20_バイオエージェント決定論的データ基盤.html">バイオエージェント決定論的データ基盤</a></h2><p>Anthropic が、バイオ領域で AI エージェントを実用化するには、モデル能力だけでなく「決定論的で再現可能なデータ取得レイヤー」が必要だと整理している。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-19</span><span>AI / LLM / Agent</span></div><h2><a href="articles/2026-06-19_DeepMind_AI_Control_Roadmap.html">DeepMind AI Control Roadmap</a></h2><p>Google DeepMind が、社内で使う高度な AI agent を「潜在的な insider threat」として扱う AI Control Roadmap を公開した。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-19</span><span>AI / LLM / Agent</span></div><h2><a href="articles/2026-06-19_AM_Bayesian-Agentスキル進化.html">Bayesian-Agentスキル進化</a></h2><p>Bayesian-Agentは、LLMエージェントのプロンプト、ツール、メモリ、SOP、スキルを「モデル外にある運用資産」として扱い、その成功・失敗を検証済み軌跡からベイズ的に更新する研究・OSSである。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-18</span><span>SAP / ERP</span></div><h2><a href="articles/2026-06-18_SAP_Knowledge_Graph業務文脈層.html">SAP Knowledge Graphが業務AIの文脈層に</a></h2><p>SAP Knowledge Graphは、JouleやSAP上のAIエージェントに対して、SAPシステム内の業務データ、メタデータ、プロセス、エンティティ間の関係を文脈として渡すためのレイヤー。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-18</span><span>SAP / ERP</span></div><h2><a href="articles/2026-06-18_AM_SAP_for_Me_Joule統合.html">SAP for MeのJoule統合はサポートポータルのエージェント化</a></h2><p>SAPは2026年6月11日、SAP for MeにJouleを統合したと発表した。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-17</span><span>AI / LLM / Agent</span></div><h2><a href="articles/2026-06-17_AM_OpenAI本番分布型モデル評価.html">OpenAI本番分布型モデル評価</a></h2><p>OpenAIは2026-06-16に、新モデルの公開前リスク評価手法として「Deployment Simulation」を公開した。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-17</span><span>SAP / ERP</span></div><h2><a href="articles/2026-06-17_ERPがAIの業務コンテキスト層へ.html">ERPがAIの業務コンテキスト層へ</a></h2><p>ERP Todayの記事は、SAP Sapphire 2026でSAP幹部が語った「AI時代にERPが再び事業戦略の中心へ戻る」という見立てを整理している。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-16</span><span>AI / LLM / Agent</span></div><h2><a href="articles/2026-06-16_MCP_Python_SDK_v2_alpha.html">MCP Python SDK v2 alpha</a></h2><p>MCP Python SDKのv2.0.0a1は、2026-07-28予定のMCP仕様変更に向けた最初のalpha。現行のv1系利用者がすぐ自動更新されるものではないが、stable v2が出る前に依存上限と移行方針を決めておく必要がある。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-16</span><span>Security</span></div><h2><a href="articles/2026-06-16_AM_AI_Agent_Skill供給網リスク.html">AI Agent Skill供給網リスク</a></h2><p>Unit 42の「Trust No Skill」は、AIエージェント用の第三者Skillを、モバイルアプリやブラウザ拡張と同じ供給網リスクとして扱うべきだと整理している。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-15</span><span>AI / LLM / Agent</span></div><h2><a href="articles/2026-06-15_AM_企業AIエージェント事前保証.html">企業AIエージェント事前保証</a></h2><p>arXiv論文「Toward Pre-Deployment Assurance for Enterprise AI Agents」は、企業AIエージェントを本番投入する前に、権限、業務制約、安全性、ガバナンス、自治レベルをまとめて検証するための枠組みを提案している。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-15</span><span>SAP / ERP</span></div><h2><a href="articles/2026-06-15_SAP_AI_Native_North_Star_運用境界.html">SAP AI-Native North Starの運用境界</a></h2><p>SAPの「AI-Native North Star Architecture」は、Autonomous Enterpriseを支える将来アーキテクチャとして、ERPを単なる記録システムから、業務コンテキストをAIが扱える基盤へ広げる構想を示している。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-14</span><span>SAP / ERP</span></div><h2><a href="articles/2026-06-14_AM_SAP_APIポリシーとAIエージェント統制.html">SAP APIポリシーとAIエージェント統制</a></h2><p>SAPのAPI Policy更新は、単なるAPI利用制限ではなく、agentic AI時代のERPアクセス制御を整える動きとして見るべき内容。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-14</span><span>SAP / ERP</span></div><h2><a href="articles/2026-06-14_SAP_6月Patch_Day_Critical.html">SAP 6月Patch Day Critical</a></h2><p>SAPの2026年6月Security Patch Dayでは、NetWeaver AS ABAP / ABAP Platform、SAP Commerce Cloud、SAP Data Hub、NetWeaver AS Javaなどに関する重要なSecurity Noteが公開された。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-13</span><span>AI / LLM / Agent</span></div><h2><a href="articles/2026-06-13_AM_安全なLLMエージェント設計.html">安全なLLMエージェント設計</a></h2><p>arXivのサーベイ「Toward Secure LLM Agents」は、LLMエージェントのセキュリティを247本の研究から整理した論文。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-13</span><span>AI / LLM / Agent</span></div><h2><a href="articles/2026-06-13_Agent_Memoryシステム特性評価.html">Agent Memoryをシステム特性として評価する</a></h2><p>Agent Memory論文は、長期タスクを行うLLMエージェントのメモリを、RAGや便利機能ではなく実行基盤の中核として評価している。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-12</span><span>SAP / ERP</span></div><h2><a href="articles/2026-06-12_SAP_AI_Native_North_Star_Architecture.html">SAP AI-Native North Star Architecture</a></h2><p>SAPが「AI-Native North Star Architecture」を公開し、Autonomous Enterpriseを支える技術的な目標像として位置づけた。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-12</span><span>AI / LLM / Agent</span></div><h2><a href="articles/2026-06-12_AM_Claude_Fable透明セーフガード.html">Claude Fable 5の透明なセーフガード運用</a></h2><p>Anthropic は 2026年6月9日、Claude Fable 5 と Claude Mythos 5 を発表した。Fable 5 は一般提供される Mythos-class モデル、Mythos 5 は同じ基盤モデルから一部セーフガードを外した限定提供版という構成。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-11</span><span>Security</span></div><h2><a href="articles/2026-06-11_本番AIエージェント五層統治.html">本番AIエージェント五層統治</a></h2><p>Five-Plane Reference Architecture論文は、本番AIエージェントを単なるモデル出力ではなく、企業システムに対する委任実行主体として統治する枠組みを示す。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-11</span><span>AI / LLM / Agent</span></div><h2><a href="articles/2026-06-11_AM_Claude_FableとMythosの運用設計.html">Claude FableとMythosの運用設計</a></h2><p>Anthropic は 2026年6月9日、Claude Fable 5 と Claude Mythos 5 を発表した。Fable 5 は一般提供される Mythos-class モデルで、Mythos 5 は同じ基盤モデルから一部セーフガードを外した限定提供版という位置づけ。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-10</span><span>AI / LLM / Agent</span></div><h2><a href="articles/2026-06-10_AM_企業AIに必要なAgent_Logic.html">企業AIに必要なAgent Logic</a></h2><p>IBM Research は Hugging Face Blog で、企業AIの本格導入には LLM 単体の性能向上だけでは足りず、Agent Logic が必要だと整理している。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-10</span><span>SAP / ERP</span></div><h2><a href="articles/2026-06-10_SAP_APIポリシーと組織記憶.html">SAP APIポリシーと組織記憶</a></h2><p>SAP Sapphire 2026後の論点として、SAP API Policyの更新と「organizational memory」が同じ文脈で語られている。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-09</span><span>Security</span></div><h2><a href="articles/2026-06-09_AM_Red_Hat_npm侵害とCI認証情報防衛.html">Red Hat npm侵害とCI認証情報防衛</a></h2><p>Red Hat は 2026-06-01 に、@redhat-cloud-services npm 名前空間の複数パッケージでサプライチェーン侵害が公表されたと説明した。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-09</span><span>AI / LLM / Agent</span></div><h2><a href="articles/2026-06-09_Gemini_Agentic_RAGと十分性判定.html">Gemini Agentic RAGと十分性判定</a></h2><p>Google Research / Google Cloud が、Gemini Enterprise Agent Platform 上の Cross-Corpus Retrieval powered by Agentic RAG を紹介した。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-08</span><span>SAP / ERP</span></div><h2><a href="articles/2026-06-08_AM_SAP_Cloud_ERP横断セキュリティ設計.html">SAP Cloud ERP横断セキュリティ設計</a></h2><p>SAP Communityの公式ブログは、Cloud ERPセキュリティを、BTP、SaaS、Integration Suite、AI、クラウド基盤まで含む多層統制として整理している。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-08</span><span>SAP / ERP</span></div><h2><a href="articles/2026-06-08_SAP_Autonomous_SCMとJoule_Assistants.html">SAP Autonomous SCMとJoule Assistants</a></h2><p>SAPはSapphire 2026で、サプライチェーン領域にJoule Assistantsと目的別AI agentsを埋め込む「Autonomous Supply Chain Management」を発表した。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-08</span><span>AI / LLM / Agent</span></div><h2><a href="articles/2026-06-08_AM_GitHub_Agentic_Workflows_v0.77.4.html">GitHub Agentic Workflows v0.77.4</a></h2><p>GitHub Agentic Workflows v0.77.4は、GitHub Actions上で動くAIエージェント自動化を、単発の実験からリポジトリ運用部品へ寄せる更新。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-07</span><span>SAP / ERP</span></div><h2><a href="articles/2026-06-07_Joule_Studioの統制アーキテクチャ.html">Joule Studioの統制アーキテクチャ</a></h2><p>SAP Architecture Centerは、Joule Studioを「企業向けの本番グレードなエージェント開発・実行基盤」として整理している。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-07</span><span>AI / LLM / Agent</span></div><h2><a href="articles/2026-06-07_AM_APBでAgent計画力を診断.html">APBでAgent計画力を診断</a></h2><p>Agent Planning Benchmark（APB）は、LLMエージェントの「実行結果」ではなく、実行前の計画能力を切り出して診断するベンチマーク。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-06</span><span>SAP / ERP</span></div><h2><a href="articles/2026-06-06_SAPとPalantirのAI支援データ移行.html">SAPとPalantirのAI支援データ移行</a></h2><p>SAPとPalantirは、SAP Cloud ERPへの移行で最も重い論点の一つであるデータ移行に、Palantir AIPを組み込む提携強化を発表した。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-06</span><span>SAP / ERP</span></div><h2><a href="articles/2026-06-06_AM_SAPとAnthropic連携_ClaudeがJouleエージェントへ.html">SAPとAnthropic連携: ClaudeがJouleエージェントへ</a></h2><p>SAPとAnthropicは、ClaudeをSAP Business AI Platform上の主要な推論・エージェント能力として組み込み、JouleとJoule agentsを強化する計画を発表した。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-06</span><span>SAP / ERP</span></div><h2><a href="articles/2026-06-06_SAP_Business_AI_PlatformとAutonomous_Enterprise.html">SAP Business AI PlatformとAutonomous Enterprise構想</a></h2><p>SAP Sapphire 2026で、SAPは「SAP Business AI Platform」と「Autonomous Enterprise」構想を前面に出した。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-06</span><span>AI / LLM / Agent</span></div><h2><a href="articles/2026-06-06_GitHub_Copilotのクラウド_ローカルサンドボックス.html">GitHub Copilotのクラウド/ローカルサンドボックス</a></h2><p>GitHub Copilotで、クラウドサンドボックスとローカルサンドボックスがPublic Previewになった。</p></article></section>
+</main></body></html>

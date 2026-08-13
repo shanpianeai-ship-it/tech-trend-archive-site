@@ -1,249 +1,28 @@
-<!doctype html>
-<html lang="ja">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>セキュリティ | 興味レポート</title>
-  <meta name="description" content="セキュリティ の公開用レポート一覧">
-  <link rel="stylesheet" href="../../assets/style.css">
-</head>
-<body>
-  <header class="site-header">
-    <a class="site-title" href="../../interests/index.html">興味レポート</a>
-    <span class="site-subtitle">Public redacted interest reports</span>
-  </header>
-  <main>
-    <section class="hero">
-      <p class="back"><a href="../index.html">← 興味レポート一覧へ</a></p>
-      <h1>セキュリティ</h1>
-      <p>28件の公開用レポート。</p>
-    </section>
-    <section class="cards">
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-08-02T19:30:00+09:00</span>
-          <span>セキュリティ</span>
-        </div>
-        <h2><a href="../articles/2026-08-02-セキュリティ-個人MacのAI開発環境でnpm-postinstallをどこまで止めるべきか-6ed033fe99.html">個人MacのAI開発環境でnpm postinstallをどこまで止めるべきか</a></h2>
-        <p>AIエージェントがnpm installを実行する個人Macで、postinstall、prepare、環境変数、トークン露出をどこまで止めるべきかを実務ルールに落とす。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-31T19:30:00+09:00</span>
-          <span>セキュリティ</span>
-        </div>
-        <h2><a href="../articles/2026-07-31-セキュリティ-Claudeのサイバー評価事故を個人エージェント安全設計に落とす-e39bc11655.html">Claudeのサイバー評価事故を個人エージェント安全設計に落とす</a></h2>
-        <p>Anthropicのサイバー評価事故を、個人エージェント運用の隔離、外部送信制御、ログ監視へ読み替える。評価・検証環境が外へ漏れた時の実害を点検するメモ。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-30T19:30:00+09:00</span>
-          <span>セキュリティ</span>
-        </div>
-        <h2><a href="../articles/2026-07-30-セキュリティ-Discord-Botトークンを個人自動化で使う時の漏えい影響を棚卸しする-ab0f9a0ed8.html">Discord Botトークンを個人自動化で使う時の漏えい影響を棚卸しする</a></h2>
-        <p>Discord Botトークンを個人自動化で使う時の漏えい影響を、権限、保存場所、ローテーション、Bot招待範囲で棚卸しする。OpenClaw通知運用の事故範囲を小さくする実用メモ。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-29T19:30:00+09:00</span>
-          <span>セキュリティ</span>
-        </div>
-        <h2><a href="../articles/2026-07-29-セキュリティ-GitHub-Personal-Access-TokenをAI作業端末で使う時の「期-ef36d94e7d.html">GitHub Personal Access TokenをAI作業端末で使う時の「期限・権限・保存場所」棚卸し</a></h2>
-        <p>AIコーディング端末に残るGitHub PATを、fine-grained化、期限、権限、保存場所、失効手順で棚卸しする。個人開発の事故範囲を小さくする実用チェック。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-23</span>
-          <span>セキュリティ</span>
-        </div>
-        <h2><a href="../articles/2026-07-23-セキュリティ-OAuth委任を「便利」から「管理可能」へ切り分ける-8b4db0c9b8.html">OAuth委任を「便利」から「管理可能」へ切り分ける</a></h2>
-        <p>OAuth委任を、スコープと更新トークン運用、再同意、監査ログで分解すると、実務で事故が起きても影響を限定できる。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-12T19:30:00+09:00</span>
-          <span>セキュリティ</span>
-        </div>
-        <h2><a href="../articles/2026-07-12-セキュリティ-npm防御をCodex環境へ落とす-9e3e67640d.html">npm防御をCodex環境へ落とす</a></h2>
-        <p>npmの長期トークン、install script、依存更新を、Codex/OpenClawのローカル実行環境でどう閉じ込めるかを整理する。AIコーディング環境の点検表として使える。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-11</span>
-          <span>セキュリティ</span>
-        </div>
-        <h2><a href="../articles/2026-07-11-セキュリティ-パスキー普及後の「端末紛失時リカバリ」を個人運用として点検する-fef7615e36.html">パスキー普及後の「端末紛失時リカバリ」を個人運用として点検する</a></h2>
-        <p>パスキーを増やすほど重要になる端末紛失時の復旧設計を、Apple、Google、Microsoft、FIDOの公開情報から個人運用へ落とし込む。便利さと詰み防止を両立する点検表になる。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-08T19:30:00+09:00</span>
-          <span>セキュリティ</span>
-        </div>
-        <h2><a href="../articles/2026-07-08-セキュリティ-TanStack-npm-wormを個人AI環境の秘密情報防衛へ読む-1ff172aebc.html">TanStack npm wormを個人AI環境の秘密情報防衛へ読む</a></h2>
-        <p>TanStack系npmワームを、AI開発環境のトークン、環境変数、MCP設定ファイルを守る実務チェックに落とす。個人Macで自動実行エージェントを動かす前の点検に使える。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-07T19:30:00+09:00</span>
-          <span>セキュリティ</span>
-        </div>
-        <h2><a href="../articles/2026-07-07-セキュリティ-AIブラウザ操作の社内リスク棚卸し-33b8b1bb0e.html">AIブラウザ操作の社内リスク棚卸し</a></h2>
-        <p>ブラウザ操作型AIに任せる前に、間接プロンプト注入、権限濫用、認証情報漏えいをどう切り分けるかを整理する。個人利用と社内導入の線引きに使える。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-05T19:34:00+09:00</span>
-          <span>セキュリティ</span>
-        </div>
-        <h2><a href="../articles/2026-07-05-セキュリティ-GitHub-Actionsセルフホストランナーを個人Macで動かすリスク棚卸し-292d692db6.html">GitHub Actionsセルフホストランナーを個人Macで動かすリスク棚卸し</a></h2>
-        <p>GitHub Actionsのセルフホストランナーを個人Macで動かす時の危険点を、PR実行、秘密情報、永続化、ラベル分離の観点で整理する。自宅自動化に載せてよい範囲を決める材料になる。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-04T20:05:00+09:00</span>
-          <span>セキュリティ</span>
-        </div>
-        <h2><a href="../articles/2026-07-04-セキュリティ-Ubiquiti-UniFi-OSのKEV入りを自宅ネットワーク管理の棚卸し手順にす-d8a107474f.html">Ubiquiti UniFi OSのKEV入りを自宅ネットワーク管理の棚卸し手順にする</a></h2>
-        <p>CISA KEV入りしたUbiquiti UniFi OS脆弱性を、自宅ネットワーク管理の棚卸し手順として読む。管理画面の露出、更新、バックアップ、ログ確認を短時間で点検する材料になる。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-01T19:58:00+09:00</span>
-          <span>セキュリティ</span>
-        </div>
-        <h2><a href="../articles/2026-07-01-セキュリティ-MCP-Resource-Indicatorsで「別サービスへのトークン流用」をどこ-3a246dc892.html">MCP Resource Indicatorsで「別サービスへのトークン流用」をどこまで防げるか</a></h2>
-        <p>MCP Resource Indicatorsは、OAuthトークンを意図したMCPサーバーだけに縛る仕組み。個人エージェントで外部連携を増やす前に、トークン流用と権限境界を点検する材料になる。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-01T19:52:00+09:00</span>
-          <span>セキュリティ</span>
-        </div>
-        <h2><a href="../articles/2026-07-01-セキュリティ-MCPツール説明の毒入りプロンプトでAIエージェントはどこまで漏えいするか-f408077a08.html">MCPツール説明の毒入りプロンプトでAIエージェントはどこまで漏えいするか</a></h2>
-        <p>MCPツール説明に隠れた命令で、AIエージェントが正規ツール呼び出しの中で情報を漏えいするリスクを整理する。OpenClawや社内AIの権限分離を見直す材料になる。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-30T19:55:00+09:00</span>
-          <span>セキュリティ</span>
-        </div>
-        <h2><a href="../articles/2026-06-30-セキュリティ-npmの新防御策から見るAI開発サプライチェーンの守り方-c39091f3a6.html">npmの新防御策から見るAI開発サプライチェーンの守り方</a></h2>
-        <p>npmのstaged publishing、install時の明示許可、重要アカウント保護を整理する。AI開発で依存関係が増えるほど、個人秘書エージェント環境の防御策として効く。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-29T19:58:00+09:00</span>
-          <span>セキュリティ</span>
-        </div>
-        <h2><a href="../articles/2026-06-29-セキュリティ-MCP接続AIコーディングエージェントの「Agentjacking」を、個人環境の脅-1f78f3d188.html">MCP接続AIコーディングエージェントの「Agentjacking」を、個人環境の脅威モデルに落とす</a></h2>
-        <p>MCP接続AIコーディングエージェントが、Sentryなど外部入力を含むデータ源から命令注入されるリスクを整理する。個人秘書エージェントの権限分離を見直す材料になる。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-26T19:48:00+09:00</span>
-          <span>セキュリティ</span>
-        </div>
-        <h2><a href="../articles/2026-06-26-セキュリティ-Mastra狙いのeasy-day-js-npm攻撃から、AIエージェント開発環境の-cfab475d1c.html">Mastra狙いのeasy-day-js npm攻撃から、AIエージェント開発環境の依存関係を守る</a></h2>
-        <p>2026年6月17日にOX Securityが報告したMastra関連のnpmサプライチェーン攻撃は、AIエージェント開発環境を守るうえでかなり実践的な教材になる。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-26T19:46:00+09:00</span>
-          <span>セキュリティ</span>
-        </div>
-        <h2><a href="../articles/2026-06-26-セキュリティ-MCPサーバーのプロンプトインジェクションとコマンド実行リスクを、OpenClaw環-ecff81fb01.html">MCPサーバーのプロンプトインジェクションとコマンド実行リスクを、OpenClaw環境でどう棚卸しするか</a></h2>
-        <p>MCPは「LLMに道具を渡す標準」なので便利だが、リスクは通常のWebアプリよりも少し嫌な形で出る。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-25T20:05:00+09:00</span>
-          <span>セキュリティ</span>
-        </div>
-        <h2><a href="../articles/2026-06-25-セキュリティ-AIゲートウェイ脆弱性を「個人エージェントの管理面」として棚卸しする-01279710bb.html">AIゲートウェイ脆弱性を「個人エージェントの管理面」として棚卸しする</a></h2>
-        <p>2026年春から初夏にかけて、LiteLLM ProxyまわりでSQL Injection、権限昇格、RCE、MCP関連のコマンド実行など、AIゲートウェイを管理面から崩す事例が連続している。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-24T19:58:00+09:00</span>
-          <span>セキュリティ</span>
-        </div>
-        <h2><a href="../articles/2026-06-24-セキュリティ-Microsoft-AutoJackから見る「localhostは信頼境界ではない」-3c839a4a7b.html">Microsoft AutoJackから見る「localhostは信頼境界ではない」エージェント運用設計</a></h2>
-        <p>Microsoft Defender Security Research Teamは2026年6月18日、AutoGen Studioの開発中コードにあったMCP WebSocketまわりの攻撃連鎖を「AutoJack」として公開した。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-23T19:58:00+09:00</span>
-          <span>セキュリティ</span>
-        </div>
-        <h2><a href="../articles/2026-06-23-セキュリティ-公開MCPサーバー2031件監査から「個人エージェントに入れてはいけないツール権限」-1b5fe283c4.html">公開MCPサーバー2031件監査から「個人エージェントに入れてはいけないツール権限」を分類する</a></h2>
-        <p>PolicyLayerの2026年6月版「State of MCP Security」は、公開レジストリから列挙できた2,031件のMCPサーバーと約31,000個のツールを分類し、AIエージェントに接続されるツール群がどれだけ強い操作権限を持つかを可視化している。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-23T19:48:00+09:00</span>
-          <span>セキュリティ</span>
-        </div>
-        <h2><a href="../articles/2026-06-23-セキュリティ-Microsoft-365-Copilot「SearchLeak」から見る社内AI検-856fd0e6a2.html">Microsoft 365 Copilot「SearchLeak」から見る社内AI検索のプロンプトインジェクション対策</a></h2>
-        <p>SearchLeakは、Varonis Threat Labsが2026年6月に公開したMicrosoft 365 Copilot Enterprise Searchの脆弱性チェーンで、攻撃者が細工したMicrosoft 365系リンクを踏ませるだけで、Copilotに。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-21 20:02 JST</span>
-          <span>セキュリティ</span>
-        </div>
-        <h2><a href="../articles/2026-06-21-セキュリティ-Citrix-NetScaler-KEV事例から「外向き入口」の緊急棚卸し手順を作る-923bceb6d6.html">Citrix NetScaler KEV事例から「外向き入口」の緊急棚卸し手順を作る</a></h2>
-        <p>CVE-2026-3055は、NetScaler ADC / NetScaler GatewayがSAML Identity Providerとして構成されている場合に、入力検証不足からメモリ過読みに至る脆弱性である。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-21 19:52 JST</span>
-          <span>セキュリティ</span>
-        </div>
-        <h2><a href="../articles/2026-06-21-セキュリティ-Microsoft-365-Copilot「SearchLeak」から考える業務AI-6a60eaec91.html">Microsoft 365 Copilot「SearchLeak」から考える業務AI導入時のデータ漏えい設計</a></h2>
-        <p>Varonisが公開した「SearchLeak」は、Microsoft 365 Copilotを直接侵害するというより、Copilotが持つ企業内検索・要約・外部コンテンツ取得の組み合わせが、権限設定の甘い社内データを外へにじませうることを示した研究である。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-19 19:58 JST</span>
-          <span>セキュリティ</span>
-        </div>
-        <h2><a href="../articles/2026-06-19-セキュリティ-AIエージェント用ブラウザを、普段使いブラウザから分けるべきか-ecb7ae5ee2.html">AIエージェント用ブラウザを、普段使いブラウザから分けるべきか</a></h2>
-        <p>2026年のChromium系ブラウザでは、V8を中心に「既に悪用確認あり」とされる脆弱性が複数KEV入りしている。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-18 19:42 JST</span>
-          <span>セキュリティ</span>
-        </div>
-        <h2><a href="../articles/2026-06-18-セキュリティ-LiteLLMのKEV入りRCEを、個人AIサーバ運用の「最優先パッチ表」に落とす-6e3afc9d2b.html">LiteLLMのKEV入りRCEを、個人AIサーバ運用の「最優先パッチ表」に落とす</a></h2>
-        <p>CISAは2026-06-08、BerriAI LiteLLMのCVE-2026-42271をKnown Exploited Vulnerabilities Catalogへ追加した。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-16T19:49:00+09:00</span>
-          <span>セキュリティ</span>
-        </div>
-        <h2><a href="../articles/2026-06-16-セキュリティ-IronWorm型npm攻撃からAIコーディング環境の資格情報を守る-070526d81b.html">Miasma/IronWorm型npm攻撃からAIコーディング環境の資格情報を守る</a></h2>
-        <p>Miasmaは、Red Hat Cloud Services配下のnpmパッケージを改ざんし、preinstallフックで開発機やCI/CDの資格情報を盗むサプライチェーン攻撃として報告された。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-11</span>
-          <span>セキュリティ</span>
-        </div>
-        <h2><a href="../articles/2026-06-11-セキュリティ-CISAの「最短3日パッチ」指令で脆弱性対応の優先順位はどう変わるか-adafec6d3e.html">CISAの「最短3日パッチ」指令で脆弱性対応の優先順位はどう変わるか</a></h2>
-        <p>2026年6月10日、CISAは Binding Operational Directive 26-04「Prioritizing Security Updates Based on Risk」を公開した。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-07</span>
-          <span>セキュリティ</span>
-        </div>
-        <h2><a href="../articles/2026-06-07-セキュリティ-MCPサーバーとnpm依存を「個人AIエージェント環境」の新しい攻撃面として棚卸しす-d47732223d.html">MCPサーバーとnpm依存を「個人AIエージェント環境」の新しい攻撃面として棚卸しする</a></h2>
-        <p>OpenClaw、Codex、Claude Code、Cursor、WindsurfのようなAIエージェント環境では、従来の「アプリの依存ライブラリ」だけでなく、MCPサーバー、ローカル設定ファイル、シェル実行権限、GitHub/npm/クラウド資格情報、Discord。</p>
-      </article>
-    </section>
-  </main>
-</body>
-</html>
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>セキュリティ | 興味レポート</title><link rel="stylesheet" href="../../assets/style.css"></head><body><header class="site-header"><a class="site-title" href="../index.html">興味レポート</a></header><main><section class="hero"><h1>セキュリティ</h1><p>28件</p></section><section class="cards"><article class="card"><div class="meta-row"><span>2026-08-02T19:30:00+09:00</span></div><h2><a href="../articles/2026-08-02-セキュリティ-個人MacのAI開発環境でnpm-postinstallをどこまで止めるべきか-6ed033fe99.html">個人MacのAI開発環境でnpm postinstallをどこまで止めるべきか</a></h2><p>AIエージェントがnpm installを実行する個人Macで、postinstall、prepare、環境変数、トークン露出をどこまで止めるべきかを実務ルールに落とす。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-31T19:30:00+09:00</span></div><h2><a href="../articles/2026-07-31-セキュリティ-Claudeのサイバー評価事故を個人エージェント安全設計に落とす-e39bc11655.html">Claudeのサイバー評価事故を個人エージェント安全設計に落とす</a></h2><p>Anthropicのサイバー評価事故を、個人エージェント運用の隔離、外部送信制御、ログ監視へ読み替える。評価・検証環境が外へ漏れた時の実害を点検するメモ。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-30T19:30:00+09:00</span></div><h2><a href="../articles/2026-07-30-セキュリティ-Discord-Botトークンを個人自動化で使う時の漏えい影響を棚卸しする-ab0f9a0ed8.html">Discord Botトークンを個人自動化で使う時の漏えい影響を棚卸しする</a></h2><p>Discord Botトークンを個人自動化で使う時の漏えい影響を、権限、保存場所、ローテーション、Bot招待範囲で棚卸しする。OpenClaw通知運用の事故範囲を小さくする実用メモ。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-29T19:30:00+09:00</span></div><h2><a href="../articles/2026-07-29-セキュリティ-GitHub-Personal-Access-TokenをAI作業端末で使う時の「期-ef36d94e7d.html">GitHub Personal Access TokenをAI作業端末で使う時の「期限・権限・保存場所」棚卸し</a></h2><p>AIコーディング端末に残るGitHub PATを、fine-grained化、期限、権限、保存場所、失効手順で棚卸しする。個人開発の事故範囲を小さくする実用チェック。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-23</span></div><h2><a href="../articles/2026-07-23-セキュリティ-OAuth委任を「便利」から「管理可能」へ切り分ける-8b4db0c9b8.html">OAuth委任を「便利」から「管理可能」へ切り分ける</a></h2><p>OAuth委任を、スコープと更新トークン運用、再同意、監査ログで分解すると、実務で事故が起きても影響を限定できる。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-12T19:30:00+09:00</span></div><h2><a href="../articles/2026-07-12-セキュリティ-npm防御をCodex環境へ落とす-9e3e67640d.html">npm防御をCodex環境へ落とす</a></h2><p>npmの長期トークン、install script、依存更新を、Codex/OpenClawのローカル実行環境でどう閉じ込めるかを整理する。AIコーディング環境の点検表として使える。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-11</span></div><h2><a href="../articles/2026-07-11-セキュリティ-パスキー普及後の「端末紛失時リカバリ」を個人運用として点検する-fef7615e36.html">パスキー普及後の「端末紛失時リカバリ」を個人運用として点検する</a></h2><p>パスキーを増やすほど重要になる端末紛失時の復旧設計を、Apple、Google、Microsoft、FIDOの公開情報から個人運用へ落とし込む。便利さと詰み防止を両立する点検表になる。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-08T19:30:00+09:00</span></div><h2><a href="../articles/2026-07-08-セキュリティ-TanStack-npm-wormを個人AI環境の秘密情報防衛へ読む-1ff172aebc.html">TanStack npm wormを個人AI環境の秘密情報防衛へ読む</a></h2><p>TanStack系npmワームを、AI開発環境のトークン、環境変数、MCP設定ファイルを守る実務チェックに落とす。個人Macで自動実行エージェントを動かす前の点検に使える。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-07T19:30:00+09:00</span></div><h2><a href="../articles/2026-07-07-セキュリティ-AIブラウザ操作の社内リスク棚卸し-33b8b1bb0e.html">AIブラウザ操作の社内リスク棚卸し</a></h2><p>ブラウザ操作型AIに任せる前に、間接プロンプト注入、権限濫用、認証情報漏えいをどう切り分けるかを整理する。個人利用と社内導入の線引きに使える。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-05T19:34:00+09:00</span></div><h2><a href="../articles/2026-07-05-セキュリティ-GitHub-Actionsセルフホストランナーを個人Macで動かすリスク棚卸し-292d692db6.html">GitHub Actionsセルフホストランナーを個人Macで動かすリスク棚卸し</a></h2><p>GitHub Actionsのセルフホストランナーを個人Macで動かす時の危険点を、PR実行、秘密情報、永続化、ラベル分離の観点で整理する。自宅自動化に載せてよい範囲を決める材料になる。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-04T20:05:00+09:00</span></div><h2><a href="../articles/2026-07-04-セキュリティ-Ubiquiti-UniFi-OSのKEV入りを自宅ネットワーク管理の棚卸し手順にす-d8a107474f.html">Ubiquiti UniFi OSのKEV入りを自宅ネットワーク管理の棚卸し手順にする</a></h2><p>CISA KEV入りしたUbiquiti UniFi OS脆弱性を、自宅ネットワーク管理の棚卸し手順として読む。管理画面の露出、更新、バックアップ、ログ確認を短時間で点検する材料になる。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-01T19:58:00+09:00</span></div><h2><a href="../articles/2026-07-01-セキュリティ-MCP-Resource-Indicatorsで「別サービスへのトークン流用」をどこ-3a246dc892.html">MCP Resource Indicatorsで「別サービスへのトークン流用」をどこまで防げるか</a></h2><p>MCP Resource Indicatorsは、OAuthトークンを意図したMCPサーバーだけに縛る仕組み。個人エージェントで外部連携を増やす前に、トークン流用と権限境界を点検する材料になる。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-01T19:52:00+09:00</span></div><h2><a href="../articles/2026-07-01-セキュリティ-MCPツール説明の毒入りプロンプトでAIエージェントはどこまで漏えいするか-f408077a08.html">MCPツール説明の毒入りプロンプトでAIエージェントはどこまで漏えいするか</a></h2><p>MCPツール説明に隠れた命令で、AIエージェントが正規ツール呼び出しの中で情報を漏えいするリスクを整理する。OpenClawや社内AIの権限分離を見直す材料になる。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-30T19:55:00+09:00</span></div><h2><a href="../articles/2026-06-30-セキュリティ-npmの新防御策から見るAI開発サプライチェーンの守り方-c39091f3a6.html">npmの新防御策から見るAI開発サプライチェーンの守り方</a></h2><p>npmのstaged publishing、install時の明示許可、重要アカウント保護を整理する。AI開発で依存関係が増えるほど、個人秘書エージェント環境の防御策として効く。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-29T19:58:00+09:00</span></div><h2><a href="../articles/2026-06-29-セキュリティ-MCP接続AIコーディングエージェントの「Agentjacking」を、個人環境の脅-1f78f3d188.html">MCP接続AIコーディングエージェントの「Agentjacking」を、個人環境の脅威モデルに落とす</a></h2><p>MCP接続AIコーディングエージェントが、Sentryなど外部入力を含むデータ源から命令注入されるリスクを整理する。個人秘書エージェントの権限分離を見直す材料になる。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-26T19:48:00+09:00</span></div><h2><a href="../articles/2026-06-26-セキュリティ-Mastra狙いのeasy-day-js-npm攻撃から、AIエージェント開発環境の-cfab475d1c.html">Mastra狙いのeasy-day-js npm攻撃から、AIエージェント開発環境の依存関係を守る</a></h2><p>2026年6月17日にOX Securityが報告したMastra関連のnpmサプライチェーン攻撃は、AIエージェント開発環境を守るうえでかなり実践的な教材になる。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-26T19:46:00+09:00</span></div><h2><a href="../articles/2026-06-26-セキュリティ-MCPサーバーのプロンプトインジェクションとコマンド実行リスクを、OpenClaw環-ecff81fb01.html">MCPサーバーのプロンプトインジェクションとコマンド実行リスクを、OpenClaw環境でどう棚卸しするか</a></h2><p>MCPは「LLMに道具を渡す標準」なので便利だが、リスクは通常のWebアプリよりも少し嫌な形で出る。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-25T20:05:00+09:00</span></div><h2><a href="../articles/2026-06-25-セキュリティ-AIゲートウェイ脆弱性を「個人エージェントの管理面」として棚卸しする-01279710bb.html">AIゲートウェイ脆弱性を「個人エージェントの管理面」として棚卸しする</a></h2><p>2026年春から初夏にかけて、LiteLLM ProxyまわりでSQL Injection、権限昇格、RCE、MCP関連のコマンド実行など、AIゲートウェイを管理面から崩す事例が連続している。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-24T19:58:00+09:00</span></div><h2><a href="../articles/2026-06-24-セキュリティ-Microsoft-AutoJackから見る「localhostは信頼境界ではない」-3c839a4a7b.html">Microsoft AutoJackから見る「localhostは信頼境界ではない」エージェント運用設計</a></h2><p>Microsoft Defender Security Research Teamは2026年6月18日、AutoGen Studioの開発中コードにあったMCP WebSocketまわりの攻撃連鎖を「AutoJack」として公開した。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-23T19:58:00+09:00</span></div><h2><a href="../articles/2026-06-23-セキュリティ-公開MCPサーバー2031件監査から「個人エージェントに入れてはいけないツール権限」-1b5fe283c4.html">公開MCPサーバー2031件監査から「個人エージェントに入れてはいけないツール権限」を分類する</a></h2><p>PolicyLayerの2026年6月版「State of MCP Security」は、公開レジストリから列挙できた2,031件のMCPサーバーと約31,000個のツールを分類し、AIエージェントに接続されるツール群がどれだけ強い操作権限を持つかを可視化している。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-23T19:48:00+09:00</span></div><h2><a href="../articles/2026-06-23-セキュリティ-Microsoft-365-Copilot「SearchLeak」から見る社内AI検-856fd0e6a2.html">Microsoft 365 Copilot「SearchLeak」から見る社内AI検索のプロンプトインジェクション対策</a></h2><p>SearchLeakは、Varonis Threat Labsが2026年6月に公開したMicrosoft 365 Copilot Enterprise Searchの脆弱性チェーンで、攻撃者が細工したMicrosoft 365系リンクを踏ませるだけで、Copilotに。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-21 20:02 JST</span></div><h2><a href="../articles/2026-06-21-セキュリティ-Citrix-NetScaler-KEV事例から「外向き入口」の緊急棚卸し手順を作る-923bceb6d6.html">Citrix NetScaler KEV事例から「外向き入口」の緊急棚卸し手順を作る</a></h2><p>CVE-2026-3055は、NetScaler ADC / NetScaler GatewayがSAML Identity Providerとして構成されている場合に、入力検証不足からメモリ過読みに至る脆弱性である。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-21 19:52 JST</span></div><h2><a href="../articles/2026-06-21-セキュリティ-Microsoft-365-Copilot「SearchLeak」から考える業務AI-6a60eaec91.html">Microsoft 365 Copilot「SearchLeak」から考える業務AI導入時のデータ漏えい設計</a></h2><p>Varonisが公開した「SearchLeak」は、Microsoft 365 Copilotを直接侵害するというより、Copilotが持つ企業内検索・要約・外部コンテンツ取得の組み合わせが、権限設定の甘い社内データを外へにじませうることを示した研究である。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-19 19:58 JST</span></div><h2><a href="../articles/2026-06-19-セキュリティ-AIエージェント用ブラウザを、普段使いブラウザから分けるべきか-ecb7ae5ee2.html">AIエージェント用ブラウザを、普段使いブラウザから分けるべきか</a></h2><p>2026年のChromium系ブラウザでは、V8を中心に「既に悪用確認あり」とされる脆弱性が複数KEV入りしている。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-18 19:42 JST</span></div><h2><a href="../articles/2026-06-18-セキュリティ-LiteLLMのKEV入りRCEを、個人AIサーバ運用の「最優先パッチ表」に落とす-6e3afc9d2b.html">LiteLLMのKEV入りRCEを、個人AIサーバ運用の「最優先パッチ表」に落とす</a></h2><p>CISAは2026-06-08、BerriAI LiteLLMのCVE-2026-42271をKnown Exploited Vulnerabilities Catalogへ追加した。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-16T19:49:00+09:00</span></div><h2><a href="../articles/2026-06-16-セキュリティ-IronWorm型npm攻撃からAIコーディング環境の資格情報を守る-070526d81b.html">Miasma/IronWorm型npm攻撃からAIコーディング環境の資格情報を守る</a></h2><p>Miasmaは、Red Hat Cloud Services配下のnpmパッケージを改ざんし、preinstallフックで開発機やCI/CDの資格情報を盗むサプライチェーン攻撃として報告された。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-11</span></div><h2><a href="../articles/2026-06-11-セキュリティ-CISAの「最短3日パッチ」指令で脆弱性対応の優先順位はどう変わるか-adafec6d3e.html">CISAの「最短3日パッチ」指令で脆弱性対応の優先順位はどう変わるか</a></h2><p>2026年6月10日、CISAは Binding Operational Directive 26-04「Prioritizing Security Updates Based on Risk」を公開した。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-07</span></div><h2><a href="../articles/2026-06-07-セキュリティ-MCPサーバーとnpm依存を「個人AIエージェント環境」の新しい攻撃面として棚卸しす-d47732223d.html">MCPサーバーとnpm依存を「個人AIエージェント環境」の新しい攻撃面として棚卸しする</a></h2><p>OpenClaw、Codex、Claude Code、Cursor、WindsurfのようなAIエージェント環境では、従来の「アプリの依存ライブラリ」だけでなく、MCPサーバー、ローカル設定ファイル、シェル実行権限、GitHub/npm/クラウド資格情報、Discord。</p></article></section></main></body></html>

@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="MCP連携では、便利さより先に認可の境界を確認する必要がある。Confused Deputy、token passthrough、SSRFを小規模運用でも点検できる順序に整理する。">
+  <meta name="publication-id" content="922dd79c1f77d9377b4e">
+  <title>MCP連携で認可境界を崩さないための確認点 | 海外技術情報アーカイブ</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header"><a class="site-title" href="../index.html">海外技術情報アーカイブ</a></header>
+  <main>
+    <article class="article" data-publication-id="922dd79c1f77d9377b4e">
+      <div class="meta-row"><span>2026-08-13</span><span>Security</span></div>
+      <h1>MCP連携で認可境界を崩さないための確認点</h1>
+      <aside class="summary-box"><span>Summary</span><p>MCP連携では、便利さより先に認可の境界を確認する必要がある。Confused Deputy、token passthrough、SSRFを小規模運用でも点検できる順序に整理する。</p></aside>
+<h3>導入前に攻撃境界を切り分ける</h3>
+<p>MCP連携を導入するときは、まず「どの主体が、誰の同意で、どのAPIを呼び出すのか」を分けて考える必要がある。特にMCPプロキシが第三者APIへの接続を代行する構成では、ユーザー、MCPクライアント、MCPサーバ、第三者の認可サーバの責任範囲が重なりやすい。</p>
+<p>確認の入口としては、Confused Deputy、token passthrough、SSRFの三つを分けると見通しがよい。Confused Deputyは、静的なclient_idを使うMCPプロキシと、動的に登録されるMCPクライアント、さらに過去の同意Cookieが組み合わさることで、ユーザー同意が別のクライアントに誤って適用される問題として整理できる。token passthroughは、MCPサーバ向けに発行されていないトークンをそのまま下流APIへ通してしまう設計上の問題である。SSRFは、metadataや認可関連URLを通じて、内部IP、localhost、クラウドメタデータ系アドレスなどへ誘導されるリスクとして扱う。</p>
+<h3>MCPレベル同意の粒度を確認する</h3>
+<p>最初に見るべきなのは、MCPレベルの同意がclient_id単位で管理されているかである。単に「ユーザーは以前同意した」というCookieの有無だけで判断すると、別のMCPクライアントからの要求にも同意済みとして扱われる余地が残る。MCPプロキシは、ユーザーごとに承認済みclient_idを保持し、第三者の認可フローへ進む前にその登録を確認する必要がある。</p>
+<p>同意画面では、要求しているMCPクライアント名、要求される第三者APIのscope、トークンが返されるredirect_uriを明示することが求められる。あわせて、stateやCSRFトークンによるCSRF対策、frame-ancestorsやX-Frame-Optionsによるiframe経由のクリックジャック対策も確認対象になる。Cookieで同意を扱う場合も、client_idに結び付いていること、Secure、HttpOnly、SameSite=Laxなどの属性、署名またはサーバ側セッションによる保護が前提になる。</p>
+<h3>stateとredirect_uriを後段で厳密に見る</h3>
+<p>OAuth stateは、同意画面を通過したことをcallback側でも確認するための重要な要素である。stateは認可要求ごとに暗号学的に安全な乱数として生成し、ユーザーが明示的に同意した後にだけ保存する。callbackでは、リクエスト中のstateと保存済みの値を完全一致で照合し、欠落や不一致があれば拒否する。さらに、stateは一度だけ使い、短時間で期限切れにする運用が望ましい。</p>
+<p>redirect_uriも同じく緩く扱わない。登録済みURIとの完全一致を確認し、ワイルドカードや部分一致で許容しない。redirect_uriが変わった場合は、暗黙に受け入れるのではなく、再登録を要求する設計にする。ここが曖昧だと、認可コードやトークンが意図しない宛先に返る経路を作ってしまう。</p>
+<h3>トークン境界とSSRF制御を最後に確認する</h3>
+<p>token passthroughは、MCPの認可仕様上のアンチパターンとして扱われている。MCPサーバは、自分に対して明示的に発行されたトークンだけを受け入れ、audience、権限、役割などの主張を検証する必要がある。上流で発行されたトークンをそのまま下流APIへ通すと、レート制限、リクエスト検証、監査ログ、異常検知といった制御が迂回される可能性がある。さらに、どのMCPクライアントが実際に操作したのかを追いにくくなり、事故調査や権限管理も難しくなる。</p>
+<p>SSRF対策では、OAuth metadata discoveryで取得するURLを信頼しすぎないことが重要である。resource_metadata、authorization_servers、token_endpoint、authorization_endpointなどは、悪意あるMCPサーバにより内部向けのURLへ向けられる可能性がある。内部IP、localhost、クラウドメタデータエンドポイント、DNS rebinding、内部リソースへ向かうリダイレクトチェーンを検査対象に含める。小規模な運用でも、同意、state、redirect_uri、トークンのaudience、metadata由来URLを順番に確認すれば、MCP連携の認可境界を崩しにくくできる。</p>
+      <section class="source-box"><h2>参照元</h2><ul><li><a href="https://modelcontextprotocol.io/docs/2025-11-25/tutorials/security/security_best_practices" rel="noopener noreferrer">modelcontextprotocol.io</a></li></ul></section>
+    </article>
+  </main>
+</body>
+</html>

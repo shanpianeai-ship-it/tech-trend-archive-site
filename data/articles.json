@@ -1,1528 +1,1755 @@
 [
   {
-    "file": "Security/2026-08-03_AM_Hugging_Face自律AI侵入.md",
+    "slug": "2026-08-13-Security-MCP連携で認可境界を崩さないための確認点-922dd79c1f",
+    "title": "MCP連携で認可境界を崩さないための確認点",
+    "created": "2026-08-13",
+    "summary": "MCP連携では、便利さより先に認可の境界を確認する必要がある。Confused Deputy、token passthrough、SSRFを小規模運用でも点検できる順序に整理する。",
+    "excerpt": "MCP連携では、便利さより先に認可の境界を確認する必要がある。Confused Deputy、token passthrough、SSRFを小規模運用でも点検できる順序に整理する。",
+    "sources": [
+      "https://modelcontextprotocol.io/docs/2025-11-25/tutorials/security/security_best_practices"
+    ],
+    "publication_id": "922dd79c1f77d9377b4e",
+    "genre": "Security",
+    "genreLabel": "Security",
+    "source": "https://modelcontextprotocol.io/docs/2025-11-25/tutorials/security/security_best_practices",
+    "importance": "medium",
+    "confidence": "public-reviewed",
+    "url": "articles/2026-08-13-Security-MCP連携で認可境界を崩さないための確認点-922dd79c1f.html"
+  },
+  {
     "slug": "2026-08-03_AM_Hugging_Face自律AI侵入",
     "title": "Hugging Face自律AI侵入",
-    "genre": "Security",
-    "genreLabel": "Security",
     "created": "2026-08-03T19:36:00+09:00",
-    "source": "https://huggingface.co/blog/security-incident-july-2026",
-    "importance": "high",
-    "confidence": "high",
     "summary": "Hugging Faceが公表した、自律AIエージェント主導の侵入事例。AI基盤ではデータ処理、評価環境、IR用モデル準備まで防御面に入ることが分かる。",
     "excerpt": "Hugging Faceが公表した、自律AIエージェント主導の侵入事例。AI基盤ではデータ処理、評価環境、IR用モデル準備まで防御面に入ることが分かる。",
-    "url": "articles/2026-08-03_AM_Hugging_Face自律AI侵入.html"
+    "url": "articles/2026-08-03_AM_Hugging_Face自律AI侵入.html",
+    "sources": [
+      "https://huggingface.co/blog/security-incident-july-2026"
+    ],
+    "genre": "Security",
+    "genreLabel": "Security",
+    "source": "https://huggingface.co/blog/security-incident-july-2026",
+    "importance": "high",
+    "confidence": "high"
   },
   {
-    "file": "Security/2026-08-03_N-able_N-central悪用.md",
     "slug": "2026-08-03_N-able_N-central悪用",
     "title": "N-able N-central悪用",
-    "genre": "Security",
-    "genreLabel": "Security",
     "created": "2026-08-03",
-    "source": "https://www.huntress.com/blog/n-able-vulnerability-exploitation",
-    "importance": "high",
-    "confidence": "high",
     "summary": "N-able N-centralの脆弱性悪用は、MSP/RMM管理基盤の侵害が顧客環境へ横展開し得る問題。露出確認、更新、監査ログ確認を急ぐ判断材料になる。",
     "excerpt": "N-able N-centralの脆弱性悪用は、MSP/RMM管理基盤の侵害が顧客環境へ横展開し得る問題。露出確認、更新、監査ログ確認を急ぐ判断材料になる。",
-    "url": "articles/2026-08-03_N-able_N-central悪用.html"
+    "url": "articles/2026-08-03_N-able_N-central悪用.html",
+    "sources": [
+      "https://www.huntress.com/blog/n-able-vulnerability-exploitation"
+    ],
+    "genre": "Security",
+    "genreLabel": "Security",
+    "source": "https://www.huntress.com/blog/n-able-vulnerability-exploitation",
+    "importance": "high",
+    "confidence": "high"
   },
   {
-    "file": "Security/2026-08-02_CaptiveCrunch旅行者攻撃.md",
     "slug": "2026-08-02_CaptiveCrunch旅行者攻撃",
     "title": "CaptiveCrunch旅行者攻撃",
-    "genre": "Security",
-    "genreLabel": "Security",
     "created": "2026-08-02",
-    "source": "https://www.microsoft.com/en-us/security/blog/2026/07/31/captivecrunch-midnight-blizzard-targets-travelers-worldwide-for-malware-delivery-and-credential-theft/",
-    "importance": "high",
-    "confidence": "high",
     "summary": "Midnight Blizzard系Storm-2945がホテル等のcaptive portal経由でDNS/HTTPを操作し、AiTMフィッシングやマルウェア配布を行う攻撃。",
     "excerpt": "Midnight Blizzard系Storm-2945がホテル等のcaptive portal経由でDNS/HTTPを操作し、AiTMフィッシングやマルウェア配布を行う攻撃。",
-    "url": "articles/2026-08-02_CaptiveCrunch旅行者攻撃.html"
+    "url": "articles/2026-08-02_CaptiveCrunch旅行者攻撃.html",
+    "sources": [
+      "https://www.microsoft.com/en-us/security/blog/2026/07/31/captivecrunch-midnight-blizzard-targets-travelers-worldwide-for-malware-delivery-and-credential-theft/"
+    ],
+    "genre": "Security",
+    "genreLabel": "Security",
+    "source": "https://www.microsoft.com/en-us/security/blog/2026/07/31/captivecrunch-midnight-blizzard-targets-travelers-worldwide-for-malware-delivery-and-credential-theft/",
+    "importance": "high",
+    "confidence": "high"
   },
   {
-    "file": "AI/2026-08-02_AM_AISPAシステムプロンプト監査.md",
     "slug": "2026-08-02_AM_AISPAシステムプロンプト監査",
     "title": "AISPAシステムプロンプト監査",
-    "genre": "AI",
-    "genreLabel": "AI / LLM / Agent",
     "created": "2026-08-02",
-    "source": "https://arxiv.org/abs/2607.28617",
-    "importance": "high",
-    "confidence": "high",
     "summary": "AISPAは商用AI製品のシステムプロンプトを、ユーザー保護と問題指示の両面から監査する枠組み。AIアプリの透明性、監査、調達評価を考える材料になる。",
     "excerpt": "AISPAは商用AI製品のシステムプロンプトを、ユーザー保護と問題指示の両面から監査する枠組み。AIアプリの透明性、監査、調達評価を考える材料になる。",
-    "url": "articles/2026-08-02_AM_AISPAシステムプロンプト監査.html"
+    "url": "articles/2026-08-02_AM_AISPAシステムプロンプト監査.html",
+    "sources": [
+      "https://arxiv.org/abs/2607.28617"
+    ],
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "source": "https://arxiv.org/abs/2607.28617",
+    "importance": "high",
+    "confidence": "high"
   },
   {
-    "file": "Security/2026-08-01_Traefik_CONNECT汚染.md",
     "slug": "2026-08-01_Traefik_CONNECT汚染",
     "title": "Traefik CONNECT汚染",
-    "genre": "Security",
-    "genreLabel": "Security",
     "created": "2026-08-01",
-    "source": "https://github.com/traefik/traefik/security/advisories/GHSA-3ccp-42pg-hgv6",
-    "importance": "high",
-    "confidence": "high",
     "summary": "Traefikの共有keep-aliveプールで、HTTP/2/3のCONNECTが別ユーザーのレスポンスを読ませ得る脆弱性。プロキシの接続再利用境界を見直す材料になる。",
     "excerpt": "Traefikの共有keep-aliveプールで、HTTP/2/3のCONNECTが別ユーザーのレスポンスを読ませ得る脆弱性。プロキシの接続再利用境界を見直す材料になる。",
-    "url": "articles/2026-08-01_Traefik_CONNECT汚染.html"
+    "url": "articles/2026-08-01_Traefik_CONNECT汚染.html",
+    "sources": [
+      "https://github.com/traefik/traefik/security/advisories/GHSA-3ccp-42pg-hgv6"
+    ],
+    "genre": "Security",
+    "genreLabel": "Security",
+    "source": "https://github.com/traefik/traefik/security/advisories/GHSA-3ccp-42pg-hgv6",
+    "importance": "high",
+    "confidence": "high"
   },
   {
-    "file": "Security/2026-08-01_AM_GhostApproval_CSAガバナンス.md",
     "slug": "2026-08-01_AM_GhostApproval_CSAガバナンス",
     "title": "GhostApprovalをCSAのガバナンス視点で読む",
-    "genre": "Security",
-    "genreLabel": "Security",
     "created": "2026-08-01",
-    "source": "https://labs.cloudsecurityalliance.org/research/csa-research-note-ghostapproval-ai-coding-assistant-symlink/",
-    "importance": "high",
-    "confidence": "high",
     "summary": "CSAのGhostApproval解説は、AIコーディング支援のsymlink問題を単なる実装バグではなく、承認UIとエージェント権限設計のガバナンス問題として整理している。",
     "excerpt": "CSAのGhostApproval解説は、AIコーディング支援のsymlink問題を単なる実装バグではなく、承認UIとエージェント権限設計のガバナンス問題として整理している。",
-    "url": "articles/2026-08-01_AM_GhostApproval_CSAガバナンス.html"
+    "url": "articles/2026-08-01_AM_GhostApproval_CSAガバナンス.html",
+    "sources": [
+      "https://labs.cloudsecurityalliance.org/research/csa-research-note-ghostapproval-ai-coding-assistant-symlink/"
+    ],
+    "genre": "Security",
+    "genreLabel": "Security",
+    "source": "https://labs.cloudsecurityalliance.org/research/csa-research-note-ghostapproval-ai-coding-assistant-symlink/",
+    "importance": "high",
+    "confidence": "high"
   },
   {
-    "file": "Security/2026-07-31_mcp-mermaid悪性npm.md",
     "slug": "2026-07-31_mcp-mermaid悪性npm",
     "title": "mcp-mermaid悪性npm",
-    "genre": "Security",
-    "genreLabel": "Security",
     "created": "2026-07-31",
-    "source": "https://github.com/advisories/GHSA-2f6m-69ww-37wv",
-    "importance": "high",
-    "confidence": "high",
     "summary": "npmのmcp-mermaidに悪性preinstallが混入したGitHub Advisory。MCPツールを便利さだけで導入せず、依存・CI・秘密情報を同時に守る必要が分かる。",
     "excerpt": "npmのmcp-mermaidに悪性preinstallが混入したGitHub Advisory。MCPツールを便利さだけで導入せず、依存・CI・秘密情報を同時に守る必要が分かる。",
-    "url": "articles/2026-07-31_mcp-mermaid悪性npm.html"
+    "url": "articles/2026-07-31_mcp-mermaid悪性npm.html",
+    "sources": [
+      "https://github.com/advisories/GHSA-2f6m-69ww-37wv"
+    ],
+    "genre": "Security",
+    "genreLabel": "Security",
+    "source": "https://github.com/advisories/GHSA-2f6m-69ww-37wv",
+    "importance": "high",
+    "confidence": "high"
   },
   {
-    "file": "AI/2026-07-31_AM_DynamicMCPBench_MCP実測評価.md",
     "slug": "2026-07-31_AM_DynamicMCPBench_MCP実測評価",
     "title": "DynamicMCPBench: MCPエージェントを実行効果で測る",
-    "genre": "AI",
-    "genreLabel": "AI / LLM / Agent",
     "created": "2026-07-31",
-    "source": "https://arxiv.org/abs/2607.20531",
-    "importance": "high",
-    "confidence": "high",
     "summary": "DynamicMCPBenchは、ライブMCPサーバー上のエージェントを最終回答ではなく実行効果で測るベンチマーク。社内MCPや業務エージェントの評価設計にそのまま使える観点が多い。",
     "excerpt": "DynamicMCPBenchは、ライブMCPサーバー上のエージェントを最終回答ではなく実行効果で測るベンチマーク。社内MCPや業務エージェントの評価設計にそのまま使える観点が多い。",
-    "url": "articles/2026-07-31_AM_DynamicMCPBench_MCP実測評価.html"
+    "url": "articles/2026-07-31_AM_DynamicMCPBench_MCP実測評価.html",
+    "sources": [
+      "https://arxiv.org/abs/2607.20531"
+    ],
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "source": "https://arxiv.org/abs/2607.20531",
+    "importance": "high",
+    "confidence": "high"
   },
   {
-    "file": "Security/2026-07-30_AM_Word文書Copilotワーム.md",
     "slug": "2026-07-30_AM_Word文書Copilotワーム",
     "title": "Word文書経由Copilotワーム",
-    "genre": "Security",
-    "genreLabel": "Security",
     "created": "2026-07-30",
-    "source": "https://enklypesalt.com/posts/context-collapse-part3-ai-worming-through-word/",
-    "importance": "high",
-    "confidence": "high",
     "summary": "Copilot for Wordが外部文書内の隠し指示を読み、生成文書へ自己複製する文書型AIワームの実証。Office文書をAI文脈に入れる時の信頼境界と検査設計を見直す材料になる。",
     "excerpt": "Copilot for Wordが外部文書内の隠し指示を読み、生成文書へ自己複製する文書型AIワームの実証。Office文書をAI文脈に入れる時の信頼境界と検査設計を見直す材料になる。",
-    "url": "articles/2026-07-30_AM_Word文書Copilotワーム.html"
+    "url": "articles/2026-07-30_AM_Word文書Copilotワーム.html",
+    "sources": [
+      "https://enklypesalt.com/posts/context-collapse-part3-ai-worming-through-word/"
+    ],
+    "genre": "Security",
+    "genreLabel": "Security",
+    "source": "https://enklypesalt.com/posts/context-collapse-part3-ai-worming-through-word/",
+    "importance": "high",
+    "confidence": "high"
   },
   {
-    "file": "Security/2026-07-30_Prismata_Webエージェント注入隔離.md",
     "slug": "2026-07-30_Prismata_Webエージェント注入隔離",
     "title": "Prismata: Webエージェント注入隔離",
-    "genre": "Security",
-    "genreLabel": "Security",
     "created": "2026-07-30",
-    "source": "https://arxiv.org/html/2607.08147",
-    "importance": "high",
-    "confidence": "high",
     "summary": "Webエージェントのクロスサイト・プロンプトインジェクションを、DOM由来の信頼ラベルと機械的な行動制限で隔離する研究。ブラウザ操作型エージェントを安全に使うための実装寄りの防御案として読める。",
     "excerpt": "Webエージェントのクロスサイト・プロンプトインジェクションを、DOM由来の信頼ラベルと機械的な行動制限で隔離する研究。ブラウザ操作型エージェントを安全に使うための実装寄りの防御案として読める。",
-    "url": "articles/2026-07-30_Prismata_Webエージェント注入隔離.html"
+    "url": "articles/2026-07-30_Prismata_Webエージェント注入隔離.html",
+    "sources": [
+      "https://arxiv.org/html/2607.08147"
+    ],
+    "genre": "Security",
+    "genreLabel": "Security",
+    "source": "https://arxiv.org/html/2607.08147",
+    "importance": "high",
+    "confidence": "high"
   },
   {
-    "file": "SAP_ERP/2026-07-29_AM_SAP_AI成果課金モデル.md",
     "slug": "2026-07-29_AM_SAP_AI成果課金モデル",
     "title": "SAP AI成果課金モデル",
-    "genre": "SAP_ERP",
-    "genreLabel": "SAP / ERP",
     "created": "2026-07-29",
-    "source": "https://erp.today/sap-ai-pricing-outcome-based-erp-economics/",
-    "importance": "high",
-    "confidence": "high",
     "summary": "SAPのQ2決算を手がかりに、AIエージェントがERPの価格モデルをユーザー数課金から成果・価値ベースへ動かす兆しを整理する。",
     "excerpt": "SAPのQ2決算を手がかりに、AIエージェントがERPの価格モデルをユーザー数課金から成果・価値ベースへ動かす兆しを整理する。",
-    "url": "articles/2026-07-29_AM_SAP_AI成果課金モデル.html"
+    "url": "articles/2026-07-29_AM_SAP_AI成果課金モデル.html",
+    "sources": [
+      "https://erp.today/sap-ai-pricing-outcome-based-erp-economics/"
+    ],
+    "genre": "SAP_ERP",
+    "genreLabel": "SAP / ERP",
+    "source": "https://erp.today/sap-ai-pricing-outcome-based-erp-economics/",
+    "importance": "high",
+    "confidence": "high"
   },
   {
-    "file": "Security/2026-07-29_Agentic_CI_CD攻撃面.md",
     "slug": "2026-07-29_Agentic_CI_CD攻撃面",
     "title": "Agentic CI/CD攻撃面",
-    "genre": "Security",
-    "genreLabel": "Security",
     "created": "2026-07-29",
-    "source": "https://arxiv.org/html/2607.19267",
-    "importance": "high",
-    "confidence": "high",
     "summary": "エージェント型CI/CDが、外部Issueの権威づけと意図のロンダリングで秘密情報送信コードを通す可能性を示した研究。AI開発支援をパイプラインへ入れる前の設計論点になる。",
     "excerpt": "エージェント型CI/CDが、外部Issueの権威づけと意図のロンダリングで秘密情報送信コードを通す可能性を示した研究。AI開発支援をパイプラインへ入れる前の設計論点になる。",
-    "url": "articles/2026-07-29_Agentic_CI_CD攻撃面.html"
+    "url": "articles/2026-07-29_Agentic_CI_CD攻撃面.html",
+    "sources": [
+      "https://arxiv.org/html/2607.19267"
+    ],
+    "genre": "Security",
+    "genreLabel": "Security",
+    "source": "https://arxiv.org/html/2607.19267",
+    "importance": "high",
+    "confidence": "high"
   },
   {
-    "file": "AI/2026-07-28_企業AIエージェント動的権限スコープ.md",
     "slug": "2026-07-28_企業AIエージェント動的権限スコープ",
     "title": "企業AIエージェント動的権限スコープ",
-    "genre": "AI",
-    "genreLabel": "AI / LLM / Agent",
     "created": "2026-07-28",
-    "source": "https://arxiv.org/abs/2607.22445",
-    "importance": "high",
-    "confidence": "high",
     "summary": "企業AIエージェントの権限を役割・タスク文脈・禁止組み合わせで動的に絞る論文。検知より前に「使える権限を存在させない」設計として読む価値がある。",
     "excerpt": "企業AIエージェントの権限を役割・タスク文脈・禁止組み合わせで動的に絞る論文。検知より前に「使える権限を存在させない」設計として読む価値がある。",
-    "url": "articles/2026-07-28_企業AIエージェント動的権限スコープ.html"
+    "url": "articles/2026-07-28_企業AIエージェント動的権限スコープ.html",
+    "sources": [
+      "https://arxiv.org/abs/2607.22445"
+    ],
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "source": "https://arxiv.org/abs/2607.22445",
+    "importance": "high",
+    "confidence": "high"
   },
   {
-    "file": "AI/2026-07-28_AM_Lomekwi_ツール発見能力.md",
     "slug": "2026-07-28_AM_Lomekwi_ツール発見能力",
     "title": "Lomekwi: エージェントのツール発見能力を分解して測る",
-    "genre": "AI",
-    "genreLabel": "AI / LLM / Agent",
     "created": "2026-07-28",
-    "source": "https://arxiv.org/html/2607.16961",
-    "importance": "high",
-    "confidence": "high",
     "summary": "LomekwiはLLMエージェントが道具を「使う」だけでなく、自力で発見・発明できるかを測る研究。大きいモデルほど発見機会を見逃す逆スケーリングが示され、評価設計の見直しに効く。",
     "excerpt": "LomekwiはLLMエージェントが道具を「使う」だけでなく、自力で発見・発明できるかを測る研究。大きいモデルほど発見機会を見逃す逆スケーリングが示され、評価設計の見直しに効く。",
-    "url": "articles/2026-07-28_AM_Lomekwi_ツール発見能力.html"
+    "url": "articles/2026-07-28_AM_Lomekwi_ツール発見能力.html",
+    "sources": [
+      "https://arxiv.org/html/2607.16961"
+    ],
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "source": "https://arxiv.org/html/2607.16961",
+    "importance": "high",
+    "confidence": "high"
   },
   {
-    "file": "AI/2026-07-24_AM_OpenAI_Presence_AIエージェント基盤.md",
     "slug": "2026-07-24_AM_OpenAI_Presence_AIエージェント基盤",
     "title": "OpenAI Presence: 信頼性を前提にしたエージェント基盤",
-    "genre": "AI",
-    "genreLabel": "AI / LLM / Agent",
     "created": "2026-07-24",
-    "source": "https://openai.com/index/introducing-openai-presence/",
-    "importance": "high",
-    "confidence": "high",
     "summary": "OpenAIが企業実装を想定したAIエージェント基盤「Presence」を公開。ガードレール・エスカレーション・継続改善を前提化し、運用設計を比較検討する価値が高い。",
     "excerpt": "OpenAIが企業実装を想定したAIエージェント基盤「Presence」を公開。ガードレール・エスカレーション・継続改善を前提化し、運用設計を比較検討する価値が高い。",
-    "url": "articles/2026-07-24_AM_OpenAI_Presence_AIエージェント基盤.html"
-  },
-  {
-    "file": "Security/2026-07-24_CISA_KEV追加.md",
-    "slug": "2026-07-24_CISA_KEV追加",
-    "title": "CISA KEV追加2件の実務的優先度",
-    "genre": "Security",
-    "genreLabel": "Security",
-    "created": "2026-07-24",
-    "source": "https://www.cisa.gov/news-events/alerts/2026/07/22/cisa-adds-two-known-exploited-vulnerabilities-catalog",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "CISAが公開資産向け高リスク脆弱性2件をKEVへ追加。SmartConsoleとSharePointの認証・実行系不備は公開資産の中断リスクが高く、優先対策の再確認対象として価値が高い。",
-    "excerpt": "CISAが公開資産向け高リスク脆弱性2件をKEVへ追加。SmartConsoleとSharePointの認証・実行系不備は公開資産の中断リスクが高く、優先対策の再確認対象として価値が高い。",
-    "url": "articles/2026-07-24_CISA_KEV追加.html"
-  },
-  {
-    "file": "AI/2026-07-23_AM_OpenAI_Presence_実運用エージェント基盤.md",
-    "slug": "2026-07-23_AM_OpenAI_Presence_実運用エージェント基盤",
-    "title": "OpenAI Presence（エージェント実運用基盤）",
+    "url": "articles/2026-07-24_AM_OpenAI_Presence_AIエージェント基盤.html",
+    "sources": [
+      "https://openai.com/index/introducing-openai-presence/"
+    ],
     "genre": "AI",
     "genreLabel": "AI / LLM / Agent",
-    "created": "2026-07-23",
     "source": "https://openai.com/index/introducing-openai-presence/",
     "importance": "high",
-    "confidence": "high",
-    "summary": "OpenAIが公開したPresenceは、エージェントの実行権限・監査・エスカレーションを運用前提で結びつける設計を示し、社内AI活用のガバナンス設計を見直す際の起点として価値が高い。",
-    "excerpt": "OpenAIが公開したPresenceは、エージェントの実行権限・監査・エスカレーションを運用前提で結びつける設計を示し、社内AI活用のガバナンス設計を見直す際の起点として価値が高い。",
-    "url": "articles/2026-07-23_AM_OpenAI_Presence_実運用エージェント基盤.html"
+    "confidence": "high"
   },
   {
-    "file": "Security/2026-07-23_CISA_KEV追加.md",
-    "slug": "2026-07-23_CISA_KEV追加",
-    "title": "CISAによるKEV追加2件の実務インパクト",
+    "slug": "2026-07-24_CISA_KEV追加",
+    "title": "CISA KEV追加2件の実務的優先度",
+    "created": "2026-07-24",
+    "summary": "CISAが公開資産向け高リスク脆弱性2件をKEVへ追加。SmartConsoleとSharePointの認証・実行系不備は公開資産の中断リスクが高く、優先対策の再確認対象として価値が高い。",
+    "excerpt": "CISAが公開資産向け高リスク脆弱性2件をKEVへ追加。SmartConsoleとSharePointの認証・実行系不備は公開資産の中断リスクが高く、優先対策の再確認対象として価値が高い。",
+    "url": "articles/2026-07-24_CISA_KEV追加.html",
+    "sources": [
+      "https://www.cisa.gov/news-events/alerts/2026/07/22/cisa-adds-two-known-exploited-vulnerabilities-catalog"
+    ],
     "genre": "Security",
     "genreLabel": "Security",
-    "created": "2026-07-23",
     "source": "https://www.cisa.gov/news-events/alerts/2026/07/22/cisa-adds-two-known-exploited-vulnerabilities-catalog",
     "importance": "high",
-    "confidence": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-07-23_AM_OpenAI_Presence_実運用エージェント基盤",
+    "title": "OpenAI Presence（エージェント実運用基盤）",
+    "created": "2026-07-23",
+    "summary": "OpenAIが公開したPresenceは、エージェントの実行権限・監査・エスカレーションを運用前提で結びつける設計を示し、社内AI活用のガバナンス設計を見直す際の起点として価値が高い。",
+    "excerpt": "OpenAIが公開したPresenceは、エージェントの実行権限・監査・エスカレーションを運用前提で結びつける設計を示し、社内AI活用のガバナンス設計を見直す際の起点として価値が高い。",
+    "url": "articles/2026-07-23_AM_OpenAI_Presence_実運用エージェント基盤.html",
+    "sources": [
+      "https://openai.com/index/introducing-openai-presence/"
+    ],
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "source": "https://openai.com/index/introducing-openai-presence/",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-07-23_CISA_KEV追加",
+    "title": "CISAによるKEV追加2件の実務インパクト",
+    "created": "2026-07-23",
     "summary": "CISAが公開資産向けの高リスク脆弱性2件をKEVに追加。SmartConsoleとSharePointの認証・実行系不備は、放置すれば運用停止や権限制御崩れを起こしうるため、優先対策対象として再確認しやすい。",
     "excerpt": "CISAが公開資産向けの高リスク脆弱性2件をKEVに追加。SmartConsoleとSharePointの認証・実行系不備は、放置すれば運用停止や権限制御崩れを起こしうるため、優先対策対象として再確認しやすい。",
-    "url": "articles/2026-07-23_CISA_KEV追加.html"
+    "url": "articles/2026-07-23_CISA_KEV追加.html",
+    "sources": [
+      "https://www.cisa.gov/news-events/alerts/2026/07/22/cisa-adds-two-known-exploited-vulnerabilities-catalog"
+    ],
+    "genre": "Security",
+    "genreLabel": "Security",
+    "source": "https://www.cisa.gov/news-events/alerts/2026/07/22/cisa-adds-two-known-exploited-vulnerabilities-catalog",
+    "importance": "high",
+    "confidence": "high"
   },
   {
-    "file": "Security/2026-07-22_Microsoft_AIエージェント_最小権限設計.md",
     "slug": "2026-07-22_Microsoft_AIエージェント_最小権限設計",
     "title": "Microsoft AIエージェントに対する最小権限設計原則",
-    "genre": "Security",
-    "genreLabel": "Security",
     "created": "2026-07-22",
-    "source": "https://www.microsoft.com/en-us/security/blog/2026/07/16/least-privilege-for-ai-agents-identity-access-and-tool-binding/",
-    "importance": "high",
-    "confidence": "high",
     "summary": "Microsoft公式のAIエージェント向け設計原則は、ID認証とツール境界を分離し、最小権限で運用する実務指針を示す。業務AIの権限事故を抑え、監査しやすい実装へ繋がるため読む価値が高い。",
     "excerpt": "Microsoft公式のAIエージェント向け設計原則は、ID認証とツール境界を分離し、最小権限で運用する実務指針を示す。業務AIの権限事故を抑え、監査しやすい実装へ繋がるため読む価値が高い。",
-    "url": "articles/2026-07-22_Microsoft_AIエージェント_最小権限設計.html"
+    "url": "articles/2026-07-22_Microsoft_AIエージェント_最小権限設計.html",
+    "sources": [
+      "https://www.microsoft.com/en-us/security/blog/2026/07/16/least-privilege-for-ai-agents-identity-access-and-tool-binding/"
+    ],
+    "genre": "Security",
+    "genreLabel": "Security",
+    "source": "https://www.microsoft.com/en-us/security/blog/2026/07/16/least-privilege-for-ai-agents-identity-access-and-tool-binding/",
+    "importance": "high",
+    "confidence": "high"
   },
   {
-    "file": "SAP_ERP/2026-07-19_SAP_PriorLabs買収とTFM統合.md",
     "slug": "2026-07-19_SAP_PriorLabs買収とTFM統合",
     "title": "SAPがPrior Labsを買収した意図：TFMで業務AI運用設計の優先順位が変わる",
-    "genre": "SAP_ERP",
-    "genreLabel": "SAP / ERP",
     "created": "2026-07-19",
-    "source": "https://news.sap.com/2026/07/sap-completes-prior-labs-acquisition/",
-    "importance": "high",
-    "confidence": "high",
     "summary": "SAPがPrior Labs買収を完了し、表データ向けモデルをSAP業務基盤へ統合する方針を示した。実務価値を出すには、提案精度より先に権限・監査・データ統制設計を更新する視点が重要だ。",
     "excerpt": "SAPがPrior Labs買収を完了し、表データ向けモデルをSAP業務基盤へ統合する方針を示した。実務価値を出すには、提案精度より先に権限・監査・データ統制設計を更新する視点が重要だ。",
-    "url": "articles/2026-07-19_SAP_PriorLabs買収とTFM統合.html"
+    "url": "articles/2026-07-19_SAP_PriorLabs買収とTFM統合.html",
+    "sources": [
+      "https://news.sap.com/2026/07/sap-completes-prior-labs-acquisition/"
+    ],
+    "genre": "SAP_ERP",
+    "genreLabel": "SAP / ERP",
+    "source": "https://news.sap.com/2026/07/sap-completes-prior-labs-acquisition/",
+    "importance": "high",
+    "confidence": "high"
   },
   {
-    "file": "SAP_ERP/2026-07-18_AM_SAP_PriorLabs買収とTFM統合.md",
     "slug": "2026-07-18_AM_SAP_PriorLabs買収とTFM統合",
     "title": "SAPがPrior Labsを買収：Tabular Foundation Modelsで業務AIの実装条件が変わる",
-    "genre": "SAP_ERP",
-    "genreLabel": "SAP / ERP",
     "created": "2026-07-18",
-    "source": "https://news.sap.com/2026/07/sap-completes-prior-labs-acquisition/",
-    "importance": "high",
-    "confidence": "high",
     "summary": "SAPがPrior Labs買収を完了し、構造化データを前提にしたAI基盤を強化する方針が示された。ERP実務でのAI実装は、提案精度よりもデータガバナンス・監査設計の再構築が先行する価値がある。",
     "excerpt": "SAPがPrior Labs買収を完了し、構造化データを前提にしたAI基盤を強化する方針が示された。ERP実務でのAI実装は、提案精度よりもデータガバナンス・監査設計の再構築が先行する価値がある。",
-    "url": "articles/2026-07-18_AM_SAP_PriorLabs買収とTFM統合.html"
-  },
-  {
-    "file": "AI/2026-07-18_Gemini_Managed_Agents拡張.md",
-    "slug": "2026-07-18_Gemini_Managed_Agents拡張",
-    "title": "Gemini APIのManaged Agents拡張：対話の外側に伸びる実務実行基盤",
-    "genre": "AI",
-    "genreLabel": "AI / LLM / Agent",
-    "created": "2026-07-18",
-    "source": "https://blog.google/innovation-and-ai/technology/developers-tools/expanding-managed-agents-gemini-api/",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "GoogleのGemini APIはManaged Agentsへ背景タスクとremote MCP接続を追加し、対話中心から長時間実行へ接続できる実務的な設計転換を示した。",
-    "excerpt": "GoogleのGemini APIはManaged Agentsへ背景タスクとremote MCP接続を追加し、対話中心から長時間実行へ接続できる実務的な設計転換を示した。",
-    "url": "articles/2026-07-18_Gemini_Managed_Agents拡張.html"
-  },
-  {
-    "file": "SAP_ERP/2026-07-17_SAP_PriorLabs買収とAI基盤.md",
-    "slug": "2026-07-17_SAP_PriorLabs買収とAI基盤",
-    "title": "SAPがPrior Labsを買収：ERP AI基盤の実務インパクトを読む",
+    "url": "articles/2026-07-18_AM_SAP_PriorLabs買収とTFM統合.html",
+    "sources": [
+      "https://news.sap.com/2026/07/sap-completes-prior-labs-acquisition/"
+    ],
     "genre": "SAP_ERP",
     "genreLabel": "SAP / ERP",
-    "created": "2026-07-17",
-    "source": "https://news.sap.com/2026/07/sap-completes-acquisition-of-prior-labs/",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "SAP公式発表のPrior Labs買収は、構造化データ処理を強化し、ERP領域のAI基盤を実業務の意思決定に接続できる拡張ポイントを増やす。SAP導入判断に向けた評価観点が明確化される。",
-    "excerpt": "SAP公式発表のPrior Labs買収は、構造化データ処理を強化し、ERP領域のAI基盤を実業務の意思決定に接続できる拡張ポイントを増やす。SAP導入判断に向けた評価観点が明確化される。",
-    "url": "articles/2026-07-17_SAP_PriorLabs買収とAI基盤.html"
-  },
-  {
-    "file": "SAP_ERP/2026-07-17_AM_SAP_PriorLabs_買収でTFM加速.md",
-    "slug": "2026-07-17_AM_SAP_PriorLabs_買収でTFM加速",
-    "title": "SAP Prior Labs買収でTFM基盤が加速",
-    "genre": "SAP_ERP",
-    "genreLabel": "SAP / ERP",
-    "created": "2026-07-17",
     "source": "https://news.sap.com/2026/07/sap-completes-prior-labs-acquisition/",
     "importance": "high",
-    "confidence": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-07-18_Gemini_Managed_Agents拡張",
+    "title": "Gemini APIのManaged Agents拡張：対話の外側に伸びる実務実行基盤",
+    "created": "2026-07-18",
+    "summary": "GoogleのGemini APIはManaged Agentsへ背景タスクとremote MCP接続を追加し、対話中心から長時間実行へ接続できる実務的な設計転換を示した。",
+    "excerpt": "GoogleのGemini APIはManaged Agentsへ背景タスクとremote MCP接続を追加し、対話中心から長時間実行へ接続できる実務的な設計転換を示した。",
+    "url": "articles/2026-07-18_Gemini_Managed_Agents拡張.html",
+    "sources": [
+      "https://blog.google/innovation-and-ai/technology/developers-tools/expanding-managed-agents-gemini-api/"
+    ],
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "source": "https://blog.google/innovation-and-ai/technology/developers-tools/expanding-managed-agents-gemini-api/",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-07-17_SAP_PriorLabs買収とAI基盤",
+    "title": "SAPがPrior Labsを買収：ERP AI基盤の実務インパクトを読む",
+    "created": "2026-07-17",
+    "summary": "SAP公式発表のPrior Labs買収は、構造化データ処理を強化し、ERP領域のAI基盤を実業務の意思決定に接続できる拡張ポイントを増やす。SAP導入判断に向けた評価観点が明確化される。",
+    "excerpt": "SAP公式発表のPrior Labs買収は、構造化データ処理を強化し、ERP領域のAI基盤を実業務の意思決定に接続できる拡張ポイントを増やす。SAP導入判断に向けた評価観点が明確化される。",
+    "url": "articles/2026-07-17_SAP_PriorLabs買収とAI基盤.html",
+    "sources": [
+      "https://news.sap.com/2026/07/sap-completes-acquisition-of-prior-labs/"
+    ],
+    "genre": "SAP_ERP",
+    "genreLabel": "SAP / ERP",
+    "source": "https://news.sap.com/2026/07/sap-completes-acquisition-of-prior-labs/",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-07-17_AM_SAP_PriorLabs_買収でTFM加速",
+    "title": "SAP Prior Labs買収でTFM基盤が加速",
+    "created": "2026-07-17",
     "summary": "SAPが構造化データ向け先端基盤Prior Labsを買収完了し、SAP-RPT-1系TFMを拡大する方針を公式発表。独立体制を維持しつつ4年で10億ユーロ超を投資する構えは、業務データAI戦略を長期で設計する上で価値が高い。",
     "excerpt": "SAPが構造化データ向け先端基盤Prior Labsを買収完了し、SAP-RPT-1系TFMを拡大する方針を公式発表。独立体制を維持しつつ4年で10億ユーロ超を投資する構えは、業務データAI戦略を長期で設計する上で価値が高い。",
-    "url": "articles/2026-07-17_AM_SAP_PriorLabs_買収でTFM加速.html"
+    "url": "articles/2026-07-17_AM_SAP_PriorLabs_買収でTFM加速.html",
+    "sources": [
+      "https://news.sap.com/2026/07/sap-completes-prior-labs-acquisition/"
+    ],
+    "genre": "SAP_ERP",
+    "genreLabel": "SAP / ERP",
+    "source": "https://news.sap.com/2026/07/sap-completes-prior-labs-acquisition/",
+    "importance": "high",
+    "confidence": "high"
   },
   {
-    "file": "SAP_ERP/2026-07-16_SAP_AI価値急上昇とガバナンス.md",
     "slug": "2026-07-16_SAP_AI価値急上昇とガバナンス",
     "title": "SAP AI価値急上昇とガバナンスの課題",
-    "genre": "SAP_ERP",
-    "genreLabel": "SAP / ERP",
     "created": "2026-07-16",
-    "source": "https://news.sap.com/2026/07/business-value-ai-spiking-increased-adoption-agentic-expectations/",
-    "importance": "high",
-    "confidence": "high",
     "summary": "SAP公式調査はAI投資ROI上昇を示しつつ、agentic AIではガバナンス未成熟が主要リスクと示した。ERP運用では導入前に権限制御と監査設計を優先的に見直す価値が高い。",
     "excerpt": "SAP公式調査はAI投資ROI上昇を示しつつ、agentic AIではガバナンス未成熟が主要リスクと示した。ERP運用では導入前に権限制御と監査設計を優先的に見直す価値が高い。",
-    "url": "articles/2026-07-16_SAP_AI価値急上昇とガバナンス.html"
+    "url": "articles/2026-07-16_SAP_AI価値急上昇とガバナンス.html",
+    "sources": [
+      "https://news.sap.com/2026/07/business-value-ai-spiking-increased-adoption-agentic-expectations/"
+    ],
+    "genre": "SAP_ERP",
+    "genreLabel": "SAP / ERP",
+    "source": "https://news.sap.com/2026/07/business-value-ai-spiking-increased-adoption-agentic-expectations/",
+    "importance": "high",
+    "confidence": "high"
   },
   {
-    "file": "Security/2026-07-16_AM_CISA_Agentic_AI安全導入ガイド.md",
     "slug": "2026-07-16_AM_CISA_Agentic_AI安全導入ガイド",
     "title": "CISAが示すAgentic AI安全導入ガイド",
-    "genre": "Security",
-    "genreLabel": "Security",
     "created": "2026-07-16",
-    "source": "https://www.cisa.gov/news-events/news/cisa-us-and-international-partners-release-guide-secure-adoption-agentic-ai",
-    "importance": "high",
-    "confidence": "high",
     "summary": "CISAと海外パートナーが提示したAgentic AI導入ガイドを要約。権限設計・監査・監視を前提化し、低リスクから段階導入する運用設計が事故防止の要点となる。",
     "excerpt": "CISAと海外パートナーが提示したAgentic AI導入ガイドを要約。権限設計・監査・監視を前提化し、低リスクから段階導入する運用設計が事故防止の要点となる。",
-    "url": "articles/2026-07-16_AM_CISA_Agentic_AI安全導入ガイド.html"
+    "url": "articles/2026-07-16_AM_CISA_Agentic_AI安全導入ガイド.html",
+    "sources": [
+      "https://www.cisa.gov/news-events/news/cisa-us-and-international-partners-release-guide-secure-adoption-agentic-ai"
+    ],
+    "genre": "Security",
+    "genreLabel": "Security",
+    "source": "https://www.cisa.gov/news-events/news/cisa-us-and-international-partners-release-guide-secure-adoption-agentic-ai",
+    "importance": "high",
+    "confidence": "high"
   },
   {
-    "file": "SAP_ERP/2026-07-15_SAP_7月Patch_Day_Critical.md",
     "slug": "2026-07-15_SAP_7月Patch_Day_Critical",
     "title": "SAP July 2026 Security Patch Day: まず先に見るべきライン",
-    "genre": "SAP_ERP",
-    "genreLabel": "SAP / ERP",
     "created": "2026-07-15",
-    "source": "https://support.sap.com/en/my-support/knowledge-base/security-notes-news/july-2026.html",
-    "importance": "high",
-    "confidence": "high",
     "summary": "2026年7月のSAP Security Patch Dayは16件の新規ノートと既存更新を含み、公開経路や権限境界をまたぐ脆弱性の優先対応が重要。SAP基盤の優先順位付けを先に決める価値が高い情報です。",
     "excerpt": "2026年7月のSAP Security Patch Dayは16件の新規ノートと既存更新を含み、公開経路や権限境界をまたぐ脆弱性の優先対応が重要。SAP基盤の優先順位付けを先に決める価値が高い情報です。",
-    "url": "articles/2026-07-15_SAP_7月Patch_Day_Critical.html"
+    "url": "articles/2026-07-15_SAP_7月Patch_Day_Critical.html",
+    "sources": [
+      "https://support.sap.com/en/my-support/knowledge-base/security-notes-news/july-2026.html"
+    ],
+    "genre": "SAP_ERP",
+    "genreLabel": "SAP / ERP",
+    "source": "https://support.sap.com/en/my-support/knowledge-base/security-notes-news/july-2026.html",
+    "importance": "high",
+    "confidence": "high"
   },
   {
-    "file": "AI/2026-07-15_AM_タスク難易度推定でコスト最適化.md",
     "slug": "2026-07-15_AM_タスク難易度推定でコスト最適化",
     "title": "Do AI Agents Know When a Task Is Simple?",
-    "genre": "AI",
-    "genreLabel": "AI / LLM / Agent",
     "created": "2026-07-15",
-    "source": "https://arxiv.org/abs/2607.13034v1",
-    "importance": "high",
-    "confidence": "high",
     "summary": "arXivのE3は、LLMエージェントのタスク難易度見積りを先に行い、必要最小経路で実行を進める枠組み。成功率を落とさず再読込みを抑え、トークンやファイル参照量を下げる実務設計指針になる。",
     "excerpt": "arXivのE3は、LLMエージェントのタスク難易度見積りを先に行い、必要最小経路で実行を進める枠組み。成功率を落とさず再読込みを抑え、トークンやファイル参照量を下げる実務設計指針になる。",
-    "url": "articles/2026-07-15_AM_タスク難易度推定でコスト最適化.html"
+    "url": "articles/2026-07-15_AM_タスク難易度推定でコスト最適化.html",
+    "sources": [
+      "https://arxiv.org/abs/2607.13034v1"
+    ],
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "source": "https://arxiv.org/abs/2607.13034v1",
+    "importance": "high",
+    "confidence": "high"
   },
   {
-    "file": "SAP_ERP/2026-07-14_SAP_Business_AI_Platform方針.md",
     "slug": "2026-07-14_SAP_Business_AI_Platform方針",
     "title": "SAP Business AI Platform方針",
-    "genre": "SAP_ERP",
-    "genreLabel": "SAP / ERP",
     "created": "2026-07-14",
-    "source": "https://news.sap.com/2026/05/sap-sapphire-keynote-business-ai-platform-power-autonomous-enterprise/",
-    "importance": "high",
-    "confidence": "high",
     "summary": "SAPがSapphireで示したBusiness AI Platform方針は、業務データ基盤を起点にエージェント導入を全社設計する方向を明確化した公式情報であり、監査・ガバナンス・実装設計まで含む実務価値が高い。",
     "excerpt": "SAPがSapphireで示したBusiness AI Platform方針は、業務データ基盤を起点にエージェント導入を全社設計する方向を明確化した公式情報であり、監査・ガバナンス・実装設計まで含む実務価値が高い。",
-    "url": "articles/2026-07-14_SAP_Business_AI_Platform方針.html"
-  },
-  {
-    "file": "AI/2026-07-14_AM_MCP_RCステートレス化.md",
-    "slug": "2026-07-14_AM_MCP_RCステートレス化",
-    "title": "MCP RC 2026-07-28 (Release Candidate): ステートレス化での運用転換",
-    "genre": "AI",
-    "genreLabel": "AI / LLM / Agent",
-    "created": "2026-07-14",
-    "source": "https://blog.modelcontextprotocol.io/posts/2026-07-28-release-candidate/",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "MCP RC（2026-07-28）候補は、セッションID固定前提のMCPをステートレス化し、通常HTTPインフラでの水平分散と監査設計を同時に進める改訂版。導入設計判断を先行しておきたい実務者向けの価値が高い。",
-    "excerpt": "MCP RC（2026-07-28）候補は、セッションID固定前提のMCPをステートレス化し、通常HTTPインフラでの水平分散と監査設計を同時に進める改訂版。導入設計判断を先行しておきたい実務者向けの価値が高い。",
-    "url": "articles/2026-07-14_AM_MCP_RCステートレス化.html"
-  },
-  {
-    "file": "AI/2026-07-13_AM_MCP_RC仕様ステートレス化.md",
-    "slug": "2026-07-13_AM_MCP_RC仕様ステートレス化",
-    "title": "MCP RC仕様ステートレス化",
-    "genre": "AI",
-    "genreLabel": "AI / LLM / Agent",
-    "created": "2026-07-13",
-    "source": "https://blog.modelcontextprotocol.io/posts/2026-07-28-release-candidate/",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "Model Context ProtocolのRCは、セッション固定型の運用からHTTPステートレス設計へ移行し、認可強化と拡張ガバナンスを一本化する。AI接続基盤の運用負荷や移行戦略を見直す価値が高い。",
-    "excerpt": "Model Context ProtocolのRCは、セッション固定型の運用からHTTPステートレス設計へ移行し、認可強化と拡張ガバナンスを一本化する。AI接続基盤の運用負荷や移行戦略を見直す価値が高い。",
-    "url": "articles/2026-07-13_AM_MCP_RC仕様ステートレス化.html"
-  },
-  {
-    "file": "Security/2026-07-13_GHSA-84rm_Coder_AI_Bridge_TLS検証不備.md",
-    "slug": "2026-07-13_GHSA-84rm_Coder_AI_Bridge_TLS検証不備",
-    "title": "GHSA-84rm: Coder AI Bridge TLS検証不備",
-    "genre": "Security",
-    "genreLabel": "Security",
-    "created": "2026-07-13",
-    "source": "https://github.com/advisories/GHSA-84rm-42xw-mx52",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "Coder AI Bridge Proxyが既定設定でTLS検証を無効化し、AIエージェント連携経路のトラフィックが中間者攻撃に晒されると、トークンやプロンプト・レスポンスが窃取され得る脆弱性。",
-    "excerpt": "Coder AI Bridge Proxyが既定設定でTLS検証を無効化し、AIエージェント連携経路のトラフィックが中間者攻撃に晒されると、トークンやプロンプト・レスポンスが窃取され得る脆弱性。",
-    "url": "articles/2026-07-13_GHSA-84rm_Coder_AI_Bridge_TLS検証不備.html"
-  },
-  {
-    "file": "Security/2026-07-12_AM_Cloudflareポスト量子署名移行.md",
-    "slug": "2026-07-12_AM_Cloudflareポスト量子署名移行",
-    "title": "Cloudflareポスト量子署名移行",
-    "genre": "Security",
-    "genreLabel": "Security",
-    "created": "2026-07-12",
-    "source": "https://blog.cloudflare.com/ml-dsa-will-have-to-do/",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "Cloudflareはポスト量子署名で、より良い候補を待たず標準化済みML-DSAへまず移行すべきと論じた。TLSや証明書運用の移行期限を考える材料になる。",
-    "excerpt": "Cloudflareはポスト量子署名で、より良い候補を待たず標準化済みML-DSAへまず移行すべきと論じた。TLSや証明書運用の移行期限を考える材料になる。",
-    "url": "articles/2026-07-12_AM_Cloudflareポスト量子署名移行.html"
-  },
-  {
-    "file": "Security/2026-07-12_Cloudflareポスト量子署名移行.md",
-    "slug": "2026-07-12_Cloudflareポスト量子署名移行",
-    "title": "Cloudflareポスト量子署名移行",
-    "genre": "Security",
-    "genreLabel": "Security",
-    "created": "2026-07-12",
-    "source": "https://blog.cloudflare.com/ml-dsa-will-have-to-do/",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "Cloudflareがポスト量子署名について、新候補を待たずML-DSAで初回移行を進めるべきと整理した。TLSや認証基盤の移行計画を考える材料になる。",
-    "excerpt": "Cloudflareがポスト量子署名について、新候補を待たずML-DSAで初回移行を進めるべきと整理した。TLSや認証基盤の移行計画を考える材料になる。",
-    "url": "articles/2026-07-12_Cloudflareポスト量子署名移行.html"
-  },
-  {
-    "file": "Security/2026-07-11_AM_GitHubエージェント漏えいリスク.md",
-    "slug": "2026-07-11_AM_GitHubエージェント漏えいリスク",
-    "title": "GitHubエージェント漏えいリスク",
-    "genre": "Security",
-    "genreLabel": "Security",
-    "created": "2026-07-11",
-    "source": "https://thehackernews.com/2026/07/public-github-issue-could-trick-github.html",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "公開GitHub IssueからAgentic Workflowsを誘導し、私有リポジトリ内容を公開コメントへ漏えいさせ得る事例。AIエージェントの権限スコープと出力経路を分ける重要性が分かる。",
-    "excerpt": "公開GitHub IssueからAgentic Workflowsを誘導し、私有リポジトリ内容を公開コメントへ漏えいさせ得る事例。AIエージェントの権限スコープと出力経路を分ける重要性が分かる。",
-    "url": "articles/2026-07-11_AM_GitHubエージェント漏えいリスク.html"
-  },
-  {
-    "file": "Security/2026-07-11_CodeQL_AIプロンプト注入検出.md",
-    "slug": "2026-07-11_CodeQL_AIプロンプト注入検出",
-    "title": "CodeQL AIプロンプト注入検出",
-    "genre": "Security",
-    "genreLabel": "Security",
-    "created": "2026-07-11",
-    "source": "https://github.blog/changelog/2026-07-10-codeql-2-26-0-adds-kotlin-2-4-0-support-and-ai-prompt-injection-detection",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "CodeQL 2.26.0がJavaScript/TypeScript向けにsystem prompt injection検出を追加した。LLMアプリの脆弱性管理が静的解析とCI/CDへ入る具体例として読める。",
-    "excerpt": "CodeQL 2.26.0がJavaScript/TypeScript向けにsystem prompt injection検出を追加した。LLMアプリの脆弱性管理が静的解析とCI/CDへ入る具体例として読める。",
-    "url": "articles/2026-07-11_CodeQL_AIプロンプト注入検出.html"
-  },
-  {
-    "file": "AI/2026-07-10_Cloudflare_x402課金とAgentic_Internet.md",
-    "slug": "2026-07-10_Cloudflare_x402課金とAgentic_Internet",
-    "title": "Cloudflare x402課金とAgentic Internet",
-    "genre": "AI",
-    "genreLabel": "AI / LLM / Agent",
-    "created": "2026-07-10",
-    "source": "https://blog.cloudflare.com/monetization-gateway/",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "Cloudflare Monetization Gatewayは、Webページ、API、データセット、MCPツールをx402でリクエスト単位課金できる構想。AIエージェントがWeb資源を使う時代の支払い・権利処理インフラとして読む価値がある。",
-    "excerpt": "Cloudflare Monetization Gatewayは、Webページ、API、データセット、MCPツールをx402でリクエスト単位課金できる構想。AIエージェントがWeb資源を使う時代の支払い・権利処理インフラとして読む価値がある。",
-    "url": "articles/2026-07-10_Cloudflare_x402課金とAgentic_Internet.html"
-  },
-  {
-    "file": "Security/2026-07-10_AM_AI監査がCIRCL暗号バグ発見.md",
-    "slug": "2026-07-10_AM_AI監査がCIRCL暗号バグ発見",
-    "title": "AI監査がCIRCL暗号バグ発見",
-    "genre": "Security",
-    "genreLabel": "Security",
-    "created": "2026-07-10",
-    "source": "https://blog.zksecurity.xyz/posts/circl-bugs/",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "zkSecurityがAI監査パイプラインをCloudflare CIRCLへ適用し、暗号実装の実バグ7件を確認した事例。AI監査の実用性と、人間検証がまだ必要な境界が分かる。",
-    "excerpt": "zkSecurityがAI監査パイプラインをCloudflare CIRCLへ適用し、暗号実装の実バグ7件を確認した事例。AI監査の実用性と、人間検証がまだ必要な境界が分かる。",
-    "url": "articles/2026-07-10_AM_AI監査がCIRCL暗号バグ発見.html"
-  },
-  {
-    "file": "Security/2026-07-09_Kubernetes_MCPトークン漏えい.md",
-    "slug": "2026-07-09_Kubernetes_MCPトークン漏えい",
-    "title": "Kubernetes MCPトークン漏えい",
-    "genre": "Security",
-    "genreLabel": "Security",
-    "created": "2026-07-09",
-    "source": "https://nvd.nist.gov/vuln/detail/cve-2026-47250",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "Kubernetes操作用MCPサーバーのCVE-2026-47250は、ログ経由の間接プロンプト注入がkubectlフラグ注入と結びつき、運用者のBearer tokenを外部へ送らせる問題。AIエージェントに本番権限を渡す時の境界設計を見直す材料になる。",
-    "excerpt": "Kubernetes操作用MCPサーバーのCVE-2026-47250は、ログ経由の間接プロンプト注入がkubectlフラグ注入と結びつき、運用者のBearer tokenを外部へ送らせる問題。AIエージェントに本番権限を渡す時の境界設計を見直す材料になる。",
-    "url": "articles/2026-07-09_Kubernetes_MCPトークン漏えい.html"
-  },
-  {
-    "file": "Security/2026-07-09_AM_GhostApproval_AIコーディング境界問題.md",
-    "slug": "2026-07-09_AM_GhostApproval_AIコーディング境界問題",
-    "title": "GhostApproval: AIコーディング境界問題",
-    "genre": "Security",
-    "genreLabel": "Security",
-    "created": "2026-07-09",
-    "source": "https://www.wiz.io/blog/ghostapproval-a-trust-boundary-gap-in-ai-coding-assistants",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "GhostApprovalは、AIコーディング支援の承認UIがsymlink先の実パスを隠すと、HITLが安全制御ではなく形式的な確認に落ちることを示す。",
-    "excerpt": "GhostApprovalは、AIコーディング支援の承認UIがsymlink先の実パスを隠すと、HITLが安全制御ではなく形式的な確認に落ちることを示す。",
-    "url": "articles/2026-07-09_AM_GhostApproval_AIコーディング境界問題.html"
-  },
-  {
-    "file": "AI/2026-07-08_AM_SwarmResearchエージェント探索.md",
-    "slug": "2026-07-08_AM_SwarmResearchエージェント探索",
-    "title": "SwarmResearchエージェント探索",
-    "genre": "AI",
-    "genreLabel": "AI / LLM / Agent",
-    "created": "2026-07-08",
-    "source": "https://arxiv.org/abs/2607.02807",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "SwarmResearchは、複数のコーディングエージェントをgitブランチ単位で並走させ、探索の偏りを抑える研究。長期タスクを任せるAI運用設計の参考になる。",
-    "excerpt": "SwarmResearchは、複数のコーディングエージェントをgitブランチ単位で並走させ、探索の偏りを抑える研究。長期タスクを任せるAI運用設計の参考になる。",
-    "url": "articles/2026-07-08_AM_SwarmResearchエージェント探索.html"
-  },
-  {
-    "file": "Security/2026-07-08_Januscape_KVM_VMエスケープ.md",
-    "slug": "2026-07-08_Januscape_KVM_VMエスケープ",
-    "title": "Januscape KVM VMエスケープ",
-    "genre": "Security",
-    "genreLabel": "Security",
-    "created": "2026-07-08",
-    "source": "https://www.openwall.com/lists/oss-security/2026/07/06/7",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "JanuscapeはKVM/x86のshadow MMUに潜んでいたゲストからホストへのエスケープ脆弱性。クラウドVM分離とnested virtualizationの運用判断に直結する。",
-    "excerpt": "JanuscapeはKVM/x86のshadow MMUに潜んでいたゲストからホストへのエスケープ脆弱性。クラウドVM分離とnested virtualizationの運用判断に直結する。",
-    "url": "articles/2026-07-08_Januscape_KVM_VMエスケープ.html"
-  },
-  {
-    "file": "AI/2026-07-07_マルチテナントRAGの認可分離.md",
-    "slug": "2026-07-07_マルチテナントRAGの認可分離",
-    "title": "マルチテナントRAGの認可分離",
-    "genre": "AI",
-    "genreLabel": "AI / LLM / Agent",
-    "created": "2026-07-07",
-    "source": "https://arxiv.org/html/2605.05287",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "企業RAGで検索関連度と認可を混同すると、別テナントの情報が上位取得され得る。OGX実装を題材に、取り込み・検索・オーケストレーションで分離する設計を整理する。",
-    "excerpt": "企業RAGで検索関連度と認可を混同すると、別テナントの情報が上位取得され得る。OGX実装を題材に、取り込み・検索・オーケストレーションで分離する設計を整理する。",
-    "url": "articles/2026-07-07_マルチテナントRAGの認可分離.html"
-  },
-  {
-    "file": "Security/2026-07-07_AM_AI監査への間接プロンプト注入.md",
-    "slug": "2026-07-07_AM_AI監査への間接プロンプト注入",
-    "title": "AI監査への間接プロンプト注入",
-    "genre": "Security",
-    "genreLabel": "Security",
-    "created": "2026-07-07",
-    "source": "https://www.cloudflare.com/cloudforce-one/research/adversarial-deception-a-study-of-indirect-prompt-code-injection/",
-    "importance": "medium-high",
-    "confidence": "high",
-    "summary": "Cloudflare Cloudforce Oneが、AIコード監査をだます間接プロンプト注入を実験した。防御側AIを導入する時に、監査対象コード自体を敵対入力として扱う必要が分かる。",
-    "excerpt": "Cloudflare Cloudforce Oneが、AIコード監査をだます間接プロンプト注入を実験した。防御側AIを導入する時に、監査対象コード自体を敵対入力として扱う必要が分かる。",
-    "url": "articles/2026-07-07_AM_AI監査への間接プロンプト注入.html"
-  },
-  {
-    "file": "Security/2026-07-06_ブラウザだけで動くランサム.md",
-    "slug": "2026-07-06_ブラウザだけで動くランサム",
-    "title": "ブラウザだけで動くランサム",
-    "genre": "Security",
-    "genreLabel": "Security",
-    "created": "2026-07-06",
-    "source": "https://research.checkpoint.com/2026/browser-only-ransomware-from-llm-hallucinations-to-a-practical-attack-technique/",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "Check Point Researchのブラウザ単体ランサムPoCは、File System Access APIとAI生成コードが結びつく攻撃面を示す。Android Chromeの写真フォルダ権限をどう扱うべきかを考える材料になる。",
-    "excerpt": "Check Point Researchのブラウザ単体ランサムPoCは、File System Access APIとAI生成コードが結びつく攻撃面を示す。Android Chromeの写真フォルダ権限をどう扱うべきかを考える材料になる。",
-    "url": "articles/2026-07-06_ブラウザだけで動くランサム.html"
-  },
-  {
-    "file": "AI/2026-07-06_GLM-5.2理解のためのQ&A.md",
-    "slug": "2026-07-06_GLM-5.2理解のためのQ-A",
-    "title": "GLM-5.2理解のためのQ&A",
-    "genre": "AI",
-    "genreLabel": "AI / LLM / Agent",
-    "created": "2026-07-06",
-    "source": "",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "GLM-5.2について、Claude OpusやGPT系との比較、量子化の意味、ローカル実行時の遅さと長時間タスク適性を質問と回答の形で整理する。",
-    "excerpt": "GLM-5.2について、Claude OpusやGPT系との比較、量子化の意味、ローカル実行時の遅さと長時間タスク適性を質問と回答の形で整理する。",
-    "url": "articles/2026-07-06_GLM-5.2理解のためのQ-A.html"
-  },
-  {
-    "file": "AI/2026-07-06_GLM-5.2ローカルLLM調査.md",
-    "slug": "2026-07-06_GLM-5.2ローカルLLM調査",
-    "title": "GLM-5.2 ローカルLLM性能・必要マシン調査レポート",
-    "genre": "AI",
-    "genreLabel": "AI / LLM / Agent",
-    "created": "2026-07-06",
-    "source": "https://huggingface.co/zai-org/GLM-5.2",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "GLM-5.2をローカルLLMとして使う場合の性能、量子化別メモリ要件、個人用PCとサーバーGPU構成の現実ラインを整理する。",
-    "excerpt": "GLM-5.2をローカルLLMとして使う場合の性能、量子化別メモリ要件、個人用PCとサーバーGPU構成の現実ラインを整理する。",
-    "url": "articles/2026-07-06_GLM-5.2ローカルLLM調査.html"
-  },
-  {
-    "file": "AI/2026-07-06_AM_CAR動的ツール合成エージェント.md",
-    "slug": "2026-07-06_AM_CAR動的ツール合成エージェント",
-    "title": "CAR動的ツール合成エージェント",
-    "genre": "AI",
-    "genreLabel": "AI / LLM / Agent",
-    "created": "2026-07-06",
-    "source": "https://aclanthology.org/2026.findings-acl.869/",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "CARは、LLMエージェントが不足したツールをその場で合成し、失敗した実行計画を大局的に立て直すACL 2026研究。固定ツール前提の限界を考える材料になる。",
-    "excerpt": "CARは、LLMエージェントが不足したツールをその場で合成し、失敗した実行計画を大局的に立て直すACL 2026研究。固定ツール前提の限界を考える材料になる。",
-    "url": "articles/2026-07-06_AM_CAR動的ツール合成エージェント.html"
-  },
-  {
-    "file": "AI/2026-07-04_DeepMindのAI制御ロードマップ.md",
-    "slug": "2026-07-04_DeepMindのAI制御ロードマップ",
-    "title": "DeepMindのAI制御ロードマップ",
-    "genre": "AI",
-    "genreLabel": "AI / LLM / Agent",
-    "created": "2026-07-04",
-    "source": "https://deepmind.google/blog/securing-the-future-of-ai-agents/",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "Google DeepMindのAI Control Roadmapは、AIエージェントを内部脅威として扱い、監視・権限制御・即時停止を設計するための実務的な枠組み。",
-    "excerpt": "Google DeepMindのAI Control Roadmapは、AIエージェントを内部脅威として扱い、監視・権限制御・即時停止を設計するための実務的な枠組み。",
-    "url": "articles/2026-07-04_DeepMindのAI制御ロードマップ.html"
-  },
-  {
-    "file": "AI/2026-07-04_AM_DeepMind_AI_Control_Roadmap.md",
-    "slug": "2026-07-04_AM_DeepMind_AI_Control_Roadmap",
-    "title": "DeepMind AI Control Roadmap",
-    "genre": "AI",
-    "genreLabel": "AI / LLM / Agent",
-    "created": "2026-07-04",
-    "source": "https://deepmind.google/blog/securing-the-future-of-ai-agents/",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "Google DeepMindのAI Control Roadmapは、AIエージェントを完全には信頼せず、監視・権限・遮断を重ねる設計論。社内エージェント運用の安全基準を考える材料になる。",
-    "excerpt": "Google DeepMindのAI Control Roadmapは、AIエージェントを完全には信頼せず、監視・権限・遮断を重ねる設計論。社内エージェント運用の安全基準を考える材料になる。",
-    "url": "articles/2026-07-04_AM_DeepMind_AI_Control_Roadmap.html"
-  },
-  {
-    "file": "AI/2026-07-03_AM_ScarfBench企業Java移行評価.md",
-    "slug": "2026-07-03_AM_ScarfBench企業Java移行評価",
-    "title": "ScarfBench企業Java移行評価",
-    "genre": "AI",
-    "genreLabel": "AI / LLM / Agent",
-    "created": "2026-07-03",
-    "source": "https://huggingface.co/blog/ibm-research/scarfbench",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "ScarfBenchは、AIエージェントがSpring、Jakarta EE、Quarkus間の企業Java移行をどこまで実行できるか測るベンチマーク。ビルド成功だけでは移行品質を判断できない点が実務上重要。",
-    "excerpt": "ScarfBenchは、AIエージェントがSpring、Jakarta EE、Quarkus間の企業Java移行をどこまで実行できるか測るベンチマーク。ビルド成功だけでは移行品質を判断できない点が実務上重要。",
-    "url": "articles/2026-07-03_AM_ScarfBench企業Java移行評価.html"
-  },
-  {
-    "file": "SAP_ERP/2026-07-03_SAP_Agentic_AI参照アーキテクチャ.md",
-    "slug": "2026-07-03_SAP_Agentic_AI参照アーキテクチャ",
-    "title": "SAP Agentic AI参照アーキテクチャはERPエージェントの接続境界を示している",
+    "url": "articles/2026-07-14_SAP_Business_AI_Platform方針.html",
+    "sources": [
+      "https://news.sap.com/2026/05/sap-sapphire-keynote-business-ai-platform-power-autonomous-enterprise/"
+    ],
     "genre": "SAP_ERP",
     "genreLabel": "SAP / ERP",
-    "created": "2026-07-03",
-    "source": "https://architecture.learning.sap.com/docs/ref-arch/ca1d2a3e",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "SAP公式のAgentic AI参照アーキテクチャを、Joule、Agent Gateway、A2A、MCP Gatewayの役割分担から読む。ERPエージェントを本番運用へ載せる際の接続・統制・監査ポイントが見える。",
-    "excerpt": "SAP公式のAgentic AI参照アーキテクチャを、Joule、Agent Gateway、A2A、MCP Gatewayの役割分担から読む。ERPエージェントを本番運用へ載せる際の接続・統制・監査ポイントが見える。",
-    "url": "articles/2026-07-03_SAP_Agentic_AI参照アーキテクチャ.html"
-  },
-  {
-    "file": "Security/2026-07-02_Red_Hat_npm_SLSA_provenanceの落とし穴.md",
-    "slug": "2026-07-02_Red_Hat_npm_SLSA_provenanceの落とし穴",
-    "title": "Red Hat npm SLSA provenanceの落とし穴",
-    "genre": "Security",
-    "genreLabel": "Security",
-    "created": "2026-07-02",
-    "source": "https://unit42.paloaltonetworks.com/monitoring-npm-supply-chain-attacks/",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "@redhat-cloud-services npm侵害は、正規CIで作られたSLSA provenance付き成果物でも、侵害済みパイプラインなら悪性になり得ることを示す。",
-    "excerpt": "@redhat-cloud-services npm侵害は、正規CIで作られたSLSA provenance付き成果物でも、侵害済みパイプラインなら悪性になり得ることを示す。",
-    "url": "articles/2026-07-02_Red_Hat_npm_SLSA_provenanceの落とし穴.html"
-  },
-  {
-    "file": "Security/2026-07-02_AM_Cursorサンドボックス迂回RCE.md",
-    "slug": "2026-07-02_AM_Cursorサンドボックス迂回RCE",
-    "title": "Cursorサンドボックス迂回RCE",
-    "genre": "Security",
-    "genreLabel": "Security",
-    "created": "2026-07-02",
-    "source": "https://www.catonetworks.com/blog/duneslide-two-critical-rce-vulnerabilities/",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "CursorのDuneSlide脆弱性は、プロンプトインジェクションがAI IDEのサンドボックス実装バグを踏み抜き、開発端末のRCEへ進むことを示す。",
-    "excerpt": "CursorのDuneSlide脆弱性は、プロンプトインジェクションがAI IDEのサンドボックス実装バグを踏み抜き、開発端末のRCEへ進むことを示す。",
-    "url": "articles/2026-07-02_AM_Cursorサンドボックス迂回RCE.html"
-  },
-  {
-    "file": "Security/2026-07-01_ローカルLLMエージェント実装層監査.md",
-    "slug": "2026-07-01_ローカルLLMエージェント実装層監査",
-    "title": "ローカルLLMエージェント実装層監査",
-    "genre": "Security",
-    "genreLabel": "Security",
-    "created": "2026-07-01",
-    "source": "https://arxiv.org/abs/2606.21071",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "CLAWAUDIT論文は、ローカルLLMエージェントを便利なアプリではなく、ツール実行・記憶・権限を持つ特権ランタイムとして監査すべきだと示す。",
-    "excerpt": "CLAWAUDIT論文は、ローカルLLMエージェントを便利なアプリではなく、ツール実行・記憶・権限を持つ特権ランタイムとして監査すべきだと示す。",
-    "url": "articles/2026-07-01_ローカルLLMエージェント実装層監査.html"
-  },
-  {
-    "file": "Security/2026-07-01_AM_Clean_GitHub_Repoエージェント侵害.md",
-    "slug": "2026-07-01_AM_Clean_GitHub_Repoエージェント侵害",
-    "title": "Clean GitHub RepoでAIエージェント侵害",
-    "genre": "Security",
-    "genreLabel": "Security",
-    "created": "2026-07-01",
-    "source": "https://0din.ai/blog/clone-this-repo-and-i-own-your-machine",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "0DINのPoCは、悪性コードを含まないように見えるGitHub repoでも、AIコーディングエージェントの自動セットアップ復旧がDNS TXT経由の攻撃実行につながることを示す。開発端末とCIで「初回セットアップ」を隔離・監査する価値が高い。",
-    "excerpt": "0DINのPoCは、悪性コードを含まないように見えるGitHub repoでも、AIコーディングエージェントの自動セットアップ復旧がDNS TXT経由の攻撃実行につながることを示す。開発端末とCIで「初回セットアップ」を隔離・監査する価値が高い。",
-    "url": "articles/2026-07-01_AM_Clean_GitHub_Repoエージェント侵害.html"
-  },
-  {
-    "file": "AI/2026-06-30_社内MCP安全トンネル.md",
-    "slug": "2026-06-30_社内MCP安全トンネル",
-    "title": "社内MCP安全トンネル",
-    "genre": "AI",
-    "genreLabel": "AI / LLM / Agent",
-    "created": "2026-06-30",
-    "source": "https://developers.openai.com/blog/connect-private-mcp-servers-to-openai-products",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "OpenAI Secure MCP Tunnelは、社内やローカルのMCPサーバーを公開せずChatGPT/Codexへつなぐ設計。MCP普及後の企業内ツール接続、権限境界、監査の実務論点を整理できる。",
-    "excerpt": "OpenAI Secure MCP Tunnelは、社内やローカルのMCPサーバーを公開せずChatGPT/Codexへつなぐ設計。MCP普及後の企業内ツール接続、権限境界、監査の実務論点を整理できる。",
-    "url": "articles/2026-06-30_社内MCP安全トンネル.html"
-  },
-  {
-    "file": "AI/2026-06-30_AM_GBCエージェント失敗源.md",
-    "slug": "2026-06-30_AM_GBCエージェント失敗源",
-    "title": "GBCエージェント失敗源",
-    "genre": "AI",
-    "genreLabel": "AI / LLM / Agent",
-    "created": "2026-06-30",
-    "source": "https://arxiv.org/abs/2606.28187",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "GBCはLLMマルチエージェントを計算グラフとして扱い、失敗原因をエージェントやトークン単位で帰属する研究。エージェント運用の観測性と改善ループを考える材料になる。",
-    "excerpt": "GBCはLLMマルチエージェントを計算グラフとして扱い、失敗原因をエージェントやトークン単位で帰属する研究。エージェント運用の観測性と改善ループを考える材料になる。",
-    "url": "articles/2026-06-30_AM_GBCエージェント失敗源.html"
-  },
-  {
-    "file": "Security/2026-06-29_AM_MosaicLeaks検索漏えい.md",
-    "slug": "2026-06-29_AM_MosaicLeaks検索漏えい",
-    "title": "MosaicLeaksと検索漏えい",
-    "genre": "Security",
-    "genreLabel": "Security",
-    "created": "2026-06-29",
-    "source": "https://huggingface.co/blog/ServiceNow/mosaicleaks",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "MosaicLeaksは、研究エージェントの外部検索ログだけから社内文書の秘密が推測されるリスクを測る研究。RAGやDeep Research導入時の監査観点として重要。",
-    "excerpt": "MosaicLeaksは、研究エージェントの外部検索ログだけから社内文書の秘密が推測されるリスクを測る研究。RAGやDeep Research導入時の監査観点として重要。",
-    "url": "articles/2026-06-29_AM_MosaicLeaks検索漏えい.html"
-  },
-  {
-    "file": "Security/2026-06-29_Amazon_Q_MCP自動実行リスク.md",
-    "slug": "2026-06-29_Amazon_Q_MCP自動実行リスク",
-    "title": "Amazon QのMCP自動実行リスク",
-    "genre": "Security",
-    "genreLabel": "Security",
-    "created": "2026-06-29",
-    "source": "https://www.wiz.io/blog/amazon-q-vulnerability",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "Amazon Q DeveloperのMCP設定自動実行問題は、AIコーディングツールがIDE拡張、ローカル実行、クラウド認証情報をまたぐ信頼境界になったことを示す事例。",
-    "excerpt": "Amazon Q DeveloperのMCP設定自動実行問題は、AIコーディングツールがIDE拡張、ローカル実行、クラウド認証情報をまたぐ信頼境界になったことを示す事例。",
-    "url": "articles/2026-06-29_Amazon_Q_MCP自動実行リスク.html"
-  },
-  {
-    "file": "SAP_ERP/2026-06-28_Joule_Studio_n8n業務フロー統合.md",
-    "slug": "2026-06-28_Joule_Studio_n8n業務フロー統合",
-    "title": "Joule Studio x n8nはERPエージェントを業務フローへ接続する動き",
-    "genre": "SAP_ERP",
-    "genreLabel": "SAP / ERP",
-    "created": "2026-06-28",
-    "source": "https://blog.n8n.io/n8n-partners-with-sap-to-bring-visual-ai-workflow-orchestration-to-enterprise/",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "SAPがJoule Studioにn8nを組み込み、AIエージェントをSAP内外の業務フローへ接続する動き。ERPのAI化をチャットではなく、統制されたワークフロー実行基盤として見る材料になる。",
-    "excerpt": "SAPがJoule Studioにn8nを組み込み、AIエージェントをSAP内外の業務フローへ接続する動き。ERPのAI化をチャットではなく、統制されたワークフロー実行基盤として見る材料になる。",
-    "url": "articles/2026-06-28_Joule_Studio_n8n業務フロー統合.html"
-  },
-  {
-    "file": "AI/2026-06-28_AM_GLM-5.2長期タスク向け1M文脈.md",
-    "slug": "2026-06-28_AM_GLM-5.2長期タスク向け1M文脈",
-    "title": "GLM-5.2長期タスク向け1M文脈",
-    "genre": "AI",
-    "genreLabel": "AI / LLM / Agent",
-    "created": "2026-06-28",
-    "source": "https://huggingface.co/blog/zai-org/glm-52-blog",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "GLM-5.2は、1Mトークン文脈を長期コーディングエージェント向けに実用化しようとする中国発OSSモデル。長文対応が単なる入力長ではなく、推論コスト、RL、評価不正対策まで含む基盤競争になっている点が重要。",
-    "excerpt": "GLM-5.2は、1Mトークン文脈を長期コーディングエージェント向けに実用化しようとする中国発OSSモデル。長文対応が単なる入力長ではなく、推論コスト、RL、評価不正対策まで含む基盤競争になっている点が重要。",
-    "url": "articles/2026-06-28_AM_GLM-5.2長期タスク向け1M文脈.html"
-  },
-  {
-    "file": "SAP_ERP/2026-06-27_AM_SAP発注確認AIエージェント化.md",
-    "slug": "2026-06-27_AM_SAP発注確認AIエージェント化",
-    "title": "SAP発注確認AIエージェント化はERP業務AIの実装例として読む",
-    "genre": "SAP_ERP",
-    "genreLabel": "SAP / ERP",
-    "created": "2026-06-27",
-    "source": "https://news.sap.com/2026/06/lemvigh-muller-ai-agents-order-confirmations/",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "Lemvigh-MuellerがSAP基盤上で発注確認PDF処理をAIエージェント化した事例。PoCではなく本番運用、10週間導入、90%超のタッチレス処理という具体値があり、ERP業務AIの現実的な設計材料になる。",
-    "excerpt": "Lemvigh-MuellerがSAP基盤上で発注確認PDF処理をAIエージェント化した事例。PoCではなく本番運用、10週間導入、90%超のタッチレス処理という具体値があり、ERP業務AIの現実的な設計材料になる。",
-    "url": "articles/2026-06-27_AM_SAP発注確認AIエージェント化.html"
-  },
-  {
-    "file": "SAP_ERP/2026-06-27_Joule_in_SAP_for_Me運用導線.md",
-    "slug": "2026-06-27_Joule_in_SAP_for_Me運用導線",
-    "title": "Joule in SAP for Meはサポート運用の入口を変える",
-    "genre": "SAP_ERP",
-    "genreLabel": "SAP / ERP",
-    "created": "2026-06-27",
-    "source": "https://news.sap.com/2026/06/sap-launches-joule-in-sap-for-me/",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "SAP for MeへのJoule統合は、サポート検索やケース起票を会話型・エージェント型の導線へ移す動き。Basis運用では便利機能としてだけでなく、権限、根拠確認、ケース品質、変更管理を見直す材料になる。",
-    "excerpt": "SAP for MeへのJoule統合は、サポート検索やケース起票を会話型・エージェント型の導線へ移す動き。Basis運用では便利機能としてだけでなく、権限、根拠確認、ケース品質、変更管理を見直す材料になる。",
-    "url": "articles/2026-06-27_Joule_in_SAP_for_Me運用導線.html"
-  },
-  {
-    "file": "Security/2026-06-26_Cloudflare脆弱性ハーネス.md",
-    "slug": "2026-06-26_Cloudflare脆弱性ハーネス",
-    "title": "Cloudflare脆弱性ハーネス",
-    "genre": "Security",
-    "genreLabel": "Security",
-    "created": "2026-06-26",
-    "source": "https://blog.cloudflare.com/build-your-own-vulnerability-harness/",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "Cloudflare が、AI を使った脆弱性探索を「単発のコードレビュー」ではなく、永続状態を持つハーネスとして運用する設計を公開した。",
-    "excerpt": "Cloudflare が、AI を使った脆弱性探索を「単発のコードレビュー」ではなく、永続状態を持つハーネスとして運用する設計を公開した。",
-    "url": "articles/2026-06-26_Cloudflare脆弱性ハーネス.html"
-  },
-  {
-    "file": "Security/2026-06-26_AM_AI開発環境サプライチェーン攻撃.md",
-    "slug": "2026-06-26_AM_AI開発環境サプライチェーン攻撃",
-    "title": "AI開発環境サプライチェーン攻撃",
-    "genre": "Security",
-    "genreLabel": "Security",
-    "created": "2026-06-26",
-    "source": "https://novee.security/blog/cordyceps/",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "Cordyceps、Miasma、IronWorm は、AI開発環境がサプライチェーン攻撃の主戦場になりつつあることを示す一連の事例。",
-    "excerpt": "Cordyceps、Miasma、IronWorm は、AI開発環境がサプライチェーン攻撃の主戦場になりつつあることを示す一連の事例。",
-    "url": "articles/2026-06-26_AM_AI開発環境サプライチェーン攻撃.html"
-  },
-  {
-    "file": "Security/2026-06-25_AM_LLMエージェント安全性サーベイ.md",
-    "slug": "2026-06-25_AM_LLMエージェント安全性サーベイ",
-    "title": "LLMエージェント安全性サーベイ",
-    "genre": "Security",
-    "genreLabel": "Security",
-    "created": "2026-06-25",
-    "source": "https://arxiv.org/abs/2606.10749",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "「Toward Secure LLM Agents: Threat Surfaces, Attacks, Defenses, and Evaluation」は、LLMエージェントのセキュリティ研究247本を、脅威面、攻撃、防御、評価の観点で整理したサーベイ論文。",
-    "excerpt": "「Toward Secure LLM Agents: Threat Surfaces, Attacks, Defenses, and Evaluation」は、LLMエージェントのセキュリティ研究247本を、脅威面、攻撃、防御、評価の観点で整理したサーベイ論文。",
-    "url": "articles/2026-06-25_AM_LLMエージェント安全性サーベイ.html"
-  },
-  {
-    "file": "AI/2026-06-25_fail-plausible運用障害分類.md",
-    "slug": "2026-06-25_fail-plausible運用障害分類",
-    "title": "fail-plausible運用障害分類",
-    "genre": "AI",
-    "genreLabel": "AI / LLM / Agent",
-    "created": "2026-06-25",
-    "source": "https://arxiv.org/abs/2606.14589",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "arXiv論文「When Errors Become Narratives」は、長期間動き続けるLLMエージェントランタイムで起きたサイレント障害を、8週間・22件のポストモーテムから分類した事例研究。",
-    "excerpt": "arXiv論文「When Errors Become Narratives」は、長期間動き続けるLLMエージェントランタイムで起きたサイレント障害を、8週間・22件のポストモーテムから分類した事例研究。",
-    "url": "articles/2026-06-25_fail-plausible運用障害分類.html"
-  },
-  {
-    "file": "AI/2026-06-24_AM_GateMem共有メモリ統制.md",
-    "slug": "2026-06-24_AM_GateMem共有メモリ統制",
-    "title": "GateMem共有メモリ統制",
-    "genre": "AI",
-    "genreLabel": "AI / LLM / Agent",
-    "created": "2026-06-24",
-    "source": "https://arxiv.org/abs/2606.18829",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "GateMemは、複数の利用者や役割が同じメモリを共有するLLMエージェントで、記憶の有用性だけでなく、アクセス制御と削除後の忘却まで同時に測るベンチマーク。",
-    "excerpt": "GateMemは、複数の利用者や役割が同じメモリを共有するLLMエージェントで、記憶の有用性だけでなく、アクセス制御と削除後の忘却まで同時に測るベンチマーク。",
-    "url": "articles/2026-06-24_AM_GateMem共有メモリ統制.html"
-  },
-  {
-    "file": "AI/2026-06-24_agentgateway運用ゲートウェイ.md",
-    "slug": "2026-06-24_agentgateway運用ゲートウェイ",
-    "title": "agentgateway運用ゲートウェイ",
-    "genre": "AI",
-    "genreLabel": "AI / LLM / Agent",
-    "created": "2026-06-24",
-    "source": "https://agentgateway.dev/blog/2026-06-17-agentgateway-v1.3.0/",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "agentgateway v1.3.0 は、LLM、MCP、A2A、通常のAPIトラフィックを同じゲートウェイで扱う方向をかなり明確にしたリリース。新しいLLM向けUI、コスト分析、仮想モデル、再利用可能なプロバイダとガードレール、MCP向けポリシー表示などが入っている。",
-    "excerpt": "agentgateway v1.3.0 は、LLM、MCP、A2A、通常のAPIトラフィックを同じゲートウェイで扱う方向をかなり明確にしたリリース。新しいLLM向けUI、コスト分析、仮想モデル、再利用可能なプロバイダとガードレール、MCP向けポリシー表示などが入っている。",
-    "url": "articles/2026-06-24_agentgateway運用ゲートウェイ.html"
-  },
-  {
-    "file": "Security/2026-06-23_AM_NSAのMCP安全設計.md",
-    "slug": "2026-06-23_AM_NSAのMCP安全設計",
-    "title": "NSAのMCP安全設計",
-    "genre": "Security",
-    "genreLabel": "Security",
-    "created": "2026-06-23",
-    "source": "https://www.nsa.gov/Portals/75/documents/Cybersecurity/CSI_MCP_SECURITY.pdf?ver=bmgiSbNQLP6Z_GiWtRt6bg%3D%3D",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "NSAのAI Security Centerは、MCPを使うAI自動化システム向けに、権限分離、監査、ツール接続の安全設計を整理している。",
-    "excerpt": "NSAのAI Security Centerは、MCPを使うAI自動化システム向けに、権限分離、監査、ツール接続の安全設計を整理している。",
-    "url": "articles/2026-06-23_AM_NSAのMCP安全設計.html"
-  },
-  {
-    "file": "SAP_ERP/2026-06-23_Agentic_ABAP_AI_GA.md",
-    "slug": "2026-06-23_Agentic_ABAP_AI_GA",
-    "title": "Agentic ABAP AI GAはABAP保守とS/4移行の作業単位を変える",
-    "genre": "SAP_ERP",
-    "genreLabel": "SAP / ERP",
-    "created": "2026-06-23",
-    "source": "https://community.sap.com/t5/technology-blog-posts-by-sap/sapphire-2026-recap-joule-for-developers-agentic-abap-ai-is-generally/ba-p/14405739",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "SAP CommunityのSapphire 2026 recapは、ABAP開発向けAI機能が、MCP、ADT、S/4HANA拡張開発へ広がる方向を示している。",
-    "excerpt": "SAP CommunityのSapphire 2026 recapは、ABAP開発向けAI機能が、MCP、ADT、S/4HANA拡張開発へ広がる方向を示している。",
-    "url": "articles/2026-06-23_Agentic_ABAP_AI_GA.html"
-  },
-  {
-    "file": "Security/2026-06-22_AM_Vertex_AI_SDKアップロード乗っ取り.md",
-    "slug": "2026-06-22_AM_Vertex_AI_SDKアップロード乗っ取り",
-    "title": "Vertex AI SDKアップロード乗っ取り",
-    "genre": "Security",
-    "genreLabel": "Security",
-    "created": "2026-06-22",
-    "source": "https://unit42.paloaltonetworks.com/hijacking-vertex-ai-model/",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "Unit 42 は 2026-06-16 に、Google Cloud Vertex AI SDK for Python の Model.upload() に関する bucket squatting 型の脆弱性を公開した。",
-    "excerpt": "Unit 42 は 2026-06-16 に、Google Cloud Vertex AI SDK for Python の Model.upload() に関する bucket squatting 型の脆弱性を公開した。",
-    "url": "articles/2026-06-22_AM_Vertex_AI_SDKアップロード乗っ取り.html"
-  },
-  {
-    "file": "Security/2026-06-22_AutoJackエージェントRCE.md",
-    "slug": "2026-06-22_AutoJackエージェントRCE",
-    "title": "AutoJackエージェントRCE",
-    "genre": "Security",
-    "genreLabel": "Security",
-    "created": "2026-06-22",
-    "source": "https://www.microsoft.com/en-us/security/blog/2026/06/18/autojack-single-page-rce-host-running-ai-agent/",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "Microsoft Defender Security Research Teamが、AutoGen Studioの開発系コードを題材に「AutoJack」という攻撃連鎖を公開した。",
-    "excerpt": "Microsoft Defender Security Research Teamが、AutoGen Studioの開発系コードを題材に「AutoJack」という攻撃連鎖を公開した。",
-    "url": "articles/2026-06-22_AutoJackエージェントRCE.html"
-  },
-  {
-    "file": "SAP_ERP/2026-06-21_AM_Sapphire_2026発表総覧.md",
-    "slug": "2026-06-21_AM_Sapphire_2026発表総覧",
-    "title": "SAP Sapphire 2026発表総覧はERP AIの実装地図",
-    "genre": "SAP_ERP",
-    "genreLabel": "SAP / ERP",
-    "created": "2026-06-21",
-    "source": "https://community.sap.com/t5/technology-blog-posts-by-sap/sap-sapphire-2026-announcements-only/ba-p/14396190",
-    "importance": "medium",
-    "confidence": "high",
-    "summary": "SAP Communityの「SAP Sapphire 2026 Announcements only」は、Sapphire 2026で出た主要なプロダクト発表、プラットフォーム発表、パートナーシップを一覧化したまとめ。",
-    "excerpt": "SAP Communityの「SAP Sapphire 2026 Announcements only」は、Sapphire 2026で出た主要なプロダクト発表、プラットフォーム発表、パートナーシップを一覧化したまとめ。",
-    "url": "articles/2026-06-21_AM_Sapphire_2026発表総覧.html"
-  },
-  {
-    "file": "Security/2026-06-21_CISA最短3日パッチ指令.md",
-    "slug": "2026-06-21_CISA最短3日パッチ指令",
-    "title": "CISA最短3日パッチ指令",
-    "genre": "Security",
-    "genreLabel": "Security",
-    "created": "2026-06-21",
-    "source": "https://www.cisa.gov/news-events/directives/bod-26-04-prioritizing-security-updates-based-risk",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "CISAのBinding Operational Directive 26-04は、米連邦文民機関向けの脆弱性修正ルールを「CVSSの重大度に応じた一律期限」から、実際の攻撃リスクに応じた期限へ寄せる指令。",
-    "excerpt": "CISAのBinding Operational Directive 26-04は、米連邦文民機関向けの脆弱性修正ルールを「CVSSの重大度に応じた一律期限」から、実際の攻撃リスクに応じた期限へ寄せる指令。",
-    "url": "articles/2026-06-21_CISA最短3日パッチ指令.html"
-  },
-  {
-    "file": "SAP_ERP/2026-06-20_AM_製造領域Joule_Agent実装.md",
-    "slug": "2026-06-20_AM_製造領域Joule_Agent実装",
-    "title": "製造領域Joule Agent実装はERP内AIの現実的な入口",
-    "genre": "SAP_ERP",
-    "genreLabel": "SAP / ERP",
-    "created": "2026-06-20",
-    "source": "https://community.sap.com/t5/enterprise-resource-planning-blog-posts-by-sap/manufacturing-update-in-sap-s-4hana-cloud-public-edition-2602-3-hfc10/ba-p/14398211",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "SAP S/4HANA Cloud Public Editionの製造領域アップデートで、Manage Production OrdersアプリにJouleベースのProduction Planning and Operations Agentが組み込まれる。",
-    "excerpt": "SAP S/4HANA Cloud Public Editionの製造領域アップデートで、Manage Production OrdersアプリにJouleベースのProduction Planning and Operations Agentが組み込まれる。",
-    "url": "articles/2026-06-20_AM_製造領域Joule_Agent実装.html"
-  },
-  {
-    "file": "AI/2026-06-20_バイオエージェント決定論的データ基盤.md",
-    "slug": "2026-06-20_バイオエージェント決定論的データ基盤",
-    "title": "バイオエージェント決定論的データ基盤",
-    "genre": "AI",
-    "genreLabel": "AI / LLM / Agent",
-    "created": "2026-06-20",
-    "source": "https://www.anthropic.com/research/agents-in-biology",
-    "importance": "medium",
-    "confidence": "high",
-    "summary": "Anthropic が、バイオ領域で AI エージェントを実用化するには、モデル能力だけでなく「決定論的で再現可能なデータ取得レイヤー」が必要だと整理している。",
-    "excerpt": "Anthropic が、バイオ領域で AI エージェントを実用化するには、モデル能力だけでなく「決定論的で再現可能なデータ取得レイヤー」が必要だと整理している。",
-    "url": "articles/2026-06-20_バイオエージェント決定論的データ基盤.html"
-  },
-  {
-    "file": "AI/2026-06-19_DeepMind_AI_Control_Roadmap.md",
-    "slug": "2026-06-19_DeepMind_AI_Control_Roadmap",
-    "title": "DeepMind AI Control Roadmap",
-    "genre": "AI",
-    "genreLabel": "AI / LLM / Agent",
-    "created": "2026-06-19",
-    "source": "https://deepmind.google/blog/securing-the-future-of-ai-agents/",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "Google DeepMind が、社内で使う高度な AI agent を「潜在的な insider threat」として扱う AI Control Roadmap を公開した。",
-    "excerpt": "Google DeepMind が、社内で使う高度な AI agent を「潜在的な insider threat」として扱う AI Control Roadmap を公開した。",
-    "url": "articles/2026-06-19_DeepMind_AI_Control_Roadmap.html"
-  },
-  {
-    "file": "AI/2026-06-19_AM_Bayesian-Agentスキル進化.md",
-    "slug": "2026-06-19_AM_Bayesian-Agentスキル進化",
-    "title": "Bayesian-Agentスキル進化",
-    "genre": "AI",
-    "genreLabel": "AI / LLM / Agent",
-    "created": "2026-06-19",
-    "source": "https://arxiv.org/abs/2606.08348",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "Bayesian-Agentは、LLMエージェントのプロンプト、ツール、メモリ、SOP、スキルを「モデル外にある運用資産」として扱い、その成功・失敗を検証済み軌跡からベイズ的に更新する研究・OSSである。",
-    "excerpt": "Bayesian-Agentは、LLMエージェントのプロンプト、ツール、メモリ、SOP、スキルを「モデル外にある運用資産」として扱い、その成功・失敗を検証済み軌跡からベイズ的に更新する研究・OSSである。",
-    "url": "articles/2026-06-19_AM_Bayesian-Agentスキル進化.html"
-  },
-  {
-    "file": "SAP_ERP/2026-06-18_SAP_Knowledge_Graph業務文脈層.md",
-    "slug": "2026-06-18_SAP_Knowledge_Graph業務文脈層",
-    "title": "SAP Knowledge Graphが業務AIの文脈層に",
-    "genre": "SAP_ERP",
-    "genreLabel": "SAP / ERP",
-    "created": "2026-06-18",
-    "source": "https://www.sap.com/products/artificial-intelligence/knowledge-graph.html",
-    "importance": "medium-high",
-    "confidence": "high",
-    "summary": "SAP Knowledge Graphは、JouleやSAP上のAIエージェントに対して、SAPシステム内の業務データ、メタデータ、プロセス、エンティティ間の関係を文脈として渡すためのレイヤー。",
-    "excerpt": "SAP Knowledge Graphは、JouleやSAP上のAIエージェントに対して、SAPシステム内の業務データ、メタデータ、プロセス、エンティティ間の関係を文脈として渡すためのレイヤー。",
-    "url": "articles/2026-06-18_SAP_Knowledge_Graph業務文脈層.html"
-  },
-  {
-    "file": "SAP_ERP/2026-06-18_AM_SAP_for_Me_Joule統合.md",
-    "slug": "2026-06-18_AM_SAP_for_Me_Joule統合",
-    "title": "SAP for MeのJoule統合はサポートポータルのエージェント化",
-    "genre": "SAP_ERP",
-    "genreLabel": "SAP / ERP",
-    "created": "2026-06-18",
-    "source": "https://news.sap.com/2026/06/sap-launches-joule-in-sap-for-me/",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "SAPは2026年6月11日、SAP for MeにJouleを統合したと発表した。",
-    "excerpt": "SAPは2026年6月11日、SAP for MeにJouleを統合したと発表した。",
-    "url": "articles/2026-06-18_AM_SAP_for_Me_Joule統合.html"
-  },
-  {
-    "file": "AI/2026-06-17_AM_OpenAI本番分布型モデル評価.md",
-    "slug": "2026-06-17_AM_OpenAI本番分布型モデル評価",
-    "title": "OpenAI本番分布型モデル評価",
-    "genre": "AI",
-    "genreLabel": "AI / LLM / Agent",
-    "created": "2026-06-17",
-    "source": "https://openai.com/index/deployment-simulation/",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "OpenAIは2026-06-16に、新モデルの公開前リスク評価手法として「Deployment Simulation」を公開した。",
-    "excerpt": "OpenAIは2026-06-16に、新モデルの公開前リスク評価手法として「Deployment Simulation」を公開した。",
-    "url": "articles/2026-06-17_AM_OpenAI本番分布型モデル評価.html"
-  },
-  {
-    "file": "SAP_ERP/2026-06-17_ERPがAIの業務コンテキスト層へ.md",
-    "slug": "2026-06-17_ERPがAIの業務コンテキスト層へ",
-    "title": "ERPがAIの業務コンテキスト層へ",
-    "genre": "SAP_ERP",
-    "genreLabel": "SAP / ERP",
-    "created": "2026-06-17",
-    "source": "https://erp.today/sap-executives-ai-erp-strategy-sapphire-2026/",
-    "importance": "medium",
-    "confidence": "high",
-    "summary": "ERP Todayの記事は、SAP Sapphire 2026でSAP幹部が語った「AI時代にERPが再び事業戦略の中心へ戻る」という見立てを整理している。",
-    "excerpt": "ERP Todayの記事は、SAP Sapphire 2026でSAP幹部が語った「AI時代にERPが再び事業戦略の中心へ戻る」という見立てを整理している。",
-    "url": "articles/2026-06-17_ERPがAIの業務コンテキスト層へ.html"
-  },
-  {
-    "file": "AI/2026-06-16_MCP_Python_SDK_v2_alpha.md",
-    "slug": "2026-06-16_MCP_Python_SDK_v2_alpha",
-    "title": "MCP Python SDK v2 alpha",
-    "genre": "AI",
-    "genreLabel": "AI / LLM / Agent",
-    "created": "2026-06-16",
-    "source": "https://github.com/modelcontextprotocol/python-sdk/releases",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "MCP Python SDKのv2.0.0a1は、2026-07-28予定のMCP仕様変更に向けた最初のalpha。現行のv1系利用者がすぐ自動更新されるものではないが、stable v2が出る前に依存上限と移行方針を決めておく必要がある。",
-    "excerpt": "MCP Python SDKのv2.0.0a1は、2026-07-28予定のMCP仕様変更に向けた最初のalpha。現行のv1系利用者がすぐ自動更新されるものではないが、stable v2が出る前に依存上限と移行方針を決めておく必要がある。",
-    "url": "articles/2026-06-16_MCP_Python_SDK_v2_alpha.html"
-  },
-  {
-    "file": "Security/2026-06-16_AM_AI_Agent_Skill供給網リスク.md",
-    "slug": "2026-06-16_AM_AI_Agent_Skill供給網リスク",
-    "title": "AI Agent Skill供給網リスク",
-    "genre": "Security",
-    "genreLabel": "Security",
-    "created": "2026-06-16",
-    "source": "https://unit42.paloaltonetworks.com/ai-agent-supply-chain-risks/",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "Unit 42の「Trust No Skill」は、AIエージェント用の第三者Skillを、モバイルアプリやブラウザ拡張と同じ供給網リスクとして扱うべきだと整理している。",
-    "excerpt": "Unit 42の「Trust No Skill」は、AIエージェント用の第三者Skillを、モバイルアプリやブラウザ拡張と同じ供給網リスクとして扱うべきだと整理している。",
-    "url": "articles/2026-06-16_AM_AI_Agent_Skill供給網リスク.html"
-  },
-  {
-    "file": "AI/2026-06-15_AM_企業AIエージェント事前保証.md",
-    "slug": "2026-06-15_AM_企業AIエージェント事前保証",
-    "title": "企業AIエージェント事前保証",
-    "genre": "AI",
-    "genreLabel": "AI / LLM / Agent",
-    "created": "2026-06-15",
-    "source": "https://arxiv.org/abs/2606.04037",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "arXiv論文「Toward Pre-Deployment Assurance for Enterprise AI Agents」は、企業AIエージェントを本番投入する前に、権限、業務制約、安全性、ガバナンス、自治レベルをまとめて検証するための枠組みを提案している。",
-    "excerpt": "arXiv論文「Toward Pre-Deployment Assurance for Enterprise AI Agents」は、企業AIエージェントを本番投入する前に、権限、業務制約、安全性、ガバナンス、自治レベルをまとめて検証するための枠組みを提案している。",
-    "url": "articles/2026-06-15_AM_企業AIエージェント事前保証.html"
-  },
-  {
-    "file": "SAP_ERP/2026-06-15_SAP_AI_Native_North_Star_運用境界.md",
-    "slug": "2026-06-15_SAP_AI_Native_North_Star_運用境界",
-    "title": "SAP AI-Native North Starの運用境界",
-    "genre": "SAP_ERP",
-    "genreLabel": "SAP / ERP",
-    "created": "2026-06-15",
-    "source": "https://news.sap.com/2026/06/sap-ai-native-north-star-architecture-technical-backbone-autonomous-enterprise/",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "SAPの「AI-Native North Star Architecture」は、Autonomous Enterpriseを支える将来アーキテクチャとして、ERPを単なる記録システムから、業務コンテキストをAIが扱える基盤へ広げる構想を示している。",
-    "excerpt": "SAPの「AI-Native North Star Architecture」は、Autonomous Enterpriseを支える将来アーキテクチャとして、ERPを単なる記録システムから、業務コンテキストをAIが扱える基盤へ広げる構想を示している。",
-    "url": "articles/2026-06-15_SAP_AI_Native_North_Star_運用境界.html"
-  },
-  {
-    "file": "SAP_ERP/2026-06-14_AM_SAP_APIポリシーとAIエージェント統制.md",
-    "slug": "2026-06-14_AM_SAP_APIポリシーとAIエージェント統制",
-    "title": "SAP APIポリシーとAIエージェント統制",
-    "genre": "SAP_ERP",
-    "genreLabel": "SAP / ERP",
-    "created": "2026-06-14",
-    "source": "https://diginomica.com/sap-sapphire-2026-sap-cto-philipp-herzig-saps-api-policy-changes-and-why-organizational-memory",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "SAPのAPI Policy更新は、単なるAPI利用制限ではなく、agentic AI時代のERPアクセス制御を整える動きとして見るべき内容。",
-    "excerpt": "SAPのAPI Policy更新は、単なるAPI利用制限ではなく、agentic AI時代のERPアクセス制御を整える動きとして見るべき内容。",
-    "url": "articles/2026-06-14_AM_SAP_APIポリシーとAIエージェント統制.html"
-  },
-  {
-    "file": "SAP_ERP/2026-06-14_SAP_6月Patch_Day_Critical.md",
-    "slug": "2026-06-14_SAP_6月Patch_Day_Critical",
-    "title": "SAP 6月Patch Day Critical",
-    "genre": "SAP_ERP",
-    "genreLabel": "SAP / ERP",
-    "created": "2026-06-14",
-    "source": "https://support.sap.com/en/my-support/knowledge-base/security-notes-news/june-2026.html",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "SAPの2026年6月Security Patch Dayでは、NetWeaver AS ABAP / ABAP Platform、SAP Commerce Cloud、SAP Data Hub、NetWeaver AS Javaなどに関する重要なSecurity Noteが公開された。",
-    "excerpt": "SAPの2026年6月Security Patch Dayでは、NetWeaver AS ABAP / ABAP Platform、SAP Commerce Cloud、SAP Data Hub、NetWeaver AS Javaなどに関する重要なSecurity Noteが公開された。",
-    "url": "articles/2026-06-14_SAP_6月Patch_Day_Critical.html"
-  },
-  {
-    "file": "AI/2026-06-13_AM_安全なLLMエージェント設計.md",
-    "slug": "2026-06-13_AM_安全なLLMエージェント設計",
-    "title": "安全なLLMエージェント設計",
-    "genre": "AI",
-    "genreLabel": "AI / LLM / Agent",
-    "created": "2026-06-13",
-    "source": "https://arxiv.org/abs/2606.10749",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "arXivのサーベイ「Toward Secure LLM Agents」は、LLMエージェントのセキュリティを247本の研究から整理した論文。",
-    "excerpt": "arXivのサーベイ「Toward Secure LLM Agents」は、LLMエージェントのセキュリティを247本の研究から整理した論文。",
-    "url": "articles/2026-06-13_AM_安全なLLMエージェント設計.html"
-  },
-  {
-    "file": "AI/2026-06-13_Agent_Memoryシステム特性評価.md",
-    "slug": "2026-06-13_Agent_Memoryシステム特性評価",
-    "title": "Agent Memoryをシステム特性として評価する",
-    "genre": "AI",
-    "genreLabel": "AI / LLM / Agent",
-    "created": "2026-06-13",
-    "source": "https://arxiv.org/abs/2606.06448",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "Agent Memory論文は、長期タスクを行うLLMエージェントのメモリを、RAGや便利機能ではなく実行基盤の中核として評価している。",
-    "excerpt": "Agent Memory論文は、長期タスクを行うLLMエージェントのメモリを、RAGや便利機能ではなく実行基盤の中核として評価している。",
-    "url": "articles/2026-06-13_Agent_Memoryシステム特性評価.html"
-  },
-  {
-    "file": "SAP_ERP/2026-06-12_SAP_AI_Native_North_Star_Architecture.md",
-    "slug": "2026-06-12_SAP_AI_Native_North_Star_Architecture",
-    "title": "SAP AI-Native North Star Architecture",
-    "genre": "SAP_ERP",
-    "genreLabel": "SAP / ERP",
-    "created": "2026-06-12",
-    "source": "https://news.sap.com/2026/06/sap-ai-native-north-star-architecture-technical-backbone-autonomous-enterprise/",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "SAPが「AI-Native North Star Architecture」を公開し、Autonomous Enterpriseを支える技術的な目標像として位置づけた。",
-    "excerpt": "SAPが「AI-Native North Star Architecture」を公開し、Autonomous Enterpriseを支える技術的な目標像として位置づけた。",
-    "url": "articles/2026-06-12_SAP_AI_Native_North_Star_Architecture.html"
-  },
-  {
-    "file": "AI/2026-06-12_AM_Claude_Fable透明セーフガード.md",
-    "slug": "2026-06-12_AM_Claude_Fable透明セーフガード",
-    "title": "Claude Fable 5の透明なセーフガード運用",
-    "genre": "AI",
-    "genreLabel": "AI / LLM / Agent",
-    "created": "2026-06-12",
-    "source": "https://www.anthropic.com/news/claude-fable-5-mythos-5",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "Anthropic は 2026年6月9日、Claude Fable 5 と Claude Mythos 5 を発表した。Fable 5 は一般提供される Mythos-class モデル、Mythos 5 は同じ基盤モデルから一部セーフガードを外した限定提供版という構成。",
-    "excerpt": "Anthropic は 2026年6月9日、Claude Fable 5 と Claude Mythos 5 を発表した。Fable 5 は一般提供される Mythos-class モデル、Mythos 5 は同じ基盤モデルから一部セーフガードを外した限定提供版という構成。",
-    "url": "articles/2026-06-12_AM_Claude_Fable透明セーフガード.html"
-  },
-  {
-    "file": "Security/2026-06-11_本番AIエージェント五層統治.md",
-    "slug": "2026-06-11_本番AIエージェント五層統治",
-    "title": "本番AIエージェント五層統治",
-    "genre": "Security",
-    "genreLabel": "Security",
-    "created": "2026-06-11",
-    "source": "https://arxiv.org/abs/2606.12320",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "Five-Plane Reference Architecture論文は、本番AIエージェントを単なるモデル出力ではなく、企業システムに対する委任実行主体として統治する枠組みを示す。",
-    "excerpt": "Five-Plane Reference Architecture論文は、本番AIエージェントを単なるモデル出力ではなく、企業システムに対する委任実行主体として統治する枠組みを示す。",
-    "url": "articles/2026-06-11_本番AIエージェント五層統治.html"
-  },
-  {
-    "file": "AI/2026-06-11_AM_Claude_FableとMythosの運用設計.md",
-    "slug": "2026-06-11_AM_Claude_FableとMythosの運用設計",
-    "title": "Claude FableとMythosの運用設計",
-    "genre": "AI",
-    "genreLabel": "AI / LLM / Agent",
-    "created": "2026-06-11",
-    "source": "https://www.anthropic.com/news/claude-fable-5-mythos-5",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "Anthropic は 2026年6月9日、Claude Fable 5 と Claude Mythos 5 を発表した。Fable 5 は一般提供される Mythos-class モデルで、Mythos 5 は同じ基盤モデルから一部セーフガードを外した限定提供版という位置づけ。",
-    "excerpt": "Anthropic は 2026年6月9日、Claude Fable 5 と Claude Mythos 5 を発表した。Fable 5 は一般提供される Mythos-class モデルで、Mythos 5 は同じ基盤モデルから一部セーフガードを外した限定提供版という位置づけ。",
-    "url": "articles/2026-06-11_AM_Claude_FableとMythosの運用設計.html"
-  },
-  {
-    "file": "AI/2026-06-10_AM_企業AIに必要なAgent_Logic.md",
-    "slug": "2026-06-10_AM_企業AIに必要なAgent_Logic",
-    "title": "企業AIに必要なAgent Logic",
-    "genre": "AI",
-    "genreLabel": "AI / LLM / Agent",
-    "created": "2026-06-10",
-    "source": "https://huggingface.co/blog/ibm-research/agent-logic-and-scalable-ai-adoption",
-    "importance": "medium",
-    "confidence": "high",
-    "summary": "IBM Research は Hugging Face Blog で、企業AIの本格導入には LLM 単体の性能向上だけでは足りず、Agent Logic が必要だと整理している。",
-    "excerpt": "IBM Research は Hugging Face Blog で、企業AIの本格導入には LLM 単体の性能向上だけでは足りず、Agent Logic が必要だと整理している。",
-    "url": "articles/2026-06-10_AM_企業AIに必要なAgent_Logic.html"
-  },
-  {
-    "file": "SAP_ERP/2026-06-10_SAP_APIポリシーと組織記憶.md",
-    "slug": "2026-06-10_SAP_APIポリシーと組織記憶",
-    "title": "SAP APIポリシーと組織記憶",
-    "genre": "SAP_ERP",
-    "genreLabel": "SAP / ERP",
-    "created": "2026-06-10",
-    "source": "https://diginomica.com/sap-sapphire-2026-sap-cto-philipp-herzig-saps-api-policy-changes-and-why-organizational-memory",
-    "importance": "medium",
-    "confidence": "high",
-    "summary": "SAP Sapphire 2026後の論点として、SAP API Policyの更新と「organizational memory」が同じ文脈で語られている。",
-    "excerpt": "SAP Sapphire 2026後の論点として、SAP API Policyの更新と「organizational memory」が同じ文脈で語られている。",
-    "url": "articles/2026-06-10_SAP_APIポリシーと組織記憶.html"
-  },
-  {
-    "file": "Security/2026-06-09_AM_Red_Hat_npm侵害とCI認証情報防衛.md",
-    "slug": "2026-06-09_AM_Red_Hat_npm侵害とCI認証情報防衛",
-    "title": "Red Hat npm侵害とCI認証情報防衛",
-    "genre": "Security",
-    "genreLabel": "Security",
-    "created": "2026-06-09",
-    "source": "https://access.redhat.com/security/vulnerabilities/RHSB-2026-006",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "Red Hat は 2026-06-01 に、@redhat-cloud-services npm 名前空間の複数パッケージでサプライチェーン侵害が公表されたと説明した。",
-    "excerpt": "Red Hat は 2026-06-01 に、@redhat-cloud-services npm 名前空間の複数パッケージでサプライチェーン侵害が公表されたと説明した。",
-    "url": "articles/2026-06-09_AM_Red_Hat_npm侵害とCI認証情報防衛.html"
-  },
-  {
-    "file": "AI/2026-06-09_Gemini_Agentic_RAGと十分性判定.md",
-    "slug": "2026-06-09_Gemini_Agentic_RAGと十分性判定",
-    "title": "Gemini Agentic RAGと十分性判定",
-    "genre": "AI",
-    "genreLabel": "AI / LLM / Agent",
-    "created": "2026-06-09",
-    "source": "https://research.google/blog/unlocking-dependable-responses-with-gemini-enterprise-agent-platforms-agentic-rag/",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "Google Research / Google Cloud が、Gemini Enterprise Agent Platform 上の Cross-Corpus Retrieval powered by Agentic RAG を紹介した。",
-    "excerpt": "Google Research / Google Cloud が、Gemini Enterprise Agent Platform 上の Cross-Corpus Retrieval powered by Agentic RAG を紹介した。",
-    "url": "articles/2026-06-09_Gemini_Agentic_RAGと十分性判定.html"
-  },
-  {
-    "file": "SAP_ERP/2026-06-08_AM_SAP_Cloud_ERP横断セキュリティ設計.md",
-    "slug": "2026-06-08_AM_SAP_Cloud_ERP横断セキュリティ設計",
-    "title": "SAP Cloud ERP横断セキュリティ設計",
-    "genre": "SAP_ERP",
-    "genreLabel": "SAP / ERP",
-    "created": "2026-06-08",
-    "source": "https://community.sap.com/t5/technology-blog-posts-by-sap/modern-sap-cloud-erp-security-from-core-erp-to-btp-saas-and-ai/ba-p/14392369",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "SAP Communityの公式ブログは、Cloud ERPセキュリティを、BTP、SaaS、Integration Suite、AI、クラウド基盤まで含む多層統制として整理している。",
-    "excerpt": "SAP Communityの公式ブログは、Cloud ERPセキュリティを、BTP、SaaS、Integration Suite、AI、クラウド基盤まで含む多層統制として整理している。",
-    "url": "articles/2026-06-08_AM_SAP_Cloud_ERP横断セキュリティ設計.html"
-  },
-  {
-    "file": "SAP_ERP/2026-06-08_SAP_Autonomous_SCMとJoule_Assistants.md",
-    "slug": "2026-06-08_SAP_Autonomous_SCMとJoule_Assistants",
-    "title": "SAP Autonomous SCMとJoule Assistants",
-    "genre": "SAP_ERP",
-    "genreLabel": "SAP / ERP",
-    "created": "2026-06-08",
-    "source": "https://news.sap.com/2026/05/more-autonomous-supply-chain/",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "SAPはSapphire 2026で、サプライチェーン領域にJoule Assistantsと目的別AI agentsを埋め込む「Autonomous Supply Chain Management」を発表した。",
-    "excerpt": "SAPはSapphire 2026で、サプライチェーン領域にJoule Assistantsと目的別AI agentsを埋め込む「Autonomous Supply Chain Management」を発表した。",
-    "url": "articles/2026-06-08_SAP_Autonomous_SCMとJoule_Assistants.html"
-  },
-  {
-    "file": "AI/2026-06-08_AM_GitHub_Agentic_Workflows_v0.77.4.md",
-    "slug": "2026-06-08_AM_GitHub_Agentic_Workflows_v0.77.4",
-    "title": "GitHub Agentic Workflows v0.77.4",
-    "genre": "AI",
-    "genreLabel": "AI / LLM / Agent",
-    "created": "2026-06-08",
-    "source": "https://github.github.com/gh-aw/blog/2026-06-01-weekly-update/",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "GitHub Agentic Workflows v0.77.4は、GitHub Actions上で動くAIエージェント自動化を、単発の実験からリポジトリ運用部品へ寄せる更新。",
-    "excerpt": "GitHub Agentic Workflows v0.77.4は、GitHub Actions上で動くAIエージェント自動化を、単発の実験からリポジトリ運用部品へ寄せる更新。",
-    "url": "articles/2026-06-08_AM_GitHub_Agentic_Workflows_v0.77.4.html"
-  },
-  {
-    "file": "SAP_ERP/2026-06-07_Joule_Studioの統制アーキテクチャ.md",
-    "slug": "2026-06-07_Joule_Studioの統制アーキテクチャ",
-    "title": "Joule Studioの統制アーキテクチャ",
-    "genre": "SAP_ERP",
-    "genreLabel": "SAP / ERP",
-    "created": "2026-06-07",
-    "source": "https://architecture.learning.sap.com/docs/ref-arch/06ff6062dc/6",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "SAP Architecture Centerは、Joule Studioを「企業向けの本番グレードなエージェント開発・実行基盤」として整理している。",
-    "excerpt": "SAP Architecture Centerは、Joule Studioを「企業向けの本番グレードなエージェント開発・実行基盤」として整理している。",
-    "url": "articles/2026-06-07_Joule_Studioの統制アーキテクチャ.html"
-  },
-  {
-    "file": "AI/2026-06-07_AM_APBでAgent計画力を診断.md",
-    "slug": "2026-06-07_AM_APBでAgent計画力を診断",
-    "title": "APBでAgent計画力を診断",
-    "genre": "AI",
-    "genreLabel": "AI / LLM / Agent",
-    "created": "2026-06-07",
-    "source": "https://arxiv.org/abs/2606.04874",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "Agent Planning Benchmark（APB）は、LLMエージェントの「実行結果」ではなく、実行前の計画能力を切り出して診断するベンチマーク。",
-    "excerpt": "Agent Planning Benchmark（APB）は、LLMエージェントの「実行結果」ではなく、実行前の計画能力を切り出して診断するベンチマーク。",
-    "url": "articles/2026-06-07_AM_APBでAgent計画力を診断.html"
-  },
-  {
-    "file": "SAP_ERP/2026-06-06_SAPとPalantirのAI支援データ移行.md",
-    "slug": "2026-06-06_SAPとPalantirのAI支援データ移行",
-    "title": "SAPとPalantirのAI支援データ移行",
-    "genre": "SAP_ERP",
-    "genreLabel": "SAP / ERP",
-    "created": "2026-06-06",
-    "source": "SAP News Center / Palantir",
-    "importance": "medium",
-    "confidence": "medium",
-    "summary": "SAPとPalantirは、SAP Cloud ERPへの移行で最も重い論点の一つであるデータ移行に、Palantir AIPを組み込む提携強化を発表した。",
-    "excerpt": "SAPとPalantirは、SAP Cloud ERPへの移行で最も重い論点の一つであるデータ移行に、Palantir AIPを組み込む提携強化を発表した。",
-    "url": "articles/2026-06-06_SAPとPalantirのAI支援データ移行.html"
-  },
-  {
-    "file": "SAP_ERP/2026-06-06_AM_SAPとAnthropic連携_ClaudeがJouleエージェントへ.md",
-    "slug": "2026-06-06_AM_SAPとAnthropic連携_ClaudeがJouleエージェントへ",
-    "title": "SAPとAnthropic連携: ClaudeがJouleエージェントへ",
-    "genre": "SAP_ERP",
-    "genreLabel": "SAP / ERP",
-    "created": "2026-06-06",
-    "source": "https://news.sap.com/2026/05/sap-anthropic-to-bring-claude-sap-business-ai-platform/",
-    "importance": "high",
-    "confidence": "high",
-    "summary": "SAPとAnthropicは、ClaudeをSAP Business AI Platform上の主要な推論・エージェント能力として組み込み、JouleとJoule agentsを強化する計画を発表した。",
-    "excerpt": "SAPとAnthropicは、ClaudeをSAP Business AI Platform上の主要な推論・エージェント能力として組み込み、JouleとJoule agentsを強化する計画を発表した。",
-    "url": "articles/2026-06-06_AM_SAPとAnthropic連携_ClaudeがJouleエージェントへ.html"
-  },
-  {
-    "file": "SAP_ERP/2026-06-06_SAP_Business_AI_PlatformとAutonomous_Enterprise.md",
-    "slug": "2026-06-06_SAP_Business_AI_PlatformとAutonomous_Enterprise",
-    "title": "SAP Business AI PlatformとAutonomous Enterprise構想",
-    "genre": "SAP_ERP",
-    "genreLabel": "SAP / ERP",
-    "created": "2026-06-06",
     "source": "https://news.sap.com/2026/05/sap-sapphire-keynote-business-ai-platform-power-autonomous-enterprise/",
     "importance": "high",
-    "confidence": "high",
-    "summary": "SAP Sapphire 2026で、SAPは「SAP Business AI Platform」と「Autonomous Enterprise」構想を前面に出した。",
-    "excerpt": "SAP Sapphire 2026で、SAPは「SAP Business AI Platform」と「Autonomous Enterprise」構想を前面に出した。",
-    "url": "articles/2026-06-06_SAP_Business_AI_PlatformとAutonomous_Enterprise.html"
+    "confidence": "high"
   },
   {
-    "file": "AI/2026-06-06_GitHub_Copilotのクラウド_ローカルサンドボックス.md",
-    "slug": "2026-06-06_GitHub_Copilotのクラウド_ローカルサンドボックス",
-    "title": "GitHub Copilotのクラウド/ローカルサンドボックス",
+    "slug": "2026-07-14_AM_MCP_RCステートレス化",
+    "title": "MCP RC 2026-07-28 (Release Candidate): ステートレス化での運用転換",
+    "created": "2026-07-14",
+    "summary": "MCP RC（2026-07-28）候補は、セッションID固定前提のMCPをステートレス化し、通常HTTPインフラでの水平分散と監査設計を同時に進める改訂版。導入設計判断を先行しておきたい実務者向けの価値が高い。",
+    "excerpt": "MCP RC（2026-07-28）候補は、セッションID固定前提のMCPをステートレス化し、通常HTTPインフラでの水平分散と監査設計を同時に進める改訂版。導入設計判断を先行しておきたい実務者向けの価値が高い。",
+    "url": "articles/2026-07-14_AM_MCP_RCステートレス化.html",
+    "sources": [
+      "https://blog.modelcontextprotocol.io/posts/2026-07-28-release-candidate/"
+    ],
     "genre": "AI",
     "genreLabel": "AI / LLM / Agent",
-    "created": "2026-06-06",
-    "source": "https://github.blog/changelog/2026-06-02-cloud-and-local-sandboxes-for-github-copilot-now-in-public-preview/",
+    "source": "https://blog.modelcontextprotocol.io/posts/2026-07-28-release-candidate/",
     "importance": "high",
-    "confidence": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-07-13_AM_MCP_RC仕様ステートレス化",
+    "title": "MCP RC仕様ステートレス化",
+    "created": "2026-07-13",
+    "summary": "Model Context ProtocolのRCは、セッション固定型の運用からHTTPステートレス設計へ移行し、認可強化と拡張ガバナンスを一本化する。AI接続基盤の運用負荷や移行戦略を見直す価値が高い。",
+    "excerpt": "Model Context ProtocolのRCは、セッション固定型の運用からHTTPステートレス設計へ移行し、認可強化と拡張ガバナンスを一本化する。AI接続基盤の運用負荷や移行戦略を見直す価値が高い。",
+    "url": "articles/2026-07-13_AM_MCP_RC仕様ステートレス化.html",
+    "sources": [
+      "https://blog.modelcontextprotocol.io/posts/2026-07-28-release-candidate/"
+    ],
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "source": "https://blog.modelcontextprotocol.io/posts/2026-07-28-release-candidate/",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-07-13_GHSA-84rm_Coder_AI_Bridge_TLS検証不備",
+    "title": "GHSA-84rm: Coder AI Bridge TLS検証不備",
+    "created": "2026-07-13",
+    "summary": "Coder AI Bridge Proxyが既定設定でTLS検証を無効化し、AIエージェント連携経路のトラフィックが中間者攻撃に晒されると、トークンやプロンプト・レスポンスが窃取され得る脆弱性。",
+    "excerpt": "Coder AI Bridge Proxyが既定設定でTLS検証を無効化し、AIエージェント連携経路のトラフィックが中間者攻撃に晒されると、トークンやプロンプト・レスポンスが窃取され得る脆弱性。",
+    "url": "articles/2026-07-13_GHSA-84rm_Coder_AI_Bridge_TLS検証不備.html",
+    "sources": [
+      "https://github.com/advisories/GHSA-84rm-42xw-mx52"
+    ],
+    "genre": "Security",
+    "genreLabel": "Security",
+    "source": "https://github.com/advisories/GHSA-84rm-42xw-mx52",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-07-12_AM_Cloudflareポスト量子署名移行",
+    "title": "Cloudflareポスト量子署名移行",
+    "created": "2026-07-12",
+    "summary": "Cloudflareはポスト量子署名で、より良い候補を待たず標準化済みML-DSAへまず移行すべきと論じた。TLSや証明書運用の移行期限を考える材料になる。",
+    "excerpt": "Cloudflareはポスト量子署名で、より良い候補を待たず標準化済みML-DSAへまず移行すべきと論じた。TLSや証明書運用の移行期限を考える材料になる。",
+    "url": "articles/2026-07-12_AM_Cloudflareポスト量子署名移行.html",
+    "sources": [
+      "https://blog.cloudflare.com/ml-dsa-will-have-to-do/"
+    ],
+    "genre": "Security",
+    "genreLabel": "Security",
+    "source": "https://blog.cloudflare.com/ml-dsa-will-have-to-do/",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-07-12_Cloudflareポスト量子署名移行",
+    "title": "Cloudflareポスト量子署名移行",
+    "created": "2026-07-12",
+    "summary": "Cloudflareがポスト量子署名について、新候補を待たずML-DSAで初回移行を進めるべきと整理した。TLSや認証基盤の移行計画を考える材料になる。",
+    "excerpt": "Cloudflareがポスト量子署名について、新候補を待たずML-DSAで初回移行を進めるべきと整理した。TLSや認証基盤の移行計画を考える材料になる。",
+    "url": "articles/2026-07-12_Cloudflareポスト量子署名移行.html",
+    "sources": [
+      "https://blog.cloudflare.com/ml-dsa-will-have-to-do/"
+    ],
+    "genre": "Security",
+    "genreLabel": "Security",
+    "source": "https://blog.cloudflare.com/ml-dsa-will-have-to-do/",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-07-11_AM_GitHubエージェント漏えいリスク",
+    "title": "GitHubエージェント漏えいリスク",
+    "created": "2026-07-11",
+    "summary": "公開GitHub IssueからAgentic Workflowsを誘導し、私有リポジトリ内容を公開コメントへ漏えいさせ得る事例。AIエージェントの権限スコープと出力経路を分ける重要性が分かる。",
+    "excerpt": "公開GitHub IssueからAgentic Workflowsを誘導し、私有リポジトリ内容を公開コメントへ漏えいさせ得る事例。AIエージェントの権限スコープと出力経路を分ける重要性が分かる。",
+    "url": "articles/2026-07-11_AM_GitHubエージェント漏えいリスク.html",
+    "sources": [
+      "https://thehackernews.com/2026/07/public-github-issue-could-trick-github.html"
+    ],
+    "genre": "Security",
+    "genreLabel": "Security",
+    "source": "https://thehackernews.com/2026/07/public-github-issue-could-trick-github.html",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-07-11_CodeQL_AIプロンプト注入検出",
+    "title": "CodeQL AIプロンプト注入検出",
+    "created": "2026-07-11",
+    "summary": "CodeQL 2.26.0がJavaScript/TypeScript向けにsystem prompt injection検出を追加した。LLMアプリの脆弱性管理が静的解析とCI/CDへ入る具体例として読める。",
+    "excerpt": "CodeQL 2.26.0がJavaScript/TypeScript向けにsystem prompt injection検出を追加した。LLMアプリの脆弱性管理が静的解析とCI/CDへ入る具体例として読める。",
+    "url": "articles/2026-07-11_CodeQL_AIプロンプト注入検出.html",
+    "sources": [
+      "https://github.blog/changelog/2026-07-10-codeql-2-26-0-adds-kotlin-2-4-0-support-and-ai-prompt-injection-detection"
+    ],
+    "genre": "Security",
+    "genreLabel": "Security",
+    "source": "https://github.blog/changelog/2026-07-10-codeql-2-26-0-adds-kotlin-2-4-0-support-and-ai-prompt-injection-detection",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-07-10_Cloudflare_x402課金とAgentic_Internet",
+    "title": "Cloudflare x402課金とAgentic Internet",
+    "created": "2026-07-10",
+    "summary": "Cloudflare Monetization Gatewayは、Webページ、API、データセット、MCPツールをx402でリクエスト単位課金できる構想。AIエージェントがWeb資源を使う時代の支払い・権利処理インフラとして読む価値がある。",
+    "excerpt": "Cloudflare Monetization Gatewayは、Webページ、API、データセット、MCPツールをx402でリクエスト単位課金できる構想。AIエージェントがWeb資源を使う時代の支払い・権利処理インフラとして読む価値がある。",
+    "url": "articles/2026-07-10_Cloudflare_x402課金とAgentic_Internet.html",
+    "sources": [
+      "https://blog.cloudflare.com/monetization-gateway/"
+    ],
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "source": "https://blog.cloudflare.com/monetization-gateway/",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-07-10_AM_AI監査がCIRCL暗号バグ発見",
+    "title": "AI監査がCIRCL暗号バグ発見",
+    "created": "2026-07-10",
+    "summary": "zkSecurityがAI監査パイプラインをCloudflare CIRCLへ適用し、暗号実装の実バグ7件を確認した事例。AI監査の実用性と、人間検証がまだ必要な境界が分かる。",
+    "excerpt": "zkSecurityがAI監査パイプラインをCloudflare CIRCLへ適用し、暗号実装の実バグ7件を確認した事例。AI監査の実用性と、人間検証がまだ必要な境界が分かる。",
+    "url": "articles/2026-07-10_AM_AI監査がCIRCL暗号バグ発見.html",
+    "sources": [
+      "https://blog.zksecurity.xyz/posts/circl-bugs/"
+    ],
+    "genre": "Security",
+    "genreLabel": "Security",
+    "source": "https://blog.zksecurity.xyz/posts/circl-bugs/",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-07-09_Kubernetes_MCPトークン漏えい",
+    "title": "Kubernetes MCPトークン漏えい",
+    "created": "2026-07-09",
+    "summary": "Kubernetes操作用MCPサーバーのCVE-2026-47250は、ログ経由の間接プロンプト注入がkubectlフラグ注入と結びつき、運用者のBearer tokenを外部へ送らせる問題。AIエージェントに本番権限を渡す時の境界設計を見直す材料になる。",
+    "excerpt": "Kubernetes操作用MCPサーバーのCVE-2026-47250は、ログ経由の間接プロンプト注入がkubectlフラグ注入と結びつき、運用者のBearer tokenを外部へ送らせる問題。AIエージェントに本番権限を渡す時の境界設計を見直す材料になる。",
+    "url": "articles/2026-07-09_Kubernetes_MCPトークン漏えい.html",
+    "sources": [
+      "https://nvd.nist.gov/vuln/detail/cve-2026-47250"
+    ],
+    "genre": "Security",
+    "genreLabel": "Security",
+    "source": "https://nvd.nist.gov/vuln/detail/cve-2026-47250",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-07-09_AM_GhostApproval_AIコーディング境界問題",
+    "title": "GhostApproval: AIコーディング境界問題",
+    "created": "2026-07-09",
+    "summary": "GhostApprovalは、AIコーディング支援の承認UIがsymlink先の実パスを隠すと、HITLが安全制御ではなく形式的な確認に落ちることを示す。",
+    "excerpt": "GhostApprovalは、AIコーディング支援の承認UIがsymlink先の実パスを隠すと、HITLが安全制御ではなく形式的な確認に落ちることを示す。",
+    "url": "articles/2026-07-09_AM_GhostApproval_AIコーディング境界問題.html",
+    "sources": [
+      "https://www.wiz.io/blog/ghostapproval-a-trust-boundary-gap-in-ai-coding-assistants"
+    ],
+    "genre": "Security",
+    "genreLabel": "Security",
+    "source": "https://www.wiz.io/blog/ghostapproval-a-trust-boundary-gap-in-ai-coding-assistants",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-07-08_AM_SwarmResearchエージェント探索",
+    "title": "SwarmResearchエージェント探索",
+    "created": "2026-07-08",
+    "summary": "SwarmResearchは、複数のコーディングエージェントをgitブランチ単位で並走させ、探索の偏りを抑える研究。長期タスクを任せるAI運用設計の参考になる。",
+    "excerpt": "SwarmResearchは、複数のコーディングエージェントをgitブランチ単位で並走させ、探索の偏りを抑える研究。長期タスクを任せるAI運用設計の参考になる。",
+    "url": "articles/2026-07-08_AM_SwarmResearchエージェント探索.html",
+    "sources": [
+      "https://arxiv.org/abs/2607.02807"
+    ],
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "source": "https://arxiv.org/abs/2607.02807",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-07-08_Januscape_KVM_VMエスケープ",
+    "title": "Januscape KVM VMエスケープ",
+    "created": "2026-07-08",
+    "summary": "JanuscapeはKVM/x86のshadow MMUに潜んでいたゲストからホストへのエスケープ脆弱性。クラウドVM分離とnested virtualizationの運用判断に直結する。",
+    "excerpt": "JanuscapeはKVM/x86のshadow MMUに潜んでいたゲストからホストへのエスケープ脆弱性。クラウドVM分離とnested virtualizationの運用判断に直結する。",
+    "url": "articles/2026-07-08_Januscape_KVM_VMエスケープ.html",
+    "sources": [
+      "https://www.openwall.com/lists/oss-security/2026/07/06/7"
+    ],
+    "genre": "Security",
+    "genreLabel": "Security",
+    "source": "https://www.openwall.com/lists/oss-security/2026/07/06/7",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-07-07_マルチテナントRAGの認可分離",
+    "title": "マルチテナントRAGの認可分離",
+    "created": "2026-07-07",
+    "summary": "企業RAGで検索関連度と認可を混同すると、別テナントの情報が上位取得され得る。OGX実装を題材に、取り込み・検索・オーケストレーションで分離する設計を整理する。",
+    "excerpt": "企業RAGで検索関連度と認可を混同すると、別テナントの情報が上位取得され得る。OGX実装を題材に、取り込み・検索・オーケストレーションで分離する設計を整理する。",
+    "url": "articles/2026-07-07_マルチテナントRAGの認可分離.html",
+    "sources": [
+      "https://arxiv.org/html/2605.05287"
+    ],
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "source": "https://arxiv.org/html/2605.05287",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-07-07_AM_AI監査への間接プロンプト注入",
+    "title": "AI監査への間接プロンプト注入",
+    "created": "2026-07-07",
+    "summary": "Cloudflare Cloudforce Oneが、AIコード監査をだます間接プロンプト注入を実験した。防御側AIを導入する時に、監査対象コード自体を敵対入力として扱う必要が分かる。",
+    "excerpt": "Cloudflare Cloudforce Oneが、AIコード監査をだます間接プロンプト注入を実験した。防御側AIを導入する時に、監査対象コード自体を敵対入力として扱う必要が分かる。",
+    "url": "articles/2026-07-07_AM_AI監査への間接プロンプト注入.html",
+    "sources": [
+      "https://www.cloudflare.com/cloudforce-one/research/adversarial-deception-a-study-of-indirect-prompt-code-injection/"
+    ],
+    "genre": "Security",
+    "genreLabel": "Security",
+    "source": "https://www.cloudflare.com/cloudforce-one/research/adversarial-deception-a-study-of-indirect-prompt-code-injection/",
+    "importance": "medium-high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-07-06_ブラウザだけで動くランサム",
+    "title": "ブラウザだけで動くランサム",
+    "created": "2026-07-06",
+    "summary": "Check Point Researchのブラウザ単体ランサムPoCは、File System Access APIとAI生成コードが結びつく攻撃面を示す。Android Chromeの写真フォルダ権限をどう扱うべきかを考える材料になる。",
+    "excerpt": "Check Point Researchのブラウザ単体ランサムPoCは、File System Access APIとAI生成コードが結びつく攻撃面を示す。Android Chromeの写真フォルダ権限をどう扱うべきかを考える材料になる。",
+    "url": "articles/2026-07-06_ブラウザだけで動くランサム.html",
+    "sources": [
+      "https://research.checkpoint.com/2026/browser-only-ransomware-from-llm-hallucinations-to-a-practical-attack-technique/"
+    ],
+    "genre": "Security",
+    "genreLabel": "Security",
+    "source": "https://research.checkpoint.com/2026/browser-only-ransomware-from-llm-hallucinations-to-a-practical-attack-technique/",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-07-06_GLM-5.2理解のためのQ-A",
+    "title": "GLM-5.2理解のためのQ&A",
+    "created": "2026-07-06",
+    "summary": "GLM-5.2について、Claude OpusやGPT系との比較、量子化の意味、ローカル実行時の遅さと長時間タスク適性を質問と回答の形で整理する。",
+    "excerpt": "GLM-5.2について、Claude OpusやGPT系との比較、量子化の意味、ローカル実行時の遅さと長時間タスク適性を質問と回答の形で整理する。",
+    "url": "articles/2026-07-06_GLM-5.2理解のためのQ-A.html",
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-07-06_GLM-5.2ローカルLLM調査",
+    "title": "GLM-5.2 ローカルLLM性能・必要マシン調査レポート",
+    "created": "2026-07-06",
+    "summary": "GLM-5.2をローカルLLMとして使う場合の性能、量子化別メモリ要件、個人用PCとサーバーGPU構成の現実ラインを整理する。",
+    "excerpt": "GLM-5.2をローカルLLMとして使う場合の性能、量子化別メモリ要件、個人用PCとサーバーGPU構成の現実ラインを整理する。",
+    "url": "articles/2026-07-06_GLM-5.2ローカルLLM調査.html",
+    "sources": [
+      "https://huggingface.co/zai-org/GLM-5.2"
+    ],
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "source": "https://huggingface.co/zai-org/GLM-5.2",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-07-06_AM_CAR動的ツール合成エージェント",
+    "title": "CAR動的ツール合成エージェント",
+    "created": "2026-07-06",
+    "summary": "CARは、LLMエージェントが不足したツールをその場で合成し、失敗した実行計画を大局的に立て直すACL 2026研究。固定ツール前提の限界を考える材料になる。",
+    "excerpt": "CARは、LLMエージェントが不足したツールをその場で合成し、失敗した実行計画を大局的に立て直すACL 2026研究。固定ツール前提の限界を考える材料になる。",
+    "url": "articles/2026-07-06_AM_CAR動的ツール合成エージェント.html",
+    "sources": [
+      "https://aclanthology.org/2026.findings-acl.869/"
+    ],
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "source": "https://aclanthology.org/2026.findings-acl.869/",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-07-04_DeepMindのAI制御ロードマップ",
+    "title": "DeepMindのAI制御ロードマップ",
+    "created": "2026-07-04",
+    "summary": "Google DeepMindのAI Control Roadmapは、AIエージェントを内部脅威として扱い、監視・権限制御・即時停止を設計するための実務的な枠組み。",
+    "excerpt": "Google DeepMindのAI Control Roadmapは、AIエージェントを内部脅威として扱い、監視・権限制御・即時停止を設計するための実務的な枠組み。",
+    "url": "articles/2026-07-04_DeepMindのAI制御ロードマップ.html",
+    "sources": [
+      "https://deepmind.google/blog/securing-the-future-of-ai-agents/"
+    ],
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "source": "https://deepmind.google/blog/securing-the-future-of-ai-agents/",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-07-04_AM_DeepMind_AI_Control_Roadmap",
+    "title": "DeepMind AI Control Roadmap",
+    "created": "2026-07-04",
+    "summary": "Google DeepMindのAI Control Roadmapは、AIエージェントを完全には信頼せず、監視・権限・遮断を重ねる設計論。社内エージェント運用の安全基準を考える材料になる。",
+    "excerpt": "Google DeepMindのAI Control Roadmapは、AIエージェントを完全には信頼せず、監視・権限・遮断を重ねる設計論。社内エージェント運用の安全基準を考える材料になる。",
+    "url": "articles/2026-07-04_AM_DeepMind_AI_Control_Roadmap.html",
+    "sources": [
+      "https://deepmind.google/blog/securing-the-future-of-ai-agents/"
+    ],
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "source": "https://deepmind.google/blog/securing-the-future-of-ai-agents/",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-07-03_AM_ScarfBench企業Java移行評価",
+    "title": "ScarfBench企業Java移行評価",
+    "created": "2026-07-03",
+    "summary": "ScarfBenchは、AIエージェントがSpring、Jakarta EE、Quarkus間の企業Java移行をどこまで実行できるか測るベンチマーク。ビルド成功だけでは移行品質を判断できない点が実務上重要。",
+    "excerpt": "ScarfBenchは、AIエージェントがSpring、Jakarta EE、Quarkus間の企業Java移行をどこまで実行できるか測るベンチマーク。ビルド成功だけでは移行品質を判断できない点が実務上重要。",
+    "url": "articles/2026-07-03_AM_ScarfBench企業Java移行評価.html",
+    "sources": [
+      "https://huggingface.co/blog/ibm-research/scarfbench"
+    ],
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "source": "https://huggingface.co/blog/ibm-research/scarfbench",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-07-03_SAP_Agentic_AI参照アーキテクチャ",
+    "title": "SAP Agentic AI参照アーキテクチャはERPエージェントの接続境界を示している",
+    "created": "2026-07-03",
+    "summary": "SAP公式のAgentic AI参照アーキテクチャを、Joule、Agent Gateway、A2A、MCP Gatewayの役割分担から読む。ERPエージェントを本番運用へ載せる際の接続・統制・監査ポイントが見える。",
+    "excerpt": "SAP公式のAgentic AI参照アーキテクチャを、Joule、Agent Gateway、A2A、MCP Gatewayの役割分担から読む。ERPエージェントを本番運用へ載せる際の接続・統制・監査ポイントが見える。",
+    "url": "articles/2026-07-03_SAP_Agentic_AI参照アーキテクチャ.html",
+    "sources": [
+      "https://architecture.learning.sap.com/docs/ref-arch/ca1d2a3e"
+    ],
+    "genre": "SAP_ERP",
+    "genreLabel": "SAP / ERP",
+    "source": "https://architecture.learning.sap.com/docs/ref-arch/ca1d2a3e",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-07-02_Red_Hat_npm_SLSA_provenanceの落とし穴",
+    "title": "Red Hat npm SLSA provenanceの落とし穴",
+    "created": "2026-07-02",
+    "summary": "@redhat-cloud-services npm侵害は、正規CIで作られたSLSA provenance付き成果物でも、侵害済みパイプラインなら悪性になり得ることを示す。",
+    "excerpt": "@redhat-cloud-services npm侵害は、正規CIで作られたSLSA provenance付き成果物でも、侵害済みパイプラインなら悪性になり得ることを示す。",
+    "url": "articles/2026-07-02_Red_Hat_npm_SLSA_provenanceの落とし穴.html",
+    "sources": [
+      "https://unit42.paloaltonetworks.com/monitoring-npm-supply-chain-attacks/"
+    ],
+    "genre": "Security",
+    "genreLabel": "Security",
+    "source": "https://unit42.paloaltonetworks.com/monitoring-npm-supply-chain-attacks/",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-07-02_AM_Cursorサンドボックス迂回RCE",
+    "title": "Cursorサンドボックス迂回RCE",
+    "created": "2026-07-02",
+    "summary": "CursorのDuneSlide脆弱性は、プロンプトインジェクションがAI IDEのサンドボックス実装バグを踏み抜き、開発端末のRCEへ進むことを示す。",
+    "excerpt": "CursorのDuneSlide脆弱性は、プロンプトインジェクションがAI IDEのサンドボックス実装バグを踏み抜き、開発端末のRCEへ進むことを示す。",
+    "url": "articles/2026-07-02_AM_Cursorサンドボックス迂回RCE.html",
+    "sources": [
+      "https://www.catonetworks.com/blog/duneslide-two-critical-rce-vulnerabilities/"
+    ],
+    "genre": "Security",
+    "genreLabel": "Security",
+    "source": "https://www.catonetworks.com/blog/duneslide-two-critical-rce-vulnerabilities/",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-07-01_ローカルLLMエージェント実装層監査",
+    "title": "ローカルLLMエージェント実装層監査",
+    "created": "2026-07-01",
+    "summary": "CLAWAUDIT論文は、ローカルLLMエージェントを便利なアプリではなく、ツール実行・記憶・権限を持つ特権ランタイムとして監査すべきだと示す。",
+    "excerpt": "CLAWAUDIT論文は、ローカルLLMエージェントを便利なアプリではなく、ツール実行・記憶・権限を持つ特権ランタイムとして監査すべきだと示す。",
+    "url": "articles/2026-07-01_ローカルLLMエージェント実装層監査.html",
+    "sources": [
+      "https://arxiv.org/abs/2606.21071"
+    ],
+    "genre": "Security",
+    "genreLabel": "Security",
+    "source": "https://arxiv.org/abs/2606.21071",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-07-01_AM_Clean_GitHub_Repoエージェント侵害",
+    "title": "Clean GitHub RepoでAIエージェント侵害",
+    "created": "2026-07-01",
+    "summary": "0DINのPoCは、悪性コードを含まないように見えるGitHub repoでも、AIコーディングエージェントの自動セットアップ復旧がDNS TXT経由の攻撃実行につながることを示す。開発端末とCIで「初回セットアップ」を隔離・監査する価値が高い。",
+    "excerpt": "0DINのPoCは、悪性コードを含まないように見えるGitHub repoでも、AIコーディングエージェントの自動セットアップ復旧がDNS TXT経由の攻撃実行につながることを示す。開発端末とCIで「初回セットアップ」を隔離・監査する価値が高い。",
+    "url": "articles/2026-07-01_AM_Clean_GitHub_Repoエージェント侵害.html",
+    "sources": [
+      "https://0din.ai/blog/clone-this-repo-and-i-own-your-machine"
+    ],
+    "genre": "Security",
+    "genreLabel": "Security",
+    "source": "https://0din.ai/blog/clone-this-repo-and-i-own-your-machine",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-06-30_社内MCP安全トンネル",
+    "title": "社内MCP安全トンネル",
+    "created": "2026-06-30",
+    "summary": "OpenAI Secure MCP Tunnelは、社内やローカルのMCPサーバーを公開せずChatGPT/Codexへつなぐ設計。MCP普及後の企業内ツール接続、権限境界、監査の実務論点を整理できる。",
+    "excerpt": "OpenAI Secure MCP Tunnelは、社内やローカルのMCPサーバーを公開せずChatGPT/Codexへつなぐ設計。MCP普及後の企業内ツール接続、権限境界、監査の実務論点を整理できる。",
+    "url": "articles/2026-06-30_社内MCP安全トンネル.html",
+    "sources": [
+      "https://developers.openai.com/blog/connect-private-mcp-servers-to-openai-products"
+    ],
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "source": "https://developers.openai.com/blog/connect-private-mcp-servers-to-openai-products",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-06-30_AM_GBCエージェント失敗源",
+    "title": "GBCエージェント失敗源",
+    "created": "2026-06-30",
+    "summary": "GBCはLLMマルチエージェントを計算グラフとして扱い、失敗原因をエージェントやトークン単位で帰属する研究。エージェント運用の観測性と改善ループを考える材料になる。",
+    "excerpt": "GBCはLLMマルチエージェントを計算グラフとして扱い、失敗原因をエージェントやトークン単位で帰属する研究。エージェント運用の観測性と改善ループを考える材料になる。",
+    "url": "articles/2026-06-30_AM_GBCエージェント失敗源.html",
+    "sources": [
+      "https://arxiv.org/abs/2606.28187"
+    ],
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "source": "https://arxiv.org/abs/2606.28187",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-06-29_AM_MosaicLeaks検索漏えい",
+    "title": "MosaicLeaksと検索漏えい",
+    "created": "2026-06-29",
+    "summary": "MosaicLeaksは、研究エージェントの外部検索ログだけから社内文書の秘密が推測されるリスクを測る研究。RAGやDeep Research導入時の監査観点として重要。",
+    "excerpt": "MosaicLeaksは、研究エージェントの外部検索ログだけから社内文書の秘密が推測されるリスクを測る研究。RAGやDeep Research導入時の監査観点として重要。",
+    "url": "articles/2026-06-29_AM_MosaicLeaks検索漏えい.html",
+    "sources": [
+      "https://huggingface.co/blog/ServiceNow/mosaicleaks"
+    ],
+    "genre": "Security",
+    "genreLabel": "Security",
+    "source": "https://huggingface.co/blog/ServiceNow/mosaicleaks",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-06-29_Amazon_Q_MCP自動実行リスク",
+    "title": "Amazon QのMCP自動実行リスク",
+    "created": "2026-06-29",
+    "summary": "Amazon Q DeveloperのMCP設定自動実行問題は、AIコーディングツールがIDE拡張、ローカル実行、クラウド認証情報をまたぐ信頼境界になったことを示す事例。",
+    "excerpt": "Amazon Q DeveloperのMCP設定自動実行問題は、AIコーディングツールがIDE拡張、ローカル実行、クラウド認証情報をまたぐ信頼境界になったことを示す事例。",
+    "url": "articles/2026-06-29_Amazon_Q_MCP自動実行リスク.html",
+    "sources": [
+      "https://www.wiz.io/blog/amazon-q-vulnerability"
+    ],
+    "genre": "Security",
+    "genreLabel": "Security",
+    "source": "https://www.wiz.io/blog/amazon-q-vulnerability",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-06-28_Joule_Studio_n8n業務フロー統合",
+    "title": "Joule Studio x n8nはERPエージェントを業務フローへ接続する動き",
+    "created": "2026-06-28",
+    "summary": "SAPがJoule Studioにn8nを組み込み、AIエージェントをSAP内外の業務フローへ接続する動き。ERPのAI化をチャットではなく、統制されたワークフロー実行基盤として見る材料になる。",
+    "excerpt": "SAPがJoule Studioにn8nを組み込み、AIエージェントをSAP内外の業務フローへ接続する動き。ERPのAI化をチャットではなく、統制されたワークフロー実行基盤として見る材料になる。",
+    "url": "articles/2026-06-28_Joule_Studio_n8n業務フロー統合.html",
+    "sources": [
+      "https://blog.n8n.io/n8n-partners-with-sap-to-bring-visual-ai-workflow-orchestration-to-enterprise/"
+    ],
+    "genre": "SAP_ERP",
+    "genreLabel": "SAP / ERP",
+    "source": "https://blog.n8n.io/n8n-partners-with-sap-to-bring-visual-ai-workflow-orchestration-to-enterprise/",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-06-28_AM_GLM-5.2長期タスク向け1M文脈",
+    "title": "GLM-5.2長期タスク向け1M文脈",
+    "created": "2026-06-28",
+    "summary": "GLM-5.2は、1Mトークン文脈を長期コーディングエージェント向けに実用化しようとする中国発OSSモデル。長文対応が単なる入力長ではなく、推論コスト、RL、評価不正対策まで含む基盤競争になっている点が重要。",
+    "excerpt": "GLM-5.2は、1Mトークン文脈を長期コーディングエージェント向けに実用化しようとする中国発OSSモデル。長文対応が単なる入力長ではなく、推論コスト、RL、評価不正対策まで含む基盤競争になっている点が重要。",
+    "url": "articles/2026-06-28_AM_GLM-5.2長期タスク向け1M文脈.html",
+    "sources": [
+      "https://huggingface.co/blog/zai-org/glm-52-blog"
+    ],
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "source": "https://huggingface.co/blog/zai-org/glm-52-blog",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-06-27_AM_SAP発注確認AIエージェント化",
+    "title": "SAP発注確認AIエージェント化はERP業務AIの実装例として読む",
+    "created": "2026-06-27",
+    "summary": "Lemvigh-MuellerがSAP基盤上で発注確認PDF処理をAIエージェント化した事例。PoCではなく本番運用、10週間導入、90%超のタッチレス処理という具体値があり、ERP業務AIの現実的な設計材料になる。",
+    "excerpt": "Lemvigh-MuellerがSAP基盤上で発注確認PDF処理をAIエージェント化した事例。PoCではなく本番運用、10週間導入、90%超のタッチレス処理という具体値があり、ERP業務AIの現実的な設計材料になる。",
+    "url": "articles/2026-06-27_AM_SAP発注確認AIエージェント化.html",
+    "sources": [
+      "https://news.sap.com/2026/06/lemvigh-muller-ai-agents-order-confirmations/"
+    ],
+    "genre": "SAP_ERP",
+    "genreLabel": "SAP / ERP",
+    "source": "https://news.sap.com/2026/06/lemvigh-muller-ai-agents-order-confirmations/",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-06-27_Joule_in_SAP_for_Me運用導線",
+    "title": "Joule in SAP for Meはサポート運用の入口を変える",
+    "created": "2026-06-27",
+    "summary": "SAP for MeへのJoule統合は、サポート検索やケース起票を会話型・エージェント型の導線へ移す動き。Basis運用では便利機能としてだけでなく、権限、根拠確認、ケース品質、変更管理を見直す材料になる。",
+    "excerpt": "SAP for MeへのJoule統合は、サポート検索やケース起票を会話型・エージェント型の導線へ移す動き。Basis運用では便利機能としてだけでなく、権限、根拠確認、ケース品質、変更管理を見直す材料になる。",
+    "url": "articles/2026-06-27_Joule_in_SAP_for_Me運用導線.html",
+    "sources": [
+      "https://news.sap.com/2026/06/sap-launches-joule-in-sap-for-me/"
+    ],
+    "genre": "SAP_ERP",
+    "genreLabel": "SAP / ERP",
+    "source": "https://news.sap.com/2026/06/sap-launches-joule-in-sap-for-me/",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-06-26_Cloudflare脆弱性ハーネス",
+    "title": "Cloudflare脆弱性ハーネス",
+    "created": "2026-06-26",
+    "summary": "Cloudflare が、AI を使った脆弱性探索を「単発のコードレビュー」ではなく、永続状態を持つハーネスとして運用する設計を公開した。",
+    "excerpt": "Cloudflare が、AI を使った脆弱性探索を「単発のコードレビュー」ではなく、永続状態を持つハーネスとして運用する設計を公開した。",
+    "url": "articles/2026-06-26_Cloudflare脆弱性ハーネス.html",
+    "sources": [
+      "https://blog.cloudflare.com/build-your-own-vulnerability-harness/"
+    ],
+    "genre": "Security",
+    "genreLabel": "Security",
+    "source": "https://blog.cloudflare.com/build-your-own-vulnerability-harness/",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-06-26_AM_AI開発環境サプライチェーン攻撃",
+    "title": "AI開発環境サプライチェーン攻撃",
+    "created": "2026-06-26",
+    "summary": "Cordyceps、Miasma、IronWorm は、AI開発環境がサプライチェーン攻撃の主戦場になりつつあることを示す一連の事例。",
+    "excerpt": "Cordyceps、Miasma、IronWorm は、AI開発環境がサプライチェーン攻撃の主戦場になりつつあることを示す一連の事例。",
+    "url": "articles/2026-06-26_AM_AI開発環境サプライチェーン攻撃.html",
+    "sources": [
+      "https://novee.security/blog/cordyceps/"
+    ],
+    "genre": "Security",
+    "genreLabel": "Security",
+    "source": "https://novee.security/blog/cordyceps/",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-06-25_AM_LLMエージェント安全性サーベイ",
+    "title": "LLMエージェント安全性サーベイ",
+    "created": "2026-06-25",
+    "summary": "「Toward Secure LLM Agents: Threat Surfaces, Attacks, Defenses, and Evaluation」は、LLMエージェントのセキュリティ研究247本を、脅威面、攻撃、防御、評価の観点で整理したサーベイ論文。",
+    "excerpt": "「Toward Secure LLM Agents: Threat Surfaces, Attacks, Defenses, and Evaluation」は、LLMエージェントのセキュリティ研究247本を、脅威面、攻撃、防御、評価の観点で整理したサーベイ論文。",
+    "url": "articles/2026-06-25_AM_LLMエージェント安全性サーベイ.html",
+    "sources": [
+      "https://arxiv.org/abs/2606.10749"
+    ],
+    "genre": "Security",
+    "genreLabel": "Security",
+    "source": "https://arxiv.org/abs/2606.10749",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-06-25_fail-plausible運用障害分類",
+    "title": "fail-plausible運用障害分類",
+    "created": "2026-06-25",
+    "summary": "arXiv論文「When Errors Become Narratives」は、長期間動き続けるLLMエージェントランタイムで起きたサイレント障害を、8週間・22件のポストモーテムから分類した事例研究。",
+    "excerpt": "arXiv論文「When Errors Become Narratives」は、長期間動き続けるLLMエージェントランタイムで起きたサイレント障害を、8週間・22件のポストモーテムから分類した事例研究。",
+    "url": "articles/2026-06-25_fail-plausible運用障害分類.html",
+    "sources": [
+      "https://arxiv.org/abs/2606.14589"
+    ],
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "source": "https://arxiv.org/abs/2606.14589",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-06-24_AM_GateMem共有メモリ統制",
+    "title": "GateMem共有メモリ統制",
+    "created": "2026-06-24",
+    "summary": "GateMemは、複数の利用者や役割が同じメモリを共有するLLMエージェントで、記憶の有用性だけでなく、アクセス制御と削除後の忘却まで同時に測るベンチマーク。",
+    "excerpt": "GateMemは、複数の利用者や役割が同じメモリを共有するLLMエージェントで、記憶の有用性だけでなく、アクセス制御と削除後の忘却まで同時に測るベンチマーク。",
+    "url": "articles/2026-06-24_AM_GateMem共有メモリ統制.html",
+    "sources": [
+      "https://arxiv.org/abs/2606.18829"
+    ],
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "source": "https://arxiv.org/abs/2606.18829",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-06-24_agentgateway運用ゲートウェイ",
+    "title": "agentgateway運用ゲートウェイ",
+    "created": "2026-06-24",
+    "summary": "agentgateway v1.3.0 は、LLM、MCP、A2A、通常のAPIトラフィックを同じゲートウェイで扱う方向をかなり明確にしたリリース。新しいLLM向けUI、コスト分析、仮想モデル、再利用可能なプロバイダとガードレール、MCP向けポリシー表示などが入っている。",
+    "excerpt": "agentgateway v1.3.0 は、LLM、MCP、A2A、通常のAPIトラフィックを同じゲートウェイで扱う方向をかなり明確にしたリリース。新しいLLM向けUI、コスト分析、仮想モデル、再利用可能なプロバイダとガードレール、MCP向けポリシー表示などが入っている。",
+    "url": "articles/2026-06-24_agentgateway運用ゲートウェイ.html",
+    "sources": [
+      "https://agentgateway.dev/blog/2026-06-17-agentgateway-v1.3.0/"
+    ],
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "source": "https://agentgateway.dev/blog/2026-06-17-agentgateway-v1.3.0/",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-06-23_AM_NSAのMCP安全設計",
+    "title": "NSAのMCP安全設計",
+    "created": "2026-06-23",
+    "summary": "NSAのAI Security Centerは、MCPを使うAI自動化システム向けに、権限分離、監査、ツール接続の安全設計を整理している。",
+    "excerpt": "NSAのAI Security Centerは、MCPを使うAI自動化システム向けに、権限分離、監査、ツール接続の安全設計を整理している。",
+    "url": "articles/2026-06-23_AM_NSAのMCP安全設計.html",
+    "sources": [
+      "https://www.nsa.gov/Portals/75/documents/Cybersecurity/CSI_MCP_SECURITY.pdf?ver=bmgiSbNQLP6Z_GiWtRt6bg%3D%3D"
+    ],
+    "genre": "Security",
+    "genreLabel": "Security",
+    "source": "https://www.nsa.gov/Portals/75/documents/Cybersecurity/CSI_MCP_SECURITY.pdf?ver=bmgiSbNQLP6Z_GiWtRt6bg%3D%3D",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-06-23_Agentic_ABAP_AI_GA",
+    "title": "Agentic ABAP AI GAはABAP保守とS/4移行の作業単位を変える",
+    "created": "2026-06-23",
+    "summary": "SAP CommunityのSapphire 2026 recapは、ABAP開発向けAI機能が、MCP、ADT、S/4HANA拡張開発へ広がる方向を示している。",
+    "excerpt": "SAP CommunityのSapphire 2026 recapは、ABAP開発向けAI機能が、MCP、ADT、S/4HANA拡張開発へ広がる方向を示している。",
+    "url": "articles/2026-06-23_Agentic_ABAP_AI_GA.html",
+    "sources": [
+      "https://community.sap.com/t5/technology-blog-posts-by-sap/sapphire-2026-recap-joule-for-developers-agentic-abap-ai-is-generally/ba-p/14405739"
+    ],
+    "genre": "SAP_ERP",
+    "genreLabel": "SAP / ERP",
+    "source": "https://community.sap.com/t5/technology-blog-posts-by-sap/sapphire-2026-recap-joule-for-developers-agentic-abap-ai-is-generally/ba-p/14405739",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-06-22_AM_Vertex_AI_SDKアップロード乗っ取り",
+    "title": "Vertex AI SDKアップロード乗っ取り",
+    "created": "2026-06-22",
+    "summary": "Unit 42 は 2026-06-16 に、Google Cloud Vertex AI SDK for Python の Model.upload() に関する bucket squatting 型の脆弱性を公開した。",
+    "excerpt": "Unit 42 は 2026-06-16 に、Google Cloud Vertex AI SDK for Python の Model.upload() に関する bucket squatting 型の脆弱性を公開した。",
+    "url": "articles/2026-06-22_AM_Vertex_AI_SDKアップロード乗っ取り.html",
+    "sources": [
+      "https://unit42.paloaltonetworks.com/hijacking-vertex-ai-model/"
+    ],
+    "genre": "Security",
+    "genreLabel": "Security",
+    "source": "https://unit42.paloaltonetworks.com/hijacking-vertex-ai-model/",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-06-22_AutoJackエージェントRCE",
+    "title": "AutoJackエージェントRCE",
+    "created": "2026-06-22",
+    "summary": "Microsoft Defender Security Research Teamが、AutoGen Studioの開発系コードを題材に「AutoJack」という攻撃連鎖を公開した。",
+    "excerpt": "Microsoft Defender Security Research Teamが、AutoGen Studioの開発系コードを題材に「AutoJack」という攻撃連鎖を公開した。",
+    "url": "articles/2026-06-22_AutoJackエージェントRCE.html",
+    "sources": [
+      "https://www.microsoft.com/en-us/security/blog/2026/06/18/autojack-single-page-rce-host-running-ai-agent/"
+    ],
+    "genre": "Security",
+    "genreLabel": "Security",
+    "source": "https://www.microsoft.com/en-us/security/blog/2026/06/18/autojack-single-page-rce-host-running-ai-agent/",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-06-21_AM_Sapphire_2026発表総覧",
+    "title": "SAP Sapphire 2026発表総覧はERP AIの実装地図",
+    "created": "2026-06-21",
+    "summary": "SAP Communityの「SAP Sapphire 2026 Announcements only」は、Sapphire 2026で出た主要なプロダクト発表、プラットフォーム発表、パートナーシップを一覧化したまとめ。",
+    "excerpt": "SAP Communityの「SAP Sapphire 2026 Announcements only」は、Sapphire 2026で出た主要なプロダクト発表、プラットフォーム発表、パートナーシップを一覧化したまとめ。",
+    "url": "articles/2026-06-21_AM_Sapphire_2026発表総覧.html",
+    "sources": [
+      "https://community.sap.com/t5/technology-blog-posts-by-sap/sap-sapphire-2026-announcements-only/ba-p/14396190"
+    ],
+    "genre": "SAP_ERP",
+    "genreLabel": "SAP / ERP",
+    "source": "https://community.sap.com/t5/technology-blog-posts-by-sap/sap-sapphire-2026-announcements-only/ba-p/14396190",
+    "importance": "medium",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-06-21_CISA最短3日パッチ指令",
+    "title": "CISA最短3日パッチ指令",
+    "created": "2026-06-21",
+    "summary": "CISAのBinding Operational Directive 26-04は、米連邦文民機関向けの脆弱性修正ルールを「CVSSの重大度に応じた一律期限」から、実際の攻撃リスクに応じた期限へ寄せる指令。",
+    "excerpt": "CISAのBinding Operational Directive 26-04は、米連邦文民機関向けの脆弱性修正ルールを「CVSSの重大度に応じた一律期限」から、実際の攻撃リスクに応じた期限へ寄せる指令。",
+    "url": "articles/2026-06-21_CISA最短3日パッチ指令.html",
+    "sources": [
+      "https://www.cisa.gov/news-events/directives/bod-26-04-prioritizing-security-updates-based-risk"
+    ],
+    "genre": "Security",
+    "genreLabel": "Security",
+    "source": "https://www.cisa.gov/news-events/directives/bod-26-04-prioritizing-security-updates-based-risk",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-06-20_AM_製造領域Joule_Agent実装",
+    "title": "製造領域Joule Agent実装はERP内AIの現実的な入口",
+    "created": "2026-06-20",
+    "summary": "SAP S/4HANA Cloud Public Editionの製造領域アップデートで、Manage Production OrdersアプリにJouleベースのProduction Planning and Operations Agentが組み込まれる。",
+    "excerpt": "SAP S/4HANA Cloud Public Editionの製造領域アップデートで、Manage Production OrdersアプリにJouleベースのProduction Planning and Operations Agentが組み込まれる。",
+    "url": "articles/2026-06-20_AM_製造領域Joule_Agent実装.html",
+    "sources": [
+      "https://community.sap.com/t5/enterprise-resource-planning-blog-posts-by-sap/manufacturing-update-in-sap-s-4hana-cloud-public-edition-2602-3-hfc10/ba-p/14398211"
+    ],
+    "genre": "SAP_ERP",
+    "genreLabel": "SAP / ERP",
+    "source": "https://community.sap.com/t5/enterprise-resource-planning-blog-posts-by-sap/manufacturing-update-in-sap-s-4hana-cloud-public-edition-2602-3-hfc10/ba-p/14398211",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-06-20_バイオエージェント決定論的データ基盤",
+    "title": "バイオエージェント決定論的データ基盤",
+    "created": "2026-06-20",
+    "summary": "Anthropic が、バイオ領域で AI エージェントを実用化するには、モデル能力だけでなく「決定論的で再現可能なデータ取得レイヤー」が必要だと整理している。",
+    "excerpt": "Anthropic が、バイオ領域で AI エージェントを実用化するには、モデル能力だけでなく「決定論的で再現可能なデータ取得レイヤー」が必要だと整理している。",
+    "url": "articles/2026-06-20_バイオエージェント決定論的データ基盤.html",
+    "sources": [
+      "https://www.anthropic.com/research/agents-in-biology"
+    ],
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "source": "https://www.anthropic.com/research/agents-in-biology",
+    "importance": "medium",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-06-19_DeepMind_AI_Control_Roadmap",
+    "title": "DeepMind AI Control Roadmap",
+    "created": "2026-06-19",
+    "summary": "Google DeepMind が、社内で使う高度な AI agent を「潜在的な insider threat」として扱う AI Control Roadmap を公開した。",
+    "excerpt": "Google DeepMind が、社内で使う高度な AI agent を「潜在的な insider threat」として扱う AI Control Roadmap を公開した。",
+    "url": "articles/2026-06-19_DeepMind_AI_Control_Roadmap.html",
+    "sources": [
+      "https://deepmind.google/blog/securing-the-future-of-ai-agents/"
+    ],
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "source": "https://deepmind.google/blog/securing-the-future-of-ai-agents/",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-06-19_AM_Bayesian-Agentスキル進化",
+    "title": "Bayesian-Agentスキル進化",
+    "created": "2026-06-19",
+    "summary": "Bayesian-Agentは、LLMエージェントのプロンプト、ツール、メモリ、SOP、スキルを「モデル外にある運用資産」として扱い、その成功・失敗を検証済み軌跡からベイズ的に更新する研究・OSSである。",
+    "excerpt": "Bayesian-Agentは、LLMエージェントのプロンプト、ツール、メモリ、SOP、スキルを「モデル外にある運用資産」として扱い、その成功・失敗を検証済み軌跡からベイズ的に更新する研究・OSSである。",
+    "url": "articles/2026-06-19_AM_Bayesian-Agentスキル進化.html",
+    "sources": [
+      "https://arxiv.org/abs/2606.08348"
+    ],
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "source": "https://arxiv.org/abs/2606.08348",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-06-18_SAP_Knowledge_Graph業務文脈層",
+    "title": "SAP Knowledge Graphが業務AIの文脈層に",
+    "created": "2026-06-18",
+    "summary": "SAP Knowledge Graphは、JouleやSAP上のAIエージェントに対して、SAPシステム内の業務データ、メタデータ、プロセス、エンティティ間の関係を文脈として渡すためのレイヤー。",
+    "excerpt": "SAP Knowledge Graphは、JouleやSAP上のAIエージェントに対して、SAPシステム内の業務データ、メタデータ、プロセス、エンティティ間の関係を文脈として渡すためのレイヤー。",
+    "url": "articles/2026-06-18_SAP_Knowledge_Graph業務文脈層.html",
+    "sources": [
+      "https://www.sap.com/products/artificial-intelligence/knowledge-graph.html"
+    ],
+    "genre": "SAP_ERP",
+    "genreLabel": "SAP / ERP",
+    "source": "https://www.sap.com/products/artificial-intelligence/knowledge-graph.html",
+    "importance": "medium-high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-06-18_AM_SAP_for_Me_Joule統合",
+    "title": "SAP for MeのJoule統合はサポートポータルのエージェント化",
+    "created": "2026-06-18",
+    "summary": "SAPは2026年6月11日、SAP for MeにJouleを統合したと発表した。",
+    "excerpt": "SAPは2026年6月11日、SAP for MeにJouleを統合したと発表した。",
+    "url": "articles/2026-06-18_AM_SAP_for_Me_Joule統合.html",
+    "sources": [
+      "https://news.sap.com/2026/06/sap-launches-joule-in-sap-for-me/"
+    ],
+    "genre": "SAP_ERP",
+    "genreLabel": "SAP / ERP",
+    "source": "https://news.sap.com/2026/06/sap-launches-joule-in-sap-for-me/",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-06-17_AM_OpenAI本番分布型モデル評価",
+    "title": "OpenAI本番分布型モデル評価",
+    "created": "2026-06-17",
+    "summary": "OpenAIは2026-06-16に、新モデルの公開前リスク評価手法として「Deployment Simulation」を公開した。",
+    "excerpt": "OpenAIは2026-06-16に、新モデルの公開前リスク評価手法として「Deployment Simulation」を公開した。",
+    "url": "articles/2026-06-17_AM_OpenAI本番分布型モデル評価.html",
+    "sources": [
+      "https://openai.com/index/deployment-simulation/"
+    ],
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "source": "https://openai.com/index/deployment-simulation/",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-06-17_ERPがAIの業務コンテキスト層へ",
+    "title": "ERPがAIの業務コンテキスト層へ",
+    "created": "2026-06-17",
+    "summary": "ERP Todayの記事は、SAP Sapphire 2026でSAP幹部が語った「AI時代にERPが再び事業戦略の中心へ戻る」という見立てを整理している。",
+    "excerpt": "ERP Todayの記事は、SAP Sapphire 2026でSAP幹部が語った「AI時代にERPが再び事業戦略の中心へ戻る」という見立てを整理している。",
+    "url": "articles/2026-06-17_ERPがAIの業務コンテキスト層へ.html",
+    "sources": [
+      "https://erp.today/sap-executives-ai-erp-strategy-sapphire-2026/"
+    ],
+    "genre": "SAP_ERP",
+    "genreLabel": "SAP / ERP",
+    "source": "https://erp.today/sap-executives-ai-erp-strategy-sapphire-2026/",
+    "importance": "medium",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-06-16_MCP_Python_SDK_v2_alpha",
+    "title": "MCP Python SDK v2 alpha",
+    "created": "2026-06-16",
+    "summary": "MCP Python SDKのv2.0.0a1は、2026-07-28予定のMCP仕様変更に向けた最初のalpha。現行のv1系利用者がすぐ自動更新されるものではないが、stable v2が出る前に依存上限と移行方針を決めておく必要がある。",
+    "excerpt": "MCP Python SDKのv2.0.0a1は、2026-07-28予定のMCP仕様変更に向けた最初のalpha。現行のv1系利用者がすぐ自動更新されるものではないが、stable v2が出る前に依存上限と移行方針を決めておく必要がある。",
+    "url": "articles/2026-06-16_MCP_Python_SDK_v2_alpha.html",
+    "sources": [
+      "https://github.com/modelcontextprotocol/python-sdk/releases"
+    ],
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "source": "https://github.com/modelcontextprotocol/python-sdk/releases",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-06-16_AM_AI_Agent_Skill供給網リスク",
+    "title": "AI Agent Skill供給網リスク",
+    "created": "2026-06-16",
+    "summary": "Unit 42の「Trust No Skill」は、AIエージェント用の第三者Skillを、モバイルアプリやブラウザ拡張と同じ供給網リスクとして扱うべきだと整理している。",
+    "excerpt": "Unit 42の「Trust No Skill」は、AIエージェント用の第三者Skillを、モバイルアプリやブラウザ拡張と同じ供給網リスクとして扱うべきだと整理している。",
+    "url": "articles/2026-06-16_AM_AI_Agent_Skill供給網リスク.html",
+    "sources": [
+      "https://unit42.paloaltonetworks.com/ai-agent-supply-chain-risks/"
+    ],
+    "genre": "Security",
+    "genreLabel": "Security",
+    "source": "https://unit42.paloaltonetworks.com/ai-agent-supply-chain-risks/",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-06-15_AM_企業AIエージェント事前保証",
+    "title": "企業AIエージェント事前保証",
+    "created": "2026-06-15",
+    "summary": "arXiv論文「Toward Pre-Deployment Assurance for Enterprise AI Agents」は、企業AIエージェントを本番投入する前に、権限、業務制約、安全性、ガバナンス、自治レベルをまとめて検証するための枠組みを提案している。",
+    "excerpt": "arXiv論文「Toward Pre-Deployment Assurance for Enterprise AI Agents」は、企業AIエージェントを本番投入する前に、権限、業務制約、安全性、ガバナンス、自治レベルをまとめて検証するための枠組みを提案している。",
+    "url": "articles/2026-06-15_AM_企業AIエージェント事前保証.html",
+    "sources": [
+      "https://arxiv.org/abs/2606.04037"
+    ],
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "source": "https://arxiv.org/abs/2606.04037",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-06-15_SAP_AI_Native_North_Star_運用境界",
+    "title": "SAP AI-Native North Starの運用境界",
+    "created": "2026-06-15",
+    "summary": "SAPの「AI-Native North Star Architecture」は、Autonomous Enterpriseを支える将来アーキテクチャとして、ERPを単なる記録システムから、業務コンテキストをAIが扱える基盤へ広げる構想を示している。",
+    "excerpt": "SAPの「AI-Native North Star Architecture」は、Autonomous Enterpriseを支える将来アーキテクチャとして、ERPを単なる記録システムから、業務コンテキストをAIが扱える基盤へ広げる構想を示している。",
+    "url": "articles/2026-06-15_SAP_AI_Native_North_Star_運用境界.html",
+    "sources": [
+      "https://news.sap.com/2026/06/sap-ai-native-north-star-architecture-technical-backbone-autonomous-enterprise/"
+    ],
+    "genre": "SAP_ERP",
+    "genreLabel": "SAP / ERP",
+    "source": "https://news.sap.com/2026/06/sap-ai-native-north-star-architecture-technical-backbone-autonomous-enterprise/",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-06-14_AM_SAP_APIポリシーとAIエージェント統制",
+    "title": "SAP APIポリシーとAIエージェント統制",
+    "created": "2026-06-14",
+    "summary": "SAPのAPI Policy更新は、単なるAPI利用制限ではなく、agentic AI時代のERPアクセス制御を整える動きとして見るべき内容。",
+    "excerpt": "SAPのAPI Policy更新は、単なるAPI利用制限ではなく、agentic AI時代のERPアクセス制御を整える動きとして見るべき内容。",
+    "url": "articles/2026-06-14_AM_SAP_APIポリシーとAIエージェント統制.html",
+    "sources": [
+      "https://diginomica.com/sap-sapphire-2026-sap-cto-philipp-herzig-saps-api-policy-changes-and-why-organizational-memory"
+    ],
+    "genre": "SAP_ERP",
+    "genreLabel": "SAP / ERP",
+    "source": "https://diginomica.com/sap-sapphire-2026-sap-cto-philipp-herzig-saps-api-policy-changes-and-why-organizational-memory",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-06-14_SAP_6月Patch_Day_Critical",
+    "title": "SAP 6月Patch Day Critical",
+    "created": "2026-06-14",
+    "summary": "SAPの2026年6月Security Patch Dayでは、NetWeaver AS ABAP / ABAP Platform、SAP Commerce Cloud、SAP Data Hub、NetWeaver AS Javaなどに関する重要なSecurity Noteが公開された。",
+    "excerpt": "SAPの2026年6月Security Patch Dayでは、NetWeaver AS ABAP / ABAP Platform、SAP Commerce Cloud、SAP Data Hub、NetWeaver AS Javaなどに関する重要なSecurity Noteが公開された。",
+    "url": "articles/2026-06-14_SAP_6月Patch_Day_Critical.html",
+    "sources": [
+      "https://support.sap.com/en/my-support/knowledge-base/security-notes-news/june-2026.html"
+    ],
+    "genre": "SAP_ERP",
+    "genreLabel": "SAP / ERP",
+    "source": "https://support.sap.com/en/my-support/knowledge-base/security-notes-news/june-2026.html",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-06-13_AM_安全なLLMエージェント設計",
+    "title": "安全なLLMエージェント設計",
+    "created": "2026-06-13",
+    "summary": "arXivのサーベイ「Toward Secure LLM Agents」は、LLMエージェントのセキュリティを247本の研究から整理した論文。",
+    "excerpt": "arXivのサーベイ「Toward Secure LLM Agents」は、LLMエージェントのセキュリティを247本の研究から整理した論文。",
+    "url": "articles/2026-06-13_AM_安全なLLMエージェント設計.html",
+    "sources": [
+      "https://arxiv.org/abs/2606.10749"
+    ],
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "source": "https://arxiv.org/abs/2606.10749",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-06-13_Agent_Memoryシステム特性評価",
+    "title": "Agent Memoryをシステム特性として評価する",
+    "created": "2026-06-13",
+    "summary": "Agent Memory論文は、長期タスクを行うLLMエージェントのメモリを、RAGや便利機能ではなく実行基盤の中核として評価している。",
+    "excerpt": "Agent Memory論文は、長期タスクを行うLLMエージェントのメモリを、RAGや便利機能ではなく実行基盤の中核として評価している。",
+    "url": "articles/2026-06-13_Agent_Memoryシステム特性評価.html",
+    "sources": [
+      "https://arxiv.org/abs/2606.06448"
+    ],
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "source": "https://arxiv.org/abs/2606.06448",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-06-12_SAP_AI_Native_North_Star_Architecture",
+    "title": "SAP AI-Native North Star Architecture",
+    "created": "2026-06-12",
+    "summary": "SAPが「AI-Native North Star Architecture」を公開し、Autonomous Enterpriseを支える技術的な目標像として位置づけた。",
+    "excerpt": "SAPが「AI-Native North Star Architecture」を公開し、Autonomous Enterpriseを支える技術的な目標像として位置づけた。",
+    "url": "articles/2026-06-12_SAP_AI_Native_North_Star_Architecture.html",
+    "sources": [
+      "https://news.sap.com/2026/06/sap-ai-native-north-star-architecture-technical-backbone-autonomous-enterprise/"
+    ],
+    "genre": "SAP_ERP",
+    "genreLabel": "SAP / ERP",
+    "source": "https://news.sap.com/2026/06/sap-ai-native-north-star-architecture-technical-backbone-autonomous-enterprise/",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-06-12_AM_Claude_Fable透明セーフガード",
+    "title": "Claude Fable 5の透明なセーフガード運用",
+    "created": "2026-06-12",
+    "summary": "Anthropic は 2026年6月9日、Claude Fable 5 と Claude Mythos 5 を発表した。Fable 5 は一般提供される Mythos-class モデル、Mythos 5 は同じ基盤モデルから一部セーフガードを外した限定提供版という構成。",
+    "excerpt": "Anthropic は 2026年6月9日、Claude Fable 5 と Claude Mythos 5 を発表した。Fable 5 は一般提供される Mythos-class モデル、Mythos 5 は同じ基盤モデルから一部セーフガードを外した限定提供版という構成。",
+    "url": "articles/2026-06-12_AM_Claude_Fable透明セーフガード.html",
+    "sources": [
+      "https://www.anthropic.com/news/claude-fable-5-mythos-5"
+    ],
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "source": "https://www.anthropic.com/news/claude-fable-5-mythos-5",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-06-11_本番AIエージェント五層統治",
+    "title": "本番AIエージェント五層統治",
+    "created": "2026-06-11",
+    "summary": "Five-Plane Reference Architecture論文は、本番AIエージェントを単なるモデル出力ではなく、企業システムに対する委任実行主体として統治する枠組みを示す。",
+    "excerpt": "Five-Plane Reference Architecture論文は、本番AIエージェントを単なるモデル出力ではなく、企業システムに対する委任実行主体として統治する枠組みを示す。",
+    "url": "articles/2026-06-11_本番AIエージェント五層統治.html",
+    "sources": [
+      "https://arxiv.org/abs/2606.12320"
+    ],
+    "genre": "Security",
+    "genreLabel": "Security",
+    "source": "https://arxiv.org/abs/2606.12320",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-06-11_AM_Claude_FableとMythosの運用設計",
+    "title": "Claude FableとMythosの運用設計",
+    "created": "2026-06-11",
+    "summary": "Anthropic は 2026年6月9日、Claude Fable 5 と Claude Mythos 5 を発表した。Fable 5 は一般提供される Mythos-class モデルで、Mythos 5 は同じ基盤モデルから一部セーフガードを外した限定提供版という位置づけ。",
+    "excerpt": "Anthropic は 2026年6月9日、Claude Fable 5 と Claude Mythos 5 を発表した。Fable 5 は一般提供される Mythos-class モデルで、Mythos 5 は同じ基盤モデルから一部セーフガードを外した限定提供版という位置づけ。",
+    "url": "articles/2026-06-11_AM_Claude_FableとMythosの運用設計.html",
+    "sources": [
+      "https://www.anthropic.com/news/claude-fable-5-mythos-5"
+    ],
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "source": "https://www.anthropic.com/news/claude-fable-5-mythos-5",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-06-10_AM_企業AIに必要なAgent_Logic",
+    "title": "企業AIに必要なAgent Logic",
+    "created": "2026-06-10",
+    "summary": "IBM Research は Hugging Face Blog で、企業AIの本格導入には LLM 単体の性能向上だけでは足りず、Agent Logic が必要だと整理している。",
+    "excerpt": "IBM Research は Hugging Face Blog で、企業AIの本格導入には LLM 単体の性能向上だけでは足りず、Agent Logic が必要だと整理している。",
+    "url": "articles/2026-06-10_AM_企業AIに必要なAgent_Logic.html",
+    "sources": [
+      "https://huggingface.co/blog/ibm-research/agent-logic-and-scalable-ai-adoption"
+    ],
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "source": "https://huggingface.co/blog/ibm-research/agent-logic-and-scalable-ai-adoption",
+    "importance": "medium",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-06-10_SAP_APIポリシーと組織記憶",
+    "title": "SAP APIポリシーと組織記憶",
+    "created": "2026-06-10",
+    "summary": "SAP Sapphire 2026後の論点として、SAP API Policyの更新と「organizational memory」が同じ文脈で語られている。",
+    "excerpt": "SAP Sapphire 2026後の論点として、SAP API Policyの更新と「organizational memory」が同じ文脈で語られている。",
+    "url": "articles/2026-06-10_SAP_APIポリシーと組織記憶.html",
+    "sources": [
+      "https://diginomica.com/sap-sapphire-2026-sap-cto-philipp-herzig-saps-api-policy-changes-and-why-organizational-memory"
+    ],
+    "genre": "SAP_ERP",
+    "genreLabel": "SAP / ERP",
+    "source": "https://diginomica.com/sap-sapphire-2026-sap-cto-philipp-herzig-saps-api-policy-changes-and-why-organizational-memory",
+    "importance": "medium",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-06-09_AM_Red_Hat_npm侵害とCI認証情報防衛",
+    "title": "Red Hat npm侵害とCI認証情報防衛",
+    "created": "2026-06-09",
+    "summary": "Red Hat は 2026-06-01 に、@redhat-cloud-services npm 名前空間の複数パッケージでサプライチェーン侵害が公表されたと説明した。",
+    "excerpt": "Red Hat は 2026-06-01 に、@redhat-cloud-services npm 名前空間の複数パッケージでサプライチェーン侵害が公表されたと説明した。",
+    "url": "articles/2026-06-09_AM_Red_Hat_npm侵害とCI認証情報防衛.html",
+    "sources": [
+      "https://access.redhat.com/security/vulnerabilities/RHSB-2026-006"
+    ],
+    "genre": "Security",
+    "genreLabel": "Security",
+    "source": "https://access.redhat.com/security/vulnerabilities/RHSB-2026-006",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-06-09_Gemini_Agentic_RAGと十分性判定",
+    "title": "Gemini Agentic RAGと十分性判定",
+    "created": "2026-06-09",
+    "summary": "Google Research / Google Cloud が、Gemini Enterprise Agent Platform 上の Cross-Corpus Retrieval powered by Agentic RAG を紹介した。",
+    "excerpt": "Google Research / Google Cloud が、Gemini Enterprise Agent Platform 上の Cross-Corpus Retrieval powered by Agentic RAG を紹介した。",
+    "url": "articles/2026-06-09_Gemini_Agentic_RAGと十分性判定.html",
+    "sources": [
+      "https://research.google/blog/unlocking-dependable-responses-with-gemini-enterprise-agent-platforms-agentic-rag/"
+    ],
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "source": "https://research.google/blog/unlocking-dependable-responses-with-gemini-enterprise-agent-platforms-agentic-rag/",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-06-08_AM_SAP_Cloud_ERP横断セキュリティ設計",
+    "title": "SAP Cloud ERP横断セキュリティ設計",
+    "created": "2026-06-08",
+    "summary": "SAP Communityの公式ブログは、Cloud ERPセキュリティを、BTP、SaaS、Integration Suite、AI、クラウド基盤まで含む多層統制として整理している。",
+    "excerpt": "SAP Communityの公式ブログは、Cloud ERPセキュリティを、BTP、SaaS、Integration Suite、AI、クラウド基盤まで含む多層統制として整理している。",
+    "url": "articles/2026-06-08_AM_SAP_Cloud_ERP横断セキュリティ設計.html",
+    "sources": [
+      "https://community.sap.com/t5/technology-blog-posts-by-sap/modern-sap-cloud-erp-security-from-core-erp-to-btp-saas-and-ai/ba-p/14392369"
+    ],
+    "genre": "SAP_ERP",
+    "genreLabel": "SAP / ERP",
+    "source": "https://community.sap.com/t5/technology-blog-posts-by-sap/modern-sap-cloud-erp-security-from-core-erp-to-btp-saas-and-ai/ba-p/14392369",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-06-08_SAP_Autonomous_SCMとJoule_Assistants",
+    "title": "SAP Autonomous SCMとJoule Assistants",
+    "created": "2026-06-08",
+    "summary": "SAPはSapphire 2026で、サプライチェーン領域にJoule Assistantsと目的別AI agentsを埋め込む「Autonomous Supply Chain Management」を発表した。",
+    "excerpt": "SAPはSapphire 2026で、サプライチェーン領域にJoule Assistantsと目的別AI agentsを埋め込む「Autonomous Supply Chain Management」を発表した。",
+    "url": "articles/2026-06-08_SAP_Autonomous_SCMとJoule_Assistants.html",
+    "sources": [
+      "https://news.sap.com/2026/05/more-autonomous-supply-chain/"
+    ],
+    "genre": "SAP_ERP",
+    "genreLabel": "SAP / ERP",
+    "source": "https://news.sap.com/2026/05/more-autonomous-supply-chain/",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-06-08_AM_GitHub_Agentic_Workflows_v0.77.4",
+    "title": "GitHub Agentic Workflows v0.77.4",
+    "created": "2026-06-08",
+    "summary": "GitHub Agentic Workflows v0.77.4は、GitHub Actions上で動くAIエージェント自動化を、単発の実験からリポジトリ運用部品へ寄せる更新。",
+    "excerpt": "GitHub Agentic Workflows v0.77.4は、GitHub Actions上で動くAIエージェント自動化を、単発の実験からリポジトリ運用部品へ寄せる更新。",
+    "url": "articles/2026-06-08_AM_GitHub_Agentic_Workflows_v0.77.4.html",
+    "sources": [
+      "https://github.github.com/gh-aw/blog/2026-06-01-weekly-update/"
+    ],
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "source": "https://github.github.com/gh-aw/blog/2026-06-01-weekly-update/",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-06-07_Joule_Studioの統制アーキテクチャ",
+    "title": "Joule Studioの統制アーキテクチャ",
+    "created": "2026-06-07",
+    "summary": "SAP Architecture Centerは、Joule Studioを「企業向けの本番グレードなエージェント開発・実行基盤」として整理している。",
+    "excerpt": "SAP Architecture Centerは、Joule Studioを「企業向けの本番グレードなエージェント開発・実行基盤」として整理している。",
+    "url": "articles/2026-06-07_Joule_Studioの統制アーキテクチャ.html",
+    "sources": [
+      "https://architecture.learning.sap.com/docs/ref-arch/06ff6062dc/6"
+    ],
+    "genre": "SAP_ERP",
+    "genreLabel": "SAP / ERP",
+    "source": "https://architecture.learning.sap.com/docs/ref-arch/06ff6062dc/6",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-06-07_AM_APBでAgent計画力を診断",
+    "title": "APBでAgent計画力を診断",
+    "created": "2026-06-07",
+    "summary": "Agent Planning Benchmark（APB）は、LLMエージェントの「実行結果」ではなく、実行前の計画能力を切り出して診断するベンチマーク。",
+    "excerpt": "Agent Planning Benchmark（APB）は、LLMエージェントの「実行結果」ではなく、実行前の計画能力を切り出して診断するベンチマーク。",
+    "url": "articles/2026-06-07_AM_APBでAgent計画力を診断.html",
+    "sources": [
+      "https://arxiv.org/abs/2606.04874"
+    ],
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "source": "https://arxiv.org/abs/2606.04874",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-06-06_SAPとPalantirのAI支援データ移行",
+    "title": "SAPとPalantirのAI支援データ移行",
+    "created": "2026-06-06",
+    "summary": "SAPとPalantirは、SAP Cloud ERPへの移行で最も重い論点の一つであるデータ移行に、Palantir AIPを組み込む提携強化を発表した。",
+    "excerpt": "SAPとPalantirは、SAP Cloud ERPへの移行で最も重い論点の一つであるデータ移行に、Palantir AIPを組み込む提携強化を発表した。",
+    "url": "articles/2026-06-06_SAPとPalantirのAI支援データ移行.html",
+    "genre": "SAP_ERP",
+    "genreLabel": "SAP / ERP",
+    "importance": "medium",
+    "confidence": "medium"
+  },
+  {
+    "slug": "2026-06-06_AM_SAPとAnthropic連携_ClaudeがJouleエージェントへ",
+    "title": "SAPとAnthropic連携: ClaudeがJouleエージェントへ",
+    "created": "2026-06-06",
+    "summary": "SAPとAnthropicは、ClaudeをSAP Business AI Platform上の主要な推論・エージェント能力として組み込み、JouleとJoule agentsを強化する計画を発表した。",
+    "excerpt": "SAPとAnthropicは、ClaudeをSAP Business AI Platform上の主要な推論・エージェント能力として組み込み、JouleとJoule agentsを強化する計画を発表した。",
+    "url": "articles/2026-06-06_AM_SAPとAnthropic連携_ClaudeがJouleエージェントへ.html",
+    "sources": [
+      "https://news.sap.com/2026/05/sap-anthropic-to-bring-claude-sap-business-ai-platform/"
+    ],
+    "genre": "SAP_ERP",
+    "genreLabel": "SAP / ERP",
+    "source": "https://news.sap.com/2026/05/sap-anthropic-to-bring-claude-sap-business-ai-platform/",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-06-06_SAP_Business_AI_PlatformとAutonomous_Enterprise",
+    "title": "SAP Business AI PlatformとAutonomous Enterprise構想",
+    "created": "2026-06-06",
+    "summary": "SAP Sapphire 2026で、SAPは「SAP Business AI Platform」と「Autonomous Enterprise」構想を前面に出した。",
+    "excerpt": "SAP Sapphire 2026で、SAPは「SAP Business AI Platform」と「Autonomous Enterprise」構想を前面に出した。",
+    "url": "articles/2026-06-06_SAP_Business_AI_PlatformとAutonomous_Enterprise.html",
+    "sources": [
+      "https://news.sap.com/2026/05/sap-sapphire-keynote-business-ai-platform-power-autonomous-enterprise/"
+    ],
+    "genre": "SAP_ERP",
+    "genreLabel": "SAP / ERP",
+    "source": "https://news.sap.com/2026/05/sap-sapphire-keynote-business-ai-platform-power-autonomous-enterprise/",
+    "importance": "high",
+    "confidence": "high"
+  },
+  {
+    "slug": "2026-06-06_GitHub_Copilotのクラウド_ローカルサンドボックス",
+    "title": "GitHub Copilotのクラウド/ローカルサンドボックス",
+    "created": "2026-06-06",
     "summary": "GitHub Copilotで、クラウドサンドボックスとローカルサンドボックスがPublic Previewになった。",
     "excerpt": "GitHub Copilotで、クラウドサンドボックスとローカルサンドボックスがPublic Previewになった。",
-    "url": "articles/2026-06-06_GitHub_Copilotのクラウド_ローカルサンドボックス.html"
+    "url": "articles/2026-06-06_GitHub_Copilotのクラウド_ローカルサンドボックス.html",
+    "sources": [
+      "https://github.blog/changelog/2026-06-02-cloud-and-local-sandboxes-for-github-copilot-now-in-public-preview/"
+    ],
+    "genre": "AI",
+    "genreLabel": "AI / LLM / Agent",
+    "source": "https://github.blog/changelog/2026-06-02-cloud-and-local-sandboxes-for-github-copilot-now-in-public-preview/",
+    "importance": "high",
+    "confidence": "high"
   }
 ]

@@ -1,337 +1,39 @@
-<!doctype html>
-<html lang="ja">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AI・エージェント | 興味レポート</title>
-  <meta name="description" content="AI・エージェント の公開用レポート一覧">
-  <link rel="stylesheet" href="../../assets/style.css">
-</head>
-<body>
-  <header class="site-header">
-    <a class="site-title" href="../../interests/index.html">興味レポート</a>
-    <span class="site-subtitle">Public redacted interest reports</span>
-  </header>
-  <main>
-    <section class="hero">
-      <p class="back"><a href="../index.html">← 興味レポート一覧へ</a></p>
-      <h1>AI・エージェント</h1>
-      <p>39件の公開用レポート。</p>
-    </section>
-    <section class="cards">
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-08-01T19:30:00+09:00</span>
-          <span>AI・エージェント</span>
-        </div>
-        <h2><a href="../articles/2026-08-01-AI・エージェント-ChatGPT-Agentを家計・予約・調査に使う時の権限分離チェック-43f620d96b.html">ChatGPT Agentを家計・予約・調査に使う時の権限分離チェック</a></h2>
-        <p>ChatGPT Agentや個人秘書エージェントを家計、予約、調査へ使う前に、読み取り、送信、決済、保存の権限境界をどう切るか整理する実用メモ。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-24</span>
-          <span>AI・エージェント</span>
-        </div>
-        <h2><a href="../articles/2026-07-24-AI・エージェント-コネクタ権限は「読むだけ」と「外へ出す」で分ける-80bcb9c9e3.html">コネクタ権限は「読むだけ」と「外へ出す」で分ける</a></h2>
-        <p>コネクタ権限を読むだけと外部送信に分離すると、Codex運用での誤作動や鍵露出時の被害範囲を小さくし、公開反映リスクを減らせる。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-22</span>
-          <span>AI・エージェント</span>
-        </div>
-        <h2><a href="../articles/2026-07-22-AI・エージェント-OpenAIとGoogleで見る「PC操作型エージェント」の権限設計-43ef1e89af.html">OpenAIとGoogleで見る「PC操作型エージェント」の権限設計</a></h2>
-        <p>OpenAIとGoogleのComputer Use系エージェントを、個人PCで使う前提で確認ゲート・外部送信制限・ログを軸に比較した。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-18</span>
-          <span>AI・エージェント</span>
-        </div>
-        <h2><a href="../articles/2026-07-18-AI・エージェント-Responses再試行ポリシー化でTool障害を収束させる-7ad2c828d7.html">Responses再試行ポリシー化でTool障害を収束させる</a></h2>
-        <p>OpenAI ResponsesのTool障害時に再試行戦略を固定化すると、失敗種別ごとに処理を分けて一時障害を回避し、日次1本運用の公開フロー停止時間を抑えられる。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-17T19:30:00+09:00</span>
-          <span>AI・エージェント</span>
-        </div>
-        <h2><a href="../articles/2026-07-17-AI・エージェント-コネクタ権限は「誰が実行できるか」でなく「どこまで実行できるか」に分解する-a4338b6946.html">コネクタ権限は「誰が実行できるか」でなく「どこまで実行できるか」に分解する</a></h2>
-        <p>OpenAI App RuntimeとWorkspace Agents運用を実務へ落とすときは、権限を読み取り専用・実行系・共有系に分解し、plugin側とagent側の境界で事故半径を下げるのが本質。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-16</span>
-          <span>AI・エージェント</span>
-        </div>
-        <h2><a href="../articles/2026-07-16-AI・エージェント-Responses-APIの再実行ポリシー化で失敗時復旧を短縮する-e767a095b4.html">Responses APIの再実行ポリシー化で失敗時復旧を短縮する</a></h2>
-        <p>Responses APIの再実行方針を固定化し、リトライ回数・待機時間・失敗時分岐を揃えることで、当日の1本記事運用を速く回復できる。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-15</span>
-          <span>AI・エージェント</span>
-        </div>
-        <h2><a href="../articles/2026-07-15-AI・エージェント-Responses運用を再現化する-ec3a0f0a17.html">Responses運用を再現化する</a></h2>
-        <p>Responses APIで短尺回答と調査ノート作成を分離すると、同日1本選定でも再現性と監査性が上がる。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-14</span>
-          <span>AI・エージェント</span>
-        </div>
-        <h2><a href="../articles/2026-07-14-AI・エージェント-モデル別で分岐する調査運用-da846e6f48.html">モデル別で分岐する調査運用</a></h2>
-        <p>Responses APIの即答向けモデルと調査向けモデルを役割分離すると、同一cronでも短尺応答の誤誘導と長尺調査のノイズが減る。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-13</span>
-          <span>AI・エージェント</span>
-        </div>
-        <h2><a href="../articles/2026-07-13-AI・エージェント-Responses-APIでコネクタ境界を分ける-e0c857da6a.html">Responses APIでコネクタ境界を分ける</a></h2>
-        <p>Responses APIで外部コネクタを運用するなら、モデルごとに許可範囲を分離し、実行権限・ログ責任・例外時の停止基準を明示するのが安全側の設計。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-10</span>
-          <span>AI・エージェント</span>
-        </div>
-        <h2><a href="../articles/2026-07-10-AI・エージェント-Codex安全運用を個人Macの自動化ルールに落とし込む-44cc48af58.html">Codex安全運用を個人Macの自動化ルールに落とし込む</a></h2>
-        <p>Codexの便利さを、個人Macの自動実行で壊れにくい運用へ落とし込む。サンドボックス、ネットワーク、秘密情報、承認点、失敗通知を日次Cron向けの点検表にする。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-09</span>
-          <span>AI・エージェント</span>
-        </div>
-        <h2><a href="../articles/2026-07-09-AI・エージェント-ChatGPT-Connectorsで個人秘書AIの情報境界を設計する-dda76c2992.html">ChatGPT Connectorsで個人秘書AIの情報境界を設計する</a></h2>
-        <p>ChatGPTのConnectors/App連携を、便利な横断検索ではなく「どの情報を読ませ、どの操作を許すか」の境界設計として整理する。OpenClawやObsidian運用にも転用しやすい点検表に落とす。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-06T19:30:00+09:00</span>
-          <span>AI・エージェント</span>
-        </div>
-        <h2><a href="../articles/2026-07-06-AI・エージェント-Codex-MCP運用の標準形-096b8f9b45.html">Codex MCP運用の標準形</a></h2>
-        <p>CodexをMCPサーバとしてAgents SDKや他クライアントから呼ぶ時の設計を、権限境界、再現性、監査ログ、OpenClaw cron運用への落とし込みで整理する。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-03T20:00:00+09:00</span>
-          <span>AI・エージェント</span>
-        </div>
-        <h2><a href="../articles/2026-07-03-AI・エージェント-Microsoft式AIエージェント隔離実行を個人環境に応用できるか-cd2f5a81ad.html">Microsoft式AIエージェント隔離実行を個人環境に応用できるか</a></h2>
-        <p>MicrosoftのAgent 365、Windows 365 for Agents、MXCを手がかりに、個人エージェント環境で真似できる隔離・監査・権限分離を整理する。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-02T19:58:00+09:00</span>
-          <span>AI・エージェント</span>
-        </div>
-        <h2><a href="../articles/2026-07-02-AI・エージェント-GPT-5.6-Solのサイバー能力強化を「個人エージェントに渡してよい権限」から評-84e15ff2de.html">GPT-5.6 Solのサイバー能力強化を「個人エージェントに渡してよい権限」から評価する</a></h2>
-        <p>GPT-5.6 Solのサイバー能力強化を、個人エージェントに渡す権限境界として整理する。強いモデルを使うほど、CLI・ファイル・外部送信のゲート設計が重要になる。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-02T19:48:00+09:00</span>
-          <span>AI・エージェント</span>
-        </div>
-        <h2><a href="../articles/2026-07-02-AI・エージェント-GPT-5.6-Sol、Claude-Sonnet-5、Google-Genkit--ca04696430.html">GPT-5.6 Sol、Claude Sonnet 5、Google Genkit Agentsを「実務エージェント」として比較する</a></h2>
-        <p>GPT-5.6 Sol、Claude Sonnet 5、Google Genkit Agentsを、実務エージェント運用の観点で比較する。強いモデル選びより、権限・監督・復旧設計を先に決める必要が見える。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-07-01</span>
-          <span>AI・エージェント</span>
-        </div>
-        <h2><a href="../articles/2026-07-01-AI・エージェント-AIエージェントの権限管理は「認証」ではなく「行動レイヤー」で設計する時代か-01b7b31ff1.html">AIエージェントの権限管理は「認証」ではなく「行動レイヤー」で設計する時代か</a></h2>
-        <p>AIエージェントの実運用では、ログイン認証よりも「どの行動を、誰の権限で、いつ許すか」が焦点になる。Arcade.devの資金調達とMCP認可仕様から、OpenClaw型秘書エージェントの権限設計を読む。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-30T19:50:00+09:00</span>
-          <span>AI・エージェント</span>
-        </div>
-        <h2><a href="../articles/2026-06-30-AI・エージェント-OpenAI社内のエージェント利用データから見る「実務AI導入」の勝ち筋-613e12b564.html">OpenAI社内のエージェント利用データから見る「実務AI導入」の勝ち筋</a></h2>
-        <p>OpenAI社内でCodexが全社的な主力AIツールへ移ったデータを整理する。個人秘書エージェント運用で何をKPI化し、どこに権限境界を置くべきかが見える。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-29T19:58:00+09:00</span>
-          <span>AI・エージェント</span>
-        </div>
-        <h2><a href="../articles/2026-06-29-AI・エージェント-GPT-4.5退役とChatGPTモデル選択簡素化を「個人秘書運用の棚卸し」に落とす-8b408368d7.html">GPT-4.5退役とChatGPTモデル選択簡素化を「個人秘書運用の棚卸し」に落とす</a></h2>
-        <p>GPT-4.5退役とBusiness向けモデルピッカー簡素化を、OpenClawやChatGPT個人秘書運用のモデル棚卸しに落とし込む。API影響と用途別の選び直しを確認する。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-29T19:44:00+09:00</span>
-          <span>AI・エージェント</span>
-        </div>
-        <h2><a href="../articles/2026-06-29-AI・エージェント-社内ツールを安全に動かす」設計を読む-f6c733e7b9.html">Codex RemoteとSecure MCP Tunnelで「スマホから自宅/社内ツールを安全に動かす」設計を読む</a></h2>
-        <p>Codex RemoteとSecure MCP Tunnelを、個人エージェント運用の操作面と接続面から整理する。スマホ操作、権限承認、private MCP接続の境界設計を考える材料になる。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-26T19:48:00+09:00</span>
-          <span>AI・エージェント</span>
-        </div>
-        <h2><a href="../articles/2026-06-26-AI・エージェント-OpenAIの非開発者Codex利用137倍は、個人秘書エージェント運用に何を示すか-90b309f5ac.html">OpenAIの非開発者Codex利用137倍は、個人秘書エージェント運用に何を示すか</a></h2>
-        <p>OpenAIは2026年6月25日、「How agents are transforming work」で、Codex利用がチャット型AIから委任型エージェント作業へ移っている状況を公開した。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-25T20:05:00+09:00</span>
-          <span>AI・エージェント</span>
-        </div>
-        <h2><a href="../articles/2026-06-25-AI・エージェント-Workspace-Agentsで「チーム共有の個人秘書」を作る時の権限境界-bfcd51c0ee.html">Workspace Agentsで「チーム共有の個人秘書」を作る時の権限境界</a></h2>
-        <p>OpenAIのWorkspace Agentsは、個人のチャット補助ではなく、チーム内で共有される反復業務エージェントとして設計されている。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-25T19:55:00+09:00</span>
-          <span>AI・エージェント</span>
-        </div>
-        <h2><a href="../articles/2026-06-25-AI・エージェント-ChatGPT-Agent普及で「個人秘書ワーク」はどこまで現実化したか-afe0604843.html">Codex/ChatGPT Agent普及で「個人秘書ワーク」はどこまで現実化したか</a></h2>
-        <p>2026年6月25日時点で、AIエージェントは「会話相手」から「委任された作業を進める道具」へかなり寄ってきている。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-24T19:50:00+09:00</span>
-          <span>AI・エージェント</span>
-        </div>
-        <h2><a href="../articles/2026-06-24-AI・エージェント-OpenAIの医療・創薬系AI発表は「個人向け調査エージェント」の信頼設計に何を示す-57ebeb07bb.html">OpenAIの医療・創薬系AI発表は「個人向け調査エージェント」の信頼設計に何を示すか</a></h2>
-        <p>OpenAIは2026年6月18日に、ChatGPTの健康回答改善と、希少疾患診断支援の研究成果を相次いで公開した。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-23T19:55:00+09:00</span>
-          <span>AI・エージェント</span>
-        </div>
-        <h2><a href="../articles/2026-06-23-AI・エージェント-DeepMind-AI-Control-RoadmapをOpenClaw安全設計に落-8005095b87.html">DeepMind AI Control RoadmapをOpenClaw安全設計に落とす</a></h2>
-        <p>Google DeepMindは2026年6月18日に、社内AIエージェントを「完全に善意で整列済み」と見なすのではなく、場合によっては内部者リスクとして扱うための AI Control Roadmap を公開した。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-22T19:56:00+09:00</span>
-          <span>AI・エージェント</span>
-        </div>
-        <h2><a href="../articles/2026-06-22-AI・エージェント-OpenAI-Agents-SDKのサンドボックス実行とCodex連携を、個人秘書運-ead0734cbc.html">OpenAI Agents SDKのサンドボックス実行とCodex連携を、個人秘書運用にどう使うか</a></h2>
-        <p>2026年4月のOpenAI発表で、Agents SDKはファイル確認、コマンド実行、コード編集、長時間タスクを「制御されたサンドボックス環境」で扱う方向へ大きく寄った。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-21T19:56:00+09:00</span>
-          <span>AI・エージェント</span>
-        </div>
-        <h2><a href="../articles/2026-06-21-AI・エージェント-Codex-pluginsとworkspace-agentsで「趣味事務の役割別エー-a0ad52e97b.html">Codex pluginsとworkspace agentsで「趣味事務の役割別エージェント」を作れるか</a></h2>
-        <p>OpenAIは2026年6月2日に、Codexを開発者向けのコード支援だけでなく、分析、営業、制作、投資、プロダクト設計などの知識労働へ広げる更新を発表した。中心になるのは、役割別プラグイン、Codex Sites、アノテーションである。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-19T19:40:00+09:00</span>
-          <span>AI・エージェント</span>
-        </div>
-        <h2><a href="../articles/2026-06-19-AI・エージェント-OpenAIの企業向け利用分析・支出制御アップデートを、個人エージェント運用のコスト-f215a65abd.html">OpenAIの企業向け利用分析・支出制御アップデートを、個人エージェント運用のコスト監視に転用できるか</a></h2>
-        <p>OpenAIは2026年6月18日、ChatGPT Enterprise向けにクレジット利用分析と支出制御を強化した。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-18T19:55:00+09:00</span>
-          <span>AI・エージェント</span>
-        </div>
-        <h2><a href="../articles/2026-06-18-AI・エージェント-Noam-ShazeerのOpenAI移籍で「人格AI・個人秘書エージェント」の主戦-ff61f5e91e.html">Noam ShazeerのOpenAI移籍で「人格AI・個人秘書エージェント」の主戦場はどう変わるか</a></h2>
-        <p>Noam ShazeerがGoogleからOpenAIへ移るという報道は、単なる大物研究者の移籍ではなく、「モデル性能」「人格AI」「長期記憶」「個人秘書エージェント」の競争軸が近づいているサインとして見る価値があります。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-18T19:49:00+09:00</span>
-          <span>AI・エージェント</span>
-        </div>
-        <h2><a href="../articles/2026-06-18-AI・エージェント-ChatGPT-Scheduled-Tasksで「OpenClawの定期実行」と何が-0f45cd3f8a.html">ChatGPT Scheduled Tasksで「OpenClawの定期実行」と何が重なり、何が違うのか</a></h2>
-        <p>OpenAIは2026年6月17日のChatGPTリリースノートで、Scheduled tasksを大きく更新しました。新しいScheduledページ、作成・編集フローの改善、実行時刻の柔軟化、通知改善、監視タスクが主な変更点です。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-17T20:08:00+09:00</span>
-          <span>AI・エージェント</span>
-        </div>
-        <h2><a href="../articles/2026-06-17-AI・エージェント-VisaとOpenAIのChatGPT決済連携で「買い物エージェント」の権限設計はど-e52d31a320.html">VisaとOpenAIのChatGPT決済連携で「買い物エージェント」の権限設計はどう変わるか</a></h2>
-        <p>Visaは2026年6月10日、OpenAIと提携し、OpenAI上のエージェント型コマース体験にVisaの決済ネットワーク、トークン化、リスク管理、リアルタイム承認を組み込む方針を発表した。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-17T19:58:00+09:00</span>
-          <span>AI・エージェント</span>
-        </div>
-        <h2><a href="../articles/2026-06-17-AI・エージェント-OpenAIの「リリース前シミュレーション」はエージェント事故をどこまで防げるか-04d184952e.html">OpenAIの「リリース前シミュレーション」はエージェント事故をどこまで防げるか</a></h2>
-        <p>OpenAIが2026年6月16日に公開した Deployment Simulation は、リリース前の候補モデルを、過去の実利用会話に近い文脈へ流し込み、望ましくない挙動が本番でどの程度出そうかを予測する手法です。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-16T19:54:00+09:00</span>
-          <span>AI・エージェント</span>
-        </div>
-        <h2><a href="../articles/2026-06-16-AI・エージェント-ChatGPT-Agent以後の「調査から実行まで任せるAI」は個人秘書運用でどこま-bc84871e65.html">ChatGPT Agent以後の「調査から実行まで任せるAI」は個人秘書運用でどこまで安全か</a></h2>
-        <p>ChatGPT Agentは、従来の「調べるAI」と「ブラウザを操作するAI」を統合し、Web閲覧、ファイル、コネクタ、フォーム入力、表計算編集のような複数ステップ作業を一つの流れで扱える方向へ進んだ。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-15T19:58:00+09:00</span>
-          <span>AI・エージェント</span>
-        </div>
-        <h2><a href="../articles/2026-06-15-AI・エージェント-Claude-Opus-4.8の「正直さ」改善は自律エージェント監査に効くか-2395671020.html">Claude Opus 4.8の「正直さ」改善は自律エージェント監査に効くか</a></h2>
-        <p>2026年5月28日にAnthropicが公開したClaude Opus 4.8は、ベンチマーク上の性能向上だけでなく、エージェント作業中の「正直さ」を前面に出している。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-15T19:46:00+09:00</span>
-          <span>AI・エージェント</span>
-        </div>
-        <h2><a href="../articles/2026-06-15-AI・エージェント-Codexを「非エンジニア作業用エージェント」に広げると趣味事務はどこまで自動化でき-e744bb7fa6.html">Codexを「非エンジニア作業用エージェント」に広げると趣味事務はどこまで自動化できるか</a></h2>
-        <p>OpenAIは2026年6月2日、Codexをソフトウェア開発だけでなく、分析、調査、資料作成、ワークフロー自動化、軽量ツール作成にも広げる方向を明確にした。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-13</span>
-          <span>AI・エージェント</span>
-        </div>
-        <h2><a href="../articles/2026-06-13-AI・エージェント-Cloudflare-Browser-Runで「人間が介入できるブラウザエージェント-62f4f13d07.html">Cloudflare Browser Runで「人間が介入できるブラウザエージェント」をOpenClaw設計へ取り込む</a></h2>
-        <p>CloudflareはBrowser RenderingをBrowser Runへ改名し、AIエージェント向けのクラウド実行ブラウザとして位置づけ直した。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-13</span>
-          <span>AI・エージェント</span>
-        </div>
-        <h2><a href="../articles/2026-06-13-AI・エージェント-AIと遺伝子合成規制を「個人エージェント時代の危険注文防止」として読む-a66a65b30e.html">AIと遺伝子合成規制を「個人エージェント時代の危険注文防止」として読む</a></h2>
-        <p>2026年6月、OpenAI、Anthropic、Google DeepMind、Microsoft AIなどのAI企業幹部、生命科学者、国家安全保障関係者、DNA合成企業の関係者が、米国議会に対して合成DNA/RNAなどの核酸合成注文のスクリーニングと記録保持を義務化。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-12T19:52:00+09:00</span>
-          <span>AI・エージェント</span>
-        </div>
-        <h2><a href="../articles/2026-06-12-AI・エージェント-Claude-API-6月15日モデル廃止前にOpenClaw連携設定を棚卸しする-0f91351054.html">Claude API 6月15日モデル廃止前にOpenClaw連携設定を棚卸しする</a></h2>
-        <p>AnthropicのClaude APIでは、claude-sonnet-4-20250514 と claude-opus-4-20250514 が2026年6月15日に退役予定である。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-12</span>
-          <span>AI・エージェント</span>
-        </div>
-        <h2><a href="../articles/2026-06-12-AI・エージェント-Chrome-Enterprise-MCPサーバーでブラウザ管理はAIエージェント化-ffaf170694.html">Chrome Enterprise MCPサーバーでブラウザ管理はAIエージェント化できるか</a></h2>
-        <p>Googleは2026年5月28日、Chrome Enterprise APIをAIエージェントから呼び出せるようにするChrome Enterprise Premium向けMCPサーバーを公開した。</p>
-      </article>
-      <article class="card">
-        <div class="meta-row">
-          <span>2026-06-07</span>
-          <span>AI・エージェント</span>
-        </div>
-        <h2><a href="../articles/2026-06-07-AI・エージェント-CodexのChatGPT統合とワークスペースエージェントで「事務処理エージェント」-56a7b87ea2.html">CodexのChatGPT統合とワークスペースエージェントで「事務処理エージェント」は何が変わるか</a></h2>
-        <p>2026年6月時点の大きな変化は、Codexが「開発者がコードを書くための道具」から、レポート、調査、表計算、軽量ツール、社内ワークフローを扱う知識労働向けエージェント基盤へ広がっている点にある。</p>
-      </article>
-    </section>
-  </main>
-</body>
-</html>
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>AI・エージェント | 興味レポート</title><link rel="stylesheet" href="../../assets/style.css"></head><body><header class="site-header"><a class="site-title" href="../index.html">興味レポート</a></header><main><section class="hero"><h1>AI・エージェント</h1><p>39件</p></section><section class="cards"><article class="card"><div class="meta-row"><span>2026-08-01T19:30:00+09:00</span></div><h2><a href="../articles/2026-08-01-AI・エージェント-ChatGPT-Agentを家計・予約・調査に使う時の権限分離チェック-43f620d96b.html">ChatGPT Agentを家計・予約・調査に使う時の権限分離チェック</a></h2><p>ChatGPT Agentや個人秘書エージェントを家計、予約、調査へ使う前に、読み取り、送信、決済、保存の権限境界をどう切るか整理する実用メモ。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-24</span></div><h2><a href="../articles/2026-07-24-AI・エージェント-コネクタ権限は「読むだけ」と「外へ出す」で分ける-80bcb9c9e3.html">コネクタ権限は「読むだけ」と「外へ出す」で分ける</a></h2><p>コネクタ権限を読むだけと外部送信に分離すると、Codex運用での誤作動や鍵露出時の被害範囲を小さくし、公開反映リスクを減らせる。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-22</span></div><h2><a href="../articles/2026-07-22-AI・エージェント-OpenAIとGoogleで見る「PC操作型エージェント」の権限設計-43ef1e89af.html">OpenAIとGoogleで見る「PC操作型エージェント」の権限設計</a></h2><p>OpenAIとGoogleのComputer Use系エージェントを、個人PCで使う前提で確認ゲート・外部送信制限・ログを軸に比較した。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-18</span></div><h2><a href="../articles/2026-07-18-AI・エージェント-Responses再試行ポリシー化でTool障害を収束させる-7ad2c828d7.html">Responses再試行ポリシー化でTool障害を収束させる</a></h2><p>OpenAI ResponsesのTool障害時に再試行戦略を固定化すると、失敗種別ごとに処理を分けて一時障害を回避し、日次1本運用の公開フロー停止時間を抑えられる。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-17T19:30:00+09:00</span></div><h2><a href="../articles/2026-07-17-AI・エージェント-コネクタ権限は「誰が実行できるか」でなく「どこまで実行できるか」に分解する-a4338b6946.html">コネクタ権限は「誰が実行できるか」でなく「どこまで実行できるか」に分解する</a></h2><p>OpenAI App RuntimeとWorkspace Agents運用を実務へ落とすときは、権限を読み取り専用・実行系・共有系に分解し、plugin側とagent側の境界で事故半径を下げるのが本質。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-16</span></div><h2><a href="../articles/2026-07-16-AI・エージェント-Responses-APIの再実行ポリシー化で失敗時復旧を短縮する-e767a095b4.html">Responses APIの再実行ポリシー化で失敗時復旧を短縮する</a></h2><p>Responses APIの再実行方針を固定化し、リトライ回数・待機時間・失敗時分岐を揃えることで、当日の1本記事運用を速く回復できる。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-15</span></div><h2><a href="../articles/2026-07-15-AI・エージェント-Responses運用を再現化する-ec3a0f0a17.html">Responses運用を再現化する</a></h2><p>Responses APIで短尺回答と調査ノート作成を分離すると、同日1本選定でも再現性と監査性が上がる。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-14</span></div><h2><a href="../articles/2026-07-14-AI・エージェント-モデル別で分岐する調査運用-da846e6f48.html">モデル別で分岐する調査運用</a></h2><p>Responses APIの即答向けモデルと調査向けモデルを役割分離すると、同一cronでも短尺応答の誤誘導と長尺調査のノイズが減る。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-13</span></div><h2><a href="../articles/2026-07-13-AI・エージェント-Responses-APIでコネクタ境界を分ける-e0c857da6a.html">Responses APIでコネクタ境界を分ける</a></h2><p>Responses APIで外部コネクタを運用するなら、モデルごとに許可範囲を分離し、実行権限・ログ責任・例外時の停止基準を明示するのが安全側の設計。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-10</span></div><h2><a href="../articles/2026-07-10-AI・エージェント-Codex安全運用を個人Macの自動化ルールに落とし込む-44cc48af58.html">Codex安全運用を個人Macの自動化ルールに落とし込む</a></h2><p>Codexの便利さを、個人Macの自動実行で壊れにくい運用へ落とし込む。サンドボックス、ネットワーク、秘密情報、承認点、失敗通知を日次Cron向けの点検表にする。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-09</span></div><h2><a href="../articles/2026-07-09-AI・エージェント-ChatGPT-Connectorsで個人秘書AIの情報境界を設計する-dda76c2992.html">ChatGPT Connectorsで個人秘書AIの情報境界を設計する</a></h2><p>ChatGPTのConnectors/App連携を、便利な横断検索ではなく「どの情報を読ませ、どの操作を許すか」の境界設計として整理する。OpenClawやObsidian運用にも転用しやすい点検表に落とす。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-06T19:30:00+09:00</span></div><h2><a href="../articles/2026-07-06-AI・エージェント-Codex-MCP運用の標準形-096b8f9b45.html">Codex MCP運用の標準形</a></h2><p>CodexをMCPサーバとしてAgents SDKや他クライアントから呼ぶ時の設計を、権限境界、再現性、監査ログ、OpenClaw cron運用への落とし込みで整理する。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-03T20:00:00+09:00</span></div><h2><a href="../articles/2026-07-03-AI・エージェント-Microsoft式AIエージェント隔離実行を個人環境に応用できるか-cd2f5a81ad.html">Microsoft式AIエージェント隔離実行を個人環境に応用できるか</a></h2><p>MicrosoftのAgent 365、Windows 365 for Agents、MXCを手がかりに、個人エージェント環境で真似できる隔離・監査・権限分離を整理する。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-02T19:58:00+09:00</span></div><h2><a href="../articles/2026-07-02-AI・エージェント-GPT-5.6-Solのサイバー能力強化を「個人エージェントに渡してよい権限」から評-84e15ff2de.html">GPT-5.6 Solのサイバー能力強化を「個人エージェントに渡してよい権限」から評価する</a></h2><p>GPT-5.6 Solのサイバー能力強化を、個人エージェントに渡す権限境界として整理する。強いモデルを使うほど、CLI・ファイル・外部送信のゲート設計が重要になる。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-02T19:48:00+09:00</span></div><h2><a href="../articles/2026-07-02-AI・エージェント-GPT-5.6-Sol、Claude-Sonnet-5、Google-Genkit--ca04696430.html">GPT-5.6 Sol、Claude Sonnet 5、Google Genkit Agentsを「実務エージェント」として比較する</a></h2><p>GPT-5.6 Sol、Claude Sonnet 5、Google Genkit Agentsを、実務エージェント運用の観点で比較する。強いモデル選びより、権限・監督・復旧設計を先に決める必要が見える。</p></article>
+<article class="card"><div class="meta-row"><span>2026-07-01</span></div><h2><a href="../articles/2026-07-01-AI・エージェント-AIエージェントの権限管理は「認証」ではなく「行動レイヤー」で設計する時代か-01b7b31ff1.html">AIエージェントの権限管理は「認証」ではなく「行動レイヤー」で設計する時代か</a></h2><p>AIエージェントの実運用では、ログイン認証よりも「どの行動を、誰の権限で、いつ許すか」が焦点になる。Arcade.devの資金調達とMCP認可仕様から、OpenClaw型秘書エージェントの権限設計を読む。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-30T19:50:00+09:00</span></div><h2><a href="../articles/2026-06-30-AI・エージェント-OpenAI社内のエージェント利用データから見る「実務AI導入」の勝ち筋-613e12b564.html">OpenAI社内のエージェント利用データから見る「実務AI導入」の勝ち筋</a></h2><p>OpenAI社内でCodexが全社的な主力AIツールへ移ったデータを整理する。個人秘書エージェント運用で何をKPI化し、どこに権限境界を置くべきかが見える。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-29T19:58:00+09:00</span></div><h2><a href="../articles/2026-06-29-AI・エージェント-GPT-4.5退役とChatGPTモデル選択簡素化を「個人秘書運用の棚卸し」に落とす-8b408368d7.html">GPT-4.5退役とChatGPTモデル選択簡素化を「個人秘書運用の棚卸し」に落とす</a></h2><p>GPT-4.5退役とBusiness向けモデルピッカー簡素化を、OpenClawやChatGPT個人秘書運用のモデル棚卸しに落とし込む。API影響と用途別の選び直しを確認する。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-29T19:44:00+09:00</span></div><h2><a href="../articles/2026-06-29-AI・エージェント-社内ツールを安全に動かす」設計を読む-f6c733e7b9.html">Codex RemoteとSecure MCP Tunnelで「スマホから自宅/社内ツールを安全に動かす」設計を読む</a></h2><p>Codex RemoteとSecure MCP Tunnelを、個人エージェント運用の操作面と接続面から整理する。スマホ操作、権限承認、private MCP接続の境界設計を考える材料になる。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-26T19:48:00+09:00</span></div><h2><a href="../articles/2026-06-26-AI・エージェント-OpenAIの非開発者Codex利用137倍は、個人秘書エージェント運用に何を示すか-90b309f5ac.html">OpenAIの非開発者Codex利用137倍は、個人秘書エージェント運用に何を示すか</a></h2><p>OpenAIは2026年6月25日、「How agents are transforming work」で、Codex利用がチャット型AIから委任型エージェント作業へ移っている状況を公開した。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-25T20:05:00+09:00</span></div><h2><a href="../articles/2026-06-25-AI・エージェント-Workspace-Agentsで「チーム共有の個人秘書」を作る時の権限境界-bfcd51c0ee.html">Workspace Agentsで「チーム共有の個人秘書」を作る時の権限境界</a></h2><p>OpenAIのWorkspace Agentsは、個人のチャット補助ではなく、チーム内で共有される反復業務エージェントとして設計されている。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-25T19:55:00+09:00</span></div><h2><a href="../articles/2026-06-25-AI・エージェント-ChatGPT-Agent普及で「個人秘書ワーク」はどこまで現実化したか-afe0604843.html">Codex/ChatGPT Agent普及で「個人秘書ワーク」はどこまで現実化したか</a></h2><p>2026年6月25日時点で、AIエージェントは「会話相手」から「委任された作業を進める道具」へかなり寄ってきている。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-24T19:50:00+09:00</span></div><h2><a href="../articles/2026-06-24-AI・エージェント-OpenAIの医療・創薬系AI発表は「個人向け調査エージェント」の信頼設計に何を示す-57ebeb07bb.html">OpenAIの医療・創薬系AI発表は「個人向け調査エージェント」の信頼設計に何を示すか</a></h2><p>OpenAIは2026年6月18日に、ChatGPTの健康回答改善と、希少疾患診断支援の研究成果を相次いで公開した。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-23T19:55:00+09:00</span></div><h2><a href="../articles/2026-06-23-AI・エージェント-DeepMind-AI-Control-RoadmapをOpenClaw安全設計に落-8005095b87.html">DeepMind AI Control RoadmapをOpenClaw安全設計に落とす</a></h2><p>Google DeepMindは2026年6月18日に、社内AIエージェントを「完全に善意で整列済み」と見なすのではなく、場合によっては内部者リスクとして扱うための AI Control Roadmap を公開した。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-22T19:56:00+09:00</span></div><h2><a href="../articles/2026-06-22-AI・エージェント-OpenAI-Agents-SDKのサンドボックス実行とCodex連携を、個人秘書運-ead0734cbc.html">OpenAI Agents SDKのサンドボックス実行とCodex連携を、個人秘書運用にどう使うか</a></h2><p>2026年4月のOpenAI発表で、Agents SDKはファイル確認、コマンド実行、コード編集、長時間タスクを「制御されたサンドボックス環境」で扱う方向へ大きく寄った。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-21T19:56:00+09:00</span></div><h2><a href="../articles/2026-06-21-AI・エージェント-Codex-pluginsとworkspace-agentsで「趣味事務の役割別エー-a0ad52e97b.html">Codex pluginsとworkspace agentsで「趣味事務の役割別エージェント」を作れるか</a></h2><p>OpenAIは2026年6月2日に、Codexを開発者向けのコード支援だけでなく、分析、営業、制作、投資、プロダクト設計などの知識労働へ広げる更新を発表した。中心になるのは、役割別プラグイン、Codex Sites、アノテーションである。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-19T19:40:00+09:00</span></div><h2><a href="../articles/2026-06-19-AI・エージェント-OpenAIの企業向け利用分析・支出制御アップデートを、個人エージェント運用のコスト-f215a65abd.html">OpenAIの企業向け利用分析・支出制御アップデートを、個人エージェント運用のコスト監視に転用できるか</a></h2><p>OpenAIは2026年6月18日、ChatGPT Enterprise向けにクレジット利用分析と支出制御を強化した。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-18T19:55:00+09:00</span></div><h2><a href="../articles/2026-06-18-AI・エージェント-Noam-ShazeerのOpenAI移籍で「人格AI・個人秘書エージェント」の主戦-ff61f5e91e.html">Noam ShazeerのOpenAI移籍で「人格AI・個人秘書エージェント」の主戦場はどう変わるか</a></h2><p>Noam ShazeerがGoogleからOpenAIへ移るという報道は、単なる大物研究者の移籍ではなく、「モデル性能」「人格AI」「長期記憶」「個人秘書エージェント」の競争軸が近づいているサインとして見る価値があります。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-18T19:49:00+09:00</span></div><h2><a href="../articles/2026-06-18-AI・エージェント-ChatGPT-Scheduled-Tasksで「OpenClawの定期実行」と何が-0f45cd3f8a.html">ChatGPT Scheduled Tasksで「OpenClawの定期実行」と何が重なり、何が違うのか</a></h2><p>OpenAIは2026年6月17日のChatGPTリリースノートで、Scheduled tasksを大きく更新しました。新しいScheduledページ、作成・編集フローの改善、実行時刻の柔軟化、通知改善、監視タスクが主な変更点です。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-17T20:08:00+09:00</span></div><h2><a href="../articles/2026-06-17-AI・エージェント-VisaとOpenAIのChatGPT決済連携で「買い物エージェント」の権限設計はど-e52d31a320.html">VisaとOpenAIのChatGPT決済連携で「買い物エージェント」の権限設計はどう変わるか</a></h2><p>Visaは2026年6月10日、OpenAIと提携し、OpenAI上のエージェント型コマース体験にVisaの決済ネットワーク、トークン化、リスク管理、リアルタイム承認を組み込む方針を発表した。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-17T19:58:00+09:00</span></div><h2><a href="../articles/2026-06-17-AI・エージェント-OpenAIの「リリース前シミュレーション」はエージェント事故をどこまで防げるか-04d184952e.html">OpenAIの「リリース前シミュレーション」はエージェント事故をどこまで防げるか</a></h2><p>OpenAIが2026年6月16日に公開した Deployment Simulation は、リリース前の候補モデルを、過去の実利用会話に近い文脈へ流し込み、望ましくない挙動が本番でどの程度出そうかを予測する手法です。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-16T19:54:00+09:00</span></div><h2><a href="../articles/2026-06-16-AI・エージェント-ChatGPT-Agent以後の「調査から実行まで任せるAI」は個人秘書運用でどこま-bc84871e65.html">ChatGPT Agent以後の「調査から実行まで任せるAI」は個人秘書運用でどこまで安全か</a></h2><p>ChatGPT Agentは、従来の「調べるAI」と「ブラウザを操作するAI」を統合し、Web閲覧、ファイル、コネクタ、フォーム入力、表計算編集のような複数ステップ作業を一つの流れで扱える方向へ進んだ。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-15T19:58:00+09:00</span></div><h2><a href="../articles/2026-06-15-AI・エージェント-Claude-Opus-4.8の「正直さ」改善は自律エージェント監査に効くか-2395671020.html">Claude Opus 4.8の「正直さ」改善は自律エージェント監査に効くか</a></h2><p>2026年5月28日にAnthropicが公開したClaude Opus 4.8は、ベンチマーク上の性能向上だけでなく、エージェント作業中の「正直さ」を前面に出している。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-15T19:46:00+09:00</span></div><h2><a href="../articles/2026-06-15-AI・エージェント-Codexを「非エンジニア作業用エージェント」に広げると趣味事務はどこまで自動化でき-e744bb7fa6.html">Codexを「非エンジニア作業用エージェント」に広げると趣味事務はどこまで自動化できるか</a></h2><p>OpenAIは2026年6月2日、Codexをソフトウェア開発だけでなく、分析、調査、資料作成、ワークフロー自動化、軽量ツール作成にも広げる方向を明確にした。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-13</span></div><h2><a href="../articles/2026-06-13-AI・エージェント-Cloudflare-Browser-Runで「人間が介入できるブラウザエージェント-62f4f13d07.html">Cloudflare Browser Runで「人間が介入できるブラウザエージェント」をOpenClaw設計へ取り込む</a></h2><p>CloudflareはBrowser RenderingをBrowser Runへ改名し、AIエージェント向けのクラウド実行ブラウザとして位置づけ直した。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-13</span></div><h2><a href="../articles/2026-06-13-AI・エージェント-AIと遺伝子合成規制を「個人エージェント時代の危険注文防止」として読む-a66a65b30e.html">AIと遺伝子合成規制を「個人エージェント時代の危険注文防止」として読む</a></h2><p>2026年6月、OpenAI、Anthropic、Google DeepMind、Microsoft AIなどのAI企業幹部、生命科学者、国家安全保障関係者、DNA合成企業の関係者が、米国議会に対して合成DNA/RNAなどの核酸合成注文のスクリーニングと記録保持を義務化。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-12T19:52:00+09:00</span></div><h2><a href="../articles/2026-06-12-AI・エージェント-Claude-API-6月15日モデル廃止前にOpenClaw連携設定を棚卸しする-0f91351054.html">Claude API 6月15日モデル廃止前にOpenClaw連携設定を棚卸しする</a></h2><p>AnthropicのClaude APIでは、claude-sonnet-4-20250514 と claude-opus-4-20250514 が2026年6月15日に退役予定である。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-12</span></div><h2><a href="../articles/2026-06-12-AI・エージェント-Chrome-Enterprise-MCPサーバーでブラウザ管理はAIエージェント化-ffaf170694.html">Chrome Enterprise MCPサーバーでブラウザ管理はAIエージェント化できるか</a></h2><p>Googleは2026年5月28日、Chrome Enterprise APIをAIエージェントから呼び出せるようにするChrome Enterprise Premium向けMCPサーバーを公開した。</p></article>
+<article class="card"><div class="meta-row"><span>2026-06-07</span></div><h2><a href="../articles/2026-06-07-AI・エージェント-CodexのChatGPT統合とワークスペースエージェントで「事務処理エージェント」-56a7b87ea2.html">CodexのChatGPT統合とワークスペースエージェントで「事務処理エージェント」は何が変わるか</a></h2><p>2026年6月時点の大きな変化は、Codexが「開発者がコードを書くための道具」から、レポート、調査、表計算、軽量ツール、社内ワークフローを扱う知識労働向けエージェント基盤へ広がっている点にある。</p></article></section></main></body></html>
