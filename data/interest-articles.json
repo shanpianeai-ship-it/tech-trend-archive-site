@@ -1,5 +1,20 @@
 [
   {
+    "slug": "2026-09-05-セキュリティ-GitHub-Actionsのartifact-attestationsでビルド由来を検証可能にする-3888879b49",
+    "title": "GitHub Actionsのartifact attestationsでビルド由来を検証可能にする",
+    "created": "2026-09-05",
+    "summary": "GitHub公式のartifact attestationsを使うと、バイナリやコンテナイメージがどのworkflowで生成されたかを後から確認しやすくなる。導入時はプラン条件、最小権限、対象指定、検証手順まで一体で設計したい。",
+    "excerpt": "GitHub公式のartifact attestationsを使うと、バイナリやコンテナイメージがどのworkflowで生成されたかを後から確認しやすくなる。導入時はプラン条件、最小権限、対象指定、検証手順まで一体で設計したい。",
+    "sources": [
+      "https://docs.github.com/en/actions/how-tos/secure-your-work/use-artifact-attestations/use-artifact-attestations"
+    ],
+    "publication_id": "3888879b492f05ae07f9",
+    "category": "セキュリティ",
+    "status": "published",
+    "type": "interest_report",
+    "url": "interests/articles/2026-09-05-セキュリティ-GitHub-Actionsのartifact-attestationsでビルド由来を検証可能にする-3888879b49.html"
+  },
+  {
     "slug": "2026-08-03-健康・運動-VR卓球を減量の継続装置として使う-025ac1e5de",
     "title": "VR卓球を減量の継続装置として使う",
     "created": "2026-08-03",

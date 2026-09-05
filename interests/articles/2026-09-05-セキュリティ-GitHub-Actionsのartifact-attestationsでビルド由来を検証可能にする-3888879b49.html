@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="GitHub公式のartifact attestationsを使うと、バイナリやコンテナイメージがどのworkflowで生成されたかを後から確認しやすくなる。導入時はプラン条件、最小権限、対象指定、検証手順まで一体で設計したい。">
+  <meta name="publication-id" content="3888879b492f05ae07f9">
+  <title>GitHub Actionsのartifact attestationsでビルド由来を検証可能にする | 興味レポート</title>
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+  <header class="site-header"><a class="site-title" href="../../interests/index.html">興味レポート</a></header>
+  <main>
+    <article class="article" data-publication-id="3888879b492f05ae07f9">
+      <div class="meta-row"><span>2026-09-05</span><span>セキュリティ</span></div>
+      <h1>GitHub Actionsのartifact attestationsでビルド由来を検証可能にする</h1>
+      <aside class="summary-box"><span>Summary</span><p>GitHub公式のartifact attestationsを使うと、バイナリやコンテナイメージがどのworkflowで生成されたかを後から確認しやすくなる。導入時はプラン条件、最小権限、対象指定、検証手順まで一体で設計したい。</p></aside>
+<h3>導入前に確認すること</h3>
+<p>GitHub Actionsのartifact attestationsは、ビルド成果物に対して「どこで、どのように作られたか」を示す由来情報を付けるための機能です。対象はバイナリやコンテナイメージで、workflowにattestation生成ステップを加えることで、後から成果物のbuild provenanceを確認できる状態にできます。</p>
+<p>ただし、使える範囲はリポジトリ種別とプランに左右されます。現行のGitHubプランでは利用できますが、Bronze、Silver、Goldのようなレガシープランでは利用できません。また、Free、Pro、Teamではpublicリポジトリが対象で、privateまたはinternalリポジトリで使うにはGitHub Enterprise Cloudが必要です。まず対象リポジトリで機能を使えるかを確認するのが出発点です。</p>
+<h3>バイナリに由来証明を付ける</h3>
+<p>バイナリ成果物にattestationを付ける場合、workflow側で必要な権限を明示します。基本は<code>id-token: write</code>、<code>contents: read</code>、<code>attestations: write</code>です。OIDCトークンを扱うための権限、リポジトリ内容の読み取り、attestationを書き込む権限を、それぞれworkflowに持たせます。</p>
+<p>そのうえで、バイナリを生成した直後のステップに<code>actions/attest@v4</code>を追加し、<code>subject-path</code>で対象ファイルの場所を指定します。重要なのは、署名やattestationを「最後にまとめて付ける飾り」と考えないことです。どのビルドステップで作られたどの成果物に対する由来情報なのかが追えるように、生成直後の流れに組み込むほうが運用しやすくなります。</p>
+<h3>コンテナイメージではdigestを基準にする</h3>
+<p>コンテナイメージの場合は、バイナリの権限に加えて<code>packages: write</code>も必要です。attestationの対象指定には<code>subject-name</code>、<code>subject-digest</code>、<code>push-to-registry: true</code>を使います。</p>
+<p><code>subject-name</code>は、<code>ghcr.io/user/app</code>のような完全修飾のイメージ名で指定し、タグは含めません。実体の識別には<code>subject-digest</code>を使い、値は<code>sha256:HEX_DIGEST</code>の形式にします。docker/build-push-actionを使っているworkflowでは、そのステップのdigest出力をattestationの入力に渡せます。タグは動かせる名前になり得るため、検証可能性を高めるにはdigestを基準に対象を結び付ける設計が重要です。</p>
+<h3>SBOMとlinked artifactsも運用に入れる</h3>
+<p>artifact attestationsはSBOMにも使えます。事前に対象成果物のSBOMを生成し、<code>actions/attest@v4</code>で<code>sbom-path</code>を指定します。バイナリでは<code>subject-path</code>で対象成果物を示し、SBOMファイルの場所を<code>sbom-path</code>で対応付けます。コンテナイメージでも、対象のイメージ名とdigestに加えて、JSON形式のSBOMファイルを指定します。</p>
+<p>さらに、linked artifacts pageへ成果物の記録を作る運用もあります。自動でstorage recordを作成するには、<code>push-to-registry: true</code>が設定されていることと、workflowに<code>artifact-metadata: write</code>権限があることの両方が必要です。このページでは、成果物のビルド履歴、デプロイ記録、保存情報を確認でき、脆弱な成果物を所有チーム、ソースコード、ビルド実行へ結び付ける手がかりになります。</p>
+<h3>生成だけで終わらせない</h3>
+<p>attestationは、付けた時点で成果物が安全だと断定する仕組みではありません。価値が出るのは、生成されたattestationをGitHub CLIで検証し、どの成果物をどの条件で受け入れるかを運用に組み込んだときです。</p>
+<p>そのため、導入時はworkflowへのステップ追加だけでなく、権限の過不足、対象ファイルやdigestの指定、SBOM生成の有無、linked artifactsへの記録条件、検証コマンドを実行するタイミングまで決めておく必要があります。artifact attestationsは供給網リスクをなくすものではありませんが、成果物の由来を後から確かめられる状態にし、調査や判断の足場を増やす実用的な仕組みです。</p>
+      <section class="source-box"><h2>参照元</h2><ul><li><a href="https://docs.github.com/en/actions/how-tos/secure-your-work/use-artifact-attestations/use-artifact-attestations" rel="noopener noreferrer">docs.github.com</a></li></ul></section>
+    </article>
+  </main>
+</body>
+</html>

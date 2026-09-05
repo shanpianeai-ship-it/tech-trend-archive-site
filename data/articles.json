@@ -5,6 +5,7 @@
     "created": "2026-08-13",
     "summary": "MCP連携では、便利さより先に認可の境界を確認する必要がある。Confused Deputy、token passthrough、SSRFを小規模運用でも点検できる順序に整理する。",
     "excerpt": "MCP連携では、便利さより先に認可の境界を確認する必要がある。Confused Deputy、token passthrough、SSRFを小規模運用でも点検できる順序に整理する。",
+    "url": "articles/2026-08-13-Security-MCP連携で認可境界を崩さないための確認点-922dd79c1f.html",
     "sources": [
       "https://modelcontextprotocol.io/docs/2025-11-25/tutorials/security/security_best_practices"
     ],
@@ -13,8 +14,7 @@
     "genreLabel": "Security",
     "source": "https://modelcontextprotocol.io/docs/2025-11-25/tutorials/security/security_best_practices",
     "importance": "medium",
-    "confidence": "public-reviewed",
-    "url": "articles/2026-08-13-Security-MCP連携で認可境界を崩さないための確認点-922dd79c1f.html"
+    "confidence": "public-reviewed"
   },
   {
     "slug": "2026-08-03_AM_Hugging_Face自律AI侵入",
