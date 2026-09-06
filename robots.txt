@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://shanpianeai-ship-it.github.io/tech-trend-archive-site/sitemap.xml

@@ -5,15 +5,39 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>BTP接続設定は動くことより呼べる範囲を先に見る | 公開ナレッジブログ</title>
   <meta name="description" content="BTP上の宛先設定やアプリ運用で、画面が正常に動くことだけを確認しても見落としやすいリスクを整理する。接続先、権限、公開範囲、検知方法を分けて確認することで、本番後の事故を減らせる。">
-  <link rel="stylesheet" href="../../assets/style.css">
+  <!-- blog-site-meta:start -->
+  <meta http-equiv="Content-Security-Policy" content="default-src &#39;self&#39;; base-uri &#39;none&#39;; object-src &#39;none&#39;; form-action &#39;none&#39;; img-src &#39;self&#39; data:; style-src &#39;self&#39; &#39;unsafe-inline&#39;; script-src &#39;self&#39;; connect-src &#39;self&#39;; upgrade-insecure-requests">
+  <link rel="canonical" href="https://shanpianeai-ship-it.github.io/tech-trend-archive-site/knowledge/articles/2026-07-31-%E3%82%AF%E3%83%A9%E3%82%A6%E3%83%89%E9%81%8B%E7%94%A8-BTP%E6%8E%A5%E7%B6%9A%E8%A8%AD%E5%AE%9A%E3%81%AF%E5%8B%95%E3%81%8F%E3%81%93%E3%81%A8%E3%82%88%E3%82%8A%E5%91%BC%E3%81%B9%E3%82%8B%E7%AF%84%E5%9B%B2%E3%82%92%E5%85%88%E3%81%AB%E8%A6%8B%E3%82%8B-740988be00.html">
+  <link rel="alternate" type="application/rss+xml" title="海外技術情報アーカイブ RSS" href="https://shanpianeai-ship-it.github.io/tech-trend-archive-site/feed.xml">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="海外技術情報アーカイブ">
+  <meta property="og:title" content="BTP接続設定は動くことより呼べる範囲を先に見る">
+  <meta property="og:description" content="BTP上の宛先設定やアプリ運用で、画面が正常に動くことだけを確認しても見落としやすいリスクを整理する。接続先、権限、公開範囲、検知方法を分けて確認することで、本番後の事故を減らせる。">
+  <meta property="og:url" content="https://shanpianeai-ship-it.github.io/tech-trend-archive-site/knowledge/articles/2026-07-31-%E3%82%AF%E3%83%A9%E3%82%A6%E3%83%89%E9%81%8B%E7%94%A8-BTP%E6%8E%A5%E7%B6%9A%E8%A8%AD%E5%AE%9A%E3%81%AF%E5%8B%95%E3%81%8F%E3%81%93%E3%81%A8%E3%82%88%E3%82%8A%E5%91%BC%E3%81%B9%E3%82%8B%E7%AF%84%E5%9B%B2%E3%82%92%E5%85%88%E3%81%AB%E8%A6%8B%E3%82%8B-740988be00.html">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="BTP接続設定は動くことより呼べる範囲を先に見る">
+  <meta name="twitter:description" content="BTP上の宛先設定やアプリ運用で、画面が正常に動くことだけを確認しても見落としやすいリスクを整理する。接続先、権限、公開範囲、検知方法を分けて確認することで、本番後の事故を減らせる。">
+  <meta property="article:published_time" content="2026-07-31T00:00:00+09:00">
+  <meta property="article:section" content="公開ナレッジ">
+  <!-- blog-site-meta:end -->
+<link rel="stylesheet" href="../../assets/style.css">
 </head>
 <body>
   <header class="site-header">
-    <a class="site-title" href="../../knowledge/index.html">公開ナレッジブログ</a>
-    <span class="site-subtitle">Public ERP operations notes</span>
+    <div class="site-brand">
+      <a class="site-title" href="../../index.html">海外技術情報アーカイブ</a>
+      <span class="site-subtitle">AI / SAP / Security / ERP operations</span>
+    </div>
+    <nav class="site-nav" aria-label="主要ナビゲーション">
+      <a href="../../index.html">海外技術情報</a>
+      <a href="../../interests/index.html">興味レポート</a>
+      <a href="../../knowledge/index.html" aria-current="page">公開ナレッジ</a>
+      <a href="../../start/index.html">はじめての方へ</a>
+    </nav>
   </header>
   <main>
-    <article class="article">
+    <article class="article" data-publication-id="635a34794fba2586d66a">
       <nav class="back"><a href="../index.html">← 公開ナレッジ一覧へ</a></nav>
       <div class="meta-row">
         <span>2026-07-31</span>
@@ -32,5 +56,9 @@
 <p>BTP接続設定のレビューでは、チェックリストを「疎通」「権限」「公開範囲」「冗長性」「検知」の五つに分けるとよい。疎通は動くこと、権限は許された人だけが使えること、公開範囲は想定外の入口がないこと、冗長性は落ちても業務を止めにくいこと、検知は壊れ方に気づけることを見る。正常終了の確認だけで終えず、呼べてはいけないものが呼べないことまで確認する。そこまで見て初めて、クラウドアプリは本番運用に耐える設定になっていく。</p>
     </article>
   </main>
+  <footer class="site-footer">
+    <p>AI、SAP・ERP、セキュリティ、業務システム運用の公開技術ノートです。</p>
+    <p><a href="../../start/index.html">このブログの読み方</a> · <a href="../../feed.xml">RSS</a></p>
+  </footer>
 </body>
 </html>

@@ -5,15 +5,39 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>AIエージェントの権限管理は「認証」ではなく「行動レイヤー」で設計する時代か | 興味レポート</title>
   <meta name="description" content="AIエージェントの実運用では、ログイン認証よりも「どの行動を、誰の権限で、いつ許すか」が焦点になる。Arcade.devの資金調達とMCP認可仕様から、OpenClaw型秘書エージェントの権限設計を読む。">
-  <link rel="stylesheet" href="../../assets/style.css">
+  <!-- blog-site-meta:start -->
+  <meta http-equiv="Content-Security-Policy" content="default-src &#39;self&#39;; base-uri &#39;none&#39;; object-src &#39;none&#39;; form-action &#39;none&#39;; img-src &#39;self&#39; data:; style-src &#39;self&#39; &#39;unsafe-inline&#39;; script-src &#39;self&#39;; connect-src &#39;self&#39;; upgrade-insecure-requests">
+  <link rel="canonical" href="https://shanpianeai-ship-it.github.io/tech-trend-archive-site/interests/articles/2026-07-01-AI%E3%83%BB%E3%82%A8%E3%83%BC%E3%82%B8%E3%82%A7%E3%83%B3%E3%83%88-AI%E3%82%A8%E3%83%BC%E3%82%B8%E3%82%A7%E3%83%B3%E3%83%88%E3%81%AE%E6%A8%A9%E9%99%90%E7%AE%A1%E7%90%86%E3%81%AF%E3%80%8C%E8%AA%8D%E8%A8%BC%E3%80%8D%E3%81%A7%E3%81%AF%E3%81%AA%E3%81%8F%E3%80%8C%E8%A1%8C%E5%8B%95%E3%83%AC%E3%82%A4%E3%83%A4%E3%83%BC%E3%80%8D%E3%81%A7%E8%A8%AD%E8%A8%88%E3%81%99%E3%82%8B%E6%99%82%E4%BB%A3%E3%81%8B-01b7b31ff1.html">
+  <link rel="alternate" type="application/rss+xml" title="海外技術情報アーカイブ RSS" href="https://shanpianeai-ship-it.github.io/tech-trend-archive-site/feed.xml">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="海外技術情報アーカイブ">
+  <meta property="og:title" content="AIエージェントの権限管理は「認証」ではなく「行動レイヤー」で設計する時代か">
+  <meta property="og:description" content="AIエージェントの実運用では、ログイン認証よりも「どの行動を、誰の権限で、いつ許すか」が焦点になる。Arcade.devの資金調達とMCP認可仕様から、OpenClaw型秘書エージェントの権限設計を読む。">
+  <meta property="og:url" content="https://shanpianeai-ship-it.github.io/tech-trend-archive-site/interests/articles/2026-07-01-AI%E3%83%BB%E3%82%A8%E3%83%BC%E3%82%B8%E3%82%A7%E3%83%B3%E3%83%88-AI%E3%82%A8%E3%83%BC%E3%82%B8%E3%82%A7%E3%83%B3%E3%83%88%E3%81%AE%E6%A8%A9%E9%99%90%E7%AE%A1%E7%90%86%E3%81%AF%E3%80%8C%E8%AA%8D%E8%A8%BC%E3%80%8D%E3%81%A7%E3%81%AF%E3%81%AA%E3%81%8F%E3%80%8C%E8%A1%8C%E5%8B%95%E3%83%AC%E3%82%A4%E3%83%A4%E3%83%BC%E3%80%8D%E3%81%A7%E8%A8%AD%E8%A8%88%E3%81%99%E3%82%8B%E6%99%82%E4%BB%A3%E3%81%8B-01b7b31ff1.html">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="AIエージェントの権限管理は「認証」ではなく「行動レイヤー」で設計する時代か">
+  <meta name="twitter:description" content="AIエージェントの実運用では、ログイン認証よりも「どの行動を、誰の権限で、いつ許すか」が焦点になる。Arcade.devの資金調達とMCP認可仕様から、OpenClaw型秘書エージェントの権限設計を読む。">
+  <meta property="article:published_time" content="2026-07-01T00:00:00+09:00">
+  <meta property="article:section" content="興味レポート">
+  <!-- blog-site-meta:end -->
+<link rel="stylesheet" href="../../assets/style.css">
 </head>
 <body>
   <header class="site-header">
-    <a class="site-title" href="../../interests/index.html">興味レポート</a>
-    <span class="site-subtitle">Public redacted interest reports</span>
+    <div class="site-brand">
+      <a class="site-title" href="../../index.html">海外技術情報アーカイブ</a>
+      <span class="site-subtitle">AI / SAP / Security / ERP operations</span>
+    </div>
+    <nav class="site-nav" aria-label="主要ナビゲーション">
+      <a href="../../index.html">海外技術情報</a>
+      <a href="../../interests/index.html" aria-current="page">興味レポート</a>
+      <a href="../../knowledge/index.html">公開ナレッジ</a>
+      <a href="../../start/index.html">はじめての方へ</a>
+    </nav>
   </header>
   <main>
-    <article class="article">
+    <article class="article" data-publication-id="f32df1cea99ab8595a03">
       <nav class="back"><a href="../index.html">← 興味レポート一覧へ</a></nav>
       <div class="meta-row">
         <span>2026-07-01</span>
@@ -81,5 +105,9 @@
 <p><a href="https://www.businesswire.com/news/home/20260615229631/en/Arcade-Raises-%2460M-to-Become-the-Secure-Action-Layer-Behind-Every-Production-AI-Agent">businesswire.com - news / home</a></p>
     </article>
   </main>
+  <footer class="site-footer">
+    <p>AI、SAP・ERP、セキュリティ、業務システム運用の公開技術ノートです。</p>
+    <p><a href="../../start/index.html">このブログの読み方</a> · <a href="../../feed.xml">RSS</a></p>
+  </footer>
 </body>
 </html>

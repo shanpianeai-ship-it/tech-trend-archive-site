@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>海外技術情報アーカイブ</title>
+    <link>https://shanpianeai-ship-it.github.io/tech-trend-archive-site/</link>
+    <description>AI、SAP・ERP、セキュリティ、業務システム運用の公開技術ノートです。</description>
+    <language>ja</language>
+    <atom:link href="https://shanpianeai-ship-it.github.io/tech-trend-archive-site/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>GitHub Actionsのartifact attestationsでビルド由来を検証可能にする</title>
+      <link>https://shanpianeai-ship-it.github.io/tech-trend-archive-site/interests/articles/2026-09-05-%E3%82%BB%E3%82%AD%E3%83%A5%E3%83%AA%E3%83%86%E3%82%A3-GitHub-Actions%E3%81%AEartifact-attestations%E3%81%A7%E3%83%93%E3%83%AB%E3%83%89%E7%94%B1%E6%9D%A5%E3%82%92%E6%A4%9C%E8%A8%BC%E5%8F%AF%E8%83%BD%E3%81%AB%E3%81%99%E3%82%8B-3888879b49.html</link>
+      <guid isPermaLink="true">https://shanpianeai-ship-it.github.io/tech-trend-archive-site/interests/articles/2026-09-05-%E3%82%BB%E3%82%AD%E3%83%A5%E3%83%AA%E3%83%86%E3%82%A3-GitHub-Actions%E3%81%AEartifact-attestations%E3%81%A7%E3%83%93%E3%83%AB%E3%83%89%E7%94%B1%E6%9D%A5%E3%82%92%E6%A4%9C%E8%A8%BC%E5%8F%AF%E8%83%BD%E3%81%AB%E3%81%99%E3%82%8B-3888879b49.html</guid>
+      <pubDate>Fri, 04 Sep 2026 15:00:00 GMT</pubDate>
+      <category>興味レポート</category>
+      <description>GitHub公式のartifact attestationsを使うと、バイナリやコンテナイメージがどのworkflowで生成されたかを後から確認しやすくなる。導入時はプラン条件、最小権限、対象指定、検証手順まで一体で設計したい。</description>
+    </item>
+    <item>
+      <title>MCP連携で認可境界を崩さないための確認点</title>
+      <link>https://shanpianeai-ship-it.github.io/tech-trend-archive-site/articles/2026-08-13-Security-MCP%E9%80%A3%E6%90%BA%E3%81%A7%E8%AA%8D%E5%8F%AF%E5%A2%83%E7%95%8C%E3%82%92%E5%B4%A9%E3%81%95%E3%81%AA%E3%81%84%E3%81%9F%E3%82%81%E3%81%AE%E7%A2%BA%E8%AA%8D%E7%82%B9-922dd79c1f.html</link>
+      <guid isPermaLink="true">https://shanpianeai-ship-it.github.io/tech-trend-archive-site/articles/2026-08-13-Security-MCP%E9%80%A3%E6%90%BA%E3%81%A7%E8%AA%8D%E5%8F%AF%E5%A2%83%E7%95%8C%E3%82%92%E5%B4%A9%E3%81%95%E3%81%AA%E3%81%84%E3%81%9F%E3%82%81%E3%81%AE%E7%A2%BA%E8%AA%8D%E7%82%B9-922dd79c1f.html</guid>
+      <pubDate>Wed, 12 Aug 2026 15:00:00 GMT</pubDate>
+      <category>海外技術情報</category>
+      <description>MCP連携では、便利さより先に認可の境界を確認する必要がある。Confused Deputy、token passthrough、SSRFを小規模運用でも点検できる順序に整理する。</description>
+    </item>
+    <item>
+      <title>本番監視は見る項目より判断順序を先に決める</title>
+      <link>https://shanpianeai-ship-it.github.io/tech-trend-archive-site/knowledge/articles/2026-08-03-ERP%E9%81%8B%E7%94%A8-%E6%9C%AC%E7%95%AA%E7%9B%A3%E8%A6%96%E3%81%AF%E8%A6%8B%E3%82%8B%E9%A0%85%E7%9B%AE%E3%82%88%E3%82%8A%E5%88%A4%E6%96%AD%E9%A0%86%E5%BA%8F%E3%82%92%E5%85%88%E3%81%AB%E6%B1%BA%E3%82%81%E3%82%8B-c281334146.html</link>
+      <guid isPermaLink="true">https://shanpianeai-ship-it.github.io/tech-trend-archive-site/knowledge/articles/2026-08-03-ERP%E9%81%8B%E7%94%A8-%E6%9C%AC%E7%95%AA%E7%9B%A3%E8%A6%96%E3%81%AF%E8%A6%8B%E3%82%8B%E9%A0%85%E7%9B%AE%E3%82%88%E3%82%8A%E5%88%A4%E6%96%AD%E9%A0%86%E5%BA%8F%E3%82%92%E5%85%88%E3%81%AB%E6%B1%BA%E3%82%81%E3%82%8B-c281334146.html</guid>
+      <pubDate>Sun, 02 Aug 2026 15:00:00 GMT</pubDate>
+      <category>公開ナレッジ</category>
+      <description>本番監視を項目一覧で終わらせず、時間窓、業務影響、初動判断、引き渡し条件まで設計する考え方をまとめます。</description>
+    </item>
+    <item>
+      <title>VR卓球を減量の継続装置として使う</title>
+      <link>https://shanpianeai-ship-it.github.io/tech-trend-archive-site/interests/articles/2026-08-03-%E5%81%A5%E5%BA%B7%E3%83%BB%E9%81%8B%E5%8B%95-VR%E5%8D%93%E7%90%83%E3%82%92%E6%B8%9B%E9%87%8F%E3%81%AE%E7%B6%99%E7%B6%9A%E8%A3%85%E7%BD%AE%E3%81%A8%E3%81%97%E3%81%A6%E4%BD%BF%E3%81%86-025ac1e5de.html</link>
+      <guid isPermaLink="true">https://shanpianeai-ship-it.github.io/tech-trend-archive-site/interests/articles/2026-08-03-%E5%81%A5%E5%BA%B7%E3%83%BB%E9%81%8B%E5%8B%95-VR%E5%8D%93%E7%90%83%E3%82%92%E6%B8%9B%E9%87%8F%E3%81%AE%E7%B6%99%E7%B6%9A%E8%A3%85%E7%BD%AE%E3%81%A8%E3%81%97%E3%81%A6%E4%BD%BF%E3%81%86-025ac1e5de.html</guid>
+      <pubDate>Sun, 02 Aug 2026 15:00:00 GMT</pubDate>
+      <category>興味レポート</category>
+      <description>Meta Questの卓球VRは消費カロリーの大きさより、準備の短さ、対戦の反復性、上達フィードバックで運動を途切れにくくする道具として見ると使いやすい。</description>
+    </item>
+    <item>
+      <title>Hugging Face自律AI侵入</title>
+      <link>https://shanpianeai-ship-it.github.io/tech-trend-archive-site/articles/2026-08-03_AM_Hugging_Face%E8%87%AA%E5%BE%8BAI%E4%BE%B5%E5%85%A5.html</link>
+      <guid isPermaLink="true">https://shanpianeai-ship-it.github.io/tech-trend-archive-site/articles/2026-08-03_AM_Hugging_Face%E8%87%AA%E5%BE%8BAI%E4%BE%B5%E5%85%A5.html</guid>
+      <pubDate>Sun, 02 Aug 2026 15:00:00 GMT</pubDate>
+      <category>海外技術情報</category>
+      <description>Hugging Faceが公表した、自律AIエージェント主導の侵入事例。AI基盤ではデータ処理、評価環境、IR用モデル準備まで防御面に入ることが分かる。</description>
+    </item>
+    <item>
+      <title>N-able N-central悪用</title>
+      <link>https://shanpianeai-ship-it.github.io/tech-trend-archive-site/articles/2026-08-03_N-able_N-central%E6%82%AA%E7%94%A8.html</link>
+      <guid isPermaLink="true">https://shanpianeai-ship-it.github.io/tech-trend-archive-site/articles/2026-08-03_N-able_N-central%E6%82%AA%E7%94%A8.html</guid>
+      <pubDate>Sun, 02 Aug 2026 15:00:00 GMT</pubDate>
+      <category>海外技術情報</category>
+      <description>N-able N-centralの脆弱性悪用は、MSP/RMM管理基盤の侵害が顧客環境へ横展開し得る問題。露出確認、更新、監査ログ確認を急ぐ判断材料になる。</description>
+    </item>
+    <item>
+      <title>データベース監視はアラート名より業務停止条件で分類する</title>
+      <link>https://shanpianeai-ship-it.github.io/tech-trend-archive-site/knowledge/articles/2026-08-02-ERP%E9%81%8B%E7%94%A8-%E3%83%87%E3%83%BC%E3%82%BF%E3%83%99%E3%83%BC%E3%82%B9%E7%9B%A3%E8%A6%96%E3%81%AF%E3%82%A2%E3%83%A9%E3%83%BC%E3%83%88%E5%90%8D%E3%82%88%E3%82%8A%E6%A5%AD%E5%8B%99%E5%81%9C%E6%AD%A2%E6%9D%A1%E4%BB%B6%E3%81%A7%E5%88%86%E9%A1%9E%E3%81%99%E3%82%8B-e2ac0e5ad8.html</link>
+      <guid isPermaLink="true">https://shanpianeai-ship-it.github.io/tech-trend-archive-site/knowledge/articles/2026-08-02-ERP%E9%81%8B%E7%94%A8-%E3%83%87%E3%83%BC%E3%82%BF%E3%83%99%E3%83%BC%E3%82%B9%E7%9B%A3%E8%A6%96%E3%81%AF%E3%82%A2%E3%83%A9%E3%83%BC%E3%83%88%E5%90%8D%E3%82%88%E3%82%8A%E6%A5%AD%E5%8B%99%E5%81%9C%E6%AD%A2%E6%9D%A1%E4%BB%B6%E3%81%A7%E5%88%86%E9%A1%9E%E3%81%99%E3%82%8B-e2ac0e5ad8.html</guid>
+      <pubDate>Sat, 01 Aug 2026 15:00:00 GMT</pubDate>
+      <category>公開ナレッジ</category>
+      <description>データベース監視を可用性、設定、例外、性能の観点で整理し、業務停止につながる条件から優先度を決める考え方をまとめます。</description>
+    </item>
+    <item>
+      <title>個人MacのAI開発環境でnpm postinstallをどこまで止めるべきか</title>
+      <link>https://shanpianeai-ship-it.github.io/tech-trend-archive-site/interests/articles/2026-08-02-%E3%82%BB%E3%82%AD%E3%83%A5%E3%83%AA%E3%83%86%E3%82%A3-%E5%80%8B%E4%BA%BAMac%E3%81%AEAI%E9%96%8B%E7%99%BA%E7%92%B0%E5%A2%83%E3%81%A7npm-postinstall%E3%82%92%E3%81%A9%E3%81%93%E3%81%BE%E3%81%A7%E6%AD%A2%E3%82%81%E3%82%8B%E3%81%B9%E3%81%8D%E3%81%8B-6ed033fe99.html</link>
+      <guid isPermaLink="true">https://shanpianeai-ship-it.github.io/tech-trend-archive-site/interests/articles/2026-08-02-%E3%82%BB%E3%82%AD%E3%83%A5%E3%83%AA%E3%83%86%E3%82%A3-%E5%80%8B%E4%BA%BAMac%E3%81%AEAI%E9%96%8B%E7%99%BA%E7%92%B0%E5%A2%83%E3%81%A7npm-postinstall%E3%82%92%E3%81%A9%E3%81%93%E3%81%BE%E3%81%A7%E6%AD%A2%E3%82%81%E3%82%8B%E3%81%B9%E3%81%8D%E3%81%8B-6ed033fe99.html</guid>
+      <pubDate>Sat, 01 Aug 2026 15:00:00 GMT</pubDate>
+      <category>興味レポート</category>
+      <description>AIエージェントがnpm installを実行する個人Macで、postinstall、prepare、環境変数、トークン露出をどこまで止めるべきかを実務ルールに落とす。</description>
+    </item>
+    <item>
+      <title>CaptiveCrunch旅行者攻撃</title>
+      <link>https://shanpianeai-ship-it.github.io/tech-trend-archive-site/articles/2026-08-02_CaptiveCrunch%E6%97%85%E8%A1%8C%E8%80%85%E6%94%BB%E6%92%83.html</link>
+      <guid isPermaLink="true">https://shanpianeai-ship-it.github.io/tech-trend-archive-site/articles/2026-08-02_CaptiveCrunch%E6%97%85%E8%A1%8C%E8%80%85%E6%94%BB%E6%92%83.html</guid>
+      <pubDate>Sat, 01 Aug 2026 15:00:00 GMT</pubDate>
+      <category>海外技術情報</category>
+      <description>Midnight Blizzard系Storm-2945がホテル等のcaptive portal経由でDNS/HTTPを操作し、AiTMフィッシングやマルウェア配布を行う攻撃。</description>
+    </item>
+    <item>
+      <title>AISPAシステムプロンプト監査</title>
+      <link>https://shanpianeai-ship-it.github.io/tech-trend-archive-site/articles/2026-08-02_AM_AISPA%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0%E3%83%97%E3%83%AD%E3%83%B3%E3%83%97%E3%83%88%E7%9B%A3%E6%9F%BB.html</link>
+      <guid isPermaLink="true">https://shanpianeai-ship-it.github.io/tech-trend-archive-site/articles/2026-08-02_AM_AISPA%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0%E3%83%97%E3%83%AD%E3%83%B3%E3%83%97%E3%83%88%E7%9B%A3%E6%9F%BB.html</guid>
+      <pubDate>Sat, 01 Aug 2026 15:00:00 GMT</pubDate>
+      <category>海外技術情報</category>
+      <description>AISPAは商用AI製品のシステムプロンプトを、ユーザー保護と問題指示の両面から監査する枠組み。AIアプリの透明性、監査、調達評価を考える材料になる。</description>
+    </item>
+    <item>
+      <title>承認ワークフローは完了通知より後続反映を見る</title>
+      <link>https://shanpianeai-ship-it.github.io/tech-trend-archive-site/knowledge/articles/2026-08-01-ERP%E9%81%8B%E7%94%A8-%E6%89%BF%E8%AA%8D%E3%83%AF%E3%83%BC%E3%82%AF%E3%83%95%E3%83%AD%E3%83%BC%E3%81%AF%E5%AE%8C%E4%BA%86%E9%80%9A%E7%9F%A5%E3%82%88%E3%82%8A%E5%BE%8C%E7%B6%9A%E5%8F%8D%E6%98%A0%E3%82%92%E8%A6%8B%E3%82%8B-e46ffe78a5.html</link>
+      <guid isPermaLink="true">https://shanpianeai-ship-it.github.io/tech-trend-archive-site/knowledge/articles/2026-08-01-ERP%E9%81%8B%E7%94%A8-%E6%89%BF%E8%AA%8D%E3%83%AF%E3%83%BC%E3%82%AF%E3%83%95%E3%83%AD%E3%83%BC%E3%81%AF%E5%AE%8C%E4%BA%86%E9%80%9A%E7%9F%A5%E3%82%88%E3%82%8A%E5%BE%8C%E7%B6%9A%E5%8F%8D%E6%98%A0%E3%82%92%E8%A6%8B%E3%82%8B-e46ffe78a5.html</guid>
+      <pubDate>Fri, 31 Jul 2026 15:00:00 GMT</pubDate>
+      <category>公開ナレッジ</category>
+      <description>承認ワークフローの運用確認は、承認済み件数だけでは不十分です。後続テーブルや会計・管理側への反映差分まで見る観点を整理します。</description>
+    </item>
+    <item>
+      <title>Traefik CONNECT汚染</title>
+      <link>https://shanpianeai-ship-it.github.io/tech-trend-archive-site/articles/2026-08-01_Traefik_CONNECT%E6%B1%9A%E6%9F%93.html</link>
+      <guid isPermaLink="true">https://shanpianeai-ship-it.github.io/tech-trend-archive-site/articles/2026-08-01_Traefik_CONNECT%E6%B1%9A%E6%9F%93.html</guid>
+      <pubDate>Fri, 31 Jul 2026 15:00:00 GMT</pubDate>
+      <category>海外技術情報</category>
+      <description>Traefikの共有keep-aliveプールで、HTTP/2/3のCONNECTが別ユーザーのレスポンスを読ませ得る脆弱性。プロキシの接続再利用境界を見直す材料になる。</description>
+    </item>
+    <item>
+      <title>ChatGPT Agentを家計・予約・調査に使う時の権限分離チェック</title>
+      <link>https://shanpianeai-ship-it.github.io/tech-trend-archive-site/interests/articles/2026-08-01-AI%E3%83%BB%E3%82%A8%E3%83%BC%E3%82%B8%E3%82%A7%E3%83%B3%E3%83%88-ChatGPT-Agent%E3%82%92%E5%AE%B6%E8%A8%88%E3%83%BB%E4%BA%88%E7%B4%84%E3%83%BB%E8%AA%BF%E6%9F%BB%E3%81%AB%E4%BD%BF%E3%81%86%E6%99%82%E3%81%AE%E6%A8%A9%E9%99%90%E5%88%86%E9%9B%A2%E3%83%81%E3%82%A7%E3%83%83%E3%82%AF-43f620d96b.html</link>
+      <guid isPermaLink="true">https://shanpianeai-ship-it.github.io/tech-trend-archive-site/interests/articles/2026-08-01-AI%E3%83%BB%E3%82%A8%E3%83%BC%E3%82%B8%E3%82%A7%E3%83%B3%E3%83%88-ChatGPT-Agent%E3%82%92%E5%AE%B6%E8%A8%88%E3%83%BB%E4%BA%88%E7%B4%84%E3%83%BB%E8%AA%BF%E6%9F%BB%E3%81%AB%E4%BD%BF%E3%81%86%E6%99%82%E3%81%AE%E6%A8%A9%E9%99%90%E5%88%86%E9%9B%A2%E3%83%81%E3%82%A7%E3%83%83%E3%82%AF-43f620d96b.html</guid>
+      <pubDate>Fri, 31 Jul 2026 15:00:00 GMT</pubDate>
+      <category>興味レポート</category>
+      <description>ChatGPT Agentや個人秘書エージェントを家計、予約、調査へ使う前に、読み取り、送信、決済、保存の権限境界をどう切るか整理する実用メモ。</description>
+    </item>
+    <item>
+      <title>GhostApprovalをCSAのガバナンス視点で読む</title>
+      <link>https://shanpianeai-ship-it.github.io/tech-trend-archive-site/articles/2026-08-01_AM_GhostApproval_CSA%E3%82%AC%E3%83%90%E3%83%8A%E3%83%B3%E3%82%B9.html</link>
+      <guid isPermaLink="true">https://shanpianeai-ship-it.github.io/tech-trend-archive-site/articles/2026-08-01_AM_GhostApproval_CSA%E3%82%AC%E3%83%90%E3%83%8A%E3%83%B3%E3%82%B9.html</guid>
+      <pubDate>Fri, 31 Jul 2026 15:00:00 GMT</pubDate>
+      <category>海外技術情報</category>
+      <description>CSAのGhostApproval解説は、AIコーディング支援のsymlink問題を単なる実装バグではなく、承認UIとエージェント権限設計のガバナンス問題として整理している。</description>
+    </item>
+    <item>
+      <title>Claudeのサイバー評価事故を個人エージェント安全設計に落とす</title>
+      <link>https://shanpianeai-ship-it.github.io/tech-trend-archive-site/interests/articles/2026-07-31-%E3%82%BB%E3%82%AD%E3%83%A5%E3%83%AA%E3%83%86%E3%82%A3-Claude%E3%81%AE%E3%82%B5%E3%82%A4%E3%83%90%E3%83%BC%E8%A9%95%E4%BE%A1%E4%BA%8B%E6%95%85%E3%82%92%E5%80%8B%E4%BA%BA%E3%82%A8%E3%83%BC%E3%82%B8%E3%82%A7%E3%83%B3%E3%83%88%E5%AE%89%E5%85%A8%E8%A8%AD%E8%A8%88%E3%81%AB%E8%90%BD%E3%81%A8%E3%81%99-e39bc11655.html</link>
+      <guid isPermaLink="true">https://shanpianeai-ship-it.github.io/tech-trend-archive-site/interests/articles/2026-07-31-%E3%82%BB%E3%82%AD%E3%83%A5%E3%83%AA%E3%83%86%E3%82%A3-Claude%E3%81%AE%E3%82%B5%E3%82%A4%E3%83%90%E3%83%BC%E8%A9%95%E4%BE%A1%E4%BA%8B%E6%95%85%E3%82%92%E5%80%8B%E4%BA%BA%E3%82%A8%E3%83%BC%E3%82%B8%E3%82%A7%E3%83%B3%E3%83%88%E5%AE%89%E5%85%A8%E8%A8%AD%E8%A8%88%E3%81%AB%E8%90%BD%E3%81%A8%E3%81%99-e39bc11655.html</guid>
+      <pubDate>Thu, 30 Jul 2026 15:00:00 GMT</pubDate>
+      <category>興味レポート</category>
+      <description>Anthropicのサイバー評価事故を、個人エージェント運用の隔離、外部送信制御、ログ監視へ読み替える。評価・検証環境が外へ漏れた時の実害を点検するメモ。</description>
+    </item>
+    <item>
+      <title>mcp-mermaid悪性npm</title>
+      <link>https://shanpianeai-ship-it.github.io/tech-trend-archive-site/articles/2026-07-31_mcp-mermaid%E6%82%AA%E6%80%A7npm.html</link>
+      <guid isPermaLink="true">https://shanpianeai-ship-it.github.io/tech-trend-archive-site/articles/2026-07-31_mcp-mermaid%E6%82%AA%E6%80%A7npm.html</guid>
+      <pubDate>Thu, 30 Jul 2026 15:00:00 GMT</pubDate>
+      <category>海外技術情報</category>
+      <description>npmのmcp-mermaidに悪性preinstallが混入したGitHub Advisory。MCPツールを便利さだけで導入せず、依存・CI・秘密情報を同時に守る必要が分かる。</description>
+    </item>
+    <item>
+      <title>DynamicMCPBench: MCPエージェントを実行効果で測る</title>
+      <link>https://shanpianeai-ship-it.github.io/tech-trend-archive-site/articles/2026-07-31_AM_DynamicMCPBench_MCP%E5%AE%9F%E6%B8%AC%E8%A9%95%E4%BE%A1.html</link>
+      <guid isPermaLink="true">https://shanpianeai-ship-it.github.io/tech-trend-archive-site/articles/2026-07-31_AM_DynamicMCPBench_MCP%E5%AE%9F%E6%B8%AC%E8%A9%95%E4%BE%A1.html</guid>
+      <pubDate>Thu, 30 Jul 2026 15:00:00 GMT</pubDate>
+      <category>海外技術情報</category>
+      <description>DynamicMCPBenchは、ライブMCPサーバー上のエージェントを最終回答ではなく実行効果で測るベンチマーク。社内MCPや業務エージェントの評価設計にそのまま使える観点が多い。</description>
+    </item>
+    <item>
+      <title>BTP接続設定は動くことより呼べる範囲を先に見る</title>
+      <link>https://shanpianeai-ship-it.github.io/tech-trend-archive-site/knowledge/articles/2026-07-31-%E3%82%AF%E3%83%A9%E3%82%A6%E3%83%89%E9%81%8B%E7%94%A8-BTP%E6%8E%A5%E7%B6%9A%E8%A8%AD%E5%AE%9A%E3%81%AF%E5%8B%95%E3%81%8F%E3%81%93%E3%81%A8%E3%82%88%E3%82%8A%E5%91%BC%E3%81%B9%E3%82%8B%E7%AF%84%E5%9B%B2%E3%82%92%E5%85%88%E3%81%AB%E8%A6%8B%E3%82%8B-740988be00.html</link>
+      <guid isPermaLink="true">https://shanpianeai-ship-it.github.io/tech-trend-archive-site/knowledge/articles/2026-07-31-%E3%82%AF%E3%83%A9%E3%82%A6%E3%83%89%E9%81%8B%E7%94%A8-BTP%E6%8E%A5%E7%B6%9A%E8%A8%AD%E5%AE%9A%E3%81%AF%E5%8B%95%E3%81%8F%E3%81%93%E3%81%A8%E3%82%88%E3%82%8A%E5%91%BC%E3%81%B9%E3%82%8B%E7%AF%84%E5%9B%B2%E3%82%92%E5%85%88%E3%81%AB%E8%A6%8B%E3%82%8B-740988be00.html</guid>
+      <pubDate>Thu, 30 Jul 2026 15:00:00 GMT</pubDate>
+      <category>公開ナレッジ</category>
+      <description>BTP上の宛先設定やアプリ運用で、画面が正常に動くことだけを確認しても見落としやすいリスクを整理する。接続先、権限、公開範囲、検知方法を分けて確認することで、本番後の事故を減らせる。</description>
+    </item>
+    <item>
+      <title>障害初動は深掘りより業務影響の切り分けを先にする</title>
+      <link>https://shanpianeai-ship-it.github.io/tech-trend-archive-site/knowledge/articles/2026-07-30-ERP%E9%81%8B%E7%94%A8-%E9%9A%9C%E5%AE%B3%E5%88%9D%E5%8B%95%E3%81%AF%E6%B7%B1%E6%8E%98%E3%82%8A%E3%82%88%E3%82%8A%E6%A5%AD%E5%8B%99%E5%BD%B1%E9%9F%BF%E3%81%AE%E5%88%87%E3%82%8A%E5%88%86%E3%81%91%E3%82%92%E5%85%88%E3%81%AB%E3%81%99%E3%82%8B-089df565f0.html</link>
+      <guid isPermaLink="true">https://shanpianeai-ship-it.github.io/tech-trend-archive-site/knowledge/articles/2026-07-30-ERP%E9%81%8B%E7%94%A8-%E9%9A%9C%E5%AE%B3%E5%88%9D%E5%8B%95%E3%81%AF%E6%B7%B1%E6%8E%98%E3%82%8A%E3%82%88%E3%82%8A%E6%A5%AD%E5%8B%99%E5%BD%B1%E9%9F%BF%E3%81%AE%E5%88%87%E3%82%8A%E5%88%86%E3%81%91%E3%82%92%E5%85%88%E3%81%AB%E3%81%99%E3%82%8B-089df565f0.html</guid>
+      <pubDate>Wed, 29 Jul 2026 15:00:00 GMT</pubDate>
+      <category>公開ナレッジ</category>
+      <description>障害や異常を見つけた直後に、原因調査へ急ぐ前に確認すべき観点を整理する。業務影響、再現性、継続性を先に分けることで、初動の迷いを減らせる。</description>
+    </item>
+    <item>
+      <title>Word文書経由Copilotワーム</title>
+      <link>https://shanpianeai-ship-it.github.io/tech-trend-archive-site/articles/2026-07-30_AM_Word%E6%96%87%E6%9B%B8Copilot%E3%83%AF%E3%83%BC%E3%83%A0.html</link>
+      <guid isPermaLink="true">https://shanpianeai-ship-it.github.io/tech-trend-archive-site/articles/2026-07-30_AM_Word%E6%96%87%E6%9B%B8Copilot%E3%83%AF%E3%83%BC%E3%83%A0.html</guid>
+      <pubDate>Wed, 29 Jul 2026 15:00:00 GMT</pubDate>
+      <category>海外技術情報</category>
+      <description>Copilot for Wordが外部文書内の隠し指示を読み、生成文書へ自己複製する文書型AIワームの実証。Office文書をAI文脈に入れる時の信頼境界と検査設計を見直す材料になる。</description>
+    </item>
+    <item>
+      <title>Discord Botトークンを個人自動化で使う時の漏えい影響を棚卸しする</title>
+      <link>https://shanpianeai-ship-it.github.io/tech-trend-archive-site/interests/articles/2026-07-30-%E3%82%BB%E3%82%AD%E3%83%A5%E3%83%AA%E3%83%86%E3%82%A3-Discord-Bot%E3%83%88%E3%83%BC%E3%82%AF%E3%83%B3%E3%82%92%E5%80%8B%E4%BA%BA%E8%87%AA%E5%8B%95%E5%8C%96%E3%81%A7%E4%BD%BF%E3%81%86%E6%99%82%E3%81%AE%E6%BC%8F%E3%81%88%E3%81%84%E5%BD%B1%E9%9F%BF%E3%82%92%E6%A3%9A%E5%8D%B8%E3%81%97%E3%81%99%E3%82%8B-ab0f9a0ed8.html</link>
+      <guid isPermaLink="true">https://shanpianeai-ship-it.github.io/tech-trend-archive-site/interests/articles/2026-07-30-%E3%82%BB%E3%82%AD%E3%83%A5%E3%83%AA%E3%83%86%E3%82%A3-Discord-Bot%E3%83%88%E3%83%BC%E3%82%AF%E3%83%B3%E3%82%92%E5%80%8B%E4%BA%BA%E8%87%AA%E5%8B%95%E5%8C%96%E3%81%A7%E4%BD%BF%E3%81%86%E6%99%82%E3%81%AE%E6%BC%8F%E3%81%88%E3%81%84%E5%BD%B1%E9%9F%BF%E3%82%92%E6%A3%9A%E5%8D%B8%E3%81%97%E3%81%99%E3%82%8B-ab0f9a0ed8.html</guid>
+      <pubDate>Wed, 29 Jul 2026 15:00:00 GMT</pubDate>
+      <category>興味レポート</category>
+      <description>Discord Botトークンを個人自動化で使う時の漏えい影響を、権限、保存場所、ローテーション、Bot招待範囲で棚卸しする。OpenClaw通知運用の事故範囲を小さくする実用メモ。</description>
+    </item>
+    <item>
+      <title>Prismata: Webエージェント注入隔離</title>
+      <link>https://shanpianeai-ship-it.github.io/tech-trend-archive-site/articles/2026-07-30_Prismata_Web%E3%82%A8%E3%83%BC%E3%82%B8%E3%82%A7%E3%83%B3%E3%83%88%E6%B3%A8%E5%85%A5%E9%9A%94%E9%9B%A2.html</link>
+      <guid isPermaLink="true">https://shanpianeai-ship-it.github.io/tech-trend-archive-site/articles/2026-07-30_Prismata_Web%E3%82%A8%E3%83%BC%E3%82%B8%E3%82%A7%E3%83%B3%E3%83%88%E6%B3%A8%E5%85%A5%E9%9A%94%E9%9B%A2.html</guid>
+      <pubDate>Wed, 29 Jul 2026 15:00:00 GMT</pubDate>
+      <category>海外技術情報</category>
+      <description>Webエージェントのクロスサイト・プロンプトインジェクションを、DOM由来の信頼ラベルと機械的な行動制限で隔離する研究。ブラウザ操作型エージェントを安全に使うための実装寄りの防御案として読める。</description>
+    </item>
+    <item>
+      <title>業務画面の遅さは通信待ちと処理時間に分けて見る</title>
+      <link>https://shanpianeai-ship-it.github.io/tech-trend-archive-site/knowledge/articles/2026-07-29-ERP%E9%81%8B%E7%94%A8-%E6%A5%AD%E5%8B%99%E7%94%BB%E9%9D%A2%E3%81%AE%E9%81%85%E3%81%95%E3%81%AF%E9%80%9A%E4%BF%A1%E5%BE%85%E3%81%A1%E3%81%A8%E5%87%A6%E7%90%86%E6%99%82%E9%96%93%E3%81%AB%E5%88%86%E3%81%91%E3%81%A6%E8%A6%8B%E3%82%8B-7eb42bbe91.html</link>
+      <guid isPermaLink="true">https://shanpianeai-ship-it.github.io/tech-trend-archive-site/knowledge/articles/2026-07-29-ERP%E9%81%8B%E7%94%A8-%E6%A5%AD%E5%8B%99%E7%94%BB%E9%9D%A2%E3%81%AE%E9%81%85%E3%81%95%E3%81%AF%E9%80%9A%E4%BF%A1%E5%BE%85%E3%81%A1%E3%81%A8%E5%87%A6%E7%90%86%E6%99%82%E9%96%93%E3%81%AB%E5%88%86%E3%81%91%E3%81%A6%E8%A6%8B%E3%82%8B-7eb42bbe91.html</guid>
+      <pubDate>Tue, 28 Jul 2026 15:00:00 GMT</pubDate>
+      <category>公開ナレッジ</category>
+      <description>業務画面の応答遅延を、利用者端末、通信、画面基盤、業務処理に分け、平均値ではなく待ち時間の所在から改善順を決める。</description>
+    </item>
+    <item>
+      <title>GitHub Personal Access TokenをAI作業端末で使う時の「期限・権限・保存場所」棚卸し</title>
+      <link>https://shanpianeai-ship-it.github.io/tech-trend-archive-site/interests/articles/2026-07-29-%E3%82%BB%E3%82%AD%E3%83%A5%E3%83%AA%E3%83%86%E3%82%A3-GitHub-Personal-Access-Token%E3%82%92AI%E4%BD%9C%E6%A5%AD%E7%AB%AF%E6%9C%AB%E3%81%A7%E4%BD%BF%E3%81%86%E6%99%82%E3%81%AE%E3%80%8C%E6%9C%9F-ef36d94e7d.html</link>
+      <guid isPermaLink="true">https://shanpianeai-ship-it.github.io/tech-trend-archive-site/interests/articles/2026-07-29-%E3%82%BB%E3%82%AD%E3%83%A5%E3%83%AA%E3%83%86%E3%82%A3-GitHub-Personal-Access-Token%E3%82%92AI%E4%BD%9C%E6%A5%AD%E7%AB%AF%E6%9C%AB%E3%81%A7%E4%BD%BF%E3%81%86%E6%99%82%E3%81%AE%E3%80%8C%E6%9C%9F-ef36d94e7d.html</guid>
+      <pubDate>Tue, 28 Jul 2026 15:00:00 GMT</pubDate>
+      <category>興味レポート</category>
+      <description>AIコーディング端末に残るGitHub PATを、fine-grained化、期限、権限、保存場所、失効手順で棚卸しする。個人開発の事故範囲を小さくする実用チェック。</description>
+    </item>
+    <item>
+      <title>SAP AI成果課金モデル</title>
+      <link>https://shanpianeai-ship-it.github.io/tech-trend-archive-site/articles/2026-07-29_AM_SAP_AI%E6%88%90%E6%9E%9C%E8%AA%B2%E9%87%91%E3%83%A2%E3%83%87%E3%83%AB.html</link>
+      <guid isPermaLink="true">https://shanpianeai-ship-it.github.io/tech-trend-archive-site/articles/2026-07-29_AM_SAP_AI%E6%88%90%E6%9E%9C%E8%AA%B2%E9%87%91%E3%83%A2%E3%83%87%E3%83%AB.html</guid>
+      <pubDate>Tue, 28 Jul 2026 15:00:00 GMT</pubDate>
+      <category>海外技術情報</category>
+      <description>SAPのQ2決算を手がかりに、AIエージェントがERPの価格モデルをユーザー数課金から成果・価値ベースへ動かす兆しを整理する。</description>
+    </item>
+    <item>
+      <title>Agentic CI/CD攻撃面</title>
+      <link>https://shanpianeai-ship-it.github.io/tech-trend-archive-site/articles/2026-07-29_Agentic_CI_CD%E6%94%BB%E6%92%83%E9%9D%A2.html</link>
+      <guid isPermaLink="true">https://shanpianeai-ship-it.github.io/tech-trend-archive-site/articles/2026-07-29_Agentic_CI_CD%E6%94%BB%E6%92%83%E9%9D%A2.html</guid>
+      <pubDate>Tue, 28 Jul 2026 15:00:00 GMT</pubDate>
+      <category>海外技術情報</category>
+      <description>エージェント型CI/CDが、外部Issueの権威づけと意図のロンダリングで秘密情報送信コードを通す可能性を示した研究。AI開発支援をパイプラインへ入れる前の設計論点になる。</description>
+    </item>
+    <item>
+      <title>企業AIエージェント動的権限スコープ</title>
+      <link>https://shanpianeai-ship-it.github.io/tech-trend-archive-site/articles/2026-07-28_%E4%BC%81%E6%A5%ADAI%E3%82%A8%E3%83%BC%E3%82%B8%E3%82%A7%E3%83%B3%E3%83%88%E5%8B%95%E7%9A%84%E6%A8%A9%E9%99%90%E3%82%B9%E3%82%B3%E3%83%BC%E3%83%97.html</link>
+      <guid isPermaLink="true">https://shanpianeai-ship-it.github.io/tech-trend-archive-site/articles/2026-07-28_%E4%BC%81%E6%A5%ADAI%E3%82%A8%E3%83%BC%E3%82%B8%E3%82%A7%E3%83%B3%E3%83%88%E5%8B%95%E7%9A%84%E6%A8%A9%E9%99%90%E3%82%B9%E3%82%B3%E3%83%BC%E3%83%97.html</guid>
+      <pubDate>Mon, 27 Jul 2026 15:00:00 GMT</pubDate>
+      <category>海外技術情報</category>
+      <description>企業AIエージェントの権限を役割・タスク文脈・禁止組み合わせで動的に絞る論文。検知より前に「使える権限を存在させない」設計として読む価値がある。</description>
+    </item>
+    <item>
+      <title>日銀追加利上げ観測下で個人向け国債とMMFを置き場別に比較する</title>
+      <link>https://shanpianeai-ship-it.github.io/tech-trend-archive-site/interests/articles/2026-07-28-%E8%B3%87%E7%94%A3%E9%81%8B%E7%94%A8%E3%83%BBFIRE-%E6%97%A5%E9%8A%80%E8%BF%BD%E5%8A%A0%E5%88%A9%E4%B8%8A%E3%81%92%E8%A6%B3%E6%B8%AC%E4%B8%8B%E3%81%A7%E5%80%8B%E4%BA%BA%E5%90%91%E3%81%91%E5%9B%BD%E5%82%B5%E3%81%A8MMF%E3%82%92%E7%BD%AE%E3%81%8D%E5%A0%B4%E5%88%A5%E3%81%AB%E6%AF%94%E8%BC%83%E3%81%99%E3%82%8B-0916e8bb7d.html</link>
+      <guid isPermaLink="true">https://shanpianeai-ship-it.github.io/tech-trend-archive-site/interests/articles/2026-07-28-%E8%B3%87%E7%94%A3%E9%81%8B%E7%94%A8%E3%83%BBFIRE-%E6%97%A5%E9%8A%80%E8%BF%BD%E5%8A%A0%E5%88%A9%E4%B8%8A%E3%81%92%E8%A6%B3%E6%B8%AC%E4%B8%8B%E3%81%A7%E5%80%8B%E4%BA%BA%E5%90%91%E3%81%91%E5%9B%BD%E5%82%B5%E3%81%A8MMF%E3%82%92%E7%BD%AE%E3%81%8D%E5%A0%B4%E5%88%A5%E3%81%AB%E6%AF%94%E8%BC%83%E3%81%99%E3%82%8B-0916e8bb7d.html</guid>
+      <pubDate>Mon, 27 Jul 2026 15:00:00 GMT</pubDate>
+      <category>興味レポート</category>
+      <description>金利上昇局面の待機資金を、生活防衛資金、数年以内の支出、FIRE前キャッシュに分け、個人向け国債・MMF・定期預金の使い分けで整理する。</description>
+    </item>
+    <item>
+      <title>Lomekwi: エージェントのツール発見能力を分解して測る</title>
+      <link>https://shanpianeai-ship-it.github.io/tech-trend-archive-site/articles/2026-07-28_AM_Lomekwi_%E3%83%84%E3%83%BC%E3%83%AB%E7%99%BA%E8%A6%8B%E8%83%BD%E5%8A%9B.html</link>
+      <guid isPermaLink="true">https://shanpianeai-ship-it.github.io/tech-trend-archive-site/articles/2026-07-28_AM_Lomekwi_%E3%83%84%E3%83%BC%E3%83%AB%E7%99%BA%E8%A6%8B%E8%83%BD%E5%8A%9B.html</guid>
+      <pubDate>Mon, 27 Jul 2026 15:00:00 GMT</pubDate>
+      <category>海外技術情報</category>
+      <description>LomekwiはLLMエージェントが道具を「使う」だけでなく、自力で発見・発明できるかを測る研究。大きいモデルほど発見機会を見逃す逆スケーリングが示され、評価設計の見直しに効く。</description>
+    </item>
+    <item>
+      <title>ID基盤ガバナンスは7要素で崩れを防ぐ</title>
+      <link>https://shanpianeai-ship-it.github.io/tech-trend-archive-site/knowledge/articles/2026-07-25-ERP%E9%81%8B%E7%94%A8-ID%E5%9F%BA%E7%9B%A4%E3%82%AC%E3%83%90%E3%83%8A%E3%83%B3%E3%82%B9%E3%81%AF7%E8%A6%81%E7%B4%A0%E3%81%A7%E5%B4%A9%E3%82%8C%E3%82%92%E9%98%B2%E3%81%90-41dfeb8ed1.html</link>
+      <guid isPermaLink="true">https://shanpianeai-ship-it.github.io/tech-trend-archive-site/knowledge/articles/2026-07-25-ERP%E9%81%8B%E7%94%A8-ID%E5%9F%BA%E7%9B%A4%E3%82%AC%E3%83%90%E3%83%8A%E3%83%B3%E3%82%B9%E3%81%AF7%E8%A6%81%E7%B4%A0%E3%81%A7%E5%B4%A9%E3%82%8C%E3%82%92%E9%98%B2%E3%81%90-41dfeb8ed1.html</guid>
+      <pubDate>Fri, 24 Jul 2026 15:00:00 GMT</pubDate>
+      <category>公開ナレッジ</category>
+      <description>ID基盤は認証だけでなく付与・監査・削除までを一気通貫で設計すると、移行後の運用事故を減らせる。7要素の流れで管理責任を整理する実践手順をまとめる。</description>
+    </item>
+    <item>
+      <title>コネクタ権限は「読むだけ」と「外へ出す」で分ける</title>
+      <link>https://shanpianeai-ship-it.github.io/tech-trend-archive-site/interests/articles/2026-07-24-AI%E3%83%BB%E3%82%A8%E3%83%BC%E3%82%B8%E3%82%A7%E3%83%B3%E3%83%88-%E3%82%B3%E3%83%8D%E3%82%AF%E3%82%BF%E6%A8%A9%E9%99%90%E3%81%AF%E3%80%8C%E8%AA%AD%E3%82%80%E3%81%A0%E3%81%91%E3%80%8D%E3%81%A8%E3%80%8C%E5%A4%96%E3%81%B8%E5%87%BA%E3%81%99%E3%80%8D%E3%81%A7%E5%88%86%E3%81%91%E3%82%8B-80bcb9c9e3.html</link>
+      <guid isPermaLink="true">https://shanpianeai-ship-it.github.io/tech-trend-archive-site/interests/articles/2026-07-24-AI%E3%83%BB%E3%82%A8%E3%83%BC%E3%82%B8%E3%82%A7%E3%83%B3%E3%83%88-%E3%82%B3%E3%83%8D%E3%82%AF%E3%82%BF%E6%A8%A9%E9%99%90%E3%81%AF%E3%80%8C%E8%AA%AD%E3%82%80%E3%81%A0%E3%81%91%E3%80%8D%E3%81%A8%E3%80%8C%E5%A4%96%E3%81%B8%E5%87%BA%E3%81%99%E3%80%8D%E3%81%A7%E5%88%86%E3%81%91%E3%82%8B-80bcb9c9e3.html</guid>
+      <pubDate>Thu, 23 Jul 2026 15:00:00 GMT</pubDate>
+      <category>興味レポート</category>
+      <description>コネクタ権限を読むだけと外部送信に分離すると、Codex運用での誤作動や鍵露出時の被害範囲を小さくし、公開反映リスクを減らせる。</description>
+    </item>
+    <item>
+      <title>OpenAI Presence: 信頼性を前提にしたエージェント基盤</title>
+      <link>https://shanpianeai-ship-it.github.io/tech-trend-archive-site/articles/2026-07-24_AM_OpenAI_Presence_AI%E3%82%A8%E3%83%BC%E3%82%B8%E3%82%A7%E3%83%B3%E3%83%88%E5%9F%BA%E7%9B%A4.html</link>
+      <guid isPermaLink="true">https://shanpianeai-ship-it.github.io/tech-trend-archive-site/articles/2026-07-24_AM_OpenAI_Presence_AI%E3%82%A8%E3%83%BC%E3%82%B8%E3%82%A7%E3%83%B3%E3%83%88%E5%9F%BA%E7%9B%A4.html</guid>
+      <pubDate>Thu, 23 Jul 2026 15:00:00 GMT</pubDate>
+      <category>海外技術情報</category>
+      <description>OpenAIが企業実装を想定したAIエージェント基盤「Presence」を公開。ガードレール・エスカレーション・継続改善を前提化し、運用設計を比較検討する価値が高い。</description>
+    </item>
+    <item>
+      <title>CISA KEV追加2件の実務的優先度</title>
+      <link>https://shanpianeai-ship-it.github.io/tech-trend-archive-site/articles/2026-07-24_CISA_KEV%E8%BF%BD%E5%8A%A0.html</link>
+      <guid isPermaLink="true">https://shanpianeai-ship-it.github.io/tech-trend-archive-site/articles/2026-07-24_CISA_KEV%E8%BF%BD%E5%8A%A0.html</guid>
+      <pubDate>Thu, 23 Jul 2026 15:00:00 GMT</pubDate>
+      <category>海外技術情報</category>
+      <description>CISAが公開資産向け高リスク脆弱性2件をKEVへ追加。SmartConsoleとSharePointの認証・実行系不備は公開資産の中断リスクが高く、優先対策の再確認対象として価値が高い。</description>
+    </item>
+    <item>
+      <title>ワークプロセス分散とRFC設計で崩れないSAP運用</title>
+      <link>https://shanpianeai-ship-it.github.io/tech-trend-archive-site/knowledge/articles/2026-07-23-ERP%E9%81%8B%E7%94%A8-%E3%83%AF%E3%83%BC%E3%82%AF%E3%83%97%E3%83%AD%E3%82%BB%E3%82%B9%E5%88%86%E6%95%A3%E3%81%A8RFC%E8%A8%AD%E8%A8%88%E3%81%A7%E5%B4%A9%E3%82%8C%E3%81%AA%E3%81%84SAP%E9%81%8B%E7%94%A8-71be7c9141.html</link>
+      <guid isPermaLink="true">https://shanpianeai-ship-it.github.io/tech-trend-archive-site/knowledge/articles/2026-07-23-ERP%E9%81%8B%E7%94%A8-%E3%83%AF%E3%83%BC%E3%82%AF%E3%83%97%E3%83%AD%E3%82%BB%E3%82%B9%E5%88%86%E6%95%A3%E3%81%A8RFC%E8%A8%AD%E8%A8%88%E3%81%A7%E5%B4%A9%E3%82%8C%E3%81%AA%E3%81%84SAP%E9%81%8B%E7%94%A8-71be7c9141.html</guid>
+      <pubDate>Wed, 22 Jul 2026 15:00:00 GMT</pubDate>
+      <category>公開ナレッジ</category>
+      <description>ワークプロセスの偏りとRFC実行の待機を分解して見ることで、見かけの遅延原因を正確に切り分ける実務手順を整理する。</description>
+    </item>
+    <item>
+      <title>OpenAI Presence（エージェント実運用基盤）</title>
+      <link>https://shanpianeai-ship-it.github.io/tech-trend-archive-site/articles/2026-07-23_AM_OpenAI_Presence_%E5%AE%9F%E9%81%8B%E7%94%A8%E3%82%A8%E3%83%BC%E3%82%B8%E3%82%A7%E3%83%B3%E3%83%88%E5%9F%BA%E7%9B%A4.html</link>
+      <guid isPermaLink="true">https://shanpianeai-ship-it.github.io/tech-trend-archive-site/articles/2026-07-23_AM_OpenAI_Presence_%E5%AE%9F%E9%81%8B%E7%94%A8%E3%82%A8%E3%83%BC%E3%82%B8%E3%82%A7%E3%83%B3%E3%83%88%E5%9F%BA%E7%9B%A4.html</guid>
+      <pubDate>Wed, 22 Jul 2026 15:00:00 GMT</pubDate>
+      <category>海外技術情報</category>
+      <description>OpenAIが公開したPresenceは、エージェントの実行権限・監査・エスカレーションを運用前提で結びつける設計を示し、社内AI活用のガバナンス設計を見直す際の起点として価値が高い。</description>
+    </item>
+    <item>
+      <title>OAuth委任を「便利」から「管理可能」へ切り分ける</title>
+      <link>https://shanpianeai-ship-it.github.io/tech-trend-archive-site/interests/articles/2026-07-23-%E3%82%BB%E3%82%AD%E3%83%A5%E3%83%AA%E3%83%86%E3%82%A3-OAuth%E5%A7%94%E4%BB%BB%E3%82%92%E3%80%8C%E4%BE%BF%E5%88%A9%E3%80%8D%E3%81%8B%E3%82%89%E3%80%8C%E7%AE%A1%E7%90%86%E5%8F%AF%E8%83%BD%E3%80%8D%E3%81%B8%E5%88%87%E3%82%8A%E5%88%86%E3%81%91%E3%82%8B-8b4db0c9b8.html</link>
+      <guid isPermaLink="true">https://shanpianeai-ship-it.github.io/tech-trend-archive-site/interests/articles/2026-07-23-%E3%82%BB%E3%82%AD%E3%83%A5%E3%83%AA%E3%83%86%E3%82%A3-OAuth%E5%A7%94%E4%BB%BB%E3%82%92%E3%80%8C%E4%BE%BF%E5%88%A9%E3%80%8D%E3%81%8B%E3%82%89%E3%80%8C%E7%AE%A1%E7%90%86%E5%8F%AF%E8%83%BD%E3%80%8D%E3%81%B8%E5%88%87%E3%82%8A%E5%88%86%E3%81%91%E3%82%8B-8b4db0c9b8.html</guid>
+      <pubDate>Wed, 22 Jul 2026 15:00:00 GMT</pubDate>
+      <category>興味レポート</category>
+      <description>OAuth委任を、スコープと更新トークン運用、再同意、監査ログで分解すると、実務で事故が起きても影響を限定できる。</description>
+    </item>
+    <item>
+      <title>CISAによるKEV追加2件の実務インパクト</title>
+      <link>https://shanpianeai-ship-it.github.io/tech-trend-archive-site/articles/2026-07-23_CISA_KEV%E8%BF%BD%E5%8A%A0.html</link>
+      <guid isPermaLink="true">https://shanpianeai-ship-it.github.io/tech-trend-archive-site/articles/2026-07-23_CISA_KEV%E8%BF%BD%E5%8A%A0.html</guid>
+      <pubDate>Wed, 22 Jul 2026 15:00:00 GMT</pubDate>
+      <category>海外技術情報</category>
+      <description>CISAが公開資産向けの高リスク脆弱性2件をKEVに追加。SmartConsoleとSharePointの認証・実行系不備は、放置すれば運用停止や権限制御崩れを起こしうるため、優先対策対象として再確認しやすい。</description>
+    </item>
+    <item>
+      <title>OpenAIとGoogleで見る「PC操作型エージェント」の権限設計</title>
+      <link>https://shanpianeai-ship-it.github.io/tech-trend-archive-site/interests/articles/2026-07-22-AI%E3%83%BB%E3%82%A8%E3%83%BC%E3%82%B8%E3%82%A7%E3%83%B3%E3%83%88-OpenAI%E3%81%A8Google%E3%81%A7%E8%A6%8B%E3%82%8B%E3%80%8CPC%E6%93%8D%E4%BD%9C%E5%9E%8B%E3%82%A8%E3%83%BC%E3%82%B8%E3%82%A7%E3%83%B3%E3%83%88%E3%80%8D%E3%81%AE%E6%A8%A9%E9%99%90%E8%A8%AD%E8%A8%88-43ef1e89af.html</link>
+      <guid isPermaLink="true">https://shanpianeai-ship-it.github.io/tech-trend-archive-site/interests/articles/2026-07-22-AI%E3%83%BB%E3%82%A8%E3%83%BC%E3%82%B8%E3%82%A7%E3%83%B3%E3%83%88-OpenAI%E3%81%A8Google%E3%81%A7%E8%A6%8B%E3%82%8B%E3%80%8CPC%E6%93%8D%E4%BD%9C%E5%9E%8B%E3%82%A8%E3%83%BC%E3%82%B8%E3%82%A7%E3%83%B3%E3%83%88%E3%80%8D%E3%81%AE%E6%A8%A9%E9%99%90%E8%A8%AD%E8%A8%88-43ef1e89af.html</guid>
+      <pubDate>Tue, 21 Jul 2026 15:00:00 GMT</pubDate>
+      <category>興味レポート</category>
+      <description>OpenAIとGoogleのComputer Use系エージェントを、個人PCで使う前提で確認ゲート・外部送信制限・ログを軸に比較した。</description>
+    </item>
+    <item>
+      <title>Microsoft AIエージェントに対する最小権限設計原則</title>
+      <link>https://shanpianeai-ship-it.github.io/tech-trend-archive-site/articles/2026-07-22_Microsoft_AI%E3%82%A8%E3%83%BC%E3%82%B8%E3%82%A7%E3%83%B3%E3%83%88_%E6%9C%80%E5%B0%8F%E6%A8%A9%E9%99%90%E8%A8%AD%E8%A8%88.html</link>
+      <guid isPermaLink="true">https://shanpianeai-ship-it.github.io/tech-trend-archive-site/articles/2026-07-22_Microsoft_AI%E3%82%A8%E3%83%BC%E3%82%B8%E3%82%A7%E3%83%B3%E3%83%88_%E6%9C%80%E5%B0%8F%E6%A8%A9%E9%99%90%E8%A8%AD%E8%A8%88.html</guid>
+      <pubDate>Tue, 21 Jul 2026 15:00:00 GMT</pubDate>
+      <category>海外技術情報</category>
+      <description>Microsoft公式のAIエージェント向け設計原則は、ID認証とツール境界を分離し、最小権限で運用する実務指針を示す。業務AIの権限事故を抑え、監査しやすい実装へ繋がるため読む価値が高い。</description>
+    </item>
+    <item>
+      <title>業務入力監視は開始時点で崩れを潰す</title>
+      <link>https://shanpianeai-ship-it.github.io/tech-trend-archive-site/knowledge/articles/2026-07-19-ERP%E9%81%8B%E7%94%A8-%E6%A5%AD%E5%8B%99%E5%85%A5%E5%8A%9B%E7%9B%A3%E8%A6%96%E3%81%AF%E9%96%8B%E5%A7%8B%E6%99%82%E7%82%B9%E3%81%A7%E5%B4%A9%E3%82%8C%E3%82%92%E6%BD%B0%E3%81%99-8de78383b3.html</link>
+      <guid isPermaLink="true">https://shanpianeai-ship-it.github.io/tech-trend-archive-site/knowledge/articles/2026-07-19-ERP%E9%81%8B%E7%94%A8-%E6%A5%AD%E5%8B%99%E5%85%A5%E5%8A%9B%E7%9B%A3%E8%A6%96%E3%81%AF%E9%96%8B%E5%A7%8B%E6%99%82%E7%82%B9%E3%81%A7%E5%B4%A9%E3%82%8C%E3%82%92%E6%BD%B0%E3%81%99-8de78383b3.html</guid>
+      <pubDate>Sat, 18 Jul 2026 15:00:00 GMT</pubDate>
+      <category>公開ナレッジ</category>
+      <description>業務入力監視は、ジョブ起動・データ受け渡し・後続処理の入口を同じ軸で監視する設計が重要です。日次で崩れを早期検知し、障害対応前に再実行判断と担当引継ぎを整えることで、業務影響を最小化します。</description>
+    </item>
+    <item>
+      <title>SAPがPrior Labsを買収した意図：TFMで業務AI運用設計の優先順位が変わる</title>
+      <link>https://shanpianeai-ship-it.github.io/tech-trend-archive-site/articles/2026-07-19_SAP_PriorLabs%E8%B2%B7%E5%8F%8E%E3%81%A8TFM%E7%B5%B1%E5%90%88.html</link>
+      <guid isPermaLink="true">https://shanpianeai-ship-it.github.io/tech-trend-archive-site/articles/2026-07-19_SAP_PriorLabs%E8%B2%B7%E5%8F%8E%E3%81%A8TFM%E7%B5%B1%E5%90%88.html</guid>
+      <pubDate>Sat, 18 Jul 2026 15:00:00 GMT</pubDate>
+      <category>海外技術情報</category>
+      <description>SAPがPrior Labs買収を完了し、表データ向けモデルをSAP業務基盤へ統合する方針を示した。実務価値を出すには、提案精度より先に権限・監査・データ統制設計を更新する視点が重要だ。</description>
+    </item>
+    <item>
+      <title>SAPがPrior Labsを買収：Tabular Foundation Modelsで業務AIの実装条件が変わる</title>
+      <link>https://shanpianeai-ship-it.github.io/tech-trend-archive-site/articles/2026-07-18_AM_SAP_PriorLabs%E8%B2%B7%E5%8F%8E%E3%81%A8TFM%E7%B5%B1%E5%90%88.html</link>
+      <guid isPermaLink="true">https://shanpianeai-ship-it.github.io/tech-trend-archive-site/articles/2026-07-18_AM_SAP_PriorLabs%E8%B2%B7%E5%8F%8E%E3%81%A8TFM%E7%B5%B1%E5%90%88.html</guid>
+      <pubDate>Fri, 17 Jul 2026 15:00:00 GMT</pubDate>
+      <category>海外技術情報</category>
+      <description>SAPがPrior Labs買収を完了し、構造化データを前提にしたAI基盤を強化する方針が示された。ERP実務でのAI実装は、提案精度よりもデータガバナンス・監査設計の再構築が先行する価値がある。</description>
+    </item>
+    <item>
+      <title>Responses再試行ポリシー化でTool障害を収束させる</title>
+      <link>https://shanpianeai-ship-it.github.io/tech-trend-archive-site/interests/articles/2026-07-18-AI%E3%83%BB%E3%82%A8%E3%83%BC%E3%82%B8%E3%82%A7%E3%83%B3%E3%83%88-Responses%E5%86%8D%E8%A9%A6%E8%A1%8C%E3%83%9D%E3%83%AA%E3%82%B7%E3%83%BC%E5%8C%96%E3%81%A7Tool%E9%9A%9C%E5%AE%B3%E3%82%92%E5%8F%8E%E6%9D%9F%E3%81%95%E3%81%9B%E3%82%8B-7ad2c828d7.html</link>
+      <guid isPermaLink="true">https://shanpianeai-ship-it.github.io/tech-trend-archive-site/interests/articles/2026-07-18-AI%E3%83%BB%E3%82%A8%E3%83%BC%E3%82%B8%E3%82%A7%E3%83%B3%E3%83%88-Responses%E5%86%8D%E8%A9%A6%E8%A1%8C%E3%83%9D%E3%83%AA%E3%82%B7%E3%83%BC%E5%8C%96%E3%81%A7Tool%E9%9A%9C%E5%AE%B3%E3%82%92%E5%8F%8E%E6%9D%9F%E3%81%95%E3%81%9B%E3%82%8B-7ad2c828d7.html</guid>
+      <pubDate>Fri, 17 Jul 2026 15:00:00 GMT</pubDate>
+      <category>興味レポート</category>
+      <description>OpenAI ResponsesのTool障害時に再試行戦略を固定化すると、失敗種別ごとに処理を分けて一時障害を回避し、日次1本運用の公開フロー停止時間を抑えられる。</description>
+    </item>
+    <item>
+      <title>Gemini APIのManaged Agents拡張：対話の外側に伸びる実務実行基盤</title>
+      <link>https://shanpianeai-ship-it.github.io/tech-trend-archive-site/articles/2026-07-18_Gemini_Managed_Agents%E6%8B%A1%E5%BC%B5.html</link>
+      <guid isPermaLink="true">https://shanpianeai-ship-it.github.io/tech-trend-archive-site/articles/2026-07-18_Gemini_Managed_Agents%E6%8B%A1%E5%BC%B5.html</guid>
+      <pubDate>Fri, 17 Jul 2026 15:00:00 GMT</pubDate>
+      <category>海外技術情報</category>
+      <description>GoogleのGemini APIはManaged Agentsへ背景タスクとremote MCP接続を追加し、対話中心から長時間実行へ接続できる実務的な設計転換を示した。</description>
+    </item>
+    <item>
+      <title>コネクタ権限は「誰が実行できるか」でなく「どこまで実行できるか」に分解する</title>
+      <link>https://shanpianeai-ship-it.github.io/tech-trend-archive-site/interests/articles/2026-07-17-AI%E3%83%BB%E3%82%A8%E3%83%BC%E3%82%B8%E3%82%A7%E3%83%B3%E3%83%88-%E3%82%B3%E3%83%8D%E3%82%AF%E3%82%BF%E6%A8%A9%E9%99%90%E3%81%AF%E3%80%8C%E8%AA%B0%E3%81%8C%E5%AE%9F%E8%A1%8C%E3%81%A7%E3%81%8D%E3%82%8B%E3%81%8B%E3%80%8D%E3%81%A7%E3%81%AA%E3%81%8F%E3%80%8C%E3%81%A9%E3%81%93%E3%81%BE%E3%81%A7%E5%AE%9F%E8%A1%8C%E3%81%A7%E3%81%8D%E3%82%8B%E3%81%8B%E3%80%8D%E3%81%AB%E5%88%86%E8%A7%A3%E3%81%99%E3%82%8B-a4338b6946.html</link>
+      <guid isPermaLink="true">https://shanpianeai-ship-it.github.io/tech-trend-archive-site/interests/articles/2026-07-17-AI%E3%83%BB%E3%82%A8%E3%83%BC%E3%82%B8%E3%82%A7%E3%83%B3%E3%83%88-%E3%82%B3%E3%83%8D%E3%82%AF%E3%82%BF%E6%A8%A9%E9%99%90%E3%81%AF%E3%80%8C%E8%AA%B0%E3%81%8C%E5%AE%9F%E8%A1%8C%E3%81%A7%E3%81%8D%E3%82%8B%E3%81%8B%E3%80%8D%E3%81%A7%E3%81%AA%E3%81%8F%E3%80%8C%E3%81%A9%E3%81%93%E3%81%BE%E3%81%A7%E5%AE%9F%E8%A1%8C%E3%81%A7%E3%81%8D%E3%82%8B%E3%81%8B%E3%80%8D%E3%81%AB%E5%88%86%E8%A7%A3%E3%81%99%E3%82%8B-a4338b6946.html</guid>
+      <pubDate>Thu, 16 Jul 2026 15:00:00 GMT</pubDate>
+      <category>興味レポート</category>
+      <description>OpenAI App RuntimeとWorkspace Agents運用を実務へ落とすときは、権限を読み取り専用・実行系・共有系に分解し、plugin側とagent側の境界で事故半径を下げるのが本質。</description>
+    </item>
+    <item>
+      <title>SAPがPrior Labsを買収：ERP AI基盤の実務インパクトを読む</title>
+      <link>https://shanpianeai-ship-it.github.io/tech-trend-archive-site/articles/2026-07-17_SAP_PriorLabs%E8%B2%B7%E5%8F%8E%E3%81%A8AI%E5%9F%BA%E7%9B%A4.html</link>
+      <guid isPermaLink="true">https://shanpianeai-ship-it.github.io/tech-trend-archive-site/articles/2026-07-17_SAP_PriorLabs%E8%B2%B7%E5%8F%8E%E3%81%A8AI%E5%9F%BA%E7%9B%A4.html</guid>
+      <pubDate>Thu, 16 Jul 2026 15:00:00 GMT</pubDate>
+      <category>海外技術情報</category>
+      <description>SAP公式発表のPrior Labs買収は、構造化データ処理を強化し、ERP領域のAI基盤を実業務の意思決定に接続できる拡張ポイントを増やす。SAP導入判断に向けた評価観点が明確化される。</description>
+    </item>
+    <item>
+      <title>SAP Prior Labs買収でTFM基盤が加速</title>
+      <link>https://shanpianeai-ship-it.github.io/tech-trend-archive-site/articles/2026-07-17_AM_SAP_PriorLabs_%E8%B2%B7%E5%8F%8E%E3%81%A7TFM%E5%8A%A0%E9%80%9F.html</link>
+      <guid isPermaLink="true">https://shanpianeai-ship-it.github.io/tech-trend-archive-site/articles/2026-07-17_AM_SAP_PriorLabs_%E8%B2%B7%E5%8F%8E%E3%81%A7TFM%E5%8A%A0%E9%80%9F.html</guid>
+      <pubDate>Thu, 16 Jul 2026 15:00:00 GMT</pubDate>
+      <category>海外技術情報</category>
+      <description>SAPが構造化データ向け先端基盤Prior Labsを買収完了し、SAP-RPT-1系TFMを拡大する方針を公式発表。独立体制を維持しつつ4年で10億ユーロ超を投資する構えは、業務データAI戦略を長期で設計する上で価値が高い。</description>
+    </item>
+    <item>
+      <title>ABAP高負荷は診断順を固定する</title>
+      <link>https://shanpianeai-ship-it.github.io/tech-trend-archive-site/knowledge/articles/2026-07-17-ERP%E9%81%8B%E7%94%A8-ABAP%E9%AB%98%E8%B2%A0%E8%8D%B7%E3%81%AF%E8%A8%BA%E6%96%AD%E9%A0%86%E3%82%92%E5%9B%BA%E5%AE%9A%E3%81%99%E3%82%8B-97a94eb648.html</link>
+      <guid isPermaLink="true">https://shanpianeai-ship-it.github.io/tech-trend-archive-site/knowledge/articles/2026-07-17-ERP%E9%81%8B%E7%94%A8-ABAP%E9%AB%98%E8%B2%A0%E8%8D%B7%E3%81%AF%E8%A8%BA%E6%96%AD%E9%A0%86%E3%82%92%E5%9B%BA%E5%AE%9A%E3%81%99%E3%82%8B-97a94eb648.html</guid>
+      <pubDate>Thu, 16 Jul 2026 15:00:00 GMT</pubDate>
+      <category>公開ナレッジ</category>
+      <description>ABAPプログラムの性能悪化は原因を当てず、観測分解→トレース選定→改善の順を固定すると短時間で再現性が生まれる。まず何を先に見るかを決めてから、SQL・CPU・待機・メモリを順に切り分ける運用にする。</description>
+    </item>
+    <item>
+      <title>SAP AI価値急上昇とガバナンスの課題</title>
+      <link>https://shanpianeai-ship-it.github.io/tech-trend-archive-site/articles/2026-07-16_SAP_AI%E4%BE%A1%E5%80%A4%E6%80%A5%E4%B8%8A%E6%98%87%E3%81%A8%E3%82%AC%E3%83%90%E3%83%8A%E3%83%B3%E3%82%B9.html</link>
+      <guid isPermaLink="true">https://shanpianeai-ship-it.github.io/tech-trend-archive-site/articles/2026-07-16_SAP_AI%E4%BE%A1%E5%80%A4%E6%80%A5%E4%B8%8A%E6%98%87%E3%81%A8%E3%82%AC%E3%83%90%E3%83%8A%E3%83%B3%E3%82%B9.html</guid>
+      <pubDate>Wed, 15 Jul 2026 15:00:00 GMT</pubDate>
+      <category>海外技術情報</category>
+      <description>SAP公式調査はAI投資ROI上昇を示しつつ、agentic AIではガバナンス未成熟が主要リスクと示した。ERP運用では導入前に権限制御と監査設計を優先的に見直す価値が高い。</description>
+    </item>
+    <item>
+      <title>Responses APIの再実行ポリシー化で失敗時復旧を短縮する</title>
+      <link>https://shanpianeai-ship-it.github.io/tech-trend-archive-site/interests/articles/2026-07-16-AI%E3%83%BB%E3%82%A8%E3%83%BC%E3%82%B8%E3%82%A7%E3%83%B3%E3%83%88-Responses-API%E3%81%AE%E5%86%8D%E5%AE%9F%E8%A1%8C%E3%83%9D%E3%83%AA%E3%82%B7%E3%83%BC%E5%8C%96%E3%81%A7%E5%A4%B1%E6%95%97%E6%99%82%E5%BE%A9%E6%97%A7%E3%82%92%E7%9F%AD%E7%B8%AE%E3%81%99%E3%82%8B-e767a095b4.html</link>
+      <guid isPermaLink="true">https://shanpianeai-ship-it.github.io/tech-trend-archive-site/interests/articles/2026-07-16-AI%E3%83%BB%E3%82%A8%E3%83%BC%E3%82%B8%E3%82%A7%E3%83%B3%E3%83%88-Responses-API%E3%81%AE%E5%86%8D%E5%AE%9F%E8%A1%8C%E3%83%9D%E3%83%AA%E3%82%B7%E3%83%BC%E5%8C%96%E3%81%A7%E5%A4%B1%E6%95%97%E6%99%82%E5%BE%A9%E6%97%A7%E3%82%92%E7%9F%AD%E7%B8%AE%E3%81%99%E3%82%8B-e767a095b4.html</guid>
+      <pubDate>Wed, 15 Jul 2026 15:00:00 GMT</pubDate>
+      <category>興味レポート</category>
+      <description>Responses APIの再実行方針を固定化し、リトライ回数・待機時間・失敗時分岐を揃えることで、当日の1本記事運用を速く回復できる。</description>
+    </item>
+  </channel>
+</rss>

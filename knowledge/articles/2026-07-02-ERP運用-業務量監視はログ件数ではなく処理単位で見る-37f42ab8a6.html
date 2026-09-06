@@ -5,15 +5,39 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>業務量監視はログ件数ではなく処理単位で見る | 公開ナレッジブログ</title>
   <meta name="description" content="業務システムの稼働後監視で、画面操作ログやテーブル件数だけに頼ると実態を見誤る理由と、業務処理単位で見るための設計観点を整理します。">
-  <link rel="stylesheet" href="../../assets/style.css">
+  <!-- blog-site-meta:start -->
+  <meta http-equiv="Content-Security-Policy" content="default-src &#39;self&#39;; base-uri &#39;none&#39;; object-src &#39;none&#39;; form-action &#39;none&#39;; img-src &#39;self&#39; data:; style-src &#39;self&#39; &#39;unsafe-inline&#39;; script-src &#39;self&#39;; connect-src &#39;self&#39;; upgrade-insecure-requests">
+  <link rel="canonical" href="https://shanpianeai-ship-it.github.io/tech-trend-archive-site/knowledge/articles/2026-07-02-ERP%E9%81%8B%E7%94%A8-%E6%A5%AD%E5%8B%99%E9%87%8F%E7%9B%A3%E8%A6%96%E3%81%AF%E3%83%AD%E3%82%B0%E4%BB%B6%E6%95%B0%E3%81%A7%E3%81%AF%E3%81%AA%E3%81%8F%E5%87%A6%E7%90%86%E5%8D%98%E4%BD%8D%E3%81%A7%E8%A6%8B%E3%82%8B-37f42ab8a6.html">
+  <link rel="alternate" type="application/rss+xml" title="海外技術情報アーカイブ RSS" href="https://shanpianeai-ship-it.github.io/tech-trend-archive-site/feed.xml">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="海外技術情報アーカイブ">
+  <meta property="og:title" content="業務量監視はログ件数ではなく処理単位で見る">
+  <meta property="og:description" content="業務システムの稼働後監視で、画面操作ログやテーブル件数だけに頼ると実態を見誤る理由と、業務処理単位で見るための設計観点を整理します。">
+  <meta property="og:url" content="https://shanpianeai-ship-it.github.io/tech-trend-archive-site/knowledge/articles/2026-07-02-ERP%E9%81%8B%E7%94%A8-%E6%A5%AD%E5%8B%99%E9%87%8F%E7%9B%A3%E8%A6%96%E3%81%AF%E3%83%AD%E3%82%B0%E4%BB%B6%E6%95%B0%E3%81%A7%E3%81%AF%E3%81%AA%E3%81%8F%E5%87%A6%E7%90%86%E5%8D%98%E4%BD%8D%E3%81%A7%E8%A6%8B%E3%82%8B-37f42ab8a6.html">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="業務量監視はログ件数ではなく処理単位で見る">
+  <meta name="twitter:description" content="業務システムの稼働後監視で、画面操作ログやテーブル件数だけに頼ると実態を見誤る理由と、業務処理単位で見るための設計観点を整理します。">
+  <meta property="article:published_time" content="2026-07-02T00:00:00+09:00">
+  <meta property="article:section" content="公開ナレッジ">
+  <!-- blog-site-meta:end -->
+<link rel="stylesheet" href="../../assets/style.css">
 </head>
 <body>
   <header class="site-header">
-    <a class="site-title" href="../../knowledge/index.html">公開ナレッジブログ</a>
-    <span class="site-subtitle">Public ERP operations notes</span>
+    <div class="site-brand">
+      <a class="site-title" href="../../index.html">海外技術情報アーカイブ</a>
+      <span class="site-subtitle">AI / SAP / Security / ERP operations</span>
+    </div>
+    <nav class="site-nav" aria-label="主要ナビゲーション">
+      <a href="../../index.html">海外技術情報</a>
+      <a href="../../interests/index.html">興味レポート</a>
+      <a href="../../knowledge/index.html" aria-current="page">公開ナレッジ</a>
+      <a href="../../start/index.html">はじめての方へ</a>
+    </nav>
   </header>
   <main>
-    <article class="article">
+    <article class="article" data-publication-id="15de823f133903256e28">
       <nav class="back"><a href="../index.html">← 公開ナレッジ一覧へ</a></nav>
       <div class="meta-row">
         <span>2026-07-02</span>
@@ -34,5 +58,9 @@
 <p>業務量監視は、ログをたくさん集めることではない。業務が進んだ事実を、関係者が同じ意味で読める単位にそろえることである。処理単位、比較軸、滞留場所を先に設計しておけば、稼働後の違和感を早く見つけ、調査の入口を迷わず選べる。</p>
     </article>
   </main>
+  <footer class="site-footer">
+    <p>AI、SAP・ERP、セキュリティ、業務システム運用の公開技術ノートです。</p>
+    <p><a href="../../start/index.html">このブログの読み方</a> · <a href="../../feed.xml">RSS</a></p>
+  </footer>
 </body>
 </html>

@@ -5,15 +5,39 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>処理リソース枯渇は増設より先に占有理由を見る | 公開ナレッジブログ</title>
   <meta name="description" content="「処理リソース枯渇は増設より先に占有理由を見る」を、業務影響と運用設計の観点で整理する。業務システムで「全体的に遅い」「ログインしづらい」「通常処理まで巻き込まれる」といった事象が出ると、最初に処理枠やサーバ能力の不足を疑いたくなる。">
-  <link rel="stylesheet" href="../../assets/style.css">
+  <!-- blog-site-meta:start -->
+  <meta http-equiv="Content-Security-Policy" content="default-src &#39;self&#39;; base-uri &#39;none&#39;; object-src &#39;none&#39;; form-action &#39;none&#39;; img-src &#39;self&#39; data:; style-src &#39;self&#39; &#39;unsafe-inline&#39;; script-src &#39;self&#39;; connect-src &#39;self&#39;; upgrade-insecure-requests">
+  <link rel="canonical" href="https://shanpianeai-ship-it.github.io/tech-trend-archive-site/knowledge/articles/2026-06-12-ERP%E9%81%8B%E7%94%A8-%E5%87%A6%E7%90%86%E3%83%AA%E3%82%BD%E3%83%BC%E3%82%B9%E6%9E%AF%E6%B8%87%E3%81%AF%E5%A2%97%E8%A8%AD%E3%82%88%E3%82%8A%E5%85%88%E3%81%AB%E5%8D%A0%E6%9C%89%E7%90%86%E7%94%B1%E3%82%92%E8%A6%8B%E3%82%8B-496f680f17.html">
+  <link rel="alternate" type="application/rss+xml" title="海外技術情報アーカイブ RSS" href="https://shanpianeai-ship-it.github.io/tech-trend-archive-site/feed.xml">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="海外技術情報アーカイブ">
+  <meta property="og:title" content="処理リソース枯渇は増設より先に占有理由を見る">
+  <meta property="og:description" content="「処理リソース枯渇は増設より先に占有理由を見る」を、業務影響と運用設計の観点で整理する。業務システムで「全体的に遅い」「ログインしづらい」「通常処理まで巻き込まれる」といった事象が出ると、最初に処理枠やサーバ能力の不足を疑いたくなる。">
+  <meta property="og:url" content="https://shanpianeai-ship-it.github.io/tech-trend-archive-site/knowledge/articles/2026-06-12-ERP%E9%81%8B%E7%94%A8-%E5%87%A6%E7%90%86%E3%83%AA%E3%82%BD%E3%83%BC%E3%82%B9%E6%9E%AF%E6%B8%87%E3%81%AF%E5%A2%97%E8%A8%AD%E3%82%88%E3%82%8A%E5%85%88%E3%81%AB%E5%8D%A0%E6%9C%89%E7%90%86%E7%94%B1%E3%82%92%E8%A6%8B%E3%82%8B-496f680f17.html">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="処理リソース枯渇は増設より先に占有理由を見る">
+  <meta name="twitter:description" content="「処理リソース枯渇は増設より先に占有理由を見る」を、業務影響と運用設計の観点で整理する。業務システムで「全体的に遅い」「ログインしづらい」「通常処理まで巻き込まれる」といった事象が出ると、最初に処理枠やサーバ能力の不足を疑いたくなる。">
+  <meta property="article:published_time" content="2026-06-12T00:00:00+09:00">
+  <meta property="article:section" content="公開ナレッジ">
+  <!-- blog-site-meta:end -->
+<link rel="stylesheet" href="../../assets/style.css">
 </head>
 <body>
   <header class="site-header">
-    <a class="site-title" href="../../knowledge/index.html">公開ナレッジブログ</a>
-    <span class="site-subtitle">Public ERP operations notes</span>
+    <div class="site-brand">
+      <a class="site-title" href="../../index.html">海外技術情報アーカイブ</a>
+      <span class="site-subtitle">AI / SAP / Security / ERP operations</span>
+    </div>
+    <nav class="site-nav" aria-label="主要ナビゲーション">
+      <a href="../../index.html">海外技術情報</a>
+      <a href="../../interests/index.html">興味レポート</a>
+      <a href="../../knowledge/index.html" aria-current="page">公開ナレッジ</a>
+      <a href="../../start/index.html">はじめての方へ</a>
+    </nav>
   </header>
   <main>
-    <article class="article">
+    <article class="article" data-publication-id="3eab88434e405399b5c5">
       <nav class="back"><a href="../index.html">← 公開ナレッジ一覧へ</a></nav>
       <div class="meta-row">
         <span>2026-06-12</span>
@@ -33,5 +57,9 @@
 <p>処理リソース枯渇の初動で大切なのは、慌てて枠を増やすことではなく、占有の構造を短時間で言語化することである。「どの枠が、何に、どれだけ占有され、業務上どこに影響しているか」が整理できれば、復旧判断も恒久対策もぶれにくくなる。</p>
     </article>
   </main>
+  <footer class="site-footer">
+    <p>AI、SAP・ERP、セキュリティ、業務システム運用の公開技術ノートです。</p>
+    <p><a href="../../start/index.html">このブログの読み方</a> · <a href="../../feed.xml">RSS</a></p>
+  </footer>
 </body>
 </html>

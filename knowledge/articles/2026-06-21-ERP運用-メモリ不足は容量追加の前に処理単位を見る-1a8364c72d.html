@@ -5,15 +5,39 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>メモリ不足は容量追加の前に処理単位を見る | 公開ナレッジブログ</title>
   <meta name="description" content="「メモリ不足は容量追加の前に処理単位を見る」を、業務影響と運用設計の観点で整理する。業務システムでメモリ不足系のエラーが出ると、最初に考えたくなる対策はメモリ増強や上限値の引き上げです。">
-  <link rel="stylesheet" href="../../assets/style.css">
+  <!-- blog-site-meta:start -->
+  <meta http-equiv="Content-Security-Policy" content="default-src &#39;self&#39;; base-uri &#39;none&#39;; object-src &#39;none&#39;; form-action &#39;none&#39;; img-src &#39;self&#39; data:; style-src &#39;self&#39; &#39;unsafe-inline&#39;; script-src &#39;self&#39;; connect-src &#39;self&#39;; upgrade-insecure-requests">
+  <link rel="canonical" href="https://shanpianeai-ship-it.github.io/tech-trend-archive-site/knowledge/articles/2026-06-21-ERP%E9%81%8B%E7%94%A8-%E3%83%A1%E3%83%A2%E3%83%AA%E4%B8%8D%E8%B6%B3%E3%81%AF%E5%AE%B9%E9%87%8F%E8%BF%BD%E5%8A%A0%E3%81%AE%E5%89%8D%E3%81%AB%E5%87%A6%E7%90%86%E5%8D%98%E4%BD%8D%E3%82%92%E8%A6%8B%E3%82%8B-1a8364c72d.html">
+  <link rel="alternate" type="application/rss+xml" title="海外技術情報アーカイブ RSS" href="https://shanpianeai-ship-it.github.io/tech-trend-archive-site/feed.xml">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="海外技術情報アーカイブ">
+  <meta property="og:title" content="メモリ不足は容量追加の前に処理単位を見る">
+  <meta property="og:description" content="「メモリ不足は容量追加の前に処理単位を見る」を、業務影響と運用設計の観点で整理する。業務システムでメモリ不足系のエラーが出ると、最初に考えたくなる対策はメモリ増強や上限値の引き上げです。">
+  <meta property="og:url" content="https://shanpianeai-ship-it.github.io/tech-trend-archive-site/knowledge/articles/2026-06-21-ERP%E9%81%8B%E7%94%A8-%E3%83%A1%E3%83%A2%E3%83%AA%E4%B8%8D%E8%B6%B3%E3%81%AF%E5%AE%B9%E9%87%8F%E8%BF%BD%E5%8A%A0%E3%81%AE%E5%89%8D%E3%81%AB%E5%87%A6%E7%90%86%E5%8D%98%E4%BD%8D%E3%82%92%E8%A6%8B%E3%82%8B-1a8364c72d.html">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="メモリ不足は容量追加の前に処理単位を見る">
+  <meta name="twitter:description" content="「メモリ不足は容量追加の前に処理単位を見る」を、業務影響と運用設計の観点で整理する。業務システムでメモリ不足系のエラーが出ると、最初に考えたくなる対策はメモリ増強や上限値の引き上げです。">
+  <meta property="article:published_time" content="2026-06-21T00:00:00+09:00">
+  <meta property="article:section" content="公開ナレッジ">
+  <!-- blog-site-meta:end -->
+<link rel="stylesheet" href="../../assets/style.css">
 </head>
 <body>
   <header class="site-header">
-    <a class="site-title" href="../../knowledge/index.html">公開ナレッジブログ</a>
-    <span class="site-subtitle">Public ERP operations notes</span>
+    <div class="site-brand">
+      <a class="site-title" href="../../index.html">海外技術情報アーカイブ</a>
+      <span class="site-subtitle">AI / SAP / Security / ERP operations</span>
+    </div>
+    <nav class="site-nav" aria-label="主要ナビゲーション">
+      <a href="../../index.html">海外技術情報</a>
+      <a href="../../interests/index.html">興味レポート</a>
+      <a href="../../knowledge/index.html" aria-current="page">公開ナレッジ</a>
+      <a href="../../start/index.html">はじめての方へ</a>
+    </nav>
   </header>
   <main>
-    <article class="article">
+    <article class="article" data-publication-id="1dd47ec7ab516d3f7c58">
       <nav class="back"><a href="../index.html">← 公開ナレッジ一覧へ</a></nav>
       <div class="meta-row">
         <span>2026-06-21</span>
@@ -32,5 +56,9 @@
 <p>メモリ不足は、単なる容量不足ではなく、データの扱い方が表面化したサインです。上限値を上げる判断を急ぐ前に、処理単位、取得条件、中間データ、同時実行の四点を確認するだけで、再発防止につながる論点がかなり明確になります。</p>
     </article>
   </main>
+  <footer class="site-footer">
+    <p>AI、SAP・ERP、セキュリティ、業務システム運用の公開技術ノートです。</p>
+    <p><a href="../../start/index.html">このブログの読み方</a> · <a href="../../feed.xml">RSS</a></p>
+  </footer>
 </body>
 </html>

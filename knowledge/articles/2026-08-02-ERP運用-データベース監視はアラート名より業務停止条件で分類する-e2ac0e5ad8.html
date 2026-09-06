@@ -5,15 +5,39 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>データベース監視はアラート名より業務停止条件で分類する | 公開ナレッジブログ</title>
   <meta name="description" content="データベース監視を可用性、設定、例外、性能の観点で整理し、業務停止につながる条件から優先度を決める考え方をまとめます。">
-  <link rel="stylesheet" href="../../assets/style.css">
+  <!-- blog-site-meta:start -->
+  <meta http-equiv="Content-Security-Policy" content="default-src &#39;self&#39;; base-uri &#39;none&#39;; object-src &#39;none&#39;; form-action &#39;none&#39;; img-src &#39;self&#39; data:; style-src &#39;self&#39; &#39;unsafe-inline&#39;; script-src &#39;self&#39;; connect-src &#39;self&#39;; upgrade-insecure-requests">
+  <link rel="canonical" href="https://shanpianeai-ship-it.github.io/tech-trend-archive-site/knowledge/articles/2026-08-02-ERP%E9%81%8B%E7%94%A8-%E3%83%87%E3%83%BC%E3%82%BF%E3%83%99%E3%83%BC%E3%82%B9%E7%9B%A3%E8%A6%96%E3%81%AF%E3%82%A2%E3%83%A9%E3%83%BC%E3%83%88%E5%90%8D%E3%82%88%E3%82%8A%E6%A5%AD%E5%8B%99%E5%81%9C%E6%AD%A2%E6%9D%A1%E4%BB%B6%E3%81%A7%E5%88%86%E9%A1%9E%E3%81%99%E3%82%8B-e2ac0e5ad8.html">
+  <link rel="alternate" type="application/rss+xml" title="海外技術情報アーカイブ RSS" href="https://shanpianeai-ship-it.github.io/tech-trend-archive-site/feed.xml">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="海外技術情報アーカイブ">
+  <meta property="og:title" content="データベース監視はアラート名より業務停止条件で分類する">
+  <meta property="og:description" content="データベース監視を可用性、設定、例外、性能の観点で整理し、業務停止につながる条件から優先度を決める考え方をまとめます。">
+  <meta property="og:url" content="https://shanpianeai-ship-it.github.io/tech-trend-archive-site/knowledge/articles/2026-08-02-ERP%E9%81%8B%E7%94%A8-%E3%83%87%E3%83%BC%E3%82%BF%E3%83%99%E3%83%BC%E3%82%B9%E7%9B%A3%E8%A6%96%E3%81%AF%E3%82%A2%E3%83%A9%E3%83%BC%E3%83%88%E5%90%8D%E3%82%88%E3%82%8A%E6%A5%AD%E5%8B%99%E5%81%9C%E6%AD%A2%E6%9D%A1%E4%BB%B6%E3%81%A7%E5%88%86%E9%A1%9E%E3%81%99%E3%82%8B-e2ac0e5ad8.html">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="データベース監視はアラート名より業務停止条件で分類する">
+  <meta name="twitter:description" content="データベース監視を可用性、設定、例外、性能の観点で整理し、業務停止につながる条件から優先度を決める考え方をまとめます。">
+  <meta property="article:published_time" content="2026-08-02T00:00:00+09:00">
+  <meta property="article:section" content="公開ナレッジ">
+  <!-- blog-site-meta:end -->
+<link rel="stylesheet" href="../../assets/style.css">
 </head>
 <body>
   <header class="site-header">
-    <a class="site-title" href="../../knowledge/index.html">公開ナレッジブログ</a>
-    <span class="site-subtitle">Public ERP operations notes</span>
+    <div class="site-brand">
+      <a class="site-title" href="../../index.html">海外技術情報アーカイブ</a>
+      <span class="site-subtitle">AI / SAP / Security / ERP operations</span>
+    </div>
+    <nav class="site-nav" aria-label="主要ナビゲーション">
+      <a href="../../index.html">海外技術情報</a>
+      <a href="../../interests/index.html">興味レポート</a>
+      <a href="../../knowledge/index.html" aria-current="page">公開ナレッジ</a>
+      <a href="../../start/index.html">はじめての方へ</a>
+    </nav>
   </header>
   <main>
-    <article class="article">
+    <article class="article" data-publication-id="e3b21dfc799e70e97b79">
       <nav class="back"><a href="../index.html">← 公開ナレッジ一覧へ</a></nav>
       <div class="meta-row">
         <span>2026-08-02</span>
@@ -33,5 +57,9 @@
 <p>データベース監視の目的は、項目数を増やすことではありません。業務停止、復旧不能、性能劣化の蓄積を早く見つけ、対応の順番を間違えないことです。アラート名を暗記するより、停止条件から分類する。これだけで、監視表は運用者が読む一覧から、業務を守る判断表へ変わります。</p>
     </article>
   </main>
+  <footer class="site-footer">
+    <p>AI、SAP・ERP、セキュリティ、業務システム運用の公開技術ノートです。</p>
+    <p><a href="../../start/index.html">このブログの読み方</a> · <a href="../../feed.xml">RSS</a></p>
+  </footer>
 </body>
 </html>

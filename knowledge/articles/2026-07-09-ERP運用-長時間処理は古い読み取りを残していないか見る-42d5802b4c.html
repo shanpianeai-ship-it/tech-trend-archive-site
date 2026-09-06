@@ -5,15 +5,39 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>長時間処理は古い読み取りを残していないか見る | 公開ナレッジブログ</title>
   <meta name="description" content="長時間処理による読み取り状態の保持は、更新競合が見えなくてもデータベース内部の後片付けを遅らせるため、運用監視では処理時間だけでなく保持状態を見る必要がある。">
-  <link rel="stylesheet" href="../../assets/style.css">
+  <!-- blog-site-meta:start -->
+  <meta http-equiv="Content-Security-Policy" content="default-src &#39;self&#39;; base-uri &#39;none&#39;; object-src &#39;none&#39;; form-action &#39;none&#39;; img-src &#39;self&#39; data:; style-src &#39;self&#39; &#39;unsafe-inline&#39;; script-src &#39;self&#39;; connect-src &#39;self&#39;; upgrade-insecure-requests">
+  <link rel="canonical" href="https://shanpianeai-ship-it.github.io/tech-trend-archive-site/knowledge/articles/2026-07-09-ERP%E9%81%8B%E7%94%A8-%E9%95%B7%E6%99%82%E9%96%93%E5%87%A6%E7%90%86%E3%81%AF%E5%8F%A4%E3%81%84%E8%AA%AD%E3%81%BF%E5%8F%96%E3%82%8A%E3%82%92%E6%AE%8B%E3%81%97%E3%81%A6%E3%81%84%E3%81%AA%E3%81%84%E3%81%8B%E8%A6%8B%E3%82%8B-42d5802b4c.html">
+  <link rel="alternate" type="application/rss+xml" title="海外技術情報アーカイブ RSS" href="https://shanpianeai-ship-it.github.io/tech-trend-archive-site/feed.xml">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="海外技術情報アーカイブ">
+  <meta property="og:title" content="長時間処理は古い読み取りを残していないか見る">
+  <meta property="og:description" content="長時間処理による読み取り状態の保持は、更新競合が見えなくてもデータベース内部の後片付けを遅らせるため、運用監視では処理時間だけでなく保持状態を見る必要がある。">
+  <meta property="og:url" content="https://shanpianeai-ship-it.github.io/tech-trend-archive-site/knowledge/articles/2026-07-09-ERP%E9%81%8B%E7%94%A8-%E9%95%B7%E6%99%82%E9%96%93%E5%87%A6%E7%90%86%E3%81%AF%E5%8F%A4%E3%81%84%E8%AA%AD%E3%81%BF%E5%8F%96%E3%82%8A%E3%82%92%E6%AE%8B%E3%81%97%E3%81%A6%E3%81%84%E3%81%AA%E3%81%84%E3%81%8B%E8%A6%8B%E3%82%8B-42d5802b4c.html">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="長時間処理は古い読み取りを残していないか見る">
+  <meta name="twitter:description" content="長時間処理による読み取り状態の保持は、更新競合が見えなくてもデータベース内部の後片付けを遅らせるため、運用監視では処理時間だけでなく保持状態を見る必要がある。">
+  <meta property="article:published_time" content="2026-07-09T00:00:00+09:00">
+  <meta property="article:section" content="公開ナレッジ">
+  <!-- blog-site-meta:end -->
+<link rel="stylesheet" href="../../assets/style.css">
 </head>
 <body>
   <header class="site-header">
-    <a class="site-title" href="../../knowledge/index.html">公開ナレッジブログ</a>
-    <span class="site-subtitle">Public ERP operations notes</span>
+    <div class="site-brand">
+      <a class="site-title" href="../../index.html">海外技術情報アーカイブ</a>
+      <span class="site-subtitle">AI / SAP / Security / ERP operations</span>
+    </div>
+    <nav class="site-nav" aria-label="主要ナビゲーション">
+      <a href="../../index.html">海外技術情報</a>
+      <a href="../../interests/index.html">興味レポート</a>
+      <a href="../../knowledge/index.html" aria-current="page">公開ナレッジ</a>
+      <a href="../../start/index.html">はじめての方へ</a>
+    </nav>
   </header>
   <main>
-    <article class="article">
+    <article class="article" data-publication-id="e8ad0a6b6dbbddbbd50d">
       <nav class="back"><a href="../index.html">← 公開ナレッジ一覧へ</a></nav>
       <div class="meta-row">
         <span>2026-07-09</span>
@@ -32,5 +56,9 @@
 <p>同時実行制御は、障害が起きたときだけ意識する仕組みではない。日常運用の中で、古い読み取りがどれだけ残り、後片付けがどこで遅れているかを確認する。そこまで見ることで、ERP運用は「今動いているか」だけでなく、「明日の処理に負荷を残していないか」まで管理できるようになる。</p>
     </article>
   </main>
+  <footer class="site-footer">
+    <p>AI、SAP・ERP、セキュリティ、業務システム運用の公開技術ノートです。</p>
+    <p><a href="../../start/index.html">このブログの読み方</a> · <a href="../../feed.xml">RSS</a></p>
+  </footer>
 </body>
 </html>

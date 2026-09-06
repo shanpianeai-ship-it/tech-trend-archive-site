@@ -5,15 +5,39 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>公開MCPサーバー2031件監査から「個人エージェントに入れてはいけないツール権限」を分類する | 興味レポート</title>
   <meta name="description" content="PolicyLayerの2026年6月版「State of MCP Security」は、公開レジストリから列挙できた2,031件のMCPサーバーと約31,000個のツールを分類し、AIエージェントに接続されるツール群がどれだけ強い操作権限を持つかを可視化している。">
-  <link rel="stylesheet" href="../../assets/style.css">
+  <!-- blog-site-meta:start -->
+  <meta http-equiv="Content-Security-Policy" content="default-src &#39;self&#39;; base-uri &#39;none&#39;; object-src &#39;none&#39;; form-action &#39;none&#39;; img-src &#39;self&#39; data:; style-src &#39;self&#39; &#39;unsafe-inline&#39;; script-src &#39;self&#39;; connect-src &#39;self&#39;; upgrade-insecure-requests">
+  <link rel="canonical" href="https://shanpianeai-ship-it.github.io/tech-trend-archive-site/interests/articles/2026-06-23-%E3%82%BB%E3%82%AD%E3%83%A5%E3%83%AA%E3%83%86%E3%82%A3-%E5%85%AC%E9%96%8BMCP%E3%82%B5%E3%83%BC%E3%83%90%E3%83%BC2031%E4%BB%B6%E7%9B%A3%E6%9F%BB%E3%81%8B%E3%82%89%E3%80%8C%E5%80%8B%E4%BA%BA%E3%82%A8%E3%83%BC%E3%82%B8%E3%82%A7%E3%83%B3%E3%83%88%E3%81%AB%E5%85%A5%E3%82%8C%E3%81%A6%E3%81%AF%E3%81%84%E3%81%91%E3%81%AA%E3%81%84%E3%83%84%E3%83%BC%E3%83%AB%E6%A8%A9%E9%99%90%E3%80%8D-1b5fe283c4.html">
+  <link rel="alternate" type="application/rss+xml" title="海外技術情報アーカイブ RSS" href="https://shanpianeai-ship-it.github.io/tech-trend-archive-site/feed.xml">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="海外技術情報アーカイブ">
+  <meta property="og:title" content="公開MCPサーバー2031件監査から「個人エージェントに入れてはいけないツール権限」を分類する">
+  <meta property="og:description" content="PolicyLayerの2026年6月版「State of MCP Security」は、公開レジストリから列挙できた2,031件のMCPサーバーと約31,000個のツールを分類し、AIエージェントに接続されるツール群がどれだけ強い操作権限を持つかを可視化している。">
+  <meta property="og:url" content="https://shanpianeai-ship-it.github.io/tech-trend-archive-site/interests/articles/2026-06-23-%E3%82%BB%E3%82%AD%E3%83%A5%E3%83%AA%E3%83%86%E3%82%A3-%E5%85%AC%E9%96%8BMCP%E3%82%B5%E3%83%BC%E3%83%90%E3%83%BC2031%E4%BB%B6%E7%9B%A3%E6%9F%BB%E3%81%8B%E3%82%89%E3%80%8C%E5%80%8B%E4%BA%BA%E3%82%A8%E3%83%BC%E3%82%B8%E3%82%A7%E3%83%B3%E3%83%88%E3%81%AB%E5%85%A5%E3%82%8C%E3%81%A6%E3%81%AF%E3%81%84%E3%81%91%E3%81%AA%E3%81%84%E3%83%84%E3%83%BC%E3%83%AB%E6%A8%A9%E9%99%90%E3%80%8D-1b5fe283c4.html">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="公開MCPサーバー2031件監査から「個人エージェントに入れてはいけないツール権限」を分類する">
+  <meta name="twitter:description" content="PolicyLayerの2026年6月版「State of MCP Security」は、公開レジストリから列挙できた2,031件のMCPサーバーと約31,000個のツールを分類し、AIエージェントに接続されるツール群がどれだけ強い操作権限を持つかを可視化している。">
+  <meta property="article:published_time" content="2026-06-23T00:00:00+09:00">
+  <meta property="article:section" content="興味レポート">
+  <!-- blog-site-meta:end -->
+<link rel="stylesheet" href="../../assets/style.css">
 </head>
 <body>
   <header class="site-header">
-    <a class="site-title" href="../../interests/index.html">興味レポート</a>
-    <span class="site-subtitle">Public redacted interest reports</span>
+    <div class="site-brand">
+      <a class="site-title" href="../../index.html">海外技術情報アーカイブ</a>
+      <span class="site-subtitle">AI / SAP / Security / ERP operations</span>
+    </div>
+    <nav class="site-nav" aria-label="主要ナビゲーション">
+      <a href="../../index.html">海外技術情報</a>
+      <a href="../../interests/index.html" aria-current="page">興味レポート</a>
+      <a href="../../knowledge/index.html">公開ナレッジ</a>
+      <a href="../../start/index.html">はじめての方へ</a>
+    </nav>
   </header>
   <main>
-    <article class="article">
+    <article class="article" data-publication-id="f23f8b828913b4289471">
       <nav class="back"><a href="../index.html">← 興味レポート一覧へ</a></nav>
       <div class="meta-row">
         <span>2026-06-23T19:58:00+09:00</span>
@@ -76,5 +100,9 @@
 </ul>
     </article>
   </main>
+  <footer class="site-footer">
+    <p>AI、SAP・ERP、セキュリティ、業務システム運用の公開技術ノートです。</p>
+    <p><a href="../../start/index.html">このブログの読み方</a> · <a href="../../feed.xml">RSS</a></p>
+  </footer>
 </body>
 </html>

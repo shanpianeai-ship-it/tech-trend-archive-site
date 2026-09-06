@@ -5,15 +5,39 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>業務入力監視は開始時点で崩れを潰す | 公開ナレッジブログ</title>
   <meta name="description" content="業務入力監視は、ジョブ起動・データ受け渡し・後続処理の入口を同じ軸で監視する設計が重要です。日次で崩れを早期検知し、障害対応前に再実行判断と担当引継ぎを整えることで、業務影響を最小化します。">
-  <link rel="stylesheet" href="../../assets/style.css">
+  <!-- blog-site-meta:start -->
+  <meta http-equiv="Content-Security-Policy" content="default-src &#39;self&#39;; base-uri &#39;none&#39;; object-src &#39;none&#39;; form-action &#39;none&#39;; img-src &#39;self&#39; data:; style-src &#39;self&#39; &#39;unsafe-inline&#39;; script-src &#39;self&#39;; connect-src &#39;self&#39;; upgrade-insecure-requests">
+  <link rel="canonical" href="https://shanpianeai-ship-it.github.io/tech-trend-archive-site/knowledge/articles/2026-07-19-ERP%E9%81%8B%E7%94%A8-%E6%A5%AD%E5%8B%99%E5%85%A5%E5%8A%9B%E7%9B%A3%E8%A6%96%E3%81%AF%E9%96%8B%E5%A7%8B%E6%99%82%E7%82%B9%E3%81%A7%E5%B4%A9%E3%82%8C%E3%82%92%E6%BD%B0%E3%81%99-8de78383b3.html">
+  <link rel="alternate" type="application/rss+xml" title="海外技術情報アーカイブ RSS" href="https://shanpianeai-ship-it.github.io/tech-trend-archive-site/feed.xml">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="海外技術情報アーカイブ">
+  <meta property="og:title" content="業務入力監視は開始時点で崩れを潰す">
+  <meta property="og:description" content="業務入力監視は、ジョブ起動・データ受け渡し・後続処理の入口を同じ軸で監視する設計が重要です。日次で崩れを早期検知し、障害対応前に再実行判断と担当引継ぎを整えることで、業務影響を最小化します。">
+  <meta property="og:url" content="https://shanpianeai-ship-it.github.io/tech-trend-archive-site/knowledge/articles/2026-07-19-ERP%E9%81%8B%E7%94%A8-%E6%A5%AD%E5%8B%99%E5%85%A5%E5%8A%9B%E7%9B%A3%E8%A6%96%E3%81%AF%E9%96%8B%E5%A7%8B%E6%99%82%E7%82%B9%E3%81%A7%E5%B4%A9%E3%82%8C%E3%82%92%E6%BD%B0%E3%81%99-8de78383b3.html">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="業務入力監視は開始時点で崩れを潰す">
+  <meta name="twitter:description" content="業務入力監視は、ジョブ起動・データ受け渡し・後続処理の入口を同じ軸で監視する設計が重要です。日次で崩れを早期検知し、障害対応前に再実行判断と担当引継ぎを整えることで、業務影響を最小化します。">
+  <meta property="article:published_time" content="2026-07-19T00:00:00+09:00">
+  <meta property="article:section" content="公開ナレッジ">
+  <!-- blog-site-meta:end -->
+<link rel="stylesheet" href="../../assets/style.css">
 </head>
 <body>
   <header class="site-header">
-    <a class="site-title" href="../../knowledge/index.html">公開ナレッジブログ</a>
-    <span class="site-subtitle">Public ERP operations notes</span>
+    <div class="site-brand">
+      <a class="site-title" href="../../index.html">海外技術情報アーカイブ</a>
+      <span class="site-subtitle">AI / SAP / Security / ERP operations</span>
+    </div>
+    <nav class="site-nav" aria-label="主要ナビゲーション">
+      <a href="../../index.html">海外技術情報</a>
+      <a href="../../interests/index.html">興味レポート</a>
+      <a href="../../knowledge/index.html" aria-current="page">公開ナレッジ</a>
+      <a href="../../start/index.html">はじめての方へ</a>
+    </nav>
   </header>
   <main>
-    <article class="article">
+    <article class="article" data-publication-id="8d23451454b857cb58d1">
       <nav class="back"><a href="../index.html">← 公開ナレッジ一覧へ</a></nav>
       <div class="meta-row">
         <span>2026-07-19</span>
@@ -31,5 +55,9 @@
 <p>最後に、監視結果は「異常の有無」だけで終わらせない運用へ変えると有効です。差分を見つけたら、原因候補と復旧方針を 1 回分として記録し、同じ型の滞留が連鎖しないかを次回ジョブ起動時に再確認します。業務入力監視は、夜間ジョブの安定性と月次処理の継続性を守るための予防線です。日々のチェックを同じ型で回し続けるほど、障害復旧は速くなります。</p>
     </article>
   </main>
+  <footer class="site-footer">
+    <p>AI、SAP・ERP、セキュリティ、業務システム運用の公開技術ノートです。</p>
+    <p><a href="../../start/index.html">このブログの読み方</a> · <a href="../../feed.xml">RSS</a></p>
+  </footer>
 </body>
 </html>
