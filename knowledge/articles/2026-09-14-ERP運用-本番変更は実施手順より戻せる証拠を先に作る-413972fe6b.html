@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="ERPや業務システムの変更管理では、手順書の整備だけでなく、同じ成果物を再現できること、変更範囲を説明できること、問題時に戻せることを証跡として残す設計が重要です。">
+  <meta name="publication-id" content="413972fe6bf9a48effce">
+  <title>本番変更は実施手順より戻せる証拠を先に作る | 公開ナレッジブログ</title>
+  <!-- blog-site-meta:start -->
+  <meta http-equiv="Content-Security-Policy" content="default-src &#39;self&#39;; base-uri &#39;none&#39;; object-src &#39;none&#39;; form-action &#39;none&#39;; img-src &#39;self&#39; data:; style-src &#39;self&#39; &#39;unsafe-inline&#39;; script-src &#39;self&#39;; connect-src &#39;self&#39;; upgrade-insecure-requests">
+  <link rel="canonical" href="https://shanpianeai-ship-it.github.io/tech-trend-archive-site/knowledge/articles/2026-09-14-ERP%E9%81%8B%E7%94%A8-%E6%9C%AC%E7%95%AA%E5%A4%89%E6%9B%B4%E3%81%AF%E5%AE%9F%E6%96%BD%E6%89%8B%E9%A0%86%E3%82%88%E3%82%8A%E6%88%BB%E3%81%9B%E3%82%8B%E8%A8%BC%E6%8B%A0%E3%82%92%E5%85%88%E3%81%AB%E4%BD%9C%E3%82%8B-413972fe6b.html">
+  <link rel="alternate" type="application/rss+xml" title="海外技術情報アーカイブ RSS" href="https://shanpianeai-ship-it.github.io/tech-trend-archive-site/feed.xml">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="海外技術情報アーカイブ">
+  <meta property="og:title" content="本番変更は実施手順より戻せる証拠を先に作る">
+  <meta property="og:description" content="ERPや業務システムの変更管理では、手順書の整備だけでなく、同じ成果物を再現できること、変更範囲を説明できること、問題時に戻せることを証跡として残す設計が重要です。">
+  <meta property="og:url" content="https://shanpianeai-ship-it.github.io/tech-trend-archive-site/knowledge/articles/2026-09-14-ERP%E9%81%8B%E7%94%A8-%E6%9C%AC%E7%95%AA%E5%A4%89%E6%9B%B4%E3%81%AF%E5%AE%9F%E6%96%BD%E6%89%8B%E9%A0%86%E3%82%88%E3%82%8A%E6%88%BB%E3%81%9B%E3%82%8B%E8%A8%BC%E6%8B%A0%E3%82%92%E5%85%88%E3%81%AB%E4%BD%9C%E3%82%8B-413972fe6b.html">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="本番変更は実施手順より戻せる証拠を先に作る">
+  <meta name="twitter:description" content="ERPや業務システムの変更管理では、手順書の整備だけでなく、同じ成果物を再現できること、変更範囲を説明できること、問題時に戻せることを証跡として残す設計が重要です。">
+  <meta property="article:published_time" content="2026-09-14T00:00:00+09:00">
+  <meta property="article:section" content="公開ナレッジ">
+  <!-- blog-site-meta:end -->
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-brand">
+      <a class="site-title" href="../../index.html">海外技術情報アーカイブ</a>
+      <span class="site-subtitle">AI / SAP / Security / ERP operations</span>
+    </div>
+    <nav class="site-nav" aria-label="主要ナビゲーション">
+      <a href="../../index.html">海外技術情報</a>
+      <a href="../../interests/index.html">興味レポート</a>
+      <a href="../../knowledge/index.html" aria-current="page">公開ナレッジ</a>
+      <a href="../../start/index.html">はじめての方へ</a>
+    </nav>
+  </header>
+  <main>
+    <article class="article" data-publication-id="413972fe6bf9a48effce">
+      <nav class="back" aria-label="パンくず"><a href="../../knowledge/index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row"><span>2026-09-14</span><span>ERP運用</span></div>
+      <h1>本番変更は実施手順より戻せる証拠を先に作る</h1>
+      <aside class="summary-box"><span>Summary</span><p>ERPや業務システムの変更管理では、手順書の整備だけでなく、同じ成果物を再現できること、変更範囲を説明できること、問題時に戻せることを証跡として残す設計が重要です。</p></aside>
+<h3>再現できない変更は戻しにくい</h3>
+<p>リリースエンジニアリングでは、本番で使うバイナリや設定が、再現可能で自動化された方法で作られていることを重視する。ERPや業務システムの変更管理に置き換えると、これは「誰が実施したか」だけでなく、「どの版、どの設定、どの依存関係から作られた変更か」を後から確認できる状態を指す。</p>
+<p>実施手順が丁寧でも、成果物の出所が曖昧であれば、障害時に同じ状態を再構築しにくい。変更対象のリビジョン、ビルド識別子、設定差分、適用対象を残しておくことで、調査時に正しい成果物を参照できる。Googleの例では、同一リビジョンなら環境差に左右されず同じ結果を期待できるビルドや、ビルド日・リビジョン番号・識別子で成果物を追跡する考え方が示されている。業務システムでも、まずはこの「戻って確認できる粒度」を決めることが出発点になる。</p>
+<h3>変更範囲は小さく、説明可能にする</h3>
+<p>本番変更で怖いのは、意図した修正だけでなく、関係の薄い差分まで同時に入ることだ。ソースでは、主要なリリースをmainlineから分岐し、必要な修正をcherry pickで取り込む運用が説明されている。これは、リリースに含まれる内容を正確に把握し、不要な変更の混入を避けるための考え方である。</p>
+<p>ERP運用では、同じ名前の仕組みを導入する必要はない。ただし、移送、設定変更、アドオン修正、帳票変更などを一つの大きな塊として扱うほど、原因切り分けは難しくなる。変更票には、対象、理由、依存関係、除外した差分、追加で取り込んだ修正を明示する。戻す判断をする場面では、「今回の変更に何が含まれているか」を短時間で説明できることが、実施手順そのものと同じくらい重要になる。</p>
+<h3>テスト結果を本番判断につなげる</h3>
+<p>継続テストで成功したリビジョンをリリース候補にし、リリース用のブランチで改めてテストを実行して監査証跡を残す、という考え方も示されている。特にcherry pickを含む場合、実際にリリースされる組み合わせはmainline上にそのまま存在しないことがあるため、リリース対象そのものに対してテストが通っていることを確認する必要がある。</p>
+<p>業務システムでも、開発環境で一度確認した結果をそのまま本番判断に使うだけでは弱い。最終的に適用する単位で、単体確認、結合確認、必要に応じた業務シナリオ確認を残す。ここでの証跡は、成功を飾るための資料ではなく、問題が起きたときに「どの前提までは確認済みだったか」を示す材料である。</p>
+<h3>戻せる条件を先に決めて配信する</h3>
+<p>ソースでは、canary配信、新リリースの段階的な展開、問題を示した機能のロールバックといった戦略が、SREとリリースエンジニアの協働領域として扱われている。ERPでは高頻度リリースやcanaryをそのまま適用できない場合もあるが、影響範囲を限定し、問題時に戻せる状態を維持するという原則は共通している。</p>
+<p>本番変更の計画では、実施順より先に、停止条件、戻し条件、戻し対象、戻した後の確認方法を決めておく。さらに、変更点一覧やリリースレポートを保存しておけば、障害発生時の追跡が速くなる。変更管理の成熟度は、手順通りに進められるかだけでは測れない。予定外の事象が起きたときに、何を根拠に止め、何を根拠に戻し、どの状態まで復元できるか。その証拠を本番前に揃えることが、業務システムの変更を現実的に安全へ近づける。</p>
+      <section class="source-box"><h2>参照元</h2><ul><li><a href="https://sre.google/sre-book/release-engineering/" rel="noopener noreferrer">sre.google</a></li></ul></section>
+      
+    </article>
+  </main>
+  <footer class="site-footer">
+    <p>AI、SAP・ERP、セキュリティ、業務システム運用の公開技術ノートです。</p>
+    <p><a href="../../start/index.html">このブログの読み方</a> · <a href="../../feed.xml">RSS</a></p>
+  </footer>
+</body>
+</html>
