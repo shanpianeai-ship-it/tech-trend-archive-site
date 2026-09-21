@@ -1,5 +1,20 @@
 [
   {
+    "slug": "2026-09-21-SAP・業務システム-SAP、表形式データ向けTabPFN-3.5-PlusをSAP-AI-Coreで提供開始-09b85c0038",
+    "title": "SAP、表形式データ向けTabPFN-3.5 PlusをSAP AI Coreで提供開始",
+    "created": "2026-09-21",
+    "summary": "SAPは2026年9月15日、TabPFN-3.5 PlusのSAP AI Coreでの提供開始を発表した。構造化された業務データ向けの位置付けと、学習・前処理に関する同社の説明を整理する。",
+    "excerpt": "SAPは2026年9月15日、TabPFN-3.5 PlusのSAP AI Coreでの提供開始を発表した。構造化された業務データ向けの位置付けと、学習・前処理に関する同社の説明を整理する。",
+    "sources": [
+      "https://news.sap.com/2026/09/tabpfn-35-plus-now-available-sap-ai-core-instant-business-predictions/"
+    ],
+    "publication_id": "09b85c0038ce2631e259",
+    "category": "SAP・業務システム",
+    "status": "published",
+    "type": "interest_report",
+    "url": "interests/articles/2026-09-21-SAP・業務システム-SAP、表形式データ向けTabPFN-3.5-PlusをSAP-AI-Coreで提供開始-09b85c0038.html"
+  },
+  {
     "slug": "2026-09-05-セキュリティ-GitHub-Actionsのartifact-attestationsでビルド由来を検証可能にする-3888879b49",
     "title": "GitHub Actionsのartifact attestationsでビルド由来を検証可能にする",
     "created": "2026-09-05",
