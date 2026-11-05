@@ -7,6 +7,14 @@
     <language>ja</language>
     <atom:link href="https://shanpianeai-ship-it.github.io/tech-trend-archive-site/feed.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>障害対応は原因究明より役割の分担を先に決める</title>
+      <link>https://shanpianeai-ship-it.github.io/tech-trend-archive-site/knowledge/articles/2026-11-05-ERP%E9%81%8B%E7%94%A8-%E9%9A%9C%E5%AE%B3%E5%AF%BE%E5%BF%9C%E3%81%AF%E5%8E%9F%E5%9B%A0%E7%A9%B6%E6%98%8E%E3%82%88%E3%82%8A%E5%BD%B9%E5%89%B2%E3%81%AE%E5%88%86%E6%8B%85%E3%82%92%E5%85%88%E3%81%AB%E6%B1%BA%E3%82%81%E3%82%8B-6ce772134f.html</link>
+      <guid isPermaLink="true">https://shanpianeai-ship-it.github.io/tech-trend-archive-site/knowledge/articles/2026-11-05-ERP%E9%81%8B%E7%94%A8-%E9%9A%9C%E5%AE%B3%E5%AF%BE%E5%BF%9C%E3%81%AF%E5%8E%9F%E5%9B%A0%E7%A9%B6%E6%98%8E%E3%82%88%E3%82%8A%E5%BD%B9%E5%89%B2%E3%81%AE%E5%88%86%E6%8B%85%E3%82%92%E5%85%88%E3%81%AB%E6%B1%BA%E3%82%81%E3%82%8B-6ce772134f.html</guid>
+      <pubDate>Wed, 04 Nov 2026 15:00:00 GMT</pubDate>
+      <category>公開ナレッジ</category>
+      <description>業務システムの障害対応では、詳しい人が原因の調査に集中するほど、連絡や判断が抜け落ちやすい。指揮・作業・連絡・計画の役割を分け、状況を一つの文書に集め、障害の宣言と引き継ぎの条件を先に決めておく考え方を整理します。</description>
+    </item>
+    <item>
       <title>SAP、表形式データ向けTabPFN-3.5 PlusをSAP AI Coreで提供開始</title>
       <link>https://shanpianeai-ship-it.github.io/tech-trend-archive-site/interests/articles/2026-09-21-SAP%E3%83%BB%E6%A5%AD%E5%8B%99%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0-SAP%E3%80%81%E8%A1%A8%E5%BD%A2%E5%BC%8F%E3%83%87%E3%83%BC%E3%82%BF%E5%90%91%E3%81%91TabPFN-3.5-Plus%E3%82%92SAP-AI-Core%E3%81%A7%E6%8F%90%E4%BE%9B%E9%96%8B%E5%A7%8B-09b85c0038.html</link>
       <guid isPermaLink="true">https://shanpianeai-ship-it.github.io/tech-trend-archive-site/interests/articles/2026-09-21-SAP%E3%83%BB%E6%A5%AD%E5%8B%99%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0-SAP%E3%80%81%E8%A1%A8%E5%BD%A2%E5%BC%8F%E3%83%87%E3%83%BC%E3%82%BF%E5%90%91%E3%81%91TabPFN-3.5-Plus%E3%82%92SAP-AI-Core%E3%81%A7%E6%8F%90%E4%BE%9B%E9%96%8B%E5%A7%8B-09b85c0038.html</guid>
@@ -397,14 +405,6 @@
       <pubDate>Thu, 16 Jul 2026 15:00:00 GMT</pubDate>
       <category>海外技術情報</category>
       <description>SAPが構造化データ向け先端基盤Prior Labsを買収完了し、SAP-RPT-1系TFMを拡大する方針を公式発表。独立体制を維持しつつ4年で10億ユーロ超を投資する構えは、業務データAI戦略を長期で設計する上で価値が高い。</description>
-    </item>
-    <item>
-      <title>ABAP高負荷は診断順を固定する</title>
-      <link>https://shanpianeai-ship-it.github.io/tech-trend-archive-site/knowledge/articles/2026-07-17-ERP%E9%81%8B%E7%94%A8-ABAP%E9%AB%98%E8%B2%A0%E8%8D%B7%E3%81%AF%E8%A8%BA%E6%96%AD%E9%A0%86%E3%82%92%E5%9B%BA%E5%AE%9A%E3%81%99%E3%82%8B-97a94eb648.html</link>
-      <guid isPermaLink="true">https://shanpianeai-ship-it.github.io/tech-trend-archive-site/knowledge/articles/2026-07-17-ERP%E9%81%8B%E7%94%A8-ABAP%E9%AB%98%E8%B2%A0%E8%8D%B7%E3%81%AF%E8%A8%BA%E6%96%AD%E9%A0%86%E3%82%92%E5%9B%BA%E5%AE%9A%E3%81%99%E3%82%8B-97a94eb648.html</guid>
-      <pubDate>Thu, 16 Jul 2026 15:00:00 GMT</pubDate>
-      <category>公開ナレッジ</category>
-      <description>ABAPプログラムの性能悪化は原因を当てず、観測分解→トレース選定→改善の順を固定すると短時間で再現性が生まれる。まず何を先に見るかを決めてから、SQL・CPU・待機・メモリを順に切り分ける運用にする。</description>
     </item>
   </channel>
 </rss>
