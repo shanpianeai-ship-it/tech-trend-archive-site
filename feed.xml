@@ -7,6 +7,14 @@
     <language>ja</language>
     <atom:link href="https://shanpianeai-ship-it.github.io/tech-trend-archive-site/feed.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>パッチの優先順位は深刻度の点数だけで決めない</title>
+      <link>https://shanpianeai-ship-it.github.io/tech-trend-archive-site/knowledge/articles/2026-11-12-ERP%E9%81%8B%E7%94%A8-%E3%83%91%E3%83%83%E3%83%81%E3%81%AE%E5%84%AA%E5%85%88%E9%A0%86%E4%BD%8D%E3%81%AF%E6%B7%B1%E5%88%BB%E5%BA%A6%E3%81%AE%E7%82%B9%E6%95%B0%E3%81%A0%E3%81%91%E3%81%A7%E6%B1%BA%E3%82%81%E3%81%AA%E3%81%84-17fcbd7760.html</link>
+      <guid isPermaLink="true">https://shanpianeai-ship-it.github.io/tech-trend-archive-site/knowledge/articles/2026-11-12-ERP%E9%81%8B%E7%94%A8-%E3%83%91%E3%83%83%E3%83%81%E3%81%AE%E5%84%AA%E5%85%88%E9%A0%86%E4%BD%8D%E3%81%AF%E6%B7%B1%E5%88%BB%E5%BA%A6%E3%81%AE%E7%82%B9%E6%95%B0%E3%81%A0%E3%81%91%E3%81%A7%E6%B1%BA%E3%82%81%E3%81%AA%E3%81%84-17fcbd7760.html</guid>
+      <pubDate>Wed, 11 Nov 2026 15:00:00 GMT</pubDate>
+      <category>公開ナレッジ</category>
+      <description>月例のセキュリティパッチを深刻度の点数だけで並べると、自分の環境では関係の薄いものに時間を使い、急ぐべきものを後回しにしかねない。CVSSが表すもの、悪用の状況、自分の環境での関係を分けて見て、業務システムのパッチの順番を決める考え方を整理します。</description>
+    </item>
+    <item>
       <title>障害対応は原因究明より役割の分担を先に決める</title>
       <link>https://shanpianeai-ship-it.github.io/tech-trend-archive-site/knowledge/articles/2026-11-05-ERP%E9%81%8B%E7%94%A8-%E9%9A%9C%E5%AE%B3%E5%AF%BE%E5%BF%9C%E3%81%AF%E5%8E%9F%E5%9B%A0%E7%A9%B6%E6%98%8E%E3%82%88%E3%82%8A%E5%BD%B9%E5%89%B2%E3%81%AE%E5%88%86%E6%8B%85%E3%82%92%E5%85%88%E3%81%AB%E6%B1%BA%E3%82%81%E3%82%8B-6ce772134f.html</link>
       <guid isPermaLink="true">https://shanpianeai-ship-it.github.io/tech-trend-archive-site/knowledge/articles/2026-11-05-ERP%E9%81%8B%E7%94%A8-%E9%9A%9C%E5%AE%B3%E5%AF%BE%E5%BF%9C%E3%81%AF%E5%8E%9F%E5%9B%A0%E7%A9%B6%E6%98%8E%E3%82%88%E3%82%8A%E5%BD%B9%E5%89%B2%E3%81%AE%E5%88%86%E6%8B%85%E3%82%92%E5%85%88%E3%81%AB%E6%B1%BA%E3%82%81%E3%82%8B-6ce772134f.html</guid>
@@ -397,14 +405,6 @@
       <pubDate>Thu, 16 Jul 2026 15:00:00 GMT</pubDate>
       <category>海外技術情報</category>
       <description>SAP公式発表のPrior Labs買収は、構造化データ処理を強化し、ERP領域のAI基盤を実業務の意思決定に接続できる拡張ポイントを増やす。SAP導入判断に向けた評価観点が明確化される。</description>
-    </item>
-    <item>
-      <title>SAP Prior Labs買収でTFM基盤が加速</title>
-      <link>https://shanpianeai-ship-it.github.io/tech-trend-archive-site/articles/2026-07-17_AM_SAP_PriorLabs_%E8%B2%B7%E5%8F%8E%E3%81%A7TFM%E5%8A%A0%E9%80%9F.html</link>
-      <guid isPermaLink="true">https://shanpianeai-ship-it.github.io/tech-trend-archive-site/articles/2026-07-17_AM_SAP_PriorLabs_%E8%B2%B7%E5%8F%8E%E3%81%A7TFM%E5%8A%A0%E9%80%9F.html</guid>
-      <pubDate>Thu, 16 Jul 2026 15:00:00 GMT</pubDate>
-      <category>海外技術情報</category>
-      <description>SAPが構造化データ向け先端基盤Prior Labsを買収完了し、SAP-RPT-1系TFMを拡大する方針を公式発表。独立体制を維持しつつ4年で10億ユーロ超を投資する構えは、業務データAI戦略を長期で設計する上で価値が高い。</description>
     </item>
   </channel>
 </rss>

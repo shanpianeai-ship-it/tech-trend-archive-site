@@ -1,5 +1,21 @@
 [
   {
+    "slug": "2026-11-12-ERP運用-パッチの優先順位は深刻度の点数だけで決めない-17fcbd7760",
+    "title": "パッチの優先順位は深刻度の点数だけで決めない",
+    "created": "2026-11-12",
+    "summary": "月例のセキュリティパッチを深刻度の点数だけで並べると、自分の環境では関係の薄いものに時間を使い、急ぐべきものを後回しにしかねない。CVSSが表すもの、悪用の状況、自分の環境での関係を分けて見て、業務システムのパッチの順番を決める考え方を整理します。",
+    "excerpt": "月例のセキュリティパッチを深刻度の点数だけで並べると、自分の環境では関係の薄いものに時間を使い、急ぐべきものを後回しにしかねない。CVSSが表すもの、悪用の状況、自分の環境での関係を分けて見て、業務システムのパッチの順番を決める考え方を整理します。",
+    "sources": [
+      "https://www.first.org/cvss/v4-0/user-guide",
+      "https://www.cisa.gov/known-exploited-vulnerabilities",
+      "https://support.sap.com/securitynotes",
+      "https://support.sap.com/en/my-support/knowledge-base/security-notes-news/november-2026.html"
+    ],
+    "publication_id": "17fcbd77608dea53b8a3",
+    "category": "ERP運用",
+    "url": "knowledge/articles/2026-11-12-ERP運用-パッチの優先順位は深刻度の点数だけで決めない-17fcbd7760.html"
+  },
+  {
     "slug": "2026-11-05-ERP運用-障害対応は原因究明より役割の分担を先に決める-6ce772134f",
     "title": "障害対応は原因究明より役割の分担を先に決める",
     "created": "2026-11-05",
