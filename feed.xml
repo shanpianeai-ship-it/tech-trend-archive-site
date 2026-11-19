@@ -7,6 +7,14 @@
     <language>ja</language>
     <atom:link href="https://shanpianeai-ship-it.github.io/tech-trend-archive-site/feed.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>定型ジョブは正常終了で終わらせず処理した範囲を照合する</title>
+      <link>https://shanpianeai-ship-it.github.io/tech-trend-archive-site/knowledge/articles/2026-11-19-ERP%E9%81%8B%E7%94%A8-%E5%AE%9A%E5%9E%8B%E3%82%B8%E3%83%A7%E3%83%96%E3%81%AF%E6%AD%A3%E5%B8%B8%E7%B5%82%E4%BA%86%E3%81%A7%E7%B5%82%E3%82%8F%E3%82%89%E3%81%9B%E3%81%9A%E5%87%A6%E7%90%86%E3%81%97%E3%81%9F%E7%AF%84%E5%9B%B2%E3%82%92%E7%85%A7%E5%90%88%E3%81%99%E3%82%8B-6ee7f396a1.html</link>
+      <guid isPermaLink="true">https://shanpianeai-ship-it.github.io/tech-trend-archive-site/knowledge/articles/2026-11-19-ERP%E9%81%8B%E7%94%A8-%E5%AE%9A%E5%9E%8B%E3%82%B8%E3%83%A7%E3%83%96%E3%81%AF%E6%AD%A3%E5%B8%B8%E7%B5%82%E4%BA%86%E3%81%A7%E7%B5%82%E3%82%8F%E3%82%89%E3%81%9B%E3%81%9A%E5%87%A6%E7%90%86%E3%81%97%E3%81%9F%E7%AF%84%E5%9B%B2%E3%82%92%E7%85%A7%E5%90%88%E3%81%99%E3%82%8B-6ee7f396a1.html</guid>
+      <pubDate>Wed, 18 Nov 2026 15:00:00 GMT</pubDate>
+      <category>公開ナレッジ</category>
+      <description>夜間の締めのような定型ジョブは、正常終了の表示だけでは狙った範囲を処理したかまでは分からない。件数・金額・対象期間をジョブの外から照合し、照合に通ったときだけ後続へ進める考え方を、GoogleのSREの本のデータ完全性の章をもとに整理します。</description>
+    </item>
+    <item>
       <title>パッチの優先順位は深刻度の点数だけで決めない</title>
       <link>https://shanpianeai-ship-it.github.io/tech-trend-archive-site/knowledge/articles/2026-11-12-ERP%E9%81%8B%E7%94%A8-%E3%83%91%E3%83%83%E3%83%81%E3%81%AE%E5%84%AA%E5%85%88%E9%A0%86%E4%BD%8D%E3%81%AF%E6%B7%B1%E5%88%BB%E5%BA%A6%E3%81%AE%E7%82%B9%E6%95%B0%E3%81%A0%E3%81%91%E3%81%A7%E6%B1%BA%E3%82%81%E3%81%AA%E3%81%84-17fcbd7760.html</link>
       <guid isPermaLink="true">https://shanpianeai-ship-it.github.io/tech-trend-archive-site/knowledge/articles/2026-11-12-ERP%E9%81%8B%E7%94%A8-%E3%83%91%E3%83%83%E3%83%81%E3%81%AE%E5%84%AA%E5%85%88%E9%A0%86%E4%BD%8D%E3%81%AF%E6%B7%B1%E5%88%BB%E5%BA%A6%E3%81%AE%E7%82%B9%E6%95%B0%E3%81%A0%E3%81%91%E3%81%A7%E6%B1%BA%E3%82%81%E3%81%AA%E3%81%84-17fcbd7760.html</guid>
@@ -397,14 +405,6 @@
       <pubDate>Thu, 16 Jul 2026 15:00:00 GMT</pubDate>
       <category>興味レポート</category>
       <description>OpenAI App RuntimeとWorkspace Agents運用を実務へ落とすときは、権限を読み取り専用・実行系・共有系に分解し、plugin側とagent側の境界で事故半径を下げるのが本質。</description>
-    </item>
-    <item>
-      <title>SAPがPrior Labsを買収：ERP AI基盤の実務インパクトを読む</title>
-      <link>https://shanpianeai-ship-it.github.io/tech-trend-archive-site/articles/2026-07-17_SAP_PriorLabs%E8%B2%B7%E5%8F%8E%E3%81%A8AI%E5%9F%BA%E7%9B%A4.html</link>
-      <guid isPermaLink="true">https://shanpianeai-ship-it.github.io/tech-trend-archive-site/articles/2026-07-17_SAP_PriorLabs%E8%B2%B7%E5%8F%8E%E3%81%A8AI%E5%9F%BA%E7%9B%A4.html</guid>
-      <pubDate>Thu, 16 Jul 2026 15:00:00 GMT</pubDate>
-      <category>海外技術情報</category>
-      <description>SAP公式発表のPrior Labs買収は、構造化データ処理を強化し、ERP領域のAI基盤を実業務の意思決定に接続できる拡張ポイントを増やす。SAP導入判断に向けた評価観点が明確化される。</description>
     </item>
   </channel>
 </rss>
