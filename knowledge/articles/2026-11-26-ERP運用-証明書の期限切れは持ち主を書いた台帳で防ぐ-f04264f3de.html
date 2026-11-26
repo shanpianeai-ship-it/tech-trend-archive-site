@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="業務システムの連携や画面を支えるTLSサーバー証明書は、期限が切れると前触れなく止まる。発行する人と入れて更新する人が分かれ、一覧も無いと、誰も期限を見ていない状態になりやすい。NISTの実践ガイドSP 1800-16をもとに、証明書ごとに持ち主と更新の手順を台帳に書き、期限を見張る考え方を整理します。">
+  <meta name="publication-id" content="f04264f3def6d3876341">
+  <title>証明書の期限切れは持ち主を書いた台帳で防ぐ | 公開ナレッジブログ</title>
+  <!-- blog-site-meta:start -->
+  <meta http-equiv="Content-Security-Policy" content="default-src &#39;self&#39;; base-uri &#39;none&#39;; object-src &#39;none&#39;; form-action &#39;none&#39;; img-src &#39;self&#39; data:; style-src &#39;self&#39; &#39;unsafe-inline&#39;; script-src &#39;self&#39;; connect-src &#39;self&#39;; upgrade-insecure-requests">
+  <link rel="canonical" href="https://shanpianeai-ship-it.github.io/tech-trend-archive-site/knowledge/articles/2026-11-26-ERP%E9%81%8B%E7%94%A8-%E8%A8%BC%E6%98%8E%E6%9B%B8%E3%81%AE%E6%9C%9F%E9%99%90%E5%88%87%E3%82%8C%E3%81%AF%E6%8C%81%E3%81%A1%E4%B8%BB%E3%82%92%E6%9B%B8%E3%81%84%E3%81%9F%E5%8F%B0%E5%B8%B3%E3%81%A7%E9%98%B2%E3%81%90-f04264f3de.html">
+  <link rel="alternate" type="application/rss+xml" title="海外技術情報アーカイブ RSS" href="https://shanpianeai-ship-it.github.io/tech-trend-archive-site/feed.xml">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="海外技術情報アーカイブ">
+  <meta property="og:title" content="証明書の期限切れは持ち主を書いた台帳で防ぐ">
+  <meta property="og:description" content="業務システムの連携や画面を支えるTLSサーバー証明書は、期限が切れると前触れなく止まる。発行する人と入れて更新する人が分かれ、一覧も無いと、誰も期限を見ていない状態になりやすい。NISTの実践ガイドSP 1800-16をもとに、証明書ごとに持ち主と更新の手順を台帳に書き、期限を見張る考え方を整理します。">
+  <meta property="og:url" content="https://shanpianeai-ship-it.github.io/tech-trend-archive-site/knowledge/articles/2026-11-26-ERP%E9%81%8B%E7%94%A8-%E8%A8%BC%E6%98%8E%E6%9B%B8%E3%81%AE%E6%9C%9F%E9%99%90%E5%88%87%E3%82%8C%E3%81%AF%E6%8C%81%E3%81%A1%E4%B8%BB%E3%82%92%E6%9B%B8%E3%81%84%E3%81%9F%E5%8F%B0%E5%B8%B3%E3%81%A7%E9%98%B2%E3%81%90-f04264f3de.html">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="証明書の期限切れは持ち主を書いた台帳で防ぐ">
+  <meta name="twitter:description" content="業務システムの連携や画面を支えるTLSサーバー証明書は、期限が切れると前触れなく止まる。発行する人と入れて更新する人が分かれ、一覧も無いと、誰も期限を見ていない状態になりやすい。NISTの実践ガイドSP 1800-16をもとに、証明書ごとに持ち主と更新の手順を台帳に書き、期限を見張る考え方を整理します。">
+  <meta property="article:published_time" content="2026-11-26T00:00:00+09:00">
+  <meta property="article:section" content="公開ナレッジ">
+  <!-- blog-site-meta:end -->
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-brand">
+      <a class="site-title" href="../../index.html">海外技術情報アーカイブ</a>
+      <span class="site-subtitle">AI / SAP / Security / ERP operations</span>
+    </div>
+    <nav class="site-nav" aria-label="主要ナビゲーション">
+      <a href="../../index.html">海外技術情報</a>
+      <a href="../../interests/index.html">興味レポート</a>
+      <a href="../../knowledge/index.html" aria-current="page">公開ナレッジ</a>
+      <a href="../../start/index.html">はじめての方へ</a>
+    </nav>
+  </header>
+  <main>
+    <article class="article" data-publication-id="f04264f3def6d3876341">
+      <nav class="back" aria-label="パンくず"><a href="../../knowledge/index.html">← 記事一覧へ</a></nav>
+      <div class="meta-row"><span>2026-11-26</span><span>ERP運用</span></div>
+      <h1>証明書の期限切れは持ち主を書いた台帳で防ぐ</h1>
+      <aside class="summary-box"><span>Summary</span><p>業務システムの連携や画面を支えるTLSサーバー証明書は、期限が切れると前触れなく止まる。発行する人と入れて更新する人が分かれ、一覧も無いと、誰も期限を見ていない状態になりやすい。NISTの実践ガイドSP 1800-16をもとに、証明書ごとに持ち主と更新の手順を台帳に書き、期限を見張る考え方を整理します。</p></aside>
+<h3>期限切れは、ある朝いきなり起きる</h3>
+<p>取引先との連携が、朝から全部エラーになっている。調べると、連携に使っているサーバー証明書の期限が前日で切れていた（架空の例）。証明書は、期限の前日まで何の問題も起こさない。そのため、更新の段取りは誰の頭からも抜けやすい。</p>
+<h3>発行する人と、入れて更新する人が違う</h3>
+<p>NISTの実践ガイド「SP 1800-16」は、TLSサーバー証明書の管理を扱っている。その概要の巻によれば、大きな組織は何千もの証明書を抱えながら、その全体を一か所で見られていないことが多い。発行は中央の担当チームが受け持ち、サーバーへの導入と維持は各部門やシステム管理者が受け持つ、という分担もよくある。手作業の管理では、期限切れに気づかないまま止まる事態が起きる、とガイドは書いている。</p>
+<p>業務システムでも事情は似ている。証明書を申請したのは基盤の担当、サーバーに入れたのは構築を手伝った人、毎日その接続を使っているのは連携の担当。分担が分かれるほど、「期限は誰かが見ているはず」になりやすい。</p>
+<h3>まず一覧を作り、持ち主を書く</h3>
+<p>ガイドが勧める順番ははっきりしている。30日以内に方針を決め、誰が何に責任を持つかを伝える。90日以内に証明書の一覧を作り、リスクを洗い出す。その先で、目の前のリスクに手を打ち、管理の自動化を進める。証明書ごとに持ち主を追い、状態を継続して見張ることも勧めている。</p>
+<p>業務システムの台帳に置き換えると、1枚の証明書につき、少なくとも次を書いておきたい。</p>
+<ul>
+<li>どのシステムの、どの接続や画面で使っているか</li>
+<li>有効期限</li>
+<li>持ち主（担当のチームと窓口。個人名だけにしない）</li>
+<li>更新の手順（申請先、入れ替える場所、入れ替えた後の確認）</li>
+<li>止まったときに影響を受ける業務と、その連絡先</li>
+</ul>
+<h3>期限の知らせは、持ち主に届くようにする</h3>
+<p>台帳があっても、期限を見に行く人がいなければ同じことが起きる。期限の何週間か前に知らせる仕組みを作り、知らせの宛先を台帳の持ち主にそろえる。宛先が異動した人のままにならないよう、担当替えのときには台帳の持ち主も書き換える。</p>
+<p>入れ替えには、相手先との調整が要ることもある。連携先の設定によっては、こちらの入れ替えに合わせて相手にも作業をお願いすることになる。その段取りも更新の手順に書いておくと、期限の直前に慌てずに済む。</p>
+<h3>自動化は、一覧と持ち主の後に</h3>
+<p>ガイドは、数が多くなるほど人の間違いを減らすために自動化を勧めている。ただし順番は、方針と責任、一覧、その後に自動化だ。どこに何枚あって誰のものかが分からないまま自動化すると、自動化の外にある証明書が取り残される。まずは台帳の1行目を書くところから始めたい。</p>
+      <section class="source-box"><h2>参照元</h2><ul><li><a href="https://www.nccoe.nist.gov/publication/1800-16/VolA/index.html" rel="noopener noreferrer">nccoe.nist.gov（NIST SP 1800-16A: Securing Web Transactions: TLS Server Certificate Management）</a></li></ul></section>
+      
+    </article>
+  </main>
+  <footer class="site-footer">
+    <p>AI、SAP・ERP、セキュリティ、業務システム運用の公開技術ノートです。</p>
+    <p><a href="../../start/index.html">このブログの読み方</a> · <a href="../../feed.xml">RSS</a></p>
+  </footer>
+</body>
+</html>

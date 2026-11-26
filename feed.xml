@@ -7,6 +7,14 @@
     <language>ja</language>
     <atom:link href="https://shanpianeai-ship-it.github.io/tech-trend-archive-site/feed.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>証明書の期限切れは持ち主を書いた台帳で防ぐ</title>
+      <link>https://shanpianeai-ship-it.github.io/tech-trend-archive-site/knowledge/articles/2026-11-26-ERP%E9%81%8B%E7%94%A8-%E8%A8%BC%E6%98%8E%E6%9B%B8%E3%81%AE%E6%9C%9F%E9%99%90%E5%88%87%E3%82%8C%E3%81%AF%E6%8C%81%E3%81%A1%E4%B8%BB%E3%82%92%E6%9B%B8%E3%81%84%E3%81%9F%E5%8F%B0%E5%B8%B3%E3%81%A7%E9%98%B2%E3%81%90-f04264f3de.html</link>
+      <guid isPermaLink="true">https://shanpianeai-ship-it.github.io/tech-trend-archive-site/knowledge/articles/2026-11-26-ERP%E9%81%8B%E7%94%A8-%E8%A8%BC%E6%98%8E%E6%9B%B8%E3%81%AE%E6%9C%9F%E9%99%90%E5%88%87%E3%82%8C%E3%81%AF%E6%8C%81%E3%81%A1%E4%B8%BB%E3%82%92%E6%9B%B8%E3%81%84%E3%81%9F%E5%8F%B0%E5%B8%B3%E3%81%A7%E9%98%B2%E3%81%90-f04264f3de.html</guid>
+      <pubDate>Wed, 25 Nov 2026 15:00:00 GMT</pubDate>
+      <category>公開ナレッジ</category>
+      <description>業務システムの連携や画面を支えるTLSサーバー証明書は、期限が切れると前触れなく止まる。発行する人と入れて更新する人が分かれ、一覧も無いと、誰も期限を見ていない状態になりやすい。NISTの実践ガイドSP 1800-16をもとに、証明書ごとに持ち主と更新の手順を台帳に書き、期限を見張る考え方を整理します。</description>
+    </item>
+    <item>
       <title>定型ジョブは正常終了で終わらせず処理した範囲を照合する</title>
       <link>https://shanpianeai-ship-it.github.io/tech-trend-archive-site/knowledge/articles/2026-11-19-ERP%E9%81%8B%E7%94%A8-%E5%AE%9A%E5%9E%8B%E3%82%B8%E3%83%A7%E3%83%96%E3%81%AF%E6%AD%A3%E5%B8%B8%E7%B5%82%E4%BA%86%E3%81%A7%E7%B5%82%E3%82%8F%E3%82%89%E3%81%9B%E3%81%9A%E5%87%A6%E7%90%86%E3%81%97%E3%81%9F%E7%AF%84%E5%9B%B2%E3%82%92%E7%85%A7%E5%90%88%E3%81%99%E3%82%8B-6ee7f396a1.html</link>
       <guid isPermaLink="true">https://shanpianeai-ship-it.github.io/tech-trend-archive-site/knowledge/articles/2026-11-19-ERP%E9%81%8B%E7%94%A8-%E5%AE%9A%E5%9E%8B%E3%82%B8%E3%83%A7%E3%83%96%E3%81%AF%E6%AD%A3%E5%B8%B8%E7%B5%82%E4%BA%86%E3%81%A7%E7%B5%82%E3%82%8F%E3%82%89%E3%81%9B%E3%81%9A%E5%87%A6%E7%90%86%E3%81%97%E3%81%9F%E7%AF%84%E5%9B%B2%E3%82%92%E7%85%A7%E5%90%88%E3%81%99%E3%82%8B-6ee7f396a1.html</guid>
@@ -397,14 +405,6 @@
       <pubDate>Fri, 17 Jul 2026 15:00:00 GMT</pubDate>
       <category>海外技術情報</category>
       <description>GoogleのGemini APIはManaged Agentsへ背景タスクとremote MCP接続を追加し、対話中心から長時間実行へ接続できる実務的な設計転換を示した。</description>
-    </item>
-    <item>
-      <title>コネクタ権限は「誰が実行できるか」でなく「どこまで実行できるか」に分解する</title>
-      <link>https://shanpianeai-ship-it.github.io/tech-trend-archive-site/interests/articles/2026-07-17-AI%E3%83%BB%E3%82%A8%E3%83%BC%E3%82%B8%E3%82%A7%E3%83%B3%E3%83%88-%E3%82%B3%E3%83%8D%E3%82%AF%E3%82%BF%E6%A8%A9%E9%99%90%E3%81%AF%E3%80%8C%E8%AA%B0%E3%81%8C%E5%AE%9F%E8%A1%8C%E3%81%A7%E3%81%8D%E3%82%8B%E3%81%8B%E3%80%8D%E3%81%A7%E3%81%AA%E3%81%8F%E3%80%8C%E3%81%A9%E3%81%93%E3%81%BE%E3%81%A7%E5%AE%9F%E8%A1%8C%E3%81%A7%E3%81%8D%E3%82%8B%E3%81%8B%E3%80%8D%E3%81%AB%E5%88%86%E8%A7%A3%E3%81%99%E3%82%8B-a4338b6946.html</link>
-      <guid isPermaLink="true">https://shanpianeai-ship-it.github.io/tech-trend-archive-site/interests/articles/2026-07-17-AI%E3%83%BB%E3%82%A8%E3%83%BC%E3%82%B8%E3%82%A7%E3%83%B3%E3%83%88-%E3%82%B3%E3%83%8D%E3%82%AF%E3%82%BF%E6%A8%A9%E9%99%90%E3%81%AF%E3%80%8C%E8%AA%B0%E3%81%8C%E5%AE%9F%E8%A1%8C%E3%81%A7%E3%81%8D%E3%82%8B%E3%81%8B%E3%80%8D%E3%81%A7%E3%81%AA%E3%81%8F%E3%80%8C%E3%81%A9%E3%81%93%E3%81%BE%E3%81%A7%E5%AE%9F%E8%A1%8C%E3%81%A7%E3%81%8D%E3%82%8B%E3%81%8B%E3%80%8D%E3%81%AB%E5%88%86%E8%A7%A3%E3%81%99%E3%82%8B-a4338b6946.html</guid>
-      <pubDate>Thu, 16 Jul 2026 15:00:00 GMT</pubDate>
-      <category>興味レポート</category>
-      <description>OpenAI App RuntimeとWorkspace Agents運用を実務へ落とすときは、権限を読み取り専用・実行系・共有系に分解し、plugin側とagent側の境界で事故半径を下げるのが本質。</description>
     </item>
   </channel>
 </rss>
